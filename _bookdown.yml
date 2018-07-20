@@ -1,0 +1,5 @@
+book_filename: "est-computacional-2018"
+chapter_name: "Sección "
+repo: https://github.com/tereom/est-computacional-2018
+clean: [packages.bib, bookdown.bbl]
+new_session: yes

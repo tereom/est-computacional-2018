@@ -1,0 +1,38 @@
+--- 
+title: "Estadística Computacional"
+author: "Teresa Ortiz"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: tereom/est-computacional-2018
+description: "Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018."
+---
+
+# Temario {-}
+
+Minicurso de aprendizaje máquina (ITAM, Junio 2018). En este curso de orientación aplicada
+se presentan las ideas fundamentales de aprendizaje máquina junto con ejemplos en R. Se suponen conocimientos
+básicos de cálculo multivariado y álgebra lineal.
+
+[Notas](https://tereom.github.io/est-computacional-2018/)
+
+1. **Tema 1**
+
+  Descripciones
+
+2. **Tema 2**
+
+  Descripciones
+
+
+
+### Referencias {-}
+
+
+### Software {-}
+
+- https://www.r-project.org
+- https://www.rstudio.com
