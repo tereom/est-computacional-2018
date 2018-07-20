@@ -13,20 +13,15 @@ description: "Curso de estadística computacional, Maestría en Ciencia de Datos
 
 # Temario {-}
 
-Minicurso de aprendizaje máquina (ITAM, Junio 2018). En este curso de orientación aplicada
-se presentan las ideas fundamentales de aprendizaje máquina junto con ejemplos en R. Se suponen conocimientos
-básicos de cálculo multivariado y álgebra lineal.
 
 [Notas](https://tereom.github.io/est-computacional-2018/)
 
-1. **Tema 1**
+1. **Manipulación y visualización de datos**
 
-  Descripciones
-
-2. **Tema 2**
-
-  Descripciones
-
+-   Introducción a R.
+-   Visualización de datos.
+-   Manipulación y limpieza de datos.
+-   Temas selectos de programación en R.
 
 
 ### Referencias {-}
