@@ -9,6 +9,12 @@ biblio-style: apalike
 link-citations: yes
 github-repo: tereom/est-computacional-2018
 description: "Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018."
+nocite: |
+    @kruschke
+    @advr
+    @r4ds
+    @gelman-bayesian
+    @gelman-hill
 ---
 
 # Temario {-}
@@ -64,29 +70,14 @@ description: "Curso de estadística computacional, Maestría en Ciencia de Datos
     -   Muestreador de Gibbs.
     -   Diagnósticos de convergencia.
 
-### Referencias {-}
-
-[R for Data Science](http://r4ds.had.co.nz), Hadley Wickham, Garret Grolemund, O'Reilly.
-
-[Advanced R](http://adv-r.had.co.nz/), Hadley Wickham, CRC Press.  
-Simulation, Sheldon M. Ross, AP.  
-
-A First Course in Probability, Sheldon M. Ross, Pearson.  
-
-All of Statistics, A Concise Course in Statistical Inference, Larry Wasserman, Springer.  
-
-An Introduction to the Bootstrap, Bradley Efron, Robert J. Tibshirani, Chapman & Hall.  
-
-[Data Analysis Using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/), Andrew Gelman, Jennifer Hill.  
-[Doing Bayesian Data Analysis](https://sites.google.com/site/doingbayesiandataanalysis/), Second Edition, John K. Kruschke, AP.  
-
-[Bayesian Data Analysis](http://www.stat.columbia.edu/~gelman/arm/), Andrew Gelman, John B. Carlin, Hal S. Stern and David B. Dunson.  
 
 ### Calificación {-}
 
-Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial (proyecto y exámen en clase) 40%, Exámen final 40%.
+Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial (proyecto y exámen en clase) 40%, Examen final 40%.
 
 ### Software {-}
 
 - https://www.r-project.org
 - https://www.rstudio.com
+
+### Referencias principales {-}
