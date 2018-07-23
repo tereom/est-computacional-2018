@@ -1,6 +1,6 @@
 bookdown::gitbook:
-  css: [style.css, toc.css, font-awesome.min.css]
-  split_by: chapter
+  css: [css/style.css, css/toc.css, css/font-awesome.min.css, css/cajas.css]
+  split_by: section
   config:
     toc:
       collapse: subsection
