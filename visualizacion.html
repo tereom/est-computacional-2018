@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  <meta name="github-repo" content="tereom/est-computacional-2018" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  
+
+<meta name="author" content="Teresa Ortiz">
+
+
+<meta name="date" content="2018-07-23">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="el-ambiente-y-el-lenguaje-r.html">
+<link rel="next" href="manipulacion-y-agrupacion-de-datos.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Temario</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#referencias-principales"><i class="fa fa-check"></i>Referencias principales</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="r-para-analisis-de-datos.html"><a href="r-para-analisis-de-datos.html"><i class="fa fa-check"></i><b>1</b> R para análisis de datos</a><ul>
+<li class="chapter" data-level="1.1" data-path="el-ambiente-y-el-lenguaje-r.html"><a href="el-ambiente-y-el-lenguaje-r.html"><i class="fa fa-check"></i><b>1.1</b> El ambiente y el lenguaje R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="el-ambiente-y-el-lenguaje-r.html"><a href="el-ambiente-y-el-lenguaje-r.html#descargar-r-y-rstudio"><i class="fa fa-check"></i><b>1.1.1</b> Descargar R y RStudio</a></li>
+<li class="chapter" data-level="1.1.2" data-path="el-ambiente-y-el-lenguaje-r.html"><a href="el-ambiente-y-el-lenguaje-r.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i><b>1.1.2</b> Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="1.1.3" data-path="el-ambiente-y-el-lenguaje-r.html"><a href="el-ambiente-y-el-lenguaje-r.html#software-estadistico"><i class="fa fa-check"></i><b>1.1.3</b> <em>Software</em> estadístico</a></li>
+<li class="chapter" data-level="1.1.4" data-path="el-ambiente-y-el-lenguaje-r.html"><a href="el-ambiente-y-el-lenguaje-r.html#datos-faltantes"><i class="fa fa-check"></i><b>1.1.4</b> Datos faltantes</a></li>
+<li class="chapter" data-level="1.1.5" data-path="el-ambiente-y-el-lenguaje-r.html"><a href="el-ambiente-y-el-lenguaje-r.html#lenguaje-de-programacion"><i class="fa fa-check"></i><b>1.1.5</b> Lenguaje de programación</a></li>
+<li class="chapter" data-level="1.1.6" data-path="el-ambiente-y-el-lenguaje-r.html"><a href="el-ambiente-y-el-lenguaje-r.html#recursos"><i class="fa fa-check"></i><b>1.1.6</b> Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="visualizacion.html"><a href="visualizacion.html"><i class="fa fa-check"></i><b>1.2</b> Visualización</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="visualizacion.html"><a href="visualizacion.html#recursos-1"><i class="fa fa-check"></i><b>1.2.1</b> Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="manipulacion-y-agrupacion-de-datos.html"><a href="manipulacion-y-agrupacion-de-datos.html"><i class="fa fa-check"></i><b>2</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="2.1" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>2.1</b> Datos limpios</a></li>
+<li class="chapter" data-level="2.2" data-path="limpieza-bases-de-datos.html"><a href="limpieza-bases-de-datos.html"><i class="fa fa-check"></i><b>2.2</b> Limpieza bases de datos</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="limpieza-bases-de-datos.html"><a href="limpieza-bases-de-datos.html#los-encabezados-de-las-columnas-son-valores"><i class="fa fa-check"></i><b>2.2.1</b> Los encabezados de las columnas son valores</a></li>
+<li class="chapter" data-level="2.2.2" data-path="limpieza-bases-de-datos.html"><a href="limpieza-bases-de-datos.html#una-columna-asociada-a-mas-de-una-variable"><i class="fa fa-check"></i><b>2.2.2</b> Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="2.2.3" data-path="limpieza-bases-de-datos.html"><a href="limpieza-bases-de-datos.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i><b>2.2.3</b> Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="2.2.4" data-path="limpieza-bases-de-datos.html"><a href="limpieza-bases-de-datos.html#mas-de-un-tipo-de-observacion-en-una-misma-tabla"><i class="fa fa-check"></i><b>2.2.4</b> Mas de un tipo de observación en una misma tabla</a></li>
+<li class="chapter" data-level="2.2.5" data-path="limpieza-bases-de-datos.html"><a href="limpieza-bases-de-datos.html#una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas"><i class="fa fa-check"></i><b>2.2.5</b> Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="2.2.6" data-path="limpieza-bases-de-datos.html"><a href="limpieza-bases-de-datos.html#otras-consideraciones"><i class="fa fa-check"></i><b>2.2.6</b> Otras consideraciones</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="divide-aplica-combina-split-apply-combine.html"><a href="divide-aplica-combina-split-apply-combine.html"><i class="fa fa-check"></i><b>2.3</b> Divide-aplica-combina (<em>split-apply-combine</em>)</a></li>
+<li class="chapter" data-level="2.4" data-path="recursos-adicionales.html"><a href="recursos-adicionales.html"><i class="fa fa-check"></i><b>2.4</b> Recursos adicionales</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="visualizacion" class="section level2">
+<h2><span class="header-section-number">1.2</span> Visualización</h2>
+<p>Utilizaremos el paquete ggplot2 y cubriremos los siguientes puntos:</p>
+<ul>
+<li>Gráfica de dispersión<br />
+</li>
+<li>Páneles<br />
+</li>
+<li>Distintos tipos de gráficas</li>
+</ul>
+<div id="graficas-de-dispersion" class="section level4">
+<h4><span class="header-section-number">1.2.0.1</span> Gráficas de dispersión</h4>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;ggplot2&quot;) # sólo se hace una vez</span>
+<span class="kw">library</span>(tidyverse) <span class="co"># Cargamos el paquete en nuestra sesión</span></code></pre>
+<p>Usaremos el conjunto de datos <em>mpg</em> que se incluye en R, puedes encontrar información de esta base de datos tecleando <code>?mpg</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ?mpg</span>
+<span class="kw">glimpse</span>(mpg)</code></pre>
+<pre><code>## Observations: 234
+## Variables: 11
+## $ manufacturer &lt;chr&gt; &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;...
+## $ model        &lt;chr&gt; &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4 qua...
+## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0,...
+## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 1...
+## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6...
+## $ trans        &lt;chr&gt; &quot;auto(l5)&quot;, &quot;manual(m5)&quot;, &quot;manual(m6)&quot;, &quot;auto(av)...
+## $ drv          &lt;chr&gt; &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;,...
+## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 1...
+## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 2...
+## $ fl           &lt;chr&gt; &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;,...
+## $ class        &lt;chr&gt; &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;comp...</code></pre>
+<p>Y comencemos con nuestra primera gráfica:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-26-1.png" width="480" /></p>
+<p>En ggplot2 se inicia una gráfica con la instrucción <code>ggplot()</code>, debemos especificar
+explicitamente que base de datos usamos, este es el primer argumento en la
+función ggplot. Una vez que creamos la base añadimos
+<em>capas</em>, y dentro de <em>aes()</em> escribimos las variables que queremos
+graficar y el atributo de la gráfica al que queremos mapearlas.</p>
+<p>La función <code>geom_point()</code> añade una capa de puntos, hay muchas funciones
+<em>geometrías</em> incluídas en ggplot2: <code>geom_line()</code>, <code>geom_boxplot()</code>, <code>geom_histogram</code>,… Cada
+una acepta distintos argumentos para mapear las variables en los datos a características
+estéticas de la gráfica. En el ejemplo de arriba mapeamos <code>displ</code> al eje x,
+<code>hwy</code> al eje y, pero <code>geom_point()</code> nos permite representar más variables usando
+la forma, color y/o tamaño del punto. Esta flexibilidad nos permite entender o
+descubrir patrones más interesantes en los datos.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> class))</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-27-1.png" width="528" /></p>
+<p><img src="../imagenes/manicule2.jpg" /> Experimenta con los <em>aesthetics</em> color (color),
+tamaño (size) y forma (shape).</p>
+<p>            ¿Qué diferencia hay entre las variables categóricas y las continuas?</p>
+<p>            ¿Qué ocurre cuando combinas varios <em>aesthetics</em>?</p>
+<p>El mapeo de las propiedades estéticas se denomina escalamiento y depende del tipo de variable, las
+variables discretas (por ejemplo, genero, escolaridad, país) se mapean a
+distintas escalas que las variables continuas (variables numéricas como edad, estatura, etc.), los <em>defaults</em>
+para algunos atributos son (estos se pueden modificar):</p>
+<table>
+<colgroup>
+<col width="30%" />
+<col width="42%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th> </th>
+<th>Discreta</th>
+<th>Continua</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Color (<code>color)    |Arcoiris de colores         |Gradiente de colores Tamaño (</code>size<code>)  |Escala discreta de tamaños  |Mapeo lineal entre el área y el valor Forma (</code>shape<code>)    |Distintas formas            |No aplica Transparencia (</code>alpha`)</td>
+<td>No aplica</td>
+<td>Mapeo lineal a la transparencia</td>
+</tr>
+</tbody>
+</table>
+<p>Los <em><em>geoms</em></em> controlan el tipo de gráfica</p>
+<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))
+p <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="co"># en este caso no es una buena gráfica</span></code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-28-1.png" width="480" /></p>
+<p>¿Qué problema tiene la siguiente gráfica?</p>
+<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy))
+p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() </code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-29-1.png" width="480" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>() </code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-29-2.png" width="480" /></p>
+<p><img src="../imagenes/manicule2.jpg" /> ¿Cómo podemos mejorar la siguiente gráfica?</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-30-1.png" width="480" /></p>
+<p>Intentemos reodenar los niveles de la variable clase</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_point</span>() </code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-31-1.png" width="480" /></p>
+<p>Podemos probar otros geoms.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_jitter</span>() </code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-32-1.png" width="480" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_boxplot</span>() </code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-32-2.png" width="480" /></p>
+<p>También podemos usar más de un geom!</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_boxplot</span>()</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-33-1.png" width="480" /></p>
+<p><img src="../imagenes/manicule2.jpg" /> Lee la ayuda de <em>reorder</em> y repite las gráficas
+anteriores ordenando por la mediana de <em>hwy</em>.</p>
+<p>            ¿Cómo harías
+para graficar los puntos encima de las cajas de boxplot?</p>
+</div>
+<div id="paneles" class="section level4">
+<h4><span class="header-section-number">1.2.0.2</span> Paneles</h4>
+<p>Veamos ahora como hacer páneles de gráficas, la idea es hacer varios múltiplos de
+una gráfica donde cada múltiplo representa un subconjunto de los datos, es una
+práctica muy útil para explorar relaciones condicionales.</p>
+<p>En ggplot podemos usar <em>facet_wrap()</em> para hacer paneles dividiendo los datos
+de acuerdo a las categorías de una sola variable</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>cyl)</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-34-1.png" width="480" /></p>
+<p>También podemos hacer una cuadrícula de 2 dimensiones usando
+<em>facet_grid(filas~columnas)</em></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(.<span class="op">~</span><span class="st"> </span>class)</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-35-1.png" width="768" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(drv <span class="op">~</span><span class="st"> </span>class)</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En
+la siguiente gráfica es difícil entender si existe una relación entre radiación
+solar y ozono</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(airquality)
+<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
+<pre><code>## Warning: Removed 42 rows containing missing values (geom_point).</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-37-1.png" width="384" /></p>
+<p>Veamos que ocurre si realizamos páneles separando por velocidad del viento</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Hmisc)
+airquality<span class="op">$</span>Wind.cat &lt;-<span class="st"> </span><span class="kw">cut2</span>(airquality<span class="op">$</span>Wind, <span class="dt">g =</span> <span class="dv">3</span>) 
+<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat)</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>Podemos agregar un suavizador (loess) para ver mejor la relación de las
+variables en cada panel.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">span =</span> <span class="dv">3</span>)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="../imagenes/manicule2.jpg" /> Escribe algunas preguntas que puedan contestar con estos datos.</p>
+<p>En ocasiones es necesario realizar transformaciones u obtener subconjuntos de los
+datos para poder responder preguntas de nuestro interés.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(babynames)
+<span class="kw">glimpse</span>(babynames)</code></pre>
+<pre><code>## Observations: 1,858,689
+## Variables: 5
+## $ year &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 188...
+## $ sex  &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F...
+## $ name &lt;chr&gt; &quot;Mary&quot;, &quot;Anna&quot;, &quot;Emma&quot;, &quot;Elizabeth&quot;, &quot;Minnie&quot;, &quot;Margaret&quot;...
+## $ n    &lt;int&gt; 7065, 2604, 2003, 1939, 1746, 1578, 1472, 1414, 1320, 128...
+## $ prop &lt;dbl&gt; 0.072384329, 0.026679234, 0.020521700, 0.019865989, 0.017...</code></pre>
+<p>Supongamos que queremos ver la tendencia del nombre “John”, para ello debemos
+generar un subconjunto de la base de datos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">babynames_John &lt;-<span class="st"> </span>babynames[babynames<span class="op">$</span>name <span class="op">==</span><span class="st"> &quot;John&quot;</span>, ]
+<span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-41-1.png" width="480" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop, <span class="dt">color =</span> sex)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-42-1.png" width="480" /></p>
+<p>La preparación de los datos es un aspecto muy importante del análisis y suele ser
+la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará en
+herramientas para hacer transformaciones de manera eficiente.</p>
+<p><img src="../imagenes/manicule.jpg" /> Tarea. Explora la base de datos gapminder, estos datos están
+incluidos en el paquete del mismo nombre, para acceder a ellos basta con cargar el paquete:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;gapminder&quot;)</span>
+<span class="kw">library</span>(gapminder)
+gapminder</code></pre>
+<pre><code>## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.
+##  5 Afghanistan Asia       1972    36.1 13079460      740.
+##  6 Afghanistan Asia       1977    38.4 14880372      786.
+##  7 Afghanistan Asia       1982    39.9 12881816      978.
+##  8 Afghanistan Asia       1987    40.8 13867957      852.
+##  9 Afghanistan Asia       1992    41.7 16317921      649.
+## 10 Afghanistan Asia       1997    41.8 22227415      635.
+## # ... with 1,694 more rows</code></pre>
+<p>            realiza al menos 3 gráficas y explica las relaciones que encuentres. Debes usar lo que revisamos en estas notas: al menos una de las gráficas debe ser de páneles, realiza una gráfica con datos de México, y (opcional)si lo consideras interesante, puedes crear una variable categórica utilizando la función cut2 del paquete Hmisc.</p>
+</div>
+<div id="recursos-1" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Recursos</h3>
+<ul>
+<li>Google, stackoverflow.</li>
+<li>Para aprender más de ggplot pueden ver la documentación con ejemplos en la
+página de <a href="http://ggplot2.tidyverse.org">ggplot2</a>.</li>
+<li>Otro recurso muy útil es el <a href="https://www.rstudio.com/wp-content/uploads/2015/04/ggplot2-spanish.pdf">acordeón de ggplot</a>.</li>
+</ul>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="el-ambiente-y-el-lenguaje-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="manipulacion-y-agrupacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"text": "Edit"
+},
+"download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

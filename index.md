@@ -1,7 +1,7 @@
 --- 
 title: "Estadística Computacional"
 author: "Teresa Ortiz"
-date: "2018-07-20"
+date: "2018-07-23"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib]

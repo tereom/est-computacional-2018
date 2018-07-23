@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="r-para-analisis-de-datos.html">
+<link rel="prev" href="manipulacion-y-agrupacion-de-datos.html">
+<link rel="next" href="limpieza-bases-de-datos.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -185,105 +185,141 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Estadística Computacional</h1>
-<p class="author"><em>Teresa Ortiz</em></p>
-<p class="date"><em>2018-07-23</em></p>
-</div>
-<div id="temario" class="section level1 unnumbered">
-<h1>Temario</h1>
-<p><a href="https://tereom.github.io/est-computacional-2018/">Notas</a></p>
+<div id="datos-limpios" class="section level2">
+<h2><span class="header-section-number">2.1</span> Datos limpios</h2>
+<p>Una vez que importamos datos a R es conveniente limpiarlos, esto implica
+almacenarlos de una manera consisistente que nos permita
+enfocarnos en responder preguntas de los datos en lugar de estar luchando
+con los datos. Entonces, <strong>datos limpios</strong> son datos que facilitan las tareas del
+análisis de datos:</p>
+<ul>
+<li><p><strong>Manipulación</strong>: Manipulación de variables como agregar, filtrar, reordenar,
+transformar.</p></li>
+<li><p><strong>Visualización</strong>: Resúmenes de datos usando gráficas, análisis exploratorio,
+o presentación de resultados.</p></li>
+<li><p><strong>Modelación</strong>: Ajustar modelos es sencillo si los datos están en la forma
+correcta.</p></li>
+</ul>
+<p>Los principios de <strong>datos limpios</strong> (<a href="http://vita.had.co.nz/papers/tidy-data.pdf">Tidy Data de Hadley Wickham</a>) proveen una manera
+estándar de organizar la información:</p>
 <ol style="list-style-type: decimal">
-<li><strong>Manipulación y visualización de datos</strong></li>
+<li>Cada variable forma una columna.</li>
+<li>Cada observación forma un renglón.</li>
+<li>Cada tipo de unidad observacional forma una tabla.</li>
 </ol>
-<ul>
-<li>Introducción a R.</li>
-<li>Visualización de datos.</li>
-<li>Manipulación y limpieza de datos.</li>
-<li>Temas selectos de programación en R.</li>
-</ul>
-<ol start="2" style="list-style-type: decimal">
-<li><strong>Inferencia y remuestreo</strong></li>
-</ol>
-<ul>
-<li>Repaso de probabilidad.</li>
-<li>Muestreo y probabilidad.</li>
-<li>Inferencia.</li>
-<li>El principio del <em>plug-in</em>.</li>
-<li>Bootstrap
-<ul>
-<li>Cálculo de errores estándar e intervalos de confianza.</li>
-<li>Estructuras de datos complejos.</li>
-</ul></li>
-<li>Introducción a modelos probabilísticos.</li>
-</ul>
-<ol start="3" style="list-style-type: decimal">
-<li><strong>Modelos de probabilidad y simulación</strong></li>
-</ol>
-<ul>
-<li>Variables aleatorias y modelos probabilísticos.</li>
-<li>Familias importantes: discretas y continuas.</li>
-<li>Teoría básica de simulación
-<ul>
-<li>El generador uniforme de números aleatorios.</li>
-<li>El método de la transformación inversa.</li>
-<li>Simulación de variables aleatorias discretas con soporte finito.</li>
-<li>Otras variables aleatorias.</li>
-</ul></li>
-<li>Simulación para modelos gráficos
-<ul>
-<li>Modelos probabilíticos gráficos.</li>
-<li>Simulación (e.g. ANOVA, regresión simple).</li>
-</ul></li>
-<li>Inferencia paramétrica y remuestreo
-<ul>
-<li>Modelos paramétricos.</li>
-<li>Bootsrap paramétrico.</li>
-</ul></li>
-<li>Inferencia de gráficas</li>
-</ul>
-<ol start="4" style="list-style-type: decimal">
-<li><strong>Métodos computacionales e inferencia Bayesiana</strong></li>
-</ol>
-<ul>
-<li>Inferencia bayesiana.</li>
-<li>Métodos diretos
-<ul>
-<li>Familias conjugadas.</li>
-<li>Aproximación por cuadrícula.</li>
-<li>Aceptación y rechazo.</li>
-</ul></li>
-<li>MCMC
-<ul>
-<li>Cadenas de Markov.</li>
-<li>Metropolis-Hastings.</li>
-<li>Muestreador de Gibbs.</li>
-<li>Diagnósticos de convergencia.</li>
-</ul></li>
-</ul>
-<div id="calificacion" class="section level3 unnumbered">
-<h3>Calificación</h3>
-<p>Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial (proyecto y exámen en clase) 40%, Examen final 40%.</p>
-</div>
-<div id="software" class="section level3 unnumbered">
-<h3>Software</h3>
-<ul>
-<li><a href="https://www.r-project.org" class="uri">https://www.r-project.org</a></li>
-<li><a href="https://www.rstudio.com" class="uri">https://www.rstudio.com</a></li>
-</ul>
-</div>
-<div id="referencias-principales" class="section level3 unnumbered">
-<h3>Referencias principales</h3>
-
-</div>
+<p>Vale la pena notar que los principios de los datos limpios se pueden ver como
+teoría de algebra relacional para estadísticos, estos principios equivalen a
+la tercera forma normal de Codd con enfoque en una sola tabla de datos en
+lugar de muchas conectadas en bases de datos relacionales.</p>
+<p>Veamos un ejemplo:</p>
+<p>La mayor parte de las bases de datos en estadística tienen forma rectangular,
+¿cuántas variables tiene la siguiente tabla?</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>tratamientoA</th>
+<th>tratamientoB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Juan Aguirre</td>
+<td>-</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Ana Bernal</td>
+<td>16</td>
+<td>11</td>
+</tr>
+<tr class="odd">
+<td>José López</td>
+<td>3</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>La tabla anterior también se puede estructurar de la siguiente manera:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Juan Aguirre</th>
+<th>Ana Bernal</th>
+<th>José López</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>tratamientoA</td>
+<td>-</td>
+<td>16</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>tratamientoB</td>
+<td>2</td>
+<td>11</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Si vemos los principios (cada variable forma una columna, cada observación
+forma un renglón, cada tipo de unidad observacional forma una tabla), ¿las tablas anteriores cumplen los principios?</p>
+<p>Para responder la pregunta identifiquemos primero cuáles son las variables y cuáles
+las observaciones de esta pequeña base. Las variables son: persona/nombre,
+tratamiento y resultado. Entonces, siguiendo los principios de <em>datos limpios</em>
+obtenemos la siguiente estructura:</p>
+<table>
+<thead>
+<tr class="header">
+<th>nombre</th>
+<th>tratamiento</th>
+<th>resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Juan Aguirre</td>
+<td>a</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>Ana Bernal</td>
+<td>a</td>
+<td>16</td>
+</tr>
+<tr class="odd">
+<td>José López</td>
+<td>a</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>Juan Aguirre</td>
+<td>b</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>Ana Bernal</td>
+<td>b</td>
+<td>11</td>
+</tr>
+<tr class="even">
+<td>José López</td>
+<td>b</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="r-para-analisis-de-datos.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="manipulacion-y-agrupacion-de-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="limpieza-bases-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -313,7 +349,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/index.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/02-manipulacion.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
