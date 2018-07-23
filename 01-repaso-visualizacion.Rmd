@@ -1,0 +1,618 @@
+# R para análisis de datos
+
+Este es el primer de 2 juegos de notas introductorias a R con un enfoque en 
+análisis de datos. A diferencia de otros recursos, no se pretende dar una 
+introducción general a R sino mostrar las herramientas más importantes para 
+comenzar a utilizar R en análisis de datos. En este primer juego se cubre
+la sección de visualización. Más adelante aprenderemos a 
+usar R para manipulación de datos y modelación. Estas notas siguen material e 
+ideas de [Hadley Wickham](http://had.co.nz) y en particular el libro 
+[R for Data Science](http://r4ds.had.co.nz/). Las notas están ordenadas como 
+sigue:
+
+* El ambiente y el lenguaje R  
+* Introducción a R para análisis de datos: paquetes, vectores y data frames  
+* Datos faltantes  
+* Lectura de datos y guardar datos 
+* Visualización: gráficas con ggplot2
+
+<!--
+```{r, echo=FALSE}
+htmltools::img(src = knitr::image_uri(file.path(R.home("doc"), "html", "logo.jpg")), 
+  alt = 'logo', 
+               style = 'position:absolute; top:0; left:0; padding:30px;')
+```
+-->
+
+## El ambiente y el lenguaje R
+##### ¿Qué es R? {-}
+* R es un lenguaje de programación y un ambiente de cómputo estadístico
+* R es software libre (no dice qué puedes o no hacer con el software), de código 
+abierto (todo el código de R se puede inspeccionar - y se inspecciona).
+* Cuando instalamos R, instala la base de R. Mucha de la funcionalidad adicional 
+está en **paquetes** (conjunto de funciones y datos documentados) que la 
+comunidad contribuye.
+
+##### ¿Cómo entender R? {-}
+* Hay una sesión de R corriendo. La consola de R es la interfaz 
+entre R y nosotros. 
+* En la sesión hay objetos. Todo en R es un objeto: vectores, tablas, 
+ funciones, etc.
+* Operamos aplicando funciones a los objetos y creando nuevos objetos.
+
+##### ¿Por qué R? {-}
+* R funciona en casi todas las plataformas (Mac, Windows, Linux e incluso en Playstation 3).
+* R es un lenguaje de programación completo, permite desarrollo de DSLs.
+* R promueve la investigación reproducible.
+* R está actualizado gracias a que tiene una activa comunidad. Solo en CRAN hay 
+cerca de 10,000 paquetes (funcionalidad adicional de R creadas creada por la 
+comunidad).
+* R se puede combinar con otras herramientas.
+* R tiene capacidades gráficas muy sofisticadas.
+* R es popular ([Revolutions blog](http://blog.revolutionanalytics.com/popularity/)).
+
+#### Investigación reproducible en R {-}
+Un estándar mínimo para el análisis de datos es la reproducibilidad: debe ser 
+posible reproducir el análisis en todos sus pasos y en cualquier momento. Para 
+ello los pasos del análisis deben estar documentados apropiadamente, 
+de manera que las decisiones importantes puedan ser entendidas claramente.
+
+Estos dos principios generalmente implican que debemos trabajar escribiendo
+código, más que usando interfaces gráficas de *point and click*. Esto permite 
+crear programas reproducibles que son fácilmente documentados, y tiene otras
+consecuencias positivas como la facilidad de comunicación (compartir código), la
+posibilidad de trabajar con versiones que documenten la historia del desarrollo,
+respaldos fáciles del trabajo, e incluso el uso de lenguajes de programación más
+flexibles que integren nuestro trabajo en procesos de producción de reportes
+o monitoreo.
+
+Los scripts de R son oportunos para llevar a cabo análisis reproducibles, pero  
+hay más herramientas que nos ayudan a documentar y compartir nuestro trabajo: 
+
+* Los paquetes [rmarkdown](http://rmarkdown.rstudio.com/) y [knitr](https://yihui.name/knitr/) 
+se utilizan para generar documentos en formato pdf, html o word que integran texto, 
+código de R y resultados producidos por el código. 
+
+* [Packrat](https://rstudio.github.io/packrat/): Sistema para administrar dependencias
+de paquetes en R.
+
+* Otras herramientas externas a R, por ejemplo [Docker](https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image)
+
+Organizar los análisis para ser reproducibles no es trivial pero es una buena 
+práctica que te agradecerán los que consulten o utilicen tu trabajo (incluído tu yo del 
+futuro), puedes leer más recomendaciones para lograr análisis reproducibles en 
+[initial steps toward reproducible research](http://kbroman.org/steps2rr/). También es conveniente usar un controlador de versiones este es un buen [tutorial](http://happygitwithr.com/) para Git y Github con R.
+
+### Descargar R y RStudio
+Para comenzar se debe descargar [R](https://cran.r-project.org), esta descarga 
+incluye R básico y un editor de textos para escribir código. Después de
+descargar R se recomienda descargar [RStudio](https://www.rstudio.com/products/rstudio/download/) (gratis y libre).
+
+
+Rstudio es un ambiente de desarrollo integrado para R: incluye una consola, un editor de texto y un conjunto de herramientas para administrar el espacio de trabajo cuando se 
+utiliza R. 
+
+Algunos _shortcuts_ útiles:
+
+**En el editor**  
+
+* command/ctrl + enter: enviar código a la consola  
+* ctrl + 2: mover el cursor a la consola
+
+**En la consola**  
+
+* flecha hacia arriba: recuperar comandos pasados  
+* ctrl + flecha hacia arriba: búsqueda en los comandos  
+* ctrl + 1: mover el cursor al editor  
+
+***
+
+### Paquetes y el Tidyverse
+
+La mejor manera de usar R para análisis de datos es aprovechando la gran
+cantidad de paquetes que aportan funcionalidad adicional. Desde
+Rstudio podemos instalar paquetes (Tools - > Install packages o usar la 
+función `install.packages("nombre_paquete")`). Una vez instalados, podemos
+cargarlos a nuestra sesión de R mediante `library`. Por ejemplo, para cargar el
+paquete `readr` hacemos:
+
+```{r paquetes, message=FALSE}
+# print(read_csv)
+# Error in print(read_csv) : object 'read_csv' not found
+
+library(tidyverse)
+print(read_csv)
+```
+
+`read_csv` es una función que aporta el paquete `readr`, que a su vez está incluido en el 
+*tidyverse*. 
+
+Los paquetes se instalan una sola vez, sin embargo, se deben cargar 
+(ejecutar `library(tidyverse)`) en cada sesión de R que los ocupemos.
+
+En estas notas utilizaremos la colección de paquetes incluídos en el  [tidyverse](https://www.tidyverse.org/). Estos paquetes de R están
+diseñados para ciencia de datos, y para funcionar juntos como parte de un flujo
+de trabajo. 
+
+La siguiente imagen tomada de [Why the tidyverse](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/) (Joseph 
+Rickert) indica que paquetes del tidyverse se utilizan para cada
+etapa del análisis de datos.
+
+```{r, out.width = "700px"}
+knitr::include_graphics("imagenes/tidyverse.png")
+```
+
+
+### _Software_ estadístico
+* Estructuras de datos y operaciones vectorizadas
+* Valores faltantes
+* Ambiente interactivo
+
+#### Estructuras de datos
+En R se puede trabajar con distintas estructuras de datos, algunas son de una
+sola dimensión y otras permiten más, como indica el diagrama de abajo:
+
+<img src="imagenes/data_structures.png" width="250px"/>
+
+nosotros trabajaremos principalmente con *vectores* y *data frames*.
+
+#### Vectores y *data frames*
+Comenzamos viendo algunas operaciones básicas con vectores.
+
+```{r}
+a <- c(5, 2, 4.1, 7, 9.2)
+a
+a[1]
+a[2]
+a[2:4]
+```
+
+Las operaciones básicas con vectores son componente a componente:
+
+```{r}
+b <- a + 10
+b
+d <- sqrt(a)
+d
+a + d
+10 * a
+a * d
+```
+
+Y podemos crear secuencias como sigue:
+```{r}
+ejemplo_1 <- 1:10
+ejemplo_1
+ejemplo_2 <- seq(0, 1, 0.25)
+ejemplo_2
+```
+
+Para calcular características de vectores usamos funciones:
+
+```{r}
+# media del vector
+mean(a)
+# suma de sus componentes
+sum(a)
+# longitud del vector
+length(a)
+```
+
+También podemos construir vectores de caracteres:
+
+```{r}
+frutas <- c('manzana', 'manzana', 'pera', 'plátano', 'fresa')
+frutas
+```
+
+Podemos juntar vectores del mismo tamaño en tablas, que se llaman `data.frame`.
+Por ejemplo:
+
+```{r}
+tabla <- data_frame(n = 1:5, valor = a, fruta = frutas) # la función data_frame de tibble es más conveniente que data.frame de R base.
+tabla
+```
+
+Los data frames son estructuras rectangulares donde cada columna es del mismo
+tipo (e.g. categórica o factor, numérica, caracter) pero columnas distintas pueden tener diferentes tipos.
+
+```{r}
+library(ggplot2)
+head(diamonds)
+```
+
+La instrucción `str` nos describe el tipo de variables en el data.frame:
+
+```{r}
+str(diamonds)
+```
+
+Para lograr una programación eficiente en R es importante conocer las técnicas 
+de indexar data frames:
+
+```{r}
+# extraemos los primeros cinco renglones
+diamonds[1:5, ]
+# extraemos los primeros cinco renglones y las columnas 2,4,6
+diamonds[1:5, c(2, 4, 6)]
+# también podemos extraer columnase usando $: extraemos la columna x
+head(diamonds$x)
+```
+
+```{r}
+# ¿Que extraemos con las siguientes 2 instrucciones?
+diamonds[diamonds$x == diamonds$y, ]
+diamonds[-(1:53929), c("carat", "price")]
+```
+
+como vemos arriba para indexar los data frames tenemos que indicar filas y columnas, en el lado izquierdo de los corchetes se indica (con un vector) que filas queremos extraer, y en el lado derecho se indican las columnas: `diamonds[filas, columnas]`. También vale la pena notar que `diamonds$x` regresa la columna x como vector, es decir, `diamonds$x` es de una sola dimensión.
+
+### Datos faltantes
+En R los datos faltantes se expresan como `NA`, ¿qué regresan las siguientes expresiones?
+
+```{r, eval = FALSE}
+5 + NA
+NA / 2
+sum(c(5, 4, NA))
+mean(c(5, 4,  NA))
+NA < 3
+NA == 3
+NA == NA
+```
+
+Las expresiones anteriores regresan `NA`, el hecho que la media de un vector 
+que incluye NAs o su suma regrese NAs se debe a que el default en R es propagar 
+los valores faltantes, esto es, si deconozco el valor de una de las componentes 
+de un vector, también desconozco la suma del mismo; sin embargo, muchas 
+funciones tienen un argumento _na.rm_ para removerlos,
+
+```{r}
+sum(c(5, 4, NA), na.rm = TRUE)
+mean(c(5, 4, NA), na.rm = TRUE)
+```
+
+El manejo de datos faltantes en R utiliza una lógica ternaria (como SQL):
+
+```{r}
+NA == NA
+```
+
+La expresión anterior puede resultar confusa, una manera de pensar en esto es
+considerar los NA como *no sé*, por ejemplo si no se la edad de Juan y no se la 
+edad de Esteban, la pregunta a ¿Juan tiene la misma edad que Esteban? es *no sé* 
+(NA).
+
+```{r}
+edad_Juan <- NA
+edad_Esteban <- NA
+edad_Juan == edad_Esteban
+edad_Jose <- 32
+# Juan es menor que José?
+edad_Juan < edad_Jose
+```
+
+#### Ambiente interactivo
+* Documentación y ayuda `?mean` o `help()`
+* Las heurísticas minimizan las salidas cuando prefieres no verlas
+```{r}
+a <- 10
+a
+(a <- 15)
+```
+* Herramientas sencillas y flexibles para graficación
+```{r, fig.width = 5, fig.height = 4}
+qplot(carat, price, data = diamonds, colour = clarity)
+```
+
+### Lenguaje de programación
+
+#### Funciones y reglas de búsqueda lexica (lexical scoping rules)
+Las funciones son una base importante de la programación en R. Veamos un ejemplo:
+```{r}
+wtd_mean <- function(x, wt = rep(1, length(x))) {
+  sum(x * wt) / sum(wt)
+}
+wtd_mean(1:10)
+wtd_mean(1:10, 10:1)
+```
+Las funciones de R tienen tres partes:
+
+1. El cuerpo, el código dentro de la función
+```{r}
+body(wtd_mean)
+```
+2. Los formales, la lista de argumentos que controlan como puedes llamar a la
+función
+```{r}
+formals(wtd_mean)
+```
+2. El ambiente, el _mapeo_ de la ubicación de las variables de la función
+```{r}
+environment(wtd_mean)
+environment(qplot)
+```
+Veamos mas ejemplos, ¿qué regresan las siguientes funciones?
+```{r}
+# 1
+x <- 5
+f <- function(){
+  y <- 10
+  c(x = x, y = y) 
+}
+rm(x, f)
+
+# 2
+x <- 5
+g <- function(){
+  x <- 20
+  y <- 10
+  c(x = x, y = y)
+}
+
+# 3
+x <- 5
+h <- function(){
+  y <- 10
+  i <- function(){
+    z <- 20
+    c(x = x, y = y, z = z)
+  }
+  i() 
+}
+
+# 4 ¿qué ocurre si la corremos por segunda vez?
+j <- function(){
+  if (!exists("a")){
+    a <- 5
+  } else{
+    a <- a + 1 
+}
+  print(a) 
+}
+x <- 0
+y <- 10
+
+# 5 ¿qué regresa k()? ¿y k()()?
+k <- function(){
+  x <- 1
+  function(){
+    y <- 2
+    x + y 
+  }
+}
+```
+
+Las reglas de búsqueda determinan como se busca el valor de una variable libre en 
+una función. A nivel lenguaje R usa _lexical scoping_, una alternativa es 
+_dynamic scoping_. En R (_lexical scoping_) los valores de los símbolos se basan en como se anidan las funciones cuando fueron creadas y no en como son llamadas. Esto es, en R no importa como son las llamadas a una función para saber como se va a
+buscar el valor de una variable. Una consecuencia de las reglas de búsqueda es que todos los objetos deben ser guardados en memoria.
+
+
+### Recursos
+* Buscar ayuda: Google, [StackOverflow](http://stackoverflow.com/questions/tagged/r). 
+Para aprender más sobre un paquete o una función pueden visitar [Rdocumentation.org](http://www.rdocumentation.org/).  
+* La referencia principal de estas notas es el libro [R for Data Science](http://r4ds.had.co.nz/)
+de Hadley Wickham.  
+* Para aprender los comandos básicos de R [*Try R*](http://tryr.codeschool.com/) y 
+[Datacamp](https://www.datacamp.com/) cuentan con excelentes cursos interactivos.  
+* Para aprender programación avanzada en R, el libro gratuito [Advanced R](http://adv-r.had.co.nz) de Hadley Wickham es una buena referencia. En particular es conveniente leer la [guía de estilo](http://adv-r.had.co.nz/Style.html) (para todos: principiantes, intermedios y avanzados).  
+* Para mantenerse al tanto de las noticias de la comunidad de R pueden visitar [R-bloggers](http://www.r-bloggers.com).  
+* Más del tidyverse: [Why the tidyverse](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/)
+
+<!-- Otros: [la guerra del software](http://datacamp.wpengine.com/wp-content/uploads/2014/05/infograph.png) -->
+
+  
+* * *
+
+## Visualización
+Utilizaremos el paquete ggplot2 y cubriremos los siguientes puntos:
+
+* Gráfica de dispersión  
+* Páneles  
+* Distintos tipos de gráficas  
+
+#### Gráficas de dispersión
+
+```{r}
+# install.packages("ggplot2") # sólo se hace una vez
+library(tidyverse) # Cargamos el paquete en nuestra sesión
+```
+
+Usaremos el conjunto de datos *mpg* que se incluye en R, puedes encontrar información de esta base de datos tecleando `?mpg`.
+
+```{r}
+# ?mpg
+glimpse(mpg)
+```
+
+Y comencemos con nuestra primera gráfica:
+
+```{r, fig.width = 5, fig.height = 4}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+En ggplot2 se inicia una gráfica con la instrucción `ggplot()`, debemos especificar 
+explicitamente que base de datos usamos, este es el primer argumento en la 
+función ggplot. Una vez que creamos la base añadimos 
+*capas*, y dentro de *aes()* escribimos las variables que queremos
+graficar y el atributo de la gráfica al que queremos mapearlas. 
+
+La función `geom_point()` añade una capa de puntos, hay muchas funciones
+*geometrías* incluídas en ggplot2: `geom_line()`, `geom_boxplot()`, `geom_histogram`,... Cada
+una acepta distintos argumentos para mapear las variables en los datos a características
+estéticas de la gráfica. En el ejemplo de arriba mapeamos `displ` al eje x, 
+`hwy` al eje y, pero `geom_point()` nos permite representar más variables usando 
+la forma, color y/o tamaño del punto. Esta flexibilidad nos permite entender o 
+descubrir patrones más interesantes en los datos.
+
+```{r, fig.width = 5.5, fig.height = 4}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy, color = class))
+```
+
+![](../imagenes/manicule2.jpg) Experimenta con los _aesthetics_ color (color), 
+tamaño (size) y forma (shape).
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ¿Qué diferencia hay entre las variables categóricas y las continuas?
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ¿Qué ocurre cuando combinas varios _aesthetics_?
+
+El mapeo de las propiedades estéticas se denomina escalamiento y depende del tipo de variable, las 
+variables discretas (por ejemplo, genero, escolaridad, país) se mapean a 
+distintas escalas que las variables continuas (variables numéricas como edad, estatura, etc.), los *defaults*
+para algunos atributos son (estos se pueden modificar):
+
+&nbsp;    |Discreta      |Continua
+----------|--------------|---------
+Color (`color)    |Arcoiris de colores         |Gradiente de colores
+Tamaño (`size`)  |Escala discreta de tamaños  |Mapeo lineal entre el área y el valor
+Forma (`shape`)    |Distintas formas            |No aplica
+Transparencia (`alpha`) | No aplica | Mapeo lineal a la transparencia 
+
+Los *_geoms_* controlan el tipo de gráfica
+
+```{r, fig.width = 5, fig.height = 4}
+p <- ggplot(mpg, aes(x = displ, y = hwy))
+p + geom_line() # en este caso no es una buena gráfica
+```
+
+¿Qué problema tiene la siguiente gráfica?
+```{r, fig.width = 5, fig.height = 4}
+p <- ggplot(mpg, aes(x = cty, y = hwy))
+p + geom_point() 
+p + geom_jitter() 
+```
+
+![](../imagenes/manicule2.jpg) ¿Cómo podemos mejorar la siguiente gráfica?
+```{r, fig.width = 5, fig.height = 4}
+ggplot(mpg, aes(x = class, y = hwy)) + 
+  geom_point() 
+```
+
+Intentemos reodenar los niveles de la variable clase
+```{r, fig.width = 5, fig.height = 4}
+ggplot(mpg, aes(x = reorder(class, hwy), y = hwy)) + 
+    geom_point() 
+```
+
+Podemos probar otros geoms.
+```{r, fig.width = 5, fig.height = 4}
+ggplot(mpg, aes(x = reorder(class, hwy), y = hwy)) + 
+    geom_jitter() 
+ggplot(mpg, aes(x = reorder(class, hwy), y = hwy)) + 
+    geom_boxplot() 
+```
+
+También podemos usar más de un geom!
+```{r, fig.width = 5, fig.height = 3.5}
+ggplot(mpg, aes(x = reorder(class, hwy), y = hwy)) + 
+    geom_jitter() +
+    geom_boxplot()
+```
+
+![](../imagenes/manicule2.jpg) Lee la ayuda de _reorder_ y repite las gráficas 
+anteriores ordenando por la mediana de _hwy_.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cómo harías
+para graficar los puntos encima de las cajas de boxplot?
+
+#### Paneles
+Veamos ahora como hacer páneles de gráficas, la idea es hacer varios múltiplos de 
+una gráfica donde cada múltiplo representa un subconjunto de los datos, es una 
+práctica muy útil para explorar relaciones condicionales.
+
+En ggplot podemos usar _facet\_wrap()_ para hacer paneles dividiendo los datos 
+de acuerdo a las categorías de una sola variable
+```{r, fig.width = 5, fig.height = 5}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_jitter() +
+  facet_wrap(~ cyl)
+```
+
+También podemos hacer una cuadrícula de 2 dimensiones usando 
+_facet\_grid(filas~columnas)_ 
+
+```{r, fig.width = 8, fig.height = 2.5}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_jitter() +
+  facet_grid(.~ class)
+```
+```{r, fig.width = 7, fig.height = 5}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_jitter() +
+  facet_grid(drv ~ class)
+```
+
+Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En 
+la siguiente gráfica es difícil entender si existe una relación entre radiación
+solar y ozono
+```{r, fig.width = 4, fig.height = 3}
+data(airquality)
+ggplot(airquality, aes(x = Solar.R, y = Ozone)) + 
+  geom_point() 
+```
+
+Veamos que ocurre si realizamos páneles separando por velocidad del viento
+```{r, fig.width = 7, fig.height = 3, message = FALSE, warning = FALSE}
+library(Hmisc)
+airquality$Wind.cat <- cut2(airquality$Wind, g = 3) 
+ggplot(airquality, aes(x = Solar.R, y = Ozone)) + 
+  geom_point() +
+  facet_wrap(~ Wind.cat)
+```
+
+Podemos agregar un suavizador (loess) para ver mejor la relación de las 
+variables en cada panel.
+```{r, fig.width = 7, fig.height = 3, warning = FALSE}
+ggplot(airquality, aes(x = Solar.R, y = Ozone)) + 
+  geom_point() +
+  facet_wrap(~ Wind.cat) + 
+  geom_smooth(span = 3)
+```
+
+![](../imagenes/manicule2.jpg) Escribe algunas preguntas que puedan contestar con estos datos.
+
+En ocasiones es necesario realizar transformaciones u obtener subconjuntos de los 
+datos para poder responder preguntas de nuestro interés.
+
+```{r}
+library(babynames)
+glimpse(babynames)
+```
+
+Supongamos que queremos ver la tendencia del nombre "John", para ello debemos 
+generar un subconjunto de la base de datos.
+```{r,  fig.width = 5, fig.height = 3}
+babynames_John <- babynames[babynames$name == "John", ]
+ggplot(babynames_John, aes(x = year, y = prop)) +
+  geom_point()
+```
+```{r,  fig.width = 5, fig.height = 3.7}
+ggplot(babynames_John, aes(x = year, y = prop, color = sex)) +
+  geom_line()
+```
+
+La preparación de los datos es un aspecto muy importante del análisis y suele ser
+la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará en 
+herramientas para hacer transformaciones de manera eficiente.
+
+![](../imagenes/manicule.jpg) Tarea. Explora la base de datos gapminder, estos datos están 
+incluidos en el paquete del mismo nombre, para acceder a ellos basta con cargar el paquete:
+
+```{r}
+# install.packages("gapminder")
+library(gapminder)
+gapminder
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; realiza al menos 3 gráficas y explica las relaciones que encuentres. Debes usar lo que revisamos en estas notas: al menos una de las gráficas debe ser de páneles, realiza una gráfica con datos de México, y (opcional)si lo consideras interesante, puedes crear una variable categórica utilizando la función cut2 del paquete Hmisc. 
+
+
+### Recursos
+* Google, stackoverflow.
+* Para aprender más de ggplot pueden ver la documentación con ejemplos en la 
+página de [ggplot2](http://ggplot2.tidyverse.org).
+* Otro recurso muy útil es el [acordeón de ggplot](https://www.rstudio.com/wp-content/uploads/2015/04/ggplot2-spanish.pdf).
+
+
