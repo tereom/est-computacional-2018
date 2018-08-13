@@ -1,410 +1,464 @@
-# R para análisis de datos
 
-Este es el primer de 2 juegos de notas introductorias a R con un enfoque en 
-análisis de datos. A diferencia de otros recursos, no se pretende dar una 
-introducción general a R sino mostrar las herramientas más importantes para 
-comenzar a utilizar R en análisis de datos. En este primer juego se cubre
-la sección de visualización. Más adelante aprenderemos a 
-usar R para manipulación de datos y modelación. Estas notas siguen material e 
-ideas de [Hadley Wickham](http://had.co.nz) y en particular el libro 
-[R for Data Science](http://r4ds.had.co.nz/). Las notas están ordenadas como 
-sigue:
+# Visualización
 
-* El ambiente y el lenguaje R  
-* Introducción a R para análisis de datos: paquetes, vectores y data frames  
-* Datos faltantes  
-* Lectura de datos y guardar datos 
-* Visualización: gráficas con ggplot2
+> "The simple graph has brought more information to the data analyst’s mind 
+than any other device." --- John Tukey
 
-<!--
-```{r, echo=FALSE}
-htmltools::img(src = knitr::image_uri(file.path(R.home("doc"), "html", "logo.jpg")), 
-  alt = 'logo', 
-               style = 'position:absolute; top:0; left:0; padding:30px;')
-```
--->
+### El cuarteto de Ascombe {-}
 
-## El ambiente y el lenguaje R
-##### ¿Qué es R? {-}
-* R es un lenguaje de programación y un ambiente de cómputo estadístico
-* R es software libre (no dice qué puedes o no hacer con el software), de código 
-abierto (todo el código de R se puede inspeccionar - y se inspecciona).
-* Cuando instalamos R, instala la base de R. Mucha de la funcionalidad adicional 
-está en **paquetes** (conjunto de funciones y datos documentados) que la 
-comunidad contribuye.
+En 1971 un estadístico llamado Frank Anscombe (fundador del departamento de 
+Estadística de la Universidad de Yale) encontró cuatro conjuntos de datos, cada 
+uno consiste de 11 observaciones y tienen las mismas propiedades estadísticas.
 
-##### ¿Cómo entender R? {-}
-* Hay una sesión de R corriendo. La consola de R es la interfaz 
-entre R y nosotros. 
-* En la sesión hay objetos. Todo en R es un objeto: vectores, tablas, 
- funciones, etc.
-* Operamos aplicando funciones a los objetos y creando nuevos objetos.
-
-##### ¿Por qué R? {-}
-* R funciona en casi todas las plataformas (Mac, Windows, Linux e incluso en Playstation 3).
-* R es un lenguaje de programación completo, permite desarrollo de DSLs.
-* R promueve la investigación reproducible.
-* R está actualizado gracias a que tiene una activa comunidad. Solo en CRAN hay 
-cerca de 10,000 paquetes (funcionalidad adicional de R creadas creada por la 
-comunidad).
-* R se puede combinar con otras herramientas.
-* R tiene capacidades gráficas muy sofisticadas.
-* R es popular ([Revolutions blog](http://blog.revolutionanalytics.com/popularity/)).
-
-#### Investigación reproducible en R {-}
-Un estándar mínimo para el análisis de datos es la reproducibilidad: debe ser 
-posible reproducir el análisis en todos sus pasos y en cualquier momento. Para 
-ello los pasos del análisis deben estar documentados apropiadamente, 
-de manera que las decisiones importantes puedan ser entendidas claramente.
-
-Estos dos principios generalmente implican que debemos trabajar escribiendo
-código, más que usando interfaces gráficas de *point and click*. Esto permite 
-crear programas reproducibles que son fácilmente documentados, y tiene otras
-consecuencias positivas como la facilidad de comunicación (compartir código), la
-posibilidad de trabajar con versiones que documenten la historia del desarrollo,
-respaldos fáciles del trabajo, e incluso el uso de lenguajes de programación más
-flexibles que integren nuestro trabajo en procesos de producción de reportes
-o monitoreo.
-
-Los scripts de R son oportunos para llevar a cabo análisis reproducibles, pero  
-hay más herramientas que nos ayudan a documentar y compartir nuestro trabajo: 
-
-* Los paquetes [rmarkdown](http://rmarkdown.rstudio.com/) y [knitr](https://yihui.name/knitr/) 
-se utilizan para generar documentos en formato pdf, html o word que integran texto, 
-código de R y resultados producidos por el código. 
-
-* [Packrat](https://rstudio.github.io/packrat/): Sistema para administrar dependencias
-de paquetes en R.
-
-* Otras herramientas externas a R, por ejemplo [Docker](https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image)
-
-Organizar los análisis para ser reproducibles no es trivial pero es una buena 
-práctica que te agradecerán los que consulten o utilicen tu trabajo (incluído tu yo del 
-futuro), puedes leer más recomendaciones para lograr análisis reproducibles en 
-[initial steps toward reproducible research](http://kbroman.org/steps2rr/). También es conveniente usar un controlador de versiones este es un buen [tutorial](http://happygitwithr.com/) para Git y Github con R.
-
-### Descargar R y RStudio
-Para comenzar se debe descargar [R](https://cran.r-project.org), esta descarga 
-incluye R básico y un editor de textos para escribir código. Después de
-descargar R se recomienda descargar [RStudio](https://www.rstudio.com/products/rstudio/download/) (gratis y libre).
+Sin embargo, cuando analizamos los datos de manera gráfica en un histograma 
+encontramos rápidamente que los conjuntos de datos son muy distintos.
 
 
-Rstudio es un ambiente de desarrollo integrado para R: incluye una consola, un editor de texto y un conjunto de herramientas para administrar el espacio de trabajo cuando se 
-utiliza R. 
 
-Algunos _shortcuts_ útiles:
+<div style= "float:left;top:-10px;width:500px;">
 
-**En el editor**  
-
-* command/ctrl + enter: enviar código a la consola  
-* ctrl + 2: mover el cursor a la consola
-
-**En la consola**  
-
-* flecha hacia arriba: recuperar comandos pasados  
-* ctrl + flecha hacia arriba: búsqueda en los comandos  
-* ctrl + 1: mover el cursor al editor  
-
-***
-
-### Paquetes y el Tidyverse
-
-La mejor manera de usar R para análisis de datos es aprovechando la gran
-cantidad de paquetes que aportan funcionalidad adicional. Desde
-Rstudio podemos instalar paquetes (Tools - > Install packages o usar la 
-función `install.packages("nombre_paquete")`). Una vez instalados, podemos
-cargarlos a nuestra sesión de R mediante `library`. Por ejemplo, para cargar el
-paquete `readr` hacemos:
-
-```{r paquetes, message=FALSE}
-# print(read_csv)
-# Error in print(read_csv) : object 'read_csv' not found
-
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
 library(tidyverse)
-print(read_csv)
+anscombe_long <- anscombe %>% 
+    mutate(n_obs = 1:n()) %>% 
+    gather(key, value, -n_obs) %>% 
+    separate(key, c("var", "dataset"), 1) %>% 
+    spread(var, value)
+
+ggplot(anscombe_long, aes(x, y)) +
+    geom_smooth(method = "lm", se = FALSE, size = 0.5) +
+    geom_point() +
+    facet_wrap(~dataset) 
+    
 ```
 
-`read_csv` es una función que aporta el paquete `readr`, que a su vez está incluido en el 
-*tidyverse*. 
+</div>
 
-Los paquetes se instalan una sola vez, sin embargo, se deben cargar 
-(ejecutar `library(tidyverse)`) en cada sesión de R que los ocupemos.
+</br>
+</br>
 
-En estas notas utilizaremos la colección de paquetes incluídos en el  [tidyverse](https://www.tidyverse.org/). Estos paquetes de R están
-diseñados para ciencia de datos, y para funcionar juntos como parte de un flujo
-de trabajo. 
+Media de $x$: 9  
+Varianza muestral de $x$: 11  
+Media de $y$: 7.50  
+Varianza muestral de $y$: 4.12  
+Correlación entre $x$ y $y$: 0.816  
+Línea de regresión lineal: $y = 3.00 + 0.500x$
 
-La siguiente imagen tomada de [Why the tidyverse](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/) (Joseph 
-Rickert) indica que paquetes del tidyverse se utilizan para cada
-etapa del análisis de datos.
+<div style="clear:both"></div>
 
-```{r, out.width = "700px"}
-knitr::include_graphics("imagenes/tidyverse.png")
+En la gráfica del primer conjunto de datos, se ven datos como los que se 
+tendrían en una relación lineal simple con un modelo que cumple los supuestos de 
+normalidad. La segunda gráfica (arriba a la derecha) muestra unos datos que 
+tienen una asociación pero definitivamente no es lineal. En la tercera gráfica 
+(abajo a la izquierda) están puntos alineados perfectamente en una línea recta, 
+excepto por uno de ellos. En la última gráfica podemos ver un ejemplo en el cual 
+basta tener una observación atípica para que se produzca un coeficiente de 
+correlación alto aún cuando en realidad no existe una asociación lineal entre 
+las dos variables.  
+
+<div style="clear:both"></div>
+
+<div style= "float:right;padding=10px; top:-10px; width=150px">
+
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+library(datasauRus)
+library(gganimate)
+
+p <- ggplot(datasaurus_dozen, aes(x = x, y = y, frame = dataset)) +
+  geom_point() +
+  theme(legend.position = "none")
+
+ggplot(datasaurus_dozen, aes(x = x, y = y, frame = dataset)) +
+  geom_point() +
+  theme(legend.position = "none") +
+   transition_states(
+    dataset,
+    transition_length = 2,
+    state_length = 1
+  ) +
+  enter_fade() + 
+  exit_shrink() +
+  ease_aes('sine-in-out')   
 ```
 
+</div>
 
-### _Software_ estadístico
-* Estructuras de datos y operaciones vectorizadas
-* Valores faltantes
-* Ambiente interactivo
+El cuarteto de Ascombe inspiró una técnica para crear datos que comparten las 
+propiedades estadísticas al igual que en el cuarteto, pero que producen gráficas 
+muy distintas ([Matejka,
+Fitzmaurice](https://www.autodeskresearch.com/publications/samestats)).
 
-#### Estructuras de datos
-En R se puede trabajar con distintas estructuras de datos, algunas son de una
-sola dimensión y otras permiten más, como indica el diagrama de abajo:
+<div style="clear:both"></div>
 
-<img src="imagenes/data_structures.png" width="250px"/>
 
-nosotros trabajaremos principalmente con *vectores* y *data frames*.
 
-#### Vectores y *data frames*
-Comenzamos viendo algunas operaciones básicas con vectores.
+### Introducción
 
-```{r}
-a <- c(5, 2, 4.1, 7, 9.2)
-a
-a[1]
-a[2]
-a[2:4]
+La visualización de datos no trata de hacer gráficas “bonitas” o “divertidas”,
+ni de simplificar lo complejo o ayudar a una persona “que no entiende mucho” a
+entender ideas complejas. Más bien, trata de aprovechar nuestra gran capacidad
+de procesamiento visual para exhibir de manera clara aspectos importantes de los
+datos.
+
+El siguiente ejemplo de [@tufte06], ilustra claramente la diferencia entre estos
+dos enfoques. A la izquierda están gráficas (más o menos típicas de Powerpoint)
+basadas en la filosofía de simplificar, de intentar no “ahogar” al lector con
+datos. El resultado es una colección incoherente, de bajo contenido, que no
+tiene mucho qué decir y que es, “indeferente al contenido y la evidencia”.
+A la derecha está una variación del rediseño de Tufte en forma de tabla, que en
+este caso particular es una manera eficiente de mostrar claramente los patrones
+que hay en este conjunto simple de datos.
+
+¿Qué principios son los que soportan la efectividad de esta tabla sobre la
+gráfica de la derecha? Veremos que hay dos conjuntos de principios importantes:
+unos relacionados con el diseño y otros con la naturaleza del análisis de datos,
+independientemente del método de visualización.
+
+![](imagenes/tufte_cancer.jpg)
+
+### Visualización de datos en la estadística
+
+La estadística tradicionalmente se divide en dos partes: una parte de naturaleza 
+exploratoria, donde jugamos el papel de detectives en búsqueda de los elementos 
+de evidencia importante, y una parte de naturaleza inferencial, donde nos 
+convertimos en jueces donde le damos pesos de credibilidad a la evidencia que 
+presenta el detective. Estas dos partes tienen interacción fuerte en la 
+práctica, pero por razones históricas se considera “superior” a la parte 
+inferencial por encima de la exploratoria.
+
+Aunque en el proceso de inferencia las gráficas cada vez son más importantes, la 
+visualización entra más claramente dentro del análisis exploratorio de datos. Y
+como en un principio no es claro como la visualización aporta al proceso de la 
+inferencia, se le consideró por mucho tiempo como un área de poca importancia 
+para la estadística: una herramienta que en todo caso sirve para comunicar ideas 
+simples, de manera deficiente, y a personas poco sofisticadas.
+
+
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+barley_1931 <- read_csv("data/barley_1931.csv")
+barley_1932 <- read_csv("data/barley_1932.csv")
+barley_1931$year <- 1931
+barley_1932$year <- 1932
+barley_tot <- bind_rows(barley_1931, barley_1932) %>% 
+    gather(site, yield, -variety, -year) %>% 
+    mutate(variety = reorder(variety, yield))
+
+barley_plot <- ggplot(barley_tot, aes(x = variety, y = yield, 
+  color = factor(year))) +
+  facet_wrap(~site) + 
+    geom_point(size = 0.6) +
+  geom_line(aes(x = as.numeric(variety))) + 
+  coord_flip() +
+  labs(y = "variety", color = "year", x = "variety")
+```
+<div style= "float:right;top:-10px;width=250px;padding=5px">
+
+```{r barley_plot, echo=FALSE, fig.width=5, fig.height=5.2}
+barley_plot
 ```
 
-Las operaciones básicas con vectores son componente a componente:
+</div>
 
-```{r}
-b <- a + 10
-b
-d <- sqrt(a)
-d
-a + d
-10 * a
-a * d
-```
+El peor lado de este punto de vista consiste en restringirse a el análisis 
+estadístico rutinario @cleveland93: aplicar las recetas y 
+negarse a ver los datos de distinta manera (¡incluso pensar que esto puede 
+sesgar los resultados, o que nos podría engañar!). El siguiente ejemplo muestra 
+un caso grave y real (no simulado) de este análisis estadístico rutinario 
+(tomado de @cleveland94).
 
-Y podemos crear secuencias como sigue:
-```{r}
-ejemplo_1 <- 1:10
-ejemplo_1
-ejemplo_2 <- seq(0, 1, 0.25)
-ejemplo_2
-```
+A la derecha mostramos los resultados de un experimento de agricultura. Se 
+cultivaron diez variedades de cebada en seis sitios de Minnesota, en 1921 y 
+1932. Este es uno de los primeros ejemplos en el que se aplicaron las ideas de 
+Fisher en cuanto a diseño de experimentos.
 
-Para calcular características de vectores usamos funciones:
+Estos datos fueron reanalizados desde esa época por muchos agrónomos. Hasta muy 
+recientemente se detectó la anomalía en el comportamiento de los años en el 
+sitio Morris, el cual es evidente en la gráfica. Investigación posterior ha 
+mostrado convincentemente que en algún momento alguien volteó las etiquetas de 
+los años en este sitio.
 
-```{r}
-# media del vector
-mean(a)
-# suma de sus componentes
-sum(a)
-# longitud del vector
-length(a)
-```
+Este ejemplo muestra, en primer lugar, que la visualización es crucial en el 
+proceso de análisis de datos: sin ella estamos expuestos a no encontrar aspectos 
+importantes de los datos (errores) que deben ser discutidos - aún cuando nuestra 
+receta de análisis no considere estos aspectos. Ninguna receta puede aproximarse 
+a describir todas las complejidades y detalles en un conjunto de datos de tamaño 
+razonable (este ejemplo, en realidad, es chico). Sin embargo, la visualización 
+de datos, por su enfoque menos estructurado, y el hecho de que se apoya en un 
+medio con un “ancho de banda” mayor al que puede producir un cierto número de 
+cantidades resumen, es ideal para investigar estos aspectos y detalles.
 
-También podemos construir vectores de caracteres:
+<div style="clear:both"></div>
 
-```{r}
-frutas <- c('manzana', 'manzana', 'pera', 'plátano', 'fresa')
-frutas
-```
+### Visualización popular de datos
 
-Podemos juntar vectores del mismo tamaño en tablas, que se llaman `data.frame`.
-Por ejemplo:
+Publicaciones populares (periódicos, revistas, sitios internet) muchas veces 
+incluyen visualización de datos como parte de sus artículos o reportajes. En 
+general siguen el mismo patrón que en la visión tradicionalista de la 
+estadística: sirven más para divertir que para explicar, tienden a explicar 
+ideas simples y conjuntos chicos de datos, y se consideran como una “ayuda” 
+para los “lectores menos sofisticados”. Casi siempre se trata de gráficas 
+triviales (muchas veces con errores graves) que no aportan mucho a artículos que 
+tienen un nivel de complejidad mucho mayor (es la filosofía: lo escrito para el 
+adulto, lo graficado para el niño).
 
-```{r}
-tabla <- data_frame(n = 1:5, valor = a, fruta = frutas) # la función data_frame de tibble es más conveniente que data.frame de R base.
-tabla
-```
+<div style="width=600px">
+![](http://archivo.eluniversal.com.mx/graficos/graficosanimados14/EU_Zonas_Arqueologicas_Populares/infografia.html)
 
-Los data frames son estructuras rectangulares donde cada columna es del mismo
-tipo (e.g. categórica o factor, numérica, caracter) pero columnas distintas pueden tener diferentes tipos.
+### Principios generales del diseño analítico {-}
+Aplicables a una presentación o análisis completos, y como guía para construir 
+nuevas visualizaciones [@tufte06].
 
-```{r}
-library(ggplot2)
-head(diamonds)
-```
+<div class="caja">
+**Principio 1.** Muestra comparaciones, contrastes, diferencias.  
+**Principio 2.** Muestra causalidad, mecanismo, explicación, estructura
+sistemática.  
+**Principio 3.** Muestra datos multivariados, es decir, más de una o dos
+variables.  
+**Principio 4.** Integra palabras, números, imágenes y diagramas.  
+**Principio 5.** Describe la totalidad de la evidencia. Muestra fuentes usadas y problemas relevantes.  
+**Principio 6.** Las presentaciones analíticas, a fin de cuentas, se sostienen o caen dependiendo de la calidad, relevancia e integridad de su contenido.
+</div>
 
-La instrucción `str` nos describe el tipo de variables en el data.frame:
+### Técnicas de visualización {-} 
+Esta categoría incluye técnicas específicas que dependen de la forma de nuestros 
+datos y el tipo de pregunta que queremos investigar (@tukey77, @cleveland93, 
+@cleveland94, @tufte06).
 
-```{r}
-str(diamonds)
-```
+<div class="caja">
+**Tipos de gráficas:** cuantiles, histogramas, caja y brazos, gráficas de 
+dispersión, puntos/barras/ líneas, series de tiempo.  
+**Técnicas para mejorar gráficas:** Transformación de datos, transparencia, 
+vibración, banking 45, suavizamiento y bandas de confianza.  
+**Pequeños múltiplos**  
+**Tablas**
+</div>
 
-Para lograr una programación eficiente en R es importante conocer las técnicas 
-de indexar data frames:
+### Indicadores de calidad gráfica {-}
+Aplicables a cualquier gráfica en particular. Estas son guías concretas y 
+relativamente objetivas para evaluar la calidad de una gráfica [@tufte86].
 
-```{r}
-# extraemos los primeros cinco renglones
-diamonds[1:5, ]
-# extraemos los primeros cinco renglones y las columnas 2,4,6
-diamonds[1:5, c(2, 4, 6)]
-# también podemos extraer columnase usando $: extraemos la columna x
-head(diamonds$x)
-```
+<div class="caja">
+**Integridad Gráfica.** El factor de engaño, es decir, la distorsión gráfica de
+las cantidades representadas, debe ser mínimo.  
+**Chartjunk.** Minimizar el uso de decoración gráfica que interfiera con la 
+interpretación de los datos: 3D, rejillas, rellenos con patrones.  
+**Tinta de datos.** Maximizar la proporción de tinta de datos vs. tinta total de 
+la gráfica. *For non-data- ink, less is more. For data-ink, less is a bore.*  
+**Densidad de datos.** Las mejores gráficas tienen mayor densidad de datos, que 
+es la razón entre el tamaño del conjunto de datos y el área de la gráfica. Las 
+gráficas se pueden encoger mucho. Percepción visual. Algunas tareas son más 
+fáciles para el ojo humano que otras [@cleveland94].
+</div>
 
-```{r}
-# ¿Que extraemos con las siguientes 2 instrucciones?
-diamonds[diamonds$x == diamonds$y, ]
-diamonds[-(1:53929), c("carat", "price")]
-```
+### Factor de engaño, chartjunk y pies
 
-como vemos arriba para indexar los data frames tenemos que indicar filas y columnas, en el lado izquierdo de los corchetes se indica (con un vector) que filas queremos extraer, y en el lado derecho se indican las columnas: `diamonds[filas, columnas]`. También vale la pena notar que `diamonds$x` regresa la columna x como vector, es decir, `diamonds$x` es de una sola dimensión.
+<div style= "float:right;position: relative; top: -10px;width=140px">
+![](imagenes/pies.jpg)
+</div>
 
-### Datos faltantes
-En R los datos faltantes se expresan como `NA`, ¿qué regresan las siguientes expresiones?
+El **factor de engaño** es el cociente entre el efecto mostrado en una gráfica y 
+el efecto correspondiente en los datos. Idealmente, el factor de engaño debe ser 
+1 (ninguna distorsión).  
+El **chartjunk** son aquellos elementos gráficos que no corresponden a variación 
+de datos, o que entorpecen la interpretación de una gráfica.  
+Estos son los indicadores de calidad más fáciles de entender y aplicar, y 
+afortunadamente cada vez son menos comunes.
 
-```{r, eval = FALSE}
-5 + NA
-NA / 2
-sum(c(5, 4, NA))
-mean(c(5, 4,  NA))
-NA < 3
-NA == 3
-NA == NA
-```
+Un diseño popular que califica como chartjunk y además introduce factores de 
+engaño es el pie de 3D. En la gráfica de la derecha, podemos ver como la 
+rebanada C se ve más grande que la rebanada A, aunque claramente ese no es el 
+caso (factor de engaño). La razón es la variación en la perspectiva que no 
+corresponde a variación en los datos (chartjunk).
 
-Las expresiones anteriores regresan `NA`, el hecho que la media de un vector 
-que incluye NAs o su suma regrese NAs se debe a que el default en R es propagar 
-los valores faltantes, esto es, si deconozco el valor de una de las componentes 
-de un vector, también desconozco la suma del mismo; sin embargo, muchas 
-funciones tienen un argumento _na.rm_ para removerlos,
+Corregimos quitando el efecto 3D. Esto reduce el factor de engaño pero hay 
+todavía elementos que pueden mejorar la comprensión: se trata de la 
+decodificiacion que hay que hacer categoría - color - cuantificación. Podemos 
+agregar las etiquetas como se muestra en la serie de la derecha, pero entonces: 
+¿por qué no mostrar simplemente la tabla de datos? ¿qué agrega el pie a la 
+interpretación?
 
-```{r}
-sum(c(5, 4, NA), na.rm = TRUE)
-mean(c(5, 4, NA), na.rm = TRUE)
-```
+La deficiencias en el pie se pueden ver claramente al intentar graficar más 
+categorías (13) . En el primer pie no podemos distinguir realmente cuáles son 
+las categorías grandes y cuáles las chicas, y es muy difícil tener una imagen 
+mental clara de estos datos. Agregar los porcentajes ayuda, pero entonces, otra 
+vez, preguntamos cuál es el propósito del pie. La tabla de la izquierda hace todo 
+el trabajo (una vez que ordenamos las categrías de la más grande a la más 
+chica). Es posible hacer una gráfica de barras como la de abajo a la izquierda.
 
-El manejo de datos faltantes en R utiliza una lógica ternaria (como SQL):
+<div style="clear:both"></div>
 
-```{r}
-NA == NA
-```
-
-La expresión anterior puede resultar confusa, una manera de pensar en esto es
-considerar los NA como *no sé*, por ejemplo si no se la edad de Juan y no se la 
-edad de Esteban, la pregunta a ¿Juan tiene la misma edad que Esteban? es *no sé* 
-(NA).
-
-```{r}
-edad_Juan <- NA
-edad_Esteban <- NA
-edad_Juan == edad_Esteban
-edad_Jose <- 32
-# Juan es menor que José?
-edad_Juan < edad_Jose
-```
-
-#### Ambiente interactivo
-* Documentación y ayuda `?mean` o `help()`
-* Las heurísticas minimizan las salidas cuando prefieres no verlas
-```{r}
-a <- 10
-a
-(a <- 15)
-```
-* Herramientas sencillas y flexibles para graficación
-```{r, fig.width = 5, fig.height = 4}
-qplot(carat, price, data = diamonds, colour = clarity)
-```
-
-### Lenguaje de programación
-
-#### Funciones y reglas de búsqueda lexica (lexical scoping rules)
-Las funciones son una base importante de la programación en R. Veamos un ejemplo:
-```{r}
-wtd_mean <- function(x, wt = rep(1, length(x))) {
-  sum(x * wt) / sum(wt)
-}
-wtd_mean(1:10)
-wtd_mean(1:10, 10:1)
-```
-Las funciones de R tienen tres partes:
-
-1. El cuerpo, el código dentro de la función
-```{r}
-body(wtd_mean)
-```
-2. Los formales, la lista de argumentos que controlan como puedes llamar a la
-función
-```{r}
-formals(wtd_mean)
-```
-2. El ambiente, el _mapeo_ de la ubicación de las variables de la función
-```{r}
-environment(wtd_mean)
-environment(qplot)
-```
-Veamos mas ejemplos, ¿qué regresan las siguientes funciones?
-```{r}
-# 1
-x <- 5
-f <- function(){
-  y <- 10
-  c(x = x, y = y) 
-}
-rm(x, f)
-
-# 2
-x <- 5
-g <- function(){
-  x <- 20
-  y <- 10
-  c(x = x, y = y)
-}
-
-# 3
-x <- 5
-h <- function(){
-  y <- 10
-  i <- function(){
-    z <- 20
-    c(x = x, y = y, z = z)
-  }
-  i() 
-}
-
-# 4 ¿qué ocurre si la corremos por segunda vez?
-j <- function(){
-  if (!exists("a")){
-    a <- 5
-  } else{
-    a <- a + 1 
-}
-  print(a) 
-}
-x <- 0
-y <- 10
-
-# 5 ¿qué regresa k()? ¿y k()()?
-k <- function(){
-  x <- 1
-  function(){
-    y <- 2
-    x + y 
-  }
-}
-```
-
-Las reglas de búsqueda determinan como se busca el valor de una variable libre en 
-una función. A nivel lenguaje R usa _lexical scoping_, una alternativa es 
-_dynamic scoping_. En R (_lexical scoping_) los valores de los símbolos se basan en como se anidan las funciones cuando fueron creadas y no en como son llamadas. Esto es, en R no importa como son las llamadas a una función para saber como se va a
-buscar el valor de una variable. Una consecuencia de las reglas de búsqueda es que todos los objetos deben ser guardados en memoria.
+<div style= "float:left;top: -10px;width=90px">
+![](imagenes/barras_pie.jpg)
+</div>
 
 
-### Recursos
-* Buscar ayuda: Google, [StackOverflow](http://stackoverflow.com/questions/tagged/r). 
-Para aprender más sobre un paquete o una función pueden visitar [Rdocumentation.org](http://www.rdocumentation.org/).  
-* La referencia principal de estas notas es el libro [R for Data Science](http://r4ds.had.co.nz/)
-de Hadley Wickham.  
-* Para aprender los comandos básicos de R [*Try R*](http://tryr.codeschool.com/) y 
-[Datacamp](https://www.datacamp.com/) cuentan con excelentes cursos interactivos.  
-* Para aprender programación avanzada en R, el libro gratuito [Advanced R](http://adv-r.had.co.nz) de Hadley Wickham es una buena referencia. En particular es conveniente leer la [guía de estilo](http://adv-r.had.co.nz/Style.html) (para todos: principiantes, intermedios y avanzados).  
-* Para mantenerse al tanto de las noticias de la comunidad de R pueden visitar [R-bloggers](http://www.r-bloggers.com).  
-* Más del tidyverse: [Why the tidyverse](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/)
+Hay otros tipos de chartjunk comunes: uno es la textura de barras, por ejemplo. 
+El efecto es la producción de un efecto moiré que es desagradable y quita la 
+atención de los datos, como en la gráfica de barras de abajo. Otro común son las 
+rejillas, como mostramos en las gráficas de la izquierda. Nótese como en estos 
+casos hay efectos ópticos no planeados que degradan la percepción de los 
+patrones en los datos.
 
-<!-- Otros: [la guerra del software](http://datacamp.wpengine.com/wp-content/uploads/2014/05/infograph.png) -->
+![](imagenes/barras_moire.jpg)
 
-  
-* * *
+### Series de tiempo y promedio de 45
 
-## Visualización
+Las series de tiempo son una especie particular de las gráficas de dispersión, 
+en donde la dimensión horizontal es el tiempo. Buscamos entender cómo varía una 
+medición dada en el tiempo. Estas gráficas son mas útiles cuando se construyen 
+usando el principio del promedio de 45 grados: los patrones de variación en el 
+tiempo se distinguen mejor (aproximadamente) cuando el promedio de pendiente (en 
+valor absoluto) en las gráficas está cercano a 45 grados. El siguiente ejempo, 
+que muestra la actividad de manchas solares del sol, muestra claramente este 
+principio:
+
+![](imagenes/series_45.jpg)
+
+Espto también es un principio para decidir la razón de aspecto de cualquier 
+gráfica de dispersión (y también gráficas de barras). Esta regla supera el 
+principio de que “las escalas deben comenzar en cero”. En realidad este 
+último principio cuida contra dos errores en la graficación: no poner atención a
+la escala e intentar  comparar gráficas que no están dibujadas en la misma 
+escala. Poniendo atención a estos dos aspectos (incluso llamado a veces la 
+atención a estos puntos, Stephen Few) no hay necesidad de seguir la regla del 0.
+
+<div style= "float:right;position: relative; top: -10px;width=140px">
+![](imagenes/principio_cero.jpg)
+</div>
+
+### Pequeños múltiplos y densidad gráfica
+La densidad de una gráfica es el tamaño del conjunto de datos que se grafica 
+comparado con el área total de la gráfica. En el siguiente ejemplo, graficamos 
+en logaritmo-10 de cabezas de ganado en Francia (cerdos, res, ovejas y 
+caballos). La gráfica de la izquierda es pobre en densidad pues sólo representa 
+4 datos. La manera más fácil de mejorar la densidad es hacer más chica la 
+gráfica:
+
+<div style= "width=450px">
+![](imagenes/france_plot.jpg)
+</div>
+
+La razón de este encogimiento es una que tiene qué ver con las oportunidades perdidas de una gráfica grande. Si repetimos este mismo patrón (misma escala, mismos tipos de ganado) para distintos países obtenemos la siguiente gráfica:
+
+<div style= "float:left;top: -10px;width=100px">
+![](imagenes/europe_plot.jpg)
+
+
+</div>
+
+Esta es una gráfica de puntos. Es útil como sustituto de una gráfica de barras, 
+y es superior en el sentido de que una mayor proporción de la tinta que se usa 
+es tinta de datos. Otra vez, mayor proporción de tinta de datos representa más 
+oportunidades que se pueden capitalizar, como muestra la gráfica de punto y 
+líneas que mostramos al principio (rendimiento en campos de cebada).
+
+### Tinta de datos
+
+Maximizar la proporción de tinta de datos en nuestras gráficas tiene beneficios 
+inmediatos. La regla es: si hay tinta que no representa variación en los datos, 
+o la eliminación de esa tinta no representa pérdidas de significado, esa tinta 
+debe ser eliminada. El ejemplo más claro es el de las rejillas en gráficas y 
+tablas:
+
+![](imagenes/tinta_datos.jpg)
+
+
+<div style= "float:left;top: -10px;width=100px">
+![](imagenes/tabla_tinta_datos.jpg)
+</div>
+
+¿Por qué usar grises en lugar de negros? La respuesta tiene qué ver con el 
+principio de tinta de datos: si marcamos las diferencias sutil pero claramente, 
+tenemos más oportunidades abiertas para hacer énfasis en lo que nos interesa: a 
+una gráfica o tabla saturada no se le puede hacer más - es difícil agregar 
+elementos adicionales que ayuden a la comprensión. Si comenzamos marcando con 
+sutileza, entonces se puede hacer más. Los mapas geográficos son un buen ejemplo 
+de este principio.
+
+El espacio en blanco es suficientemente bueno para indicar las fronteras en una 
+tabla, y facilita la lectura:
+
+![](imagenes/tabla_2_tinta_datos.jpg)
+
+### Percepción de escala
+
+Entre la percepción visual y la interpretación de una gráfica están implícitas 
+tareas visuales específicas que las personas debemos realizar para ver 
+correctamente la gráfica. En la década de los ochenta, William S. Cleveland y 
+Robert McGill realizaron algunos experimentos identificando y clasificando estas 
+tareas para diferentes tipos de gráficos [@cleveland84]. 
+En estos, se le pregunta a la persona que compare dos valores dentro de una 
+gráfica, por ejemplo, en dos barras en una gráfica de barras, o dos rebanadas de 
+una gráfica de pie.
+
+![](imagenes/cleveland_tasks.png)
+
+Los resultados de Cleveland y McGill fueron replicados por Heer y Bostock en
+2010 y los resultados se muestran en las gráficas de la derecha:
+
+<div style= "float:left;top: -10px;width=200px">
+![](imagenes/heer-bostock_results.png)
+</div>
+
+
+### Minard
+
+> Una gráfica excelente, presenta datos interesantes de forma bien 
+diseñada: es una cuestión de fondo, de diseño, y estadística... [Se] compone de 
+ideas complejas comunicadas con claridad, precisión y eficiencia. ... [Es] lo 
+que da al espectador la mayor cantidad de ideas, en el menor tiempo, con 
+la menor cantidad de tinta, y en el espacio más pequeño. ... Es casi siempre 
+multivariado. ... Una excelente gráfica debe decir la verdad acerca de los 
+datos. (Tufte, 1983)
+
+La famosa visualización de Charles Joseph Minard de la marcha de Napoleón sobre 
+Moscú, ilustra los principios de una buena gráfica. Tufte señala que esta imagen 
+"bien podría ser el mejor gráfico estadístico jamás dibujado", y sostiene que 
+"cuenta una historia rica y coherente con sus datos multivariados, mucho más 
+esclarecedora que un solo número que rebota en el tiempo". Se representan seis 
+variables: el tamaño del ejército, su ubicación en una superficie bidimensional, 
+la dirección del movimiento del ejército y la temperatura en varias fechas 
+durante la retirada de Moscú".
+
+![](imagenes/minard.png)
+
+Hoy en día Minard es reconocido como uno de los principales contribuyentes a la 
+teoría de análisis de datos y creación de **infografías** con un fundamento 
+estadístico.
+
+Se grafican 6 variables: el número de tropas de Napoleón, la distancia, la 
+temperatura, la latitud y la longitud, la dirección en que viajaban las tropas
+y la localización relativa a fechas específicas.
+
+La 
+gráfica de Minard, como la describe E.J. Marey, parece "desafiar la pluma del 
+historiador con su brutal elocuencia", la combinación de datos del mapa, y la 
+serie de tiempo, dibujados en 1869, "retratan una secuencia de pérdidas 
+devastadoras que sufrieron las tropas de Napoleón en 1812". Comienza en la 
+izquierda, en la frontera de Polonia y Rusia, cerca del río Niemen. La línea 
+gruesa dorada muestra el tamaño de la Gran Armada (422,000) en el momento en que 
+invadía Rusia en junio de 1812. 
+
+El ancho de esta banda indica el tamaño de la armada en cada punto del mapa. En 
+septiembre, la armada llegó a Moscú, que ya había sido saqueada y dejada 
+desértica, con sólo 100,000 hombres. 
+
+El camino del retiro de Napoleón desde Moscú está representado por la línea 
+oscuara (gris) que está en la parte inferior, que está relacionada a su vez con 
+la temperatura y las fechas en el diagrama de abajo. Fue un invierno muy frío, 
+y muchos se congelaron en su salida de Rusia. Como se muestra en el mapa, cruzar 
+el río Berezina fue un desastre, y el ejército de Napoleón logró regresar a 
+Polonia con tan sólo 10,000 hombres. 
+
+También se muestran los movimientos de las tropas auxiliaries, que buscaban 
+proteger por atrás y por la delantera mientras la armada avanzaba hacia Moscú. 
+La gráfica de Minard cuenta una historia rica y cohesiva, coherente con datos 
+multivariados y con los hechos históricos, y que puede ser más ilustrativa que 
+tan sólo representar un número rebotando a lo largo del tiempo.
+
+
+
+## Visualización en R
 Utilizaremos el paquete ggplot2 y cubriremos los siguientes puntos:
 
 * Gráfica de dispersión  
@@ -414,22 +468,22 @@ Utilizaremos el paquete ggplot2 y cubriremos los siguientes puntos:
 #### Gráficas de dispersión
 
 ```{r}
-# install.packages("ggplot2") # sólo se hace una vez
 library(tidyverse) # Cargamos el paquete en nuestra sesión
 ```
 
 Usaremos el conjunto de datos *mpg* que se incluye en R, puedes encontrar información de esta base de datos tecleando `?mpg`.
 
 ```{r}
-# ?mpg
+data(mpg)
+?mpg
 glimpse(mpg)
 ```
 
-Y comencemos con nuestra primera gráfica:
+Comencemos con nuestra primera gráfica:
 
 ```{r, fig.width = 5, fig.height = 4}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy))
+  geom_point(mapping = aes(x = displ, y = hwy)) 
 ```
 
 En ggplot2 se inicia una gráfica con la instrucción `ggplot()`, debemos especificar 
@@ -451,7 +505,7 @@ ggplot(mpg) +
   geom_point(aes(x = displ, y = hwy, color = class))
 ```
 
-![](../imagenes/manicule2.jpg) Experimenta con los _aesthetics_ color (color), 
+![](imagenes/manicule2.jpg) Experimenta con los _aesthetics_ color (color), 
 tamaño (size) y forma (shape).
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ¿Qué diferencia hay entre las variables categóricas y las continuas?
@@ -463,12 +517,13 @@ variables discretas (por ejemplo, genero, escolaridad, país) se mapean a
 distintas escalas que las variables continuas (variables numéricas como edad, estatura, etc.), los *defaults*
 para algunos atributos son (estos se pueden modificar):
 
-&nbsp;    |Discreta      |Continua
+
+aes       |Discreta      |Continua  
 ----------|--------------|---------
-Color (`color)    |Arcoiris de colores         |Gradiente de colores
-Tamaño (`size`)  |Escala discreta de tamaños  |Mapeo lineal entre el área y el valor
+Color (`color`)|Arcoiris de colores         |Gradiente de colores  
+Tamaño (`size`)  |Escala discreta de tamaños  |Mapeo lineal entre el área y el valor  
 Forma (`shape`)    |Distintas formas            |No aplica
-Transparencia (`alpha`) | No aplica | Mapeo lineal a la transparencia 
+Transparencia (`alpha`) | No aplica | Mapeo lineal a la transparencia   
 
 Los *_geoms_* controlan el tipo de gráfica
 
@@ -484,7 +539,7 @@ p + geom_point()
 p + geom_jitter() 
 ```
 
-![](../imagenes/manicule2.jpg) ¿Cómo podemos mejorar la siguiente gráfica?
+![](imagenes/manicule2.jpg) ¿Cómo podemos mejorar la siguiente gráfica?
 ```{r, fig.width = 5, fig.height = 4}
 ggplot(mpg, aes(x = class, y = hwy)) + 
   geom_point() 
@@ -511,7 +566,7 @@ ggplot(mpg, aes(x = reorder(class, hwy), y = hwy)) +
     geom_boxplot()
 ```
 
-![](../imagenes/manicule2.jpg) Lee la ayuda de _reorder_ y repite las gráficas 
+![](imagenes/manicule2.jpg) Lee la ayuda de _reorder_ y repite las gráficas 
 anteriores ordenando por la mediana de _hwy_.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ¿Cómo harías
@@ -568,10 +623,10 @@ variables en cada panel.
 ggplot(airquality, aes(x = Solar.R, y = Ozone)) + 
   geom_point() +
   facet_wrap(~ Wind.cat) + 
-  geom_smooth(span = 3)
+  geom_smooth(method = "lm")
 ```
 
-![](../imagenes/manicule2.jpg) Escribe algunas preguntas que puedan contestar con estos datos.
+![](imagenes/manicule2.jpg) Escribe algunas preguntas que puedan contestar con estos datos.
 
 En ocasiones es necesario realizar transformaciones u obtener subconjuntos de los 
 datos para poder responder preguntas de nuestro interés.
@@ -582,12 +637,14 @@ glimpse(babynames)
 ```
 
 Supongamos que queremos ver la tendencia del nombre "John", para ello debemos 
-generar un subconjunto de la base de datos.
-```{r,  fig.width = 5, fig.height = 3}
-babynames_John <- babynames[babynames$name == "John", ]
+generar un subconjunto de la base de datos. ¿Qué ocurre en la siguiente gráfica?
+
+```{r, fig.width = 5, fig.height = 3}
+babynames_John <- filter(babynames, name == "John")
 ggplot(babynames_John, aes(x = year, y = prop)) +
   geom_point()
 ```
+
 ```{r,  fig.width = 5, fig.height = 3.7}
 ggplot(babynames_John, aes(x = year, y = prop, color = sex)) +
   geom_line()
@@ -597,7 +654,7 @@ La preparación de los datos es un aspecto muy importante del análisis y suele 
 la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará en 
 herramientas para hacer transformaciones de manera eficiente.
 
-![](../imagenes/manicule.jpg) Tarea. Explora la base de datos gapminder, estos datos están 
+![](imagenes/manicule2.jpg) Tarea. Explora la base de datos gapminder, estos datos están 
 incluidos en el paquete del mismo nombre, para acceder a ellos basta con cargar el paquete:
 
 ```{r}
@@ -607,12 +664,35 @@ gapminder
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; realiza al menos 3 gráficas y explica las relaciones que encuentres. Debes usar lo que revisamos en estas notas: al menos una de las gráficas debe ser de páneles, realiza una gráfica con datos de México, y (opcional)si lo consideras interesante, puedes crear una variable categórica utilizando la función cut2 del paquete Hmisc. 
+<div style= "float:left;position: relative; top: -10px;">
+
+<img src="imagenes/tufte_cancer.jpg" width="width:10px;"/>
+
+</div>
 
 
-### Recursos
-* Google, stackoverflow.
-* Para aprender más de ggplot pueden ver la documentación con ejemplos en la 
-página de [ggplot2](http://ggplot2.tidyverse.org).
-* Otro recurso muy útil es el [acordeón de ggplot](https://www.rstudio.com/wp-content/uploads/2015/04/ggplot2-spanish.pdf).
+
+<div style="clear:both">
+</div>
 
 
+```{r, echo=FALSE, message=FALSE, eval=FALSE}
+library(kableExtra)
+cancer <- read_csv("data/cancer_73-98.csv", progress = F)
+
+cancer %>% 
+    mutate_at(vars(c("year_5_se", "year_10_se", "year_15_se", "year_20_se")), function(x) {
+        cell_spec(x, font_size = spec_font_size(1, begin = 4))
+  }) %>% 
+kable(escape = FALSE, "html", 
+    align = c("l", "r", "l", "r", "l", "r", "l", "r", "l"), 
+    col.names = c("", "5 year", "", "10 year", "", "15 year", "", "20 year", ""),
+    padding = 0, booktabs=T) %>% 
+    row_spec(0, align = "r") %>%
+      # add_header_above(c(" " = 1, "5 years" = 2, "10 years" = 2, "15 years" = 2, "20 years" = 2)) %>% 
+      column_spec(c(3, 5, 7, 9), color = "#999999") %>%
+    #collapse_rows()   %>% 
+    footnote("Rates derived from SEER 1973-98 databes (both sexes, all ethnic groups).", 
+        general_title = "") %>% 
+  kable_styling(font_size = 11, full_width = F, bootstrap_options = "condensed") 
+```
