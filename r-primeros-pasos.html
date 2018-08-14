@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="divide-aplica-combina-split-apply-combine.html">
-<link rel="next" href="referencias.html">
+<link rel="prev" href="introduccion-a-r-y-al-paquete-ggplot2.html">
+<link rel="next" href="visualizacion-con-ggplot2.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -202,25 +202,126 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="recursos-adicionales" class="section level2">
-<h2><span class="header-section-number">3.4</span> Recursos adicionales</h2>
+<div id="r-primeros-pasos" class="section level2">
+<h2><span class="header-section-number">2.1</span> R: primeros pasos</h2>
+<p>Para comenzar se debe descargar <a href="https://cran.r-project.org">R</a>, esta descarga
+incluye R básico y un editor de textos para escribir código. Después de
+descargar R se recomienda descargar
+<a href="https://www.rstudio.com/products/rstudio/download/">RStudio</a> (gratis y libre).</p>
+<p>Rstudio es un ambiente de desarrollo integrado para R: incluye una consola,
+un editor de texto y un conjunto de herramientas para administrar el espacio de
+trabajo cuando se utiliza R.</p>
+<p>Algunos <em>shortcuts</em> útiles en RStudio son:</p>
+<p><strong>En el editor</strong></p>
 <ul>
-<li><p><a href="http://vita.had.co.nz/papers/tidy-data.pdf">Tidy Data</a>, Hadley Wickham.</p></li>
-<li><p><a href="http://www.jstatsoft.org/v40/i01/paper">The Slit-Apply-Combine Strategy for Data Analysis</a>,
-Hadley Wickham 2011.</p></li>
-<li><p><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">Data Wrangling Cheat Sheet</a>,
-RStudio.</p></li>
+<li>command/ctrl + enter: enviar código a la consola<br />
+</li>
+<li>ctrl + 2: mover el cursor a la consola</li>
 </ul>
-
+<p><strong>En la consola</strong></p>
+<ul>
+<li>flecha hacia arriba: recuperar comandos pasados<br />
+</li>
+<li>ctrl + flecha hacia arriba: búsqueda en los comandos<br />
+</li>
+<li>ctrl + 1: mover el cursor al editor</li>
+</ul>
+<div id="r-en-analisis-de-datos" class="section level3 unnumbered">
+<h3>R en análisis de datos</h3>
+<p>El estándar científico para contestar preguntas o tomar decisiones es uno que
+se basa en el análisis de datos. Aquí consideramos técnicas cuantitativas:
+recolectar, organizar, entender, interpretar y extraer información de
+colecciones de datos predominantemente numéricos. Todas estas tareas son partes
+del análisis de datos, cuyo proceso podría resumirse con el siguiente diagrama:</p>
+<p><img src="imagenes/analisis.png" /></p>
+<p>Es importante la forma en que nos movemos dentro de estos procesos en el
+análisis de datos y en este curso buscamos dar herramientas para facilitar
+cumplir los siguientes principios:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Reproducibilidad</strong>. Debe ser posible reproducir el análisis en todos sus
+pasos, en cualquier momento.</p></li>
+<li><p><strong>Claridad</strong>. Los pasos del análisis deben estar documentados apropiadamente,
+de manera que las decisiones importantes puedan ser entendidas y explicadas
+claramente.</p></li>
+</ol>
+<p>Dedicaremos las primeras sesiones a aprender herramientas básicas para poder
+movernos agilmente a lo largo de las etapas de análisis utilizando R y nos
+enfocaremos en los paquetes que forman parte del
+<a href="http://tidyverse.org/">tidyverse</a>.</p>
 </div>
-<!-- </div> -->
+<div id="paquetes-y-el-tidyverse" class="section level3 unnumbered">
+<h3>Paquetes y el Tidyverse</h3>
+<p>La mejor manera de usar R para análisis de datos es aprovechando la gran
+cantidad de paquetes que aportan funcionalidad adicional. Desde
+Rstudio podemos instalar paquetes (Tools - &gt; Install packages o usar la
+función <code>install.packages(&quot;nombre_paquete&quot;)</code>). Una vez instalados, podemos
+cargarlos a nuestra sesión de R mediante <code>library</code>. Por ejemplo, para cargar el
+paquete <code>readr</code> hacemos:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print(read_csv)</span>
+<span class="co"># Error in print(read_csv) : object &#39;read_csv&#39; not found</span>
+
+<span class="kw">library</span>(tidyverse)
+<span class="kw">print</span>(read_csv)</code></pre>
+<pre><code>## function (file, col_names = TRUE, col_types = NULL, locale = default_locale(), 
+##     na = c(&quot;&quot;, &quot;NA&quot;), quoted_na = TRUE, quote = &quot;\&quot;&quot;, comment = &quot;&quot;, 
+##     trim_ws = TRUE, skip = 0, n_max = Inf, guess_max = min(1000, 
+##         n_max), progress = show_progress()) 
+## {
+##     tokenizer &lt;- tokenizer_csv(na = na, quoted_na = TRUE, quote = quote, 
+##         comment = comment, trim_ws = trim_ws)
+##     read_delimited(file, tokenizer, col_names = col_names, col_types = col_types, 
+##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
+##         guess_max = guess_max, progress = progress)
+## }
+## &lt;bytecode: 0x72108c0&gt;
+## &lt;environment: namespace:readr&gt;</code></pre>
+<p><code>read_csv</code> es una función que aporta el paquete <code>readr</code>, que a su vez está incluido en el
+<em>tidyverse</em>.</p>
+<p>Los paquetes se instalan una sola vez, sin embargo, se deben cargar
+(ejecutar <code>library(tidyverse)</code>) en cada sesión de R que los ocupemos.</p>
+<p>En estas notas utilizaremos la colección de paquetes incluídos en el
+<a href="https://www.tidyverse.org/">tidyverse</a>. Estos paquetes de R están
+diseñados para ciencia de datos, y para funcionar juntos como parte de un flujo
+de trabajo.</p>
+<p>La siguiente imagen tomada de <a href="https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/">Why the tidyverse</a> (Joseph
+Rickert) indica que paquetes del tidyverse se utilizan para cada
+etapa del análisis de datos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imagenes/tidyverse.png&quot;</span>)</code></pre>
+<p><img src="imagenes/tidyverse.png" width="700px" /></p>
+</div>
+<div id="recursos" class="section level3 unnumbered">
+<h3>Recursos</h3>
+<p>Existen muchos recursos gratuitos para aprender R, y resolver nuestras dudas,
+enlistamos algunos.</p>
+<ul>
+<li>Buscar ayuda: Google, <a href="http://stackoverflow.com/questions/tagged/r">StackOverflow</a>.
+Para aprender más sobre un paquete o una función pueden visitar <a href="http://www.rdocumentation.org/">Rdocumentation.org</a>.<br />
+</li>
+<li>La referencia principal de estas notas es el libro <a href="http://r4ds.had.co.nz/">R for Data Science</a>
+de Hadley Wickham.<br />
+</li>
+<li>Para aprender los comandos básicos de R <a href="http://tryr.codeschool.com/"><em>Try R</em></a>
+y <a href="https://www.datacamp.com/">Datacamp</a> cuentan con excelentes cursos
+interactivos.<br />
+</li>
+<li>Para aprender programación avanzada en R, el libro gratuito
+<a href="http://adv-r.had.co.nz">Advanced R</a> de Hadley Wickham es una buena referencia.
+En particular es conveniente leer la <a href="http://adv-r.had.co.nz/Style.html">guía de estilo</a> (para todos: principiantes, intermedios y avanzados).<br />
+</li>
+<li>Para mantenerse al tanto de las noticias de la comunidad de R pueden visitar
+<a href="http://www.r-bloggers.com">R-bloggers</a>.<br />
+</li>
+<li>Más del tidyverse: <a href="https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/">Why the tidyverse</a></li>
+</ul>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="divide-aplica-combina-split-apply-combine.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="introduccion-a-r-y-al-paquete-ggplot2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualizacion-con-ggplot2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -250,7 +351,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/02-manipulacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

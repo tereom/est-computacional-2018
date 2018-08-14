@@ -1,33 +1,35 @@
 --- 
 title: "Estadística Computacional"
 author: "Teresa Ortiz"
-date: "2018-07-23"
+date: "2018-08-14"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib]
+nocite: |
+    @advr, @r4ds, @gelman-bayesian, @gelman-hill
 biblio-style: apalike
 link-citations: yes
 github-repo: tereom/est-computacional-2018
 description: "Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018."
-nocite: |
-    @kruschke
-    @advr
-    @r4ds
-    @gelman-bayesian
-    @gelman-hill
 ---
 
-# Temario {-}
 
+# Información del curso {-}
 
-[Notas](https://tereom.github.io/est-computacional-2018/)
+### Ligas {-}
+Correo: teresa.ortiz.mancera@gmail.com  
+Notas: https://tereom.github.io/est-computacional-2018/    
+GitHub: https://github.com/tereom/est-computacional-2018
+
+### Temario {-}
 
 1. **Manipulación y visualización de datos**
 
--   Introducción a R.
 -   Visualización de datos.
 -   Manipulación y limpieza de datos.
 -   Temas selectos de programación en R.
+
+Referencias: @tufte06, @cleveland93, @r4ds, @advr.
 
 2. **Inferencia y remuestreo**
 
@@ -39,6 +41,8 @@ nocite: |
     -   Cálculo de errores estándar e intervalos de confianza.
     -   Estructuras de datos complejos.
 -   Introducción a modelos probabilísticos.
+
+Referencias: @ross, @efron.
 
 3. **Modelos de probabilidad y simulación**
 
@@ -57,6 +61,8 @@ nocite: |
     -   Bootsrap paramétrico.
 -   Inferencia de gráficas
 
+ Referencias: @gelman-hill.
+
 4. **Métodos computacionales e inferencia Bayesiana**
 
 -   Inferencia bayesiana.
@@ -68,8 +74,10 @@ nocite: |
     -   Cadenas de Markov.
     -   Metropolis-Hastings.
     -   Muestreador de Gibbs.
+    -   Monte Carlo Hamiltoniano.
     -   Diagnósticos de convergencia.
 
+Referencias: @kruschke, @gelman-bayesian.
 
 ### Calificación {-}
 
@@ -79,5 +87,6 @@ Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial
 
 - https://www.r-project.org
 - https://www.rstudio.com
+- http://mc-stan.org
 
-### Referencias principales {-}
+

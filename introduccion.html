@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="divide-aplica-combina-split-apply-combine.html">
-<link rel="next" href="referencias.html">
+<link rel="prev" href="introducciona-a-visualizacion.html">
+<link rel="next" href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -202,25 +202,105 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="recursos-adicionales" class="section level2">
-<h2><span class="header-section-number">3.4</span> Recursos adicionales</h2>
-<ul>
-<li><p><a href="http://vita.had.co.nz/papers/tidy-data.pdf">Tidy Data</a>, Hadley Wickham.</p></li>
-<li><p><a href="http://www.jstatsoft.org/v40/i01/paper">The Slit-Apply-Combine Strategy for Data Analysis</a>,
-Hadley Wickham 2011.</p></li>
-<li><p><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">Data Wrangling Cheat Sheet</a>,
-RStudio.</p></li>
-</ul>
+<div id="introduccion" class="section level2">
+<h2><span class="header-section-number">1.1</span> Introducción</h2>
+<p>La visualización de datos no trata de hacer gráficas “bonitas” o “divertidas”,
+ni de simplificar lo complejo o ayudar a una persona “que no entiende mucho” a
+entender ideas complejas. Más bien, trata de aprovechar nuestra gran capacidad
+de procesamiento visual para exhibir de manera clara aspectos importantes de los
+datos.</p>
+<p>El siguiente ejemplo de <span class="citation">(Tufte <a href="#ref-tufte06">2006</a>)</span>, ilustra claramente la diferencia entre estos
+dos enfoques. A la izquierda están gráficas (más o menos típicas de Powerpoint)
+basadas en la filosofía de simplificar, de intentar no “ahogar” al lector con
+datos. El resultado es una colección incoherente, de bajo contenido, que no
+tiene mucho qué decir y que es, “indeferente al contenido y la evidencia”.
+A la derecha está una variación del rediseño de Tufte en forma de tabla, que en
+este caso particular es una manera eficiente de mostrar claramente los patrones
+que hay en este conjunto simple de datos.</p>
+<p>¿Qué principios son los que soportan la efectividad de esta tabla sobre la
+gráfica de la derecha? Veremos que hay dos conjuntos de principios importantes:
+unos relacionados con el diseño y otros con la naturaleza del análisis de datos,
+independientemente del método de visualización.</p>
+<p><img src="imagenes/tufte_cancer.jpg" /></p>
+<div id="visualizacion-de-datos-en-la-estadistica" class="section level3 unnumbered">
+<h3>Visualización de datos en la estadística</h3>
+<p>La estadística tradicionalmente se divide en dos partes: una parte de naturaleza
+exploratoria, donde jugamos el papel de detectives en búsqueda de los elementos
+de evidencia importante, y una parte de naturaleza inferencial, donde nos
+convertimos en jueces donde le damos pesos de credibilidad a la evidencia que
+presenta el detective. Estas dos partes tienen interacción fuerte en la
+práctica, pero por razones históricas se considera “superior” a la parte
+inferencial por encima de la exploratoria.</p>
+<p>Aunque en el proceso de inferencia las gráficas cada vez son más importantes, la
+visualización entra más claramente dentro del análisis exploratorio de datos. Y
+como en un principio no es claro como la visualización aporta al proceso de la
+inferencia, se le consideró por mucho tiempo como un área de poca importancia
+para la estadística: una herramienta que en todo caso sirve para comunicar ideas
+simples, de manera deficiente, y a personas poco sofisticadas.</p>
+<div style="float:right;top:-10px;width:500px;padding:2px">
+<p><img src="01-repaso-visualizacion_files/figure-html/barley_plot-1.png" width="480" /></p>
+</div>
+<p>El peor lado de este punto de vista consiste en restringirse a el análisis
+estadístico rutinario <span class="citation">Cleveland (<a href="#ref-cleveland93">1993</a>)</span>: aplicar las recetas y
+negarse a ver los datos de distinta manera (¡incluso pensar que esto puede
+sesgar los resultados, o que nos podría engañar!). El siguiente ejemplo muestra
+un caso grave y real (no simulado) de este análisis estadístico rutinario
+(tomado de <span class="citation">Cleveland (<a href="#ref-cleveland94">1994</a>)</span>).</p>
+<p>A la derecha mostramos los resultados de un experimento de agricultura. Se
+cultivaron diez variedades de cebada en seis sitios de Minnesota, en 1921 y
+1932. Este es uno de los primeros ejemplos en el que se aplicaron las ideas de
+Fisher en cuanto a diseño de experimentos.</p>
+<p>Estos datos fueron reanalizados desde esa época por muchos agrónomos. Hasta muy
+recientemente se detectó la anomalía en el comportamiento de los años en el
+sitio Morris, el cual es evidente en la gráfica. Investigación posterior ha
+mostrado convincentemente que en algún momento alguien volteó las etiquetas de
+los años en este sitio.</p>
+<p>Este ejemplo muestra, en primer lugar, que la visualización es crucial en el
+proceso de análisis de datos: sin ella estamos expuestos a no encontrar aspectos
+importantes de los datos (errores) que deben ser discutidos - aún cuando nuestra
+receta de análisis no considere estos aspectos. Ninguna receta puede aproximarse
+a describir todas las complejidades y detalles en un conjunto de datos de tamaño
+razonable (este ejemplo, en realidad, es chico). Sin embargo, la visualización
+de datos, por su enfoque menos estructurado, y el hecho de que se apoya en un
+medio con un “ancho de banda” mayor al que puede producir un cierto número de
+cantidades resumen, es ideal para investigar estos aspectos y detalles.</p>
+<div style="clear:both">
 
 </div>
-<!-- </div> -->
+</div>
+<div id="visualizacion-popular-de-datos" class="section level3 unnumbered">
+<h3>Visualización popular de datos</h3>
+<p>Publicaciones populares (periódicos, revistas, sitios internet) muchas veces
+incluyen visualización de datos como parte de sus artículos o reportajes. En
+general siguen el mismo patrón que en la visión tradicionalista de la
+estadística: sirven más para divertir que para explicar, tienden a explicar
+ideas simples y conjuntos chicos de datos, y se consideran como una “ayuda”
+para los “lectores menos sofisticados”. Casi siempre se trata de gráficas
+triviales (muchas veces con errores graves) que no aportan mucho a artículos que
+tienen un nivel de complejidad mucho mayor (es la filosofía: lo escrito para el
+adulto, lo graficado para el niño).</p>
+<p><img src="imagenes/nyt.png" /></p>
+</div>
+</div>
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-tufte06">
+<p>Tufte, Edward R. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
+</div>
+<div id="ref-cleveland93">
+<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
+</div>
+<div id="ref-cleveland94">
+<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p> 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="divide-aplica-combina-split-apply-combine.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="introducciona-a-visualizacion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -250,7 +330,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/02-manipulacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

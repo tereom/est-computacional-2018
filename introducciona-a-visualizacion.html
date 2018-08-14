@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="divide-aplica-combina-split-apply-combine.html">
-<link rel="next" href="referencias.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="introduccion.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -202,25 +202,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="recursos-adicionales" class="section level2">
-<h2><span class="header-section-number">3.4</span> Recursos adicionales</h2>
-<ul>
-<li><p><a href="http://vita.had.co.nz/papers/tidy-data.pdf">Tidy Data</a>, Hadley Wickham.</p></li>
-<li><p><a href="http://www.jstatsoft.org/v40/i01/paper">The Slit-Apply-Combine Strategy for Data Analysis</a>,
-Hadley Wickham 2011.</p></li>
-<li><p><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">Data Wrangling Cheat Sheet</a>,
-RStudio.</p></li>
-</ul>
+<div id="introducciona-a-visualizacion" class="section level1">
+<h1><span class="header-section-number">Sección 1</span> Introduccióna a visualización</h1>
+<blockquote>
+<p>“The simple graph has brought more information to the data analyst’s mind
+than any other device.” — John Tukey</p>
+</blockquote>
+<div id="el-cuarteto-de-ascombe" class="section level3 unnumbered">
+<h3>El cuarteto de Ascombe</h3>
+<p>En 1971 un estadístico llamado Frank Anscombe (fundador del departamento de
+Estadística de la Universidad de Yale) encontró cuatro conjuntos de datos, cada
+uno consiste de 11 observaciones y tienen las mismas propiedades estadísticas.</p>
+<p>Sin embargo, cuando analizamos los datos de manera gráfica en un histograma
+encontramos rápidamente que los conjuntos de datos son muy distintos.</p>
+<div style="float:left;top:-10px;width:500px;">
+<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<p></br>
+</br></p>
+<p>Media de <span class="math inline">\(x\)</span>: 9<br />
+Varianza muestral de <span class="math inline">\(x\)</span>: 11<br />
+Media de <span class="math inline">\(y\)</span>: 7.50<br />
+Varianza muestral de <span class="math inline">\(y\)</span>: 4.12<br />
+Correlación entre <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span>: 0.816<br />
+Línea de regresión lineal: <span class="math inline">\(y = 3.00 + 0.500x\)</span></p>
+<div style="clear:both">
 
 </div>
-<!-- </div> -->
+<p>En la gráfica del primer conjunto de datos, se ven datos como los que se
+tendrían en una relación lineal simple con un modelo que cumple los supuestos de
+normalidad. La segunda gráfica (arriba a la derecha) muestra unos datos que
+tienen una asociación pero definitivamente no es lineal. En la tercera gráfica
+(abajo a la izquierda) están puntos alineados perfectamente en una línea recta,
+excepto por uno de ellos. En la última gráfica podemos ver un ejemplo en el cual
+basta tener una observación atípica para que se produzca un coeficiente de
+correlación alto aún cuando en realidad no existe una asociación lineal entre
+las dos variables.</p>
+<div style="clear:both">
+
+</div>
+<div style="float:right;padding=10px; top:-10px; width:350px">
+<p><img src="imagenes/datasaurus.gif" /></p>
+</div>
+<p>El cuarteto de Ascombe inspiró una técnica para crear datos que comparten las
+propiedades estadísticas al igual que en el cuarteto, pero que producen gráficas
+muy distintas (<a href="https://www.autodeskresearch.com/publications/samestats">Matejka,
+Fitzmaurice</a>).</p>
+<div style="clear:both">
+
+</div>
+</div> 
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="divide-aplica-combina-split-apply-combine.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introduccion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -250,7 +289,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/02-manipulacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
