@@ -58,15 +58,12 @@ las dos variables.
 
 <div style="clear:both"></div>
 
-<div style= "float:right;padding=10px; top:-10px; width=150px">
+<div style= "float:right;padding=10px; top:-10px; width:350px">
 
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
+```{r datasaurus_gif, eval=FALSE, echo=FALSE}
 library(datasauRus)
 library(gganimate)
-
-p <- ggplot(datasaurus_dozen, aes(x = x, y = y, frame = dataset)) +
-  geom_point() +
-  theme(legend.position = "none")
+library(animation)
 
 ggplot(datasaurus_dozen, aes(x = x, y = y, frame = dataset)) +
   geom_point() +
@@ -78,9 +75,11 @@ ggplot(datasaurus_dozen, aes(x = x, y = y, frame = dataset)) +
   ) +
   enter_fade() + 
   exit_shrink() +
-  ease_aes('sine-in-out')   
+  ease_aes('sine-in-out') 
+anim_save("imagenes/datasaurus.gif")
 ```
 
+![](imagenes/datasaurus.gif)
 </div>
 
 El cuarteto de Ascombe inspiró una técnica para crear datos que comparten las 
@@ -151,7 +150,7 @@ barley_plot <- ggplot(barley_tot, aes(x = variety, y = yield,
   labs(y = "variety", color = "year", x = "variety")
 ```
 
-<div style= "float:right;top:-10px;width=250px;padding=5px">
+<div style= "float:right;top:-10px;width:500px;padding:2px">
 
 ```{r barley_plot, echo=FALSE, fig.width=5, fig.height=5.2}
 barley_plot
@@ -262,7 +261,7 @@ fáciles para el ojo humano que otras [@cleveland94].
 
 ### Factor de engaño, chartjunk y pies {-}
 
-<div style= "float:right;position: relative; top: -10px;width=140px">
+<div style= "float:right;position: relative; top: -10px;width:140px">
 ![](imagenes/pies.jpg)
 </div>
 
@@ -297,7 +296,7 @@ chica). Es posible hacer una gráfica de barras como la de abajo a la izquierda.
 
 <div style="clear:both"></div>
 
-<div style= "float:left;top: -10px;width=90px">
+<div style= "float:left;top: -10px;width:110px">
 ![](imagenes/barras_pie.jpg)
 </div>
 
@@ -332,9 +331,12 @@ la escala e intentar  comparar gráficas que no están dibujadas en la misma
 escala. Poniendo atención a estos dos aspectos (incluso llamado a veces la 
 atención a estos puntos, Stephen Few) no hay necesidad de seguir la regla del 0.
 
-<div style= "float:right;position: relative; top: -10px;width=140px">
+<div style= "width:400px">
 ![](imagenes/principio_cero.jpg)
 </div>
+
+<div style="clear:both"></div>
+
 
 ### Pequeños múltiplos y densidad gráfica {-}
 
@@ -351,7 +353,7 @@ gráfica:
 
 La razón de este encogimiento es una que tiene qué ver con las oportunidades perdidas de una gráfica grande. Si repetimos este mismo patrón (misma escala, mismos tipos de ganado) para distintos países obtenemos la siguiente gráfica:
 
-<div style= "float:left;top: -10px;width=100px">
+<div style= "float:left;top: -10px;width:500px">
 ![](imagenes/europe_plot.jpg)
 
 
@@ -374,7 +376,7 @@ tablas:
 ![](imagenes/tinta_datos.jpg)
 
 
-<div style= "float:left;top: -10px;width=100px">
+<div style= "float:left;top: -10px">
 ![](imagenes/tabla_tinta_datos.jpg)
 </div>
 
@@ -407,7 +409,7 @@ una gráfica de pie.
 Los resultados de Cleveland y McGill fueron replicados por Heer y Bostock en
 2010 y los resultados se muestran en las gráficas de la derecha:
 
-<div style= "float:left;top:-10px;width=400px">
+<div style= "float:left;top:-10px;width:400px">
 ![](imagenes/heer-bostock_results.png)
 </div>
 
