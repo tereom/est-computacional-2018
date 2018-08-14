@@ -13,9 +13,15 @@ github-repo: tereom/est-computacional-2018
 description: "Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018."
 ---
 
-# Temario {-}
 
-[Notas](https://tereom.github.io/est-computacional-2018/)
+# Información del curso {-}
+
+### Ligas {-}
+Correo: teresa.ortiz.mancera@gmail.com  
+Notas: https://tereom.github.io/est-computacional-2018/    
+GitHub: https://github.com/tereom/est-computacional-2018
+
+### Temario {-}
 
 1. **Manipulación y visualización de datos**
 
