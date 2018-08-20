@@ -1,7 +1,6 @@
 --- 
 title: "Estadística Computacional"
 author: "Teresa Ortiz"
-date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib]
@@ -89,4 +88,6 @@ Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial
 - https://www.rstudio.com
 - http://mc-stan.org
 
+### Otros {-}
 
+Socrative: https://b.socrative.com/login/student/ Room: ESTCOMP
