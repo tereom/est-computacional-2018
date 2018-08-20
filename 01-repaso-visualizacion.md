@@ -537,7 +537,7 @@ print(read_csv)
 ##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
 ##         guess_max = guess_max, progress = progress)
 ## }
-## <bytecode: 0x739ac20>
+## <bytecode: 0x75cc100>
 ## <environment: namespace:readr>
 ```
 
@@ -920,12 +920,14 @@ del paquete Hmisc.
 
 
 ### Recursos {-}
-
-* Google, [stackoverflow](https://stackoverflow.com/questions/tagged/ggplot2).
-* Para aprender más de ggplot pueden ver la documentación con ejemplos en la 
-página de [ggplot2](http://ggplot2.tidyverse.org/).
+* El libro *R for Data Science* [@r4ds] tiene un capítulo de visualización.
+* Google, [stackoverflow](https://stackoverflow.com/questions/tagged/ggplot2) 
+tiene un *tag* para ggplot2.  
+* Documentación con ejemplos en la página de 
+[ggplot2](http://ggplot2.tidyverse.org/).
 * Otro recurso muy útil es el 
-[acordeón de ggplot](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf).
+[acordeón de ggplot](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf).  
+* La teoría detrás de ggplot2 se explica en el libro de ggplot2 [@wickham2009],
 
 
 

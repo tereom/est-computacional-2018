@@ -183,12 +183,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
 <li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
-<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>1. Los encabezados de las columanas son valores</a></li>
-<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-mas-de-una-variable"><i class="fa fa-check"></i>2. Una columna asociada a más de una variable</a></li>
-<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>3. Variables almacenadas en filas y columnas</a></li>
-<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#mas-de-un-tipo-de-observacion-en-una-misma-tabla"><i class="fa fa-check"></i>4. Mas de un tipo de observación en una misma tabla</a></li>
-<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas"><i class="fa fa-check"></i>5. Una misma unidad observacional está almacenada en múltiples tablas</a></li>
-<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>6. Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-mas-de-una-variable"><i class="fa fa-check"></i>Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#mas-de-un-tipo-de-observacion-en-una-misma-tabla"><i class="fa fa-check"></i>Mas de un tipo de observación en una misma tabla</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas"><i class="fa fa-check"></i>Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 <li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
 </ul></li>
 </ul></li>
@@ -228,7 +228,7 @@ transformar.</p></li>
 <li><p><strong>Modelación</strong>: Ajustar modelos es sencillo si los datos están en la forma
 correcta.</p></li>
 </ul>
-<p>Los principios de <strong>datos limpios</strong> (<a href="http://vita.had.co.nz/papers/tidy-data.pdf">Tidy Data de Hadley Wickham</a>)
+<p>Los principios de <strong>datos limpios</strong> <span class="citation">(Hadley Wickham <a href="#ref-tidy">2014</a>)</span>
 proveen una manera estándar de organizar la información:</p>
 <ol style="list-style-type: decimal">
 <li>Cada variable forma una columna.</li>
@@ -376,7 +376,7 @@ funciones <em>gather</em> y <em>spread</em>) con el fin de estructurarla para qu
 principios de datos limpios.</p>
 </div>
 <div id="los-encabezados-de-las-columanas-son-valores" class="section level3 unnumbered">
-<h3>1. Los encabezados de las columanas son valores</h3>
+<h3>Los encabezados de las columanas son valores</h3>
 <p>Usaremos ejemplos para entender los conceptos más facilmente.
 La primer base de datos está basada en una encuesta de <a href="http://www.pewforum.org/2009/01/30/income-distribution-within-us-religious-groups/">Pew Research</a> que
 investiga la relación entre ingreso y afiliación religiosa.</p>
@@ -612,7 +612,7 @@ billboard_tidy</code></pre>
 <p><img src="02-manipulacion_files/figure-html/unnamed-chunk-31-1.png" width="739.2" style="display: block; margin: auto;" /></p>
 </div>
 <div id="una-columna-asociada-a-mas-de-una-variable" class="section level3 unnumbered">
-<h3>2. Una columna asociada a más de una variable</h3>
+<h3>Una columna asociada a más de una variable</h3>
 <p>La siguiente base de datos proviene de la Organización Mundial de la Salud y
 contiene el número de casos confirmados de tuberculosis por país y año, la
 información esta por grupo demográfico de acuerdo a sexo (m, f), y edad (0-4,
@@ -680,7 +680,7 @@ tb_tidy &lt;-<span class="st"> </span><span class="kw">mutate</span>(tb_tidy, <s
 ## 17830 17920</code></pre>
 </div>
 <div id="variables-almacenadas-en-filas-y-columnas" class="section level3 unnumbered">
-<h3>3. Variables almacenadas en filas y columnas</h3>
+<h3>Variables almacenadas en filas y columnas</h3>
 <p>El problema más difícil es cuando las variables están tanto en filas como en
 columnas, veamos una base de datos de clima en Cuernavaca. ¿Cuáles son las
 variables en estos datos?</p>
@@ -794,7 +794,7 @@ clima_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(TMAX <span cla
 ## F-statistic: 3.563 on 10 and 22 DF,  p-value: 0.006196</code></pre>
 </div>
 <div id="mas-de-un-tipo-de-observacion-en-una-misma-tabla" class="section level3 unnumbered">
-<h3>4. Mas de un tipo de observación en una misma tabla</h3>
+<h3>Mas de un tipo de observación en una misma tabla</h3>
 <p>En ocasiones las bases de datos involucran valores en diferentes niveles, en
 diferentes tipos de unidad observacional. En la limpieza de datos, cada unidad
 observacional debe estar almacenada en su propia tabla (esto esta ligado a
@@ -861,7 +861,7 @@ rank</code></pre>
 ## # ... with 5,297 more rows</code></pre>
 </div>
 <div id="una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas" class="section level3 unnumbered">
-<h3>5. Una misma unidad observacional está almacenada en múltiples tablas</h3>
+<h3>Una misma unidad observacional está almacenada en múltiples tablas</h3>
 <p>También es común que los valores sobre una misma unidad observacional estén
 separados en muchas tablas o archivos, es común que estas tablas esten divididas
 de acuerdo a una variable, de tal manera que cada archivo representa a una
@@ -911,7 +911,7 @@ specdata</code></pre>
 ## # ... with 772,077 more rows</code></pre>
 </div>
 <div id="otras-consideraciones" class="section level3 unnumbered">
-<h3>6. Otras consideraciones</h3>
+<h3>Otras consideraciones</h3>
 <p>En las buenas prácticas es importante tomar en cuenta los siguientes puntos:</p>
 <ul>
 <li>Incluir un encabezado con el nombre de las variables.</li>
@@ -940,6 +940,12 @@ RStudio.</p></li>
 </div>
 </div>
 <!-- </div> -->
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-tidy">
+<p>Wickham, Hadley. 2014. “Tidy Data.” <em>Journal of Statistical Software, Articles</em> 59 (10):1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="uri">https://doi.org/10.18637/jss.v059.i10</a>.</p>
+</div>
+</div>
             </section>
 
           </div>

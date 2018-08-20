@@ -2,6 +2,8 @@
 
 
 
+**El material de la clase se puede descargar de [aquí](https://www.dropbox.com/s/xa56o64uzjqzrrt/02-manipulacion.zip?dl=0).**
+
 En esta sección continuamos con la introducción a R para análisis de datos, 
 en particular mostraremos herramientas de manipulación y transformación de 
 datos. Trataremos los
@@ -18,14 +20,12 @@ es por ello que vale la pena dedicar un tiempo a aprender técnicas que facilite
 estas tareas, y entender que estructura en los datos es más conveniente para 
 trabajar.
 
-El material de la clase se puede descargar de [aquí](https://www.dropbox.com/s/xa56o64uzjqzrrt/02-manipulacion.zip?dl=0)
-
 ## Transformación de datos
 
 ### Separa-aplica-combina (_split-apply-combine_) {-}
 
 Muchos problemas de análisis de datos involucran la aplicación de la estrategia
-separa-aplica-combina, ([Hadley Whickam, 2011](http://www.jstatsoft.org/v40/i01/paper)) 
+separa-aplica-combina [@plyr], 
 esta consiste en romper un problema en pedazos (de 
 acuerdo a una variable de interés), operar sobre cada subconjunto de manera
 independiente (ej. calcular la media de cada grupo, ordenar observaciones por 
@@ -924,7 +924,7 @@ transformar.
 correcta.
 
 
-Los principios de **datos limpios** ([Tidy Data de Hadley Wickham](http://vita.had.co.nz/papers/tidy-data.pdf)) 
+Los principios de **datos limpios** [@tidy] 
 proveen una manera estándar de organizar la información:
 
 1. Cada variable forma una columna.
@@ -1005,7 +1005,7 @@ sucios y mostraremos como se puede manipular la tabla de datos (usando las
 funciones *gather* y *spread*) con el fin de estructurarla para que cumpla los
 principios de datos limpios.
 
-### 1. Los encabezados de las columanas son valores {-}
+### Los encabezados de las columanas son valores {-}
 Usaremos ejemplos para entender los conceptos más facilmente.
 La primer base de datos está basada en una encuesta de [Pew Research](http://www.pewforum.org/2009/01/30/income-distribution-within-us-religious-groups/) que 
 investiga la relación entre ingreso y afiliación religiosa.
@@ -1325,7 +1325,7 @@ ggplot(tracks, aes(x = date, y = rank)) +
 
 <img src="02-manipulacion_files/figure-html/unnamed-chunk-31-1.png" width="739.2" style="display: block; margin: auto;" />
 
-### 2. Una columna asociada a más de una variable {-}
+### Una columna asociada a más de una variable {-}
 La siguiente base de datos proviene de la Organización Mundial de la Salud y 
 contiene el número de casos confirmados de tuberculosis por país y año, la
 información esta por grupo demográfico de acuerdo a sexo (m, f), y edad (0-4, 
@@ -1425,7 +1425,7 @@ table(tb_tidy$sex)
 ## 17830 17920
 ```
 
-### 3. Variables almacenadas en filas y columnas {-}
+### Variables almacenadas en filas y columnas {-}
 El problema más difícil es cuando las variables están tanto en filas como en 
 columnas, veamos una base de datos de clima en Cuernavaca. ¿Cuáles son las 
 variables en estos datos?
@@ -1579,7 +1579,7 @@ summary(clima_lm)
 ## F-statistic: 3.563 on 10 and 22 DF,  p-value: 0.006196
 ```
 
-### 4. Mas de un tipo de observación en una misma tabla {-}
+### Mas de un tipo de observación en una misma tabla {-}
 En ocasiones las bases de datos involucran valores en diferentes niveles, en 
 diferentes tipos de unidad observacional. En la limpieza de datos, cada unidad
 observacional debe estar almacenada en su propia tabla (esto esta ligado a 
@@ -1667,7 +1667,7 @@ rank
 ## # ... with 5,297 more rows
 ```
 
-### 5. Una misma unidad observacional está almacenada en múltiples tablas {-}
+### Una misma unidad observacional está almacenada en múltiples tablas {-}
 También es común que los valores sobre una misma unidad observacional estén 
 separados en muchas tablas o archivos, es común que estas tablas esten divididas 
 de acuerdo a una variable, de tal manera que cada archivo representa a una 
@@ -1734,7 +1734,7 @@ specdata
 ## # ... with 772,077 more rows
 ```
 
-### 6. Otras consideraciones {-}
+### Otras consideraciones {-}
 En las buenas prácticas es importante tomar en cuenta los siguientes puntos:
 
 * Incluir un encabezado con el nombre de las variables.
