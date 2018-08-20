@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="index.html">
-<link rel="next" href="introduccion.html">
+<link rel="prev" href="tareas.html">
+<link rel="next" href="referencias.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -216,64 +216,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="introducciona-a-visualizacion" class="section level1">
-<h1><span class="header-section-number">Sección 1</span> Introduccióna a visualización</h1>
-<blockquote>
-<p>“The simple graph has brought more information to the data analyst’s mind
-than any other device.” — John Tukey</p>
-</blockquote>
-<div id="el-cuarteto-de-ascombe" class="section level3 unnumbered">
-<h3>El cuarteto de Ascombe</h3>
-<p>En 1971 un estadístico llamado Frank Anscombe (fundador del departamento de
-Estadística de la Universidad de Yale) encontró cuatro conjuntos de datos, cada
-uno consiste de 11 observaciones y tienen las mismas propiedades estadísticas.</p>
-<p>Sin embargo, cuando analizamos los datos de manera gráfica en un histograma
-encontramos rápidamente que los conjuntos de datos son muy distintos.</p>
-<div style="float:left;top:-10px;width:500px;">
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-</div>
-<p></br>
-</br></p>
-<p>Media de <span class="math inline">\(x\)</span>: 9<br />
-Varianza muestral de <span class="math inline">\(x\)</span>: 11<br />
-Media de <span class="math inline">\(y\)</span>: 7.50<br />
-Varianza muestral de <span class="math inline">\(y\)</span>: 4.12<br />
-Correlación entre <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span>: 0.816<br />
-Línea de regresión lineal: <span class="math inline">\(y = 3.00 + 0.500x\)</span></p>
-<div style="clear:both">
+<div id="datos-limpios-1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Datos limpios</h2>
+<p>Entrega: Lunes 27 de agosto.</p>
+<p>Descarga los datos <a href="https://www.dropbox.com/s/fog2dr4hrwujivn/02-tarea.zip?dl=0">aquí</a>.</p>
+<p>En la carpeta de arriba encontrarás un archivo de excel (m_013.xls), este
+archivo contiene información de causas de mortalidad en México entre 2000 y
+2008. Contesta las siguientes preguntas:</p>
+<ol style="list-style-type: decimal">
+<li>¿Cuáles son las variables en esta base de datos?<br />
+</li>
+<li>¿La base de datos cumple con los principios de datos limpios?
+¿Qué problemas presenta?<br />
+</li>
+<li>La información del archivo de excel se ha guardado también en archivos de
+texto (csv) 2001-2008, limpia los datos para que cumplan los principios de datos
+limpios. Recuerda que las modificaciones deben de ser reproducibles, para esto
+guarda tu trabajo en un script.</li>
+</ol>
+<p>Observaciones:<br />
+* Puedes filtrar/eliminar los valores a Total si crees que es más claro.<br />
+* Intenta usar las funciones que estudiamos en la clase (gather, separate,
+select, filter).<br />
+* Si aún no te sientes cómodx con las funciones de clase (y lo intentaste varias
+veces) puedes hacer las manipulaciones usando otra herramienta (incluso Excel,
+una combinación de Excel y R o cualquier software que conozcas); sin embargo,
+debes documentar tus pasos claramente, con la intención de mantener métodos
+reproducibles.</p>
 
 </div>
-<p>En la gráfica del primer conjunto de datos, se ven datos como los que se
-tendrían en una relación lineal simple con un modelo que cumple los supuestos de
-normalidad. La segunda gráfica (arriba a la derecha) muestra unos datos que
-tienen una asociación pero definitivamente no es lineal. En la tercera gráfica
-(abajo a la izquierda) están puntos alineados perfectamente en una línea recta,
-excepto por uno de ellos. En la última gráfica podemos ver un ejemplo en el cual
-basta tener una observación atípica para que se produzca un coeficiente de
-correlación alto aún cuando en realidad no existe una asociación lineal entre
-las dos variables.</p>
-<div style="clear:both">
-
-</div>
-<div style="float:right;padding=10px; top:-10px; width:350px">
-<p><img src="imagenes/datasaurus.gif" /></p>
-</div>
-<p>El cuarteto de Ascombe inspiró una técnica para crear datos que comparten las
-propiedades estadísticas al igual que en el cuarteto, pero que producen gráficas
-muy distintas (<a href="https://www.autodeskresearch.com/publications/samestats">Matejka,
-Fitzmaurice</a>).</p>
-<div style="clear:both">
-
-</div>
-</div> 
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="introduccion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="tareas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -303,7 +282,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/98-tareas.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
