@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  <meta name="github-repo" content="tereom/est-computacional-2018" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  
+
+<meta name="author" content="Teresa Ortiz">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="manipulacion-y-agrupacion-de-datos.html">
+<link rel="next" href="datos-limpios.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#ligas"><i class="fa fa-check"></i>Ligas</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#temario"><i class="fa fa-check"></i>Temario</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#otros"><i class="fa fa-check"></i>Otros</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introducciona-a-visualizacion.html"><a href="introducciona-a-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Introduccióna a visualización</a><ul>
+<li class="chapter" data-level="" data-path="introducciona-a-visualizacion.html"><a href="introducciona-a-visualizacion.html#el-cuarteto-de-ascombe"><i class="fa fa-check"></i>El cuarteto de Ascombe</a></li>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-de-datos-en-la-estadistica"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos (Tufte, Cleveland, Tukey)</a><ul>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#principios-generales-del-diseno-analitico"><i class="fa fa-check"></i>Principios generales del diseño analítico</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#tecnicas-de-visualizacion"><i class="fa fa-check"></i>Técnicas de visualización</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#indicadores-de-calidad-grafica"><i class="fa fa-check"></i>Indicadores de calidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#factor-de-engano-chartjunk-y-pies"><i class="fa fa-check"></i>Factor de engaño, chartjunk y pies</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#series-de-tiempo-y-promedio-de-45"><i class="fa fa-check"></i>Series de tiempo y promedio de 45</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#pequenos-multiplos-y-densidad-grafica"><i class="fa fa-check"></i>Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#tinta-de-datos"><i class="fa fa-check"></i>Tinta de datos</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#percepcion-de-escala"><i class="fa fa-check"></i>Percepción de escala</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#minard"><i class="fa fa-check"></i>Minard</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduccion-a-r-y-al-paquete-ggplot2.html"><a href="introduccion-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#r-en-analisis-de-datos"><i class="fa fa-check"></i>R en análisis de datos</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i>Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#recursos"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html"><i class="fa fa-check"></i><b>2.2</b> Visualización con ggplot2</a><ul>
+<li class="chapter" data-level="" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html#recursos-1"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manipulacion-y-agrupacion-de-datos.html"><a href="manipulacion-y-agrupacion-de-datos.html"><i class="fa fa-check"></i><b>3</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html"><i class="fa fa-check"></i><b>3.1</b> Transformación de datos</a><ul>
+<li><a href="transformacion-de-datos.html#separa-aplica-combina-split-apply-combine">Separa-aplica-combina (<em>split-apply-combine</em>)</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ejemplos-y-lectura-de-datos"><i class="fa fa-check"></i>Ejemplos y lectura de datos</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#filtrar"><i class="fa fa-check"></i>Filtrar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#seleccionar"><i class="fa fa-check"></i>Seleccionar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ordenar"><i class="fa fa-check"></i>Ordenar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#mutar"><i class="fa fa-check"></i>Mutar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#summarise-y-resumenes-por-grupo"><i class="fa fa-check"></i>Summarise y resúmenes por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#operador-pipeline"><i class="fa fa-check"></i>Operador pipeline</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#variables-por-grupo"><i class="fa fa-check"></i>Variables por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#verbos-de-dos-tablas"><i class="fa fa-check"></i>Verbos de dos tablas</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>1. Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-mas-de-una-variable"><i class="fa fa-check"></i>2. Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>3. Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#mas-de-un-tipo-de-observacion-en-una-misma-tabla"><i class="fa fa-check"></i>4. Mas de un tipo de observación en una misma tabla</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas"><i class="fa fa-check"></i>5. Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>6. Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="transformacion-de-datos" class="section level2">
+<h2><span class="header-section-number">3.1</span> Transformación de datos</h2>
+<div id="separa-aplica-combina-split-apply-combine" class="section level3 unnumbered">
+<h3>Separa-aplica-combina (<em>split-apply-combine</em>)</h3>
+<p>Muchos problemas de análisis de datos involucran la aplicación de la estrategia
+separa-aplica-combina, (<a href="http://www.jstatsoft.org/v40/i01/paper">Hadley Whickam, 2011</a>)
+esta consiste en romper un problema en pedazos (de
+acuerdo a una variable de interés), operar sobre cada subconjunto de manera
+independiente (ej. calcular la media de cada grupo, ordenar observaciones por
+grupo, estandarizar por grupo) y después unir los pedazos nuevamente. El
+siguiente diagrama ejemplifiaca el paradigma de divide-aplica-combina:</p>
+<ul>
+<li><strong>Separa</strong> la base de datos original.<br />
+</li>
+<li><strong>Aplica</strong> funciones a cada subconjunto.<br />
+</li>
+<li><strong>Combina</strong> los resultados en una nueva base de datos.</li>
+</ul>
+<p><img src="imagenes/split-apply-combine.png" /></p>
+<p>Ahora, cuando pensamos como implementar la estrategia divide-aplica-combina es
+natural pensar en iteraciones, por ejemplo utilizar un ciclo <code>for</code> para recorrer
+cada grupo de interés y aplicar las funciones, sin embargo la aplicación de
+ciclos <code>for</code> desemboca en código difícil de entender por lo que preferimos
+trabajar con funciones creadas para estas tareas, usaremos el paquete
+<code>dplyr</code> que además de ser más claro suele ser más veloz.</p>
+<p>Estudiaremos las siguientes funciones:</p>
+<ul>
+<li><strong>filter</strong>: obten un subconjunto de las filas de acuerdo a un criterio.</li>
+<li><strong>select</strong>: selecciona columnas de acuerdo al nombre</li>
+<li><strong>arrange</strong>: reordena las filas</li>
+<li><strong>mutate</strong>: agrega nuevas variables</li>
+<li><strong>summarise</strong>: reduce variables a valores (crear nuevas bases de datos con
+resúmenes de variables de la base original)</li>
+</ul>
+<p>Estas funciones trabajan de manera similar, el primer argumento que reciben
+es un <em>data frame</em>, los argumentos que siguen
+indican que operación se va a efectuar y el resultado es un nuevo <em>data frame</em>.</p>
+<p>Adicionalmente, se pueden usar con <strong>group_by</strong> que cambia el dominio de cada
+función, pasando de operar en el conjunto de datos completos a operar en
+grupos, esto lo veremos más adelante.</p>
+</div>
+<div id="ejemplos-y-lectura-de-datos" class="section level3 unnumbered">
+<h3>Ejemplos y lectura de datos</h3>
+<p>En esta sección trabajaremos con bases de datos de vuelos del aeropuerto de
+Houston. Comenzamos importando los datos a R.</p>
+<p>Para leer los datos usamos funciones del paquete <code>readr</code> que forma parte del
+<code>tidyverse</code>, notemos que si estamos usando RStudio podemos generar los comandos
+de lectura de datos usando la opción <em>Import Dataset</em> en la ventana de
+<em>Environment</em>.</p>
+<p><img src="imagenes/importar_RStudio.png" /></p>
+<p>Si usamos la opción de importar datos usando la funcionalidad <em>point-and-click</em>
+de RStudio, es importante copiar los comandos al script de R para no perder
+reproducibilidad.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+
+flights &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/flights.csv&quot;</span>)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   date = col_datetime(format = &quot;&quot;),
+##   hour = col_integer(),
+##   minute = col_integer(),
+##   dep = col_integer(),
+##   arr = col_integer(),
+##   dep_delay = col_integer(),
+##   arr_delay = col_integer(),
+##   carrier = col_character(),
+##   flight = col_integer(),
+##   dest = col_character(),
+##   plane = col_character(),
+##   cancelled = col_integer(),
+##   time = col_integer(),
+##   dist = col_integer()
+## )</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">flights</code></pre>
+<pre><code>## # A tibble: 227,496 x 14
+##    date                 hour minute   dep   arr dep_delay arr_delay carrier
+##    &lt;dttm&gt;              &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;  
+##  1 2011-01-01 12:00:00    14      0  1400  1500         0       -10 AA     
+##  2 2011-01-02 12:00:00    14      1  1401  1501         1        -9 AA     
+##  3 2011-01-03 12:00:00    13     52  1352  1502        -8        -8 AA     
+##  4 2011-01-04 12:00:00    14      3  1403  1513         3         3 AA     
+##  5 2011-01-05 12:00:00    14      5  1405  1507         5        -3 AA     
+##  6 2011-01-06 12:00:00    13     59  1359  1503        -1        -7 AA     
+##  7 2011-01-07 12:00:00    13     59  1359  1509        -1        -1 AA     
+##  8 2011-01-08 12:00:00    13     55  1355  1454        -5       -16 AA     
+##  9 2011-01-09 12:00:00    14     43  1443  1554        43        44 AA     
+## 10 2011-01-10 12:00:00    14     43  1443  1553        43        43 AA     
+## # ... with 227,486 more rows, and 6 more variables: flight &lt;int&gt;,
+## #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;, dist &lt;int&gt;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">weather &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/weather.csv&quot;</span>)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   date = col_date(format = &quot;&quot;),
+##   hour = col_integer(),
+##   temp = col_double(),
+##   dew_point = col_double(),
+##   humidity = col_integer(),
+##   pressure = col_double(),
+##   visibility = col_double(),
+##   wind_dir = col_character(),
+##   wind_dir2 = col_integer(),
+##   wind_speed = col_double(),
+##   gust_speed = col_double(),
+##   precip = col_double(),
+##   conditions = col_character(),
+##   events = col_character()
+## )</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">weather </code></pre>
+<pre><code>## # A tibble: 8,723 x 14
+##    date        hour  temp dew_point humidity pressure visibility wind_dir
+##    &lt;date&gt;     &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
+##  1 2011-01-01     0  59        28.9       32     29.9         10 NNE     
+##  2 2011-01-01     1  57.2      28.4       33     29.9         10 NNE     
+##  3 2011-01-01     2  55.4      28.4       36     29.9         10 NNW     
+##  4 2011-01-01     3  53.6      28.4       38     29.9         10 North   
+##  5 2011-01-01     4  NA        NA         NA     30.0         10 NNW     
+##  6 2011-01-01     5  NA        NA         NA     30.0         10 North   
+##  7 2011-01-01     6  53.1      17.1       24     30.0         10 North   
+##  8 2011-01-01     7  53.1      16         23     30.1         10 North   
+##  9 2011-01-01     8  54        18         24     30.1         10 North   
+## 10 2011-01-01     9  55.4      17.6       23     30.1         10 NNE     
+## # ... with 8,713 more rows, and 6 more variables: wind_dir2 &lt;int&gt;,
+## #   wind_speed &lt;dbl&gt;, gust_speed &lt;dbl&gt;, precip &lt;dbl&gt;, conditions &lt;chr&gt;,
+## #   events &lt;chr&gt;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">planes &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/planes.csv&quot;</span>)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   plane = col_character(),
+##   year = col_integer(),
+##   mfr = col_character(),
+##   model = col_character(),
+##   no.eng = col_integer(),
+##   no.seats = col_integer(),
+##   speed = col_integer(),
+##   engine = col_character(),
+##   type = col_character()
+## )</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">planes</code></pre>
+<pre><code>## # A tibble: 2,853 x 9
+##    plane   year mfr       model   no.eng no.seats speed engine  type      
+##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;int&gt;    &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     
+##  1 N576AA  1991 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
+##  2 N557AA  1993 MARZ BAR… KITFOX…      1        2    NA Recipr… Fixed win…
+##  3 N403AA  1974 RAVEN     S55A        NA        1    60 None    Balloon   
+##  4 N492AA  1989 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
+##  5 N262AA  1985 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
+##  6 N493AA  1989 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
+##  7 N477AA  1988 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
+##  8 N476AA  1988 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
+##  9 N504AA    NA AUTHIER … TIERRA…      1        2    NA Recipr… Fixed win…
+## 10 N565AA  1987 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
+## # ... with 2,843 more rows</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">airports &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/airports.csv&quot;</span>)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   iata = col_character(),
+##   airport = col_character(),
+##   city = col_character(),
+##   state = col_character(),
+##   country = col_character(),
+##   lat = col_double(),
+##   long = col_double()
+## )</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">airports</code></pre>
+<pre><code>## # A tibble: 3,376 x 7
+##    iata  airport              city             state country   lat   long
+##    &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 00M   Thigpen              Bay Springs      MS    USA      32.0  -89.2
+##  2 00R   Livingston Municipal Livingston       TX    USA      30.7  -95.0
+##  3 00V   Meadow Lake          Colorado Springs CO    USA      38.9 -105. 
+##  4 01G   Perry-Warsaw         Perry            NY    USA      42.7  -78.1
+##  5 01J   Hilliard Airpark     Hilliard         FL    USA      30.7  -81.9
+##  6 01M   Tishomingo County    Belmont          MS    USA      34.5  -88.2
+##  7 02A   Gragg-Wade           Clanton          AL    USA      32.9  -86.6
+##  8 02C   Capitol              Brookfield       WI    USA      43.1  -88.2
+##  9 02G   Columbiana County    East Liverpool   OH    USA      40.7  -80.6
+## 10 03D   Memphis Memorial     Memphis          MO    USA      40.4  -92.2
+## # ... with 3,366 more rows</code></pre>
+</div>
+<div id="filtrar" class="section level3 unnumbered">
+<h3>Filtrar</h3>
+<p>Creamos una base de datos de juguete para mostrar el funcionamiento de cada
+instrucción:</p>
+<pre class="sourceCode r"><code class="sourceCode r">df_ej &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">genero =</span> <span class="kw">c</span>(<span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;hombre&quot;</span>, <span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;hombre&quot;</span>), 
+  <span class="dt">estatura =</span> <span class="kw">c</span>(<span class="fl">1.65</span>, <span class="fl">1.80</span>, <span class="fl">1.70</span>, <span class="fl">1.60</span>, <span class="fl">1.67</span>))
+df_ej</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   genero estatura
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 mujer      1.65
+## 2 hombre     1.8 
+## 3 mujer      1.7 
+## 4 mujer      1.6 
+## 5 hombre     1.67</code></pre>
+<p>El primer argumento de <code>filter()</code> es el nombre del <em>data frame</em>, los subsecuentes
+son las expresiones que indican que filas filtrar.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(df_ej, genero <span class="op">==</span><span class="st"> &quot;mujer&quot;</span>)</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   genero estatura
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 mujer      1.65
+## 2 mujer      1.7 
+## 3 mujer      1.6</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(df_ej, estatura <span class="op">&gt;</span><span class="st"> </span><span class="fl">1.65</span> <span class="op">&amp;</span><span class="st"> </span>estatura <span class="op">&lt;</span><span class="st"> </span><span class="fl">1.75</span>)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   genero estatura
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 mujer      1.7 
+## 2 hombre     1.67</code></pre>
+<p>Algunos operadores importantes para filtrar son:</p>
+<pre class="sourceCode r"><code class="sourceCode r">x <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>
+x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span>
+x <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>
+x <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span>
+x <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>
+x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>
+x <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)</code></pre>
+<p>Debemos tener cuidado al usar <code>==</code></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">2</span></code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span></code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>Los resultados de arriba se deben a que las computadoras
+usan aritmética de precisión finita:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dt">digits =</span> <span class="dv">20</span>)</code></pre>
+<pre><code>## [1] 0.99999999999999988898</code></pre>
+<p>Para estos casos es útil usar la función <code>near()</code></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">near</span>(<span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>,  <span class="dv">2</span>)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">near</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dv">1</span>)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Los operadores booleanos también son convenientes para
+filtrar:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Conjuntos</span>
+a <span class="op">|</span><span class="st"> </span>b
+a <span class="op">&amp;</span><span class="st"> </span>b
+a <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span>b
+<span class="kw">xor</span>(a, b)</code></pre>
+<p>El siguiente esquema nos ayuda a entender que hace cada operación:</p>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imagenes/transform-logical.png&quot;</span>)</code></pre>
+<p><img src="imagenes/transform-logical.png" width="400px" style="display: block; margin: auto;" /></p>
+<p><img src="imagenes/manicule2.jpg" /> Encuentra todos los vuelos hacia SFO ó OAK.</p>
+<p>            Los vuelos
+con un retraso mayor a una hora.</p>
+<p>            En los que
+el retraso de llegada es más del doble que el retraso de salida.</p>
+</div>
+<div id="seleccionar" class="section level3 unnumbered">
+<h3>Seleccionar</h3>
+<p>Elegir columnas de un conjunto de datos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">df_ej</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   genero estatura
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 mujer      1.65
+## 2 hombre     1.8 
+## 3 mujer      1.7 
+## 4 mujer      1.6 
+## 5 hombre     1.67</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(df_ej, genero)</code></pre>
+<pre><code>## # A tibble: 5 x 1
+##   genero
+##   &lt;chr&gt; 
+## 1 mujer 
+## 2 hombre
+## 3 mujer 
+## 4 mujer 
+## 5 hombre</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(df_ej, <span class="op">-</span>genero)</code></pre>
+<pre><code>## # A tibble: 5 x 1
+##   estatura
+##      &lt;dbl&gt;
+## 1     1.65
+## 2     1.8 
+## 3     1.7 
+## 4     1.6 
+## 5     1.67</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(df_ej, <span class="kw">starts_with</span>(<span class="st">&quot;g&quot;</span>))
+<span class="kw">select</span>(df_ej, <span class="kw">contains</span>(<span class="st">&quot;g&quot;</span>))</code></pre>
+<p><img src="imagenes/manicule2.jpg" /> Ve la ayuda de select (<code>?select</code>) y escribe tres
+maneras de seleccionar las variables de retraso (delay).</p>
+</div>
+<div id="ordenar" class="section level3 unnumbered">
+<h3>Ordenar</h3>
+<p>Ordenar de acuerdo al valor de una o más variables:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(df_ej, genero)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   genero estatura
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 hombre     1.8 
+## 2 hombre     1.67
+## 3 mujer      1.65
+## 4 mujer      1.7 
+## 5 mujer      1.6</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(df_ej, <span class="kw">desc</span>(estatura))</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   genero estatura
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 hombre     1.8 
+## 2 mujer      1.7 
+## 3 hombre     1.67
+## 4 mujer      1.65
+## 5 mujer      1.6</code></pre>
+<p><img src="imagenes/manicule2.jpg" /> Ordena los vuelos por fecha de salida y hora.</p>
+<p>            ¿Cuáles
+son los vuelos con mayor retraso?</p>
+<p>            ¿Qué vuelos
+<em>ganaron</em> más tiempo en el aire?</p>
+</div>
+<div id="mutar" class="section level3 unnumbered">
+<h3>Mutar</h3>
+<p>Mutar consiste en crear nuevas variables aplicando una función a columnas
+existentes:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) </code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   genero estatura estatura_cm
+##   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+## 1 mujer      1.65         165
+## 2 hombre     1.8          180
+## 3 mujer      1.7          170
+## 4 mujer      1.6          160
+## 5 hombre     1.67         167</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">estatura_in =</span> estatura_cm <span class="op">*</span><span class="st"> </span><span class="fl">0.3937</span>) </code></pre>
+<pre><code>## # A tibble: 5 x 4
+##   genero estatura estatura_cm estatura_in
+##   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+## 1 mujer      1.65         165        65.0
+## 2 hombre     1.8          180        70.9
+## 3 mujer      1.7          170        66.9
+## 4 mujer      1.6          160        63.0
+## 5 hombre     1.67         167        65.7</code></pre>
+<p><img src="imagenes/manicule2.jpg" /> Calcula la velocidad en millas por hora a partir de
+la variable tiempo y la distancia (en millas). ¿Quá vuelo fue el más rápido?</p>
+<p>            Crea una nueva
+variable que muestre cuánto tiempo se ganó o perdió durante el vuelo.</p>
+<p>Hay muchas funciones que podemos usar para crear nuevas variables con <code>mutate()</code>, éstas deben cumplir ser funciones vectorizadas, es decir, reciben un vector de valores y devuelven un vector de la misma dimensión.</p>
+</div>
+<div id="summarise-y-resumenes-por-grupo" class="section level3 unnumbered">
+<h3>Summarise y resúmenes por grupo</h3>
+<p>Summarise sirve para crear nuevas bases de datos con resúmenes o agregaciones de
+los datos originales.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summarise</span>(df_ej, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   promedio
+##      &lt;dbl&gt;
+## 1     1.68</code></pre>
+<p>Podemos hacer resúmenes por grupo, primero creamos una base de datos agrupada:</p>
+<pre class="sourceCode r"><code class="sourceCode r">by_genero &lt;-<span class="st"> </span><span class="kw">group_by</span>(df_ej, genero)
+by_genero</code></pre>
+<pre><code>## # A tibble: 5 x 2
+## # Groups:   genero [2]
+##   genero estatura
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 mujer      1.65
+## 2 hombre     1.8 
+## 3 mujer      1.7 
+## 4 mujer      1.6 
+## 5 hombre     1.67</code></pre>
+<p>y después operamos sobre cada grupo, creando un resumen a nivel grupo y uniendo
+los subconjuntos en una base nueva:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summarise</span>(by_genero, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   genero promedio
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1 hombre     1.74
+## 2 mujer      1.65</code></pre>
+<p><img src="imagenes/manicule2.jpg" /> Calcula el retraso promedio por fecha.</p>
+<p>            ¿Qué otros
+resúmenes puedes hacer para explorar el retraso por fecha?</p>
+<ul>
+<li>Algunas funciones útiles con <em>summarise</em> son min(x), median(x), max(x),
+quantile(x, p), n(), sum(x), sum(x &gt; 1), mean(x &gt; 1), sd(x).</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">flights<span class="op">$</span>date_only &lt;-<span class="st"> </span><span class="kw">as.Date</span>(flights<span class="op">$</span>date)
+by_date &lt;-<span class="st"> </span><span class="kw">group_by</span>(flights, date_only)
+no_miss &lt;-<span class="st"> </span><span class="kw">filter</span>(by_date, <span class="op">!</span><span class="kw">is.na</span>(dep))
+delays &lt;-<span class="st"> </span><span class="kw">summarise</span>(no_miss, <span class="dt">mean_delay =</span> <span class="kw">mean</span>(dep_delay), <span class="dt">n =</span> <span class="kw">n</span>())</code></pre>
+</div>
+<div id="operador-pipeline" class="section level3 unnumbered">
+<h3>Operador pipeline</h3>
+<p>En R cuando uno hace varias operaciones es difícil leer y entender el código:</p>
+<pre class="sourceCode r"><code class="sourceCode r">hourly_delay &lt;-<span class="st"> </span><span class="kw">filter</span>(<span class="kw">summarise</span>(<span class="kw">group_by</span>(<span class="kw">filter</span>(flights, <span class="op">!</span><span class="kw">is.na</span>(dep_delay)), 
+  date_only, hour), <span class="dt">delay =</span> <span class="kw">mean</span>(dep_delay), <span class="dt">n =</span> <span class="kw">n</span>()), n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>)</code></pre>
+<p>La dificultad radica en que usualmente los parámetros se asignan después del
+nombre de la función usando (). El operador <em>Forward Pipe</em> (<code>%&gt;%) cambia este  orden, de manera que un parámetro que precede a la función es enviado (&quot;piped&quot;)  a la función:</code>x %&gt;% f(y)<code>se vuelve</code>f(x,y)<code>,</code>x %&gt;% f(y) %&gt;% g(z)<code>se vuelve</code>g(f(x, y), z)`. Es así que podemos reescribir el código para poder leer las
+operaciones que vamos aplicando de izquierda a derecha
+y de arriba hacia abajo.</p>
+<p>Veamos como cambia el código anterior:</p>
+<pre class="sourceCode r"><code class="sourceCode r">hourly_delay &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(dep_delay)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(date_only, hour) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">delay =</span> <span class="kw">mean</span>(dep_delay), <span class="dt">n =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>)</code></pre>
+<p>podemos leer %&gt;% como “<em>después</em>”.</p>
+<p><img src="imagenes/manicule2.jpg" /> ¿Qué destinos tienen el promedio de retrasos más
+alto?</p>
+<p>            ¿Qué vuelos
+(compañía + vuelo) ocurren diario?</p>
+<p>            En promedio,
+¿Cómo varían a lo largo del día los retrasos de vuelos no cancelados? (pista: hour +
+minute / 60)</p>
+</div>
+<div id="variables-por-grupo" class="section level3 unnumbered">
+<h3>Variables por grupo</h3>
+<p>En ocasiones es conveniente crear variables por grupo, por ejemplo estandarizar
+dentro de cada grupo z = (x - mean(x)) / sd(x).</p>
+<p>Veamos un ejemplo:</p>
+<pre class="sourceCode r"><code class="sourceCode r">planes &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(arr_delay)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(plane) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">n</span>() <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)
+
+planes <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">z_delay =</span>
+    (arr_delay <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(arr_delay)) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(arr_delay)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(z_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>)</code></pre>
+<pre><code>## # A tibble: 1,403 x 16
+## # Groups:   plane [856]
+##    date                 hour minute   dep   arr dep_delay arr_delay carrier
+##    &lt;dttm&gt;              &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;  
+##  1 2011-01-28 12:00:00    15     16  1516  1916       351       326 CO     
+##  2 2011-01-27 12:00:00    18     22  1822  1945       234       210 CO     
+##  3 2011-01-27 12:00:00    21     37  2137  2254       242       219 CO     
+##  4 2011-01-27 12:00:00     0     11    11   216       168       137 CO     
+##  5 2011-01-27 12:00:00    22     37  2237   153       227       208 CO     
+##  6 2011-01-27 12:00:00    21     28  2128   136       231       216 CO     
+##  7 2011-01-26 12:00:00    11     46  1146  1633       171       193 CO     
+##  8 2011-01-26 12:00:00     9     49   949  1436       144       180 CO     
+##  9 2011-01-21 12:00:00    19     11  1911  2352        94       112 CO     
+## 10 2011-01-20 12:00:00     6     35   635   807       780       775 CO     
+## # ... with 1,393 more rows, and 8 more variables: flight &lt;int&gt;,
+## #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;, dist &lt;int&gt;,
+## #   date_only &lt;date&gt;, z_delay &lt;dbl&gt;</code></pre>
+</div>
+<div id="verbos-de-dos-tablas" class="section level3 unnumbered">
+<h3>Verbos de dos tablas</h3>
+<p>¿Cómo mostramos los retrasos de los vuelos en un mapa?</p>
+<p>Para responder esta pregunta necesitamos unir la base de datos de vuelos
+con la de aeropuertos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">location &lt;-<span class="st"> </span>airports <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="dt">dest =</span> iata, <span class="dt">name =</span> airport, lat, long)
+
+flights <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(dest) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(arr_delay)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(
+        <span class="dt">arr_delay =</span> <span class="kw">mean</span>(arr_delay),
+        <span class="dt">n =</span> <span class="kw">n</span>() ) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">arrange</span>(<span class="kw">desc</span>(arr_delay)) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">left_join</span>(location)</code></pre>
+<pre><code>## Joining, by = &quot;dest&quot;</code></pre>
+<pre><code>## # A tibble: 116 x 6
+##    dest  arr_delay     n name                                  lat   long
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                               &lt;dbl&gt;  &lt;dbl&gt;
+##  1 ANC        26.1   124 Ted Stevens Anchorage International  61.2 -150. 
+##  2 CID        17.8   406 Eastern Iowa                         41.9  -91.7
+##  3 DSM        16.0   634 Des Moines International             41.5  -93.7
+##  4 SFO        14.9  2800 San Francisco International          37.6 -122. 
+##  5 BPT        14.3     3 Southeast Texas Regional             30.0  -94.0
+##  6 GRR        13.7   665 Kent County International            42.9  -85.5
+##  7 DAY        13.7   444 James M Cox Dayton Intl              39.9  -84.2
+##  8 VPS        12.5   864 Eglin Air Force Base                 30.5  -86.5
+##  9 ECP        12.4   720 &lt;NA&gt;                                 NA     NA  
+## 10 SAV        12.3   851 Savannah International               32.1  -81.2
+## # ... with 106 more rows</code></pre>
+<p>Hay varias maneras de unir dos bases de datos y debemos pensar en el
+obejtivo:</p>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;George&quot;</span>, <span class="st">&quot;Ringo&quot;</span>, <span class="st">&quot;Stuart&quot;</span>, <span class="st">&quot;Pete&quot;</span>),
+  <span class="dt">instrument =</span> <span class="kw">c</span>(<span class="st">&quot;guitar&quot;</span>, <span class="st">&quot;bass&quot;</span>, <span class="st">&quot;guitar&quot;</span>, <span class="st">&quot;drums&quot;</span>, <span class="st">&quot;bass&quot;</span>,
+     <span class="st">&quot;drums&quot;</span>))
+
+y &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;George&quot;</span>, <span class="st">&quot;Ringo&quot;</span>, <span class="st">&quot;Brian&quot;</span>),
+  <span class="dt">band =</span> <span class="kw">c</span>(<span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;TRUE&quot;</span>,  <span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;FALSE&quot;</span>))
+x</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   name   instrument
+##   &lt;chr&gt;  &lt;chr&gt;     
+## 1 John   guitar    
+## 2 Paul   bass      
+## 3 George guitar    
+## 4 Ringo  drums     
+## 5 Stuart bass      
+## 6 Pete   drums</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">y</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   name   band 
+##   &lt;chr&gt;  &lt;chr&gt;
+## 1 John   TRUE 
+## 2 Paul   TRUE 
+## 3 George TRUE 
+## 4 Ringo  TRUE 
+## 5 Brian  FALSE</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">inner_join</span>(x, y)</code></pre>
+<pre><code>## Joining, by = &quot;name&quot;</code></pre>
+<pre><code>## # A tibble: 4 x 3
+##   name   instrument band 
+##   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;
+## 1 John   guitar     TRUE 
+## 2 Paul   bass       TRUE 
+## 3 George guitar     TRUE 
+## 4 Ringo  drums      TRUE</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(x, y)</code></pre>
+<pre><code>## Joining, by = &quot;name&quot;</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   name   instrument band 
+##   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;
+## 1 John   guitar     TRUE 
+## 2 Paul   bass       TRUE 
+## 3 George guitar     TRUE 
+## 4 Ringo  drums      TRUE 
+## 5 Stuart bass       &lt;NA&gt; 
+## 6 Pete   drums      &lt;NA&gt;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">semi_join</span>(x, y)</code></pre>
+<pre><code>## Joining, by = &quot;name&quot;</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   name   instrument
+##   &lt;chr&gt;  &lt;chr&gt;     
+## 1 John   guitar    
+## 2 Paul   bass      
+## 3 George guitar    
+## 4 Ringo  drums</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anti_join</span>(x, y)</code></pre>
+<pre><code>## Joining, by = &quot;name&quot;</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   name   instrument
+##   &lt;chr&gt;  &lt;chr&gt;     
+## 1 Stuart bass      
+## 2 Pete   drums</code></pre>
+<p>Resumamos lo que observamos arriba:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>inner</td>
+<td>Incluye únicamente las filas que aparecen tanto en x como en y</td>
+</tr>
+<tr class="even">
+<td>left</td>
+<td>Incluye todas las filas en x y las filas de y que coincidan</td>
+</tr>
+<tr class="odd">
+<td>semi</td>
+<td>Incluye las filas de x que coincidan con y</td>
+</tr>
+<tr class="even">
+<td>anti</td>
+<td>Incluye las filas de x que no coinciden con y</td>
+</tr>
+</tbody>
+</table>
+<p>Ahora combinamos datos a nivel hora con condiciones climáticas, ¿cuál es el tipo
+de unión adecuado?</p>
+<pre class="sourceCode r"><code class="sourceCode r">hourly_delay &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(date_only, hour) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(dep_delay)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">delay =</span> <span class="kw">mean</span>(dep_delay),
+    <span class="dt">n =</span> <span class="kw">n</span>() ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>)
+
+delay_weather &lt;-<span class="st"> </span>hourly_delay <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(weather)</code></pre>
+<pre><code>## Joining, by = &quot;hour&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(delay_weather, <span class="op">-</span>delay)</code></pre>
+<pre><code>## # A tibble: 2,091,842 x 17
+## # Groups:   date_only [365]
+##    date_only   hour delay     n date        temp dew_point humidity
+##    &lt;date&gt;     &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;date&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1 2011-05-12    23  184.    33 2011-01-02  43        28.9       58
+##  2 2011-05-12    23  184.    33 2011-01-03  39        27         62
+##  3 2011-05-12    23  184.    33 2011-01-04  50        45         83
+##  4 2011-05-12    23  184.    33 2011-01-05  62.6      60.8       94
+##  5 2011-05-12    23  184.    33 2011-01-06  53.1      36         52
+##  6 2011-05-12    23  184.    33 2011-01-07  46.9      36         66
+##  7 2011-05-12    23  184.    33 2011-01-08  50        43         77
+##  8 2011-05-12    23  184.    33 2011-01-09  53.1      30         41
+##  9 2011-05-12    23  184.    33 2011-01-10  41        37         86
+## 10 2011-05-12    23  184.    33 2011-01-11  39.9      32         73
+## # ... with 2,091,832 more rows, and 9 more variables: pressure &lt;dbl&gt;,
+## #   visibility &lt;dbl&gt;, wind_dir &lt;chr&gt;, wind_dir2 &lt;int&gt;, wind_speed &lt;dbl&gt;,
+## #   gust_speed &lt;dbl&gt;, precip &lt;dbl&gt;, conditions &lt;chr&gt;, events &lt;chr&gt;</code></pre>
+<p><img src="imagenes/manicule2.jpg" /> ¿Qué condiciones climáticas están asociadas
+con retrasos en las salidas de Houston?</p>
+<p>            Explora
+si los aviones más viejos están asociados a mayores retrasos, responde
+con una gráfica.</p>
+<hr />
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="manipulacion-y-agrupacion-de-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="datos-limpios.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/02-manipulacion.Rmd",
+"text": "Edit"
+},
+"download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

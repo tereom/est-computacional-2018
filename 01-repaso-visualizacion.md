@@ -537,7 +537,7 @@ print(read_csv)
 ##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
 ##         guess_max = guess_max, progress = progress)
 ## }
-## <bytecode: 0x72108c0>
+## <bytecode: 0x80a52e0>
 ## <environment: namespace:readr>
 ```
 
@@ -567,8 +567,8 @@ knitr::include_graphics("imagenes/tidyverse.png")
 Existen muchos recursos gratuitos para aprender R, y resolver nuestras dudas, 
 enlistamos algunos.
 
-* Buscar ayuda: Google, [StackOverflow](http://stackoverflow.com/questions/tagged/r). 
-Para aprender más sobre un paquete o una función pueden visitar [Rdocumentation.org](http://www.rdocumentation.org/).  
+* Buscar ayuda: Google, [StackOverflow](http://stackoverflow.com/questions/tagged/r).  
+* Para aprender más sobre un paquete o una función pueden visitar [Rdocumentation.org](http://www.rdocumentation.org/).    
 * La referencia principal de estas notas es el libro [R for Data Science](http://r4ds.had.co.nz/)
 de Hadley Wickham.  
 * Para aprender los comandos básicos de R [*Try R*](http://tryr.codeschool.com/) 
@@ -579,7 +579,8 @@ interactivos.
 En particular es conveniente leer la [guía de estilo](http://adv-r.had.co.nz/Style.html) (para todos: principiantes, intermedios y avanzados).  
 * Para mantenerse al tanto de las noticias de la comunidad de R pueden visitar 
 [R-bloggers](http://www.r-bloggers.com).  
-* Más del tidyverse: [Why the tidyverse](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/)
+* Más del tidyverse: [Why the tidyverse](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/)  
+* Para aprovechar la funcionalidad de [RStudio](https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf).
 
 
 ## Visualización con ggplot2
@@ -919,6 +920,7 @@ del paquete Hmisc.
 
 
 ### Recursos {-}
+
 * Google, [stackoverflow](https://stackoverflow.com/questions/tagged/ggplot2).
 * Para aprender más de ggplot pueden ver la documentación con ejemplos en la 
 página de [ggplot2](http://ggplot2.tidyverse.org/).
