@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="visualizacion-con-ggplot2.html">
-<link rel="next" href="transformacion-de-datos.html">
+<link rel="prev" href="tareas.html">
+<link rel="next" href="referencias.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -216,30 +216,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="manipulacion-y-agrupacion-de-datos" class="section level1">
-<h1><span class="header-section-number">Sección 3</span> Manipulación y agrupación de datos</h1>
-<p><strong>El material de la clase se puede descargar de <a href="https://www.dropbox.com/s/gtxjn5xb39g2n09/02-manipulacion.zip?dl=0">aquí</a>.</strong></p>
-<p>En esta sección continuamos con la introducción a R para análisis de datos,
-en particular mostraremos herramientas de manipulación y transformación de
-datos. Trataremos los siguientes puntos:</p>
+<div id="transformacion-de-datos-1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Transformación de datos</h2>
+<p>Entrega: Lunes 27 de agosto.</p>
+<p>Utiliza los datos de vuelos (<code>flights</code>) para responder la siguientes preguntas.</p>
 <ul>
-<li><p>Estrategia separa-aplica-combina.</p></li>
-<li><p>Reestructura de datos y el principio de los datos limpios.</p></li>
+<li><p>¿A qué hora del día debo volar para evitar, lo más posible, retrasos de
+salida?</p></li>
+<li><p>Para cada destino calcula el total de minutos de retraso de salida. Para cada
+vuelo calcula su proporción del total de retrasos de su destino.</p></li>
+<li><p>Los retrasos suelen estar correlacionados temporalmente, incluso cuando se
+ha resuelto el problema que ocasionó los retrasos iniciales, vuelos posteriores
+suelen mantener algo de retraso. Usando la función <code>lag()</code> explora como el
+retraso de salida de un vuelo se relaciona con el retraso de salida del vuelo
+anterior. Realiza una gráfica para visualizar tus hallazgos.</p></li>
+<li><p>Para cada destino, puedes encontrar vuelos sospechosamente rápidos o lentos?
+(quizá debido a porblemas en la captura de los datos). Calcula el tiempo de
+vuelo relativo a la mediana de tiempo de vuelo a su destino. Qué vuelos se
+retrasaron más en el aire?</p></li>
+<li><p>Encuentra los destinos que se vuelan por al menos dos compañías (carriers).</p></li>
 </ul>
-<p>Es sabido que limpieza y preparación de datos ocupan gran parte del tiempo del
-análisis de datos (<a href="http://onlinelibrary.wiley.com/book/10.1002/0471448354">Dasu y Johnson, 2003</a>
-y <a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html?mcubz=0">NYT’s ‘Janitor Work’ Is Key Hurdle to Insights</a>),
-es por ello que vale la pena dedicar un tiempo a aprender técnicas que faciliten
-estas tareas, y entender que estructura en los datos es más conveniente para
-trabajar.</p> 
+
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="visualizacion-con-ggplot2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="transformacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="tareas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -269,7 +275,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/02-manipulacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/98-tareas.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
