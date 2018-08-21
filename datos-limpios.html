@@ -475,7 +475,7 @@ construir gráficas y resúmenes.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(pew_tidy, <span class="kw">aes</span>(<span class="dt">x =</span> income, <span class="dt">y =</span> frequency, <span class="dt">color =</span> religion, <span class="dt">group =</span> religion)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre>
-<p><img src="02-manipulacion_files/figure-html/unnamed-chunk-26-1.png" width="400px" style="display: block; margin: auto;" /></p>
+<p><img src="02-manipulacion_files/figure-html/unnamed-chunk-33-1.png" width="400px" style="display: block; margin: auto;" /></p>
 <p>Podemos hacer gráficas más interesantes si creamos nuevas variables:</p>
 <pre class="sourceCode r"><code class="sourceCode r">by_religion &lt;-<span class="st"> </span><span class="kw">group_by</span>(pew_tidy, religion)
 pew_tidy_<span class="dv">2</span> &lt;-<span class="st"> </span>pew_tidy <span class="op">%&gt;%</span>
@@ -499,7 +499,7 @@ pew_tidy_<span class="dv">2</span> &lt;-<span class="st"> </span>pew_tidy <span 
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>religion, <span class="dt">nrow =</span> <span class="dv">1</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre>
-<p><img src="02-manipulacion_files/figure-html/unnamed-chunk-27-1.png" width="739.2" style="display: block; margin: auto;" /></p>
+<p><img src="02-manipulacion_files/figure-html/unnamed-chunk-34-1.png" width="739.2" style="display: block; margin: auto;" /></p>
 <p>En el código de arriba utilizamos las funciones <code>group_by</code>, <code>filter</code> y <code>mutate</code>
 que estudiaremos más adelante. Por ahora concentremonos en <code>gather</code> y <code>spread</code>.</p>
 <p>Otro ejemplo, veamos los datos de <em>Billboard</em>, aquí se registra la fecha en la
@@ -612,7 +612,7 @@ billboard_tidy</code></pre>
 <span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>track, <span class="dt">nrow =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre>
-<p><img src="02-manipulacion_files/figure-html/unnamed-chunk-31-1.png" width="739.2" style="display: block; margin: auto;" /></p>
+<p><img src="02-manipulacion_files/figure-html/unnamed-chunk-38-1.png" width="739.2" style="display: block; margin: auto;" /></p>
 </div>
 <div id="una-columna-asociada-a-mas-de-una-variable" class="section level3 unnumbered">
 <h3>Una columna asociada a más de una variable</h3>

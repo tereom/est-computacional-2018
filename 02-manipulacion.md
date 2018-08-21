@@ -2,12 +2,11 @@
 
 
 
-**El material de la clase se puede descargar de [aquí](https://www.dropbox.com/s/xa56o64uzjqzrrt/02-manipulacion.zip?dl=0).**
+**El material de la clase se puede descargar de [aquí](https://www.dropbox.com/s/gtxjn5xb39g2n09/02-manipulacion.zip?dl=0).**
 
 En esta sección continuamos con la introducción a R para análisis de datos, 
 en particular mostraremos herramientas de manipulación y transformación de 
-datos. Trataremos los
-siguientes puntos:
+datos. Trataremos los siguientes puntos:
 
 * Estrategia separa-aplica-combina.
 
@@ -397,6 +396,116 @@ con un retraso mayor a una hora.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; En los que 
 el retraso de llegada es más del doble que el retraso de salida.
 
+
+Un caso común es cuando se desea eliminar los datos con faltantes en una o más
+columnas de las tablas de datos, en R los datos faltantes se expresan como `NA`, 
+para eliminar los faltantes en la variable `dep_delay` resulta natural escribir:
+
+
+```r
+filter(flights, dep_delay != NA)
+```
+
+```
+## # A tibble: 0 x 14
+## # ... with 14 variables: date <dttm>, hour <int>, minute <int>, dep <int>,
+## #   arr <int>, dep_delay <int>, arr_delay <int>, carrier <chr>,
+## #   flight <int>, dest <chr>, plane <chr>, cancelled <int>, time <int>,
+## #   dist <int>
+```
+que nos devuelve una tabla vacía, sin embargo, si hay faltantes en esta 
+variable. El problema resulta de usar el operador `!=`, pensemos ¿qué regresan 
+las siguientes expresiones?
+
+
+```r
+5 + NA
+NA / 2
+sum(c(5, 4, NA))
+mean(c(5, 4,  NA))
+NA < 3
+NA == 3
+NA == NA
+```
+
+Las expresiones anteriores regresan `NA`, el hecho que la media de un vector 
+que incluye NAs o su suma regrese `NA`s se debe a que el default en R es 
+propagar los valores faltantes, esto es, si deconozco el valor de una de las 
+componentes de un vector, también desconozco la suma del mismo; sin embargo, 
+muchas funciones tienen un argumento _na.rm_ para removerlos,
+
+
+```r
+sum(c(5, 4, NA), na.rm = TRUE)
+```
+
+```
+## [1] 9
+```
+
+```r
+mean(c(5, 4, NA), na.rm = TRUE)
+```
+
+```
+## [1] 4.5
+```
+
+Aún queda pendiente, como filtrarlos en una tabla, para esto veamos que el 
+manejo de datos faltantes en R utiliza una lógica ternaria (como SQL):
+
+
+```r
+NA == NA
+```
+
+```
+## [1] NA
+```
+
+La expresión anterior puede resultar confusa, una manera de pensar en esto es
+considerar los NA como *no sé*, por ejemplo si no se la edad de Juan y no se la 
+edad de Esteban, la respuesta a ¿Juan tiene la misma edad que Esteban? es 
+*no sé* (NA).
+
+
+```r
+edad_Juan <- NA
+edad_Esteban <- NA
+edad_Juan == edad_Esteban
+```
+
+```
+## [1] NA
+```
+
+```r
+edad_Jose <- 32
+# Juan es menor que José?
+edad_Juan < edad_Jose
+```
+
+```
+## [1] NA
+```
+
+Por tanto para determinar si un valor es faltante usamos la instrucción 
+`is.na()`.
+
+
+```r
+is.na(NA)
+```
+
+```
+## [1] TRUE
+```
+Y finalmente podemos filtrar con 
+
+
+```r
+filter(flights, is.na(dep_delay))
+```
 
 ### Seleccionar {-}
 Elegir columnas de un conjunto de datos.
@@ -1130,7 +1239,7 @@ ggplot(pew_tidy, aes(x = income, y = frequency, color = religion, group = religi
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-26-1.png" width="400px" style="display: block; margin: auto;" />
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-33-1.png" width="400px" style="display: block; margin: auto;" />
 
 Podemos hacer gráficas más interesantes si creamos nuevas variables:
 
@@ -1166,7 +1275,7 @@ ggplot(pew_tidy_2, aes(x = income, y = percent, group = religion)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-27-1.png" width="739.2" style="display: block; margin: auto;" />
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-34-1.png" width="739.2" style="display: block; margin: auto;" />
 
 En el código de arriba utilizamos las funciones `group_by`, `filter` y `mutate`
 que estudiaremos más adelante. Por ahora concentremonos en `gather` y `spread`.
@@ -1323,7 +1432,7 @@ ggplot(tracks, aes(x = date, y = rank)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
-<img src="02-manipulacion_files/figure-html/unnamed-chunk-31-1.png" width="739.2" style="display: block; margin: auto;" />
+<img src="02-manipulacion_files/figure-html/unnamed-chunk-38-1.png" width="739.2" style="display: block; margin: auto;" />
 
 ### Una columna asociada a más de una variable {-}
 La siguiente base de datos proviene de la Organización Mundial de la Salud y 

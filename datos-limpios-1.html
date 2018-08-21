@@ -219,30 +219,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="datos-limpios-1" class="section level2">
 <h2><span class="header-section-number">4.1</span> Datos limpios</h2>
 <p>Entrega: Lunes 27 de agosto.</p>
-<p>Descarga los datos <a href="https://www.dropbox.com/s/fog2dr4hrwujivn/02-tarea.zip?dl=0">aquí</a>.</p>
-<p>En la carpeta de arriba encontrarás un archivo de excel (m_013.xls), este
-archivo contiene información de causas de mortalidad en México entre 2000 y
-2008. Contesta las siguientes preguntas:</p>
-<ol style="list-style-type: decimal">
-<li>¿Cuáles son las variables en esta base de datos?<br />
-</li>
-<li>¿La base de datos cumple con los principios de datos limpios?
-¿Qué problemas presenta?<br />
-</li>
-<li>La información del archivo de excel se ha guardado también en archivos de
-texto (csv) 2001-2008, limpia los datos para que cumplan los principios de datos
-limpios. Recuerda que las modificaciones deben de ser reproducibles, para esto
-guarda tu trabajo en un script.</li>
-</ol>
-<p>Observaciones:<br />
-* Puedes filtrar/eliminar los valores a Total si crees que es más claro.<br />
-* Intenta usar las funciones que estudiamos en la clase (gather, separate,
-select, filter).<br />
-* Si aún no te sientes cómodx con las funciones de clase (y lo intentaste varias
-veces) puedes hacer las manipulaciones usando otra herramienta (incluso Excel,
-una combinación de Excel y R o cualquier software que conozcas); sin embargo,
-debes documentar tus pasos claramente, con la intención de mantener métodos
-reproducibles.</p>
+<p>Utiliza los datos de vuelos (<code>flights</code>) para responder la siguientes preguntas.</p>
+<ul>
+<li><p>¿A qué hora del día debo volar para evitar, lo más posible, retrasos de
+salida?</p></li>
+<li><p>Para cada destino calcula el total de minutos de retraso de salida. Para cada
+vuelo calcula su proporción del total de retrasos de su destino.</p></li>
+<li><p>Los retrasos suelen estar correlacionados temporalmente, incluso cuando se
+ha resuelto el problema que ocasionó los retrasos iniciales, vuelos posteriores
+suelen mantener algo de retraso. Usando la función <code>lag()</code> explora como el
+retraso de salida de un vuelo se relaciona con el retraso de salida del vuelo
+anterior. Realiza una gráfica para visualizar tus hallazgos.</p></li>
+<li><p>Para cada destino, puedes encontrar vuelos sospechosamente rápidos o lentos?
+(quizá debido a porblemas en la captura de los datos). Calcula el tiempo de
+vuelo relativo a la mediana de tiempo de vuelo a su destino. Qué vuelos se
+retrasaron más en el aire?</p></li>
+<li><p>Encuentra los destinos que se vuelan por al menos dos compañías (carriers).</p></li>
+</ul>
 
 </div>
 <!-- </div> -->

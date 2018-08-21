@@ -462,6 +462,56 @@ a <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span
 con un retraso mayor a una hora.</p>
 <p>            En los que
 el retraso de llegada es más del doble que el retraso de salida.</p>
+<p>Un caso común es cuando se desea eliminar los datos con faltantes en una o más
+columnas de las tablas de datos, en R los datos faltantes se expresan como <code>NA</code>,
+para eliminar los faltantes en la variable <code>dep_delay</code> resulta natural escribir:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(flights, dep_delay <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)</code></pre>
+<pre><code>## # A tibble: 0 x 14
+## # ... with 14 variables: date &lt;dttm&gt;, hour &lt;int&gt;, minute &lt;int&gt;, dep &lt;int&gt;,
+## #   arr &lt;int&gt;, dep_delay &lt;int&gt;, arr_delay &lt;int&gt;, carrier &lt;chr&gt;,
+## #   flight &lt;int&gt;, dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;,
+## #   dist &lt;int&gt;</code></pre>
+<p>que nos devuelve una tabla vacía, sin embargo, si hay faltantes en esta
+variable. El problema resulta de usar el operador <code>!=</code>, pensemos ¿qué regresan
+las siguientes expresiones?</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">5</span> <span class="op">+</span><span class="st"> </span><span class="ot">NA</span>
+<span class="ot">NA</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>
+<span class="kw">sum</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>))
+<span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>,  <span class="ot">NA</span>))
+<span class="ot">NA</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">3</span>
+<span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span>
+<span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="ot">NA</span></code></pre>
+<p>Las expresiones anteriores regresan <code>NA</code>, el hecho que la media de un vector
+que incluye NAs o su suma regrese <code>NA</code>s se debe a que el default en R es
+propagar los valores faltantes, esto es, si deconozco el valor de una de las
+componentes de un vector, también desconozco la suma del mismo; sin embargo,
+muchas funciones tienen un argumento <em>na.rm</em> para removerlos,</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre>
+<pre><code>## [1] 4.5</code></pre>
+<p>Aún queda pendiente, como filtrarlos en una tabla, para esto veamos que el
+manejo de datos faltantes en R utiliza una lógica ternaria (como SQL):</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="ot">NA</span></code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>La expresión anterior puede resultar confusa, una manera de pensar en esto es
+considerar los NA como <em>no sé</em>, por ejemplo si no se la edad de Juan y no se la
+edad de Esteban, la respuesta a ¿Juan tiene la misma edad que Esteban? es
+<em>no sé</em> (NA).</p>
+<pre class="sourceCode r"><code class="sourceCode r">edad_Juan &lt;-<span class="st"> </span><span class="ot">NA</span>
+edad_Esteban &lt;-<span class="st"> </span><span class="ot">NA</span>
+edad_Juan <span class="op">==</span><span class="st"> </span>edad_Esteban</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">edad_Jose &lt;-<span class="st"> </span><span class="dv">32</span>
+<span class="co"># Juan es menor que José?</span>
+edad_Juan <span class="op">&lt;</span><span class="st"> </span>edad_Jose</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>Por tanto para determinar si un valor es faltante usamos la instrucción
+<code>is.na()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.na</span>(<span class="ot">NA</span>)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Y finalmente podemos filtrar con</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(flights, <span class="kw">is.na</span>(dep_delay))</code></pre>
 </div>
 <div id="seleccionar" class="section level3 unnumbered">
 <h3>Seleccionar</h3>
