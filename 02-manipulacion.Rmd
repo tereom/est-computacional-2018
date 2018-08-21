@@ -11,12 +11,11 @@ comma <- function(x) format(x, digits = 2, big.mark = ",")
 theme_set(theme_minimal())
 ```
 
-**El material de la clase se puede descargar de [aquí](https://www.dropbox.com/s/xa56o64uzjqzrrt/02-manipulacion.zip?dl=0).**
+**El material de la clase se puede descargar de [aquí](https://www.dropbox.com/s/gtxjn5xb39g2n09/02-manipulacion.zip?dl=0).**
 
 En esta sección continuamos con la introducción a R para análisis de datos, 
 en particular mostraremos herramientas de manipulación y transformación de 
-datos. Trataremos los
-siguientes puntos:
+datos. Trataremos los siguientes puntos:
 
 * Estrategia separa-aplica-combina.
 
@@ -181,6 +180,71 @@ con un retraso mayor a una hora.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; En los que 
 el retraso de llegada es más del doble que el retraso de salida.
 
+
+Un caso común es cuando se desea eliminar los datos con faltantes en una o más
+columnas de las tablas de datos, en R los datos faltantes se expresan como `NA`, 
+para eliminar los faltantes en la variable `dep_delay` resulta natural escribir:
+
+```{r}
+filter(flights, dep_delay != NA)
+```
+que nos devuelve una tabla vacía, sin embargo, si hay faltantes en esta 
+variable. El problema resulta de usar el operador `!=`, pensemos ¿qué regresan 
+las siguientes expresiones?
+
+```{r, eval = FALSE}
+5 + NA
+NA / 2
+sum(c(5, 4, NA))
+mean(c(5, 4,  NA))
+NA < 3
+NA == 3
+NA == NA
+```
+
+Las expresiones anteriores regresan `NA`, el hecho que la media de un vector 
+que incluye NAs o su suma regrese `NA`s se debe a que el default en R es 
+propagar los valores faltantes, esto es, si deconozco el valor de una de las 
+componentes de un vector, también desconozco la suma del mismo; sin embargo, 
+muchas funciones tienen un argumento _na.rm_ para removerlos,
+
+```{r}
+sum(c(5, 4, NA), na.rm = TRUE)
+mean(c(5, 4, NA), na.rm = TRUE)
+```
+
+Aún queda pendiente, como filtrarlos en una tabla, para esto veamos que el 
+manejo de datos faltantes en R utiliza una lógica ternaria (como SQL):
+
+```{r}
+NA == NA
+```
+
+La expresión anterior puede resultar confusa, una manera de pensar en esto es
+considerar los NA como *no sé*, por ejemplo si no se la edad de Juan y no se la 
+edad de Esteban, la respuesta a ¿Juan tiene la misma edad que Esteban? es 
+*no sé* (NA).
+
+```{r}
+edad_Juan <- NA
+edad_Esteban <- NA
+edad_Juan == edad_Esteban
+edad_Jose <- 32
+# Juan es menor que José?
+edad_Juan < edad_Jose
+```
+
+Por tanto para determinar si un valor es faltante usamos la instrucción 
+`is.na()`.
+
+```{r}
+is.na(NA)
+```
+Y finalmente podemos filtrar con 
+
+```{r, eval=FALSE}
+filter(flights, is.na(dep_delay))
+```
 
 ### Seleccionar {-}
 Elegir columnas de un conjunto de datos.
