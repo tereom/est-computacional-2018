@@ -1,0 +1,670 @@
+# Temas selectos de R
+
+## Funciones
+
+> “To understand computations in R, two slogans are helpful:  
+> * Everything that exists is an object.  
+> * Everything that happens is a function call."  
+> — John Chambers
+
+Todas las operaciones en R son producto de la llamada a una función, esto 
+incluye operaciones como +, operadores que controlan flujo como `for`, `if` y 
+`while`, e incluso operadores para obtener subconjuntos como `[ ]` y `$`.
+
+```{r}
+a <- 3
+b <- 4
+`+`(a, b)
+
+for (i in 1:2) print(i)
+`for`(i, 1:2, print(i))
+```
+
+Para escribir código eficiente y fácil de leer es importante saber esvribir
+funciones, se dice que si hiciste *copy-paste* de una sección de tu código 3
+o más veces es momento de escribir una función.
+
+Escribimos una función para calcular un promedio ponderado:
+
+```{r}
+wtd_mean <- function(x, wt = rep(1, length(x))) {
+  sum(x * wt) / sum(wt)
+}
+```
+
+Y se usa: 
+
+```{r}
+wtd_mean(1:10)
+wtd_mean(1:10, 10:1)
+```
+Las funciones de R tienen tres partes:
+
+1. El cuerpo: el código dentro de la función
+```{r}
+body(wtd_mean)
+```
+
+2. Los formales: la lista de argumentos que controlan como puedes llamar a la
+función, 
+
+```{r}
+formals(wtd_mean)
+```
+
+3. El ambiente: el _mapeo_ de la ubicación de las variables de la función.
+
+```{r}
+library(ggplot2)
+environment(wtd_mean)
+environment(ggplot)
+```
+
+Veamos mas ejemplos, ¿qué regresan las siguientes funciones?
+
+```{r, eval = FALSE}
+# 1
+x <- 5
+f <- function(){
+  y <- 10
+  c(x = x, y = y) 
+}
+rm(x, f)
+
+# 2
+x <- 5
+g <- function(){
+  x <- 20
+  y <- 10
+  c(x = x, y = y)
+}
+rm(x, g)
+
+# 3
+x <- 5
+h <- function(){
+  y <- 10
+  i <- function(){
+    z <- 20
+    c(x = x, y = y, z = z)
+  }
+  i() 
+}
+
+# 4 ¿qué ocurre si la corremos por segunda vez?
+j <- function(){
+  if (!exists("a")){
+    a <- 5
+  } else{
+    a <- a + 1 
+}
+  print(a) 
+}
+x <- 0
+y <- 10
+
+# 5 ¿qué regresa k()? ¿y k()()?
+k <- function(){
+  x <- 1
+  function(){
+    y <- 2
+    x + y 
+  }
+}
+```
+
+Las reglas de búsqueda determinan como se busca el valor de una variable libre 
+en una función. A nivel lenguaje R usa _lexical scoping_, una alternativa es 
+_dynamic scoping_. En R (_lexical scoping_) los valores de los símbolos se basan 
+en como se anidan las funciones cuando fueron creadas y no en como son llamadas. 
+Esto es, en R no importa como son las llamadas a una función para saber como se 
+va a buscar el valor de una variable. 
+
+
+```{r}
+f <- function(x) {
+  x + y
+}
+```
+
+```{r, error=TRUE}
+f(2)
+```
+Si creamos el objeto `y`.
+
+```{r}
+y <- 1
+f(2)
+```
+Como consecuencia de las reglas de búsqueda de R, todos los objetos deben ser 
+guardados en memoria y, si uno no es cuidadoso se pueden cometer errores 
+facilmente.
+
+```{r}
+y <- 100
+f(2)
+```
+
+### Observaciones del uso de funciones {-}
+
+1. Cuando llamamos a una función podemos especificar los argumentos en base a 
+posición, nombre completo o nombre parcial:
+
+```{r, error=TRUE}
+f <- function(abcdef, bcde1, bcde2) {
+  c(a = abcdef, b1 = bcde1, b2 = bcde2)
+}
+
+f(1, 2, 3)
+f(2, 3, abcdef = 1)
+# Podemos abreviar el nombre de los argumentos
+f(2, 3, a = 1)
+# Siempre y cuando la abreviación no sea ambigua
+f(1, 3, b = 1)
+```
+
+2. Los argumentos de las funciones en R se evaluan conforme se necesitan (*lazy
+evaluation*), 
+
+```{r}
+f <- function(a, b){
+  a ^ 2
+}
+f(2)
+```
+
+La función anterior nunca utiliza el argumento _b_, de tal manera que _f(2)_
+no produce ningún error.
+
+3. Funciones con el mismo nombre en distintos paquetes:
+
+La función filter (incluída en R base) aplica un filtro lineal a una serie
+de tiempo de una variable.
+
+```{r}
+x <- 1:100
+filter(x, rep(1, 3))
+```
+
+Ahora cargamos `dplyr`.
+
+```{r, error=TRUE}
+library(dplyr)
+filter(x, rep(1, 3))
+```
+El problema es un conflicto en la función a llamar, nosotros requerimos usar 
+`filter` de stats y no la función `filter` de `dplyr`. R utiliza por default
+la función que pertenece al último paquete que se cargó.
+
+```{r}
+search()
+```
+
+Una opción es especificar el paquete en la llamada de la función:
+
+```{r}
+stats::filter(x, rep(1, 3))
+```
+
+Una alternativa es el paquete [conflicted](https://github.com/r-lib/conflicted)
+que alerta cuando hay conflictos y tiene funciones para especificar a que 
+paquete se desea dar preferencia por default en una sesión.
+
+## Vectores
+
+En R se puede trabajar con distintas estructuras de datos, algunas son de una
+sola dimensión y otras permiten más, como indica el diagrama de abajo:
+
+<img src="imagenes/data_structures.png" width="250px"/>
+
+Hasta ahora nos hemos centrado en trabajar con `data.frames`, y hemos usado
+vectores atómicos sin profundizar, en esta sección se explican características
+de los vectores, y veremos que son la base de los `data.frames`.
+
+En R hay dos tipos de vectores, esto es, estructuras de datos de una sola 
+dimensión: los vectores atómicos y las listas. 
+
+* Los vectores atómicos pueden ser de 6 tipos: lógico, entero, double, caracter, 
+complejo y raw. Los dos últimos son poco comunes. 
+
+Vector atómico de tipo lógico:
+
+```{r}
+a <- c(TRUE, FALSE, FALSE)
+a
+```
+
+Numérico (double):
+
+```{r}
+b <- c(5, 2, 4.1, 7, 9.2)
+b
+b[1]
+b[2]
+b[2:4]
+```
+
+Las operaciones básicas con vectores atómicos son componente a componente:
+
+```{r}
+c <- b + 10
+c
+d <- sqrt(b)
+d
+b + d
+10 * b
+b * d
+```
+
+Y podemos crear secuencias como sigue:
+
+```{r}
+e <- 1:10
+e
+f <- seq(0, 1, 0.25)
+f
+```
+
+Para calcular características de vectores atómicos usamos funciones:
+
+```{r}
+# media del vector
+mean(b)
+# suma de sus componentes
+sum(b)
+# longitud del vector
+length(b)
+```
+
+Y ejemplo de vector atómico de tipo caracter y funciones:
+
+```{r}
+frutas <- c('manzana', 'manzana', 'pera', 'plátano', 'fresa', "kiwi")
+frutas
+grep("ana", frutas)
+gsub("a", "x", frutas)
+```
+
+* Las listas, a diferencia de los vectores atómicos, puden contener otras 
+listas. Las listas son muy flexibles pues pueden almacenar objetos de cualquier 
+tipo.
+
+```{r}
+x <- list(1:3, "Mila", c(TRUE, FALSE, FALSE), c(2, 5, 3.2))
+str(x)
+```
+
+Las listas son vectores _recursivos_ debido a que pueden almacenar otras listas.
+
+```{r}
+y <- list(list(list(list())))
+str(y)
+```
+
+Todos los vectores tienen las propiedades tipo y longitud, la función `typeof()`
+se usa para determinar el tipo,
+
+```{r}
+typeof(a)
+typeof(b)
+typeof(frutas)
+typeof(x)
+```
+
+y `length()` la longitud:
+
+```{r}
+length(a)
+length(frutas)
+length(x)
+length(y)
+```
+
+La flexibilidad de las listas las convierte en estructuras muy útiles y muy 
+comunes, muchas funciones regresan resultados en forma de lista. Incluso podemos
+ver que un data.frame es una lista de vectores, donde todos los vectores son
+de la misma longitud.
+
+## Rendimiento en R
+
+> "We should forget about small efficiencies, say about 97% of the time: 
+>  premature optimization is the root of all evil. Yet we should not pass up our 
+opportunities in that critical 3%. A good programmer will not be lulled into 
+complacency by such reasoning, he will be wise to look carefully at the critical 
+code; but only after that code has been identified."
+> -Donald Knuth
+
+Diseña primero, luego optimiza. La optimización del código es un proceso 
+iterativo:  
+1. Encuentra el cuello de botella más importante.  
+2. Intenta eliminarlo (no siempre se puede).  
+3. Repie hasta que tu código sea lo suficientemente rápido.  
+
+### Diagnosticar {-}
+
+Una vez que tienes código que se puede leer y funciona, el perfilamiento 
+(profiling) del código es un método sistemático que nos permite conocer cuanto 
+tiempo se esta usando en diferentes partes del programa.
+
+Comenzaremos con la función **system.time** (no es perfilamiento aún),
+esta calcula el tiempo en segundos que toma ejecutar una expresión (si hay un 
+error, regresa el tiempo hasta que ocurre el error):
+
+```{r, message=FALSE}
+
+batting <- read.csv("data/batting.csv")
+system.time(lm(R ~ AB + teamID, batting))
+```
+
+* **user time**: Tiempo usado por el CPU(s) para evaluar esta expresión, tiempo
+que experimenta la _computadora_.
+* **elapsed time**: tiempo en el _reloj_, tiempo que experimenta la persona.
+
+Notemos que el tiempo de usuario (user) puede ser mayor al tiempo transcurrido 
+(elapsed),
+
+```{r}
+system.time(readLines("http://www.jhsph.edu"))
+```
+
+o al revés:
+
+```{r}
+library(parallel)
+system.time(mclapply(2000:2007, 
+  function(x){
+    sub <- subset(batting, yearID == x)
+    lm(R ~ AB + playerID, sub)
+}, mc.cores = 7))
+```
+
+Comparemos la velocidad de `dplyr` con funciones que se encuentran en R
+estándar y `plyr`.
+
+```{r, cache = TRUE}
+# dplyr
+dplyr_st <- system.time({
+  batting %>%
+  group_by(playerID) %>%
+  summarise(total = sum(R, na.rm = TRUE), n = n()) %>%
+  dplyr::arrange(desc(total))
+})
+
+# plyr
+plyr_st <- system.time({
+    batting %>% 
+    plyr::ddply("playerID", plyr::summarise, total = sum(R, na.rm = TRUE), 
+        n = length(R)) %>% 
+    plyr::arrange(-total)
+})
+
+# estándar lento
+est_l_st <- system.time({
+  players <- unique(batting$playerID)
+  n_players <- length(players)
+  total <- rep(NA, n_players)
+  n <- rep(NA, n_players)
+  for(i in 1:n_players){
+    sub_batting <- batting[batting$playerID == players[i], ]
+    total[i] <- sum(sub_batting$R, na.rm = TRUE)
+    n[i] <- nrow(sub_batting)
+  }
+  batting_2 <- data.frame(playerID = players, total = total, n = n)
+  batting_2[order(batting_2$total, decreasing = TRUE), ]
+})
+
+# estándar rápido
+est_r_st <- system.time({
+  batting_2 <- aggregate(. ~ playerID, data = batting[, c("playerID", "R")], 
+      sum)
+  batting_ord <- batting_2[order(batting_2$R, decreasing = TRUE), ]
+})
+
+dplyr_st
+plyr_st
+est_l_st
+est_r_st
+```
+
+La función system.time supone que sabes donde buscar, es decir, que expresiones
+debes evaluar, una función que puede ser más útil cuando uno
+desconoce cuál es la función que _alenta_ un programa es **profvis()** del 
+paquete con el mismo nombre.
+
+```{r}
+library(profvis)
+batting_recent <- filter(batting, yearID > 2006)
+profvis({
+  players <- unique(batting_recent$playerID)
+  n_players <- length(players)
+  total <- rep(NA, n_players)
+  n <- rep(NA, n_players)
+  for(i in 1:n_players){
+    sub_batting <- batting_recent[batting_recent$playerID == players[i], ]
+    total[i] <- sum(sub_batting$R, na.rm = TRUE)
+    n[i] <- nrow(sub_batting)
+  }
+  batting_2 <- data.frame(playerID = players, total = total, n = n)
+  batting_2[order(batting_2$total, decreasing = TRUE), ]
+})
+```
+
+`profvis()` utiliza a su vez la función `Rprof()` de R base, este es un 
+perfilador de muestreo que registra cambios en la pila de funciones, funciona 
+tomando muestras a intervalos regulares y tabula cuánto tiempo se lleva en cada 
+función.
+
+### Estrategias para mejorar desempeño {-}
+  
+1. Utilizar apropiadamente funciones de R, o funciones de paquetes que muchas 
+veces están mejor escritas de lo que nosotros podríamos hacer. 
+2. Hacer lo menos posible. 
+3. Usar funciones vectorizadas en R (casi siempre). No hacer crecer objetos (es 
+preferible definir su tamaño antes de operar en ellos).
+4. Paralelizar.
+5. La más simple y muchas veces la más barata: conseguie una máquina más grande 
+(por ejemplo [Amazon web services](http://aws.amazon.com)).
+
+
+#### Utilizar apropiadamente funciones de R {-}
+
+Si el cuello de botella es la función de un paquete vale la pena buscar 
+alternativas, [CRAN task views](http://cran.rstudio.com/web/views/) es un buen 
+lugar para buscar.
+
+##### Hacer lo menos posible {-} 
+
+Utiliza funciones más específicas, por ejemplo:  
+* rowSums(), colSums(), rowMeans() y colMeans() son más rápidas que las 
+invocaciones equivalentes de apply().  
+
+* Si quieres checar si un vector contiene un valor `any(x == 10)` es más veloz 
+que `10 %in% x`, esto es porque examinar igualdad es más sencillo que examinar 
+inclusión en un conjunto.  
+Este conocimiento requiere que conozcas alternativas, para ello debes construir 
+tu _vocabulario_, puedes comenzar por lo 
+[básico](http://adv-r.had.co.nz/Vocabulary.html#vocabulary) e ir incrementando 
+conforme lees código.  
+Otro caso es cuando las funciones son más rápidas cunado les das más información 
+del problema, por ejemplo:
+
+* read.csv(), especificar las clases de las columnas con colClasses.  
+* factor() especifica los niveles con el argumento levels.
+
+##### Usar funciones vectorizadas en R {-}
+
+Es común escuchar que en R _vectorizar_ es conveniente, el enfoque vectorizado 
+va más allá que evitar ciclos _for_:
+
+* Pensar en objetos, en lugar de enfocarse en las compoentes de un vector, se 
+piensa únicamente en el vector completo.  
+
+* Los ciclos en las funciones vectorizadas de R están escritos en C, lo que los 
+hace más veloces.
+
+Las funciones vectorizadas programadas en R pueden mejorar la interfaz de una 
+función pero no necesariamente mejorar el desempeño. Usar vectorización para 
+desempeño implica encontrar funciones de R implementadas en C.
+
+Al igual que en el punto anterior, vectorizar requiere encontrar las
+funciones apropiadas, algunos ejemplos incluyen: _rowSums(), colSums(), 
+rowMeans() y colMeans().
+
+Ejemplo: iteración (`for`, `lapply()`, `sapply()`, `vapply()`, `mapply()`, 
+`apply()`, ...) en un vector de `n` elementos llama a R base `n` veces
+
+```{r}
+compute_pi0 <- function(m) {
+    s = 0
+    sign = 1
+    for (n in 0:m) {
+        s = s + sign / (2 * n + 1)
+        sign = -sign
+    }
+    4 * s
+}
+
+compute_pi1 <- function(m) {
+    even <- seq(0, m, by = 2)
+    odd <- seq(1, m, by = 2)
+    s <- sum(1 / (2 * even + 1)) - sum(1 / (2 * odd + 1))
+    4 * s
+}
+m <- 1e6
+```
+
+Utilizamos el paquete [microbenchmark](https://cran.r-project.org/package=microbenchmark)
+para medir tiempos varias veces.
+
+```{r}
+library(microbenchmark)
+m <- 1e4
+result <- microbenchmark(
+    compute_pi0(m),
+    compute_pi0(m * 10),
+    compute_pi0(m * 100),
+    compute_pi1(m),
+    compute_pi1(m * 10),
+    compute_pi1(m * 100),
+    compute_pi1(m * 1000),
+    times = 20
+)
+result
+```
+
+#### Evitar copias {-}
+
+Otro aspecto importante es que generalmente conviene asignar objetos en lugar de 
+hacerlos crecer (es más eficiente asignar toda la memoria necesaria antes del 
+cálculo que asignarla sucesivamente). Esto es porque cuando se usan 
+instrucciones para crear un objeto más grande (e.g. append(), cbind(), c(),
+rbind()) R debe primero asignar espacio a un nuevo objeto y luego copiar al 
+nuevo lugar. Para leer más sobre esto [The R inferno](http://www.burns-stat.com/pages/Tutor/R_inferno.pdf) es una buena 
+referencia.
+
+Ejemplo: *crecer* un vector puede causar que R copie de manera repetida el 
+vector chico en el nuevo vector, aumentando el tiempo de ejecución. 
+
+Solución: crear vector de tamaño final y llenarlo con valores. Las funciones 
+como `lapply()` hacen esto de manera automática y son más sencillas que los 
+ciclos `for`.
+
+```{r}
+memory_copy1 <- function(n) {
+    result <- numeric()
+    for (i in seq_len(n))
+        result <- c(result, 1/i)
+    result
+}
+
+memory_copy2 <- function(n) {
+    result <- numeric()
+    for (i in seq_len(n))
+        result[i] <- 1 / i
+    result
+}
+
+pre_allocate1 <- function(n) {
+    result <- numeric(n)
+    for (i in seq_len(n))
+        result[i] <- 1 / i
+    result
+}
+
+pre_allocate2 <- function(n) {
+    vapply(seq_len(n), function(i) 1 / i, numeric(1))
+}
+
+vectorized <- function(n) {
+    1 / seq_len(n)
+}
+
+n <- 10000
+microbenchmark(
+    memory_copy1(n),
+    memory_copy2(n),
+    pre_allocate1(n),
+    pre_allocate2(n),
+    vectorized(n),
+    times = 10, unit = "relative"
+)
+```
+
+Un caso común donde se hacen copias sin necesidad es al trabajar con 
+data.frames.
+
+Ejemplo: actualizar un data.frame copia el data.frame completo.
+
+Solución: operar en vectores y actualiza el data.frame al final.
+
+```{r}
+n <- 1e4
+df <- data.frame(Index = 1:n, A = seq(10, by = 1, length.out = n))
+
+f1 <- function(df) {
+    ## constants
+    cost1 <- 3
+    cost2 <- 0.05
+    cost3 <- 50
+
+    ## update data.frame -- copies entire data frame each time!
+    df$S[1] <- cost1
+    for (j in 2:(n))
+        df$S[j] <- df$S[j - 1] - cost3 + df$S[j - 1] * cost2 / 12
+
+    ## return result
+    df
+}
+.f2helper <- function(cost1, cost2, cost3, n) {
+    ## create the result vector separately
+    cost2 <- cost2 / 12   # 'hoist' common operations
+    result <- numeric(n)
+    result[1] <- cost1
+    for (j in 2:(n))
+        result[j] <- (1 + cost2) * result[j - 1] - cost3
+    result
+}
+
+f2 <- function(df) {
+    cost1 <- 3
+    cost2 <- 0.05
+    cost3 <- 50
+
+    ## update the data.frame once
+    df$S <- .f2helper(cost1, cost2, cost3, n)
+    df
+}
+
+microbenchmark(
+    f1(df),
+    f2(df),
+    times = 5, unit = "relative"
+)
+```
+
+##### 4 Paralelizar
+
+Paralelizar usa varios _cores_  para trabajar de manera simultánea en varias 
+secciones de un problema, no reduce el tiempo computacional pero incrementa el 
+tiempo del usuario pues aprovecha los recursos. Como referencia está 
+[Parallel Computing for Data Science] de Norm Matloff.
