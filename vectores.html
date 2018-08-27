@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="visualizacion-con-ggplot2.html">
-<link rel="next" href="transformacion-de-datos.html">
+<link rel="prev" href="funciones.html">
+<link rel="next" href="rendimiento-en-r.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -233,30 +233,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="manipulacion-y-agrupacion-de-datos" class="section level1">
-<h1><span class="header-section-number">Sección 3</span> Manipulación y agrupación de datos</h1>
-<p><strong>El material de la clase se puede descargar de <a href="https://www.dropbox.com/s/gtxjn5xb39g2n09/02-manipulacion.zip?dl=0">aquí</a>.</strong></p>
-<p>En esta sección continuamos con la introducción a R para análisis de datos,
-en particular mostraremos herramientas de manipulación y transformación de
-datos. Trataremos los siguientes puntos:</p>
+<div id="vectores" class="section level2">
+<h2><span class="header-section-number">4.2</span> Vectores</h2>
+<p>En R se puede trabajar con distintas estructuras de datos, algunas son de una
+sola dimensión y otras permiten más, como indica el diagrama de abajo:</p>
+<p><img src="imagenes/data_structures.png" width="250px"/></p>
+<p>Hasta ahora nos hemos centrado en trabajar con <code>data.frames</code>, y hemos usado
+vectores atómicos sin profundizar, en esta sección se explican características
+de los vectores, y veremos que son la base de los <code>data.frames</code>.</p>
+<p>En R hay dos tipos de vectores, esto es, estructuras de datos de una sola
+dimensión: los vectores atómicos y las listas.</p>
 <ul>
-<li><p>Estrategia separa-aplica-combina.</p></li>
-<li><p>Reestructura de datos y el principio de los datos limpios.</p></li>
+<li>Los vectores atómicos pueden ser de 6 tipos: lógico, entero, double, caracter,
+complejo y raw. Los dos últimos son poco comunes.</li>
 </ul>
-<p>Es sabido que limpieza y preparación de datos ocupan gran parte del tiempo del
-análisis de datos (<a href="http://onlinelibrary.wiley.com/book/10.1002/0471448354">Dasu y Johnson, 2003</a>
-y <a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html?mcubz=0">NYT’s ‘Janitor Work’ Is Key Hurdle to Insights</a>),
-es por ello que vale la pena dedicar un tiempo a aprender técnicas que faciliten
-estas tareas, y entender que estructura en los datos es más conveniente para
-trabajar.</p> 
+<p>Vector atómico de tipo lógico:</p>
+<pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)
+a</code></pre>
+<pre><code>## [1]  TRUE FALSE FALSE</code></pre>
+<p>Numérico (double):</p>
+<pre class="sourceCode r"><code class="sourceCode r">b &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="fl">4.1</span>, <span class="dv">7</span>, <span class="fl">9.2</span>)
+b</code></pre>
+<pre><code>## [1] 5.0 2.0 4.1 7.0 9.2</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">b[<span class="dv">1</span>]</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">b[<span class="dv">2</span>]</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">b[<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</code></pre>
+<pre><code>## [1] 2.0 4.1 7.0</code></pre>
+<p>Las operaciones básicas con vectores atómicos son componente a componente:</p>
+<pre class="sourceCode r"><code class="sourceCode r">c &lt;-<span class="st"> </span>b <span class="op">+</span><span class="st"> </span><span class="dv">10</span>
+c</code></pre>
+<pre><code>## [1] 15.0 12.0 14.1 17.0 19.2</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">sqrt</span>(b)
+d</code></pre>
+<pre><code>## [1] 2.236068 1.414214 2.024846 2.645751 3.033150</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">b <span class="op">+</span><span class="st"> </span>d</code></pre>
+<pre><code>## [1]  7.236068  3.414214  6.124846  9.645751 12.233150</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">10</span> <span class="op">*</span><span class="st"> </span>b</code></pre>
+<pre><code>## [1] 50 20 41 70 92</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">b <span class="op">*</span><span class="st"> </span>d</code></pre>
+<pre><code>## [1] 11.180340  2.828427  8.301867 18.520259 27.904982</code></pre>
+<p>Y podemos crear secuencias como sigue:</p>
+<pre class="sourceCode r"><code class="sourceCode r">e &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+e</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.25</span>)
+f</code></pre>
+<pre><code>## [1] 0.00 0.25 0.50 0.75 1.00</code></pre>
+<p>Para calcular características de vectores atómicos usamos funciones:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># media del vector</span>
+<span class="kw">mean</span>(b)</code></pre>
+<pre><code>## [1] 5.46</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># suma de sus componentes</span>
+<span class="kw">sum</span>(b)</code></pre>
+<pre><code>## [1] 27.3</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># longitud del vector</span>
+<span class="kw">length</span>(b)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<p>Y ejemplo de vector atómico de tipo caracter y funciones:</p>
+<pre class="sourceCode r"><code class="sourceCode r">frutas &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;manzana&#39;</span>, <span class="st">&#39;manzana&#39;</span>, <span class="st">&#39;pera&#39;</span>, <span class="st">&#39;plátano&#39;</span>, <span class="st">&#39;fresa&#39;</span>, <span class="st">&quot;kiwi&quot;</span>)
+frutas</code></pre>
+<pre><code>## [1] &quot;manzana&quot; &quot;manzana&quot; &quot;pera&quot;    &quot;plátano&quot; &quot;fresa&quot;   &quot;kiwi&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;ana&quot;</span>, frutas)</code></pre>
+<pre><code>## [1] 1 2</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;x&quot;</span>, frutas)</code></pre>
+<pre><code>## [1] &quot;mxnzxnx&quot; &quot;mxnzxnx&quot; &quot;perx&quot;    &quot;plátxno&quot; &quot;fresx&quot;   &quot;kiwi&quot;</code></pre>
+<ul>
+<li>Las listas, a diferencia de los vectores atómicos, puden contener otras
+listas. Las listas son muy flexibles pues pueden almacenar objetos de cualquier
+tipo.</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="st">&quot;Mila&quot;</span>, <span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">3.2</span>))
+<span class="kw">str</span>(x)</code></pre>
+<pre><code>## List of 4
+##  $ : int [1:3] 1 2 3
+##  $ : chr &quot;Mila&quot;
+##  $ : logi [1:3] TRUE FALSE FALSE
+##  $ : num [1:3] 2 5 3.2</code></pre>
+<p>Las listas son vectores <em>recursivos</em> debido a que pueden almacenar otras listas.</p>
+<pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="kw">list</span>())))
+<span class="kw">str</span>(y)</code></pre>
+<pre><code>## List of 1
+##  $ :List of 1
+##   ..$ :List of 1
+##   .. ..$ : list()</code></pre>
+<p>Todos los vectores tienen las propiedades tipo y longitud, la función <code>typeof()</code>
+se usa para determinar el tipo,</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(a)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(b)</code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(frutas)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(x)</code></pre>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+<p>y <code>length()</code> la longitud:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(a)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(frutas)</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(x)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(y)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>La flexibilidad de las listas las convierte en estructuras muy útiles y muy
+comunes, muchas funciones regresan resultados en forma de lista. Incluso podemos
+ver que un data.frame es una lista de vectores, donde todos los vectores son
+de la misma longitud.</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="visualizacion-con-ggplot2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="transformacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="funciones.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="rendimiento-en-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -286,7 +378,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/02-manipulacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/03-temas_selectos_r.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

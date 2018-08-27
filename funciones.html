@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="visualizacion-con-ggplot2.html">
-<link rel="next" href="transformacion-de-datos.html">
+<link rel="prev" href="temas-selectos-de-r.html">
+<link rel="next" href="vectores.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -233,30 +233,230 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="manipulacion-y-agrupacion-de-datos" class="section level1">
-<h1><span class="header-section-number">Sección 3</span> Manipulación y agrupación de datos</h1>
-<p><strong>El material de la clase se puede descargar de <a href="https://www.dropbox.com/s/gtxjn5xb39g2n09/02-manipulacion.zip?dl=0">aquí</a>.</strong></p>
-<p>En esta sección continuamos con la introducción a R para análisis de datos,
-en particular mostraremos herramientas de manipulación y transformación de
-datos. Trataremos los siguientes puntos:</p>
-<ul>
-<li><p>Estrategia separa-aplica-combina.</p></li>
-<li><p>Reestructura de datos y el principio de los datos limpios.</p></li>
-</ul>
-<p>Es sabido que limpieza y preparación de datos ocupan gran parte del tiempo del
-análisis de datos (<a href="http://onlinelibrary.wiley.com/book/10.1002/0471448354">Dasu y Johnson, 2003</a>
-y <a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html?mcubz=0">NYT’s ‘Janitor Work’ Is Key Hurdle to Insights</a>),
-es por ello que vale la pena dedicar un tiempo a aprender técnicas que faciliten
-estas tareas, y entender que estructura en los datos es más conveniente para
-trabajar.</p> 
+<div id="funciones" class="section level2">
+<h2><span class="header-section-number">4.1</span> Funciones</h2>
+<blockquote>
+<p>“To understand computations in R, two slogans are helpful:<br />
+* Everything that exists is an object.<br />
+* Everything that happens is a function call.”<br />
+— John Chambers</p>
+</blockquote>
+<p>Todas las operaciones en R son producto de la llamada a una función, esto
+incluye operaciones como +, operadores que controlan flujo como <code>for</code>, <code>if</code> y
+<code>while</code>, e incluso operadores para obtener subconjuntos como <code>[ ]</code> y <code>$</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="dv">3</span>
+b &lt;-<span class="st"> </span><span class="dv">4</span>
+<span class="st">`</span><span class="dt">+</span><span class="st">`</span>(a, b)</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) <span class="kw">print</span>(i)</code></pre>
+<pre><code>## [1] 1
+## [1] 2</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">for</span><span class="st">`</span>(i, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw">print</span>(i))</code></pre>
+<pre><code>## [1] 1
+## [1] 2</code></pre>
+<p>Para escribir código eficiente y fácil de leer es importante saber esvribir
+funciones, se dice que si hiciste <em>copy-paste</em> de una sección de tu código 3
+o más veces es momento de escribir una función.</p>
+<p>Escribimos una función para calcular un promedio ponderado:</p>
+<pre class="sourceCode r"><code class="sourceCode r">wtd_mean &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">wt =</span> <span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">length</span>(x))) {
+  <span class="kw">sum</span>(x <span class="op">*</span><span class="st"> </span>wt) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(wt)
+}</code></pre>
+<p>Y se usa:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wtd_mean</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</code></pre>
+<pre><code>## [1] 5.5</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wtd_mean</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">10</span><span class="op">:</span><span class="dv">1</span>)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>Las funciones de R tienen tres partes:</p>
+<ol style="list-style-type: decimal">
+<li>El cuerpo: el código dentro de la función</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">body</span>(wtd_mean)</code></pre>
+<pre><code>## {
+##     sum(x * wt)/sum(wt)
+## }</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Los formales: la lista de argumentos que controlan como puedes llamar a la
+función,</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">formals</span>(wtd_mean)</code></pre>
+<pre><code>## $x
+## 
+## 
+## $wt
+## rep(1, length(x))</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>El ambiente: el <em>mapeo</em> de la ubicación de las variables de la función.</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">environment</span>(wtd_mean)</code></pre>
+<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">environment</span>(ggplot)</code></pre>
+<pre><code>## &lt;environment: namespace:ggplot2&gt;</code></pre>
+<p>Veamos mas ejemplos, ¿qué regresan las siguientes funciones?</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 1</span>
+x &lt;-<span class="st"> </span><span class="dv">5</span>
+f &lt;-<span class="st"> </span><span class="cf">function</span>(){
+  y &lt;-<span class="st"> </span><span class="dv">10</span>
+  <span class="kw">c</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y) 
+}
+<span class="kw">rm</span>(x, f)
+
+<span class="co"># 2</span>
+x &lt;-<span class="st"> </span><span class="dv">5</span>
+g &lt;-<span class="st"> </span><span class="cf">function</span>(){
+  x &lt;-<span class="st"> </span><span class="dv">20</span>
+  y &lt;-<span class="st"> </span><span class="dv">10</span>
+  <span class="kw">c</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)
+}
+<span class="kw">rm</span>(x, g)
+
+<span class="co"># 3</span>
+x &lt;-<span class="st"> </span><span class="dv">5</span>
+h &lt;-<span class="st"> </span><span class="cf">function</span>(){
+  y &lt;-<span class="st"> </span><span class="dv">10</span>
+  i &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    z &lt;-<span class="st"> </span><span class="dv">20</span>
+    <span class="kw">c</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> z)
+  }
+  <span class="kw">i</span>() 
+}
+
+<span class="co"># 4 ¿qué ocurre si la corremos por segunda vez?</span>
+j &lt;-<span class="st"> </span><span class="cf">function</span>(){
+  <span class="cf">if</span> (<span class="op">!</span><span class="kw">exists</span>(<span class="st">&quot;a&quot;</span>)){
+    a &lt;-<span class="st"> </span><span class="dv">5</span>
+  } <span class="cf">else</span>{
+    a &lt;-<span class="st"> </span>a <span class="op">+</span><span class="st"> </span><span class="dv">1</span> 
+}
+  <span class="kw">print</span>(a) 
+}
+x &lt;-<span class="st"> </span><span class="dv">0</span>
+y &lt;-<span class="st"> </span><span class="dv">10</span>
+
+<span class="co"># 5 ¿qué regresa k()? ¿y k()()?</span>
+k &lt;-<span class="st"> </span><span class="cf">function</span>(){
+  x &lt;-<span class="st"> </span><span class="dv">1</span>
+  <span class="cf">function</span>(){
+    y &lt;-<span class="st"> </span><span class="dv">2</span>
+    x <span class="op">+</span><span class="st"> </span>y 
+  }
+}</code></pre>
+<p>Las reglas de búsqueda determinan como se busca el valor de una variable libre
+en una función. A nivel lenguaje R usa <em>lexical scoping</em>, una alternativa es
+<em>dynamic scoping</em>. En R (<em>lexical scoping</em>) los valores de los símbolos se basan
+en como se anidan las funciones cuando fueron creadas y no en como son llamadas.
+Esto es, en R no importa como son las llamadas a una función para saber como se
+va a buscar el valor de una variable.</p>
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+  x <span class="op">+</span><span class="st"> </span>y
+}</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">f</span>(<span class="dv">2</span>)</code></pre>
+<pre><code>## Error in f(2): object &#39;y&#39; not found</code></pre>
+<p>Si creamos el objeto <code>y</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="dv">1</span>
+<span class="kw">f</span>(<span class="dv">2</span>)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>Como consecuencia de las reglas de búsqueda de R, todos los objetos deben ser
+guardados en memoria y, si uno no es cuidadoso se pueden cometer errores
+facilmente.</p>
+<pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="dv">100</span>
+<span class="kw">f</span>(<span class="dv">2</span>)</code></pre>
+<pre><code>## [1] 102</code></pre>
+<div id="observaciones-del-uso-de-funciones" class="section level3 unnumbered">
+<h3>Observaciones del uso de funciones</h3>
+<ol style="list-style-type: decimal">
+<li>Cuando llamamos a una función podemos especificar los argumentos en base a
+posición, nombre completo o nombre parcial:</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(abcdef, bcde1, bcde2) {
+  <span class="kw">c</span>(<span class="dt">a =</span> abcdef, <span class="dt">b1 =</span> bcde1, <span class="dt">b2 =</span> bcde2)
+}
+
+<span class="kw">f</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</code></pre>
+<pre><code>##  a b1 b2 
+##  1  2  3</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">f</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">abcdef =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>##  a b1 b2 
+##  1  2  3</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Podemos abreviar el nombre de los argumentos</span>
+<span class="kw">f</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">a =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>##  a b1 b2 
+##  1  2  3</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Siempre y cuando la abreviación no sea ambigua</span>
+<span class="kw">f</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Error in f(1, 3, b = 1): argument 3 matches multiple formal arguments</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Los argumentos de las funciones en R se evaluan conforme se necesitan (<em>lazy
+evaluation</em>),</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(a, b){
+  a <span class="op">^</span><span class="st"> </span><span class="dv">2</span>
+}
+<span class="kw">f</span>(<span class="dv">2</span>)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>La función anterior nunca utiliza el argumento <em>b</em>, de tal manera que <em>f(2)</em>
+no produce ningún error.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Funciones con el mismo nombre en distintos paquetes:</li>
+</ol>
+<p>La función filter (incluída en R base) aplica un filtro lineal a una serie
+de tiempo de una variable.</p>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span>
+<span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</code></pre>
+<pre><code>## Time Series:
+## Start = 1 
+## End = 100 
+## Frequency = 1 
+##   [1]  NA   6   9  12  15  18  21  24  27  30  33  36  39  42  45  48  51
+##  [18]  54  57  60  63  66  69  72  75  78  81  84  87  90  93  96  99 102
+##  [35] 105 108 111 114 117 120 123 126 129 132 135 138 141 144 147 150 153
+##  [52] 156 159 162 165 168 171 174 177 180 183 186 189 192 195 198 201 204
+##  [69] 207 210 213 216 219 222 225 228 231 234 237 240 243 246 249 252 255
+##  [86] 258 261 264 267 270 273 276 279 282 285 288 291 294 297  NA</code></pre>
+<p>Ahora cargamos <code>dplyr</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</code></pre>
+<pre><code>## Error in UseMethod(&quot;filter_&quot;): no applicable method for &#39;filter_&#39; applied to an object of class &quot;c(&#39;integer&#39;, &#39;numeric&#39;)&quot;</code></pre>
+<p>El problema es un conflicto en la función a llamar, nosotros requerimos usar
+<code>filter</code> de stats y no la función <code>filter</code> de <code>dplyr</code>. R utiliza por default
+la función que pertenece al último paquete que se cargó.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">search</span>()</code></pre>
+<pre><code>##  [1] &quot;.GlobalEnv&quot;        &quot;package:dplyr&quot;     &quot;package:ggplot2&quot;  
+##  [4] &quot;package:stats&quot;     &quot;package:graphics&quot;  &quot;package:grDevices&quot;
+##  [7] &quot;package:utils&quot;     &quot;package:datasets&quot;  &quot;package:methods&quot;  
+## [10] &quot;Autoloads&quot;         &quot;package:base&quot;</code></pre>
+<p>Una opción es especificar el paquete en la llamada de la función:</p>
+<pre class="sourceCode r"><code class="sourceCode r">stats<span class="op">::</span><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</code></pre>
+<pre><code>## Time Series:
+## Start = 1 
+## End = 100 
+## Frequency = 1 
+##   [1]  NA   6   9  12  15  18  21  24  27  30  33  36  39  42  45  48  51
+##  [18]  54  57  60  63  66  69  72  75  78  81  84  87  90  93  96  99 102
+##  [35] 105 108 111 114 117 120 123 126 129 132 135 138 141 144 147 150 153
+##  [52] 156 159 162 165 168 171 174 177 180 183 186 189 192 195 198 201 204
+##  [69] 207 210 213 216 219 222 225 228 231 234 237 240 243 246 249 252 255
+##  [86] 258 261 264 267 270 273 276 279 282 285 288 291 294 297  NA</code></pre>
+<p>Una alternativa es el paquete <a href="https://github.com/r-lib/conflicted">conflicted</a>
+que alerta cuando hay conflictos y tiene funciones para especificar a que
+paquete se desea dar preferencia por default en una sesión.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="visualizacion-con-ggplot2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="transformacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="temas-selectos-de-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="vectores.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -286,7 +486,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/02-manipulacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/03-temas_selectos_r.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
