@@ -38,6 +38,7 @@ Y se usa:
 wtd_mean(1:10)
 wtd_mean(1:10, 10:1)
 ```
+<<<<<<< HEAD
 
 ![](imagenes/manicule2.jpg) Escribe una función que reciba un vector y devuelva
 el mismo vector reescalado al rango 0 a 1. 
@@ -51,6 +52,8 @@ el mismo vector reescalado al rango 0 a 1.
 df <- data.frame(ind = 1:10, a = rnorm(10), b = rnorm(10), c = rnorm(10), d = rnorm(10))
 ```
 
+=======
+>>>>>>> 27ef834b49e0e8bc1097a6234d308d5406dca20c
 Las funciones de R tienen tres partes:
 
 1. El cuerpo: el código dentro de la función
@@ -314,6 +317,7 @@ y <- list(list(list(list())))
 str(y)
 ```
 
+<<<<<<< HEAD
 Para construir subconjuntos a partir de listas usamo `[]` y `[[]]`. En el primer 
 caso siempre obtenemos como resultado una lista:
 
@@ -337,6 +341,10 @@ str(x_2)
 ### Propiedades {-}
 Todos los vectores (atómicos y listas) tienen las propiedades tipo y longitud, 
 la función `typeof()` se usa para determinar el tipo,
+=======
+Todos los vectores tienen las propiedades tipo y longitud, la función `typeof()`
+se usa para determinar el tipo,
+>>>>>>> 27ef834b49e0e8bc1097a6234d308d5406dca20c
 
 ```{r}
 typeof(a)
@@ -359,6 +367,7 @@ comunes, muchas funciones regresan resultados en forma de lista. Incluso podemos
 ver que un data.frame es una lista de vectores, donde todos los vectores son
 de la misma longitud.
 
+<<<<<<< HEAD
 Adicionalmente, los vectores pueden tener atributo de nombres, que puede usarse
 para indexar.
 
@@ -434,6 +443,8 @@ specdata_us <- map_df(paths, ~readr::read_csv(., col_types = "Tddi"),
 nitrato de cada estación de monitoreo, itera sobre el vector `specdata_us_vec`.
 
 
+=======
+>>>>>>> 27ef834b49e0e8bc1097a6234d308d5406dca20c
 ## Rendimiento en R
 
 > "We should forget about small efficiencies, say about 97% of the time: 
@@ -701,7 +712,11 @@ pre_allocate1 <- function(n) {
 }
 
 pre_allocate2 <- function(n) {
+<<<<<<< HEAD
     map_dbl(seq_len(n), function(i) 1 / i)
+=======
+    vapply(seq_len(n), function(i) 1 / i, numeric(1))
+>>>>>>> 27ef834b49e0e8bc1097a6234d308d5406dca20c
 }
 
 vectorized <- function(n) {
