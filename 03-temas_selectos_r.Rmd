@@ -294,7 +294,7 @@ Y ejemplo de vector atómico de tipo caracter y funciones:
 ```{r}
 frutas <- c('manzana', 'manzana', 'pera', 'plátano', 'fresa', "kiwi")
 frutas
-grep("ana", frutas)
+grep("a", frutas)
 gsub("a", "x", frutas)
 ```
 
@@ -337,6 +337,10 @@ str(x_2)
 ### Propiedades {-}
 Todos los vectores (atómicos y listas) tienen las propiedades tipo y longitud, 
 la función `typeof()` se usa para determinar el tipo,
+=======
+Todos los vectores tienen las propiedades tipo y longitud, la función `typeof()`
+se usa para determinar el tipo,
+>>>>>>> 27ef834b49e0e8bc1097a6234d308d5406dca20c
 
 ```{r}
 typeof(a)
@@ -359,6 +363,7 @@ comunes, muchas funciones regresan resultados en forma de lista. Incluso podemos
 ver que un data.frame es una lista de vectores, donde todos los vectores son
 de la misma longitud.
 
+<<<<<<< HEAD
 Adicionalmente, los vectores pueden tener atributo de nombres, que puede usarse
 para indexar.
 
@@ -434,6 +439,8 @@ specdata_us <- map_df(paths, ~readr::read_csv(., col_types = "Tddi"),
 nitrato de cada estación de monitoreo, itera sobre el vector `specdata_us_vec`.
 
 
+=======
+>>>>>>> 27ef834b49e0e8bc1097a6234d308d5406dca20c
 ## Rendimiento en R
 
 > "We should forget about small efficiencies, say about 97% of the time: 
