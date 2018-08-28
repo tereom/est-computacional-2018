@@ -31,7 +31,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="tareas.html">
+<link rel="prev" href="transformacion-de-datos-1.html">
 <link rel="next" href="referencias.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -46,6 +46,13 @@
 
 
 
+<script src="libs/htmlwidgets-1.2/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.5/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.5/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.5/profvis.js"></script>
 
 
 <style type="text/css">
@@ -192,8 +199,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i><b>4</b> Tareas</a><ul>
-<li class="chapter" data-level="4.1" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i><b>4.1</b> Datos limpios</a></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones.html"><a href="funciones.html"><i class="fa fa-check"></i><b>4.1</b> Funciones</a><ul>
+<li class="chapter" data-level="" data-path="funciones.html"><a href="funciones.html#observaciones-del-uso-de-funciones"><i class="fa fa-check"></i>Observaciones del uso de funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteracion.html"><a href="iteracion.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
+<li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -216,26 +237,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="datos-limpios-1" class="section level2">
-<h2><span class="header-section-number">4.1</span> Datos limpios</h2>
-<p>Entrega: Lunes 27 de agosto.</p>
-<p>Utiliza los datos de vuelos (<code>flights</code>) para responder la siguientes preguntas.</p>
-<ul>
-<li><p>¿A qué hora del día debo volar para evitar, lo más posible, retrasos de
-salida?</p></li>
-<li><p>Para cada destino calcula el total de minutos de retraso de salida. Para cada
-vuelo calcula su proporción del total de retrasos de su destino.</p></li>
-<li><p>Los retrasos suelen estar correlacionados temporalmente, incluso cuando se
-ha resuelto el problema que ocasionó los retrasos iniciales, vuelos posteriores
-suelen mantener algo de retraso. Usando la función <code>lag()</code> explora como el
-retraso de salida de un vuelo se relaciona con el retraso de salida del vuelo
-anterior. Realiza una gráfica para visualizar tus hallazgos.</p></li>
-<li><p>Para cada destino, puedes encontrar vuelos sospechosamente rápidos o lentos?
-(quizá debido a porblemas en la captura de los datos). Calcula el tiempo de
-vuelo relativo a la mediana de tiempo de vuelo a su destino. Qué vuelos se
-retrasaron más en el aire?</p></li>
-<li><p>Encuentra los destinos que se vuelan por al menos dos compañías (carriers).</p></li>
-</ul>
+<div id="datos-limpios-1" class="section level2 unnumbered">
+<h2>3-Datos Limpios</h2>
+<p>Entrega: Lunes 3 de septiembre.</p>
+<p>Descarga los datos <a href="https://www.dropbox.com/s/e8wjbwpwa37ceqg/03-limpios.zip?dl=0">aquí</a>.</p>
+<p>En la carpeta de arriba encontrarás un archivo de excel (m_013.xls), este
+archivo contiene información de causas de mortalidad en México entre 2000 y
+2008. Contesta las siguientes preguntas:</p>
+<ol style="list-style-type: decimal">
+<li>¿Cuáles son las variables en esta base de datos?<br />
+</li>
+<li>¿La tabla de datos cumple con los principios de datos limpios?
+¿Qué problemas presenta?<br />
+</li>
+<li>La información del archivo de excel se ha guardado también en archivos de
+texto (csv) 2001-2008, lee y limpia los datos para que cumplan los principios de
+datos limpios. Recuerda que las modificaciones deben de ser reproducibles, para
+esto guarda tu trabajo en un script.<br />
+</li>
+<li>El archivo de excel indice_marginacion.xlsx contiene el índice por entidad
+para los años 2000 y 2010. Realiza una gráfica donde compares la marginación por
+entidad con las tasas de mortalidad correspondientes al 2000. Deberás unir las
+dos fuentes de información.</li>
+</ol>
+<p>Observaciones:<br />
+* Puedes filtrar/eliminar los valores a <em>Total</em> si crees que es más claro.<br />
+* Intenta usar las funciones que estudiamos en la clase (gather, separate,
+select, filter).<br />
+* Si aún no te sientes cómodx con las funciones de clase (y lo intentaste varias
+veces) puedes hacer las manipulaciones usando otra herramienta (incluso Excel,
+una combinación de Excel y R o cualquier software que conozcas); sin embargo,
+debes documentar tus pasos claramente, con la intención de mantener métodos
+reproducibles.</p>
 
 </div>
 <!-- </div> -->
@@ -244,7 +277,7 @@ retrasaron más en el aire?</p></li>
           </div>
         </div>
       </div>
-<a href="tareas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="transformacion-de-datos-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
