@@ -3,8 +3,8 @@
 ```{r setup, include = FALSE}
 library(tidyverse)
 knitr::opts_chunk$set(
-  #comment = "#>",
-  #collapse = TRUE,
+  comment = "#>",
+  collapse = TRUE,
   fig.align = "center"
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
@@ -462,8 +462,6 @@ con retrasos en las salidas de Houston?
 si los aviones más viejos están asociados a mayores retrasos, responde
 con una gráfica.
 
-******
-
 ## Datos limpios
 
 Una vez que importamos datos a R es conveniente limpiarlos, esto implica 
@@ -482,7 +480,7 @@ transformar.
 correcta.
 
 
-Los principios de **datos limpios** [@tidy] 
+Los principios de *datos limpios* [@tidy] 
 proveen una manera estándar de organizar la información:
 
 1. Cada variable forma una columna.
@@ -870,28 +868,30 @@ specdata
 ```
 
 ### Otras consideraciones {-}
+
 En las buenas prácticas es importante tomar en cuenta los siguientes puntos:
 
 * Incluir un encabezado con el nombre de las variables.
+
 * Los nombres de las variables deben ser entendibles (e.g. AgeAtDiagnosis es 
 mejor que AgeDx).
+
 * En general los datos se deben guardar en un archivo por tabla.
+
 * Escribir un script con las modificaciones que se hicieron a los _datos crudos_ 
 (reproducibilidad).
+
 * Otros aspectos importantes en la _limpieza_ de datos son: selección del tipo 
 de variables (por ejemplo fechas), datos faltantes, _typos_ y detección de 
 valores atípicos.
 
 ### Recursos adicionales {-}
 
-* [Tidy Data](http://vita.had.co.nz/papers/tidy-data.pdf), Hadley Wickham.
-
-* [The Split-Apply-Combine Strategy for Data Analysis](http://www.jstatsoft.org/v40/i01/paper), 
-Hadley Wickham 2011.
-
 * [Data Import Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf), 
 RStudio.
 
 * [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf), 
 RStudio.
+
+
 

@@ -1,5 +1,10 @@
 # Temas selectos de R
 
+Esta sección describe algunos aspectos de R como lenguaje de programación (en 
+contraste a introducir funciones para análisis de datos). Es importante tener
+en cuenta como funciona R para escribir código más claro, minimizando errores
+y más eficiente. Las referencias para esta sección son @advr y @r4ds.
+
 ## Funciones
 
 > “To understand computations in R, two slogans are helpful:  
@@ -673,7 +678,7 @@ hacerlos crecer (es más eficiente asignar toda la memoria necesaria antes del
 cálculo que asignarla sucesivamente). Esto es porque cuando se usan 
 instrucciones para crear un objeto más grande (e.g. append(), cbind(), c(),
 rbind()) R debe primero asignar espacio a un nuevo objeto y luego copiar al 
-nuevo lugar. Para leer más sobre esto [The R inferno](http://www.burns-stat.com/pages/Tutor/R_inferno.pdf) es una buena 
+nuevo lugar. Para leer más sobre esto @burns2012r es una buena 
 referencia.
 
 Ejemplo: *crecer* un vector puede causar que R copie de manera repetida el 

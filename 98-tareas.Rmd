@@ -1,5 +1,12 @@
 # Tareas {-}
 
+* Las tareas se envían por correo a teresa.ortiz.mancera@gmail.com con título: 
+EstComp-TareaXX (donde XX corresponde al número de tarea, 01..). 
+
+* Las tareas deben incluir código y resultados (si conocen [Rmarkdown](https://rmarkdown.rstudio.com) 
+es muy conveniente para este propósito).
+
+
 ## 2-Transformación de datos {-}
 
 Entrega: Lunes 27 de agosto.
@@ -48,9 +55,12 @@ entidad con las tasas de mortalidad correspondientes al 2000. Deberás unir las
 dos fuentes de información.
 
 Observaciones:  
-* Puedes filtrar/eliminar los valores a *Total* si crees que es más claro.  
+
+* Puedes filtrar/eliminar los valores a *Total* si crees que es más claro. 
+
 * Intenta usar las funciones que estudiamos en la clase (gather, separate, 
 select, filter).  
+
 * Si aún no te sientes cómodx con las funciones de clase (y lo intentaste varias 
 veces) puedes hacer las manipulaciones usando otra herramienta (incluso Excel, 
 una combinación de Excel y R o cualquier software que conozcas); sin embargo, 
