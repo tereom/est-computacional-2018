@@ -292,129 +292,132 @@ de RStudio, es importante copiar los comandos al script de R para no perder
 reproducibilidad.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 
-flights &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/flights.csv&quot;</span>)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   date = col_datetime(format = &quot;&quot;),
-##   hour = col_integer(),
-##   minute = col_integer(),
-##   dep = col_integer(),
-##   arr = col_integer(),
-##   dep_delay = col_integer(),
-##   arr_delay = col_integer(),
-##   carrier = col_character(),
-##   flight = col_integer(),
-##   dest = col_character(),
-##   plane = col_character(),
-##   cancelled = col_integer(),
-##   time = col_integer(),
-##   dist = col_integer()
-## )</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">flights</code></pre>
-<pre><code>## # A tibble: 227,496 x 14
-##    date                 hour minute   dep   arr dep_delay arr_delay carrier
-##    &lt;dttm&gt;              &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;  
-##  1 2011-01-01 12:00:00    14      0  1400  1500         0       -10 AA     
-##  2 2011-01-02 12:00:00    14      1  1401  1501         1        -9 AA     
-##  3 2011-01-03 12:00:00    13     52  1352  1502        -8        -8 AA     
-##  4 2011-01-04 12:00:00    14      3  1403  1513         3         3 AA     
-##  5 2011-01-05 12:00:00    14      5  1405  1507         5        -3 AA     
-##  6 2011-01-06 12:00:00    13     59  1359  1503        -1        -7 AA     
-##  7 2011-01-07 12:00:00    13     59  1359  1509        -1        -1 AA     
-##  8 2011-01-08 12:00:00    13     55  1355  1454        -5       -16 AA     
-##  9 2011-01-09 12:00:00    14     43  1443  1554        43        44 AA     
-## 10 2011-01-10 12:00:00    14     43  1443  1553        43        43 AA     
-## # ... with 227,486 more rows, and 6 more variables: flight &lt;int&gt;,
-## #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;, dist &lt;int&gt;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">weather &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/weather.csv&quot;</span>)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   date = col_date(format = &quot;&quot;),
-##   hour = col_integer(),
-##   temp = col_double(),
-##   dew_point = col_double(),
-##   humidity = col_integer(),
-##   pressure = col_double(),
-##   visibility = col_double(),
-##   wind_dir = col_character(),
-##   wind_dir2 = col_integer(),
-##   wind_speed = col_double(),
-##   gust_speed = col_double(),
-##   precip = col_double(),
-##   conditions = col_character(),
-##   events = col_character()
-## )</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">weather </code></pre>
-<pre><code>## # A tibble: 8,723 x 14
-##    date        hour  temp dew_point humidity pressure visibility wind_dir
-##    &lt;date&gt;     &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   
-##  1 2011-01-01     0  59        28.9       32     29.9         10 NNE     
-##  2 2011-01-01     1  57.2      28.4       33     29.9         10 NNE     
-##  3 2011-01-01     2  55.4      28.4       36     29.9         10 NNW     
-##  4 2011-01-01     3  53.6      28.4       38     29.9         10 North   
-##  5 2011-01-01     4  NA        NA         NA     30.0         10 NNW     
-##  6 2011-01-01     5  NA        NA         NA     30.0         10 North   
-##  7 2011-01-01     6  53.1      17.1       24     30.0         10 North   
-##  8 2011-01-01     7  53.1      16         23     30.1         10 North   
-##  9 2011-01-01     8  54        18         24     30.1         10 North   
-## 10 2011-01-01     9  55.4      17.6       23     30.1         10 NNE     
-## # ... with 8,713 more rows, and 6 more variables: wind_dir2 &lt;int&gt;,
-## #   wind_speed &lt;dbl&gt;, gust_speed &lt;dbl&gt;, precip &lt;dbl&gt;, conditions &lt;chr&gt;,
-## #   events &lt;chr&gt;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">planes &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/planes.csv&quot;</span>)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   plane = col_character(),
-##   year = col_integer(),
-##   mfr = col_character(),
-##   model = col_character(),
-##   no.eng = col_integer(),
-##   no.seats = col_integer(),
-##   speed = col_integer(),
-##   engine = col_character(),
-##   type = col_character()
-## )</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">planes</code></pre>
-<pre><code>## # A tibble: 2,853 x 9
-##    plane   year mfr       model   no.eng no.seats speed engine  type      
-##    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;int&gt;    &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     
-##  1 N576AA  1991 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
-##  2 N557AA  1993 MARZ BAR… KITFOX…      1        2    NA Recipr… Fixed win…
-##  3 N403AA  1974 RAVEN     S55A        NA        1    60 None    Balloon   
-##  4 N492AA  1989 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
-##  5 N262AA  1985 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
-##  6 N493AA  1989 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
-##  7 N477AA  1988 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
-##  8 N476AA  1988 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
-##  9 N504AA    NA AUTHIER … TIERRA…      1        2    NA Recipr… Fixed win…
-## 10 N565AA  1987 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
-## # ... with 2,843 more rows</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">airports &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/airports.csv&quot;</span>)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   iata = col_character(),
-##   airport = col_character(),
-##   city = col_character(),
-##   state = col_character(),
-##   country = col_character(),
-##   lat = col_double(),
-##   long = col_double()
-## )</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">airports</code></pre>
-<pre><code>## # A tibble: 3,376 x 7
-##    iata  airport              city             state country   lat   long
-##    &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-##  1 00M   Thigpen              Bay Springs      MS    USA      32.0  -89.2
-##  2 00R   Livingston Municipal Livingston       TX    USA      30.7  -95.0
-##  3 00V   Meadow Lake          Colorado Springs CO    USA      38.9 -105. 
-##  4 01G   Perry-Warsaw         Perry            NY    USA      42.7  -78.1
-##  5 01J   Hilliard Airpark     Hilliard         FL    USA      30.7  -81.9
-##  6 01M   Tishomingo County    Belmont          MS    USA      34.5  -88.2
-##  7 02A   Gragg-Wade           Clanton          AL    USA      32.9  -86.6
-##  8 02C   Capitol              Brookfield       WI    USA      43.1  -88.2
-##  9 02G   Columbiana County    East Liverpool   OH    USA      40.7  -80.6
-## 10 03D   Memphis Memorial     Memphis          MO    USA      40.4  -92.2
-## # ... with 3,366 more rows</code></pre>
+flights &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/flights.csv&quot;</span>)
+<span class="co">#&gt; Parsed with column specification:</span>
+<span class="co">#&gt; cols(</span>
+<span class="co">#&gt;   date = col_datetime(format = &quot;&quot;),</span>
+<span class="co">#&gt;   hour = col_integer(),</span>
+<span class="co">#&gt;   minute = col_integer(),</span>
+<span class="co">#&gt;   dep = col_integer(),</span>
+<span class="co">#&gt;   arr = col_integer(),</span>
+<span class="co">#&gt;   dep_delay = col_integer(),</span>
+<span class="co">#&gt;   arr_delay = col_integer(),</span>
+<span class="co">#&gt;   carrier = col_character(),</span>
+<span class="co">#&gt;   flight = col_integer(),</span>
+<span class="co">#&gt;   dest = col_character(),</span>
+<span class="co">#&gt;   plane = col_character(),</span>
+<span class="co">#&gt;   cancelled = col_integer(),</span>
+<span class="co">#&gt;   time = col_integer(),</span>
+<span class="co">#&gt;   dist = col_integer()</span>
+<span class="co">#&gt; )</span>
+flights
+<span class="co">#&gt; # A tibble: 227,496 x 14</span>
+<span class="co">#&gt;    date                 hour minute   dep   arr dep_delay arr_delay carrier</span>
+<span class="co">#&gt;    &lt;dttm&gt;              &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;  1 2011-01-01 12:00:00    14      0  1400  1500         0       -10 AA     </span>
+<span class="co">#&gt;  2 2011-01-02 12:00:00    14      1  1401  1501         1        -9 AA     </span>
+<span class="co">#&gt;  3 2011-01-03 12:00:00    13     52  1352  1502        -8        -8 AA     </span>
+<span class="co">#&gt;  4 2011-01-04 12:00:00    14      3  1403  1513         3         3 AA     </span>
+<span class="co">#&gt;  5 2011-01-05 12:00:00    14      5  1405  1507         5        -3 AA     </span>
+<span class="co">#&gt;  6 2011-01-06 12:00:00    13     59  1359  1503        -1        -7 AA     </span>
+<span class="co">#&gt;  7 2011-01-07 12:00:00    13     59  1359  1509        -1        -1 AA     </span>
+<span class="co">#&gt;  8 2011-01-08 12:00:00    13     55  1355  1454        -5       -16 AA     </span>
+<span class="co">#&gt;  9 2011-01-09 12:00:00    14     43  1443  1554        43        44 AA     </span>
+<span class="co">#&gt; 10 2011-01-10 12:00:00    14     43  1443  1553        43        43 AA     </span>
+<span class="co">#&gt; # ... with 227,486 more rows, and 6 more variables: flight &lt;int&gt;,</span>
+<span class="co">#&gt; #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;, dist &lt;int&gt;</span>
+
+weather &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/weather.csv&quot;</span>)
+<span class="co">#&gt; Parsed with column specification:</span>
+<span class="co">#&gt; cols(</span>
+<span class="co">#&gt;   date = col_date(format = &quot;&quot;),</span>
+<span class="co">#&gt;   hour = col_integer(),</span>
+<span class="co">#&gt;   temp = col_double(),</span>
+<span class="co">#&gt;   dew_point = col_double(),</span>
+<span class="co">#&gt;   humidity = col_integer(),</span>
+<span class="co">#&gt;   pressure = col_double(),</span>
+<span class="co">#&gt;   visibility = col_double(),</span>
+<span class="co">#&gt;   wind_dir = col_character(),</span>
+<span class="co">#&gt;   wind_dir2 = col_integer(),</span>
+<span class="co">#&gt;   wind_speed = col_double(),</span>
+<span class="co">#&gt;   gust_speed = col_double(),</span>
+<span class="co">#&gt;   precip = col_double(),</span>
+<span class="co">#&gt;   conditions = col_character(),</span>
+<span class="co">#&gt;   events = col_character()</span>
+<span class="co">#&gt; )</span>
+weather 
+<span class="co">#&gt; # A tibble: 8,723 x 14</span>
+<span class="co">#&gt;    date        hour  temp dew_point humidity pressure visibility wind_dir</span>
+<span class="co">#&gt;    &lt;date&gt;     &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   </span>
+<span class="co">#&gt;  1 2011-01-01     0  59        28.9       32     29.9         10 NNE     </span>
+<span class="co">#&gt;  2 2011-01-01     1  57.2      28.4       33     29.9         10 NNE     </span>
+<span class="co">#&gt;  3 2011-01-01     2  55.4      28.4       36     29.9         10 NNW     </span>
+<span class="co">#&gt;  4 2011-01-01     3  53.6      28.4       38     29.9         10 North   </span>
+<span class="co">#&gt;  5 2011-01-01     4  NA        NA         NA     30.0         10 NNW     </span>
+<span class="co">#&gt;  6 2011-01-01     5  NA        NA         NA     30.0         10 North   </span>
+<span class="co">#&gt;  7 2011-01-01     6  53.1      17.1       24     30.0         10 North   </span>
+<span class="co">#&gt;  8 2011-01-01     7  53.1      16         23     30.1         10 North   </span>
+<span class="co">#&gt;  9 2011-01-01     8  54        18         24     30.1         10 North   </span>
+<span class="co">#&gt; 10 2011-01-01     9  55.4      17.6       23     30.1         10 NNE     </span>
+<span class="co">#&gt; # ... with 8,713 more rows, and 6 more variables: wind_dir2 &lt;int&gt;,</span>
+<span class="co">#&gt; #   wind_speed &lt;dbl&gt;, gust_speed &lt;dbl&gt;, precip &lt;dbl&gt;, conditions &lt;chr&gt;,</span>
+<span class="co">#&gt; #   events &lt;chr&gt;</span>
+
+planes &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/planes.csv&quot;</span>)
+<span class="co">#&gt; Parsed with column specification:</span>
+<span class="co">#&gt; cols(</span>
+<span class="co">#&gt;   plane = col_character(),</span>
+<span class="co">#&gt;   year = col_integer(),</span>
+<span class="co">#&gt;   mfr = col_character(),</span>
+<span class="co">#&gt;   model = col_character(),</span>
+<span class="co">#&gt;   no.eng = col_integer(),</span>
+<span class="co">#&gt;   no.seats = col_integer(),</span>
+<span class="co">#&gt;   speed = col_integer(),</span>
+<span class="co">#&gt;   engine = col_character(),</span>
+<span class="co">#&gt;   type = col_character()</span>
+<span class="co">#&gt; )</span>
+planes
+<span class="co">#&gt; # A tibble: 2,853 x 9</span>
+<span class="co">#&gt;    plane   year mfr       model   no.eng no.seats speed engine  type      </span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;int&gt;    &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     </span>
+<span class="co">#&gt;  1 N576AA  1991 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…</span>
+<span class="co">#&gt;  2 N557AA  1993 MARZ BAR… KITFOX…      1        2    NA Recipr… Fixed win…</span>
+<span class="co">#&gt;  3 N403AA  1974 RAVEN     S55A        NA        1    60 None    Balloon   </span>
+<span class="co">#&gt;  4 N492AA  1989 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…</span>
+<span class="co">#&gt;  5 N262AA  1985 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…</span>
+<span class="co">#&gt;  6 N493AA  1989 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…</span>
+<span class="co">#&gt;  7 N477AA  1988 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…</span>
+<span class="co">#&gt;  8 N476AA  1988 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…</span>
+<span class="co">#&gt;  9 N504AA    NA AUTHIER … TIERRA…      1        2    NA Recipr… Fixed win…</span>
+<span class="co">#&gt; 10 N565AA  1987 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…</span>
+<span class="co">#&gt; # ... with 2,843 more rows</span>
+
+airports &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/airports.csv&quot;</span>)
+<span class="co">#&gt; Parsed with column specification:</span>
+<span class="co">#&gt; cols(</span>
+<span class="co">#&gt;   iata = col_character(),</span>
+<span class="co">#&gt;   airport = col_character(),</span>
+<span class="co">#&gt;   city = col_character(),</span>
+<span class="co">#&gt;   state = col_character(),</span>
+<span class="co">#&gt;   country = col_character(),</span>
+<span class="co">#&gt;   lat = col_double(),</span>
+<span class="co">#&gt;   long = col_double()</span>
+<span class="co">#&gt; )</span>
+airports
+<span class="co">#&gt; # A tibble: 3,376 x 7</span>
+<span class="co">#&gt;    iata  airport              city             state country   lat   long</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 00M   Thigpen              Bay Springs      MS    USA      32.0  -89.2</span>
+<span class="co">#&gt;  2 00R   Livingston Municipal Livingston       TX    USA      30.7  -95.0</span>
+<span class="co">#&gt;  3 00V   Meadow Lake          Colorado Springs CO    USA      38.9 -105. </span>
+<span class="co">#&gt;  4 01G   Perry-Warsaw         Perry            NY    USA      42.7  -78.1</span>
+<span class="co">#&gt;  5 01J   Hilliard Airpark     Hilliard         FL    USA      30.7  -81.9</span>
+<span class="co">#&gt;  6 01M   Tishomingo County    Belmont          MS    USA      34.5  -88.2</span>
+<span class="co">#&gt;  7 02A   Gragg-Wade           Clanton          AL    USA      32.9  -86.6</span>
+<span class="co">#&gt;  8 02C   Capitol              Brookfield       WI    USA      43.1  -88.2</span>
+<span class="co">#&gt;  9 02G   Columbiana County    East Liverpool   OH    USA      40.7  -80.6</span>
+<span class="co">#&gt; 10 03D   Memphis Memorial     Memphis          MO    USA      40.4  -92.2</span>
+<span class="co">#&gt; # ... with 3,366 more rows</span></code></pre>
 </div>
 <div id="filtrar" class="section level3 unnumbered">
 <h3>Filtrar</h3>
@@ -422,30 +425,30 @@ flights &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 instrucción:</p>
 <pre class="sourceCode r"><code class="sourceCode r">df_ej &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">genero =</span> <span class="kw">c</span>(<span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;hombre&quot;</span>, <span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;mujer&quot;</span>, <span class="st">&quot;hombre&quot;</span>), 
   <span class="dt">estatura =</span> <span class="kw">c</span>(<span class="fl">1.65</span>, <span class="fl">1.80</span>, <span class="fl">1.70</span>, <span class="fl">1.60</span>, <span class="fl">1.67</span>))
-df_ej</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   genero estatura
-##   &lt;chr&gt;     &lt;dbl&gt;
-## 1 mujer      1.65
-## 2 hombre     1.8 
-## 3 mujer      1.7 
-## 4 mujer      1.6 
-## 5 hombre     1.67</code></pre>
+df_ej
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;   genero estatura</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 mujer      1.65</span>
+<span class="co">#&gt; 2 hombre     1.8 </span>
+<span class="co">#&gt; 3 mujer      1.7 </span>
+<span class="co">#&gt; 4 mujer      1.6 </span>
+<span class="co">#&gt; 5 hombre     1.67</span></code></pre>
 <p>El primer argumento de <code>filter()</code> es el nombre del <em>data frame</em>, los subsecuentes
 son las expresiones que indican que filas filtrar.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(df_ej, genero <span class="op">==</span><span class="st"> &quot;mujer&quot;</span>)</code></pre>
-<pre><code>## # A tibble: 3 x 2
-##   genero estatura
-##   &lt;chr&gt;     &lt;dbl&gt;
-## 1 mujer      1.65
-## 2 mujer      1.7 
-## 3 mujer      1.6</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(df_ej, estatura <span class="op">&gt;</span><span class="st"> </span><span class="fl">1.65</span> <span class="op">&amp;</span><span class="st"> </span>estatura <span class="op">&lt;</span><span class="st"> </span><span class="fl">1.75</span>)</code></pre>
-<pre><code>## # A tibble: 2 x 2
-##   genero estatura
-##   &lt;chr&gt;     &lt;dbl&gt;
-## 1 mujer      1.7 
-## 2 hombre     1.67</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(df_ej, genero <span class="op">==</span><span class="st"> &quot;mujer&quot;</span>)
+<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt;   genero estatura</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 mujer      1.65</span>
+<span class="co">#&gt; 2 mujer      1.7 </span>
+<span class="co">#&gt; 3 mujer      1.6</span>
+<span class="kw">filter</span>(df_ej, estatura <span class="op">&gt;</span><span class="st"> </span><span class="fl">1.65</span> <span class="op">&amp;</span><span class="st"> </span>estatura <span class="op">&lt;</span><span class="st"> </span><span class="fl">1.75</span>)
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;   genero estatura</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 mujer      1.7 </span>
+<span class="co">#&gt; 2 hombre     1.67</span></code></pre>
 <p>Algunos operadores importantes para filtrar son:</p>
 <pre class="sourceCode r"><code class="sourceCode r">x <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>
 x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span>
@@ -455,19 +458,19 @@ x <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>
 x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>
 x <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)</code></pre>
 <p>Debemos tener cuidado al usar <code>==</code></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">2</span></code></pre>
-<pre><code>## [1] FALSE</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span></code></pre>
-<pre><code>## [1] FALSE</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">2</span>
+<span class="co">#&gt; [1] FALSE</span>
+<span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span>
+<span class="co">#&gt; [1] FALSE</span></code></pre>
 <p>Los resultados de arriba se deben a que las computadoras
 usan aritmética de precisión finita:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dt">digits =</span> <span class="dv">20</span>)</code></pre>
-<pre><code>## [1] 0.99999999999999988898</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dt">digits =</span> <span class="dv">20</span>)
+<span class="co">#&gt; [1] 0.99999999999999988898</span></code></pre>
 <p>Para estos casos es útil usar la función <code>near()</code></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">near</span>(<span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>,  <span class="dv">2</span>)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">near</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dv">1</span>)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">near</span>(<span class="kw">sqrt</span>(<span class="dv">2</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>,  <span class="dv">2</span>)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">near</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">49</span> <span class="op">*</span><span class="st"> </span><span class="dv">49</span>, <span class="dv">1</span>)
+<span class="co">#&gt; [1] TRUE</span></code></pre>
 <p>Los operadores booleanos también son convenientes para
 filtrar:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Conjuntos</span>
@@ -486,12 +489,12 @@ el retraso de llegada es más del doble que el retraso de salida.</p>
 <p>Un caso común es cuando se desea eliminar los datos con faltantes en una o más
 columnas de las tablas de datos, en R los datos faltantes se expresan como <code>NA</code>,
 para eliminar los faltantes en la variable <code>dep_delay</code> resulta natural escribir:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(flights, dep_delay <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)</code></pre>
-<pre><code>## # A tibble: 0 x 14
-## # ... with 14 variables: date &lt;dttm&gt;, hour &lt;int&gt;, minute &lt;int&gt;, dep &lt;int&gt;,
-## #   arr &lt;int&gt;, dep_delay &lt;int&gt;, arr_delay &lt;int&gt;, carrier &lt;chr&gt;,
-## #   flight &lt;int&gt;, dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;,
-## #   dist &lt;int&gt;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(flights, dep_delay <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)
+<span class="co">#&gt; # A tibble: 0 x 14</span>
+<span class="co">#&gt; # ... with 14 variables: date &lt;dttm&gt;, hour &lt;int&gt;, minute &lt;int&gt;, dep &lt;int&gt;,</span>
+<span class="co">#&gt; #   arr &lt;int&gt;, dep_delay &lt;int&gt;, arr_delay &lt;int&gt;, carrier &lt;chr&gt;,</span>
+<span class="co">#&gt; #   flight &lt;int&gt;, dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;,</span>
+<span class="co">#&gt; #   dist &lt;int&gt;</span></code></pre>
 <p>que nos devuelve una tabla vacía, sin embargo, si hay faltantes en esta
 variable. El problema resulta de usar el operador <code>!=</code>, pensemos ¿qué regresan
 las siguientes expresiones?</p>
@@ -507,63 +510,63 @@ que incluye NAs o su suma regrese <code>NA</code>s se debe a que el default en R
 propagar los valores faltantes, esto es, si deconozco el valor de una de las
 componentes de un vector, también desconozco la suma del mismo; sin embargo,
 muchas funciones tienen un argumento <em>na.rm</em> para removerlos,</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre>
-<pre><code>## [1] 9</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre>
-<pre><code>## [1] 4.5</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] 9</span>
+<span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="ot">NA</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] 4.5</span></code></pre>
 <p>Aún queda pendiente, como filtrarlos en una tabla, para esto veamos que el
 manejo de datos faltantes en R utiliza una lógica ternaria (como SQL):</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="ot">NA</span></code></pre>
-<pre><code>## [1] NA</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="ot">NA</span> <span class="op">==</span><span class="st"> </span><span class="ot">NA</span>
+<span class="co">#&gt; [1] NA</span></code></pre>
 <p>La expresión anterior puede resultar confusa, una manera de pensar en esto es
 considerar los NA como <em>no sé</em>, por ejemplo si no se la edad de Juan y no se la
 edad de Esteban, la respuesta a ¿Juan tiene la misma edad que Esteban? es
 <em>no sé</em> (NA).</p>
 <pre class="sourceCode r"><code class="sourceCode r">edad_Juan &lt;-<span class="st"> </span><span class="ot">NA</span>
 edad_Esteban &lt;-<span class="st"> </span><span class="ot">NA</span>
-edad_Juan <span class="op">==</span><span class="st"> </span>edad_Esteban</code></pre>
-<pre><code>## [1] NA</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">edad_Jose &lt;-<span class="st"> </span><span class="dv">32</span>
+edad_Juan <span class="op">==</span><span class="st"> </span>edad_Esteban
+<span class="co">#&gt; [1] NA</span>
+edad_Jose &lt;-<span class="st"> </span><span class="dv">32</span>
 <span class="co"># Juan es menor que José?</span>
-edad_Juan <span class="op">&lt;</span><span class="st"> </span>edad_Jose</code></pre>
-<pre><code>## [1] NA</code></pre>
+edad_Juan <span class="op">&lt;</span><span class="st"> </span>edad_Jose
+<span class="co">#&gt; [1] NA</span></code></pre>
 <p>Por tanto para determinar si un valor es faltante usamos la instrucción
 <code>is.na()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.na</span>(<span class="ot">NA</span>)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.na</span>(<span class="ot">NA</span>)
+<span class="co">#&gt; [1] TRUE</span></code></pre>
 <p>Y finalmente podemos filtrar con</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(flights, <span class="kw">is.na</span>(dep_delay))</code></pre>
 </div>
 <div id="seleccionar" class="section level3 unnumbered">
 <h3>Seleccionar</h3>
 <p>Elegir columnas de un conjunto de datos.</p>
-<pre class="sourceCode r"><code class="sourceCode r">df_ej</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   genero estatura
-##   &lt;chr&gt;     &lt;dbl&gt;
-## 1 mujer      1.65
-## 2 hombre     1.8 
-## 3 mujer      1.7 
-## 4 mujer      1.6 
-## 5 hombre     1.67</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(df_ej, genero)</code></pre>
-<pre><code>## # A tibble: 5 x 1
-##   genero
-##   &lt;chr&gt; 
-## 1 mujer 
-## 2 hombre
-## 3 mujer 
-## 4 mujer 
-## 5 hombre</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(df_ej, <span class="op">-</span>genero)</code></pre>
-<pre><code>## # A tibble: 5 x 1
-##   estatura
-##      &lt;dbl&gt;
-## 1     1.65
-## 2     1.8 
-## 3     1.7 
-## 4     1.6 
-## 5     1.67</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">df_ej
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;   genero estatura</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 mujer      1.65</span>
+<span class="co">#&gt; 2 hombre     1.8 </span>
+<span class="co">#&gt; 3 mujer      1.7 </span>
+<span class="co">#&gt; 4 mujer      1.6 </span>
+<span class="co">#&gt; 5 hombre     1.67</span>
+<span class="kw">select</span>(df_ej, genero)
+<span class="co">#&gt; # A tibble: 5 x 1</span>
+<span class="co">#&gt;   genero</span>
+<span class="co">#&gt;   &lt;chr&gt; </span>
+<span class="co">#&gt; 1 mujer </span>
+<span class="co">#&gt; 2 hombre</span>
+<span class="co">#&gt; 3 mujer </span>
+<span class="co">#&gt; 4 mujer </span>
+<span class="co">#&gt; 5 hombre</span>
+<span class="kw">select</span>(df_ej, <span class="op">-</span>genero)
+<span class="co">#&gt; # A tibble: 5 x 1</span>
+<span class="co">#&gt;   estatura</span>
+<span class="co">#&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1.65</span>
+<span class="co">#&gt; 2     1.8 </span>
+<span class="co">#&gt; 3     1.7 </span>
+<span class="co">#&gt; 4     1.6 </span>
+<span class="co">#&gt; 5     1.67</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(df_ej, <span class="kw">starts_with</span>(<span class="st">&quot;g&quot;</span>))
 <span class="kw">select</span>(df_ej, <span class="kw">contains</span>(<span class="st">&quot;g&quot;</span>))</code></pre>
 <p><img src="imagenes/manicule2.jpg" /> Ve la ayuda de select (<code>?select</code>) y escribe tres
@@ -572,24 +575,24 @@ maneras de seleccionar las variables de retraso (delay).</p>
 <div id="ordenar" class="section level3 unnumbered">
 <h3>Ordenar</h3>
 <p>Ordenar de acuerdo al valor de una o más variables:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(df_ej, genero)</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   genero estatura
-##   &lt;chr&gt;     &lt;dbl&gt;
-## 1 hombre     1.8 
-## 2 hombre     1.67
-## 3 mujer      1.65
-## 4 mujer      1.7 
-## 5 mujer      1.6</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(df_ej, <span class="kw">desc</span>(estatura))</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   genero estatura
-##   &lt;chr&gt;     &lt;dbl&gt;
-## 1 hombre     1.8 
-## 2 mujer      1.7 
-## 3 hombre     1.67
-## 4 mujer      1.65
-## 5 mujer      1.6</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(df_ej, genero)
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;   genero estatura</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 hombre     1.8 </span>
+<span class="co">#&gt; 2 hombre     1.67</span>
+<span class="co">#&gt; 3 mujer      1.65</span>
+<span class="co">#&gt; 4 mujer      1.7 </span>
+<span class="co">#&gt; 5 mujer      1.6</span>
+<span class="kw">arrange</span>(df_ej, <span class="kw">desc</span>(estatura))
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;   genero estatura</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 hombre     1.8 </span>
+<span class="co">#&gt; 2 mujer      1.7 </span>
+<span class="co">#&gt; 3 hombre     1.67</span>
+<span class="co">#&gt; 4 mujer      1.65</span>
+<span class="co">#&gt; 5 mujer      1.6</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> Ordena los vuelos por fecha de salida y hora.</p>
 <p>            ¿Cuáles
 son los vuelos con mayor retraso?</p>
@@ -600,24 +603,24 @@ son los vuelos con mayor retraso?</p>
 <h3>Mutar</h3>
 <p>Mutar consiste en crear nuevas variables aplicando una función a columnas
 existentes:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) </code></pre>
-<pre><code>## # A tibble: 5 x 3
-##   genero estatura estatura_cm
-##   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;
-## 1 mujer      1.65         165
-## 2 hombre     1.8          180
-## 3 mujer      1.7          170
-## 4 mujer      1.6          160
-## 5 hombre     1.67         167</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">estatura_in =</span> estatura_cm <span class="op">*</span><span class="st"> </span><span class="fl">0.3937</span>) </code></pre>
-<pre><code>## # A tibble: 5 x 4
-##   genero estatura estatura_cm estatura_in
-##   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-## 1 mujer      1.65         165        65.0
-## 2 hombre     1.8          180        70.9
-## 3 mujer      1.7          170        66.9
-## 4 mujer      1.6          160        63.0
-## 5 hombre     1.67         167        65.7</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) 
+<span class="co">#&gt; # A tibble: 5 x 3</span>
+<span class="co">#&gt;   genero estatura estatura_cm</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 mujer      1.65         165</span>
+<span class="co">#&gt; 2 hombre     1.8          180</span>
+<span class="co">#&gt; 3 mujer      1.7          170</span>
+<span class="co">#&gt; 4 mujer      1.6          160</span>
+<span class="co">#&gt; 5 hombre     1.67         167</span>
+<span class="kw">mutate</span>(df_ej, <span class="dt">estatura_cm =</span> estatura <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">estatura_in =</span> estatura_cm <span class="op">*</span><span class="st"> </span><span class="fl">0.3937</span>) 
+<span class="co">#&gt; # A tibble: 5 x 4</span>
+<span class="co">#&gt;   genero estatura estatura_cm estatura_in</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 mujer      1.65         165        65.0</span>
+<span class="co">#&gt; 2 hombre     1.8          180        70.9</span>
+<span class="co">#&gt; 3 mujer      1.7          170        66.9</span>
+<span class="co">#&gt; 4 mujer      1.6          160        63.0</span>
+<span class="co">#&gt; 5 hombre     1.67         167        65.7</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> Calcula la velocidad en millas por hora a partir de
 la variable tiempo y la distancia (en millas). ¿Quá vuelo fue el más rápido?</p>
 <p>            Crea una nueva
@@ -628,31 +631,31 @@ variable que muestre cuánto tiempo se ganó o perdió durante el vuelo.</p>
 <h3>Summarise y resúmenes por grupo</h3>
 <p>Summarise sirve para crear nuevas bases de datos con resúmenes o agregaciones de
 los datos originales.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summarise</span>(df_ej, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))</code></pre>
-<pre><code>## # A tibble: 1 x 1
-##   promedio
-##      &lt;dbl&gt;
-## 1     1.68</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summarise</span>(df_ej, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))
+<span class="co">#&gt; # A tibble: 1 x 1</span>
+<span class="co">#&gt;   promedio</span>
+<span class="co">#&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1.68</span></code></pre>
 <p>Podemos hacer resúmenes por grupo, primero creamos una base de datos agrupada:</p>
 <pre class="sourceCode r"><code class="sourceCode r">by_genero &lt;-<span class="st"> </span><span class="kw">group_by</span>(df_ej, genero)
-by_genero</code></pre>
-<pre><code>## # A tibble: 5 x 2
-## # Groups:   genero [2]
-##   genero estatura
-##   &lt;chr&gt;     &lt;dbl&gt;
-## 1 mujer      1.65
-## 2 hombre     1.8 
-## 3 mujer      1.7 
-## 4 mujer      1.6 
-## 5 hombre     1.67</code></pre>
+by_genero
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt; # Groups:   genero [2]</span>
+<span class="co">#&gt;   genero estatura</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 mujer      1.65</span>
+<span class="co">#&gt; 2 hombre     1.8 </span>
+<span class="co">#&gt; 3 mujer      1.7 </span>
+<span class="co">#&gt; 4 mujer      1.6 </span>
+<span class="co">#&gt; 5 hombre     1.67</span></code></pre>
 <p>y después operamos sobre cada grupo, creando un resumen a nivel grupo y uniendo
 los subconjuntos en una base nueva:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summarise</span>(by_genero, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))</code></pre>
-<pre><code>## # A tibble: 2 x 2
-##   genero promedio
-##   &lt;chr&gt;     &lt;dbl&gt;
-## 1 hombre     1.74
-## 2 mujer      1.65</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summarise</span>(by_genero, <span class="dt">promedio =</span> <span class="kw">mean</span>(estatura))
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;   genero promedio</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 hombre     1.74</span>
+<span class="co">#&gt; 2 mujer      1.65</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> Calcula el retraso promedio por fecha.</p>
 <p>            ¿Qué otros
 resúmenes puedes hacer para explorar el retraso por fecha?</p>
@@ -702,24 +705,24 @@ dentro de cada grupo z = (x - mean(x)) / sd(x).</p>
 planes <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">z_delay =</span>
     (arr_delay <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(arr_delay)) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(arr_delay)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(z_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>)</code></pre>
-<pre><code>## # A tibble: 1,403 x 16
-## # Groups:   plane [856]
-##    date                 hour minute   dep   arr dep_delay arr_delay carrier
-##    &lt;dttm&gt;              &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;  
-##  1 2011-01-28 12:00:00    15     16  1516  1916       351       326 CO     
-##  2 2011-01-27 12:00:00    18     22  1822  1945       234       210 CO     
-##  3 2011-01-27 12:00:00    21     37  2137  2254       242       219 CO     
-##  4 2011-01-27 12:00:00     0     11    11   216       168       137 CO     
-##  5 2011-01-27 12:00:00    22     37  2237   153       227       208 CO     
-##  6 2011-01-27 12:00:00    21     28  2128   136       231       216 CO     
-##  7 2011-01-26 12:00:00    11     46  1146  1633       171       193 CO     
-##  8 2011-01-26 12:00:00     9     49   949  1436       144       180 CO     
-##  9 2011-01-21 12:00:00    19     11  1911  2352        94       112 CO     
-## 10 2011-01-20 12:00:00     6     35   635   807       780       775 CO     
-## # ... with 1,393 more rows, and 8 more variables: flight &lt;int&gt;,
-## #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;, dist &lt;int&gt;,
-## #   date_only &lt;date&gt;, z_delay &lt;dbl&gt;</code></pre>
+<span class="st">  </span><span class="kw">filter</span>(z_delay <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>)
+<span class="co">#&gt; # A tibble: 1,403 x 16</span>
+<span class="co">#&gt; # Groups:   plane [856]</span>
+<span class="co">#&gt;    date                 hour minute   dep   arr dep_delay arr_delay carrier</span>
+<span class="co">#&gt;    &lt;dttm&gt;              &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;  1 2011-01-28 12:00:00    15     16  1516  1916       351       326 CO     </span>
+<span class="co">#&gt;  2 2011-01-27 12:00:00    18     22  1822  1945       234       210 CO     </span>
+<span class="co">#&gt;  3 2011-01-27 12:00:00    21     37  2137  2254       242       219 CO     </span>
+<span class="co">#&gt;  4 2011-01-27 12:00:00     0     11    11   216       168       137 CO     </span>
+<span class="co">#&gt;  5 2011-01-27 12:00:00    22     37  2237   153       227       208 CO     </span>
+<span class="co">#&gt;  6 2011-01-27 12:00:00    21     28  2128   136       231       216 CO     </span>
+<span class="co">#&gt;  7 2011-01-26 12:00:00    11     46  1146  1633       171       193 CO     </span>
+<span class="co">#&gt;  8 2011-01-26 12:00:00     9     49   949  1436       144       180 CO     </span>
+<span class="co">#&gt;  9 2011-01-21 12:00:00    19     11  1911  2352        94       112 CO     </span>
+<span class="co">#&gt; 10 2011-01-20 12:00:00     6     35   635   807       780       775 CO     </span>
+<span class="co">#&gt; # ... with 1,393 more rows, and 8 more variables: flight &lt;int&gt;,</span>
+<span class="co">#&gt; #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;, dist &lt;int&gt;,</span>
+<span class="co">#&gt; #   date_only &lt;date&gt;, z_delay &lt;dbl&gt;</span></code></pre>
 </div>
 <div id="verbos-de-dos-tablas" class="section level3 unnumbered">
 <h3>Verbos de dos tablas</h3>
@@ -736,22 +739,22 @@ flights <span class="op">%&gt;%</span>
         <span class="dt">arr_delay =</span> <span class="kw">mean</span>(arr_delay),
         <span class="dt">n =</span> <span class="kw">n</span>() ) <span class="op">%&gt;%</span>
 <span class="st">        </span><span class="kw">arrange</span>(<span class="kw">desc</span>(arr_delay)) <span class="op">%&gt;%</span>
-<span class="st">        </span><span class="kw">left_join</span>(location)</code></pre>
-<pre><code>## Joining, by = &quot;dest&quot;</code></pre>
-<pre><code>## # A tibble: 116 x 6
-##    dest  arr_delay     n name                                  lat   long
-##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                               &lt;dbl&gt;  &lt;dbl&gt;
-##  1 ANC        26.1   124 Ted Stevens Anchorage International  61.2 -150. 
-##  2 CID        17.8   406 Eastern Iowa                         41.9  -91.7
-##  3 DSM        16.0   634 Des Moines International             41.5  -93.7
-##  4 SFO        14.9  2800 San Francisco International          37.6 -122. 
-##  5 BPT        14.3     3 Southeast Texas Regional             30.0  -94.0
-##  6 GRR        13.7   665 Kent County International            42.9  -85.5
-##  7 DAY        13.7   444 James M Cox Dayton Intl              39.9  -84.2
-##  8 VPS        12.5   864 Eglin Air Force Base                 30.5  -86.5
-##  9 ECP        12.4   720 &lt;NA&gt;                                 NA     NA  
-## 10 SAV        12.3   851 Savannah International               32.1  -81.2
-## # ... with 106 more rows</code></pre>
+<span class="st">        </span><span class="kw">left_join</span>(location)
+<span class="co">#&gt; Joining, by = &quot;dest&quot;</span>
+<span class="co">#&gt; # A tibble: 116 x 6</span>
+<span class="co">#&gt;    dest  arr_delay     n name                                  lat   long</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;                               &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 ANC        26.1   124 Ted Stevens Anchorage International  61.2 -150. </span>
+<span class="co">#&gt;  2 CID        17.8   406 Eastern Iowa                         41.9  -91.7</span>
+<span class="co">#&gt;  3 DSM        16.0   634 Des Moines International             41.5  -93.7</span>
+<span class="co">#&gt;  4 SFO        14.9  2800 San Francisco International          37.6 -122. </span>
+<span class="co">#&gt;  5 BPT        14.3     3 Southeast Texas Regional             30.0  -94.0</span>
+<span class="co">#&gt;  6 GRR        13.7   665 Kent County International            42.9  -85.5</span>
+<span class="co">#&gt;  7 DAY        13.7   444 James M Cox Dayton Intl              39.9  -84.2</span>
+<span class="co">#&gt;  8 VPS        12.5   864 Eglin Air Force Base                 30.5  -86.5</span>
+<span class="co">#&gt;  9 ECP        12.4   720 &lt;NA&gt;                                 NA     NA  </span>
+<span class="co">#&gt; 10 SAV        12.3   851 Savannah International               32.1  -81.2</span>
+<span class="co">#&gt; # ... with 106 more rows</span></code></pre>
 <p>Hay varias maneras de unir dos bases de datos y debemos pensar en el
 obejtivo:</p>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;George&quot;</span>, <span class="st">&quot;Ringo&quot;</span>, <span class="st">&quot;Stuart&quot;</span>, <span class="st">&quot;Pete&quot;</span>),
@@ -760,61 +763,62 @@ obejtivo:</p>
 
 y &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Paul&quot;</span>, <span class="st">&quot;George&quot;</span>, <span class="st">&quot;Ringo&quot;</span>, <span class="st">&quot;Brian&quot;</span>),
   <span class="dt">band =</span> <span class="kw">c</span>(<span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;TRUE&quot;</span>,  <span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;FALSE&quot;</span>))
-x</code></pre>
-<pre><code>## # A tibble: 6 x 2
-##   name   instrument
-##   &lt;chr&gt;  &lt;chr&gt;     
-## 1 John   guitar    
-## 2 Paul   bass      
-## 3 George guitar    
-## 4 Ringo  drums     
-## 5 Stuart bass      
-## 6 Pete   drums</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">y</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   name   band 
-##   &lt;chr&gt;  &lt;chr&gt;
-## 1 John   TRUE 
-## 2 Paul   TRUE 
-## 3 George TRUE 
-## 4 Ringo  TRUE 
-## 5 Brian  FALSE</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">inner_join</span>(x, y)</code></pre>
-<pre><code>## Joining, by = &quot;name&quot;</code></pre>
-<pre><code>## # A tibble: 4 x 3
-##   name   instrument band 
-##   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;
-## 1 John   guitar     TRUE 
-## 2 Paul   bass       TRUE 
-## 3 George guitar     TRUE 
-## 4 Ringo  drums      TRUE</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(x, y)</code></pre>
-<pre><code>## Joining, by = &quot;name&quot;</code></pre>
-<pre><code>## # A tibble: 6 x 3
-##   name   instrument band 
-##   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;
-## 1 John   guitar     TRUE 
-## 2 Paul   bass       TRUE 
-## 3 George guitar     TRUE 
-## 4 Ringo  drums      TRUE 
-## 5 Stuart bass       &lt;NA&gt; 
-## 6 Pete   drums      &lt;NA&gt;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">semi_join</span>(x, y)</code></pre>
-<pre><code>## Joining, by = &quot;name&quot;</code></pre>
-<pre><code>## # A tibble: 4 x 2
-##   name   instrument
-##   &lt;chr&gt;  &lt;chr&gt;     
-## 1 John   guitar    
-## 2 Paul   bass      
-## 3 George guitar    
-## 4 Ringo  drums</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anti_join</span>(x, y)</code></pre>
-<pre><code>## Joining, by = &quot;name&quot;</code></pre>
-<pre><code>## # A tibble: 2 x 2
-##   name   instrument
-##   &lt;chr&gt;  &lt;chr&gt;     
-## 1 Stuart bass      
-## 2 Pete   drums</code></pre>
+x
+<span class="co">#&gt; # A tibble: 6 x 2</span>
+<span class="co">#&gt;   name   instrument</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     </span>
+<span class="co">#&gt; 1 John   guitar    </span>
+<span class="co">#&gt; 2 Paul   bass      </span>
+<span class="co">#&gt; 3 George guitar    </span>
+<span class="co">#&gt; 4 Ringo  drums     </span>
+<span class="co">#&gt; 5 Stuart bass      </span>
+<span class="co">#&gt; 6 Pete   drums</span>
+y
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;   name   band </span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;</span>
+<span class="co">#&gt; 1 John   TRUE </span>
+<span class="co">#&gt; 2 Paul   TRUE </span>
+<span class="co">#&gt; 3 George TRUE </span>
+<span class="co">#&gt; 4 Ringo  TRUE </span>
+<span class="co">#&gt; 5 Brian  FALSE</span>
+
+<span class="kw">inner_join</span>(x, y)
+<span class="co">#&gt; Joining, by = &quot;name&quot;</span>
+<span class="co">#&gt; # A tibble: 4 x 3</span>
+<span class="co">#&gt;   name   instrument band </span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;</span>
+<span class="co">#&gt; 1 John   guitar     TRUE </span>
+<span class="co">#&gt; 2 Paul   bass       TRUE </span>
+<span class="co">#&gt; 3 George guitar     TRUE </span>
+<span class="co">#&gt; 4 Ringo  drums      TRUE</span>
+<span class="kw">left_join</span>(x, y)
+<span class="co">#&gt; Joining, by = &quot;name&quot;</span>
+<span class="co">#&gt; # A tibble: 6 x 3</span>
+<span class="co">#&gt;   name   instrument band </span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;</span>
+<span class="co">#&gt; 1 John   guitar     TRUE </span>
+<span class="co">#&gt; 2 Paul   bass       TRUE </span>
+<span class="co">#&gt; 3 George guitar     TRUE </span>
+<span class="co">#&gt; 4 Ringo  drums      TRUE </span>
+<span class="co">#&gt; 5 Stuart bass       &lt;NA&gt; </span>
+<span class="co">#&gt; 6 Pete   drums      &lt;NA&gt;</span>
+<span class="kw">semi_join</span>(x, y)
+<span class="co">#&gt; Joining, by = &quot;name&quot;</span>
+<span class="co">#&gt; # A tibble: 4 x 2</span>
+<span class="co">#&gt;   name   instrument</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     </span>
+<span class="co">#&gt; 1 John   guitar    </span>
+<span class="co">#&gt; 2 Paul   bass      </span>
+<span class="co">#&gt; 3 George guitar    </span>
+<span class="co">#&gt; 4 Ringo  drums</span>
+<span class="kw">anti_join</span>(x, y)
+<span class="co">#&gt; Joining, by = &quot;name&quot;</span>
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;   name   instrument</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     </span>
+<span class="co">#&gt; 1 Stuart bass      </span>
+<span class="co">#&gt; 2 Pete   drums</span></code></pre>
 <p>Resumamos lo que observamos arriba:</p>
 <table>
 <thead>
@@ -852,32 +856,32 @@ de unión adecuado?</p>
     <span class="dt">n =</span> <span class="kw">n</span>() ) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>)
 
-delay_weather &lt;-<span class="st"> </span>hourly_delay <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(weather)</code></pre>
-<pre><code>## Joining, by = &quot;hour&quot;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arrange</span>(delay_weather, <span class="op">-</span>delay)</code></pre>
-<pre><code>## # A tibble: 2,091,842 x 17
-## # Groups:   date_only [365]
-##    date_only   hour delay     n date        temp dew_point humidity
-##    &lt;date&gt;     &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;date&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;int&gt;
-##  1 2011-05-12    23  184.    33 2011-01-02  43        28.9       58
-##  2 2011-05-12    23  184.    33 2011-01-03  39        27         62
-##  3 2011-05-12    23  184.    33 2011-01-04  50        45         83
-##  4 2011-05-12    23  184.    33 2011-01-05  62.6      60.8       94
-##  5 2011-05-12    23  184.    33 2011-01-06  53.1      36         52
-##  6 2011-05-12    23  184.    33 2011-01-07  46.9      36         66
-##  7 2011-05-12    23  184.    33 2011-01-08  50        43         77
-##  8 2011-05-12    23  184.    33 2011-01-09  53.1      30         41
-##  9 2011-05-12    23  184.    33 2011-01-10  41        37         86
-## 10 2011-05-12    23  184.    33 2011-01-11  39.9      32         73
-## # ... with 2,091,832 more rows, and 9 more variables: pressure &lt;dbl&gt;,
-## #   visibility &lt;dbl&gt;, wind_dir &lt;chr&gt;, wind_dir2 &lt;int&gt;, wind_speed &lt;dbl&gt;,
-## #   gust_speed &lt;dbl&gt;, precip &lt;dbl&gt;, conditions &lt;chr&gt;, events &lt;chr&gt;</code></pre>
+delay_weather &lt;-<span class="st"> </span>hourly_delay <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(weather)
+<span class="co">#&gt; Joining, by = &quot;hour&quot;</span>
+
+<span class="kw">arrange</span>(delay_weather, <span class="op">-</span>delay)
+<span class="co">#&gt; # A tibble: 2,091,842 x 17</span>
+<span class="co">#&gt; # Groups:   date_only [365]</span>
+<span class="co">#&gt;    date_only   hour delay     n date        temp dew_point humidity</span>
+<span class="co">#&gt;    &lt;date&gt;     &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;date&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
+<span class="co">#&gt;  1 2011-05-12    23  184.    33 2011-01-02  43        28.9       58</span>
+<span class="co">#&gt;  2 2011-05-12    23  184.    33 2011-01-03  39        27         62</span>
+<span class="co">#&gt;  3 2011-05-12    23  184.    33 2011-01-04  50        45         83</span>
+<span class="co">#&gt;  4 2011-05-12    23  184.    33 2011-01-05  62.6      60.8       94</span>
+<span class="co">#&gt;  5 2011-05-12    23  184.    33 2011-01-06  53.1      36         52</span>
+<span class="co">#&gt;  6 2011-05-12    23  184.    33 2011-01-07  46.9      36         66</span>
+<span class="co">#&gt;  7 2011-05-12    23  184.    33 2011-01-08  50        43         77</span>
+<span class="co">#&gt;  8 2011-05-12    23  184.    33 2011-01-09  53.1      30         41</span>
+<span class="co">#&gt;  9 2011-05-12    23  184.    33 2011-01-10  41        37         86</span>
+<span class="co">#&gt; 10 2011-05-12    23  184.    33 2011-01-11  39.9      32         73</span>
+<span class="co">#&gt; # ... with 2,091,832 more rows, and 9 more variables: pressure &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   visibility &lt;dbl&gt;, wind_dir &lt;chr&gt;, wind_dir2 &lt;int&gt;, wind_speed &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   gust_speed &lt;dbl&gt;, precip &lt;dbl&gt;, conditions &lt;chr&gt;, events &lt;chr&gt;</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> ¿Qué condiciones climáticas están asociadas
 con retrasos en las salidas de Houston?</p>
 <p>            Explora
 si los aviones más viejos están asociados a mayores retrasos, responde
 con una gráfica.</p>
-<hr />
 </div>
 </div>
 <h3>Referencias</h3>
