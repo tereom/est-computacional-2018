@@ -574,7 +574,8 @@ tomando muestras a intervalos regulares y tabula cuánto tiempo se lleva en cada
 función.
 
 ### Estrategias para mejorar desempeño {-}
-  
+Algunas estrategias para mejorar desempeño:
+
 1. Utilizar apropiadamente funciones de R, o funciones de paquetes que muchas 
 veces están mejor escritas de lo que nosotros podríamos hacer. 
 2. Hacer lo menos posible. 
@@ -584,6 +585,9 @@ preferible definir su tamaño antes de operar en ellos).
 5. La más simple y muchas veces la más barata: conseguie una máquina más grande 
 (por ejemplo [Amazon web services](http://aws.amazon.com)).
 
+A continuación revisamos y ejemplificamos los puntos anteriores, los ejemplos de código se 
+tomaron del taller [EfficientR](https://github.com/Bioconductor/BiocAdvanced/blob/LatAm-2018/vignettes/EfficientR.Rmd), 
+impartido por Martin Morgan.
 
 #### Utilizar apropiadamente funciones de R {-}
 
@@ -781,7 +785,7 @@ microbenchmark(
 )
 ```
 
-##### 4 Paralelizar
+##### 4 Paralelizar {-}
 
 Paralelizar usa varios _cores_  para trabajar de manera simultánea en varias 
 secciones de un problema, no reduce el tiempo computacional pero incrementa el 
