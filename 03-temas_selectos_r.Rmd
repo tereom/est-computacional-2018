@@ -1,5 +1,15 @@
 # Temas selectos de R
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  fig.align = "center"
+)
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+ggplot2::theme_set(ggplot2::theme_minimal())
+```
+
 Esta sección describe algunos aspectos de R como lenguaje de programación (en 
 contraste a introducir funciones para análisis de datos). Es importante tener
 en cuenta como funciona R para escribir código más claro, minimizando errores
@@ -785,7 +795,7 @@ microbenchmark(
 )
 ```
 
-##### 4 Paralelizar {-}
+#### Paralelizar {-}
 
 Paralelizar usa varios _cores_  para trabajar de manera simultánea en varias 
 secciones de un problema, no reduce el tiempo computacional pero incrementa el 
