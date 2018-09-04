@@ -337,7 +337,7 @@ componente aleatoria involucra si gana cada uno de los juegos y esto
 ocurre con probabilidad 0.47.
 
 ```{r, cache=TRUE}
-apostar <- function(dinero = 100, apuesta = 5, tope = 200, p = 0.47){
+apostar <- function(dinero = 100, apuesta = 5, tope = 200){
     while(0 < dinero & dinero < tope){
         if(sample(1:38, 1) <= 18){
             dinero <- dinero + apuesta
