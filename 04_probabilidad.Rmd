@@ -440,15 +440,16 @@ ejemplo supongamos que se lanza un dado a un table cuadrandgular de lado 2,
 ¿cuál es la probabilidad de que el dado caiga en el círculo de radio 1 inscrito 
 en un cuadrado de lado 2?
 
-```{r}
+```{r, eval = FALSE}
 tablero <- ggplot() + 
     ggforce::geom_circle(aes(x0 = 0, y0 = 0, r = 1)) +
     geom_rect(aes(xmin = -1, xmax = 1,   ymin = -1, ymax = 1),   fill = "white", 
         color = "black", alpha = 0.5) +
     coord_equal()
-
-tablero
+ggsave("imagenes/tablero.png", tablero, width = 3, height = 3)
 ```
+
+![](imagenes/tablero)
 
 
 En este caso usamos áreas relativas para calcular la probabilidad: denotemos C
@@ -466,27 +467,32 @@ circunferencia <- function(){
 rerun(10000, circunferencia()) %>% flatten_dbl() %>% mean()
 ```
 
-```{r}
+```{r, eval = FALSE}
 dardos <- data_frame(x = runif(1000, -1, 1), y = runif(1000, -1, 1), 
     en_circulo = sqrt(x ^ 2 + y ^ 2) < 1)
 
-tablero +
+tablero_dardos <- tablero +
     geom_point(data = dardos, aes(x, y, color = en_circulo), alpha = 0.5, 
         show.legend = FALSE)
+
+ggsave("imagenes/tablero_dardos.png", tablero_dardos, width = 3, height = 3)
 ```
 
+![](imagenes/tablero_dardos.png)
 
 Ahora, en el ejemplo de los dardos es más realista pensar que la probabilidad 
 de que el dardo caiga en un segmento de la zona central no es la misma a que 
 caiga en un segmento de igual área en las orillas.
 
-```{r}
-tablero +
+```{r, eval = FALSE}
+tablero_zonas <- tablero +
     geom_rect(aes(xmin = -1, xmax = -0.8,   ymin = -1, ymax = -0.8), 
         fill = "red", alpha = 0.5) + 
     geom_rect(aes(xmin = -.1, xmax = 0.1,   ymin = -0.1, ymax = 0.1), 
         fill = "red", alpha = 0.5)
+ggsave("imagenes/tablero_zonas.png", tablero_zonas, width = 3, height = 3)
 ```
+![](imagenes/tablero_zonas.png)
 
 La definición de probabilidad como área relativa no se puede usar en estos 
 casos, sin embargo, el enfoque de simulación se continúa manteniendo.
