@@ -413,6 +413,8 @@ Los resultados de Cleveland y McGill fueron replicados por Heer y Bostock en
 ![](imagenes/heer-bostock_results.png)
 </div>
 
+<div style="clear:both"></div>
+
 
 ### Minard {-}
 Concluimos esta sección con una gráfica que, aunque poco común, ejemplifica
