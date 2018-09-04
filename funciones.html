@@ -212,6 +212,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html"><i class="fa fa-check"></i><b>5</b> Introducción a probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#espacio-de-resultados-y-eventos"><i class="fa fa-check"></i>Espacio de resultados y eventos</a></li>
+<li class="chapter" data-level="" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#interpretacion-frecuentista-de-probabilidad"><i class="fa fa-check"></i>Interpretación frecuentista de probabilidad</a></li>
+<li class="chapter" data-level="5.0.1" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#variables-aleatorias"><i class="fa fa-check"></i><b>5.0.1</b> Variables aleatorias</a></li>
+<li class="chapter" data-level="5.0.2" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#distribucion-de-probabilidad"><i class="fa fa-check"></i><b>5.0.2</b> Distribución de probabilidad</a></li>
+<li class="chapter" data-level="5.0.3" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#esperanza"><i class="fa fa-check"></i><b>5.0.3</b> Esperanza</a></li>
+<li class="chapter" data-level="5.0.4" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#varianza-y-desviacion-estandar"><i class="fa fa-check"></i><b>5.0.4</b> Varianza y desviación estándar</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
@@ -250,14 +258,15 @@ incluye operaciones como +, operadores que controlan flujo como <code>for</code>
 <code>while</code>, e incluso operadores para obtener subconjuntos como <code>[ ]</code> y <code>$</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="dv">3</span>
 b &lt;-<span class="st"> </span><span class="dv">4</span>
-<span class="st">`</span><span class="dt">+</span><span class="st">`</span>(a, b)</code></pre>
-<pre><code>## [1] 7</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) <span class="kw">print</span>(i)</code></pre>
-<pre><code>## [1] 1
-## [1] 2</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">for</span><span class="st">`</span>(i, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw">print</span>(i))</code></pre>
-<pre><code>## [1] 1
-## [1] 2</code></pre>
+<span class="st">`</span><span class="dt">+</span><span class="st">`</span>(a, b)
+<span class="co">#&gt; [1] 7</span>
+
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) <span class="kw">print</span>(i)
+<span class="co">#&gt; [1] 1</span>
+<span class="co">#&gt; [1] 2</span>
+<span class="st">`</span><span class="dt">for</span><span class="st">`</span>(i, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw">print</span>(i))
+<span class="co">#&gt; [1] 1</span>
+<span class="co">#&gt; [1] 2</span></code></pre>
 <p>Para escribir código eficiente y fácil de leer es importante saber esvribir
 funciones, se dice que si hiciste <em>copy-paste</em> de una sección de tu código 3
 o más veces es momento de escribir una función.</p>
@@ -266,10 +275,10 @@ o más veces es momento de escribir una función.</p>
   <span class="kw">sum</span>(x <span class="op">*</span><span class="st"> </span>wt) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(wt)
 }</code></pre>
 <p>Y se usa:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wtd_mean</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</code></pre>
-<pre><code>## [1] 5.5</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wtd_mean</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">10</span><span class="op">:</span><span class="dv">1</span>)</code></pre>
-<pre><code>## [1] 4</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">wtd_mean</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)
+<span class="co">#&gt; [1] 5.5</span>
+<span class="kw">wtd_mean</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">10</span><span class="op">:</span><span class="dv">1</span>)
+<span class="co">#&gt; [1] 4</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> Escribe una función que reciba un vector y devuelva
 el mismo vector reescalado al rango 0 a 1.
 * Comienza escribirendo el código para un caso paricular, por ejemplo,
@@ -281,28 +290,28 @@ empieza reescalando el vector . Tip: la función
 <ol style="list-style-type: decimal">
 <li>El cuerpo: el código dentro de la función</li>
 </ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">body</span>(wtd_mean)</code></pre>
-<pre><code>## {
-##     sum(x * wt)/sum(wt)
-## }</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">body</span>(wtd_mean)
+<span class="co">#&gt; {</span>
+<span class="co">#&gt;     sum(x * wt)/sum(wt)</span>
+<span class="co">#&gt; }</span></code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Los formales: la lista de argumentos que controlan como puedes llamar a la
 función,</li>
 </ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">formals</span>(wtd_mean)</code></pre>
-<pre><code>## $x
-## 
-## 
-## $wt
-## rep(1, length(x))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">formals</span>(wtd_mean)
+<span class="co">#&gt; $x</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $wt</span>
+<span class="co">#&gt; rep(1, length(x))</span></code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>El ambiente: el <em>mapeo</em> de la ubicación de las variables de la función.</li>
 </ol>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-<span class="kw">environment</span>(wtd_mean)</code></pre>
-<pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">environment</span>(ggplot)</code></pre>
-<pre><code>## &lt;environment: namespace:ggplot2&gt;</code></pre>
+<span class="kw">environment</span>(wtd_mean)
+<span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span>
+<span class="kw">environment</span>(ggplot)
+<span class="co">#&gt; &lt;environment: namespace:ggplot2&gt;</span></code></pre>
 <p>Veamos mas ejemplos, ¿qué regresan las siguientes funciones?</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 1</span>
 x &lt;-<span class="st"> </span><span class="dv">5</span>
@@ -361,18 +370,18 @@ va a buscar el valor de una variable.</p>
 <pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
   x <span class="op">+</span><span class="st"> </span>y
 }</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">f</span>(<span class="dv">2</span>)</code></pre>
-<pre><code>## Error in f(2): object &#39;y&#39; not found</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">f</span>(<span class="dv">2</span>)
+<span class="co">#&gt; Error in f(2): object &#39;y&#39; not found</span></code></pre>
 <p>Si creamos el objeto <code>y</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="dv">1</span>
-<span class="kw">f</span>(<span class="dv">2</span>)</code></pre>
-<pre><code>## [1] 3</code></pre>
+<span class="kw">f</span>(<span class="dv">2</span>)
+<span class="co">#&gt; [1] 3</span></code></pre>
 <p>Como consecuencia de las reglas de búsqueda de R, todos los objetos deben ser
 guardados en memoria y, si uno no es cuidadoso se pueden cometer errores
 facilmente.</p>
 <pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="dv">100</span>
-<span class="kw">f</span>(<span class="dv">2</span>)</code></pre>
-<pre><code>## [1] 102</code></pre>
+<span class="kw">f</span>(<span class="dv">2</span>)
+<span class="co">#&gt; [1] 102</span></code></pre>
 <div id="observaciones-del-uso-de-funciones" class="section level3 unnumbered">
 <h3>Observaciones del uso de funciones</h3>
 <ol style="list-style-type: decimal">
@@ -383,19 +392,19 @@ posición, nombre completo o nombre parcial:</li>
   <span class="kw">c</span>(<span class="dt">a =</span> abcdef, <span class="dt">b1 =</span> bcde1, <span class="dt">b2 =</span> bcde2)
 }
 
-<span class="kw">f</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</code></pre>
-<pre><code>##  a b1 b2 
-##  1  2  3</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">f</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">abcdef =</span> <span class="dv">1</span>)</code></pre>
-<pre><code>##  a b1 b2 
-##  1  2  3</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Podemos abreviar el nombre de los argumentos</span>
-<span class="kw">f</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">a =</span> <span class="dv">1</span>)</code></pre>
-<pre><code>##  a b1 b2 
-##  1  2  3</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Siempre y cuando la abreviación no sea ambigua</span>
-<span class="kw">f</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dt">b =</span> <span class="dv">1</span>)</code></pre>
-<pre><code>## Error in f(1, 3, b = 1): argument 3 matches multiple formal arguments</code></pre>
+<span class="kw">f</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)
+<span class="co">#&gt;  a b1 b2 </span>
+<span class="co">#&gt;  1  2  3</span>
+<span class="kw">f</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">abcdef =</span> <span class="dv">1</span>)
+<span class="co">#&gt;  a b1 b2 </span>
+<span class="co">#&gt;  1  2  3</span>
+<span class="co"># Podemos abreviar el nombre de los argumentos</span>
+<span class="kw">f</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">a =</span> <span class="dv">1</span>)
+<span class="co">#&gt;  a b1 b2 </span>
+<span class="co">#&gt;  1  2  3</span>
+<span class="co"># Siempre y cuando la abreviación no sea ambigua</span>
+<span class="kw">f</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dt">b =</span> <span class="dv">1</span>)
+<span class="co">#&gt; Error in f(1, 3, b = 1): argument 3 matches multiple formal arguments</span></code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Los argumentos de las funciones en R se evaluan conforme se necesitan (<em>lazy
 evaluation</em>),</li>
@@ -403,8 +412,8 @@ evaluation</em>),</li>
 <pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(a, b){
   a <span class="op">^</span><span class="st"> </span><span class="dv">2</span>
 }
-<span class="kw">f</span>(<span class="dv">2</span>)</code></pre>
-<pre><code>## [1] 4</code></pre>
+<span class="kw">f</span>(<span class="dv">2</span>)
+<span class="co">#&gt; [1] 4</span></code></pre>
 <p>La función anterior nunca utiliza el argumento <em>b</em>, de tal manera que <em>f(2)</em>
 no produce ningún error.</p>
 <ol start="3" style="list-style-type: decimal">
@@ -413,49 +422,49 @@ no produce ningún error.</p>
 <p>La función filter (incluída en R base) aplica un filtro lineal a una serie
 de tiempo de una variable.</p>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span>
-<span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</code></pre>
-<pre><code>## Time Series:
-## Start = 1 
-## End = 100 
-## Frequency = 1 
-##   [1]  NA   6   9  12  15  18  21  24  27  30  33  36  39  42  45  48  51
-##  [18]  54  57  60  63  66  69  72  75  78  81  84  87  90  93  96  99 102
-##  [35] 105 108 111 114 117 120 123 126 129 132 135 138 141 144 147 150 153
-##  [52] 156 159 162 165 168 171 174 177 180 183 186 189 192 195 198 201 204
-##  [69] 207 210 213 216 219 222 225 228 231 234 237 240 243 246 249 252 255
-##  [86] 258 261 264 267 270 273 276 279 282 285 288 291 294 297  NA</code></pre>
+<span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))
+<span class="co">#&gt; Time Series:</span>
+<span class="co">#&gt; Start = 1 </span>
+<span class="co">#&gt; End = 100 </span>
+<span class="co">#&gt; Frequency = 1 </span>
+<span class="co">#&gt;   [1]  NA   6   9  12  15  18  21  24  27  30  33  36  39  42  45  48  51</span>
+<span class="co">#&gt;  [18]  54  57  60  63  66  69  72  75  78  81  84  87  90  93  96  99 102</span>
+<span class="co">#&gt;  [35] 105 108 111 114 117 120 123 126 129 132 135 138 141 144 147 150 153</span>
+<span class="co">#&gt;  [52] 156 159 162 165 168 171 174 177 180 183 186 189 192 195 198 201 204</span>
+<span class="co">#&gt;  [69] 207 210 213 216 219 222 225 228 231 234 237 240 243 246 249 252 255</span>
+<span class="co">#&gt;  [86] 258 261 264 267 270 273 276 279 282 285 288 291 294 297  NA</span></code></pre>
 <p>Ahora cargamos <code>dplyr</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</code></pre>
-<pre><code>## Error in UseMethod(&quot;filter_&quot;): no applicable method for &#39;filter_&#39; applied to an object of class &quot;c(&#39;integer&#39;, &#39;numeric&#39;)&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span>
+<span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
+<span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))
+<span class="co">#&gt; Error in UseMethod(&quot;filter_&quot;): no applicable method for &#39;filter_&#39; applied to an object of class &quot;c(&#39;integer&#39;, &#39;numeric&#39;)&quot;</span></code></pre>
 <p>El problema es un conflicto en la función a llamar, nosotros requerimos usar
 <code>filter</code> de stats y no la función <code>filter</code> de <code>dplyr</code>. R utiliza por default
 la función que pertenece al último paquete que se cargó.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">search</span>()</code></pre>
-<pre><code>##  [1] &quot;.GlobalEnv&quot;        &quot;package:dplyr&quot;     &quot;package:ggplot2&quot;  
-##  [4] &quot;package:stats&quot;     &quot;package:graphics&quot;  &quot;package:grDevices&quot;
-##  [7] &quot;package:utils&quot;     &quot;package:datasets&quot;  &quot;package:methods&quot;  
-## [10] &quot;Autoloads&quot;         &quot;package:base&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">search</span>()
+<span class="co">#&gt;  [1] &quot;.GlobalEnv&quot;        &quot;package:dplyr&quot;     &quot;package:ggplot2&quot;  </span>
+<span class="co">#&gt;  [4] &quot;package:stats&quot;     &quot;package:graphics&quot;  &quot;package:grDevices&quot;</span>
+<span class="co">#&gt;  [7] &quot;package:utils&quot;     &quot;package:datasets&quot;  &quot;package:methods&quot;  </span>
+<span class="co">#&gt; [10] &quot;Autoloads&quot;         &quot;package:base&quot;</span></code></pre>
 <p>Una opción es especificar el paquete en la llamada de la función:</p>
-<pre class="sourceCode r"><code class="sourceCode r">stats<span class="op">::</span><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</code></pre>
-<pre><code>## Time Series:
-## Start = 1 
-## End = 100 
-## Frequency = 1 
-##   [1]  NA   6   9  12  15  18  21  24  27  30  33  36  39  42  45  48  51
-##  [18]  54  57  60  63  66  69  72  75  78  81  84  87  90  93  96  99 102
-##  [35] 105 108 111 114 117 120 123 126 129 132 135 138 141 144 147 150 153
-##  [52] 156 159 162 165 168 171 174 177 180 183 186 189 192 195 198 201 204
-##  [69] 207 210 213 216 219 222 225 228 231 234 237 240 243 246 249 252 255
-##  [86] 258 261 264 267 270 273 276 279 282 285 288 291 294 297  NA</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">stats<span class="op">::</span><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))
+<span class="co">#&gt; Time Series:</span>
+<span class="co">#&gt; Start = 1 </span>
+<span class="co">#&gt; End = 100 </span>
+<span class="co">#&gt; Frequency = 1 </span>
+<span class="co">#&gt;   [1]  NA   6   9  12  15  18  21  24  27  30  33  36  39  42  45  48  51</span>
+<span class="co">#&gt;  [18]  54  57  60  63  66  69  72  75  78  81  84  87  90  93  96  99 102</span>
+<span class="co">#&gt;  [35] 105 108 111 114 117 120 123 126 129 132 135 138 141 144 147 150 153</span>
+<span class="co">#&gt;  [52] 156 159 162 165 168 171 174 177 180 183 186 189 192 195 198 201 204</span>
+<span class="co">#&gt;  [69] 207 210 213 216 219 222 225 228 231 234 237 240 243 246 249 252 255</span>
+<span class="co">#&gt;  [86] 258 261 264 267 270 273 276 279 282 285 288 291 294 297  NA</span></code></pre>
 <p>Una alternativa es el paquete <a href="https://github.com/r-lib/conflicted">conflicted</a>
 que alerta cuando hay conflictos y tiene funciones para especificar a que
 paquete se desea dar preferencia por default en una sesión.</p>

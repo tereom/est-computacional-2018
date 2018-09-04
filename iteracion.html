@@ -212,6 +212,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html"><i class="fa fa-check"></i><b>5</b> Introducción a probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#espacio-de-resultados-y-eventos"><i class="fa fa-check"></i>Espacio de resultados y eventos</a></li>
+<li class="chapter" data-level="" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#interpretacion-frecuentista-de-probabilidad"><i class="fa fa-check"></i>Interpretación frecuentista de probabilidad</a></li>
+<li class="chapter" data-level="5.0.1" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#variables-aleatorias"><i class="fa fa-check"></i><b>5.0.1</b> Variables aleatorias</a></li>
+<li class="chapter" data-level="5.0.2" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#distribucion-de-probabilidad"><i class="fa fa-check"></i><b>5.0.2</b> Distribución de probabilidad</a></li>
+<li class="chapter" data-level="5.0.3" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#esperanza"><i class="fa fa-check"></i><b>5.0.3</b> Esperanza</a></li>
+<li class="chapter" data-level="5.0.4" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html#varianza-y-desviacion-estandar"><i class="fa fa-check"></i><b>5.0.4</b> Varianza y desviación estándar</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
@@ -245,8 +253,8 @@ debemos aplicar los mismos pasos a distintas entradas.</p>
 <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>){
     medias[i] &lt;-<span class="st"> </span><span class="kw">wtd_mean</span>(df[, i])
 }
-medias</code></pre>
-<pre><code>## [1]  5.50000000  0.63609840 -0.33747667  0.09328918 -0.32635900</code></pre>
+medias
+<span class="co">#&gt; [1]  5.5000000 -0.6000872  0.3316059  0.2244920  0.2312125</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> Recordando la limpieza de datos de la clase pasada el
 vector <code>paths</code> contenía la ruta a distintos archivos csv. Crea la tabla de datos
 final usando un ciclo <code>for</code>.</p>
@@ -270,23 +278,23 @@ regresan un nuevo vector de la misma longitud que el vector entrada.</p>
 <span class="kw">names</span>(paths) &lt;-<span class="st"> </span><span class="kw">basename</span>(paths)
 specdata_us_vec &lt;-<span class="st"> </span><span class="kw">map</span>(paths, <span class="op">~</span>readr<span class="op">::</span><span class="kw">read_csv</span>(., <span class="dt">col_types =</span> <span class="st">&quot;Tddi&quot;</span>), 
     <span class="dt">.id =</span> <span class="st">&quot;filename&quot;</span>)
-specdata_us_vec[[<span class="dv">10</span>]]</code></pre>
-<pre><code>## # A tibble: 1,096 x 4
-##    Date                sulfate nitrate    ID
-##    &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;
-##  1 2002-01-01 00:00:00      NA      NA    10
-##  2 2002-01-02 00:00:00      NA      NA    10
-##  3 2002-01-03 00:00:00      NA      NA    10
-##  4 2002-01-04 00:00:00      NA      NA    10
-##  5 2002-01-05 00:00:00      NA      NA    10
-##  6 2002-01-06 00:00:00      NA      NA    10
-##  7 2002-01-07 00:00:00      NA      NA    10
-##  8 2002-01-08 00:00:00      NA      NA    10
-##  9 2002-01-09 00:00:00      NA      NA    10
-## 10 2002-01-10 00:00:00      NA      NA    10
-## # ... with 1,086 more rows</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(specdata_us_vec)</code></pre>
-<pre><code>## [1] &quot;list&quot;</code></pre>
+specdata_us_vec[[<span class="dv">10</span>]]
+<span class="co">#&gt; # A tibble: 1,096 x 4</span>
+<span class="co">#&gt;    Date                sulfate nitrate    ID</span>
+<span class="co">#&gt;    &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 2002-01-01 00:00:00      NA      NA    10</span>
+<span class="co">#&gt;  2 2002-01-02 00:00:00      NA      NA    10</span>
+<span class="co">#&gt;  3 2002-01-03 00:00:00      NA      NA    10</span>
+<span class="co">#&gt;  4 2002-01-04 00:00:00      NA      NA    10</span>
+<span class="co">#&gt;  5 2002-01-05 00:00:00      NA      NA    10</span>
+<span class="co">#&gt;  6 2002-01-06 00:00:00      NA      NA    10</span>
+<span class="co">#&gt;  7 2002-01-07 00:00:00      NA      NA    10</span>
+<span class="co">#&gt;  8 2002-01-08 00:00:00      NA      NA    10</span>
+<span class="co">#&gt;  9 2002-01-09 00:00:00      NA      NA    10</span>
+<span class="co">#&gt; 10 2002-01-10 00:00:00      NA      NA    10</span>
+<span class="co">#&gt; # ... with 1,086 more rows</span>
+<span class="kw">class</span>(specdata_us_vec)
+<span class="co">#&gt; [1] &quot;list&quot;</span></code></pre>
 <p>En este caso es más apropiado usar map_df</p>
 <pre class="sourceCode r"><code class="sourceCode r">specdata_us &lt;-<span class="st"> </span><span class="kw">map_df</span>(paths, <span class="op">~</span>readr<span class="op">::</span><span class="kw">read_csv</span>(., <span class="dt">col_types =</span> <span class="st">&quot;Tddi&quot;</span>), 
     <span class="dt">.id =</span> <span class="st">&quot;filename&quot;</span>)</code></pre>

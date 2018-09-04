@@ -365,6 +365,8 @@ Los resultados de Cleveland y McGill fueron replicados por Heer y Bostock en
 ![](imagenes/heer-bostock_results.png)
 </div>
 
+<div style="clear:both"></div>
+
 
 ### Minard {-}
 Concluimos esta sección con una gráfica que, aunque poco común, ejemplifica
@@ -537,7 +539,7 @@ print(read_csv)
 ##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
 ##         guess_max = guess_max, progress = progress)
 ## }
-## <bytecode: 0x830a100>
+## <bytecode: 0x7347b70>
 ## <environment: namespace:readr>
 ```
 
