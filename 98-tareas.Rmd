@@ -66,3 +66,19 @@ veces) puedes hacer las manipulaciones usando otra herramienta (incluso Excel,
 una combinación de Excel y R o cualquier software que conozcas); sin embargo, 
 debes documentar tus pasos claramente, con la intención de mantener métodos 
 reproducibles.
+
+## 4-Probabilidad {-}
+
+* Urna: 10 personas (con nombres distintos) escriben sus nombres y los ponen en 
+una urna, después seleccionan un nombre (al azar). 
+
+    - Sea A el evento en el que ninguna persona selecciona su nombre, ¿Cuál es 
+    la probabilidad del evento A?  
+
+    - Supongamos que hay 3 personas con el mismo nombre, ¿Cómo calcularías la 
+    probabilidad del evento A en este nuevo experimento?
+
+* Definimos $X$ como la variable aleatoria del 
+número de juegos antes de que termine el experimento de la ruina del jugador, 
+grafica la distribución de probabilidad de $X$ 
+(calcula $P(X=1), P(X=2),...,P(X=100)$).
