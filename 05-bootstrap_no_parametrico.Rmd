@@ -13,6 +13,7 @@ options(digits=3)
 
 library(tidyverse)
 library(magrittr)
+library(gridExtra)
 theme_set(theme_minimal())
 ```
 
@@ -1314,7 +1315,7 @@ qq_nerve <- ggplot(nerve_kurtosis) +
   geom_abline(color = "red", alpha = 0.5) +
   stat_qq(aes(sample = kurtosis), dparams = list(mean = mean(kurtosis), sd = sd(kurtosis))) 
 
-(hist_nerve | qq_nerve)
+grid.arrange(hist_nerve, qq_nerve, ncol = 2, newpage = FALSE)
 ```
 
 En el ejemplo anterior el supuesto de normalidad parece razonable, veamos 
@@ -1404,7 +1405,7 @@ qq_emu <- ggplot(theta_boot_df) +
     stat_qq(aes(sample = theta_boot), 
         dparams = list(mean = mean(theta_boot), sd = sd(theta_boot))) 
 
-(hist_emu | qq_emu)
+grid.arrange(hist_emu, qq_emu, ncol = 2, newpage = FALSE)
 ```
 
 La distribución empírica de $\hat{\theta}^*$ es asimétrica, por lo que no
@@ -1432,7 +1433,7 @@ qq_log <- ggplot(data_frame(theta_boot)) +
     stat_qq(aes(sample = log(theta_boot)), 
         dparams = list(mean = mean(log(theta_boot)), sd = sd(log(theta_boot)))) 
 
-(hist_log | qq_log)
+grid.arrange(hist_log, qq_log, ncol = 2, newpage = FALSE)
 ```
 
 Y los intervalos se comparan:
