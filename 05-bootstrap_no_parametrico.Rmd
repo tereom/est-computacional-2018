@@ -6,7 +6,7 @@
 ```{r options, echo = FALSE, message=FALSE, error=TRUE}
 knitr::opts_chunk$set(
     comment = "#>",
-    collapse = TRUE
+    collapse = TRUE, error=TRUE
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
 options(digits=3)
