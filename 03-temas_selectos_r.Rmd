@@ -66,6 +66,7 @@ el mismo vector reescalado al rango 0 a 1.
 df <- data.frame(ind = 1:10, a = rnorm(10), b = rnorm(10), c = rnorm(10), d = rnorm(10))
 ```
 
+### Estructura de una función {-}
 
 Las funciones de R tienen tres partes:
 

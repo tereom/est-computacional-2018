@@ -23,7 +23,7 @@ general describir mediante un modelo matemático cada tipo de fenómeno aleatori
 mientras que la inferencia estadística tiene planteado el problema inverso, es decir, a
 partir del conocimiento de una parte del fenómeno pretende establecer sus propiedades,
 para lo cual forzosamente debe utilizar algún modelo probabilístico que describa
-el fenómeno. Es esta dependencia de la estadística con la teoría de probabilidad lo que justifica profundizar el estudio de esta ultima.
+el fenómeno. Es esta dependencia de la estadística con la teoría de probabilidad lo que justifica profundizar el estudio de esta ultima.
 
 -->
 
@@ -40,7 +40,7 @@ library(magrittr)
 theme_set(theme_minimal())
 ```
 
-### Espacio de resultados y eventos {-}
+#### Espacio de resultados y eventos {-}
 
 <div class="caja">
 El **espacio de resultados** $\Omega$ es el conjunto de posibles resultados de un
@@ -134,7 +134,7 @@ terminaré con ganancias o pérdidas? ¿Qué estrategia debo seguir para mejorar
 mis posibilidades de ganar? Es así que la interpretación frecuentista de la 
 probabilidad estaba considerada desde un inicio.
 
-### Interpretación frecuentista de probabilidad {-}
+## Interpretación frecuentista de probabilidad
 
 Ya tenemos una interpretación intuitiva de probabilidad pero nos deja abierta
 la pregunta de como interpretar probabilidades en aplicaciones. Abordamos ahora
@@ -258,7 +258,7 @@ probabilidad, como frecuencias relativas en ensayos. Más aún, hay ejemplos
 donde las monedas no son _justas_, o el sexo de un bebé recién nacido, donde 
 el supuesto de equiprobabilidad no es adecuado.
 
-#### Simulación para el cálculo de probabilidades {-}
+## Simulación para el cálculo de probabilidades
 En el ejemplo anterior vimos que puede ser sencillo usar simulación para 
 calcular probabilidades, pues usando la interpretación de frecuencia relativa 
 simplemente hace falta simular el experimento y contar los casos favorables 
@@ -282,7 +282,7 @@ estimando así la probabilidad.
 Para el paso 2, en R suelen ser de utilidad las funciones `runif` y `sample()`,
 revisa la ayuda de estas funciones.
 
-##### Ejemplo: comité {-}
+#### Ejemplo: comité {-}
 Un comité de 5 personas será seleccionado de un grupo de 6 hombres y 9 mujeres. 
 Si la selección es aleatoria, ¿cuál es la probabilidad de que el comité este 
 conformado por 3 hombres y 2 mujeres?
@@ -311,7 +311,7 @@ comite <- function(){
 rerun(1000, comite()) %>% flatten_dbl() %>% mean()
 ```
 
-##### Ejemplo: La ruina del jugador {-}
+#### Ejemplo: La ruina del jugador {-}
 
 * Un jugador tiene $100, y va a apostar en un juego donde
 la probabilidad de ganar es p = 0.47 (e.g. una ruleta 18/38), si gana recibe el 
@@ -449,8 +449,9 @@ tablero <- ggplot() +
 ggsave("imagenes/tablero.png", tablero, width = 3, height = 3)
 ```
 
-![](imagenes/tablero)
-
+```{r, out.width = "400px"}
+knitr::include_graphics("imagenes/tablero.png")
+```
 
 En este caso usamos áreas relativas para calcular la probabilidad: denotemos C
 al evento tal que el dardo cae en el círculo, entonces:
@@ -478,7 +479,10 @@ tablero_dardos <- tablero +
 ggsave("imagenes/tablero_dardos.png", tablero_dardos, width = 3, height = 3)
 ```
 
-![](imagenes/tablero_dardos.png)
+```{r, out.width = "400px"}
+knitr::include_graphics("imagenes/tablero_dardos.png")
+```
+
 
 Ahora, en el ejemplo de los dardos es más realista pensar que la probabilidad 
 de que el dardo caiga en un segmento de la zona central no es la misma a que 
@@ -492,14 +496,18 @@ tablero_zonas <- tablero +
         fill = "red", alpha = 0.5)
 ggsave("imagenes/tablero_zonas.png", tablero_zonas, width = 3, height = 3)
 ```
-![](imagenes/tablero_zonas.png)
+
+
+```{r, out.width = "400px"}
+knitr::include_graphics("imagenes/tablero_zonas.png")
+```
 
 La definición de probabilidad como área relativa no se puede usar en estos 
 casos, sin embargo, el enfoque de simulación se continúa manteniendo.
 
 Comencemos con el caso del dardo univariado.
 
-```{r}
+```{r, out.width="350px"}
 unif <- ggplot() +
     geom_rect(aes(xmin = 0.3, xmax = 0.6,   ymin = 0, ymax = 1), 
         fill = "red", alpha = 0.5) +
@@ -513,7 +521,7 @@ $$P([a, b]) = \frac{b-a}{1} = \int_a^b 1dx$$
 
 Ahora, si el dardo cae en ciertas zonas con mayor probabilidad:
 
-```{r}
+```{r, out.width="350px"}
 ggplot(data_frame(x = c(0 , 1)), aes(x)) + 
     stat_function(fun = dbeta, args = list(shape1 = 5, shape2 = 2)) +
     geom_rect(data = NULL, aes(xmin = 0, xmax = 1, ymin = 0, ymax = 1), 
@@ -541,7 +549,7 @@ sims_x <- rerun(5000, curva()) %>% flatten_dbl()
 mean(sims_x > 0.2 & sims_x < 0.5)
 ```
 
-```{r}
+```{r, out.width="350px"}
 data_frame(x = runif(1000), y = runif(1000) * 2.5, dentro = dbeta(x, 5, 2) > y, 
     en_int = dentro * (x > 0.2 & x < 0.5), cat = case_when(!dentro ~ "a", 
         dentro & en_int ~ "b", TRUE ~ "c")) %>% 
@@ -572,7 +580,7 @@ rerun(1000, comite()) %>% flatten_dbl() %>% mean()
 Y para el caso continuo comencemos con un dardo en una sola dimensión en el 
 caso de eventos equiprobables:
 
-### Variables aleatorias
+## Variables aleatorias
 
 A partir de un experimento aleatorio se pueden definir muchas preguntas de 
 probabilidad, por ejemplo, en el caso de la ruina del jugador podríamos 
@@ -586,7 +594,7 @@ La variable aleatoria $X$ es un mapeo entre el espacio de resultados y los
 números reales.
 </div>
 
-### Distribución de probabilidad
+#### Distribución de probabilidad {-}
 
 La distribución de probabilidad de una variable aleatoria $X$ es simplemente
 una lista de todos los posibles valores y sus probabilidades correspondientes 
@@ -606,7 +614,7 @@ $$P(X \le x)$$
 con la ventaja de que la definición aplica tanto al caso discreto como en el 
 caso continuo.
 
-### Esperanza
+#### Esperanza {-}
 <div class="caja">
 La **esperanza** (valor esperado o media) de una variable aleatoria $X$,
 es la media de la distribución $X$, esto es,
@@ -667,19 +675,28 @@ embargo, el soporte de $Z$ sería $(0, \infty)$, es claro que el conjunto $(0, \
 conveniente estudiar el soporte extendido. -->
 
 
-### Varianza y desviación estándar
-Si intentamos predecir el valor de una variable aleatoria
-usando su media $E(X)=\mu$, vamos a fallar por una cantidad aleatoria $X-\mu$. Suele ser importante tener una idea de que tan grande será esta desviación. Debido a que
+#### Varianza y desviación estándar {-}
+Si intentamos predecir el valor de una variable aleatoria usando su media 
+$E(X)=\mu$, vamos a fallar por una cantidad aleatoria $X-\mu$. Suele ser 
+importante tener una idea de que tan grande será esta desviación. Debido a que
 $$E(X-\mu) = E(X)-\mu=0$$
-es necesario considerar la diferencia absoluta o la diferencia al cuadrado de $X-\mu$ con el fin de tener una idea del tamaño de la desviación sin importar el signo de esta. 
+es necesario considerar la diferencia absoluta o la diferencia al cuadrado de 
+$X-\mu$ con el fin de tener una idea del tamaño de la desviación sin importar el 
+signo de esta. 
 
-**Varianza y desviación estándar**. La varianza de $X$, denotada $var(X)=\sigma^2$ es la media de la desviación cuadrada de $X$ respecto a su valor esperado $\mu=E(X)$:
-$$\sigma^2(X)=var(X)=E(X-\mu)^2$$
+**Varianza y desviación estándar**. La varianza de $X$, denotada 
+$var(X)=\sigma^2$ es la media de la desviación cuadrada de $X$ respecto a su 
+valor esperado $\mu=E(X)$: $$\sigma^2(X)=var(X)=E(X-\mu)^2$$
 La desviación estándar de $X$, es la raíz cuadrada de la varianza de X:
-$$\sigma(X)=se(X)=\sqrt{var(X)}$$
+$$\sigma(X)=sd(X)=\sqrt{var(X)}$$
 
-Intuitivamente, $se(X)$ es una medida de la dispersión de la distribución de $X$ alrededor de su media. Debido a que la varianza es el valor central de la distribución de $(X-\mu)^2$, su raíz cuadrada da una idea del tamaño típico de la desviación absoluta $|X-\mu|$. Notemos que $E(X)$, $var(X)$ y $se(X)$ están determinados por $X$, de tal manera que si dos variables aleatorias tienen la misma distribución, 
-también tienen la misma media, varianza y desviación estándar.
+Intuitivamente, $sd(X)$ es una medida de la dispersión de la distribución de $X$ 
+alrededor de su media. Debido a que la varianza es el valor central de la 
+distribución de $(X-\mu)^2$, su raíz cuadrada da una idea del tamaño típico de 
+la desviación absoluta $|X-\mu|$. Notemos que $E(X)$, $var(X)$ y $sd(X)$ están 
+determinados por $X$, de tal manera que si dos variables aleatorias tienen la 
+misma distribución, también tienen la misma media, varianza y desviación 
+estándar.
 
 
 
