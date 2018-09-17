@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="probabilidad.html">
-
+<link rel="prev" href="bootstrap-no-parametrico.html">
+<link rel="next" href="el-principio-del-plug-in.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -255,73 +255,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="referencias" class="section level1 unnumbered">
-<h1>Referencias</h1>
-
-<div id="refs" class="references">
-<div>
-<p>Burns, P. 2015. <em>The R Inferno</em>. <em>The American Statistician</em>. Vol. 4. 69.</p>
+<div id="muestras-aleatorias" class="section level2">
+<h2><span class="header-section-number">6.1</span> Muestras aleatorias</h2>
+<p>Supongamos que tenemos una población finita o <em>universo</em> <span class="math inline">\(U\)</span>, conformado
+por unidades individuales con propiedades que nos gustaría aprender (opinión
+política, nivel educativo, preferencias de consumo, …). Debido a que es muy
+difícil y caro examinar cada unidad en <span class="math inline">\(U\)</span> seleccionamos una muestra aleatoria.</p>
+<div class="caja">
+<p>Una <strong>muestra aleatoria</strong> de tamaño <span class="math inline">\(n\)</span> se define como una colección de <span class="math inline">\(n\)</span>
+unidades <span class="math inline">\(u_1,...,u_n\)</span> seleccionadas aleatoriamente de una población <span class="math inline">\(U\)</span>.</p>
+<p>Una vez que se selecciona una muestra aleatoria, los <strong>datos observados</strong> son la
+colección de medidas <span class="math inline">\(x_1,...,x_n\)</span>, también denotadas
+<span class="math inline">\(\textbf{x} = (x_1,...,x_n)\)</span>.</p>
 </div>
-<div>
-<p>Cleveland, William S., and Robert McGill. 1984. “Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.” <em>Journal of the American Statistical Association</em> 79 (387). American Statistical Association:pp. 531–54. <a href="http://www.jstor.org/stable/2288400" class="uri">http://www.jstor.org/stable/2288400</a>.</p>
+<p>En principio, el proceso de muestreo es como sigue:</p>
+<ol style="list-style-type: decimal">
+<li><p>Seleccionamos <span class="math inline">\(n\)</span> enteros de manera independiente (con probabilidad <span class="math inline">\(1/N\)</span>),
+cada uno de ellos asociado a un número entre <span class="math inline">\(1\)</span> y <span class="math inline">\(N\)</span>.</p></li>
+<li><p>Los enteros determinan las unidades que seleccionamos y tomamos medidas
+a cada unidad.</p></li>
+</ol>
+<p>En la práctica el proceso de selección suele ser más complicado y la
+definición de la población <span class="math inline">\(U\)</span> suele ser deficiente; sin embargo, el marco
+conceptual sigue siendo útil para entender la inferencia estadística.</p>
+<div class="caja">
+<p>Nuestra definición de muestra aleatoria comprende muestras con y sin reemplazo:</p>
+<ul>
+<li><p><strong>muestra sin reemplazo:</strong> una unidad particular puede aparecer a lo más una
+vez.</p></li>
+<li><strong>muestra con reemplazo:</strong> permite que una unidad aparezca más de una vez.</li>
+</ul>
 </div>
-<div>
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
+<ul>
+<li><p>Es más común tomar muestras sin remplazo, sin embargo, <strong>para hacer inferencia
+suele ser más sencillo permitir repeticiones (muestreo con
+remplazo)</strong> y si el tamaño de la muestra <span class="math inline">\(n\)</span> es mucho más chico que la población
+<span class="math inline">\(N\)</span>, la probabilidad de muestrear la misma unidad más de una vez es chica.</p></li>
+<li><p>El caso particular en el que obtenemos las medidas de interés de cada unidad
+en la población se denomina <strong>censo</strong>, y denotamos al conjunto de datos
+observados de la población por <span class="math inline">\(\mathcal{X}\)</span>.</p></li>
+</ul>
+<p>En general, no nos interesa simplemente describir la muestra que observamos
+sino que queremos aprender acerca de la población de donde se seleccionó la
+muestra:</p>
+<div class="caja">
+<p>El objetivo de la <strong>inferencia estadística</strong> es expresar lo que hemos aprendido
+de la población <span class="math inline">\(\mathcal{X}\)</span> a partir de los datos observados <span class="math inline">\(\textbf{x}\)</span>.</p>
 </div>
-<div>
-<p>———. 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Efron, Bradley, and Robert J. Tibshirani. 1993. <em>An Introduction to the Bootstrap</em>. Monographs on Statistics and Applied Probability 57. Boca Raton, Florida, USA: Chapman &amp; Hall/CRC.</p>
-</div>
-<div>
-<p>Gelman, A., J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/Crc Texts in Statistical Science. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=ZXL6AQAAQBAJ" class="uri">https://books.google.com.mx/books?id=ZXL6AQAAQBAJ</a>.</p>
-</div>
-<div>
-<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
-</div>
-<div>
-<p>Hesterberg, Tim C. 2015. “What Teachers Should Know About the Bootstrap: Resampling in the Undergraduate Statistics Curriculum.” <em>The American Statistician</em> 69 (4). Taylor &amp; Francis:371–86. <a href="https://doi.org/10.1080/00031305.2015.1089789" class="uri">https://doi.org/10.1080/00031305.2015.1089789</a>.</p>
-</div>
-<div>
-<p>INEGI. 2014. “Encuesta Nacional de Ingresos Y Gastos de Los Hogares (Enigh-2014). Diseño Muestral.” <a href="http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf" class="uri">http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf</a>.</p>
-</div>
-<div>
-<p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
-</div>
-<div>
-<p>Rao, J. N. K., and C. F. J. Wu. 1988. “Resampling Inference with Complex Survey Data.” <em>Journal of the American Statistical Association</em> 83 (401). Taylor &amp; Francis:231–41. <a href="https://doi.org/10.1080/01621459.1988.10478591" class="uri">https://doi.org/10.1080/01621459.1988.10478591</a>.</p>
-</div>
-<div>
-<p>Ross, Sheldon M. 1998. <em>A First Course in Probability</em>. Fifth. Upper Saddle River, N.J.: Prentice Hall.</p>
-</div>
-<div>
-<p>Tufte, Edward R. 1986. <em>The Visual Display of Quantitative Information</em>. Cheshire, CT, USA: Graphics Press.</p>
-</div>
-<div>
-<p>———. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
-</div>
-<div>
-<p>Tukey, J.W. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Series in Behavioral Science. Addison-Wesley Publishing Company. <a href="https://books.google.com.mx/books?id=UT9dAAAAIAAJ" class="uri">https://books.google.com.mx/books?id=UT9dAAAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, H. 2014. <em>Advanced R</em>. Chapman &amp; Hall/Crc the R Series. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=PFHFNAEACAAJ" class="uri">https://books.google.com.mx/books?id=PFHFNAEACAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
-</div>
-<div>
-<p>———. 2011. “The Split-Apply-Combine Strategy for Data Analysis.” <em>Journal of Statistical Software</em> 40 (1):1–29. <a href="http://www.jstatsoft.org/v40/i01/" class="uri">http://www.jstatsoft.org/v40/i01/</a>.</p>
-</div>
-<div>
-<p>———. 2014. “Tidy Data.” <em>Journal of Statistical Software, Articles</em> 59 (10):1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="uri">https://doi.org/10.18637/jss.v059.i10</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div>
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
-</div>
+<div id="ejemplo-enlace" class="section level4 unnumbered">
+<h4>Ejemplo: ENLACE</h4>
+<p>Veamos un ejemplo donde tomamos una muestra de 300 escuelas primarias
+de la Ciudad de México, de un universo de 3202 escuelas,</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># universo</span>
+<span class="kw">glimpse</span>(primaria)
+<span class="co">#&gt; Observations: 3,202</span>
+<span class="co">#&gt; Variables: 6</span>
+<span class="co">#&gt; $ clave &lt;fct&gt; 09DBN0006J, 09DBN0007I, 09DBN0008H, 09DBN0015R, 09DBN001...</span>
+<span class="co">#&gt; $ turno &lt;fct&gt; NOCTURNO, NOCTURNO, NOCTURNO, NOCTURNO, NOCTURNO, NOCTUR...</span>
+<span class="co">#&gt; $ tipo  &lt;chr&gt; &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;...</span>
+<span class="co">#&gt; $ mun   &lt;int&gt; 17, 28, 28, 14, 14, 17, 17, 14, 14, 14, 16, 16, 16, 16, ...</span>
+<span class="co">#&gt; $ esp_3 &lt;dbl&gt; 483, 571, 418, 777, 714, 659, 703, 646, 745, 700, 397, 7...</span>
+<span class="co">#&gt; $ esp_6 &lt;dbl&gt; 514, 456, 561, 540, 670, 570, 607, 748, 673, 645, 493, 6...</span>
+<span class="kw">set.seed</span>(<span class="dv">16021</span>)
+n &lt;-<span class="st"> </span><span class="dv">300</span>
+<span class="co"># muestra</span>
+primaria_muestra &lt;-<span class="st"> </span><span class="kw">sample_n</span>(primaria, n) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">clase =</span> <span class="st">&quot;muestra&quot;</span>)</code></pre>
+<p>para cada escuela en la muestra tenemos la medida <span class="math inline">\(x_i\)</span>, conformada por el
+promedio de las calificaciones en español de los alumnos de tercero y sexto
+de primaria (prueba ENLACE 2010):
+<span class="math display">\[x_i=(esp_{3i}, esp_{6i})\]</span></p>
+<p>En este ejemplo contamos con un censo de las escuelas y tomamos la muestra
+aleatoria de la tabla de datos general, sin embargo, es común contar únicamente
+con la muestra.</p>
+<p>Para español 3<sup>o</sup> de primaria la media observada es</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(primaria_muestra<span class="op">$</span>esp_<span class="dv">3</span>)
+<span class="co">#&gt; [1] 577</span></code></pre>
+<p>La media muestral es una estadística descriptiva de la muestra, pero también la
+podemos usar para describir a la población de escuelas.</p>
 </div>
 </div>
             </section>
@@ -329,8 +340,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="probabilidad.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="bootstrap-no-parametrico.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="el-principio-del-plug-in.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -360,7 +371,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/99-references.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/05-bootstrap_no_parametrico.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

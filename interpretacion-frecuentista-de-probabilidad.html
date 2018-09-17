@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="probabilidad.html">
-
+<link rel="prev" href="introduccion-a-probabilidad.html">
+<link rel="next" href="simulacion-para-el-calculo-de-probabilidades.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -255,73 +255,116 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="referencias" class="section level1 unnumbered">
-<h1>Referencias</h1>
+<div id="interpretacion-frecuentista-de-probabilidad" class="section level2">
+<h2><span class="header-section-number">5.1</span> Interpretación frecuentista de probabilidad</h2>
+<p>Ya tenemos una interpretación intuitiva de probabilidad pero nos deja abierta
+la pregunta de como interpretar probabilidades en aplicaciones. Abordamos ahora
+la interpretación frecuentista de la probabilidad en la cuál las probabilidades
+se entienden como una aproximación matemática de frecuencias relativas cuando la
+frecuencia total tiende a infinito.</p>
+<p>Una frecuencia relativa es una proporción que mide que tan seguido, o frecuente,
+ocurre una u otra cosa en una sucesión de observaciones. Pensemos en un
+experimento que se pueda repetir, por ejemplo, lanzar una moneda, lanzar un
+dado, el nacimiento de un bebé. Llamaremos ensayo a una repetición del
+experimento. Ahora, sea A un posible resultado del evento
+(obtener sol, obtener un 6, el bebé es niña), si A ocurre <span class="math inline">\(m\)</span> veces en
+<span class="math inline">\(n\)</span> ensayos, entonces la frecuencia relativa de A en <span class="math inline">\(n\)</span> ensayos es <span class="math inline">\(m/n\)</span>.</p>
+<p>Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultados:</p>
+<pre class="sourceCode r"><code class="sourceCode r">lanzamientos_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+lanzamientos_<span class="dv">10</span>
+<span class="co">#&gt;  [1] &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot;</span></code></pre>
+<p>Podemos calcular las secuencia de frecuencias relativas de águila:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="co"># suma acumulada de águilas</span>
+<span class="co">#&gt;  [1] 1 1 2 3 4 5 6 7 8 8</span>
+<span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+<span class="co">#&gt;  [1] 1.00 0.50 0.67 0.75 0.80 0.83 0.86 0.88 0.89 0.80</span></code></pre>
+<p>Una regla general, es que las frecuencias relativas basadas en un número
+mayor de observaciones son menos fluctuantes comparado con las frecuencias
+relativas basadas en pocas observaciones. Este fenómeno se conoce como la <strong>ley
+empírica de los promedios</strong> (y se formalizó después en las leyes de los grandes
+números):</p>
+<pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">1000</span>
+<span class="kw">data_frame</span>(<span class="dt">num_lanzamiento =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">lanzamiento =</span> <span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">frec_rel =</span> <span class="kw">cummean</span>(lanzamiento <span class="op">==</span><span class="st"> &quot;A&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> num_lanzamiento, <span class="dt">y =</span> frec_rel)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">1.0</span>) <span class="op">+</span>
+<span class="st">        </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;frecuencia relativa&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;1000 volados&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;lanzamiento&quot;</span>)</code></pre>
+<p><img src="04_probabilidad_files/figure-html/unnamed-chunk-5-1.png" width="787.2" /></p>
+<p>Veamos las frecuencias relativas para 3 series de 1000 lanzamientos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">lanzar &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">n =</span> <span class="dv">1000</span>){
+    <span class="kw">data_frame</span>(<span class="dt">num_lanzamiento =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">lanzamiento =</span> <span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">mutate</span>(<span class="dt">frec_rel =</span> <span class="kw">cummean</span>(lanzamiento <span class="op">==</span><span class="st"> &quot;A&quot;</span>))
+  }
+<span class="kw">head</span>(<span class="kw">lanzar</span>())
+<span class="co">#&gt; # A tibble: 6 x 3</span>
+<span class="co">#&gt;   num_lanzamiento lanzamiento frec_rel</span>
+<span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt; 1               1 S               0   </span>
+<span class="co">#&gt; 2               2 S               0   </span>
+<span class="co">#&gt; 3               3 S               0   </span>
+<span class="co">#&gt; 4               4 A               0.25</span>
+<span class="co">#&gt; 5               5 A               0.4 </span>
+<span class="co">#&gt; 6               6 A               0.5</span>
 
-<div id="refs" class="references">
-<div>
-<p>Burns, P. 2015. <em>The R Inferno</em>. <em>The American Statistician</em>. Vol. 4. 69.</p>
+<span class="kw">set.seed</span>(<span class="dv">31287931</span>)
+<span class="co"># usamos la función map_df del paquete purrr</span>
+<span class="kw">map_df</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="op">~</span><span class="kw">lanzar</span>(), <span class="dt">.id =</span> <span class="st">&quot;serie&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(num_lanzamiento), <span class="dt">y =</span> frec_rel, <span class="dt">color =</span> <span class="kw">as.character</span>(serie))) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">geom_line</span>() <span class="op">+</span>
+<span class="st">        </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;lanzamiento&quot;</span>, <span class="dt">labels =</span> exp, 
+            <span class="dt">breaks =</span> <span class="kw">log</span>(<span class="kw">sapply</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>, <span class="cf">function</span>(i) <span class="dv">2</span> <span class="op">^</span><span class="st"> </span>i))) <span class="op">+</span>
+<span class="st">        </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;serie&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;frecuencia relativa&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;1000 volados&quot;</span>)</code></pre>
+<p><img src="04_probabilidad_files/figure-html/unnamed-chunk-6-1.png" width="787.2" /></p>
+<div class="caja">
+<p>En la <strong>interpretación frecuentista</strong>, la probabilidad de un evento <span class="math inline">\(A\)</span> es la
+estimación de la frecuencia relativa de <span class="math inline">\(A\)</span> cuando el número de ensayos tiende
+a infinito. Si denotemos la proporción de veces que ocurre <span class="math inline">\(A\)</span> en <span class="math inline">\(n\)</span> ensayos por
+<span class="math inline">\(P_n(A)\)</span>, se espera que <span class="math inline">\(P_n(A)\)</span> sea cercana a la probabilidad <span class="math inline">\(P(A)\)</span> si <span class="math inline">\(n\)</span>
+es <em>grande</em>:
+<span class="math display">\[P_n(A) \approx P(A)\]</span></p>
 </div>
-<div>
-<p>Cleveland, William S., and Robert McGill. 1984. “Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.” <em>Journal of the American Statistical Association</em> 79 (387). American Statistical Association:pp. 531–54. <a href="http://www.jstor.org/stable/2288400" class="uri">http://www.jstor.org/stable/2288400</a>.</p>
-</div>
-<div>
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
-</div>
-<div>
-<p>———. 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Efron, Bradley, and Robert J. Tibshirani. 1993. <em>An Introduction to the Bootstrap</em>. Monographs on Statistics and Applied Probability 57. Boca Raton, Florida, USA: Chapman &amp; Hall/CRC.</p>
-</div>
-<div>
-<p>Gelman, A., J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/Crc Texts in Statistical Science. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=ZXL6AQAAQBAJ" class="uri">https://books.google.com.mx/books?id=ZXL6AQAAQBAJ</a>.</p>
-</div>
-<div>
-<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
-</div>
-<div>
-<p>Hesterberg, Tim C. 2015. “What Teachers Should Know About the Bootstrap: Resampling in the Undergraduate Statistics Curriculum.” <em>The American Statistician</em> 69 (4). Taylor &amp; Francis:371–86. <a href="https://doi.org/10.1080/00031305.2015.1089789" class="uri">https://doi.org/10.1080/00031305.2015.1089789</a>.</p>
-</div>
-<div>
-<p>INEGI. 2014. “Encuesta Nacional de Ingresos Y Gastos de Los Hogares (Enigh-2014). Diseño Muestral.” <a href="http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf" class="uri">http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf</a>.</p>
-</div>
-<div>
-<p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
-</div>
-<div>
-<p>Rao, J. N. K., and C. F. J. Wu. 1988. “Resampling Inference with Complex Survey Data.” <em>Journal of the American Statistical Association</em> 83 (401). Taylor &amp; Francis:231–41. <a href="https://doi.org/10.1080/01621459.1988.10478591" class="uri">https://doi.org/10.1080/01621459.1988.10478591</a>.</p>
-</div>
-<div>
-<p>Ross, Sheldon M. 1998. <em>A First Course in Probability</em>. Fifth. Upper Saddle River, N.J.: Prentice Hall.</p>
-</div>
-<div>
-<p>Tufte, Edward R. 1986. <em>The Visual Display of Quantitative Information</em>. Cheshire, CT, USA: Graphics Press.</p>
-</div>
-<div>
-<p>———. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
-</div>
-<div>
-<p>Tukey, J.W. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Series in Behavioral Science. Addison-Wesley Publishing Company. <a href="https://books.google.com.mx/books?id=UT9dAAAAIAAJ" class="uri">https://books.google.com.mx/books?id=UT9dAAAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, H. 2014. <em>Advanced R</em>. Chapman &amp; Hall/Crc the R Series. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=PFHFNAEACAAJ" class="uri">https://books.google.com.mx/books?id=PFHFNAEACAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
-</div>
-<div>
-<p>———. 2011. “The Split-Apply-Combine Strategy for Data Analysis.” <em>Journal of Statistical Software</em> 40 (1):1–29. <a href="http://www.jstatsoft.org/v40/i01/" class="uri">http://www.jstatsoft.org/v40/i01/</a>.</p>
-</div>
-<div>
-<p>———. 2014. “Tidy Data.” <em>Journal of Statistical Software, Articles</em> 59 (10):1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="uri">https://doi.org/10.18637/jss.v059.i10</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div>
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
-</div>
+<p>Veamos un ejemplo de calculo de una probabilidad como frecuencia relativa; el
+objetivo es entender cómo la interpretación frecuentista nos da el nivel de
+detalle correcto cuando suponemos resultados equiprobables.</p>
+<div id="ejemplo-lanzamiento-de-dos-monedas" class="section level5 unnumbered">
+<h5>Ejemplo: Lanzamiento de dos monedas</h5>
+<p>Supongamos que lanzamos dos monedas de manera simultánea. ¿Cuál es la
+probabilidad de que las dos monedas sean águila?</p>
+<ul>
+<li><p>Las dos son águila o no, así que la posibilidad es 1/2.</p></li>
+<li><p>Si definimos el resultado como el número de caras que se leen en las monedas,
+puede haber 0, 1 o 2. Si suponemos que estos tres resultados son igualmente
+probables, entonces la posibilidad es 1/3.</p></li>
+<li><p>A pesar de que las monedas son similares supongamos que se pueden distinguir,
+llamémoslas moneda 1 y moneda 2. Ahora tenemos cuatro posibles resultados:
+AA, AS, SA, SS, (la primer letra corresponde a la cara observada en la
+moneda 1 y la segunda en la moneda 2). Si estos 4 resultados son igualmente
+probables entonces el evento AA tiene posibilidad de 1/4.</p></li>
+</ul>
+<p>¿Cuál es la respuesta correcta?</p>
+<p>En cuanto a teoría formal todas son correctas, cada escenario tiene supuestos
+de resultados equiprobables claramente enunciados y en base a éstos determina
+una probabilidad de manera correcta; sin embargo, los supuestos son diferentes
+y por tanto también las conclusiones. Únicamente una de las soluciones puede
+ser consistente con la interpretación frecuentista, ¿cuál es?</p>
+<p>La primer respuesta es incorrecta pues supone probabilidad cero para el evento
+águila y sol. La solución dos, por otra parte, no es fácil de desacreditar, así
+que realicemos el experimento para encontrar la respuesta:</p>
+<pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">10000</span>
+moneda_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+moneda_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+<span class="kw">sum</span>(moneda_<span class="dv">1</span> <span class="op">==</span><span class="st"> </span>moneda_<span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>moneda_<span class="dv">1</span> <span class="op">==</span><span class="st">&quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span>n
+<span class="co">#&gt; [1] 0.26</span></code></pre>
+<p>La respuesta 3 es la correcta, y lo que vemos es que incluso cuando el supuesto
+de igualmente probables es apropiado a un cierto nivel de descripción
+determinado, este <em>nivel</em> no es algo que se pueda juzgar usando únicamente
+matemáticas, sino que se debe juzgar usando una interpretación de la
+probabilidad, como frecuencias relativas en ensayos. Más aún, hay ejemplos
+donde las monedas no son <em>justas</em>, o el sexo de un bebé recién nacido, donde
+el supuesto de equiprobabilidad no es adecuado.</p>
 </div>
 </div>
             </section>
@@ -329,8 +372,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="probabilidad.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="introduccion-a-probabilidad.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simulacion-para-el-calculo-de-probabilidades.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -360,7 +403,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/99-references.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/04_probabilidad.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

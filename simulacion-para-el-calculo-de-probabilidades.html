@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  <meta name="github-repo" content="tereom/est-computacional-2018" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  
+
+<meta name="author" content="Teresa Ortiz">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="interpretacion-frecuentista-de-probabilidad.html">
+<link rel="next" href="variables-aleatorias.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.2/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.5/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.5/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.5/profvis.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#ligas"><i class="fa fa-check"></i>Ligas</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#temario"><i class="fa fa-check"></i>Temario</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#otros"><i class="fa fa-check"></i>Otros</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introducciona-a-visualizacion.html"><a href="introducciona-a-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Introduccióna a visualización</a><ul>
+<li class="chapter" data-level="" data-path="introducciona-a-visualizacion.html"><a href="introducciona-a-visualizacion.html#el-cuarteto-de-ascombe"><i class="fa fa-check"></i>El cuarteto de Ascombe</a></li>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-de-datos-en-la-estadistica"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos (Tufte, Cleveland, Tukey)</a><ul>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#principios-generales-del-diseno-analitico"><i class="fa fa-check"></i>Principios generales del diseño analítico</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#tecnicas-de-visualizacion"><i class="fa fa-check"></i>Técnicas de visualización</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#indicadores-de-calidad-grafica"><i class="fa fa-check"></i>Indicadores de calidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#factor-de-engano-chartjunk-y-pies"><i class="fa fa-check"></i>Factor de engaño, chartjunk y pies</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#series-de-tiempo-y-promedio-de-45"><i class="fa fa-check"></i>Series de tiempo y promedio de 45</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#pequenos-multiplos-y-densidad-grafica"><i class="fa fa-check"></i>Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#tinta-de-datos"><i class="fa fa-check"></i>Tinta de datos</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#percepcion-de-escala"><i class="fa fa-check"></i>Percepción de escala</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#minard"><i class="fa fa-check"></i>Minard</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduccion-a-r-y-al-paquete-ggplot2.html"><a href="introduccion-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#r-en-analisis-de-datos"><i class="fa fa-check"></i>R en análisis de datos</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i>Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#recursos"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html"><i class="fa fa-check"></i><b>2.2</b> Visualización con ggplot2</a><ul>
+<li class="chapter" data-level="" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html#recursos-1"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manipulacion-y-agrupacion-de-datos.html"><a href="manipulacion-y-agrupacion-de-datos.html"><i class="fa fa-check"></i><b>3</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html"><i class="fa fa-check"></i><b>3.1</b> Transformación de datos</a><ul>
+<li><a href="transformacion-de-datos.html#separa-aplica-combina-split-apply-combine">Separa-aplica-combina (<em>split-apply-combine</em>)</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ejemplos-y-lectura-de-datos"><i class="fa fa-check"></i>Ejemplos y lectura de datos</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#filtrar"><i class="fa fa-check"></i>Filtrar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#seleccionar"><i class="fa fa-check"></i>Seleccionar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ordenar"><i class="fa fa-check"></i>Ordenar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#mutar"><i class="fa fa-check"></i>Mutar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#summarise-y-resumenes-por-grupo"><i class="fa fa-check"></i>Summarise y resúmenes por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#operador-pipeline"><i class="fa fa-check"></i>Operador pipeline</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#variables-por-grupo"><i class="fa fa-check"></i>Variables por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#verbos-de-dos-tablas"><i class="fa fa-check"></i>Verbos de dos tablas</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-mas-de-una-variable"><i class="fa fa-check"></i>Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#mas-de-un-tipo-de-observacion-en-una-misma-tabla"><i class="fa fa-check"></i>Mas de un tipo de observación en una misma tabla</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas"><i class="fa fa-check"></i>Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones.html"><a href="funciones.html"><i class="fa fa-check"></i><b>4.1</b> Funciones</a><ul>
+<li class="chapter" data-level="" data-path="funciones.html"><a href="funciones.html#estructura-de-una-funcion"><i class="fa fa-check"></i>Estructura de una función</a></li>
+<li class="chapter" data-level="" data-path="funciones.html"><a href="funciones.html#observaciones-del-uso-de-funciones"><i class="fa fa-check"></i>Observaciones del uso de funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteracion.html"><a href="iteracion.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html"><i class="fa fa-check"></i><b>5</b> Introducción a probabilidad</a><ul>
+<li class="chapter" data-level="5.1" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.1</b> Interpretación frecuentista de probabilidad</a></li>
+<li class="chapter" data-level="5.2" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.2</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.3" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.3</b> Variables aleatorias</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="bootstrap-no-parametrico.html"><a href="bootstrap-no-parametrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
+<li class="chapter" data-level="6.1" data-path="muestras-aleatorias.html"><a href="muestras-aleatorias.html"><i class="fa fa-check"></i><b>6.1</b> Muestras aleatorias</a></li>
+<li class="chapter" data-level="6.2" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.2</b> El principio del <em>plug-in</em></a><ul>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#funcion-de-distribucion-empirica"><i class="fa fa-check"></i>Función de distribución empírica</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="distribuciones-muestrales-y-errores-estandar.html"><a href="distribuciones-muestrales-y-errores-estandar.html"><i class="fa fa-check"></i><b>6.3</b> Distribuciones muestrales y errores estándar</a></li>
+<li class="chapter" data-level="6.4" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html"><i class="fa fa-check"></i><b>6.4</b> El estimador bootstrap del error estándar</a></li>
+<li class="chapter" data-level="6.5" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.5</b> Más alla de muestras aleatorias simples</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html#intervalos-de-confianza"><i class="fa fa-check"></i><b>6.5.1</b> Intervalos de confianza</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
+<li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
+<li class="chapter" data-level="" data-path="probabilidad.html"><a href="probabilidad.html"><i class="fa fa-check"></i>4-Probabilidad</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="simulacion-para-el-calculo-de-probabilidades" class="section level2">
+<h2><span class="header-section-number">5.2</span> Simulación para el cálculo de probabilidades</h2>
+<p>En el ejemplo anterior vimos que puede ser sencillo usar simulación para
+calcular probabilidades, pues usando la interpretación de frecuencia relativa
+simplemente hace falta simular el experimento y contar los casos favorables
+entre el total de casos.</p>
+<div class="caja">
+<p>Simulación para el cálculo de probabilidades:</p>
+<ol style="list-style-type: decimal">
+<li><p>Definir el espacio de resultados.</p></li>
+<li><p>Describir el mecanismo que genera los resultados, esto incluye entender
+los pasos que involucran azar y los que no.</p></li>
+<li><p>Replicar el experimento con código, siguiendo el conocimiento elicitado en 1
+y 2.</p></li>
+<li>Repetir el paso 3 <span class="math inline">\(n\)</span> veces y calcular la frecuencia relativa de éxitos,
+estimando así la probabilidad.</li>
+</ol>
+</div>
+<p>Para el paso 2, en R suelen ser de utilidad las funciones <code>runif</code> y <code>sample()</code>,
+revisa la ayuda de estas funciones.</p>
+<div id="ejemplo-comite" class="section level4 unnumbered">
+<h4>Ejemplo: comité</h4>
+<p>Un comité de 5 personas será seleccionado de un grupo de 6 hombres y 9 mujeres.
+Si la selección es aleatoria, ¿cuál es la probabilidad de que el comité este
+conformado por 3 hombres y 2 mujeres?</p>
+<ol style="list-style-type: decimal">
+<li><p>El espacio de resultados es <span class="math inline">\(\Omega = \{M_1M_2M_3M_4M_5, M_2M_3M_4M_5M_6,... H_1,H_2H_3H_4H_5,H_2H_3H_4H_5H_6\}\)</span>.</p></li>
+<li><p>Se seleccionan 5 integrantes al azar del conjunto de hombres y mujeres, es
+claro que cada persona solo puee estar una vez.</p></li>
+<li></li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">candidatos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">paste</span>(<span class="st">&quot;M&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>), <span class="kw">paste</span>(<span class="st">&quot;H&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>))
+<span class="kw">sample</span>(candidatos, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; [1] &quot;H_1&quot; &quot;M_7&quot; &quot;H_5&quot; &quot;M_4&quot; &quot;M_3&quot;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">comite &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    candidatos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">paste</span>(<span class="st">&quot;M&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>), <span class="kw">paste</span>(<span class="st">&quot;H&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>))
+    comite &lt;-<span class="st"> </span><span class="kw">sample</span>(candidatos, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)
+    n_mujeres &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">substr</span>(comite, <span class="dv">1</span>, <span class="dv">1</span>) <span class="op">==</span><span class="st"> &quot;M&quot;</span>)
+    n_mujeres <span class="op">==</span><span class="st"> </span><span class="dv">2</span>
+}
+
+<span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">comite</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()
+<span class="co">#&gt; [1] 0.22</span></code></pre>
+</div>
+<div id="ejemplo-la-ruina-del-jugador" class="section level4 unnumbered">
+<h4>Ejemplo: La ruina del jugador</h4>
+<ul>
+<li><p>Un jugador tiene $100, y va a apostar en un juego donde
+la probabilidad de ganar es p = 0.47 (e.g. una ruleta 18/38), si gana recibe el
+doble de lo que arriesgó, si no gana pierde todo lo que apostó.</p></li>
+<li><p>Cada vez que juega puede apostar cualquier cantidad siempre y cuando aún
+cuente con dinero.</p></li>
+<li><p>El jugador dejará de jugar cuando su capital sea $0 o cuando gane $200.</p></li>
+<li><p>El jugador busca una estrategia que le ayude a aumentar su probabilidad de
+ganar y te pregunta: ¿Cuál es la probabilidad de ganar si apuesto en incrementos
+de $5 cada vez que apuesto?</p></li>
+</ul>
+<p>Siguiendo los pasos enunciados:</p>
+<ol style="list-style-type: decimal">
+<li><p>El espacio de resultados es <span class="math inline">\(\Omega = \{GGGGGGGGGGGGGGGGGGGG, PGGGGGGGGGGGGGGGGGGGGGG, GPGGGGGGGGGGGGGGGGGGGGG, ...\}\)</span>.</p></li>
+<li><p>El jugador juega mientras tenga capital y este sea menor a $200, el
+monto de la apuesta está fijo en $5, no importa el capital en cada momento. La
+componente aleatoria involucra si gana cada uno de los juegos y esto
+ocurre con probabilidad 0.47.</p></li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">apostar &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">dinero =</span> <span class="dv">100</span>, <span class="dt">apuesta =</span> <span class="dv">5</span>, <span class="dt">tope =</span> <span class="dv">200</span>){
+    <span class="cf">while</span>(<span class="dv">0</span> <span class="op">&lt;</span><span class="st"> </span>dinero <span class="op">&amp;</span><span class="st"> </span>dinero <span class="op">&lt;</span><span class="st"> </span>tope){
+        <span class="cf">if</span>(<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">38</span>, <span class="dv">1</span>) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">18</span>){
+            dinero &lt;-<span class="st"> </span>dinero <span class="op">+</span><span class="st"> </span>apuesta
+        } 
+        <span class="cf">else</span>{
+            dinero &lt;-<span class="st"> </span>dinero <span class="op">-</span><span class="st"> </span>apuesta
+        }
+    }
+    dinero <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>
+}
+n_juegos &lt;-<span class="st"> </span><span class="dv">5000</span>
+juegos &lt;-<span class="st"> </span><span class="kw">rerun</span>(n_juegos, <span class="kw">apostar</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+<span class="kw">mean</span>(juegos)
+<span class="co">#&gt; [1] 0.11</span>
+
+<span class="co"># incrementos de 50?</span>
+juegos &lt;-<span class="st"> </span><span class="kw">rerun</span>(n_juegos, <span class="kw">apostar</span>(<span class="dt">apuesta =</span> <span class="dv">50</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+<span class="kw">mean</span>(juegos)
+<span class="co">#&gt; [1] 0.44</span></code></pre>
+<p>La solución analítica la pueden leer en este documento de <a href="http://web.mit.edu/neboat/Public/6.042/randomwalks.pdf">caminatas aleatorias</a>:</p>
+<pre class="sourceCode r"><code class="sourceCode r">p =<span class="st"> </span><span class="fl">0.47</span>
+<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="dv">5</span>)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">200</span> <span class="op">/</span><span class="st"> </span><span class="dv">5</span>)) <span class="co"># apostando de 5 en 5</span>
+<span class="co">#&gt; [1] 0.083</span>
+<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">200</span> <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)) <span class="co"># apostando de 50 en 50</span>
+<span class="co">#&gt; [1] 0.44</span></code></pre>
+<p><img src="../imagenes/manicule2.jpg" /> Cumpleaños. ¿Cuántas personas debe haber en un
+salón para que la probabilidad de encontrar 2 con el mismo cumpleaños sea 0.5?
+Supuestos:</p>
+<ul>
+<li><p>Mismo cumpleaños implica mismo día y mes.</p></li>
+<li><p>No hay años bisiestos.</p></li>
+<li><p>La probabilidad de que alguien nazca un día dado es la misma para todos los
+días del año.</p></li>
+</ul>
+<p><img src="../imagenes/manicule2.jpg" /> Chabelo (Monty Hall) Supongamos que estamos
+jugando las catafixias de Chabelo, en este juego hay 3 catafixias: 2 de ellas
+están vacías y una tiene un premio:</p>
+<ol style="list-style-type: decimal">
+<li>El juego comienza cuando escoges una catafixia.</li>
+<li>A continuación Chabelo abre una catafixia vacía de las dos catafixias
+restantes.</li>
+<li><p>Tu eliges si te mantienes con tu catafixia o cambias a la otra que continúa
+cerrada. Chabelo abre tu segunda elección de catafixia y se revela si ganaste.</p>
+<p>¿Cuál es la probabilidad de que ganes si cambias de catafixia?</p></li>
+</ol>
+<p><img src="../imagenes/manicule2.jpg" /> <strong>Urna</strong>: 10 personas (con nombres distintos)
+escriben sus nombres y los ponen en una urna, después seleccionan un nombre (al
+azar).</p>
+<ul>
+<li><p>Sea A el evento en el que ninguna persona selecciona su nombre, ¿Cuál es la
+probabilidad del evento A?</p></li>
+<li><p>Supongamos que hay 3 personas con el mismo nombre, ¿Cómo calcularías la
+probabilidad del evento A en este nuevo experimento?</p></li>
+<li>El señor J. tiene 2 cachorros, el mayor es hembra. ¿Cuál es la probabilidad
+de que los dos sean hembra?</li>
+<li><p>La señora K. tiene 2 cachorros, al menos uno es macho. ¿Cuál es la probabilidad
+de que los dos sean macho?</p></li>
+</ul>
+<p>Podemos generalizar las definiciones de equiprobable al caso continuo, como
+ejemplo supongamos que se lanza un dado a un table cuadrandgular de lado 2,
+¿cuál es la probabilidad de que el dado caiga en el círculo de radio 1 inscrito
+en un cuadrado de lado 2?</p>
+<pre class="sourceCode r"><code class="sourceCode r">tablero &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>ggforce<span class="op">::</span><span class="kw">geom_circle</span>(<span class="kw">aes</span>(<span class="dt">x0 =</span> <span class="dv">0</span>, <span class="dt">y0 =</span> <span class="dv">0</span>, <span class="dt">r =</span> <span class="dv">1</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_rect</span>(<span class="kw">aes</span>(<span class="dt">xmin =</span> <span class="dv">-1</span>, <span class="dt">xmax =</span> <span class="dv">1</span>,   <span class="dt">ymin =</span> <span class="dv">-1</span>, <span class="dt">ymax =</span> <span class="dv">1</span>),   <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, 
+        <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">coord_equal</span>()
+<span class="kw">ggsave</span>(<span class="st">&quot;imagenes/tablero.png&quot;</span>, tablero, <span class="dt">width =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">3</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imagenes/tablero.png&quot;</span>)</code></pre>
+<p><img src="imagenes/tablero.png" width="400px" /></p>
+<p>En este caso usamos áreas relativas para calcular la probabilidad: denotemos C
+al evento tal que el dardo cae en el círculo, entonces:</p>
+<p><span class="math display">\[P(B) = \frac{Área(B)}{Área(\Omega)}\]</span>
+¿Y simulando?</p>
+<pre class="sourceCode r"><code class="sourceCode r">circunferencia &lt;-<span class="st"> </span><span class="cf">function</span>(){
+  x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">1</span>)
+  y &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">1</span>)
+  <span class="kw">sqrt</span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>y <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>
+}
+<span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">circunferencia</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()
+<span class="co">#&gt; [1] 0.78</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">dardos &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">runif</span>(<span class="dv">1000</span>, <span class="dv">-1</span>, <span class="dv">1</span>), <span class="dt">y =</span> <span class="kw">runif</span>(<span class="dv">1000</span>, <span class="dv">-1</span>, <span class="dv">1</span>), 
+    <span class="dt">en_circulo =</span> <span class="kw">sqrt</span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>y <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>)
+
+tablero_dardos &lt;-<span class="st"> </span>tablero <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> dardos, <span class="kw">aes</span>(x, y, <span class="dt">color =</span> en_circulo), <span class="dt">alpha =</span> <span class="fl">0.5</span>, 
+        <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)
+
+<span class="kw">ggsave</span>(<span class="st">&quot;imagenes/tablero_dardos.png&quot;</span>, tablero_dardos, <span class="dt">width =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">3</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imagenes/tablero_dardos.png&quot;</span>)</code></pre>
+<p><img src="imagenes/tablero_dardos.png" width="400px" /></p>
+<p>Ahora, en el ejemplo de los dardos es más realista pensar que la probabilidad
+de que el dardo caiga en un segmento de la zona central no es la misma a que
+caiga en un segmento de igual área en las orillas.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tablero_zonas &lt;-<span class="st"> </span>tablero <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_rect</span>(<span class="kw">aes</span>(<span class="dt">xmin =</span> <span class="dv">-1</span>, <span class="dt">xmax =</span> <span class="fl">-0.8</span>,   <span class="dt">ymin =</span> <span class="dv">-1</span>, <span class="dt">ymax =</span> <span class="fl">-0.8</span>), 
+        <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_rect</span>(<span class="kw">aes</span>(<span class="dt">xmin =</span> <span class="fl">-.1</span>, <span class="dt">xmax =</span> <span class="fl">0.1</span>,   <span class="dt">ymin =</span> <span class="fl">-0.1</span>, <span class="dt">ymax =</span> <span class="fl">0.1</span>), 
+        <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)
+<span class="kw">ggsave</span>(<span class="st">&quot;imagenes/tablero_zonas.png&quot;</span>, tablero_zonas, <span class="dt">width =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">3</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imagenes/tablero_zonas.png&quot;</span>)</code></pre>
+<p><img src="imagenes/tablero_zonas.png" width="400px" /></p>
+<p>La definición de probabilidad como área relativa no se puede usar en estos
+casos, sin embargo, el enfoque de simulación se continúa manteniendo.</p>
+<p>Comencemos con el caso del dardo univariado.</p>
+<pre class="sourceCode r"><code class="sourceCode r">unif &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_rect</span>(<span class="kw">aes</span>(<span class="dt">xmin =</span> <span class="fl">0.3</span>, <span class="dt">xmax =</span> <span class="fl">0.6</span>,   <span class="dt">ymin =</span> <span class="dv">0</span>, <span class="dt">ymax =</span> <span class="dv">1</span>), 
+        <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">1</span>)
+unif    </code></pre>
+<p><img src="04_probabilidad_files/figure-html/unnamed-chunk-21-1.png" width="350px" /></p>
+<p>En este caso de área relativa, calculamos la probabilidad cómo el área sombreada</p>
+<p><span class="math display">\[P([a, b]) = \frac{b-a}{1} = \int_a^b 1dx\]</span></p>
+<p>Ahora, si el dardo cae en ciertas zonas con mayor probabilidad:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span> , <span class="dv">1</span>)), <span class="kw">aes</span>(x)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbeta, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape1 =</span> <span class="dv">5</span>, <span class="dt">shape2 =</span> <span class="dv">2</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_rect</span>(<span class="dt">data =</span> <span class="ot">NULL</span>, <span class="kw">aes</span>(<span class="dt">xmin =</span> <span class="dv">0</span>, <span class="dt">xmax =</span> <span class="dv">1</span>, <span class="dt">ymin =</span> <span class="dv">0</span>, <span class="dt">ymax =</span> <span class="dv">1</span>), 
+        <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>)</code></pre>
+<p><img src="04_probabilidad_files/figure-html/unnamed-chunk-22-1.png" width="350px" /></p>
+<p><span class="math display">\[P([a,b])=\int_a^bf(x)dx\]</span>
+Y lo podemos calcular con simulación, por ejemplo la probabilidad de x en
+[0.2, 0.5]:</p>
+<pre class="sourceCode r"><code class="sourceCode r">curva &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)
+    y &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="fl">2.5</span>
+    <span class="cf">while</span>(<span class="kw">dbeta</span>(x, <span class="dv">5</span>, <span class="dv">2</span>) <span class="op">&lt;</span><span class="st"> </span>y){
+        x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)
+        y &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="fl">2.5</span>
+    }
+    x
+}
+
+sims_x &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">5000</span>, <span class="kw">curva</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+<span class="kw">mean</span>(sims_x <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.2</span> <span class="op">&amp;</span><span class="st"> </span>sims_x <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.5</span>)
+<span class="co">#&gt; [1] 0.1</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">runif</span>(<span class="dv">1000</span>), <span class="dt">y =</span> <span class="kw">runif</span>(<span class="dv">1000</span>) <span class="op">*</span><span class="st"> </span><span class="fl">2.5</span>, <span class="dt">dentro =</span> <span class="kw">dbeta</span>(x, <span class="dv">5</span>, <span class="dv">2</span>) <span class="op">&gt;</span><span class="st"> </span>y, 
+    <span class="dt">en_int =</span> dentro <span class="op">*</span><span class="st"> </span>(x <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.2</span> <span class="op">&amp;</span><span class="st"> </span>x <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.5</span>), <span class="dt">cat =</span> <span class="kw">case_when</span>(<span class="op">!</span>dentro <span class="op">~</span><span class="st"> &quot;a&quot;</span>, 
+        dentro <span class="op">&amp;</span><span class="st"> </span>en_int <span class="op">~</span><span class="st"> &quot;b&quot;</span>, <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;c&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>()<span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbeta, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape1 =</span> <span class="dv">5</span>, <span class="dt">shape2 =</span> <span class="dv">2</span>)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(x, y, <span class="dt">color =</span> cat), <span class="dt">alpha =</span> <span class="fl">0.5</span>, 
+            <span class="dt">show.legend =</span> <span class="ot">FALSE</span>)</code></pre>
+<p><img src="04_probabilidad_files/figure-html/unnamed-chunk-24-1.png" width="350px" /></p>
+<p>En el caso discreto.</p>
+<p>Supongamos que el proceso de selección del comité tiene sesgo, las mujeres
+se seleccionan con mayor probabilidad que los hombres</p>
+<pre class="sourceCode r"><code class="sourceCode r">comite &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    candidatos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">paste</span>(<span class="st">&quot;M&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>), <span class="kw">paste</span>(<span class="st">&quot;H&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>))
+    comite &lt;-<span class="st"> </span><span class="kw">sample</span>(candidatos, <span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>, 
+        <span class="dt">prob =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">2</span>, <span class="dv">9</span>), <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">6</span>)))
+    n_mujeres &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">substr</span>(comite, <span class="dv">1</span>, <span class="dv">1</span>) <span class="op">==</span><span class="st"> &quot;M&quot;</span>)
+    n_mujeres <span class="op">==</span><span class="st"> </span><span class="dv">2</span>
+}
+
+<span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">comite</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()
+<span class="co">#&gt; [1] 0.094</span></code></pre>
+<p>Y para el caso continuo comencemos con un dardo en una sola dimensión en el
+caso de eventos equiprobables:</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="interpretacion-frecuentista-de-probabilidad.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="variables-aleatorias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/04_probabilidad.Rmd",
+"text": "Edit"
+},
+"download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

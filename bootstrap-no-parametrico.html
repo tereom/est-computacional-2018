@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="probabilidad.html">
-
+<link rel="prev" href="variables-aleatorias.html">
+<link rel="next" href="muestras-aleatorias.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -255,73 +255,143 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="referencias" class="section level1 unnumbered">
-<h1>Referencias</h1>
+<div id="bootstrap-no-parametrico" class="section level1">
+<h1><span class="header-section-number">Sección 6</span> Bootstrap no paramétrico</h1>
+<blockquote>
+<p>Bootstrap: <em>to pull oneself up by one’s bootstrap</em></p>
+</blockquote>
+<p>Estas notas se desarrollaron con base en <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span> y abordan los siguientes temas:</p>
+<ul>
+<li>Muestras aleatorias<br />
+</li>
+<li>El principio del <em>plug-in</em><br />
+</li>
+<li>Bootstrap no paramétrico<br />
+</li>
+<li>Ejemplos: componentes principales, ajuste de curvas, muestreo.</li>
+</ul>
+<!-- la inferencia estadística se ocupa de aprender de la experiencia: 
+observamos una muestra aleatoria x y queremos inferir propiedades de la 
+población que produjo la muestra. Probabilidad va en la dirección contraria:
+de la composicion de una pob deducimos las propiedades de una muestra aleatoria
+x -->
+<p>Como explican Efron y Tibshirani en <em>An Introduction to the bootstrap</em>, las
+expicaciones del <em>bootstrap</em> y otros métodos computacionales, involucran
+las ideas de inferencia estadistica tradicional. Las ideas báscias no han
+cambiado pero la implementación de estas sí.</p>
+<p>Los tres conceptos básicos de estadística son:</p>
+<ol style="list-style-type: decimal">
+<li><p>Recolección de datos,</p></li>
+<li><p>resúmenes (o descriptivos) de datos y</p></li>
+<li><p>inferencia.</p></li>
+</ol>
+<div id="ejemplo-aspirina-y-ataques-cardiacos" class="section level4 unnumbered">
+<h4>Ejemplo: aspirina y ataques cardiacos</h4>
+<p>Veamos un ejemplo de estos conceptos y como se introduce bootstrap. Usaremos
+datos de un estudio clínico de consumo de aspirina y ataques cardiacos cuyos
+resultados fueron publicados en el <a href="http://www.nytimes.com/1988/01/27/us/heart-attack-risk-found-to-be-cut-by-taking-aspirin.html">New York Times</a>:</p>
+<p><strong>Planteamiento:</strong> se diseñó un estudio para investigar si el consumo de dosis
+bajas de aspirina podía prevenir los ataques cardiacos en hombres sanos en edad
+media.</p>
+<p><strong>Recolección de datos:</strong> Se hizo un diseño controlado, aleatorizado y
+doblemente ciego. La mitad de los participantes recibieron aspirina y la otra
+mitad un placebo.</p>
+<p><strong>Descriptivos:</strong> Las estadísticas descriptivas del artículo son muy sencillas:</p>
+<table>
+<thead>
+<tr class="header">
+<th>grupo</th>
+<th>ataques cardiacos</th>
+<th>sujetos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>aspirina</td>
+<td>104</td>
+<td>11037</td>
+</tr>
+<tr class="even">
+<td>placebo</td>
+<td>189</td>
+<td>11034</td>
+</tr>
+</tbody>
+</table>
+<p>De manera que la estimación del cociente de las tasas es
+<span class="math display">\[\hat{\theta}=\frac{104/11037}{189/11034} = 0.55\]</span>
+En la muestra los individuos que toman aspirina tienen únicamente 55% de
+los ataques que los que toman placebo. Sin embargo, lo que realmente nos
+interesa es <span class="math inline">\(\theta\)</span>: el cociente de tasas que observaríamos si pudieramos
+tratar a todos los hombres y no únicamente a una muestra.</p>
+<p><strong>Inferencia:</strong> aquí es donde recurrimos a inferencia estadística:</p>
+<p><span class="math display">\[0.43 &lt; \theta &lt; 0.70\]</span>
+El verdadero valor de <span class="math inline">\(\theta\)</span> esta en el intervalo <span class="math inline">\((0.43,0.70)\)</span> con una
+confianza del 95%.</p>
+<p>Ahora, el <strong>bootstrap</strong> es un método de simulación basado en datos para
+inferencia estadística. La idea detrás es que si una muestra es una aproximación
+de la población que la generó, entoces podemos hacer muestreos de la muestra
+para calcular una estadística de interés y medir la exactitud en la misma.</p>
+<p>En este caso tenemos los resultados del experimento en la variable <em>trial</em>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">trial &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">patient =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">22071</span>, 
+  <span class="dt">group =</span> <span class="kw">ifelse</span>(patient <span class="op">&lt;=</span><span class="st"> </span><span class="dv">11037</span>, <span class="st">&quot;aspirin&quot;</span>, <span class="st">&quot;control&quot;</span>), 
+  <span class="dt">heart_attack =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="ot">TRUE</span>, <span class="dv">104</span>), <span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="dv">10933</span>), <span class="kw">rep</span>(<span class="ot">TRUE</span>, <span class="dv">189</span>), 
+      <span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="dv">10845</span>)))
+trial
+<span class="co">#&gt; # A tibble: 22,071 x 3</span>
+<span class="co">#&gt;    patient group   heart_attack</span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;   &lt;lgl&gt;       </span>
+<span class="co">#&gt;  1       1 aspirin TRUE        </span>
+<span class="co">#&gt;  2       2 aspirin TRUE        </span>
+<span class="co">#&gt;  3       3 aspirin TRUE        </span>
+<span class="co">#&gt;  4       4 aspirin TRUE        </span>
+<span class="co">#&gt;  5       5 aspirin TRUE        </span>
+<span class="co">#&gt;  6       6 aspirin TRUE        </span>
+<span class="co">#&gt;  7       7 aspirin TRUE        </span>
+<span class="co">#&gt;  8       8 aspirin TRUE        </span>
+<span class="co">#&gt;  9       9 aspirin TRUE        </span>
+<span class="co">#&gt; 10      10 aspirin TRUE        </span>
+<span class="co">#&gt; # ... with 22,061 more rows</span></code></pre>
+<p>Y calculamos el cociente de las tasas:</p>
+<pre class="sourceCode r"><code class="sourceCode r">summ_stats &lt;-<span class="st"> </span>trial <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(group) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">n_attacks =</span> <span class="kw">sum</span>(heart_attack), 
+    <span class="dt">n_subjects =</span> <span class="kw">n</span>(),
+    <span class="dt">rate_attacks =</span> n_attacks <span class="op">/</span><span class="st"> </span>n_subjects <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+  )
+summ_stats
+<span class="co">#&gt; # A tibble: 2 x 4</span>
+<span class="co">#&gt;   group   n_attacks n_subjects rate_attacks</span>
+<span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;      &lt;int&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 aspirin       104      11037        0.942</span>
+<span class="co">#&gt; 2 control       189      11034        1.71</span>
 
+ratio_rates &lt;-<span class="st"> </span>summ_stats<span class="op">$</span>rate_attacks[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>summ_stats<span class="op">$</span>rate_attacks[<span class="dv">2</span>]</code></pre>
+<p>Después calculamos 1000 replicaciones <em>bootstrap</em> de <span class="math inline">\(\hat{\theta*}\)</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">boot_ratio_rates &lt;-<span class="st"> </span><span class="cf">function</span>(){
+  boot_sample &lt;-<span class="st"> </span>trial <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(group) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">sample_frac</span>(<span class="dt">replace =</span> <span class="ot">TRUE</span>)
+  rates &lt;-<span class="st"> </span>boot_sample <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">summarise</span>(<span class="dt">rate_attacks =</span> <span class="kw">sum</span>(heart_attack) <span class="op">/</span><span class="st"> </span><span class="kw">n</span>()) <span class="op">%&gt;%</span>
+<span class="st">      </span><span class="kw">pull</span>(rate_attacks)
+  rates[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>rates[<span class="dv">2</span>]
+} 
+
+boot_ratio_rates &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">boot_ratio_rates</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">map_dbl</span>(<span class="op">~</span>.x)</code></pre>
+<p>Las replicaciones se pueden utilizar para hacer inferencia de los datos. Por
+ejemplo, podemos estimar el error estándar de <span class="math inline">\(\theta\)</span>:</p>
+<pre class="sourceCode r"><code class="sourceCode r">se &lt;-<span class="st"> </span><span class="kw">sd</span>(boot_ratio_rates)
+<span class="kw">comma</span>(se)
+<span class="co">#&gt; [1] &quot;0.068&quot;</span></code></pre>
+</div> 
+</div>
+<h3>Referencias</h3>
 <div id="refs" class="references">
-<div>
-<p>Burns, P. 2015. <em>The R Inferno</em>. <em>The American Statistician</em>. Vol. 4. 69.</p>
-</div>
-<div>
-<p>Cleveland, William S., and Robert McGill. 1984. “Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.” <em>Journal of the American Statistical Association</em> 79 (387). American Statistical Association:pp. 531–54. <a href="http://www.jstor.org/stable/2288400" class="uri">http://www.jstor.org/stable/2288400</a>.</p>
-</div>
-<div>
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
-</div>
-<div>
-<p>———. 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
-</div>
-<div>
+<div id="ref-efron">
 <p>Efron, Bradley, and Robert J. Tibshirani. 1993. <em>An Introduction to the Bootstrap</em>. Monographs on Statistics and Applied Probability 57. Boca Raton, Florida, USA: Chapman &amp; Hall/CRC.</p>
-</div>
-<div>
-<p>Gelman, A., J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/Crc Texts in Statistical Science. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=ZXL6AQAAQBAJ" class="uri">https://books.google.com.mx/books?id=ZXL6AQAAQBAJ</a>.</p>
-</div>
-<div>
-<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
-</div>
-<div>
-<p>Hesterberg, Tim C. 2015. “What Teachers Should Know About the Bootstrap: Resampling in the Undergraduate Statistics Curriculum.” <em>The American Statistician</em> 69 (4). Taylor &amp; Francis:371–86. <a href="https://doi.org/10.1080/00031305.2015.1089789" class="uri">https://doi.org/10.1080/00031305.2015.1089789</a>.</p>
-</div>
-<div>
-<p>INEGI. 2014. “Encuesta Nacional de Ingresos Y Gastos de Los Hogares (Enigh-2014). Diseño Muestral.” <a href="http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf" class="uri">http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf</a>.</p>
-</div>
-<div>
-<p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
-</div>
-<div>
-<p>Rao, J. N. K., and C. F. J. Wu. 1988. “Resampling Inference with Complex Survey Data.” <em>Journal of the American Statistical Association</em> 83 (401). Taylor &amp; Francis:231–41. <a href="https://doi.org/10.1080/01621459.1988.10478591" class="uri">https://doi.org/10.1080/01621459.1988.10478591</a>.</p>
-</div>
-<div>
-<p>Ross, Sheldon M. 1998. <em>A First Course in Probability</em>. Fifth. Upper Saddle River, N.J.: Prentice Hall.</p>
-</div>
-<div>
-<p>Tufte, Edward R. 1986. <em>The Visual Display of Quantitative Information</em>. Cheshire, CT, USA: Graphics Press.</p>
-</div>
-<div>
-<p>———. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
-</div>
-<div>
-<p>Tukey, J.W. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Series in Behavioral Science. Addison-Wesley Publishing Company. <a href="https://books.google.com.mx/books?id=UT9dAAAAIAAJ" class="uri">https://books.google.com.mx/books?id=UT9dAAAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, H. 2014. <em>Advanced R</em>. Chapman &amp; Hall/Crc the R Series. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=PFHFNAEACAAJ" class="uri">https://books.google.com.mx/books?id=PFHFNAEACAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
-</div>
-<div>
-<p>———. 2011. “The Split-Apply-Combine Strategy for Data Analysis.” <em>Journal of Statistical Software</em> 40 (1):1–29. <a href="http://www.jstatsoft.org/v40/i01/" class="uri">http://www.jstatsoft.org/v40/i01/</a>.</p>
-</div>
-<div>
-<p>———. 2014. “Tidy Data.” <em>Journal of Statistical Software, Articles</em> 59 (10):1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="uri">https://doi.org/10.18637/jss.v059.i10</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div>
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
-</div>
 </div>
 </div>
             </section>
@@ -329,8 +399,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="probabilidad.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="variables-aleatorias.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="muestras-aleatorias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -360,7 +430,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/99-references.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/05-bootstrap_no_parametrico.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

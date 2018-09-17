@@ -23,13 +23,13 @@ general describir mediante un modelo matemático cada tipo de fenómeno aleatori
 mientras que la inferencia estadística tiene planteado el problema inverso, es decir, a
 partir del conocimiento de una parte del fenómeno pretende establecer sus propiedades,
 para lo cual forzosamente debe utilizar algún modelo probabilístico que describa
-el fenómeno. Es esta dependencia de la estadística con la teoría de probabilidad lo que justifica profundizar el estudio de esta ultima.
+el fenómeno. Es esta dependencia de la estadística con la teoría de probabilidad lo que justifica profundizar el estudio de esta ultima.
 
 -->
 
 
 
-### Espacio de resultados y eventos {-}
+#### Espacio de resultados y eventos {-}
 
 <div class="caja">
 El **espacio de resultados** $\Omega$ es el conjunto de posibles resultados de un
@@ -125,7 +125,7 @@ terminaré con ganancias o pérdidas? ¿Qué estrategia debo seguir para mejorar
 mis posibilidades de ganar? Es así que la interpretación frecuentista de la 
 probabilidad estaba considerada desde un inicio.
 
-### Interpretación frecuentista de probabilidad {-}
+## Interpretación frecuentista de probabilidad
 
 Ya tenemos una interpretación intuitiva de probabilidad pero nos deja abierta
 la pregunta de como interpretar probabilidades en aplicaciones. Abordamos ahora
@@ -148,7 +148,7 @@ Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultado
 ```r
 lanzamientos_10 <- sample(c("A", "S"), 10, replace = TRUE)
 lanzamientos_10
-#>  [1] "A" "A" "A" "A" "S" "A" "S" "S" "A" "A"
+#>  [1] "A" "S" "A" "A" "A" "A" "A" "A" "A" "S"
 ```
 
 Podemos calcular las secuencia de frecuencias relativas de águila:
@@ -156,9 +156,9 @@ Podemos calcular las secuencia de frecuencias relativas de águila:
 
 ```r
 cumsum(lanzamientos_10 == "A") # suma acumulada de águilas
-#>  [1] 1 2 3 4 4 5 5 5 6 7
+#>  [1] 1 1 2 3 4 5 6 7 8 8
 cumsum(lanzamientos_10 == "A") / 1:10
-#>  [1] 1.00 1.00 1.00 1.00 0.80 0.83 0.71 0.62 0.67 0.70
+#>  [1] 1.00 0.50 0.67 0.75 0.80 0.83 0.86 0.88 0.89 0.80
 ```
 
 Una regla general, es que las frecuencias relativas basadas en un número 
@@ -193,12 +193,12 @@ head(lanzar())
 #> # A tibble: 6 x 3
 #>   num_lanzamiento lanzamiento frec_rel
 #>             <int> <chr>          <dbl>
-#> 1               1 A              1    
-#> 2               2 S              0.5  
-#> 3               3 A              0.667
-#> 4               4 A              0.75 
-#> 5               5 S              0.6  
-#> 6               6 A              0.667
+#> 1               1 S               0   
+#> 2               2 S               0   
+#> 3               3 S               0   
+#> 4               4 A               0.25
+#> 5               5 A               0.4 
+#> 6               6 A               0.5
 
 set.seed(31287931)
 # usamos la función map_df del paquete purrr
@@ -271,7 +271,7 @@ probabilidad, como frecuencias relativas en ensayos. Más aún, hay ejemplos
 donde las monedas no son _justas_, o el sexo de un bebé recién nacido, donde 
 el supuesto de equiprobabilidad no es adecuado.
 
-#### Simulación para el cálculo de probabilidades {-}
+## Simulación para el cálculo de probabilidades
 En el ejemplo anterior vimos que puede ser sencillo usar simulación para 
 calcular probabilidades, pues usando la interpretación de frecuencia relativa 
 simplemente hace falta simular el experimento y contar los casos favorables 
@@ -295,7 +295,7 @@ estimando así la probabilidad.
 Para el paso 2, en R suelen ser de utilidad las funciones `runif` y `sample()`,
 revisa la ayuda de estas funciones.
 
-##### Ejemplo: comité {-}
+#### Ejemplo: comité {-}
 Un comité de 5 personas será seleccionado de un grupo de 6 hombres y 9 mujeres. 
 Si la selección es aleatoria, ¿cuál es la probabilidad de que el comité este 
 conformado por 3 hombres y 2 mujeres?
@@ -328,7 +328,7 @@ rerun(1000, comite()) %>% flatten_dbl() %>% mean()
 #> [1] 0.22
 ```
 
-##### Ejemplo: La ruina del jugador {-}
+#### Ejemplo: La ruina del jugador {-}
 
 * Un jugador tiene $100, y va a apostar en un juego donde
 la probabilidad de ganar es p = 0.47 (e.g. una ruleta 18/38), si gana recibe el 
@@ -449,8 +449,12 @@ tablero <- ggplot() +
 ggsave("imagenes/tablero.png", tablero, width = 3, height = 3)
 ```
 
-![](imagenes/tablero)
 
+```r
+knitr::include_graphics("imagenes/tablero.png")
+```
+
+<img src="imagenes/tablero.png" width="400px" />
 
 En este caso usamos áreas relativas para calcular la probabilidad: denotemos C
 al evento tal que el dardo cae en el círculo, entonces:
@@ -481,7 +485,13 @@ tablero_dardos <- tablero +
 ggsave("imagenes/tablero_dardos.png", tablero_dardos, width = 3, height = 3)
 ```
 
-![](imagenes/tablero_dardos.png)
+
+```r
+knitr::include_graphics("imagenes/tablero_dardos.png")
+```
+
+<img src="imagenes/tablero_dardos.png" width="400px" />
+
 
 Ahora, en el ejemplo de los dardos es más realista pensar que la probabilidad 
 de que el dardo caiga en un segmento de la zona central no es la misma a que 
@@ -496,7 +506,14 @@ tablero_zonas <- tablero +
         fill = "red", alpha = 0.5)
 ggsave("imagenes/tablero_zonas.png", tablero_zonas, width = 3, height = 3)
 ```
-![](imagenes/tablero_zonas.png)
+
+
+
+```r
+knitr::include_graphics("imagenes/tablero_zonas.png")
+```
+
+<img src="imagenes/tablero_zonas.png" width="400px" />
 
 La definición de probabilidad como área relativa no se puede usar en estos 
 casos, sin embargo, el enfoque de simulación se continúa manteniendo.
@@ -512,7 +529,7 @@ unif <- ggplot() +
 unif    
 ```
 
-<img src="04_probabilidad_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<img src="04_probabilidad_files/figure-html/unnamed-chunk-21-1.png" width="350px" />
 
 En este caso de área relativa, calculamos la probabilidad cómo el área sombreada
 
@@ -528,7 +545,7 @@ ggplot(data_frame(x = c(0 , 1)), aes(x)) +
         fill = "red", alpha = 0.2)
 ```
 
-<img src="04_probabilidad_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+<img src="04_probabilidad_files/figure-html/unnamed-chunk-22-1.png" width="350px" />
 
 
 
@@ -564,7 +581,7 @@ data_frame(x = runif(1000), y = runif(1000) * 2.5, dentro = dbeta(x, 5, 2) > y,
             show.legend = FALSE)
 ```
 
-<img src="04_probabilidad_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+<img src="04_probabilidad_files/figure-html/unnamed-chunk-24-1.png" width="350px" />
 
 
 En el caso discreto.
@@ -589,7 +606,7 @@ rerun(1000, comite()) %>% flatten_dbl() %>% mean()
 Y para el caso continuo comencemos con un dardo en una sola dimensión en el 
 caso de eventos equiprobables:
 
-### Variables aleatorias
+## Variables aleatorias
 
 A partir de un experimento aleatorio se pueden definir muchas preguntas de 
 probabilidad, por ejemplo, en el caso de la ruina del jugador podríamos 
@@ -603,7 +620,7 @@ La variable aleatoria $X$ es un mapeo entre el espacio de resultados y los
 números reales.
 </div>
 
-### Distribución de probabilidad
+#### Distribución de probabilidad {-}
 
 La distribución de probabilidad de una variable aleatoria $X$ es simplemente
 una lista de todos los posibles valores y sus probabilidades correspondientes 
@@ -623,7 +640,7 @@ $$P(X \le x)$$
 con la ventaja de que la definición aplica tanto al caso discreto como en el 
 caso continuo.
 
-### Esperanza
+#### Esperanza {-}
 <div class="caja">
 La **esperanza** (valor esperado o media) de una variable aleatoria $X$,
 es la media de la distribución $X$, esto es,
@@ -686,19 +703,28 @@ embargo, el soporte de $Z$ sería $(0, \infty)$, es claro que el conjunto $(0, \
 conveniente estudiar el soporte extendido. -->
 
 
-### Varianza y desviación estándar
-Si intentamos predecir el valor de una variable aleatoria
-usando su media $E(X)=\mu$, vamos a fallar por una cantidad aleatoria $X-\mu$. Suele ser importante tener una idea de que tan grande será esta desviación. Debido a que
+#### Varianza y desviación estándar {-}
+Si intentamos predecir el valor de una variable aleatoria usando su media 
+$E(X)=\mu$, vamos a fallar por una cantidad aleatoria $X-\mu$. Suele ser 
+importante tener una idea de que tan grande será esta desviación. Debido a que
 $$E(X-\mu) = E(X)-\mu=0$$
-es necesario considerar la diferencia absoluta o la diferencia al cuadrado de $X-\mu$ con el fin de tener una idea del tamaño de la desviación sin importar el signo de esta. 
+es necesario considerar la diferencia absoluta o la diferencia al cuadrado de 
+$X-\mu$ con el fin de tener una idea del tamaño de la desviación sin importar el 
+signo de esta. 
 
-**Varianza y desviación estándar**. La varianza de $X$, denotada $var(X)=\sigma^2$ es la media de la desviación cuadrada de $X$ respecto a su valor esperado $\mu=E(X)$:
-$$\sigma^2(X)=var(X)=E(X-\mu)^2$$
+**Varianza y desviación estándar**. La varianza de $X$, denotada 
+$var(X)=\sigma^2$ es la media de la desviación cuadrada de $X$ respecto a su 
+valor esperado $\mu=E(X)$: $$\sigma^2(X)=var(X)=E(X-\mu)^2$$
 La desviación estándar de $X$, es la raíz cuadrada de la varianza de X:
-$$\sigma(X)=se(X)=\sqrt{var(X)}$$
+$$\sigma(X)=sd(X)=\sqrt{var(X)}$$
 
-Intuitivamente, $se(X)$ es una medida de la dispersión de la distribución de $X$ alrededor de su media. Debido a que la varianza es el valor central de la distribución de $(X-\mu)^2$, su raíz cuadrada da una idea del tamaño típico de la desviación absoluta $|X-\mu|$. Notemos que $E(X)$, $var(X)$ y $se(X)$ están determinados por $X$, de tal manera que si dos variables aleatorias tienen la misma distribución, 
-también tienen la misma media, varianza y desviación estándar.
+Intuitivamente, $sd(X)$ es una medida de la dispersión de la distribución de $X$ 
+alrededor de su media. Debido a que la varianza es el valor central de la 
+distribución de $(X-\mu)^2$, su raíz cuadrada da una idea del tamaño típico de 
+la desviación absoluta $|X-\mu|$. Notemos que $E(X)$, $var(X)$ y $sd(X)$ están 
+determinados por $X$, de tal manera que si dos variables aleatorias tienen la 
+misma distribución, también tienen la misma media, varianza y desviación 
+estándar.
 
 
 

@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="probabilidad.html">
-
+<link rel="prev" href="muestras-aleatorias.html">
+<link rel="next" href="distribuciones-muestrales-y-errores-estandar.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -255,72 +255,164 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="referencias" class="section level1 unnumbered">
-<h1>Referencias</h1>
-
-<div id="refs" class="references">
-<div>
-<p>Burns, P. 2015. <em>The R Inferno</em>. <em>The American Statistician</em>. Vol. 4. 69.</p>
+<div id="el-principio-del-plug-in" class="section level2">
+<h2><span class="header-section-number">6.2</span> El principio del <em>plug-in</em></h2>
+<p>Al usar la media observada para describir a la población estamos aplicando el
+principio del <em>plug-in</em> que dice que una característica dada de una distribución
+puede ser aproximada por la equivalente evaluada en la distribución empírica de
+una muestra aleatoria.</p>
+<div id="funcion-de-distribucion-empirica" class="section level3 unnumbered">
+<h3>Función de distribución empírica</h3>
+<div class="caja">
+<p>Dada una muestra aleatoria de tamaño <span class="math inline">\(n\)</span> de una distribución de probabilidad
+<span class="math inline">\(P\)</span>, la <strong>función de distribución empírica</strong> <span class="math inline">\(P_n\)</span> se define como la
+distribución que asigna probabilidad <span class="math inline">\(1/n\)</span> a cada valor <span class="math inline">\(x_i\)</span> con <span class="math inline">\(i=1,2,...,n\)</span>.</p>
+<p>En otras palabras, <span class="math inline">\(P_n\)</span> asigna a un conjunto <span class="math inline">\(A\)</span> en el espacio muestral de <span class="math inline">\(x\)</span>
+la probabilidad empírica:</p>
+<p><span class="math display">\[P_n(A)=\#\{x_i \in A \}/n\]</span></p>
 </div>
-<div>
-<p>Cleveland, William S., and Robert McGill. 1984. “Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.” <em>Journal of the American Statistical Association</em> 79 (387). American Statistical Association:pp. 531–54. <a href="http://www.jstor.org/stable/2288400" class="uri">http://www.jstor.org/stable/2288400</a>.</p>
+<!--Ahora, muchos problemas de inferencia estadística involucran la estimación
+de algún aspecto de una distribución de de probabilidad $P$ en base a una 
+muestra aleatoria obtenida de $P$. -->
+<ul>
+<li><p>La función de distribución empírica <span class="math inline">\(P_n\)</span> es una estimación de la distribución
+completa <span class="math inline">\(P\)</span>, por lo que una manera inmediata de estimar aspectos de <span class="math inline">\(P\)</span>
+(e.g media o mediana) es calcular el aspecto correspondiente de <span class="math inline">\(P_n\)</span>.</p></li>
+<li><p>En cuanto a la teoría el principio del <em>plug-in</em> está soportado por el teorema
+de <a href="https://www.stat.berkeley.edu/~bartlett/courses/2013spring-stat210b/notes/8notes.pdf">Glivenko Cantelli</a>:</p>
+<p>Sea <span class="math inline">\(X_1,...,X_n\)</span> una muestra aleatoria de una distribución <span class="math inline">\(P\)</span>, con
+distribución empírica <span class="math inline">\(P_n\)</span> entonces
+<span class="math display">\[\sup_{x \in \mathcal{R}}|P_n(x)-P(x)|\to_p0\]</span>
+casi seguro.</p></li>
+</ul>
+<p>Regresando al ejemplo de las escuelas, comparemos la distribución poblacional y
+la distribución empírica.</p>
+<pre class="sourceCode r"><code class="sourceCode r">primaria_long &lt;-<span class="st"> </span>primaria <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">clase =</span> <span class="st">&quot;población&quot;) %&gt;% </span>
+<span class="st">    rbind(primaria_muestra) %&gt;% </span>
+<span class="st">    gather(grado, calif, esp_3:esp_6)</span>
+<span class="st">    </span>
+<span class="st">ggplot(primaria_long, aes(x = calif)) +</span>
+<span class="st">  geom_histogram(aes(y = ..density..), binwidth = 20, fill = &quot;</span>darkgray<span class="st">&quot;) +</span>
+<span class="st">  facet_grid(grado ~ clase)</span></code></pre>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/distribucion_empirica-1.png" width="480" /></p>
+<p>Podemos comparar la función de distribución acumulada empírica y la función de
+distribución acumulada poblacional:</p>
+<p>En la siguiente gráfica la curva roja
+representa la función de distribución acumulada empírica y la curva con relleno
+gris la función de distribución acumulada poblacional.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">stat_ecdf</span>(<span class="dt">data =</span> <span class="kw">filter</span>(primaria_long, clase <span class="op">==</span><span class="st"> &quot;población&quot;), </span>
+<span class="st">        aes(x = calif, ymin=0, ymax=..y..), geom = &quot;</span>ribbon<span class="st">&quot;, pad = TRUE, alpha = 0.5, </span>
+<span class="st">        fill = &quot;</span>gray<span class="st">&quot;, color = &quot;</span>darkgray<span class="st">&quot;)  +</span>
+<span class="st">    stat_ecdf(data = filter(primaria_long, clase == &quot;</span>muestra<span class="st">&quot;), </span>
+<span class="st">        aes(x = calif), geom = &quot;</span>step<span class="st">&quot;, color = &quot;</span>red<span class="st">&quot;) +</span>
+<span class="st">    facet_grid(~ grado) +</span>
+<span class="st">    labs(color = &quot;&quot;)</span></code></pre>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-2-1.png" width="672" height="300px" /></p>
+<p>Cuando la variable de interés toma pocos valores es fácil ver la distribución
+empírica, supongamos que la medición de las unidades que nos interesa es la
+variable tipo de escuela, entonces la distribución empírica en la muestra es</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(primaria_muestra<span class="op">$</span>tipo) <span class="op">/</span><span class="st"> </span>n
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    GENERAL PARTICULAR </span>
+<span class="co">#&gt;      0.677      0.323</span></code></pre>
+<p>Vale la pena notar que pasar de la muestra desagregada a la distribución
+empírica (lista de valores y la proporción que ocurre cada una en la muestra)
+no conlleva ninguna pérdida de información:</p>
+<ul>
+<li>el vector de frecuencias observadas es un <strong>estadístico suficiente</strong> para la
+verdadera distribución.</li>
+</ul>
+<p>Esto quiere decir que toda la información de <span class="math inline">\(P\)</span> contenida en el vector de
+observaciones <span class="math inline">\(\textbf{x}\)</span> está también contenida en <span class="math inline">\(P_n\)</span>.</p>
+<p><strong>Nota</strong>: el teorema de suficiencia asume que las observaciones <span class="math inline">\(\textbf{x}\)</span> son
+una muestra aleatoria de la distribución <span class="math inline">\(P\)</span>, este no es siempre el caso
+(e.g. si tenemos una serie de tiempo).</p>
+<div id="parametros-y-estadisticas" class="section level4">
+<h4><span class="header-section-number">6.2.0.1</span> Parámetros y estadísticas</h4>
+<p>Cuando aplicamos teoría estadística a problemas reales, es común que las
+respuestas estén dadas en términos de distribuciones de probabilidad. Por
+ejemplo, podemos preguntarnos que tan correlacionados están los resultados de
+las pruebas de español correspondientes a 3<sup>o</sup> y 6<sup>o</sup>. Si conocemos la
+distribución de probabilidad <span class="math inline">\(P\)</span> contestar esta pregunta es simplemente cuestión
+de aritmética, el coeficiente de correlación poblacional esta dado por:</p>
+<p><span class="math display">\[corr(y,z) = \frac{\sum_{j=1}^{N}(Y_j - \mu_y)(Z_j-\mu_z)}
+{[\sum_{j=1}^{N}(Y_j - \mu_y)^2\sum_{j=1}^{N}(Z_j - \mu_z)^2]^{1/2}}\]</span></p>
+<p>en nuestro ejemplo <span class="math inline">\((Y_j,Z_j)\)</span> son el j-ésimo punto en la población de escuelas
+primarias <span class="math inline">\(\mathcal{X}\)</span>, <span class="math inline">\(\mu_y=\sum Y_j/3311\)</span> y <span class="math inline">\(\mu_z=\sum Z_j/3311\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(primaria, <span class="kw">aes</span>(<span class="dt">x =</span> esp_<span class="dv">3</span>, <span class="dt">y =</span> esp_<span class="dv">6</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/grafica_corr-1.png" width="300px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(primaria<span class="op">$</span>esp_<span class="dv">3</span>, primaria<span class="op">$</span>esp_<span class="dv">6</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">2</span>)
+<span class="co">#&gt; [1] 0.72</span></code></pre>
+<p>Si no tenemos un censo debemos inferir, podríamos estimar la correlación
+<span class="math inline">\(corr(y,z)\)</span> a través del coeficiente de correlación muestral:</p>
+<p><span class="math display">\[\hat{corr}(y,z) = \frac{\sum_{j=1}^{n}(y_j - \hat{\mu}_y)(z_j-\hat{\mu}_z)}
+{[\sum_{j=1}^{n}(y_j - \hat{\mu}_y)^2\sum_{j=1}^{n}(z_j - \hat{\mu}_z)^2]^{1/2}}\]</span></p>
+<p>recordando que la distribución empírica es una estimación de la distribución
+completa.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(primaria_muestra<span class="op">$</span>esp_<span class="dv">3</span>, primaria_muestra<span class="op">$</span>esp_<span class="dv">6</span>)
+<span class="co">#&gt; [1] 0.682</span></code></pre>
+<p>Al igual que la media esto es una estimación <em>plug-in</em>. Otros ejemplos son:</p>
+<ul>
+<li>Supongamos que nos interesa estimar la mediana de las calificaciones
+de español para 3^o de primaria:</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">median</span>(primaria_muestra<span class="op">$</span>esp_<span class="dv">3</span>)
+<span class="co">#&gt; [1] 562</span></code></pre>
+<ul>
+<li>Supongamos que nos interesa estimar la probabilidad de que la calificación de
+español de una escuela sea mayor a 700:</li>
+</ul>
+<p><span class="math display">\[\theta=\frac{1}{N}\sum_{j=1}^N I_{\{Y_i&gt;700\}}\]</span></p>
+<p>donde <span class="math inline">\(I_{\{\cdot\}}\)</span> es la función indicadora.</p>
+<p>Hacemos la estimación <em>plug-in</em> <span class="math inline">\(\hat{\theta}\)</span>:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(primaria_muestra<span class="op">$</span>esp_<span class="dv">3</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">700</span>) <span class="op">/</span><span class="st"> </span>n
+<span class="co">#&gt; [1] 0.0567</span></code></pre>
 </div>
-<div>
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
+<div id="ejemplo-dado" class="section level4 unnumbered">
+<h4>Ejemplo: dado</h4>
+<p>Observamos 100 lanzamientos de un dado, obteniendo la siguiente distribución
+empírica:</p>
+<pre class="sourceCode r"><code class="sourceCode r">dado &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/dado.csv&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">quote=</span><span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">&quot;</span>)
+<span class="kw">prop.table</span>(<span class="kw">table</span>(dado<span class="op">$</span>x))
+<span class="co">#&gt; </span>
+<span class="co">#&gt;    1    2    3    4    5    6 </span>
+<span class="co">#&gt; 0.13 0.19 0.10 0.17 0.14 0.27</span></code></pre>
+<p>En este caso no tenemos un censo, solo contamos con la muestra. Una pregunta
+de inferencia que surge de manera natural es si el dado es justo, esto es,
+si la distribución que generó esta muestra tiene una distribución
+<span class="math inline">\(P = (1/6, 1/6, 1/6,1/6, 1/6, 1/6)\)</span>.</p>
+<p>Para resolver esta pregunta, debemos hacer inferencia de la distribución
+empírica.</p>
+<p>Antes de proseguir repasemos dos conceptos importantes: parámetros y
+estadísticos:</p>
+<div class="caja">
+<p>Un <strong>parámetro</strong> es una función de la distribución de probabilidad
+<span class="math inline">\(\theta=t(P)\)</span>, mientras que una <strong>estadística</strong> es una función de la
+muestra <span class="math inline">\(\textbf{x}\)</span>.</p>
 </div>
-<div>
-<p>———. 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
+<p>Por ejemplo, la <span class="math inline">\(corr(x,y)\)</span> es un parámetro de <span class="math inline">\(P\)</span> y <span class="math inline">\(\hat{corr}(x,y)\)</span> es una
+estadística con base en <span class="math inline">\(\textbf{x}\)</span> y <span class="math inline">\(\textbf{y}\)</span>.</p>
+<p>Entonces:</p>
+<div class="caja">
+<p>El <strong>principio del <em>plug-in</em></strong> es un método para estimar parámetros a
+partir de muestras; la estimación <em>plug-in</em> de un parámetro <span class="math inline">\(\theta=t(P)\)</span> se
+define como:
+<span class="math display">\[\hat{\theta}=t(P_n).\]</span></p>
 </div>
-<div>
-<p>Efron, Bradley, and Robert J. Tibshirani. 1993. <em>An Introduction to the Bootstrap</em>. Monographs on Statistics and Applied Probability 57. Boca Raton, Florida, USA: Chapman &amp; Hall/CRC.</p>
-</div>
-<div>
-<p>Gelman, A., J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/Crc Texts in Statistical Science. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=ZXL6AQAAQBAJ" class="uri">https://books.google.com.mx/books?id=ZXL6AQAAQBAJ</a>.</p>
-</div>
-<div>
-<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
-</div>
-<div>
-<p>Hesterberg, Tim C. 2015. “What Teachers Should Know About the Bootstrap: Resampling in the Undergraduate Statistics Curriculum.” <em>The American Statistician</em> 69 (4). Taylor &amp; Francis:371–86. <a href="https://doi.org/10.1080/00031305.2015.1089789" class="uri">https://doi.org/10.1080/00031305.2015.1089789</a>.</p>
-</div>
-<div>
-<p>INEGI. 2014. “Encuesta Nacional de Ingresos Y Gastos de Los Hogares (Enigh-2014). Diseño Muestral.” <a href="http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf" class="uri">http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf</a>.</p>
-</div>
-<div>
-<p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
-</div>
-<div>
-<p>Rao, J. N. K., and C. F. J. Wu. 1988. “Resampling Inference with Complex Survey Data.” <em>Journal of the American Statistical Association</em> 83 (401). Taylor &amp; Francis:231–41. <a href="https://doi.org/10.1080/01621459.1988.10478591" class="uri">https://doi.org/10.1080/01621459.1988.10478591</a>.</p>
-</div>
-<div>
-<p>Ross, Sheldon M. 1998. <em>A First Course in Probability</em>. Fifth. Upper Saddle River, N.J.: Prentice Hall.</p>
-</div>
-<div>
-<p>Tufte, Edward R. 1986. <em>The Visual Display of Quantitative Information</em>. Cheshire, CT, USA: Graphics Press.</p>
-</div>
-<div>
-<p>———. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
-</div>
-<div>
-<p>Tukey, J.W. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Series in Behavioral Science. Addison-Wesley Publishing Company. <a href="https://books.google.com.mx/books?id=UT9dAAAAIAAJ" class="uri">https://books.google.com.mx/books?id=UT9dAAAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, H. 2014. <em>Advanced R</em>. Chapman &amp; Hall/Crc the R Series. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=PFHFNAEACAAJ" class="uri">https://books.google.com.mx/books?id=PFHFNAEACAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
-</div>
-<div>
-<p>———. 2011. “The Split-Apply-Combine Strategy for Data Analysis.” <em>Journal of Statistical Software</em> 40 (1):1–29. <a href="http://www.jstatsoft.org/v40/i01/" class="uri">http://www.jstatsoft.org/v40/i01/</a>.</p>
-</div>
-<div>
-<p>———. 2014. “Tidy Data.” <em>Journal of Statistical Software, Articles</em> 59 (10):1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="uri">https://doi.org/10.18637/jss.v059.i10</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div>
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
+<p>Es decir, estimamos la función <span class="math inline">\(\theta = t(P)\)</span> de la distribución de
+probabilidad <span class="math inline">\(P\)</span> con la misma función aplicada en la distribución empírica
+<span class="math inline">\(\hat{\theta}=t(P_n)\)</span>.</p>
+<p>¿Qué tan <em>bien</em> funciona el principio del <em>plug-in</em>?</p>
+<p>Suele ser muy bueno cuando la única información disponible de <span class="math inline">\(P\)</span> es la
+muestra <span class="math inline">\(\textbf{x}\)</span>, bajo esta circunstancia <span class="math inline">\(\hat{\theta}=t(P_n)\)</span> no puede
+ser superado como estimador de <span class="math inline">\(\theta=t(P)\)</span>, al menos no en el sentido
+asintótico de teoría estadística <span class="math inline">\((n\to\infty)\)</span>.</p>
+<p>El principio del <em>plug-in</em> provee de una estimación más no habla de precisión:
+usaremos el bootstrap para estudiar el sesgo y el error estándar del
+estimador <em>plug-in</em> <span class="math inline">\(\hat{\theta}=t(P_n)\)</span>.</p>
 </div>
 </div>
 </div>
@@ -329,8 +421,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="probabilidad.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="muestras-aleatorias.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distribuciones-muestrales-y-errores-estandar.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -360,7 +452,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/99-references.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/05-bootstrap_no_parametrico.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

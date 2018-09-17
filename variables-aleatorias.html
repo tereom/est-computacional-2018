@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="probabilidad.html">
-
+<link rel="prev" href="simulacion-para-el-calculo-de-probabilidades.html">
+<link rel="next" href="bootstrap-no-parametrico.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -255,82 +255,113 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="referencias" class="section level1 unnumbered">
-<h1>Referencias</h1>
+<div id="variables-aleatorias" class="section level2">
+<h2><span class="header-section-number">5.3</span> Variables aleatorias</h2>
+<p>A partir de un experimento aleatorio se pueden definir muchas preguntas de
+probabilidad, por ejemplo, en el caso de la ruina del jugador podríamos
+preguntarnos: las ganancias después del tercer juego, probabilidad de ganar,
+duración del experimeto (cuántos juegos se jugaron antes de alcanzar las
+reglas de término). Sin embargo, muchas veces nos centramos en estudiar un solo
+aspecto del experimento.</p>
+<div class="caja">
+<p>La variable aleatoria <span class="math inline">\(X\)</span> es un mapeo entre el espacio de resultados y los
+números reales.</p>
+</div>
+<div id="distribucion-de-probabilidad" class="section level4 unnumbered">
+<h4>Distribución de probabilidad</h4>
+<p>La distribución de probabilidad de una variable aleatoria <span class="math inline">\(X\)</span> es simplemente
+una lista de todos los posibles valores y sus probabilidades correspondientes
+(en el caso discreto). Podemos pensar en el término distribución como una masa
+distribuida sobre un área o volumen <span class="math inline">\(\Omega\)</span>, y <span class="math inline">\(P(A)\)</span> representa la proporción
+de esa masa en el
+subconjunto <span class="math inline">\(A\)</span>.</p>
+<p><img src="../imagenes/manicule2.jpg" /> Definimos <span class="math inline">\(X\)</span> como la variable aleatoria del
+número de juegos antes de que termine el experimento de la ruina del jugador,
+grafica la distribución de probabilidad de <span class="math inline">\(X\)</span>
+(calcula <span class="math inline">\(P(X=1), P(X=2),...,P(X=50)\)</span>).</p>
+<p>La función de distribución acumulada contiene la misma información que la
+función de distribución y se define como
+<span class="math display">\[P(X \le x)\]</span>
+con la ventaja de que la definición aplica tanto al caso discreto como en el
+caso continuo.</p>
+</div>
+<div id="esperanza" class="section level4 unnumbered">
+<h4>Esperanza</h4>
+<div class="caja">
+<p>La <strong>esperanza</strong> (valor esperado o media) de una variable aleatoria <span class="math inline">\(X\)</span>,
+es la media de la distribución <span class="math inline">\(X\)</span>, esto es,
+<span class="math display">\[E(X)=\sum_{x\in \Omega_x} x P(X=x)\]</span>
+el promedio de todos los posibles valores de <span class="math inline">\(X\)</span> ponderados por sus probabilidades.</p>
+</div>
+<p>Por ejemplo, si <span class="math inline">\(X\)</span> toma únicamente dos posibles valores, <span class="math inline">\(a,b\)</span> con
+probabilidad <span class="math inline">\(P(a)\)</span> y <span class="math inline">\(P(b)\)</span> entonces
+<span class="math display">\[E(X)=aP(a)+bP(b).\]</span></p>
+<p>Ejemplo: Supongamos que <span class="math inline">\(X\)</span> es el valor que se produce cuando tiro un
+dado justo. Entonces,
+<span class="math display">\[E(X)=1\cdot P(X=1) +2\cdot P(X=2) +3\cdot P(X=3) +4\cdot P(X=4) +5\cdot P(X=5) +6\cdot P(X=6) = 3.5\]</span>
+Lo que nos dice que si tiramos el dado muchas veces deberíamos esperar que el promedio de las tiradas sea cercano a 3.5.</p>
+<p><strong>Esperanza como un promedio cuando n es grande</strong>. Si vemos las probabilidades de los valores de <span class="math inline">\(X\)</span> como una aproximación de frecuencias relativas cuando n es grande, entonces <span class="math inline">\(E(X)\)</span> es aproximadamente el valor promedio del valor de <span class="math inline">\(X\)</span> cuando n es grande.</p>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>, <span class="dt">mean =</span> <span class="dv">10</span>)
+<span class="kw">mean</span>(x)
+<span class="co">#&gt; [1] 10</span></code></pre>
+<!--
+**Esperanza y predicción**. Supongamos que deseamos predecir el valor de una variable aleatoria $X$. ¿Cuál es el mejor predictor de X? Para responder la pregunta es preciso seleccionar un criterio. Es común que el criterio 
+sea minimizar el 
+-->
+<p>La esperanza cumple las siguientes reglas:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Constantes</strong>. La esperanza de una variable aleatoria constante
+es su valor constante,
+<span class="math display">\[E(c) = c\]</span></p></li>
+<li><p><strong>Indicadoras</strong>. Si <span class="math inline">\(I_A\)</span> es la función indicadora del evento <span class="math inline">\(A\)</span>,
+<span class="math display">\[E(I_A) = P(A)\]</span></p></li>
+<li><p><strong>Funciones</strong>. Típicamente, <span class="math inline">\(E[g(X)]\ne g[E(X)]\)</span>, pero
+<span class="math display">\[E[g(X)] = \sum_{x \in \Omega_X} g(x) P(X=x)\]</span></p></li>
+<li><p><strong>Factores constantes</strong>. Para una constante c,
+<span class="math display">\[E(cX)=cE(X)\]</span></p></li>
+<li><p><strong>Adición</strong>. Para cualquier par de variables aleatorias <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>,
+<span class="math display">\[E(X+Y) = E(X)+E(Y)\]</span></p></li>
+<li><p><strong>Multiplicación</strong>. Típicamente <span class="math inline">\(E(XY) \ne E(X)E(Y)\)</span>, pero
+si <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes, entonces <span class="math display">\[E(XY)=E(X)E(Y)\]</span></p></li>
+</ol>
+<!-- Supongamos que lanzamos una moneda al aire y definimos la variable 
+aleatoria
+$Z$ como el tiempo en segundos que transcurre antes de que la moneda toque el suelo. En este caso el espacio de resultados es inconveniente de describir. Sin
+embargo, el soporte de $Z$ sería $(0, \infty)$, es claro que el conjunto $(0, \infty)$ es demasiado grande, pero veremos que en la práctica a veces es
+conveniente estudiar el soporte extendido. -->
+</div>
+<div id="varianza-y-desviacion-estandar" class="section level4 unnumbered">
+<h4>Varianza y desviación estándar</h4>
+<p>Si intentamos predecir el valor de una variable aleatoria usando su media
+<span class="math inline">\(E(X)=\mu\)</span>, vamos a fallar por una cantidad aleatoria <span class="math inline">\(X-\mu\)</span>. Suele ser
+importante tener una idea de que tan grande será esta desviación. Debido a que
+<span class="math display">\[E(X-\mu) = E(X)-\mu=0\]</span>
+es necesario considerar la diferencia absoluta o la diferencia al cuadrado de
+<span class="math inline">\(X-\mu\)</span> con el fin de tener una idea del tamaño de la desviación sin importar el
+signo de esta.</p>
+<p><strong>Varianza y desviación estándar</strong>. La varianza de <span class="math inline">\(X\)</span>, denotada
+<span class="math inline">\(var(X)=\sigma^2\)</span> es la media de la desviación cuadrada de <span class="math inline">\(X\)</span> respecto a su
+valor esperado <span class="math inline">\(\mu=E(X)\)</span>: <span class="math display">\[\sigma^2(X)=var(X)=E(X-\mu)^2\]</span>
+La desviación estándar de <span class="math inline">\(X\)</span>, es la raíz cuadrada de la varianza de X:
+<span class="math display">\[\sigma(X)=sd(X)=\sqrt{var(X)}\]</span></p>
+<p>Intuitivamente, <span class="math inline">\(sd(X)\)</span> es una medida de la dispersión de la distribución de <span class="math inline">\(X\)</span>
+alrededor de su media. Debido a que la varianza es el valor central de la
+distribución de <span class="math inline">\((X-\mu)^2\)</span>, su raíz cuadrada da una idea del tamaño típico de
+la desviación absoluta <span class="math inline">\(|X-\mu|\)</span>. Notemos que <span class="math inline">\(E(X)\)</span>, <span class="math inline">\(var(X)\)</span> y <span class="math inline">\(sd(X)\)</span> están
+determinados por <span class="math inline">\(X\)</span>, de tal manera que si dos variables aleatorias tienen la
+misma distribución, también tienen la misma media, varianza y desviación
+estándar.</p>
 
-<div id="refs" class="references">
-<div>
-<p>Burns, P. 2015. <em>The R Inferno</em>. <em>The American Statistician</em>. Vol. 4. 69.</p>
-</div>
-<div>
-<p>Cleveland, William S., and Robert McGill. 1984. “Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.” <em>Journal of the American Statistical Association</em> 79 (387). American Statistical Association:pp. 531–54. <a href="http://www.jstor.org/stable/2288400" class="uri">http://www.jstor.org/stable/2288400</a>.</p>
-</div>
-<div>
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
-</div>
-<div>
-<p>———. 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Efron, Bradley, and Robert J. Tibshirani. 1993. <em>An Introduction to the Bootstrap</em>. Monographs on Statistics and Applied Probability 57. Boca Raton, Florida, USA: Chapman &amp; Hall/CRC.</p>
-</div>
-<div>
-<p>Gelman, A., J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/Crc Texts in Statistical Science. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=ZXL6AQAAQBAJ" class="uri">https://books.google.com.mx/books?id=ZXL6AQAAQBAJ</a>.</p>
-</div>
-<div>
-<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
-</div>
-<div>
-<p>Hesterberg, Tim C. 2015. “What Teachers Should Know About the Bootstrap: Resampling in the Undergraduate Statistics Curriculum.” <em>The American Statistician</em> 69 (4). Taylor &amp; Francis:371–86. <a href="https://doi.org/10.1080/00031305.2015.1089789" class="uri">https://doi.org/10.1080/00031305.2015.1089789</a>.</p>
-</div>
-<div>
-<p>INEGI. 2014. “Encuesta Nacional de Ingresos Y Gastos de Los Hogares (Enigh-2014). Diseño Muestral.” <a href="http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf" class="uri">http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf</a>.</p>
-</div>
-<div>
-<p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
-</div>
-<div>
-<p>Rao, J. N. K., and C. F. J. Wu. 1988. “Resampling Inference with Complex Survey Data.” <em>Journal of the American Statistical Association</em> 83 (401). Taylor &amp; Francis:231–41. <a href="https://doi.org/10.1080/01621459.1988.10478591" class="uri">https://doi.org/10.1080/01621459.1988.10478591</a>.</p>
-</div>
-<div>
-<p>Ross, Sheldon M. 1998. <em>A First Course in Probability</em>. Fifth. Upper Saddle River, N.J.: Prentice Hall.</p>
-</div>
-<div>
-<p>Tufte, Edward R. 1986. <em>The Visual Display of Quantitative Information</em>. Cheshire, CT, USA: Graphics Press.</p>
-</div>
-<div>
-<p>———. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
-</div>
-<div>
-<p>Tukey, J.W. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Series in Behavioral Science. Addison-Wesley Publishing Company. <a href="https://books.google.com.mx/books?id=UT9dAAAAIAAJ" class="uri">https://books.google.com.mx/books?id=UT9dAAAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, H. 2014. <em>Advanced R</em>. Chapman &amp; Hall/Crc the R Series. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=PFHFNAEACAAJ" class="uri">https://books.google.com.mx/books?id=PFHFNAEACAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
-</div>
-<div>
-<p>———. 2011. “The Split-Apply-Combine Strategy for Data Analysis.” <em>Journal of Statistical Software</em> 40 (1):1–29. <a href="http://www.jstatsoft.org/v40/i01/" class="uri">http://www.jstatsoft.org/v40/i01/</a>.</p>
-</div>
-<div>
-<p>———. 2014. “Tidy Data.” <em>Journal of Statistical Software, Articles</em> 59 (10):1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="uri">https://doi.org/10.18637/jss.v059.i10</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div>
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
 </div>
 </div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="probabilidad.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="simulacion-para-el-calculo-de-probabilidades.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bootstrap-no-parametrico.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -360,7 +391,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/99-references.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/04_probabilidad.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
