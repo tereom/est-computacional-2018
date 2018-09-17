@@ -1303,7 +1303,6 @@ ls_normal <- round(theta_hat + 1.96 * sd(kurtosis), 2)
 Veamos un histograma de las replicaciones bootstrap de $\hat{\theta}*$
 
 ```{r, fig.width=8.5, fig.height=4}
-library(patchwork)
 nerve_kurtosis <- data_frame(kurtosis)
 hist_nerve <- ggplot(nerve_kurtosis, aes(x = kurtosis)) + 
         geom_histogram(binwidth = 0.05, fill = "gray30") +
