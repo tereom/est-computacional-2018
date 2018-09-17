@@ -13,6 +13,7 @@ options(digits=3)
 
 library(tidyverse)
 library(magrittr)
+library(gridExtra)
 theme_set(theme_minimal())
 ```
 
@@ -324,14 +325,13 @@ una muestra aleatoria de la distribución $P$, este no es siempre el caso
 (e.g. si tenemos una serie de tiempo).
 
 #### Parámetros y estadísticas
-?
+
 Cuando aplicamos teoría estadística a problemas reales, es común que las 
 respuestas estén dadas en términos de distribuciones de probabilidad. Por 
 ejemplo, podemos preguntarnos que tan correlacionados están los resultados de 
 las pruebas de español correspondientes a 3^o^ y 6^o^. Si conocemos la 
 distribución de probabilidad $P$ contestar esta pregunta es simplemente cuestión 
 de aritmética, el coeficiente de correlación poblacional esta dado por:
-?
 
 $$corr(y,z) = \frac{\sum_{j=1}^{N}(Y_j - \mu_y)(Z_j-\mu_z)}
 {[\sum_{j=1}^{N}(Y_j - \mu_y)^2\sum_{j=1}^{N}(Z_j - \mu_z)^2]^{1/2}}$$
@@ -380,7 +380,7 @@ Hacemos la estimación _plug-in_ $\hat{\theta}$:
 sum(primaria_muestra$esp_3 > 700) / n
 ```
 
-### Ejemplo: dado
+#### Ejemplo: dado {-}
 Observamos 100 lanzamientos de un dado, obteniendo la siguiente distribución 
 empírica:
 
@@ -1249,7 +1249,7 @@ Normal de la distribución muestral conforme aumenta el tamaño de muestra $n$;
 sin embargo, también sobresale que no es necesario tomar una muestra demasiado
 grande ($n = 60$ ya es razonable).
 
-```{r shiny_clt, echo=FALSE}
+```{r shiny_clt}
 knitr::include_app("https://tereom.shinyapps.io/15-TLC/", height = "1000px")
 ```
 
@@ -1314,7 +1314,7 @@ qq_nerve <- ggplot(nerve_kurtosis) +
   geom_abline(color = "red", alpha = 0.5) +
   stat_qq(aes(sample = kurtosis), dparams = list(mean = mean(kurtosis), sd = sd(kurtosis))) 
 
-(hist_nerve | qq_nerve)
+grid.arrange(hist_nerve, qq_nerve, ncol = 2, newpage = FALSE)
 ```
 
 En el ejemplo anterior el supuesto de normalidad parece razonable, veamos 
@@ -1404,7 +1404,7 @@ qq_emu <- ggplot(theta_boot_df) +
     stat_qq(aes(sample = theta_boot), 
         dparams = list(mean = mean(theta_boot), sd = sd(theta_boot))) 
 
-(hist_emu | qq_emu)
+grid.arrange(hist_emu, qq_emu, ncol = 2, newpage = FALSE)
 ```
 
 La distribución empírica de $\hat{\theta}^*$ es asimétrica, por lo que no
@@ -1432,7 +1432,7 @@ qq_log <- ggplot(data_frame(theta_boot)) +
     stat_qq(aes(sample = log(theta_boot)), 
         dparams = list(mean = mean(log(theta_boot)), sd = sd(log(theta_boot)))) 
 
-(hist_log | qq_log)
+grid.arrange(hist_log, qq_log, ncol = 2, newpage = FALSE)
 ```
 
 Y los intervalos se comparan:
