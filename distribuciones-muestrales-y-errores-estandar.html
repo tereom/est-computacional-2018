@@ -225,9 +225,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="distribuciones-muestrales-y-errores-estandar.html"><a href="distribuciones-muestrales-y-errores-estandar.html"><i class="fa fa-check"></i><b>6.3</b> Distribuciones muestrales y errores estándar</a></li>
 <li class="chapter" data-level="6.4" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html"><i class="fa fa-check"></i><b>6.4</b> El estimador bootstrap del error estándar</a></li>
-<li class="chapter" data-level="6.5" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.5</b> Más alla de muestras aleatorias simples</a><ul>
-<li class="chapter" data-level="6.5.1" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html#intervalos-de-confianza"><i class="fa fa-check"></i><b>6.5.1</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="6.5" data-path="variacion-en-distribuciones-bootstrap.html"><a href="variacion-en-distribuciones-bootstrap.html"><i class="fa fa-check"></i><b>6.5</b> Variación en distribuciones bootstrap</a></li>
+<li class="chapter" data-level="6.6" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.6</b> Más alla de muestras aleatorias simples</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html#intervalos-de-confianza"><i class="fa fa-check"></i><b>6.6.1</b> Intervalos de confianza</a></li>
 </ul></li>
+<li class="chapter" data-level="6.7" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.7</b> Bootstrap en R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -258,12 +260,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="distribuciones-muestrales-y-errores-estandar" class="section level2">
 <h2><span class="header-section-number">6.3</span> Distribuciones muestrales y errores estándar</h2>
 <div class="caja">
-<p>La <em>distribución muestral</em> de una estadística es la distribución de probabilidad
-de la misma, considerada como una variable aleatoria.</p>
+<p>La <strong>distribución muestral</strong> de una estadística es la distribución de
+probabilidad de la misma, considerada como una variable aleatoria.</p>
 </div>
-<p>Es así que la distribución muestral depende de: 1) La distribución poblacional,
-2) la estadística que se está considerando, y 3) la muestra aleatoria: cómo se
-seleccionan las unidades de la muestra y cuántas.</p>
+<p>Es así que la distribución muestral depende de:
+1) La distribución poblacional,<br />
+2) la estadística que se está considerando,<br />
+y 3) la muestra aleatoria: cómo se seleccionan las unidades de la muestra y
+cuántas.</p>
 <p>En teoría para obtener la distribución muestral uno seguiría los siguientes
 pasos:</p>
 <ul>
@@ -274,6 +278,7 @@ de muestras).</p></li>
 <p>La distribución de la estadística es la distribución muestral.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(LaplacesDemon)
 <span class="kw">library</span>(patchwork)
+<span class="co"># En este ejemplo la población es una mezcla de normales</span>
 pob_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="dv">-15</span><span class="op">:</span><span class="dv">20</span>), <span class="kw">aes</span>(x)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnormm, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.7</span>), <span class="dt">mu =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">8</span>), 
         <span class="dt">sigma =</span> <span class="kw">c</span>(<span class="fl">3.5</span>, <span class="dv">3</span>)), <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span>
@@ -312,9 +317,9 @@ pob_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span clas
 
 <span class="st">(pob_plot | plot_spacer()) / (muestras_plot | dist_muestral_plot) </span></code></pre>
 <p><img src="imagenes/ideal_world.png" /></p>
-<p>Para hacer inferencia necesitamos describir la distribución muestral, es natural
-pensar en la desviación estándar pues es una medida de la dispersión de la
-distribución de la estadística alrededor de su media.</p>
+<p>Para hacer inferencia necesitamos describir la forma de la distribución
+muestral, es natural pensar en la desviación estándar pues es una medida de la
+dispersión de la distribución de la estadística alrededor de su media:</p>
 <div class="caja">
 <p>El <strong>error estándar</strong> es la desviación estándar de la distribución muestral de
 una estadística.</p>
@@ -351,26 +356,39 @@ error estándar <span class="math inline">\(se_P(\bar{x})\)</span>.</p>
 <p><img src="imagenes/manicule2.jpg" /> Consideramos la base de datos <code>primaria</code>, y la
 columna de calificaciones de español 3<sup>o</sup> de primaria (<code>esp_3</code>).</p>
 <ul>
-<li><p>Grafica la distribución muestral de la media para tamaño de muestra
-<span class="math inline">\(n = 10, 100, 1000\)</span>.</p></li>
-<li><p>Para cada tamaño de muestra, calcula el error estándar de la media
-analíticamente y usando simulación (primero simula muestras de la población,
-después para cada muestra calcula la media, y finalmente calcula la desviación
-estándar de las medias a lo largo de las muestras). ¿Cómo se comparan los
-errores estándar correspondientes a los distintos tamaños de muestra y entre
-el cálculo analítico y usando simulación?</p></li>
+<li><p>Seleccina una muestra de tamaño <span class="math inline">\(n = 10, 100, 1000\)</span>. Para cada muestra
+calcula media y el error estándar de la media usando el principio del <em>plug-in</em>:
+<span class="math inline">\(\hat{\mu}=\bar{x}\)</span>, y <span class="math inline">\(\hat{se}(\bar{x})=\hat{\sigma}_{P_n}/\sqrt{n}\)</span>.</p></li>
+<li>Ahora aproximareos la distribución muestral, para cada tamaño de muestra <span class="math inline">\(n\)</span>:</li>
 </ul>
-<p>¿Por qué bootstrap?</p>
+<ol style="list-style-type: lower-roman">
+<li>simula 10,000 muestras aleatorias, ii) calcula la media en cada muestra, iii)
+Realiza un histograma de la distribución muestral de las medias (las medias del
+paso anterior) iv) aproxima el error estándar calculando la desviación estándar
+de las medias del paso ii.</li>
+</ol>
+<ul>
+<li><p>Calcula el error estándar de la media para cada tamaño de muestra usando la
+información poblacional (ésta no es una aproximación), usa la fórmula:
+<span class="math inline">\(se_P(\bar{x}) = \sigma_P/ \sqrt{n}\)</span>.</p></li>
+<li><p>¿Cómo se comparan los errores estándar correspondientes a los distintos
+tamaños de muestra?</p></li>
+</ul>
+</div>
+<div id="por-que-bootstrap" class="section level4 unnumbered">
+<h4>¿Por qué bootstrap?</h4>
 <ul>
 <li><p>En el caso de la media <span class="math inline">\(\hat{\theta}=\bar{x}\)</span> la aplicación del principio del
 <em>plug-in</em> para el cálculo de errores estándar es inmediata; sin embargo, hay
 estadísticas para las cuáles no es fácil aplicar este método,</p></li>
-<li><p>Por el lado de simulación, en la práctica no podemos seleccionar un número
+<li><p>El método de aproximarlo con simulación, como lo hicimos en el ejercicio de
+arriba no es factible pues en la práctica no podemos seleccionar un número
 arbitrario de muestras de la población, sino que tenemos únicamente una muestra.</p></li>
+<li><p>La idea del <em>bootstrap</em> es replicar el método de simulación para aproximar
+el error estándar, esto es seleccionar muchas muestras y calcular la estadística
+de interés en cada una, con la diferencia que las muestras se seleccionan de la
+distribución empírica a falta de la distribución poblacional.</p></li>
 </ul>
-<p><em>La idea del </em>bootstrap* es seleccionar las muestras de la distribución empírica
-(esto es una estimación de la población), en lugar de seleccionar muestras de la
-población.</p>
 </div>
 </div>
             </section>

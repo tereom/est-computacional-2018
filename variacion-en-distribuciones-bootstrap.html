@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="tareas.html">
-<link rel="next" href="datos-limpios-1.html">
+<link rel="prev" href="el-estimador-bootstrap-del-error-estandar.html">
+<link rel="next" href="mas-alla-de-muestras-aleatorias-simples.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -257,34 +257,216 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="transformacion-de-datos-1" class="section level2 unnumbered">
-<h2>2-Transformación de datos</h2>
-<p>Entrega: Lunes 27 de agosto.</p>
-<p>Utiliza los datos de vuelos (<code>flights</code>) para responder la siguientes preguntas.</p>
+<div id="variacion-en-distribuciones-bootstrap" class="section level2">
+<h2><span class="header-section-number">6.5</span> Variación en distribuciones bootstrap</h2>
+<p>En el proceso de estimación bootstrap hay dos fuentes de variación pues:</p>
 <ul>
-<li><p>¿A qué hora del día debo volar para evitar, lo más posible, retrasos de
-salida?</p></li>
-<li><p>Para cada destino calcula el total de minutos de retraso de salida. Para cada
-vuelo calcula su proporción del total de retrasos de su destino.</p></li>
-<li><p>Los retrasos suelen estar correlacionados temporalmente, incluso cuando se
-ha resuelto el problema que ocasionó los retrasos iniciales, vuelos posteriores
-suelen mantener algo de retraso. Usando la función <code>lag()</code> explora como el
-retraso de salida de un vuelo se relaciona con el retraso de salida del vuelo
-anterior. Realiza una gráfica para visualizar tus hallazgos.</p></li>
-<li><p>Para cada destino, puedes encontrar vuelos sospechosamente rápidos o lentos?
-(quizá debido a porblemas en la captura de los datos). Calcula el tiempo de
-vuelo relativo a la mediana de tiempo de vuelo a su destino. Qué vuelos se
-retrasaron más en el aire?</p></li>
-<li><p>Encuentra los destinos que se vuelan por al menos dos compañías (carriers).</p></li>
+<li><p>La muestra original se selecciona con aleatoriedad de una población.</p></li>
+<li><p>Las muestras bootstrap se seleccionan con aleatoriedad de la muestra
+original. Esto es: <em>La estimación bootstrap ideal es un resultado asintótico
+<span class="math inline">\(B=\infty\)</span>, en esta caso <span class="math inline">\(\hat{se}_B\)</span> iguala la estimación <em>plug-in</em>
+<span class="math inline">\(se_{P_n}\)</span>.</em></p></li>
 </ul>
+<p>En el proceso de <em>bootstrap</em> podemos controlar la variación del sgundo aspecto,</p>
+<p>conocida como implementación de muestreo Monte Carlo, y la variación
+Monte Carlo decrece conforme incrementamos el número de muestras.</p>
+<!--
+* En la práctica para elegir el tamaño de $B$ debemos considerar que buscamos 
+las mismas propiedades para la estimación de un error estándar que para 
+cualquier estimación: poco sesgo y desviación estándar chica. El sesgo de la 
+estifmación bootstrap del error estándar suele ser bajo y el error estándar está
+
+ Una respuesta aproximada es en términos del coeficiente de variación de 
+$\hat{se}_B$, esto es el cociente de la desviación estándar de $\hat{se}_B$ y su 
+valor esperado, la variabilidad adicional de parar en $B$ replicaciones en lugar 
+de seguir hasta infiniti se refleja en un incremento en el coeficiente de 
+variación
+-->
+<ol style="list-style-type: decimal">
+<li><p>Incluso un número chico de replicaciones bootstrap, digamos <span class="math inline">\(B=25\)</span> es
+informativo, y <span class="math inline">\(B=50\)</span> con frecuencia es suficiente para dar una buena
+estimación de <span class="math inline">\(se_P(\hat{\theta})\)</span>.</p></li>
+<li><p>Cuando se busca estimar error estándar <span class="citation">Hesterberg (<a href="#ref-tim">2015</a>)</span> recomienda <span class="math inline">\(B=1000\)</span> muestras.</p></li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">seMediaBoot &lt;-<span class="st"> </span><span class="cf">function</span>(x, B){
+    thetas_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(B, <span class="kw">mediaBoot</span>(x)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+    <span class="kw">sd</span>(thetas_boot)
+}
+
+B_muestras &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">n_sims =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">400</span>, <span class="dv">1000</span>, <span class="dv">1500</span>, <span class="dv">3000</span>, 
+    <span class="dv">5000</span>, <span class="dv">10000</span>, <span class="dv">20000</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">est =</span> <span class="kw">map_dbl</span>(n_sims, <span class="op">~</span><span class="kw">seMediaBoot</span>(<span class="dt">x =</span> primaria_muestra<span class="op">$</span>esp_<span class="dv">3</span>, <span class="dt">B =</span> .)))
+B_muestras
+<span class="co">#&gt; # A tibble: 12 x 2</span>
+<span class="co">#&gt;    n_sims   est</span>
+<span class="co">#&gt;     &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1      5  2.44</span>
+<span class="co">#&gt;  2     25  3.41</span>
+<span class="co">#&gt;  3     50  3.51</span>
+<span class="co">#&gt;  4    100  3.91</span>
+<span class="co">#&gt;  5    200  3.51</span>
+<span class="co">#&gt;  6    400  3.95</span>
+<span class="co">#&gt;  7   1000  4.03</span>
+<span class="co">#&gt;  8   1500  3.79</span>
+<span class="co">#&gt;  9   3000  3.86</span>
+<span class="co">#&gt; 10   5000  3.88</span>
+<span class="co">#&gt; 11  10000  3.83</span>
+<span class="co">#&gt; 12  20000  3.86</span></code></pre>
+<div id="ejemplo-componentes-principales-calificaciones-en-examenes" class="section level4 unnumbered">
+<h4>Ejemplo componentes principales: calificaciones en exámenes</h4>
+<p>Los datos <em>marks</em> (Mardia, Kent y Bibby, 1979) contienen los puntajes de 88
+estudiantes en 5 pruebas: mecánica, vectores, álgebra, análisis y estadística.
+Cada renglón corresponde a la calificación de un estudiante en cada prueba.</p>
+<pre class="sourceCode r"><code class="sourceCode r">marks &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/marks.csv&quot;</span>)
+<span class="co">#&gt; Parsed with column specification:</span>
+<span class="co">#&gt; cols(</span>
+<span class="co">#&gt;   id = col_integer(),</span>
+<span class="co">#&gt;   MECH = col_integer(),</span>
+<span class="co">#&gt;   VECT = col_integer(),</span>
+<span class="co">#&gt;   ALG = col_integer(),</span>
+<span class="co">#&gt;   ANL = col_integer(),</span>
+<span class="co">#&gt;   STAT = col_integer()</span>
+<span class="co">#&gt; )</span>
+<span class="kw">glimpse</span>(marks)
+<span class="co">#&gt; Observations: 88</span>
+<span class="co">#&gt; Variables: 6</span>
+<span class="co">#&gt; $ id   &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17...</span>
+<span class="co">#&gt; $ MECH &lt;int&gt; 77, 63, 75, 55, 63, 53, 51, 59, 62, 64, 52, 55, 50, 65, 3...</span>
+<span class="co">#&gt; $ VECT &lt;int&gt; 82, 78, 73, 72, 63, 61, 67, 70, 60, 72, 64, 67, 50, 63, 5...</span>
+<span class="co">#&gt; $ ALG  &lt;int&gt; 67, 80, 71, 63, 65, 72, 65, 68, 58, 60, 60, 59, 64, 58, 6...</span>
+<span class="co">#&gt; $ ANL  &lt;int&gt; 67, 70, 66, 70, 70, 64, 65, 62, 62, 62, 63, 62, 55, 56, 5...</span>
+<span class="co">#&gt; $ STAT &lt;int&gt; 81, 81, 81, 68, 63, 73, 68, 56, 70, 45, 54, 44, 63, 37, 7...</span>
+marks &lt;-<span class="st"> </span><span class="kw">select</span>(marks, <span class="op">-</span>id)</code></pre>
+<p>Entonces un análisis de componentes principales proseguiría como sigue:</p>
+<pre class="sourceCode r"><code class="sourceCode r">pc_marks &lt;-<span class="st"> </span><span class="kw">princomp</span>(marks)
+<span class="kw">summary</span>(pc_marks)
+<span class="co">#&gt; Importance of components:</span>
+<span class="co">#&gt;                        Comp.1 Comp.2  Comp.3 Comp.4 Comp.5</span>
+<span class="co">#&gt; Standard deviation     26.061 14.136 10.1276 9.1471  5.638</span>
+<span class="co">#&gt; Proportion of Variance  0.619  0.182  0.0935 0.0763  0.029</span>
+<span class="co">#&gt; Cumulative Proportion   0.619  0.801  0.8948 0.9710  1.000</span>
+<span class="kw">loadings</span>(pc_marks)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Loadings:</span>
+<span class="co">#&gt;      Comp.1 Comp.2 Comp.3 Comp.4 Comp.5</span>
+<span class="co">#&gt; MECH  0.505  0.749  0.300  0.296       </span>
+<span class="co">#&gt; VECT  0.368  0.207 -0.416 -0.783  0.189</span>
+<span class="co">#&gt; ALG   0.346        -0.145        -0.924</span>
+<span class="co">#&gt; ANL   0.451 -0.301 -0.597  0.518  0.286</span>
+<span class="co">#&gt; STAT  0.535 -0.548  0.600 -0.176  0.151</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                Comp.1 Comp.2 Comp.3 Comp.4 Comp.5</span>
+<span class="co">#&gt; SS loadings       1.0    1.0    1.0    1.0    1.0</span>
+<span class="co">#&gt; Proportion Var    0.2    0.2    0.2    0.2    0.2</span>
+<span class="co">#&gt; Cumulative Var    0.2    0.4    0.6    0.8    1.0</span>
+<span class="kw">plot</span>(pc_marks, <span class="dt">type =</span> <span class="st">&quot;lines&quot;</span>)</code></pre>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/pc-1.png" width="384" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">biplot</span>(pc_marks)</code></pre>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Los cálculos de un análisis de componentes principales involucran la matriz de
+covarianzas empírica <span class="math inline">\(G\)</span> (estimaciones <em>plug-in</em>)</p>
+<p><span class="math display">\[G_{jk} = \frac{1}{88}\sum_{i=1}^88(x_{ij}-\bar{x_j})(x_{ik}-\bar{x_k})\]</span></p>
+<p>para <span class="math inline">\(j,k=1,2,3,4,5\)</span>, y donde <span class="math inline">\(\bar{x_j} = \sum_{i=1}^88 x_{ij} / 88\)</span> (la media
+de la i-ésima columna).</p>
+<pre class="sourceCode r"><code class="sourceCode r">G &lt;-<span class="st"> </span><span class="kw">cov</span>(marks) <span class="op">*</span><span class="st"> </span><span class="dv">87</span> <span class="op">/</span><span class="st"> </span><span class="dv">88</span>
+G
+<span class="co">#&gt;      MECH  VECT   ALG   ANL  STAT</span>
+<span class="co">#&gt; MECH  302 125.8 100.4 105.1 116.1</span>
+<span class="co">#&gt; VECT  126 170.9  84.2  93.6  97.9</span>
+<span class="co">#&gt; ALG   100  84.2 111.6 110.8 120.5</span>
+<span class="co">#&gt; ANL   105  93.6 110.8 217.9 153.8</span>
+<span class="co">#&gt; STAT  116  97.9 120.5 153.8 294.4</span></code></pre>
+<p>Los <em>pesos</em> y las <em>componentes principales</em> no son mas que los eigenvalores y
+eigenvectores de la matriz de covarianzas <span class="math inline">\(G\)</span>, estos se calculan a través de una
+serie de de manipulaciones algebraicas que requieren cálculos del orden de p^3
+(cuando G es una matriz de tamaño p<span class="math inline">\(\times\)</span>p).</p>
+<pre class="sourceCode r"><code class="sourceCode r">eigen_G &lt;-<span class="st"> </span><span class="kw">eigen</span>(G)
+lambda &lt;-<span class="st"> </span>eigen_G<span class="op">$</span>values
+v &lt;-<span class="st"> </span>eigen_G<span class="op">$</span>vectors
+lambda
+<span class="co">#&gt; [1] 679.2 199.8 102.6  83.7  31.8</span>
+v
+<span class="co">#&gt;        [,1]    [,2]   [,3]     [,4]    [,5]</span>
+<span class="co">#&gt; [1,] -0.505  0.7487  0.300  0.29618 -0.0794</span>
+<span class="co">#&gt; [2,] -0.368  0.2074 -0.416 -0.78289 -0.1889</span>
+<span class="co">#&gt; [3,] -0.346 -0.0759 -0.145 -0.00324  0.9239</span>
+<span class="co">#&gt; [4,] -0.451 -0.3009 -0.597  0.51814 -0.2855</span>
+<span class="co">#&gt; [5,] -0.535 -0.5478  0.600 -0.17573 -0.1512</span></code></pre>
+<ol style="list-style-type: decimal">
+<li>Proponemos el siguiente modelo simple para puntajes correlacionados:</li>
+</ol>
+<p><span class="math display">\[\textbf{x}_i = Q_i \textbf{v}\]</span></p>
+<p>donde <span class="math inline">\(\textbf{x}_i\)</span> es la tupla de calificaciones del i-ésimo estudiante,
+<span class="math inline">\(Q_i\)</span> es un número que representa la habilidad del estudiante y <span class="math inline">\(\textbf{v}\)</span> es
+un vector fijo con 5 números que aplica a todos los estudiantes. Si este modelo
+simple fuera cierto, entonces únicamente el <span class="math inline">\(\hat{\lambda}_1\)</span> sería positivo
+y <span class="math inline">\(\textbf{v} = \hat{v}_1\)</span>.
+Sea <span class="math display">\[\hat{\theta}=\sum_{i=1}^5\hat{\lambda}_i\]</span>
+el modelo propuesto es equivalente a <span class="math inline">\(\hat{\theta}=1\)</span>, inculso si el modelo es
+correcto, no esperamos que <span class="math inline">\(\hat{\theta}\)</span> sea exactamente uno pues hay ruido en
+los datos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">theta_hat &lt;-<span class="st"> </span>lambda[<span class="dv">1</span>]<span class="op">/</span><span class="kw">sum</span>(lambda)
+theta_hat
+<span class="co">#&gt; [1] 0.619</span></code></pre>
+<p>El valor de <span class="math inline">\(\hat{\theta}\)</span> mide el porcentaje de la varianza explicada en la
+primer componente principal, ¿qué tan preciso es <span class="math inline">\(\hat{\theta}\)</span>? La complejidad
+matemática en el cálculo de <span class="math inline">\(\hat{\theta}\)</span> es irrelevante siempre y cuando
+podamos calcular <span class="math inline">\(\hat{\theta}^*\)</span> para una muestra bootstrap, en esta caso una
+muestra bootsrtap es una base de datos de 88$$5 <span class="math inline">\(\textbf{X}^*\)</span>, donde las
+filas <span class="math inline">\(\textbf{x_i}^*\)</span> de <span class="math inline">\(\textbf{X}^*\)</span> son una muestra aleatoria de tamaño
+88 de la verdadera matriz de datos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">pc_boot &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    muestra_boot &lt;-<span class="st"> </span><span class="kw">sample_n</span>(marks, <span class="dt">size =</span> <span class="dv">88</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+    G &lt;-<span class="st"> </span><span class="kw">cov</span>(muestra_boot) <span class="op">*</span><span class="st"> </span><span class="dv">87</span> <span class="op">/</span><span class="st"> </span><span class="dv">88</span> 
+    eigen_G &lt;-<span class="st"> </span><span class="kw">eigen</span>(G)
+    theta_hat &lt;-<span class="st"> </span>eigen_G<span class="op">$</span>values[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(eigen_G<span class="op">$</span>values)
+}
+B &lt;-<span class="st"> </span><span class="dv">1000</span>
+thetas_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(B, <span class="kw">pc_boot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()</code></pre>
+<p>Veamos un histograma de las replicaciones de <span class="math inline">\(\hat{\theta}\)</span>:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">theta =</span> thetas_boot)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.02</span>, <span class="dt">fill =</span> <span class="st">&quot;gray40&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> <span class="kw">mean</span>(theta)), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(theta)<span class="op">^</span><span class="st">&quot;*&quot;</span>), <span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</code></pre>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/pc_hist-1.png" width="300px" /></p>
+<p>Estas tienen un error estándar</p>
+<pre class="sourceCode r"><code class="sourceCode r">theta_se &lt;-<span class="st"> </span><span class="kw">sd</span>(thetas_boot)
+theta_se
+<span class="co">#&gt; [1] 0.0484</span></code></pre>
+<p>y media</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(thetas_boot)
+<span class="co">#&gt; [1] 0.619</span></code></pre>
+<p>la media de las replicaciones es muy similar a la estimación <span class="math inline">\(\hat{\theta}\)</span>,
+esto indica que <span class="math inline">\(\hat{\theta}\)</span> es cercano a insesgado.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>El eigenvetor <span class="math inline">\(\hat{v}_1\)</span> correspondiente al mayor eigenvalor se conoce
+como primera componente de <span class="math inline">\(G\)</span>, supongamos que deseamos resumir la calificación
+de los estudiantes mediante un único número, entonces la mejor combinación
+lineal de los puntajes es</li>
+</ol>
+<p><span class="math display">\[y_i = \sum_{k = 1}^5 \hat{v}_{1k}x_{ik}\]</span></p>
+<p>esto es, la combinación lineal que utiliza las componentes de <span class="math inline">\(\hat{v}_1\)</span> como
+ponderadores. Si queremos un resumen compuesto por dos números <span class="math inline">\((y_i,z_i)\)</span>, la
+segunda combinación lineal debería ser:</p>
+<p><span class="math display">\[z_i = \sum_{k = 1}^5 \hat{v}_{2k}x_{ik}\]</span></p>
+<p><img src="../imagenes/manicule2.jpg" /> Las componentes principales <span class="math inline">\(\hat{v}_1\)</span> y
+<span class="math inline">\(\hat{v}_2\)</span> son estadísticos, usa bootstrap para dar una medición de su
+variabilidad calculando el error estándar de cada una.</p>
+</div>
+</div>
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-tim">
+<p>Hesterberg, Tim C. 2015. “What Teachers Should Know About the Bootstrap: Resampling in the Undergraduate Statistics Curriculum.” <em>The American Statistician</em> 69 (4). Taylor &amp; Francis:371–86. <a href="https://doi.org/10.1080/00031305.2015.1089789" class="uri">https://doi.org/10.1080/00031305.2015.1089789</a>.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="tareas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="datos-limpios-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="el-estimador-bootstrap-del-error-estandar.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mas-alla-de-muestras-aleatorias-simples.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -314,7 +496,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/98-tareas.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/05-bootstrap_no_parametrico.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

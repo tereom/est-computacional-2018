@@ -141,7 +141,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.068"
+#> [1] "0.067"
 ```
 
 
@@ -336,10 +336,9 @@ table(primaria_muestra$tipo) / n
 
 Vale la pena notar que pasar de la muestra desagregada a la distribución 
 empírica (lista de valores y la proporción que ocurre cada una en la muestra) 
-no conlleva ninguna pérdida de información: 
-
-* el vector de frecuencias observadas es un **estadístico suficiente** para la
-verdadera distribución. 
+no conlleva ninguna pérdida de información:  
+_el vector de frecuencias observadas es un **estadístico suficiente** para la
+verdadera distribución._
 
 Esto quiere decir que toda la información de $P$ contenida en el vector de 
 observaciones $\textbf{x}$ está también contenida en $P_n$.
@@ -409,8 +408,7 @@ $$\theta=\frac{1}{N}\sum_{j=1}^N I_{\{Y_i>700\}}$$
 
 donde $I_{\{\cdot\}}$ es la función indicadora.
 
-Hacemos la estimación _plug-in_ $\hat{\theta}$:
-
+La estimación _plug-in_ de $\hat{\theta}$ sería:
 
 ```r
 sum(primaria_muestra$esp_3 > 700) / n
@@ -477,13 +475,15 @@ estimador _plug-in_ $\hat{\theta}=t(P_n)$.
 ## Distribuciones muestrales y errores estándar
 
 <div class="caja">
-La *distribución muestral* de una estadística es la distribución de probabilidad 
-de la misma, considerada como una variable aleatoria.
+La **distribución muestral** de una estadística es la distribución de 
+probabilidad de la misma, considerada como una variable aleatoria.
 </div>
 
-Es así que la distribución muestral depende de: 1) La distribución poblacional,
-2) la estadística que se está considerando, y 3) la muestra aleatoria: cómo se 
-seleccionan las unidades de la muestra y cuántas.
+Es así que la distribución muestral depende de: 
+1) La distribución poblacional,  
+2) la estadística que se está considerando,  
+y 3) la muestra aleatoria: cómo se seleccionan las unidades de la muestra y
+cuántas.
 
 En teoría para obtener la distribución muestral uno seguiría los siguientes 
 pasos:
@@ -499,6 +499,7 @@ La distribución de la estadística es la distribución muestral.
 ```r
 library(LaplacesDemon)
 library(patchwork)
+# En este ejemplo la población es una mezcla de normales
 pob_plot <- ggplot(data_frame(x = -15:20), aes(x)) +
     stat_function(fun = dnormm, args = list(p = c(0.3, 0.7), mu = c(-2, 8), 
         sigma = c(3.5, 3)), alpha = 0.8) +
@@ -540,9 +541,9 @@ dist_muestral_plot <- ggplot(samples_dist, aes(x = mu_hat)) +
 
 ![](imagenes/ideal_world.png)
 
-Para hacer inferencia necesitamos describir la distribución muestral, es natural
-pensar en la desviación estándar pues es una medida de la dispersión de la 
-distribución de la estadística alrededor de su media.
+Para hacer inferencia necesitamos describir la forma de la distribución
+muestral, es natural pensar en la desviación estándar pues es una medida de la
+dispersión de la distribución de la estadística alrededor de su media:
 
 <div class="caja">
 El **error estándar** es la desviación estándar de la distribución muestral de
@@ -592,37 +593,48 @@ error estándar $se_P(\bar{x})$.
 ![](imagenes/manicule2.jpg) Consideramos la base de datos `primaria`, y la 
 columna de calificaciones de español 3^o^ de primaria (`esp_3`). 
 
-* Grafica la distribución muestral de la media para tamaño de muestra 
-$n = 10, 100, 1000$.  
+- Seleccina una muestra de tamaño $n = 10, 100, 1000$. Para cada muestra 
+calcula media y el error estándar de la media usando el principio del *plug-in*:
+$\hat{\mu}=\bar{x}$, y $\hat{se}(\bar{x})=\hat{\sigma}_{P_n}/\sqrt{n}$.
 
-* Para cada tamaño de muestra, calcula el error estándar de la media 
-analíticamente y usando simulación (primero simula muestras de la población, 
-después para cada muestra calcula la media, y finalmente calcula la desviación 
-estándar de las medias a lo largo de las muestras). ¿Cómo se comparan los 
-errores estándar correspondientes a los distintos tamaños de muestra y entre
-el cálculo analítico y usando simulación?
+- Ahora aproximareos la distribución muestral, para cada tamaño de muestra $n$: 
+i) simula 10,000 muestras aleatorias, ii) calcula la media en cada muestra, iii)
+Realiza un histograma de la distribución muestral de las medias (las medias del
+paso anterior) iv) aproxima el error estándar calculando la desviación estándar
+de las medias del paso ii.
 
-¿Por qué bootstrap?
+- Calcula el error estándar de la media para cada tamaño de muestra usando la
+información poblacional (ésta no es una aproximación), usa la fórmula:
+$se_P(\bar{x}) = \sigma_P/ \sqrt{n}$.
+
+- ¿Cómo se comparan los errores estándar correspondientes a los distintos 
+tamaños de muestra? 
+
+#### ¿Por qué bootstrap? {-}
 
 * En el caso de la media $\hat{\theta}=\bar{x}$ la aplicación del principio del 
 _plug-in_ para el cálculo de errores estándar es inmediata; sin embargo, hay 
 estadísticas para las cuáles no es fácil aplicar este método, 
 
-* Por el lado de simulación, en la práctica no podemos seleccionar un número 
+* El método de aproximarlo con simulación, como lo hicimos en el ejercicio de 
+arriba no es factible pues en la práctica no podemos seleccionar un número 
 arbitrario de muestras de la población, sino que tenemos únicamente una muestra. 
 
-*La idea del *bootstrap* es seleccionar las muestras de la distribución empírica 
-(esto es una estimación de la población), en lugar de seleccionar muestras de la 
-población.
+* La idea del *bootstrap* es replicar el método de simulación para aproximar
+el error estándar, esto es seleccionar muchas muestras y calcular la estadística 
+de interés en cada una, con la diferencia que las muestras se seleccionan de la
+distribución empírica a falta de la distribución poblacional.
 
 
 ## El estimador bootstrap del error estándar
+Entonces, los pasos para calcular estimador bootstrap del error estándar son:
 
-
-* Tenemos una muestra aleatoria $\textbf{x}=(x_1,x_2,...,x_n)$ 
+Tenemos una muestra aleatoria $\textbf{x}=(x_1,x_2,...,x_n)$ 
 proveniente de una distribución de probabilidad desconocida $P$, 
 
-* Calcula la estadística de interés para cada muestra:
+* Seleccionamos muestras aleatorias con reemplazo de la distribución empírica.
+
+* Calculamos la estadística de interés para cada muestra:
     $$\hat{\theta}=s(\textbf{x})$$ 
     la estimación puede ser la estimación _plug-in_ $t(P_n)$ pero también puede 
     ser otra. 
@@ -658,6 +670,7 @@ muestras_boot_plot <- samples_boot %>%
         geom_histogram(binwidth = 2, alpha = 0.5, fill = "darkgray") +
         geom_vline(aes(xintercept = samples$x_bar[1]), color = "blue",
             linetype = "dashed", alpha = 0.8) +
+        geom_vline(xintercept = 5, color = "red", alpha = 0.5) +
         geom_segment(aes(x = x_bar_boot, xend = x_bar_boot, y = 0, yend = 0.8), 
             color = "black") +
         xlim(-15, 20) +
@@ -711,23 +724,19 @@ en otras palabras, la estimación bootstrap de $se_P(\hat{\theta})$ es el error
 estándar de $\hat{\theta}$ para conjuntos de datos de tamaño $n$ seleccionados
 de manera aleatoria de $P_n$.
 
-La fórmula $se_{P_n}(\hat{\theta}^*)$ no existe para casi ninguna estimación que 
+La fórmula $se_{P_n}(\hat{\theta}^*)$ no existe para casi ninguna estimación 
 diferente de la media, por lo que recurrimos a la técnica computacional 
-bootstrap: el algoritmo funciona seleccionando distintas muestras bootstrap, 
-evaluando la replicación bootstrap correspondiente y estimando el error estándar
-de $\hat{\theta}$ mediante la desviación estándar empírica de las replicaciones.
-El resultado es la estimación bootstrap del error estándar, que denotamos
-$\hat{se}_B$, donde $B$ es el número de muestras bootstrap usadas.
+bootstrap: 
 
 <div class="caja">
 
 **Algoritmo bootstrap para estimar errores estándar** 
 
-1. Selecciona $B$ muestras bootsrtap independientes: 
+1. Selecciona $B$ muestras bootstrap independientes: 
 $$\textbf{x}^{*1},..., \textbf{x}^{*B}$$.  
 
 2. Evalúa la replicación bootstrap correspondiente a cada muestra bootstrap:
-$$\hat{\theta}^{*b}b=s(\textbf{x}^{*b})$$
+$$\hat{\theta}^{*b}=s(\textbf{x}^{*b})$$
 para $b=1,2,...,B.$
 
 3. Estima el error estándar $se_P(\hat{\theta})$ usando la desviación estándar
@@ -755,7 +764,7 @@ $$\hat{se}_B\approx se_{P_n}(\hat{\theta})$$
 $\hat{se}_B$ se les denota **estimadores bootstrap no paramétricos** ya que 
 estan basados en $P_n$, el estimador no paramétrico de la población $P$.
 
-#### Ejemplo: Error estándar bootstrap de una media
+#### Ejemplo: Error estándar bootstrap de una media {-}
 
 
 ```r
@@ -788,26 +797,28 @@ entre la calificación de $y=$español 3 y la de $z=$español 6:
 $\hat{corr}(y,z)=0.9$. ¿Qué tan precisa es esta estimación? 
 
 
-#### Variación en distribuciones bootstrap
+## Variación en distribuciones bootstrap
 
-Comencemos recordando que:
+En el proceso de estimación bootstrap hay dos fuentes de variación pues:
 
-* La muestra origibal se selecciona con aleatoriedad de una población.
+* La muestra original se selecciona con aleatoriedad de una población.
 
 * Las muestras bootstrap se seleccionan con aleatoriedad de la muestra 
 original. Esto es: *La estimación bootstrap ideal es un resultado asintótico 
 $B=\infty$, en esta caso $\hat{se}_B$ iguala la estimación _plug-in_ 
 $se_{P_n}$.* 
 
-Esto implica que hay dos fuentes de variación, la que controlamos es la 
-segunda, conocida como implementación de muestreo Monte Carlo, y la variación 
+En el proceso de *bootstrap* podemos controlar la variación del sgundo aspecto,
+
+
+conocida como implementación de muestreo Monte Carlo, y la variación 
 Monte Carlo decrece conforme incrementamos el número de muestras.
 
 <!--
 * En la práctica para elegir el tamaño de $B$ debemos considerar que buscamos 
 las mismas propiedades para la estimación de un error estándar que para 
 cualquier estimación: poco sesgo y desviación estándar chica. El sesgo de la 
-estimación bootstrap del error estándar suele ser bajo y el error estándar está
+estifmación bootstrap del error estándar suele ser bajo y el error estándar está
 
  Una respuesta aproximada es en términos del coeficiente de variación de 
 $\hat{se}_B$, esto es el cociente de la desviación estándar de $\hat{se}_B$ y su 
@@ -1051,128 +1062,6 @@ $\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su
 variabilidad calculando el error estándar de cada una.
 
 
-#### El paquete `rsample`
-
-El paquete `rsample` (forma parte de la colección [tidymodels](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)) 
-tiene una función `bootsrtraps()`:
-
-* `bootsrtaps()` regresa un arreglo cuadrangular (`tibble`, 
-`data.frame`) que incluye una columna con las muestras bootstrap y un 
-identificador del número y tipo de muestra.
-
-
-```r
-library(rsample)
-#> Loading required package: broom
-#> 
-#> Attaching package: 'rsample'
-#> The following object is masked from 'package:tidyr':
-#> 
-#>     fill
-muestra_computos <- read_csv("data/muestra_computos_2012.csv")
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_integer(),
-#>   TIPO_CASILLA = col_character()
-#> )
-#> See spec(...) for full column specifications.
-muestra_computos
-#> # A tibble: 10,000 x 36
-#>    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA
-#>        <int>      <int>   <int>      <int> <chr>               <int>
-#>  1        15         14     324          1 C                       0
-#>  2        20          3     207          3 C                       0
-#>  3        19          9     275          1 B                       0
-#>  4         8          7    2422          1 B                       0
-#>  5        30         11    4665          1 C                       0
-#>  6        13          3     199          1 E                       0
-#>  7        20         11    2014          1 B                       0
-#>  8         2          6     739          1 C                       0
-#>  9        30         12    4348          1 C                       0
-#> 10        21         11    1121          1 B                       0
-#> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <int>,
-#> #   CASILLA <int>, ESTATUS_ACTA <int>, ORDEN <int>,
-#> #   LISTA_NOMINAL_CASILLA <int>, ID_GRUPO <int>, TIPO_RECUENTO <int>,
-#> #   NUM_VOTOS_NULOS <int>, NUM_VOTOS_CAN_NREG <int>,
-#> #   NUMERO_VOTOS_VALIDOS <int>, TOTAL_VOTOS <int>,
-#> #   BOLETAS_INUTILIZADAS <int>, PAN <int>, PRI <int>, PRD <int>,
-#> #   PVEM <int>, PT <int>, MC <int>, PANAL <int>, PRI_PVEM <int>,
-#> #   PRD_PT_MC <int>, PRD_PT <int>, PRD_MC <int>, PT_MC <int>,
-#> #   ID_MUNICIPIO <int>, LISTA_NOMINAL <int>, VOTOS_RESERVADOS <int>,
-#> #   pan <int>, pri <int>, prd <int>
-```
-
-
-
-```r
-computos_boot <- bootstraps(muestra_computos, times = 100)
-```
-
-La columna `splits` tiene información de las muestras seleccionadas, para la 
-primera vemos que de 88 observaciones en `marks` la primera muestra bootstrap 
-contiene 88-22=66.
-
-
-```r
-first_computos_boot <- computos_boot$splits[[1]]
-first_computos_boot 
-#> <10000/3652/10000>
-```
-
-Y podemos obtener los datos de la muestra bootstrap con la función 
-`as.data.frame()`
-
-
-```r
-as.data.frame(first_computos_boot)
-#> # A tibble: 10,000 x 36
-#>    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA
-#>        <int>      <int>   <int>      <int> <chr>               <int>
-#>  1        25          8    2713          1 B                       0
-#>  2         5          3     334          1 C                       0
-#>  3        19          2     114          2 C                       0
-#>  4        30         15    2683          1 B                       0
-#>  5        20          3     741          1 C                       0
-#>  6        15         33    3931          1 C                       0
-#>  7        20          1    1372          1 B                       0
-#>  8         4          2     334          1 E                       0
-#>  9        25          2     174          1 B                       0
-#> 10        30         16    1014          1 C                       0
-#> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <int>,
-#> #   CASILLA <int>, ESTATUS_ACTA <int>, ORDEN <int>,
-#> #   LISTA_NOMINAL_CASILLA <int>, ID_GRUPO <int>, TIPO_RECUENTO <int>,
-#> #   NUM_VOTOS_NULOS <int>, NUM_VOTOS_CAN_NREG <int>,
-#> #   NUMERO_VOTOS_VALIDOS <int>, TOTAL_VOTOS <int>,
-#> #   BOLETAS_INUTILIZADAS <int>, PAN <int>, PRI <int>, PRD <int>,
-#> #   PVEM <int>, PT <int>, MC <int>, PANAL <int>, PRI_PVEM <int>,
-#> #   PRD_PT_MC <int>, PRD_PT <int>, PRD_MC <int>, PT_MC <int>,
-#> #   ID_MUNICIPIO <int>, LISTA_NOMINAL <int>, VOTOS_RESERVADOS <int>,
-#> #   pan <int>, pri <int>, prd <int>
-```
-
-Una de las principales ventajas de usar este paquete es que es eficiente en 
-el uso de memoria.
-
-
-```r
-library(pryr)
-#> 
-#> Attaching package: 'pryr'
-#> The following objects are masked from 'package:purrr':
-#> 
-#>     compose, partial
-object_size(muestra_computos)
-#> 1.49 MB
-object_size(computos_boot)
-#> 5.58 MB
-# tamaño por muestra
-object_size(computos_boot)/nrow(computos_boot)
-#> 55.8 kB
-# el incremento en tamaño es << 100
-as.numeric(object_size(computos_boot)/object_size(muestra_computos))
-#> [1] 3.74
-```
-
 ## Más alla de muestras aleatorias simples
 
 Introdujimos el bootstrap en el contexto de muestras aleatorias, esto es,
@@ -1214,8 +1103,8 @@ continuación.
 Gastos de los Hogares, ENIGH 2014 [@enigh], esta encuesta usa un diseño de 
 conglomerados estratificado.
 
-Antes de proceder a bootstrap debemos entender la estructura de los datos, i.e.
-el [diseño de la muetsra](http://www.inegi.org.mx/prod_serv/contenidos/espanol/bvinegi/productos/metodologias/ENIGH/ENIGH2012/702825050597.pdf):
+Antes de proceder a bootstrap debemos entender como se seleccionaron los datos,
+esto es, el [diseño de la muestra](http://www.inegi.org.mx/prod_serv/contenidos/espanol/bvinegi/productos/metodologias/ENIGH/ENIGH2012/702825050597.pdf):
 
 1. Unidad primaria de muestreo (UPM). Las UPMs están constituidas por 
 agrupaciones de viviendas. Se les denomina unidades primarias pues corresponden
@@ -1227,7 +1116,7 @@ complemento urbano, rural), características sociodemográficas de los habitante
 de las viviendas, características físicas y equipamiento. El proceso de 
 estratificación resulta en 888 subestratos en todo el ámbito nacional.
 
-3. La selección de la muestra es independiente para cada estrato por lo que una 
+3. La selección de la muestra es independiente para cada estrato, y una 
 vez que se obtiene la muestra se calculan los factores de expansión que 
 reflejan las distintas probabilidades de selección. Después se llevan a cabo
 ajustes por no respuesta y por proyección (calibración), esta última 
@@ -1319,8 +1208,7 @@ sum(hogar$factor_hog * hogar$ing_cor / 1000) / sum(hogar$factor_hog)
 #> [1] 39.7
 ```
 
-Para calcular el error estándar siguiendo el bootstrap de Rao y Wu se procede 
-como sigue:
+Veamos ahora como calcular el error estándar siguiendo el bootstrap de Rao y Wu:
 
 1. En cada estrato se seleccionan con reemplazo $m_h$ UPMs de las $n_h$ de la
 muestra original. Denotamos por $m_{hi}^*$ el número de veces que se seleccionó
@@ -1639,7 +1527,7 @@ qq_nerve <- ggplot(nerve_kurtosis) +
 grid.arrange(hist_nerve, qq_nerve, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-26-1.png" width="816" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-21-1.png" width="816" />
 
 En el ejemplo anterior el supuesto de normalidad parece razonable, veamos 
 como se comparan los cuantiles de la estimación de la distribución de 
@@ -1679,7 +1567,7 @@ ggplot(arrange(nerve_kurtosis, kurtosis)) +
   labs(x = "Cuantiles muestrales", y = "ecdf")
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-28-1.png" width="384" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-23-1.png" width="384" />
 
 Las expresiones regulares hacen referencia a la situación bootstrap _ideal_ 
 donde el número de replicaciones bootstrap es infinito, en la práctica usamos
@@ -1741,7 +1629,7 @@ qq_emu <- ggplot(theta_boot_df) +
 grid.arrange(hist_emu, qq_emu, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-30-1.png" width="816" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-25-1.png" width="816" />
 
 La distribución empírica de $\hat{\theta}^*$ es asimétrica, por lo que no
 esperamos que coincidan los intervalos.
@@ -1779,7 +1667,7 @@ qq_log <- ggplot(data_frame(theta_boot)) +
 grid.arrange(hist_log, qq_log, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-32-1.png" width="816" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-27-1.png" width="816" />
 
 Y los intervalos se comparan:
 
@@ -1854,17 +1742,19 @@ $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$
 
 ```r
 library(bootstrap)
-#> Error in library(bootstrap): there is no package called 'bootstrap'
 data(spatial)
-#> Warning in data(spatial): data set 'spatial' not found
 ggplot(spatial) +
     geom_point(aes(A, B))
-#> Error in ggplot(spatial): object 'spatial' not found
+```
+
+<img src="05-bootstrap_no_parametrico_files/figure-html/spatial-1.png" width="336" />
+
+```r
 
 sum((spatial$A - mean(spatial$A)) ^ 2) / nrow(spatial)
-#> Error in eval(expr, envir, enclos): object 'spatial' not found
+#> [1] 172
 sum((spatial$A - mean(spatial$A)) ^ 2) / (nrow(spatial) - 1)
-#> Error in eval(expr, envir, enclos): object 'spatial' not found
+#> [1] 178
 ```
 
 El método $BC_{a}$ corrige el sesgo de manera automática, lo cuál es una 
@@ -1926,21 +1816,48 @@ Usando la implementación del paquete bootstrap:
 ```r
 var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
 bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada)
-#> Error in bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada): could not find function "bcanon"
+#> $confpoints
+#>      alpha bca point
+#> [1,] 0.025       104
+#> [2,] 0.050       115
+#> [3,] 0.100       127
+#> [4,] 0.160       138
+#> [5,] 0.840       228
+#> [6,] 0.900       243
+#> [7,] 0.950       266
+#> [8,] 0.975       282
+#> 
+#> $z0
+#> [1] 0.147
+#> 
+#> $acc
+#> [1] 0.0612
+#> 
+#> $u
+#>  [1] 164 177 175 178 172 172 175 172 176 173 169 168 155 142 178 178 178
+#> [18] 151 178 177 166 173 177 178 178 173
+#> 
+#> $call
+#> bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada)
 
 b_var <- rerun(1000, var_sesgada(sample(spatial[, 1], size = length(spatial[, 1]), replace = TRUE))) %>% flatten_dbl()
-#> Error in sample(spatial[, 1], size = length(spatial[, 1]), replace = TRUE): object 'spatial' not found
 
 qplot(b_var) + geom_histogram(binwidth = 10)
-#> Error in rlang::eval_tidy(mapping$x, data, caller_env): object 'b_var' not found
+#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-30-1.png" width="672" />
+
+```r
 
 ggplot(data_frame(b_var)) +
     geom_abline(color = "red", alpha = 0.5) +
     stat_qq(aes(sample = b_var), 
         dparams = list(mean = mean(b_var), sd = sd(b_var))) +
   geom_abline()
-#> Error in eval_tidy(xs[[i]], unique_output): object 'b_var' not found
 ```
+
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-30-2.png" width="672" />
 
 ![](../imagenes/manicule2.jpg) Comapara el intervalo anterior con los intervalos
 normal y de percentiles.
@@ -1962,5 +1879,134 @@ $$\hat{H}(r)=\frac{1}{B}\sum_{b=1}^B I(R^*_b \le r)$$
  y obtenemos
 $$C_n=(2\hat{\theta} - \hat{\theta}^*_{1-\alpha}, 2\hat{\theta} + \hat{\theta}^*_{1-\alpha})$$
 
+
+## Bootstrap en R
+
+#### El paquete `rsample`
+
+El paquete `rsample` (forma parte de la colección [tidymodels](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)) 
+tiene una función `bootsrtraps()`:
+
+* `bootsrtaps()` regresa un arreglo cuadrangular (`tibble`, 
+`data.frame`) que incluye una columna con las muestras bootstrap y un 
+identificador del número y tipo de muestra.
+
+
+```r
+library(rsample)
+#> Loading required package: broom
+#> 
+#> Attaching package: 'broom'
+#> The following object is masked from 'package:bootstrap':
+#> 
+#>     bootstrap
+#> 
+#> Attaching package: 'rsample'
+#> The following object is masked from 'package:tidyr':
+#> 
+#>     fill
+muestra_computos <- read_csv("data/muestra_computos_2012.csv")
+#> Parsed with column specification:
+#> cols(
+#>   .default = col_integer(),
+#>   TIPO_CASILLA = col_character()
+#> )
+#> See spec(...) for full column specifications.
+muestra_computos
+#> # A tibble: 10,000 x 36
+#>    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA
+#>        <int>      <int>   <int>      <int> <chr>               <int>
+#>  1        15         14     324          1 C                       0
+#>  2        20          3     207          3 C                       0
+#>  3        19          9     275          1 B                       0
+#>  4         8          7    2422          1 B                       0
+#>  5        30         11    4665          1 C                       0
+#>  6        13          3     199          1 E                       0
+#>  7        20         11    2014          1 B                       0
+#>  8         2          6     739          1 C                       0
+#>  9        30         12    4348          1 C                       0
+#> 10        21         11    1121          1 B                       0
+#> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <int>,
+#> #   CASILLA <int>, ESTATUS_ACTA <int>, ORDEN <int>,
+#> #   LISTA_NOMINAL_CASILLA <int>, ID_GRUPO <int>, TIPO_RECUENTO <int>,
+#> #   NUM_VOTOS_NULOS <int>, NUM_VOTOS_CAN_NREG <int>,
+#> #   NUMERO_VOTOS_VALIDOS <int>, TOTAL_VOTOS <int>,
+#> #   BOLETAS_INUTILIZADAS <int>, PAN <int>, PRI <int>, PRD <int>,
+#> #   PVEM <int>, PT <int>, MC <int>, PANAL <int>, PRI_PVEM <int>,
+#> #   PRD_PT_MC <int>, PRD_PT <int>, PRD_MC <int>, PT_MC <int>,
+#> #   ID_MUNICIPIO <int>, LISTA_NOMINAL <int>, VOTOS_RESERVADOS <int>,
+#> #   pan <int>, pri <int>, prd <int>
+```
+
+
+
+```r
+computos_boot <- bootstraps(muestra_computos, times = 100)
+```
+
+La columna `splits` tiene información de las muestras seleccionadas, para la 
+primera vemos que de 88 observaciones en `marks` la primera muestra bootstrap 
+contiene 88-22=66.
+
+
+```r
+first_computos_boot <- computos_boot$splits[[1]]
+first_computos_boot 
+#> <10000/3711/10000>
+```
+
+Y podemos obtener los datos de la muestra bootstrap con la función 
+`as.data.frame()`
+
+
+```r
+as.data.frame(first_computos_boot)
+#> # A tibble: 10,000 x 36
+#>    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA
+#>        <int>      <int>   <int>      <int> <chr>               <int>
+#>  1        30         16     312          1 C                       0
+#>  2        21         16      99          1 B                       0
+#>  3        13          7     130          2 C                       0
+#>  4        11          9     962          1 C                       0
+#>  5        27          2      48          1 B                       0
+#>  6         9         16    3267          1 C                       0
+#>  7        29          3      79          1 B                       0
+#>  8        20          3    2307          1 C                       0
+#>  9        21          9    1390          1 C                       0
+#> 10        13          5    1321          1 B                       0
+#> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <int>,
+#> #   CASILLA <int>, ESTATUS_ACTA <int>, ORDEN <int>,
+#> #   LISTA_NOMINAL_CASILLA <int>, ID_GRUPO <int>, TIPO_RECUENTO <int>,
+#> #   NUM_VOTOS_NULOS <int>, NUM_VOTOS_CAN_NREG <int>,
+#> #   NUMERO_VOTOS_VALIDOS <int>, TOTAL_VOTOS <int>,
+#> #   BOLETAS_INUTILIZADAS <int>, PAN <int>, PRI <int>, PRD <int>,
+#> #   PVEM <int>, PT <int>, MC <int>, PANAL <int>, PRI_PVEM <int>,
+#> #   PRD_PT_MC <int>, PRD_PT <int>, PRD_MC <int>, PT_MC <int>,
+#> #   ID_MUNICIPIO <int>, LISTA_NOMINAL <int>, VOTOS_RESERVADOS <int>,
+#> #   pan <int>, pri <int>, prd <int>
+```
+
+Una de las principales ventajas de usar este paquete es que es eficiente en 
+el uso de memoria.
+
+
+```r
+library(pryr)
+#> 
+#> Attaching package: 'pryr'
+#> The following objects are masked from 'package:purrr':
+#> 
+#>     compose, partial
+object_size(muestra_computos)
+#> 1.49 MB
+object_size(computos_boot)
+#> 5.58 MB
+# tamaño por muestra
+object_size(computos_boot)/nrow(computos_boot)
+#> 55.8 kB
+# el incremento en tamaño es << 100
+as.numeric(object_size(computos_boot)/object_size(muestra_computos))
+#> [1] 3.74
+```
 
 

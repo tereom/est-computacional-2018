@@ -225,9 +225,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="distribuciones-muestrales-y-errores-estandar.html"><a href="distribuciones-muestrales-y-errores-estandar.html"><i class="fa fa-check"></i><b>6.3</b> Distribuciones muestrales y errores estándar</a></li>
 <li class="chapter" data-level="6.4" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html"><i class="fa fa-check"></i><b>6.4</b> El estimador bootstrap del error estándar</a></li>
-<li class="chapter" data-level="6.5" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.5</b> Más alla de muestras aleatorias simples</a><ul>
-<li class="chapter" data-level="6.5.1" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html#intervalos-de-confianza"><i class="fa fa-check"></i><b>6.5.1</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="6.5" data-path="variacion-en-distribuciones-bootstrap.html"><a href="variacion-en-distribuciones-bootstrap.html"><i class="fa fa-check"></i><b>6.5</b> Variación en distribuciones bootstrap</a></li>
+<li class="chapter" data-level="6.6" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.6</b> Más alla de muestras aleatorias simples</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html#intervalos-de-confianza"><i class="fa fa-check"></i><b>6.6.1</b> Intervalos de confianza</a></li>
 </ul></li>
+<li class="chapter" data-level="6.7" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.7</b> Bootstrap en R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -272,12 +274,12 @@ experimento. Ahora, sea A un posible resultado del evento
 <p>Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultados:</p>
 <pre class="sourceCode r"><code class="sourceCode r">lanzamientos_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
 lanzamientos_<span class="dv">10</span>
-<span class="co">#&gt;  [1] &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot;</span></code></pre>
+<span class="co">#&gt;  [1] &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;S&quot; &quot;S&quot; &quot;A&quot;</span></code></pre>
 <p>Podemos calcular las secuencia de frecuencias relativas de águila:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="co"># suma acumulada de águilas</span>
-<span class="co">#&gt;  [1] 1 1 2 3 4 5 6 7 8 8</span>
+<span class="co">#&gt;  [1] 1 2 2 3 4 4 5 5 5 6</span>
 <span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-<span class="co">#&gt;  [1] 1.00 0.50 0.67 0.75 0.80 0.83 0.86 0.88 0.89 0.80</span></code></pre>
+<span class="co">#&gt;  [1] 1.00 1.00 0.67 0.75 0.80 0.67 0.71 0.62 0.56 0.60</span></code></pre>
 <p>Una regla general, es que las frecuencias relativas basadas en un número
 mayor de observaciones son menos fluctuantes comparado con las frecuencias
 relativas basadas en pocas observaciones. Este fenómeno se conoce como la <strong>ley
@@ -301,12 +303,12 @@ números):</p>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
 <span class="co">#&gt;   num_lanzamiento lanzamiento frec_rel</span>
 <span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class="co">#&gt; 1               1 S               0   </span>
-<span class="co">#&gt; 2               2 S               0   </span>
-<span class="co">#&gt; 3               3 S               0   </span>
-<span class="co">#&gt; 4               4 A               0.25</span>
-<span class="co">#&gt; 5               5 A               0.4 </span>
-<span class="co">#&gt; 6               6 A               0.5</span>
+<span class="co">#&gt; 1               1 S              0    </span>
+<span class="co">#&gt; 2               2 S              0    </span>
+<span class="co">#&gt; 3               3 A              0.333</span>
+<span class="co">#&gt; 4               4 S              0.25 </span>
+<span class="co">#&gt; 5               5 A              0.4  </span>
+<span class="co">#&gt; 6               6 A              0.5</span>
 
 <span class="kw">set.seed</span>(<span class="dv">31287931</span>)
 <span class="co"># usamos la función map_df del paquete purrr</span>

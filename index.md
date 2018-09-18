@@ -14,6 +14,10 @@ description: "Curso de estadística computacional, Maestría en Ciencia de Datos
 
 
 # Información del curso {-}
+Notas del curso Estadística Computacional de los programas de maestría en 
+Ciencia de Datos y en Computación del ITAM. Las notas fueron desarrolladas en 
+2014 por Teresa Ortiz quien las actualiza anualmente. En caso de encontrar 
+errores en las notas se agradece la propuesta de correcciones mediante *pull requests*.
 
 ### Ligas {-}
 Correo: teresa.ortiz.mancera@gmail.com  

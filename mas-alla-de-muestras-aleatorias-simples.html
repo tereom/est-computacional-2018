@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="el-estimador-bootstrap-del-error-estandar.html">
-<link rel="next" href="tareas.html">
+<link rel="prev" href="variacion-en-distribuciones-bootstrap.html">
+<link rel="next" href="bootstrap-en-r.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -225,9 +225,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="distribuciones-muestrales-y-errores-estandar.html"><a href="distribuciones-muestrales-y-errores-estandar.html"><i class="fa fa-check"></i><b>6.3</b> Distribuciones muestrales y errores estándar</a></li>
 <li class="chapter" data-level="6.4" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html"><i class="fa fa-check"></i><b>6.4</b> El estimador bootstrap del error estándar</a></li>
-<li class="chapter" data-level="6.5" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.5</b> Más alla de muestras aleatorias simples</a><ul>
-<li class="chapter" data-level="6.5.1" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html#intervalos-de-confianza"><i class="fa fa-check"></i><b>6.5.1</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="6.5" data-path="variacion-en-distribuciones-bootstrap.html"><a href="variacion-en-distribuciones-bootstrap.html"><i class="fa fa-check"></i><b>6.5</b> Variación en distribuciones bootstrap</a></li>
+<li class="chapter" data-level="6.6" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html"><i class="fa fa-check"></i><b>6.6</b> Más alla de muestras aleatorias simples</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="mas-alla-de-muestras-aleatorias-simples.html"><a href="mas-alla-de-muestras-aleatorias-simples.html#intervalos-de-confianza"><i class="fa fa-check"></i><b>6.6.1</b> Intervalos de confianza</a></li>
 </ul></li>
+<li class="chapter" data-level="6.7" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.7</b> Bootstrap en R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -256,7 +258,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="mas-alla-de-muestras-aleatorias-simples" class="section level2">
-<h2><span class="header-section-number">6.5</span> Más alla de muestras aleatorias simples</h2>
+<h2><span class="header-section-number">6.6</span> Más alla de muestras aleatorias simples</h2>
 <p>Introdujimos el bootstrap en el contexto de muestras aleatorias, esto es,
 suponiendo que las observaciones son independientes; en este escenario basta con
 aproximar la distribución desconocida <span class="math inline">\(P\)</span> usando la dsitribución empírica <span class="math inline">\(P_n\)</span>,
@@ -292,8 +294,8 @@ continuación.</p>
 <p><strong>ENIGH</strong>. Usaremos como ejemplo la Encuesta Nacional de Ingresos y
 Gastos de los Hogares, ENIGH 2014 <span class="citation">(INEGI <a href="#ref-enigh">2014</a>)</span>, esta encuesta usa un diseño de
 conglomerados estratificado.</p>
-<p>Antes de proceder a bootstrap debemos entender la estructura de los datos,
-i.e. el <a href="http://www.inegi.org.mx/prod_serv/contenidos/espanol/bvinegi/productos/metodologias/ENIGH/ENIGH2012/702825050597.pdf">diseño de la muetsra</a>:</p>
+<p>Antes de proceder a bootstrap debemos entender como se seleccionaron los datos,
+esto es, el <a href="http://www.inegi.org.mx/prod_serv/contenidos/espanol/bvinegi/productos/metodologias/ENIGH/ENIGH2012/702825050597.pdf">diseño de la muestra</a>:</p>
 <ol style="list-style-type: decimal">
 <li><p>Unidad primaria de muestreo (UPM). Las UPMs están constituidas por
 agrupaciones de viviendas. Se les denomina unidades primarias pues corresponden
@@ -303,7 +305,7 @@ hogares.</p></li>
 complemento urbano, rural), características sociodemográficas de los habitantes
 de las viviendas, características físicas y equipamiento. El proceso de
 estratificación resulta en 888 subestratos en todo el ámbito nacional.</p></li>
-<li><p>La selección de la muestra es independiente para cada estrato por lo que una
+<li><p>La selección de la muestra es independiente para cada estrato, y una
 vez que se obtiene la muestra se calculan los factores de expansión que
 reflejan las distintas probabilidades de selección. Después se llevan a cabo
 ajustes por no respuesta y por proyección (calibración), esta última
@@ -381,8 +383,7 @@ el ingreso trimestral total sería:</p>
 <p>y ingreso trimestral medio (miles pesos)</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(hogar<span class="op">$</span>factor_hog <span class="op">*</span><span class="st"> </span>hogar<span class="op">$</span>ing_cor <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(hogar<span class="op">$</span>factor_hog)
 <span class="co">#&gt; [1] 39.7</span></code></pre>
-<p>Para calcular el error estándar siguiendo el bootstrap de Rao y Wu se procede
-como sigue:</p>
+<p>Veamos ahora como calcular el error estándar siguiendo el bootstrap de Rao y Wu:</p>
 <ol style="list-style-type: decimal">
 <li>En cada estrato se seleccionan con reemplazo <span class="math inline">\(m_h\)</span> UPMs de las <span class="math inline">\(n_h\)</span> de la
 muestra original. Denotamos por <span class="math inline">\(m_{hi}^*\)</span> el número de veces que se seleccionó
@@ -550,7 +551,7 @@ la muestra se seleccionó sin reemplazo.</p></li>
 -->
 </div>
 <div id="intervalos-de-confianza" class="section level3">
-<h3><span class="header-section-number">6.5.1</span> Intervalos de confianza</h3>
+<h3><span class="header-section-number">6.6.1</span> Intervalos de confianza</h3>
 <p>Hasta ahora hemos discutido la idea detrás del bootstrap y como se puede usar
 para estimar errores estándar. Comenzamos con el error estándar pues es la
 manera más común para describir la precisión de una estadística.</p>
@@ -639,7 +640,7 @@ qq_nerve &lt;-<span class="st"> </span><span class="kw">ggplot</span>(nerve_kurt
 <span class="st">  </span><span class="kw">stat_qq</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> kurtosis), <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(kurtosis), <span class="dt">sd =</span> <span class="kw">sd</span>(kurtosis))) 
 
 <span class="kw">grid.arrange</span>(hist_nerve, qq_nerve, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">newpage =</span> <span class="ot">FALSE</span>)</code></pre>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-26-1.png" width="816" /></p>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-21-1.png" width="816" /></p>
 <p>En el ejemplo anterior el supuesto de normalidad parece razonable, veamos
 como se comparan los cuantiles de la estimación de la distribución de
 <span class="math inline">\(\hat{\theta}\)</span> con los cuantiles de una normal:</p>
@@ -668,7 +669,7 @@ intervalo bootstrap como
         <span class="dt">yend =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>, <span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">xend =</span> xend, <span class="dt">y =</span> y, 
         <span class="dt">yend =</span> yend), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Cuantiles muestrales&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;ecdf&quot;</span>)</code></pre>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-28-1.png" width="384" /></p>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-23-1.png" width="384" /></p>
 <p>Las expresiones regulares hacen referencia a la situación bootstrap <em>ideal</em>
 donde el número de replicaciones bootstrap es infinito, en la práctica usamos
 aproximaciones. Y se procede como sigue:</p>
@@ -716,7 +717,7 @@ qq_emu &lt;-<span class="st"> </span><span class="kw">ggplot</span>(theta_boot_d
         <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(theta_boot), <span class="dt">sd =</span> <span class="kw">sd</span>(theta_boot))) 
 
 <span class="kw">grid.arrange</span>(hist_emu, qq_emu, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">newpage =</span> <span class="ot">FALSE</span>)</code></pre>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-30-1.png" width="816" /></p>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-25-1.png" width="816" /></p>
 <p>La distribución empírica de <span class="math inline">\(\hat{\theta}^*\)</span> es asimétrica, por lo que no
 esperamos que coincidan los intervalos.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Normal</span>
@@ -743,7 +744,7 @@ qq_log &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class=
         <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(<span class="kw">log</span>(theta_boot)), <span class="dt">sd =</span> <span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)))) 
 
 <span class="kw">grid.arrange</span>(hist_log, qq_log, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">newpage =</span> <span class="ot">FALSE</span>)</code></pre>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-32-1.png" width="816" /></p>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-27-1.png" width="816" /></p>
 <p>Y los intervalos se comparan:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Normal</span>
 <span class="kw">round</span>(<span class="kw">mean</span>(x) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(<span class="kw">log</span>(theta_boot)), <span class="dv">2</span>)
@@ -774,8 +775,46 @@ original genera intervalos de confianza atractivos, el problema con este
 método es que requiere que conozcamos la transformación adecuada para cada
 parámetro. Por otra parte, podemos pensar en el método del percentil como un
 algoritmo que incorpora la transformación de manera automática.</p>
-<div class="caja&gt; **Lema**. Supongamos que la transformación $\hat{\phi}=m(\hat{\theta})$ normaliza la distribución de $\hat{\theta}$ de manera perfecta, $$\hat{\phi} \approx N(\phi, c^2)$$ para alguna desviación estándar $c$. Entonces el intervalo de percentil basado en $\hat{\theta}$ es igual a $$(m^{-1} (\hat{\phi}-z^{(1-\alpha)}c), m^{-1}(\hat{\phi}-z^{(\alpha)}c))$$ &lt;/div&gt; Existen otras alternativas al método del percentil y cubren otras fallas del intervalo normal. Por ejemplo, hay ocasiones en que $\hat{\theta}$ tiene una distribución normal sesgada: $$\hat{\theta} \approx N(\theta + sesgo, \hat{se}^2)$$ en este caso no existe una transformación $m(\theta)$ que _arregle_ el intervalo. 3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión mejorada del intervalo de percentil, la denotamos $BC_{a}$ (bias-corrected and accelerated). Usaremos un ejemplo de Effron y Tibshirani, los datos constan de los resultados en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos que queremos calcular un intervalo de confianza de 90\% para $\theta=var(A)$. El estimador plugin es: $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/n$$ notemos que el estimador _plug-in_ es ligeramente menor que el estimador usual insesgado: $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$ ```r library(bootstrap) #&gt; Error in library(bootstrap): there is no package called &#39;bootstrap&#39; data(spatial) #&gt; Warning in data(spatial): data set &#39;spatial&#39; not found ggplot(spatial) + geom_point(aes(A, B)) #&gt; Error in ggplot(spatial): object &#39;spatial&#39; not found sum((spatial$A - mean(spatial$A)) ^ 2) / nrow(spatial) #&gt; Error in eval(expr, envir, enclos): object &#39;spatial&#39; not found sum((spatial$A - mean(spatial$A)) ^ 2) / (nrow(spatial) - 1) #&gt; Error in eval(expr, envir, enclos): object &#39;spatial&#39; not found ``` El método $BC_{a}$ corrige el sesgo de manera automática, lo cuál es una de sus prinicipales ventajas comparado con el método del percentil. &lt;div class=" caja="">
-<p>Los extremos en los intervalos <span class="math inline">\(BC_{a}\)</span> están dados por percentiles de la
+<div class="caja>
+<strong>Lema</strong>. Supongamos que la transformación <span class="math inline">\(\hat{\phi}=m(\hat{\theta})\)</span>
+normaliza la distribución de <span class="math inline">\(\hat{\theta}\)</span> de manera perfecta,
+<span class="math display">\[\hat{\phi} \approx N(\phi, c^2)\]</span>
+para alguna desviación estándar <span class="math inline">\(c\)</span>. Entonces el intervalo de percentil basado
+en <span class="math inline">\(\hat{\theta}\)</span> es igual a
+<span class="math display">\[(m^{-1} (\hat{\phi}-z^{(1-\alpha)}c), m^{-1}(\hat{\phi}-z^{(\alpha)}c))\]</span>
+</div>
+<p>Existen otras alternativas al método del percentil y cubren otras fallas del
+intervalo normal. Por ejemplo, hay ocasiones en que <span class="math inline">\(\hat{\theta}\)</span> tiene una
+distribución normal sesgada:
+<span class="math display">\[\hat{\theta} \approx N(\theta + sesgo, \hat{se}^2)\]</span></p>
+<p>en este caso no existe una transformación <span class="math inline">\(m(\theta)\)</span> que <em>arregle</em> el intervalo.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Intervalos acelerados y corregidos por sesgo</strong>. Esta es una versión mejorada
+del intervalo de percentil, la denotamos <span class="math inline">\(BC_{a}\)</span> (bias-corrected and
+accelerated).</li>
+</ol>
+<p>Usaremos un ejemplo de Effron y Tibshirani, los datos constan de los resultados
+en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos
+que queremos calcular un intervalo de confianza de 90% para <span class="math inline">\(\theta=var(A)\)</span>.
+El estimador plugin es:
+<span class="math display">\[\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/n\]</span>
+notemos que el estimador <em>plug-in</em> es ligeramente menor que el estimador
+usual insesgado:
+<span class="math display">\[\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bootstrap)
+<span class="kw">data</span>(spatial)
+<span class="kw">ggplot</span>(spatial) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(A, B))</code></pre>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/spatial-1.png" width="336" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw">sum</span>((spatial<span class="op">$</span>A <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(spatial<span class="op">$</span>A)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(spatial)
+<span class="co">#&gt; [1] 172</span>
+<span class="kw">sum</span>((spatial<span class="op">$</span>A <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(spatial<span class="op">$</span>A)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(<span class="kw">nrow</span>(spatial) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)
+<span class="co">#&gt; [1] 178</span></code></pre>
+<p>El método <span class="math inline">\(BC_{a}\)</span> corrige el sesgo de manera automática, lo cuál es una
+de sus prinicipales ventajas comparado con el método del percentil.</p>
+<div class="caja>
+Los extremos en los intervalos <span class="math inline">\(BC_{a}\)</span> están dados por percentiles de la
 distribución bootstrap, los percentiles usados dependen de dos números <span class="math inline">\(\hat{a}\)</span>
 y <span class="math inline">\(\hat{z}_0\)</span>, que se denominan la aceleración y la corrección del sesgo:
 <span class="math display">\[BC_a : (\hat{\theta}_{inf}, \hat{\theta}_{sup})=(\hat{\theta}^*(\alpha_1), \hat{\theta}^*(\alpha_2))\]</span>
@@ -784,7 +823,7 @@ donde
 <span class="math display">\[\alpha_2= \Phi\bigg(\hat{z}_0 + \frac{\hat{z}_0 + z^{(1-\alpha)}}{1- \hat{a}(\hat{z}_0 + z^{(1-\alpha)})}\bigg)\]</span>
 y <span class="math inline">\(\Phi\)</span> es la función de distribución acumulada de la distribución normal estándar
 y <span class="math inline">\(z^{\alpha}\)</span> es el percentil <span class="math inline">\(100 \cdot \alpha\)</span> de una distribución normal
-estándar.</p>
+estándar.
 </div>
 <p>Notemos que si <span class="math inline">\(\hat{a}\)</span> y <span class="math inline">\(\hat{z}_0\)</span> son cero entonces <span class="math inline">\(\alpha_1=\alpha\)</span> y
 y <span class="math inline">\(\alpha_2=1-\alpha\)</span>, obteniendo así los intervalos de percentiles.
@@ -819,20 +858,42 @@ Taylor).</p>
 <p>Usando la implementación del paquete bootstrap:</p>
 <pre class="sourceCode r"><code class="sourceCode r">var_sesgada &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(x)
 <span class="kw">bcanon</span>(<span class="dt">x =</span> spatial[, <span class="dv">1</span>], <span class="dt">nboot =</span> <span class="dv">2000</span>, <span class="dt">theta =</span> var_sesgada)
-<span class="co">#&gt; Error in bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada): could not find function &quot;bcanon&quot;</span>
+<span class="co">#&gt; $confpoints</span>
+<span class="co">#&gt;      alpha bca point</span>
+<span class="co">#&gt; [1,] 0.025       104</span>
+<span class="co">#&gt; [2,] 0.050       115</span>
+<span class="co">#&gt; [3,] 0.100       127</span>
+<span class="co">#&gt; [4,] 0.160       138</span>
+<span class="co">#&gt; [5,] 0.840       228</span>
+<span class="co">#&gt; [6,] 0.900       243</span>
+<span class="co">#&gt; [7,] 0.950       266</span>
+<span class="co">#&gt; [8,] 0.975       282</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $z0</span>
+<span class="co">#&gt; [1] 0.147</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $acc</span>
+<span class="co">#&gt; [1] 0.0612</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $u</span>
+<span class="co">#&gt;  [1] 164 177 175 178 172 172 175 172 176 173 169 168 155 142 178 178 178</span>
+<span class="co">#&gt; [18] 151 178 177 166 173 177 178 178 173</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $call</span>
+<span class="co">#&gt; bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada)</span>
 
 b_var &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">var_sesgada</span>(<span class="kw">sample</span>(spatial[, <span class="dv">1</span>], <span class="dt">size =</span> <span class="kw">length</span>(spatial[, <span class="dv">1</span>]), <span class="dt">replace =</span> <span class="ot">TRUE</span>))) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
-<span class="co">#&gt; Error in sample(spatial[, 1], size = length(spatial[, 1]), replace = TRUE): object &#39;spatial&#39; not found</span>
 
 <span class="kw">qplot</span>(b_var) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">10</span>)
-<span class="co">#&gt; Error in rlang::eval_tidy(mapping$x, data, caller_env): object &#39;b_var&#39; not found</span>
-
+<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></code></pre>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">
 <span class="kw">ggplot</span>(<span class="kw">data_frame</span>(b_var)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">stat_qq</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> b_var), 
         <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(b_var), <span class="dt">sd =</span> <span class="kw">sd</span>(b_var))) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_abline</span>()
-<span class="co">#&gt; Error in eval_tidy(xs[[i]], unique_output): object &#39;b_var&#39; not found</span></code></pre>
+<span class="st">  </span><span class="kw">geom_abline</span>()</code></pre>
+<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-30-2.png" width="672" /></p>
 <p><img src="../imagenes/manicule2.jpg" /> Comapara el intervalo anterior con los intervalos
 normal y de percentiles.</p>
 <p>Otros intervalos basados en bootstrap incluyen los intervalos pivotales y los
@@ -851,10 +912,8 @@ estimar usando bootstrap:
 <span class="math display">\[\hat{H}(r)=\frac{1}{B}\sum_{b=1}^B I(R^*_b \le r)\]</span>
 y obtenemos
 <span class="math display">\[C_n=(2\hat{\theta} - \hat{\theta}^*_{1-\alpha}, 2\hat{\theta} + \hat{\theta}^*_{1-\alpha})\]</span></p>
-
 </div>
 </div>
-<!-- </div> -->
 <h3>Referencias</h3>
 <div id="refs" class="references">
 <div id="ref-RaoWu">
@@ -869,8 +928,8 @@ y obtenemos
           </div>
         </div>
       </div>
-<a href="el-estimador-bootstrap-del-error-estandar.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="variacion-en-distribuciones-bootstrap.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bootstrap-en-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
