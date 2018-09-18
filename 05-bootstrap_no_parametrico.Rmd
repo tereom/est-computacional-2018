@@ -6,7 +6,7 @@
 ```{r options, echo = FALSE, message=FALSE, error=TRUE}
 knitr::opts_chunk$set(
     comment = "#>",
-    collapse = TRUE, error=TRUE
+    collapse = TRUE, error=FALSE
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
 options(digits=3)
@@ -312,10 +312,9 @@ table(primaria_muestra$tipo) / n
 
 Vale la pena notar que pasar de la muestra desagregada a la distribución 
 empírica (lista de valores y la proporción que ocurre cada una en la muestra) 
-no conlleva ninguna pérdida de información: 
-
-* el vector de frecuencias observadas es un **estadístico suficiente** para la
-verdadera distribución. 
+no conlleva ninguna pérdida de información:  
+_el vector de frecuencias observadas es un **estadístico suficiente** para la
+verdadera distribución._
 
 Esto quiere decir que toda la información de $P$ contenida en el vector de 
 observaciones $\textbf{x}$ está también contenida en $P_n$.
@@ -374,8 +373,7 @@ $$\theta=\frac{1}{N}\sum_{j=1}^N I_{\{Y_i>700\}}$$
 
 donde $I_{\{\cdot\}}$ es la función indicadora.
 
-Hacemos la estimación _plug-in_ $\hat{\theta}$:
-
+La estimación _plug-in_ de $\hat{\theta}$ sería:
 ```{r calif_700}
 sum(primaria_muestra$esp_3 > 700) / n
 ```
@@ -436,13 +434,15 @@ estimador _plug-in_ $\hat{\theta}=t(P_n)$.
 ## Distribuciones muestrales y errores estándar
 
 <div class="caja">
-La *distribución muestral* de una estadística es la distribución de probabilidad 
-de la misma, considerada como una variable aleatoria.
+La **distribución muestral** de una estadística es la distribución de 
+probabilidad de la misma, considerada como una variable aleatoria.
 </div>
 
-Es así que la distribución muestral depende de: 1) La distribución poblacional,
-2) la estadística que se está considerando, y 3) la muestra aleatoria: cómo se 
-seleccionan las unidades de la muestra y cuántas.
+Es así que la distribución muestral depende de: 
+1) La distribución poblacional,  
+2) la estadística que se está considerando,  
+y 3) la muestra aleatoria: cómo se seleccionan las unidades de la muestra y
+cuántas.
 
 En teoría para obtener la distribución muestral uno seguiría los siguientes 
 pasos:
@@ -457,6 +457,7 @@ La distribución de la estadística es la distribución muestral.
 ```{r, eval = FALSE}
 library(LaplacesDemon)
 library(patchwork)
+# En este ejemplo la población es una mezcla de normales
 pob_plot <- ggplot(data_frame(x = -15:20), aes(x)) +
     stat_function(fun = dnormm, args = list(p = c(0.3, 0.7), mu = c(-2, 8), 
         sigma = c(3.5, 3)), alpha = 0.8) +
@@ -498,9 +499,9 @@ dist_muestral_plot <- ggplot(samples_dist, aes(x = mu_hat)) +
 
 ![](imagenes/ideal_world.png)
 
-Para hacer inferencia necesitamos describir la distribución muestral, es natural
-pensar en la desviación estándar pues es una medida de la dispersión de la 
-distribución de la estadística alrededor de su media.
+Para hacer inferencia necesitamos describir la forma de la distribución
+muestral, es natural pensar en la desviación estándar pues es una medida de la
+dispersión de la distribución de la estadística alrededor de su media:
 
 <div class="caja">
 El **error estándar** es la desviación estándar de la distribución muestral de
@@ -550,37 +551,48 @@ error estándar $se_P(\bar{x})$.
 ![](imagenes/manicule2.jpg) Consideramos la base de datos `primaria`, y la 
 columna de calificaciones de español 3^o^ de primaria (`esp_3`). 
 
-* Grafica la distribución muestral de la media para tamaño de muestra 
-$n = 10, 100, 1000$.  
+- Seleccina una muestra de tamaño $n = 10, 100, 1000$. Para cada muestra 
+calcula media y el error estándar de la media usando el principio del *plug-in*:
+$\hat{\mu}=\bar{x}$, y $\hat{se}(\bar{x})=\hat{\sigma}_{P_n}/\sqrt{n}$.
 
-* Para cada tamaño de muestra, calcula el error estándar de la media 
-analíticamente y usando simulación (primero simula muestras de la población, 
-después para cada muestra calcula la media, y finalmente calcula la desviación 
-estándar de las medias a lo largo de las muestras). ¿Cómo se comparan los 
-errores estándar correspondientes a los distintos tamaños de muestra y entre
-el cálculo analítico y usando simulación?
+- Ahora aproximareos la distribución muestral, para cada tamaño de muestra $n$: 
+i) simula 10,000 muestras aleatorias, ii) calcula la media en cada muestra, iii)
+Realiza un histograma de la distribución muestral de las medias (las medias del
+paso anterior) iv) aproxima el error estándar calculando la desviación estándar
+de las medias del paso ii.
 
-¿Por qué bootstrap?
+- Calcula el error estándar de la media para cada tamaño de muestra usando la
+información poblacional (ésta no es una aproximación), usa la fórmula:
+$se_P(\bar{x}) = \sigma_P/ \sqrt{n}$.
+
+- ¿Cómo se comparan los errores estándar correspondientes a los distintos 
+tamaños de muestra? 
+
+#### ¿Por qué bootstrap? {-}
 
 * En el caso de la media $\hat{\theta}=\bar{x}$ la aplicación del principio del 
 _plug-in_ para el cálculo de errores estándar es inmediata; sin embargo, hay 
 estadísticas para las cuáles no es fácil aplicar este método, 
 
-* Por el lado de simulación, en la práctica no podemos seleccionar un número 
+* El método de aproximarlo con simulación, como lo hicimos en el ejercicio de 
+arriba no es factible pues en la práctica no podemos seleccionar un número 
 arbitrario de muestras de la población, sino que tenemos únicamente una muestra. 
 
-*La idea del *bootstrap* es seleccionar las muestras de la distribución empírica 
-(esto es una estimación de la población), en lugar de seleccionar muestras de la 
-población.
+* La idea del *bootstrap* es replicar el método de simulación para aproximar
+el error estándar, esto es seleccionar muchas muestras y calcular la estadística 
+de interés en cada una, con la diferencia que las muestras se seleccionan de la
+distribución empírica a falta de la distribución poblacional.
 
 
 ## El estimador bootstrap del error estándar
+Entonces, los pasos para calcular estimador bootstrap del error estándar son:
 
-
-* Tenemos una muestra aleatoria $\textbf{x}=(x_1,x_2,...,x_n)$ 
+Tenemos una muestra aleatoria $\textbf{x}=(x_1,x_2,...,x_n)$ 
 proveniente de una distribución de probabilidad desconocida $P$, 
 
-* Calcula la estadística de interés para cada muestra:
+* Seleccionamos muestras aleatorias con reemplazo de la distribución empírica.
+
+* Calculamos la estadística de interés para cada muestra:
     $$\hat{\theta}=s(\textbf{x})$$ 
     la estimación puede ser la estimación _plug-in_ $t(P_n)$ pero también puede 
     ser otra. 
@@ -615,6 +627,7 @@ muestras_boot_plot <- samples_boot %>%
         geom_histogram(binwidth = 2, alpha = 0.5, fill = "darkgray") +
         geom_vline(aes(xintercept = samples$x_bar[1]), color = "blue",
             linetype = "dashed", alpha = 0.8) +
+        geom_vline(xintercept = 5, color = "red", alpha = 0.5) +
         geom_segment(aes(x = x_bar_boot, xend = x_bar_boot, y = 0, yend = 0.8), 
             color = "black") +
         xlim(-15, 20) +
@@ -668,23 +681,19 @@ en otras palabras, la estimación bootstrap de $se_P(\hat{\theta})$ es el error
 estándar de $\hat{\theta}$ para conjuntos de datos de tamaño $n$ seleccionados
 de manera aleatoria de $P_n$.
 
-La fórmula $se_{P_n}(\hat{\theta}^*)$ no existe para casi ninguna estimación que 
+La fórmula $se_{P_n}(\hat{\theta}^*)$ no existe para casi ninguna estimación 
 diferente de la media, por lo que recurrimos a la técnica computacional 
-bootstrap: el algoritmo funciona seleccionando distintas muestras bootstrap, 
-evaluando la replicación bootstrap correspondiente y estimando el error estándar
-de $\hat{\theta}$ mediante la desviación estándar empírica de las replicaciones.
-El resultado es la estimación bootstrap del error estándar, que denotamos
-$\hat{se}_B$, donde $B$ es el número de muestras bootstrap usadas.
+bootstrap: 
 
 <div class="caja">
 
 **Algoritmo bootstrap para estimar errores estándar** 
 
-1. Selecciona $B$ muestras bootsrtap independientes: 
+1. Selecciona $B$ muestras bootstrap independientes: 
 $$\textbf{x}^{*1},..., \textbf{x}^{*B}$$.  
 
 2. Evalúa la replicación bootstrap correspondiente a cada muestra bootstrap:
-$$\hat{\theta}^{*b}b=s(\textbf{x}^{*b})$$
+$$\hat{\theta}^{*b}=s(\textbf{x}^{*b})$$
 para $b=1,2,...,B.$
 
 3. Estima el error estándar $se_P(\hat{\theta})$ usando la desviación estándar
@@ -712,7 +721,7 @@ $$\hat{se}_B\approx se_{P_n}(\hat{\theta})$$
 $\hat{se}_B$ se les denota **estimadores bootstrap no paramétricos** ya que 
 estan basados en $P_n$, el estimador no paramétrico de la población $P$.
 
-#### Ejemplo: Error estándar bootstrap de una media
+#### Ejemplo: Error estándar bootstrap de una media {-}
 
 ```{r esp3_media_boot, cache=TRUE}
 mediaBoot <- function(x){ 
@@ -741,26 +750,28 @@ entre la calificación de $y=$español 3 y la de $z=$español 6:
 $\hat{corr}(y,z)=0.9$. ¿Qué tan precisa es esta estimación? 
 
 
-#### Variación en distribuciones bootstrap
+## Variación en distribuciones bootstrap
 
-Comencemos recordando que:
+En el proceso de estimación bootstrap hay dos fuentes de variación pues:
 
-* La muestra origibal se selecciona con aleatoriedad de una población.
+* La muestra original se selecciona con aleatoriedad de una población.
 
 * Las muestras bootstrap se seleccionan con aleatoriedad de la muestra 
 original. Esto es: *La estimación bootstrap ideal es un resultado asintótico 
 $B=\infty$, en esta caso $\hat{se}_B$ iguala la estimación _plug-in_ 
 $se_{P_n}$.* 
 
-Esto implica que hay dos fuentes de variación, la que controlamos es la 
-segunda, conocida como implementación de muestreo Monte Carlo, y la variación 
+En el proceso de *bootstrap* podemos controlar la variación del sgundo aspecto,
+
+
+conocida como implementación de muestreo Monte Carlo, y la variación 
 Monte Carlo decrece conforme incrementamos el número de muestras.
 
 <!--
 * En la práctica para elegir el tamaño de $B$ debemos considerar que buscamos 
 las mismas propiedades para la estimación de un error estándar que para 
 cualquier estimación: poco sesgo y desviación estándar chica. El sesgo de la 
-estimación bootstrap del error estándar suele ser bajo y el error estándar está
+estifmación bootstrap del error estándar suele ser bajo y el error estándar está
 
  Una respuesta aproximada es en términos del coeficiente de variación de 
 $\hat{se}_B$, esto es el cociente de la desviación estándar de $\hat{se}_B$ y su 
@@ -921,55 +932,6 @@ $\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su
 variabilidad calculando el error estándar de cada una.
 
 
-#### El paquete `rsample`
-
-El paquete `rsample` (forma parte de la colección [tidymodels](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)) 
-tiene una función `bootsrtraps()`:
-
-* `bootsrtaps()` regresa un arreglo cuadrangular (`tibble`, 
-`data.frame`) que incluye una columna con las muestras bootstrap y un 
-identificador del número y tipo de muestra.
-
-```{r}
-library(rsample)
-muestra_computos <- read_csv("data/muestra_computos_2012.csv")
-muestra_computos
-```
-
-
-```{r}
-computos_boot <- bootstraps(muestra_computos, times = 100)
-```
-
-La columna `splits` tiene información de las muestras seleccionadas, para la 
-primera vemos que de 88 observaciones en `marks` la primera muestra bootstrap 
-contiene 88-22=66.
-
-```{r}
-first_computos_boot <- computos_boot$splits[[1]]
-first_computos_boot 
-```
-
-Y podemos obtener los datos de la muestra bootstrap con la función 
-`as.data.frame()`
-
-```{r}
-as.data.frame(first_computos_boot)
-```
-
-Una de las principales ventajas de usar este paquete es que es eficiente en 
-el uso de memoria.
-
-```{r}
-library(pryr)
-object_size(muestra_computos)
-object_size(computos_boot)
-# tamaño por muestra
-object_size(computos_boot)/nrow(computos_boot)
-# el incremento en tamaño es << 100
-as.numeric(object_size(computos_boot)/object_size(muestra_computos))
-```
-
 ## Más alla de muestras aleatorias simples
 
 Introdujimos el bootstrap en el contexto de muestras aleatorias, esto es,
@@ -1011,8 +973,8 @@ continuación.
 Gastos de los Hogares, ENIGH 2014 [@enigh], esta encuesta usa un diseño de 
 conglomerados estratificado.
 
-Antes de proceder a bootstrap debemos entender la estructura de los datos, i.e.
-el [diseño de la muetsra](http://www.inegi.org.mx/prod_serv/contenidos/espanol/bvinegi/productos/metodologias/ENIGH/ENIGH2012/702825050597.pdf):
+Antes de proceder a bootstrap debemos entender como se seleccionaron los datos,
+esto es, el [diseño de la muestra](http://www.inegi.org.mx/prod_serv/contenidos/espanol/bvinegi/productos/metodologias/ENIGH/ENIGH2012/702825050597.pdf):
 
 1. Unidad primaria de muestreo (UPM). Las UPMs están constituidas por 
 agrupaciones de viviendas. Se les denomina unidades primarias pues corresponden
@@ -1024,7 +986,7 @@ complemento urbano, rural), características sociodemográficas de los habitante
 de las viviendas, características físicas y equipamiento. El proceso de 
 estratificación resulta en 888 subestratos en todo el ámbito nacional.
 
-3. La selección de la muestra es independiente para cada estrato por lo que una 
+3. La selección de la muestra es independiente para cada estrato, y una 
 vez que se obtiene la muestra se calculan los factores de expansión que 
 reflejan las distintas probabilidades de selección. Después se llevan a cabo
 ajustes por no respuesta y por proyección (calibración), esta última 
@@ -1062,8 +1024,7 @@ y ingreso trimestral medio (miles pesos)
 sum(hogar$factor_hog * hogar$ing_cor / 1000) / sum(hogar$factor_hog)
 ```
 
-Para calcular el error estándar siguiendo el bootstrap de Rao y Wu se procede 
-como sigue:
+Veamos ahora como calcular el error estándar siguiendo el bootstrap de Rao y Wu:
 
 1. En cada estrato se seleccionan con reemplazo $m_h$ UPMs de las $n_h$ de la
 muestra original. Denotamos por $m_{hi}^*$ el número de veces que se seleccionó
@@ -1594,5 +1555,56 @@ $$\hat{H}(r)=\frac{1}{B}\sum_{b=1}^B I(R^*_b \le r)$$
  y obtenemos
 $$C_n=(2\hat{\theta} - \hat{\theta}^*_{1-\alpha}, 2\hat{\theta} + \hat{\theta}^*_{1-\alpha})$$
 
+
+## Bootstrap en R
+
+#### El paquete `rsample`
+
+El paquete `rsample` (forma parte de la colección [tidymodels](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)) 
+tiene una función `bootsrtraps()`:
+
+* `bootsrtaps()` regresa un arreglo cuadrangular (`tibble`, 
+`data.frame`) que incluye una columna con las muestras bootstrap y un 
+identificador del número y tipo de muestra.
+
+```{r}
+library(rsample)
+muestra_computos <- read_csv("data/muestra_computos_2012.csv")
+muestra_computos
+```
+
+
+```{r}
+computos_boot <- bootstraps(muestra_computos, times = 100)
+```
+
+La columna `splits` tiene información de las muestras seleccionadas, para la 
+primera vemos que de 88 observaciones en `marks` la primera muestra bootstrap 
+contiene 88-22=66.
+
+```{r}
+first_computos_boot <- computos_boot$splits[[1]]
+first_computos_boot 
+```
+
+Y podemos obtener los datos de la muestra bootstrap con la función 
+`as.data.frame()`
+
+```{r}
+as.data.frame(first_computos_boot)
+```
+
+Una de las principales ventajas de usar este paquete es que es eficiente en 
+el uso de memoria.
+
+```{r}
+library(pryr)
+object_size(muestra_computos)
+object_size(computos_boot)
+# tamaño por muestra
+object_size(computos_boot)/nrow(computos_boot)
+# el incremento en tamaño es << 100
+as.numeric(object_size(computos_boot)/object_size(muestra_computos))
+```
 
 
