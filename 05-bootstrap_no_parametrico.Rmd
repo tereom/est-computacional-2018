@@ -190,7 +190,7 @@ de la población $\mathcal{X}$ a partir de los datos observados $\textbf{x}$.
 
 #### Ejemplo: ENLACE {-}
 
-```{r limpieza de datos, echo = FALSE}
+```{r limpieza de datos, echo = FALSE, eval = FALSE}
 load("data/base_completa.Rdata")
 primaria <- tbl_df(primaria) %>%
     filter(entidad == "DISTRITO FEDERAL", esp.3 > 0, esp.6 > 0, eval.3 > 0, 
@@ -205,6 +205,7 @@ de la Ciudad de México, de un universo de `r nrow(primaria)` escuelas,
 
 ```{r seleccion_muestra}
 # universo
+primaria <- read_csv("data/primarias.csv")
 glimpse(primaria)
 set.seed(16021)
 n <- 300
@@ -323,7 +324,7 @@ observaciones $\textbf{x}$ está también contenida en $P_n$.
 una muestra aleatoria de la distribución $P$, este no es siempre el caso 
 (e.g. si tenemos una serie de tiempo).
 
-#### Parámetros y estadísticas
+#### Parámetros y estadísticas {-}
 
 Cuando aplicamos teoría estadística a problemas reales, es común que las 
 respuestas estén dadas en términos de distribuciones de probabilidad. Por 
@@ -746,7 +747,7 @@ se(primaria_muestra$esp_3)
 se demuestra con la ley débil de los grandes números.
 
 ![](imagenes/manicule2.jpg) Considera el coeficiente de correlación muestral
-entre la calificación de $y=$español 3 y la de $z=$español 6: 
+entre la calificación de $y=$esp_3 y la de $z=$esp_6: 
 $\hat{corr}(y,z)=0.9$. ¿Qué tan precisa es esta estimación? 
 
 
@@ -943,11 +944,14 @@ muestras, en diseños de encuestas complejas o en series de
 tiempo.
 
 #### Ejemplo: Dos muestras {-}
+
 En el ejemplo de experimentos clínicos de aspirina y ataques de de corazón, 
-podemos pensar el modelo probabilístico $P$ como
-al grupo control y otra al grupo de tratamiento, entonces las observaciones de 
+podemos pensar el modelo probabilístico $P$ como compuesto por dos 
+distribuciones de probabilidad $G$ y $Q$ una correspondiente al grupo control y
+otra al grupo de tratamiento, entonces las observaciones de 
 cada grupo provienen de distribuciones distintas y el método bootstrap debe 
-tomar en cuenta esto al generar las muestras.
+tomar en cuenta esto al generar las muestras, en este caso implica seleccionar 
+muesreas de manera independiente dentro de cada grupo.
 
 #### Ejemplo: Bootstrap en muestreo de encuestas {-}
 
@@ -1443,8 +1447,8 @@ $$\hat{\theta} \approx N(\theta + sesgo, \hat{se}^2)$$
 en este caso no existe una transformación $m(\theta)$ que _arregle_ el intervalo.
 
 3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión mejorada
-del intervalo de percentil, la denotamos $BC_{a}$ (bias-corrected and 
-accelerated).
+del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
+accelerated*).
 
 Usaremos un ejemplo de Effron y Tibshirani, los datos constan de los resultados 
 en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos
