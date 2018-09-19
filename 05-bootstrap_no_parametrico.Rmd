@@ -201,7 +201,7 @@ primaria <- tbl_df(primaria) %>%
 ```
 
 Veamos un ejemplo donde tomamos una muestra de 300 escuelas primarias
-de la Ciudad de México, de un universo de `r nrow(primaria)` escuelas, 
+de la Ciudad de México, de un universo de 3,200 escuelas, 
 
 ```{r seleccion_muestra}
 # universo
