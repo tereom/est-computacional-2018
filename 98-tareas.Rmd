@@ -85,8 +85,8 @@ grafica la distribución de probabilidad de $X$
 
 ## 5-Bootstrap{-}
 
-1. **Distribución muestral.** Consideramos la base de datos [primaria](https://github.com/tereom/est-computacional-2018/blob/master/data/primarias.csv), y la 
-columna de calificaciones de español 3^o^ de primaria (`esp_3`). 
+1. **Distribución muestral.** Consideramos la base de datos [primaria](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/primarias.csv), 
+y la columna de calificaciones de español 3^o^ de primaria (`esp_3`). 
 
 - Seleccina una muestra de tamaño $n = 10, 100, 1000$. Para cada muestra 
 calcula media y el error estándar de la media usando el principio del *plug-in*:
@@ -105,7 +105,8 @@ $se_P(\bar{x}) = \sigma_P/ \sqrt{n}$.
 - ¿Cómo se comparan los errores estándar correspondientes a los distintos 
 tamaños de muestra? 
 
-2. **Bootstrap correlación.** Nuevamente trabaja con los datos `primaria`, c
-utiliza el principio del _plug-in_ para estimar la correlación entre la 
-calificación de $y=$español 3 y la de $z=$español 6: $\hat{corr}(y,z)=0.9$. 
-Usa bootstrap para calcular el error estándar de la estimación.
+2. **Bootstrap correlación.** Nuevamente trabaja con los datos `primaria`, 
+selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del 
+_plug-in_ para estimar la correlación entre la calificación de $y=$español 3 y 
+la de $z=$español 6: $\hat{corr}(y,z)=0.9$. Usa bootstrap para calcular el error
+estándar de la estimación.
