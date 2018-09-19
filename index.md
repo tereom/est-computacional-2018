@@ -1,6 +1,6 @@
 --- 
 title: "Estadística Computacional"
-author: "Teresa Ortiz"
+author: "María Teresa Ortiz"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib]
@@ -20,7 +20,7 @@ Ciencia de Datos y en Computación del ITAM. Las notas fueron desarrolladas en
 errores en las notas se agradece la propuesta de correcciones mediante *pull requests*.
 
 ### Ligas {-}
-Correo: teresa.ortiz.mancera@gmail.com  
+Correo: teresa.ortiz.mancera@gmail.com, maria.ortiz@itam.mx 
 Notas: https://tereom.github.io/est-computacional-2018/    
 GitHub: https://github.com/tereom/est-computacional-2018
 
