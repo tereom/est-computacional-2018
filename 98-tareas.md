@@ -82,3 +82,31 @@ una urna, después seleccionan un nombre (al azar).
 número de juegos antes de que termine el experimento de la ruina del jugador, 
 grafica la distribución de probabilidad de $X$ 
 (calcula $P(X=1), P(X=2),...,P(X=100)$).
+
+## 5-Bootstrap{-}
+
+1. **Distribución muestral.** Consideramos la base de datos [primaria](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/primarias.csv), 
+y la columna de calificaciones de español 3^o^ de primaria (`esp_3`). 
+
+- Seleccina una muestra de tamaño $n = 10, 100, 1000$. Para cada muestra 
+calcula media y el error estándar de la media usando el principio del *plug-in*:
+$\hat{\mu}=\bar{x}$, y $\hat{se}(\bar{x})=\hat{\sigma}_{P_n}/\sqrt{n}$.
+
+- Ahora aproximareos la distribución muestral, para cada tamaño de muestra $n$: 
+i) simula 10,000 muestras aleatorias, ii) calcula la media en cada muestra, iii)
+Realiza un histograma de la distribución muestral de las medias (las medias del
+paso anterior) iv) aproxima el error estándar calculando la desviación estándar
+de las medias del paso ii.
+
+- Calcula el error estándar de la media para cada tamaño de muestra usando la
+información poblacional (ésta no es una aproximación), usa la fórmula:
+$se_P(\bar{x}) = \sigma_P/ \sqrt{n}$.
+
+- ¿Cómo se comparan los errores estándar correspondientes a los distintos 
+tamaños de muestra? 
+
+2. **Bootstrap correlación.** Nuevamente trabaja con los datos `primaria`, 
+selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del 
+_plug-in_ para estimar la correlación entre la calificación de $y=$español 3 y 
+la de $z=$español 6: $\hat{corr}(y,z)=0.9$. Usa bootstrap para calcular el error
+estándar de la estimación.

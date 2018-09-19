@@ -235,6 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
 <li class="chapter" data-level="" data-path="probabilidad.html"><a href="probabilidad.html"><i class="fa fa-check"></i>4-Probabilidad</a></li>
+<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5-Bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -307,13 +308,23 @@ de la población <span class="math inline">\(\mathcal{X}\)</span> a partir de lo
 <div id="ejemplo-enlace" class="section level4 unnumbered">
 <h4>Ejemplo: ENLACE</h4>
 <p>Veamos un ejemplo donde tomamos una muestra de 300 escuelas primarias
-de la Ciudad de México, de un universo de 3202 escuelas,</p>
+de la Ciudad de México, de un universo de 3,200 escuelas,</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># universo</span>
+primaria &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/primarias.csv&quot;</span>)
+<span class="co">#&gt; Parsed with column specification:</span>
+<span class="co">#&gt; cols(</span>
+<span class="co">#&gt;   clave = col_character(),</span>
+<span class="co">#&gt;   turno = col_character(),</span>
+<span class="co">#&gt;   tipo = col_character(),</span>
+<span class="co">#&gt;   mun = col_integer(),</span>
+<span class="co">#&gt;   esp_3 = col_double(),</span>
+<span class="co">#&gt;   esp_6 = col_double()</span>
+<span class="co">#&gt; )</span>
 <span class="kw">glimpse</span>(primaria)
 <span class="co">#&gt; Observations: 3,202</span>
 <span class="co">#&gt; Variables: 6</span>
-<span class="co">#&gt; $ clave &lt;fct&gt; 09DBN0006J, 09DBN0007I, 09DBN0008H, 09DBN0015R, 09DBN001...</span>
-<span class="co">#&gt; $ turno &lt;fct&gt; NOCTURNO, NOCTURNO, NOCTURNO, NOCTURNO, NOCTURNO, NOCTUR...</span>
+<span class="co">#&gt; $ clave &lt;chr&gt; &quot;09DBN0006J&quot;, &quot;09DBN0007I&quot;, &quot;09DBN0008H&quot;, &quot;09DBN0015R&quot;, ...</span>
+<span class="co">#&gt; $ turno &lt;chr&gt; &quot;NOCTURNO&quot;, &quot;NOCTURNO&quot;, &quot;NOCTURNO&quot;, &quot;NOCTURNO&quot;, &quot;NOCTURN...</span>
 <span class="co">#&gt; $ tipo  &lt;chr&gt; &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;GENERAL&quot;, &quot;...</span>
 <span class="co">#&gt; $ mun   &lt;int&gt; 17, 28, 28, 14, 14, 17, 17, 14, 14, 14, 16, 16, 16, 16, ...</span>
 <span class="co">#&gt; $ esp_3 &lt;dbl&gt; 483, 571, 418, 777, 714, 659, 703, 646, 745, 700, 397, 7...</span>

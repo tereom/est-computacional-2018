@@ -141,7 +141,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.067"
+#> [1] "0.07"
 ```
 
 
@@ -205,16 +205,26 @@ de la población $\mathcal{X}$ a partir de los datos observados $\textbf{x}$.
 
 
 Veamos un ejemplo donde tomamos una muestra de 300 escuelas primarias
-de la Ciudad de México, de un universo de 3202 escuelas, 
+de la Ciudad de México, de un universo de 3,200 escuelas, 
 
 
 ```r
 # universo
+primaria <- read_csv("data/primarias.csv")
+#> Parsed with column specification:
+#> cols(
+#>   clave = col_character(),
+#>   turno = col_character(),
+#>   tipo = col_character(),
+#>   mun = col_integer(),
+#>   esp_3 = col_double(),
+#>   esp_6 = col_double()
+#> )
 glimpse(primaria)
 #> Observations: 3,202
 #> Variables: 6
-#> $ clave <fct> 09DBN0006J, 09DBN0007I, 09DBN0008H, 09DBN0015R, 09DBN001...
-#> $ turno <fct> NOCTURNO, NOCTURNO, NOCTURNO, NOCTURNO, NOCTURNO, NOCTUR...
+#> $ clave <chr> "09DBN0006J", "09DBN0007I", "09DBN0008H", "09DBN0015R", ...
+#> $ turno <chr> "NOCTURNO", "NOCTURNO", "NOCTURNO", "NOCTURNO", "NOCTURN...
 #> $ tipo  <chr> "GENERAL", "GENERAL", "GENERAL", "GENERAL", "GENERAL", "...
 #> $ mun   <int> 17, 28, 28, 14, 14, 17, 17, 14, 14, 14, 16, 16, 16, 16, ...
 #> $ esp_3 <dbl> 483, 571, 418, 777, 714, 659, 703, 646, 745, 700, 397, 7...
@@ -347,7 +357,7 @@ observaciones $\textbf{x}$ está también contenida en $P_n$.
 una muestra aleatoria de la distribución $P$, este no es siempre el caso 
 (e.g. si tenemos una serie de tiempo).
 
-#### Parámetros y estadísticas
+#### Parámetros y estadísticas {-}
 
 Cuando aplicamos teoría estadística a problemas reales, es común que las 
 respuestas estén dadas en términos de distribuciones de probabilidad. Por 
@@ -793,7 +803,7 @@ se(primaria_muestra$esp_3)
 se demuestra con la ley débil de los grandes números.
 
 ![](imagenes/manicule2.jpg) Considera el coeficiente de correlación muestral
-entre la calificación de $y=$español 3 y la de $z=$español 6: 
+entre la calificación de $y=$esp_3 y la de $z=$esp_6: 
 $\hat{corr}(y,z)=0.9$. ¿Qué tan precisa es esta estimación? 
 
 
@@ -1073,11 +1083,14 @@ muestras, en diseños de encuestas complejas o en series de
 tiempo.
 
 #### Ejemplo: Dos muestras {-}
+
 En el ejemplo de experimentos clínicos de aspirina y ataques de de corazón, 
-podemos pensar el modelo probabilístico $P$ como
-al grupo control y otra al grupo de tratamiento, entonces las observaciones de 
+podemos pensar el modelo probabilístico $P$ como compuesto por dos 
+distribuciones de probabilidad $G$ y $Q$ una correspondiente al grupo control y
+otra al grupo de tratamiento, entonces las observaciones de 
 cada grupo provienen de distribuciones distintas y el método bootstrap debe 
-tomar en cuenta esto al generar las muestras.
+tomar en cuenta esto al generar las muestras, en este caso implica seleccionar 
+muesreas de manera independiente dentro de cada grupo.
 
 #### Ejemplo: Bootstrap en muestreo de encuestas {-}
 
@@ -1727,8 +1740,8 @@ $$\hat{\theta} \approx N(\theta + sesgo, \hat{se}^2)$$
 en este caso no existe una transformación $m(\theta)$ que _arregle_ el intervalo.
 
 3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión mejorada
-del intervalo de percentil, la denotamos $BC_{a}$ (bias-corrected and 
-accelerated).
+del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
+accelerated*).
 
 Usaremos un ejemplo de Effron y Tibshirani, los datos constan de los resultados 
 en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos

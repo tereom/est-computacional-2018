@@ -235,6 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
 <li class="chapter" data-level="" data-path="probabilidad.html"><a href="probabilidad.html"><i class="fa fa-check"></i>4-Probabilidad</a></li>
+<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5-Bootstrap</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -269,10 +270,12 @@ tiempo.</p>
 <div id="ejemplo-dos-muestras" class="section level4 unnumbered">
 <h4>Ejemplo: Dos muestras</h4>
 <p>En el ejemplo de experimentos clínicos de aspirina y ataques de de corazón,
-podemos pensar el modelo probabilístico <span class="math inline">\(P\)</span> como
-al grupo control y otra al grupo de tratamiento, entonces las observaciones de
+podemos pensar el modelo probabilístico <span class="math inline">\(P\)</span> como compuesto por dos
+distribuciones de probabilidad <span class="math inline">\(G\)</span> y <span class="math inline">\(Q\)</span> una correspondiente al grupo control y
+otra al grupo de tratamiento, entonces las observaciones de
 cada grupo provienen de distribuciones distintas y el método bootstrap debe
-tomar en cuenta esto al generar las muestras.</p>
+tomar en cuenta esto al generar las muestras, en este caso implica seleccionar
+muesreas de manera independiente dentro de cada grupo.</p>
 </div>
 <div id="ejemplo-bootstrap-en-muestreo-de-encuestas" class="section level4 unnumbered">
 <h4>Ejemplo: Bootstrap en muestreo de encuestas</h4>
@@ -790,8 +793,8 @@ distribución normal sesgada:
 <p>en este caso no existe una transformación <span class="math inline">\(m(\theta)\)</span> que <em>arregle</em> el intervalo.</p>
 <ol start="3" style="list-style-type: decimal">
 <li><strong>Intervalos acelerados y corregidos por sesgo</strong>. Esta es una versión mejorada
-del intervalo de percentil, la denotamos <span class="math inline">\(BC_{a}\)</span> (bias-corrected and
-accelerated).</li>
+del intervalo de percentil, la denotamos <span class="math inline">\(BC_{a}\)</span> (<em>bias-corrected and
+accelerated</em>).</li>
 </ol>
 <p>Usaremos un ejemplo de Effron y Tibshirani, los datos constan de los resultados
 en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos
