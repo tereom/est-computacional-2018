@@ -1,0 +1,744 @@
+# Teoría básica de simulación
+
+```{r options, echo = FALSE, message=FALSE, error=TRUE}
+knitr::opts_chunk$set(
+    comment = "#>",
+    collapse = TRUE, error=FALSE
+)
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+options(digits=3)
+
+library(tidyverse)
+theme_set(theme_minimal())
+```
+
+La simulación de un modelo consiste en la construcción de un programa 
+computacional que permite obtener los valores de las varibles de salida para
+distintos valores de las variables de entrada con el objetivo de obtener 
+conclusiones del sistema que apoyen la toma de decisiones (explicar y/o predecir
+el comportamiento del sistema).  
+
+Requerimientos prácticos de un proyecto de simulación: 
+
+* Fuente de números aleatorios $U(0,1)$ (números pseudoaleatorios).  
+* Transformar los números aleatorios en variables de entrada del modelo
+(e.g. generación de muestras con cierta distribución).  
+* Construir el programa computacional de simulación.  
+* Analizar las distintas simulaciones del modelo para obtener conclusiones
+acerca del sistema.   
+
+## Números pseudoaleatorios
+
+El objetivo es generar sucesiones $\{u_i\}_{i=1}^N$ de números independientes
+que se puedan considerar como observaciones de una distribución uniforme
+en el intervalo $(0, 1)$.
+
+1. **Verdaderos números aleatorios. **Los números completamente aleatorios (no 
+    determinísticos) son fáciles de imaginar  conceptualmente, por ejemplo 
+    podemos imaginar lanzar una moneda, lanzar un dadoo una lotería.  
+    En general los números aleatorios se basan en alguna fuente de aleatoreidad 
+    física que puede ser teóricamente impredecible (cuántica) o prácticamente
+    impredecible (caótica). Por ejemplo:
+    - [random.org](http://www.random.org) genera aleatoreidad a través de ruido 
+    atmosférico (el paquete `random` contiene funciones para obtener números de 
+    random.org),  
+    - [ERNIE](https://en.wikipedia.org/wiki/Premium_Bond#ERNIE), usa ruido 
+    térmico en transistores.  
+    
+    La desventaja de éstos métodos es que son costosos, tardados y no 
+    reproducibles.
+
+<div class="caja">
+2. **Números pseudoaleatorios.** Los números pseudoaleatorios se generan de 
+    manera secuencial con un algoritmo determinístico, formalmente se definen 
+    por: 
+    + **Función de inicialización**. Recibe un número (la semilla) y pone al 
+    generador en su estado inicial.
+    + **Función de transición**. Transforma el estado del generador.
+    + **Función de salidas**. Transforma el estado para producir un número fijo de 
+      bits (0 ó 1). 
+    
+    Una sucesión de bits pseudoaleatorios se obtiene definiendo la semilla y 
+    llamando repetidamente la función de transición y la función de salidas.
+</div>
+
+  Esto implica, entre otras cosas, que una sucesión de números pseudoaletorios 
+  esta completamente determinada por la semilla.
+  
+  <!--
+  Since a computer can represent a real number with only finite accuracy, we 
+  shall actually be generating integers X, between zero and some number m; the fraction
+  U=X,/m will then lie between zero and one. Usually m is the word size (máximo número de 
+bits que puede procesar el CPU en una llamada) of the computer -->
+
+Buscamos que una secuencia de números pseudoaleatorios:
+
+* no muestre ningún patrón o regularidad aparente desde un punto de vista 
+estadístico, y 
+
+* dada una semilla inicial, se puedan generar muchos valores antes de repetir el 
+ciclo. 
+
+Construir un buen algoritmo de números pseudo aleatorios es complicado, como 
+veremos en los siguientes ejemplos.
+
+#### Ejemplo: rand {-}
+Por muchos años (antes de 1995)  el generador de la función _rand_ en Matlab fue 
+el generador congruencial:
+    
+$$X_{n+1} = (7^5)X_n mod(2^{31}-1)$$
+Construyamos sucesiones de longitud $1,500$ usando el algoritmo de _rand_:
+
+```{r}
+sucesion <- function(n = 1500, semilla = runif(1, 0, 2 ^ 31 - 1)){
+    x <- rep(NA, n)
+    u <- rep(NA, n)
+    x[1] <- semilla
+    u[1] <- x[1] / (2 ^ 31 - 1) # transformamos al (0, 1)
+    for(i in 2:n){
+        x[i] <- (7 ^ 5 * x[i - 1]) %% (2 ^ 31 - 1)
+        u[i] <- x[i] / (2 ^ 31 - 1)
+    }
+    u
+}
+u_rand <- sucesion(n = 150000)
+sucesiones <- map_df(1:12, ~data_frame(serie = ., sim = sucesion(), 
+    ind = 1:length(sim)))
+sucesiones
+```
+
+Una propiedad deseable es que la sucesión de $u_i$ parezca una sucesión de 
+observaciones independientes de una $Uniforme(0,1)$.
+
+1. Veamos una gráfica del índice de simulación contra el valor obtenido
+
+```{r}
+ggplot(sucesiones, aes(x = ind, y = sim)) + 
+  geom_point(alpha = 0.5, size = 1.5) +     # alpha controla la transparencia
+  facet_wrap(~ serie) +
+  geom_smooth(method = "loess", se = FALSE, color = "white", size = 0.7)
+```
+
+2. Comparemos con los cuantiles de una uniforme:
+
+```{r}
+ggplot(sucesiones) + 
+  stat_qq(aes(sample = sim), distribution = qunif) +
+  geom_abline(color = "white", size = 0.6, alpha = 0.6) +
+  facet_wrap(~ serie) 
+
+```
+
+#### Ejemplo: RANDU {-}
+*RANDU* fue generador de números aleatorios ampliamente utilizado en los 60´s 
+y 70´s, se define como:
+
+$$X_{n + 1}= (2 ^ {16} + 3)X_n mod(2^{31})$$
+
+A primera vista las sucesiones se asemejan a una uniforme, sin embargo, 
+cuando se grafican ternas emergen patrones no deseados.
+
+```{r, out.width="450px", message=FALSE}
+library(tourr)
+library(plotly)
+
+n <- 1500 # longitud de la sucesión
+x <- rep(NA, n)
+u <- rep(NA, n)
+ 
+x[1] <- 4798373 # semilla
+u[1] <- x[1] / (2 ^ 31 - 1) # transformamos al (0, 1)
+for(i in 2:n){
+    x[i] <- ((2 ^ 16 + 3) * x[i - 1]) %% (2 ^ 31)
+    u[i] <- x[i] / (2 ^ 31)
+}
+u_randu <- u
+
+set.seed(8111938)
+mat <- matrix(u, ncol = 3, byrow = TRUE)
+tour <- new_tour(mat, grand_tour(), NULL)
+steps <- seq(0, 1, 0.01)
+names(steps) <- steps
+mat_xy <- map_dfr(steps, ~data.frame(center(mat %*% tour(.)$proj)), 
+    .id = "steps")
+# step 0.72
+mat_xy %>% 
+    mutate(steps = as.numeric(steps)) %>% 
+    plot_ly(x = ~X1, y = ~X2, frame = ~steps, type = 'scatter', 
+        mode = 'markers', showlegend = F, marker = list(size = 5, 
+            color = "black"), opacity=0.5) %>% 
+    animation_opts(frame = 250)
+```
+
+Veamos los resultados enteros del generador, ¿qué notas?
+
+```{r}
+options(digits=5)
+n <- 50
+x <- rep(NA, n)
+x[1] <- 1 # semilla
+u[1] <- x[1] # transformamos al (0, 1)
+for(i in 2:n){
+    x[i] <- ((2 ^ 16 + 3) * x[i - 1]) %% (2 ^ 31)
+}
+x
+```
+
+### Generadores congruenciales y Mersenne-Twister {-}
+Los generadores como *rand* y *RANDU* 
+($X_{n+1} = (7^5)X_n mod(2^{31}-1)$ y 
+$X_{n+1}= (2 ^ {16} + 3)X_n mod(2^{31})$)
+se denominan generadores congruenciales.
+
+<div class="caja">
+Los Generadores Congruenciales Lineales (GCL) tienen la forma
+
+$$X_{n+1} = (aX_n + c)mod(m)$$
+Están determinados por los parámetros:
+* Módulo: $m > 0$  
+* Multiplicador $0\le a < m$  
+* Incremento $c \le m$  
+* Semilla $0\le X_0 < m$
+
+</div>
+
+Los GCL se introdujeron en 1949 por D.H. Lehemer y son muy [populares](https://en.wikipedia.org/wiki/Linear_congruential_generator). 
+La elección de los parámetros determina la calidad del generador:
+
+1. Queremos $m$ grande pues el periodo (longitud del ciclo) del 
+generador no puede tener más de $m$ elementos. 
+
+2. Queremos velocidad, en este caso, un valor 
+conveniente para $m$ es el *tamaño de palabra* (máximo número de bits que puede 
+procesar el CPU en un ciclo) de la computadora. Los GCL más eficientes tienen 
+$m$ igual a una potencia de 2 (es usual 2^32^ o 2^64^) de esta manera la 
+operación módulo se calcula truncando todos los dígitos excepto los últimos 32 ó 
+64 bits.
+
+* ¿podemos elegir $a$ y $c$ de tal manera que logremos alcanzar el periodo 
+máximo ($m$)?
+ Un generador congruencial mixto ($c>0$) tendrá periodo completo para todas las 
+ semillas sí y sólo sí:
+    + $m$ y $c$ son primos relativos.  
+    + $a-1$ es divisible por todos los factores primos de $m$.  
+    + $a-1$ es divisible por 4 si $m$ es divisible por 4.
+
+Vale la pena notar que un periodo grande no determina que el generador 
+congruencial es *bueno*, debemos verificar que los números que generan se 
+comportan como si fueran aleatorios. Los GCLs tienden a exhibir defectos, por 
+ejemplo, si se utiliza un GCL para elegir puntos en un espacio de dimensión $k$ 
+los puntos van a caer en a lo más $(k!m)^{1/k}$ hiperplanos paralelos $k$ 
+dimensionales (como observamos con *RANDU*), donde $k$ se refiere a la dimensión 
+de $[0,1]^k$. 
+
+Los GCLs continuan siendo utilizados en muchas aplicaciones porque con una 
+elección cuidadosa de los parámetros pueden pasar muchas pruebas de 
+aleatoriedad, son rápidos y requiren poca memoria, sin embargo, actualmente el
+generador default de R es el Mersenne-Twister que no pertenece a la clase de 
+GCLs (se puede elegir usar otros generadores para ver los disponible teclea 
+?Random).
+
+El generador **Mersenne-Twister** se desarrolló en 1997 por Makoto Matsumoto y 
+Takuji Nishimura, es el generador default en muchos programas, por ejemplo, en 
+Python, Ruby, C++ estándar, Excel y Matlab (más [aquí](https://en.wikipedia.org/wiki/Mersenne_Twister)).
+Este generador tiene propiedades deseables como un periodo largo (2^19937-1) y 
+el hecho que pasa muchas pruebas de aleatoriedad. 
+
+### Pruebas de aleatoriedad {-}
+<!--If a sequence behaves randomly with respect to tests T1, T2, . . . , T, , we cannot be sure in general that it will not be a miserable failure when it is subjected to a further test T,+l; yet each test gives us more and more confidence in the randomness of the sequence. In practice, we apply about half a dozen different kinds of statistical tests to a sequence, and if it passesthese satisfactorily we consider it to be random-it is then presumed innocent until proven guilty.-->
+
+Hasta ahora hemos graficado las secuencias de números aleatorios para evaluar 
+su aleatoriedad, sin embargo, el ojo humano no es muy bueno discriminando 
+aleatoriedad y las gráficas no escalan. Es por ello que resulta conveniente 
+hacer pruebas estadísticas para evaluar la calidad de los generadores de números
+pseudoaleatorios.
+
+Hay dos tipos de pruebas: 
+
+1) **empíricas**: evalúan estadísticas de sucesiones
+de números.
+
+2) **teóricas**: se establecen las características de las sucesiones usando 
+métodos de teoría de números con base en la regla de recurrencia que generó la 
+sucesión. 
+
+Veremos 2 ejemplos de la primera clase:
+
+#### Ejemplo: prueba de bondad de ajuste $\chi^2$ {-}
+
+$H_0:$ Los datos son muestra de una cierta distribución $F$.  
+$H_1:$ Los datos no son una muestra de $F$.
+
+Procedimiento:
+
+1. Partir el soporte de $F$ en $c$ celdas que son exhaustivas y mutuamente 
+exculyentes.  
+2. Contar el número de observaciones en cada celda $O_i$.  
+3. Calcular el valor esperado en cada celda bajo $F$: $e_i=np_i$.  
+4. Calcular la estadística de prueba:
+
+$$\chi^2 = \sum_{i=1}^c \frac{(O_i - e_i)^2}{e_i} \sim \chi^2_{c-k-1}$$
+    donde $c$ es el número de celdas y $k$ el número de parámetros estimados en 
+    $F$ a partir de los datos observados.
+
+```{r chi_sq}
+u_rand_cat <- cut(u_rand, breaks = seq(0, 1, 0.1))
+u_randu_cat <- cut(u_randu, breaks = seq(0, 1, 0.1))
+u_mt <- runif(150000)
+u_mt_cat <- cut(u_mt, breaks = seq(0, 1, 0.1))
+
+chisq.test(table(u_rand_cat))
+chisq.test(table(u_randu_cat))
+chisq.test(table(u_mt_cat))
+```
+
+Una variación de esta prueba de bondad de ajuste $\chi^2$, es la prueba de u
+uniformidad k-dimensional:
+
+$H_0:$ Distribución uniforme en $[0,1]^k$, con $k = 1,2,...$
+
+En este caso se divide el espacio $[0,1]^k$ en celdas exhaustivas y mutuamente
+excluyentes, y se aplica la prueba $\chi^2$ a los vectores sucesivos 
+$(u_1,u_2,...,u_k),(u_{k+1},u_{k+2},...,u_{2k}),...$
+
+#### Ejemplo: prueba de espera
+Busca probar independencia y uniformidad
+
+Procedimiento:  
+1. Seleccionar un subintervalo del $(0,1)$.  
+2. Calcular la probabilidad del subintervalo.  
+3. Ubicar en la sucesión las posiciones de los elementos que pertenezcan al
+subintervalo.  
+4. Calcular el número de elementos consecutivos de la sucesión entre cada una
+de las ocurrencias consecutivas de elementos del subintervalo (_tiempos de espera_).  
+5. La distribución de los tiempos de espera es geométrica con parámetro calculado 
+en 2.  
+6. Aplicar una prueba $\chi^2$ a los tiempos de espera.
+
+```{r}
+library(randtoolbox)
+gap.test(u_mt)
+gap.test(u_randu)
+```
+
+Otras pruebas de aleatoriedad son _prueba de rachas_, _Kolmogorov-Smirnov_, 
+_prueba de poker_, puedes leer más de generadores aleatorios y pruebas en 
+@knuth. En R hay pruebas implementadas en los paquetes `randtoolbox`y 
+`RDieHarder`.
+
+# Simulación de variables aleatorias
+Veremos métodos generales para simular muestras de distribuciones univariadas, 
+generales se refiere a que se pueden utilizar independientemente de la forma
+de la función de densidad.
+
+Para utilizar estos métodos debemos tener un generador de números aleatorios
+confiable. En general, la mayoría de los métodos consisten en una transformación
+de números aleatorios.
+
+## Variables aletaorias discretas
+
+### Método de Inversión {-}
+Supongamos que deseamos generar el valor de una variable aleatoria discreta $X$
+con función de probabilidad:
+$$P(X=x_j) = p_j$$
+con $j=1,2,..$.
+
+Para lograr esto generamos un número aleatorio $U$, esto es 
+$U\sim Uniforme(0,1)$ y definimos
+
+$$
+X = \left\{
+  \begin{array}{lr}
+    x_0   &  U < p_0\\
+    x_1 &  p_0 \leq U < p_0 + p_1\\
+    \vdots &\\
+    x_j & \sum_{i=0}^{j-1}p_i \leq U < \sum_{i=0}^j p_i \\
+    \vdots & \\
+  \end{array}
+\right.
+$$
+
+Como  para $0<a<b<1$ tenemos que $P(a\leq U < b)=b-a$, tenemos que 
+$$P(X=x_j)=P\bigg\{\sum_{i=0}^{j-1}p_i \leq U < \sum_{i=0}^{j}p_i \bigg \}=p_j$$
+y por tanto $X$ tiene la distribución deseada.
+
+<div class = "caja">
+**Método de inversión**  
+
+1. Genera un número aleatorio $U$, tal que $U \in (0,1)$.  
+   Si $U<p_0$ define $X=x_0$ y para.  
+   Si $U< p_0+p_1$ define $X = x_1$ y para.  
+   Si $U < p_0 + p_1 + p_2$ define $X=x_2$ y para.  
+   $\vdots$
+
+2. Si las $x_i$, están ordenadas de tal manera que $x_0<x_1<x_2<\cdots$ y si
+denotamos por $P$ la función de distribución acumulada de $X$, entonces 
+$P(x_k)=\sum_{i=0}^kp_i$ y por tanto, $X$ será igual a $x_j$ si 
+$$P(x_{j-1}) \leq U \leq P(x_j)$$.
+En otras palabras, tras generar un número aleatorio $U$ determinamos el valor de
+$X$ encontrando el intervalo $[P(x_{j-1}),P(x_j))$ en el que cae $U$, esto es 
+equivalente a encontrar la inversa de $P(U)$.
+</div>
+
+El tiempo que uno tarda en generar una variable aleatoria discreta usando el 
+método de arriba es proporcional al número de intervalos que uno debe buscar, 
+es por esto que en ocasiones vale la pena considerar los posibles valores 
+$x_j$ en orden decreciente de $p_j$.
+
+![](../imagenes/manicule2.jpg)  Utiliza la función runif de R y el método de 
+inversión para generar 1000 simulaciones de una variable aleatoria $X$ tal que 
+$p_1=0.20, p_2= 0.15, 
+p_3=0.25, p_4=0.40$ donde $p_j=P(X=j)$.
+
+#### Ejemplos {-} 
+**Uniforme discreta**. Supongamos que deseamos simular de una variable aleatoria 
+uniforme discreta que toma valores $1,...,k$, usando los resultados anteriores 
+tenemos que:
+
+$X=j$ si $\frac{j-1}{n} \leq U < \frac{j}{n}$
+
+Entonces $X=[kU] + 1$, donde $[x]$ representa la parte entera de x.
+
+```{r, fig.height=4, fig.width=4, out.width="300px"}
+# uniforme discreta: donde n es el número de simulaciones y k el número de elementos
+runifD <- function(n = 1, k) floor(k * runif(n)) + 1
+# veamos un histograma de 1000 simulaciones de una distribución Uniforme
+# discreta con parámetro k = 20
+x <- runifD(n = 1000, k = 20)
+qplot(x, binwidth = 1)
+
+# También podmeos usar la función sample de R
+# qplot(sample(1:20, size = 1000, replace= TRUE), binwidth = 1)
+```
+
+**Poisson**: la clave para usar el método de la transformación inversa en este 
+ejemplo es notar que:
+$$p_{i+1}=\frac{\lambda}{i+1}p_i$$
+
+donde $p_i=P(X=i) = e^-{\lambda} \lambda^i/i!$, con $i=0,1,...$. Ahora, 
+la cantidad $i$ se refiere al valor que estamos considerando, $p=p_i$ es la 
+probabilidad de $X = i$ y $P=P(i)$ es la probabilidad de $X\leq i$. Entonces, 
+para generar una observación sequimos los siguientes pasos:
+
+1. Generar un número aleatorio $U$, tal que $U \in (0,1)$.  
+2. Inicializar: $i=0$, $p=e^{-\lambda}$, $F=p$.  
+3. Si $U<F$, definir $X=i$ y parar.  
+4. $p=\lambda p/(i+1)$, $F=F+p$, $i=i+1$.  
+5. Volver a 3.
+
+```{r, fig.height=4, fig.width=4, out.width="300px"}
+# Poisson usando Inversión
+rpoisI <- function(lambda = 1){
+  U <- runif(1)
+  i <- 0
+  p <- exp(-lambda)
+  P <- p
+  while(U >= P){
+    p <- lambda * p / (i + 1)
+    P <- P + p
+    i <- i + 1
+  }
+  i
+}
+sims_pois <- rerun(2000, rpoisI()) %>% flatten_dbl()
+
+qplot(sims_pois, binwidth = 1)
+```
+
+El algoritmo que propusimos verifica de manera sucesiva si el valor es 0, 1, etc.
+por lo que el número de comparaciones necesarias será uno más que el valor de 
+la variable. Ahora, el valor esperado de una variable aleatoria Poisson es 
+$\lambda$ por lo que en promedio se harían $1+\lambda$ busquedas. Cuando $\lambda$
+es grande se puede mejorar el algoritmo buscando primero en valores cercanos a
+$\lambda$.
+
+![](imagenes/manicule2.jpg) Escribe una función en R que genere simulaciones
+de una variable aleatoria Poisson de la siguiente manera: define $I=[\lambda]$,
+y usa que $p_{i+1}=\lambda p_i /(i+1)$ para determinar $F$ de manera recursiva. 
+Genera un número aleatorio $U$, determina si $X \leq I$ comparando si 
+$U \leq F(I)$. Si $X \leq I$ busca hacia abajo comenzando en $I$, de lo contrario
+busca hacia arriba comenzando por $I+1$. Compara el tiempo que tardan los dos 
+algoritmos en 5000 simulaciones de una variable aleatoria Poisson con 
+parámetro $\lambda=10, 200, 500$.
+
+
+### Aceptación y rechazo {-}
+Supongamos que tenemos un método eficiente para generar simulaciones de una
+variable aleatoria con función de probabilidad masa $\{q_j, j\geq 0\}$, podemos
+usarla como la base para simular de una distribución que tiene función de 
+probabilidad masa $\{p_j, j \geq 0\}$, para hacer esto comenzamos simulando 
+una variable aleatoria $Y$ con función $\{q_j\}$ y después aceptamos o 
+rechazamos el valor simulado con una probabilidad proporcional a $p_Y/q_Y$. 
+En particular, sea $c$ una constante tal que 
+$$\frac{p_j}{q_j}\leq c$$
+para toda $j$ con $p_j > 0$. Entonces el método de aceptación y rechazo para
+simular una variable aleatoria $X$ con función masa de probabilidad $p_j=P(x=j)$
+es como sigue:
+
+<div class = "caja">
+**Método de aceptación y rechazo**
+
+1. Simula el valor de $Y$, con función de probabilidad masa $q_j$.  
+2. Genera un número aleatorio $U$, tal que $U \in (0,1)$.  
+3. Si $U < p_y/(cq_y)$ definimos $X=Y$ y paramos, en otro caso regresamos a 1.  
+
+</div>
+
+![](../imagenes/manicule2.jpg). Supongamos que queremos simular el valor de una variable aleatoria $X$
+que toma uno de los valores $1, 2,3,4$ con probabilidades $p_1=0.20, p_2= 0.15, p_3=0.25, p_4=0.40$ donde $p_j=P(X=j)$. Usemos el método de aceptación y rechazo
+con $q$ la densidad uniforme en $1,...,10$. Implementa una función usando el 
+método de aceptación y rechazo. ¿Cómo se compara en velocidad con la función 
+que implementaste usando el método de la transformación inversa?
+
+En promedio este algoritmo requiere $1/c$ iteraciones para obtener un valor 
+generado para $X$.
+
+
+### Simulación de variables aleatorias continuas
+
+### Transformación inversa
+```{r, include=FALSE}
+library(plyr)
+library(dplyr)
+```
+
+<div class = "caja">
+Sea $U$ una variable aleatoria con ditribución $U(0,1)$. Para cualquier 
+función de distribución $F$ la variable aleatoria $X$ definida como 
+$$X = F^{-1}(U)$$
+tiene distribución $F$.   
+</div>
+
+La proposición anterior nos da un camino para simular variables aleatorias 
+continuas generando un número aleatorio $U$ y definiendo $X = F^{-1}(U)$:
+
+```{r inversion_normal, fig.width=5, fig.height=4.2, warning=FALSE}
+ggplot(data_frame(x = c(-2 , 2)), aes(x)) + 
+    geom_hline(yintercept = 0, color = "gray") +
+    geom_vline(xintercept = 0, color = "gray") +
+    stat_function(fun = qnorm, aes(color = "fq")) +
+    stat_function(fun = dnorm, aes(color = "fdp")) +
+    stat_function(fun = pnorm, aes(color = "fda")) +
+    coord_fixed() +
+    labs(color = "", title = "Método de transformación inversa caso Normal")
+    
+```
+
+#### Ejemplo: Exponencial
+
+Si $X$ es una variable aleatoria exponencial con tasa 1, entonces
+
+$$F(x)=1-e^{-x}$$
+
+Si definimos $x=F^{-1}(u)$, entonces
+$$u=F(x)=1-e^{-x}$$
+o 
+$$x = -log(1-u)$$
+
+Vale la pena notar que si $U$ tiene distribución $U(0,1)$, $1-U$ también
+se distribuye uniforme(0,1).
+
+```{r}
+simExp <- function(){
+  u <- runif(1)
+  x <- -log(u)
+}
+```
+
+
+Notemos que para cualquier constante positiva $c$, $cX$ tiene distribución 
+exponencial con media $c$, por tanto una variable aleatoria exponencial con 
+parámetro $\beta$ se puede generar de la siguiente manera:
+
+$$X=-\beta log(U)$$
+
+```{r, fig.height=4, fig.height=4.5}
+simExpBeta <- function(beta){
+  -beta * log(runif(1))
+}
+sims_exp <- rerun(1000, simExpBeta(2)) %>% flatten_dbl()
+mean(sims_exp)
+ggplot() + 
+  geom_histogram(aes(x = sims_exp, y = ..density..), binwidth = 0.7)
+```
+
+El algoritmo anterior también provee una manera de generar variables aleatorias
+Poisson. Primero, recordemos que un proceso Poisson con tasa $\lambda$ resulta
+cuando los tiempos de espera entre eventos sucesivos son exponenciales 
+independientes con parámetro $\beta$, para este proceso el número de eventos 
+al tiempo 1 se distribuye Poisson con parámetro $\lambda = 1/\beta$. Para este
+proceso, $N(1)$, el número de eventos en el tiempo 1 se distribuye Poisson con 
+media $1/\beta$. Si denotamos por $X_i$ los tiempos entre eventos, el $n$-ésimo
+evento ocurrirá en el tiempo $\sum_{i=1}^n X_i$ y por tanto el número de eventos
+al tiempo 1 se puede expresar como:
+
+$$N(1)=max\bigg\{n: \sum_{i=1}^nX_i \leq 1\bigg\}$$
+
+Esto es, el número de eventos al tiempo 1 es igual a la $n$ mayor para la cual 
+el n-ésimo evento ocurrió al tiempo 1. Por ejemplo, si el cuarto evento ocurrió
+al tiempo uno pero el quinto no, habría 4 eventos al tiempo 1. Por tanto, usando
+el ejemplo anterior, podemos generar una variable aleatoria Poisson con media 
+$\lambda = 1/\beta$ generando números aleatorios $U_1,...U_n,...$ y definiendo
+
+$$N=max\bigg\{n: \sum_{i=1}^n -\beta log(U_i)\bigg\}$$
+$$=max\bigg\{n: \sum_{i=1}^n -1/\lambda log(U_i)\bigg\}$$
+$$=max\bigg\{n:\sum_{i=1}^n log(U_i)\geq -\lambda \bigg\}$$
+$$=max\{n:log(U_1\cdot\cdot\cdot U_n) \geq -\lambda\}$$
+$$=max\{n: U_1\cdot \cdot \cdot U_n \geq e^{-\lambda}\}$$
+
+Entonces, una variable aleatoria Poisson con media $\lambda$ se puede generar
+a partir de una sucesión de números aleatorios, generando números hasta que
+el producto sea menor a $e^{-\lambda}$ y definiendo $X$ como uno menos del 
+número de números aleatorios requeridos.
+
+$$N = min\{n: U_1\cdot\cdot\cdot U_n < e^{-\lambda}\} - 1$$
+
+```{r}
+poisson <- function(lambda){
+  u <- runif(1)
+  N <- 1
+  while(u > exp(-lambda)){
+    u <- u * runif(1)
+    N <- N + 1
+  }
+  N - 1
+}
+
+poisson(10)
+mean(rdply(1000, poisson(10))$V1)
+```
+
+#### Ejemplo: Gamma
+
+Supongamos que deseamos generar el valor de una variable aleatoria $gamma(n,\beta)$, 
+la función de distribución es,
+
+$$\int_{0}^x \frac{1}{\beta^n \Gamma(n)}x^{n-1}e^{-x/\beta}dy$$
+
+la inversa de la función de distribución acumulada anterior no se puede escribir 
+de forma cerrada. Sin embargo, podemos simular de ella usando que
+una $gamma(n,\beta)$ se puede ver como la suma de $n$ exponenciales independientes, cada una con parámetro $\beta$:
+
+$$X=-\beta log(U_1)-\cdot\cdot\cdot - \beta log(U_n)$$
+$$=-\beta log(U_1\cdot\cdot\cdot U_n)$$
+
+donde la identidad $\sum log(x_i) = log(x_1\cdot\cdot\cdot x_n)$ deriva en 
+ganancias computacionales.
+
+```{r}
+gamma_nb <- function(n, beta){
+  -beta * log(Reduce(`*`,runif(10)))
+}
+sims_gamma <- rdply(1000, gamma_nb(n = 10, beta = 2))
+mean(sims_gamma$V1)
+var(sims_gamma$V1)
+```
+
+### Aceptación y rechazo
+Supongamos que tenemos un método para generar variables aleatorias con función de densidad $g(x)$, podemos usarla como base para generar observaciones de una variable aleatoria con densidad $f(x)$ generando $Y$ de $g$ y después aceptando 
+el valor generado con una probabilidad proporcional a $f(Y)/g(Y)$. Sea $c$ una constante tal que 
+$$\frac{f(y)}{g(y)} \leq c$$
+
+para toda $c$, entonces el método se puede escribir como sigue:
+
+<div class = "caja">
+**Aceptación y rechazo**
+
+1. Genera $Y$ con densidad $g$.  
+2. Genera un número aleatorio $U$.  
+3. Si $U \leq \frac{f(Y)}{cg(Y)}$
+define $X=Y$, de lo contrario regresa a 1.
+
+El método de aceptación y rechazo es análogo al correspondiente a variables
+aleatorias discretas.
+
+(i) La variable aleatoria generada usando el método de aceptación y rechazo
+tiene densidad $f$.  
+(ii) El número de iteraciones del algoritmo que se necesitan es una variable
+aleatoria geométrica con media $c$.
+</div>
+
+#### Ejemplo: Beta
+Usemos el método de aceptación y rechazo para generar observaciones de una 
+variable aleatoria $beta(2,4)$:
+$$f(x)=20x(1-x)^3$$
+La variable aleatoria beta toma valores en el intervalo (0,1) por lo que consideremos $g(x)=1$, para $0<x<1$. Para determinar la menor $c$ tal que $f(x)/g(x)\leq c$ podemos derivar y obtenemos $c = 135/64$,
+$$\frac{f(x)}{g(x)} \leq 20 \cdot \frac{1}{4} \bigg(\frac{3}{4}\bigg)^3 = \frac{135}{64}$$
+
+y 
+
+$$\frac{f(x)}{cg(x)}=\frac{256}{27}x(1-x)^3$$
+
+por lo que el procedimiento para simular sería el siguiente:
+
+```{r}
+beta24 <- function(){
+  # 1. Generar dos números aleatorios U_1, U_2. 
+  u1 <- runif(1)
+  u2 <- runif(1)
+  # 2. Comparar con f(x)/cg(x)
+  while(u2 > 256 / 27 * u1 * (1 - u1) ^ 3){
+    u1 <- runif(1)
+    u2 <- runif(1)
+  }
+  u1
+}
+sims <- rdply(1000, beta24)
+mean(sims$V1)
+```
+
+#### Ejemplo: Gamma(3/2, 1)
+Supongamos que deseamos generar simulaciones de una variable aleatoria con densidad gamma(3/2, 1):
+$$f(x)=\frac{1}{\Gamma(3/2)}x^{1/2}e^{-x}$$
+dado que la variable aleatoria de nuestro interés se concentra en los números positivos, y tiene media $3/2$, es conveniente usar el método de aceptación y rechazo con la variable aleatoria exponencial de la misma media.
+$$g(x)=\frac{2}{3}e^{-x2/3}$$
+
+![](../imagenes/manicule2.jpg) Usa el método de aceptación y rechazo para generar 1000 observaciones de una variable aleatoria con distribución gamma(3/2,1).
+
+#### Ejemplo: Variable aleatoria normal
+Nuestro objetivo es primero, simular una variable aleatoria normal estándar Z, para ello comencemos notando que el valor absoluto de Z tiene función de densidad:
+$$f(x)=\frac{2}{\sqrt{2\pi}}e^{-x^2/2}$$
+con soporte en los reales positivos. Generaremos observaciones de la densidad anterior usando el método de aceptación y rechazo con $g$ una densidad exponencial com media 1:
+
+$$g(x)= e^{-x}$$
+
+Ahora,
+$\frac{f(x)}{g(x)}=\sqrt{2/\pi}e^{x - x^2/2}$
+y por tanto el máximo valor de $f(x)/g(x)$ ocurre en el valor $x$ que maximiza
+$x - x^2/2$, esto ocurre en $x=1$, y podemos tomar $c=\sqrt{2e/\pi}$, 
+$$\frac{f(x)}{cg(x)}=exp\bigg\{x - \frac{x^2}{2}-{1}{2}\bigg\}$$
+$$=exp\bigg\{\frac{(x-1)^2}{2}\bigg\}$$
+
+ 
+y por tanto podemos generar el valor absoluto de una variable aleatoria con 
+distribución normal estándar de la siguiente manera:
+
+1. Genera $Y$ una variable aleatoria exponencial con tasa 1.  
+2. Genera un número aleatorio $U$.  
+3. Si $U \leq exp\{-(Y-1)^2/2\}$ define $X=Y$, en otro caso vuelve a 1.  
+
+Para generar una variable aleatoria con distribución normal estándar $Z$ 
+simplemente elegimos $X$ o $-X$ con igual probabilidad.
+
+Notemos además que en paso 3 $Y$ es aceptado si $U \leq exp(-(Y-1)^2/2)$ esto es
+equivalente a $-log(U) \geq (Y-1)^2/2$ y recordemos que $-log(U)$ es exponencial 
+con parámetro 1, por lo que podems escribir los pasos como:
+
+1. Genera 2 exponenciales independientes con parámetro 1: $Y_1, Y_2$.  
+2. Si $Y_2 \geq (Y_1 - 1)^2/2$ define $X=Y$, de lo contrario vuelve a 1.
+
+Supongamos ahora que aceptamos $Y_1$, esto es equivalente a decir que $Y_2$ es 
+mayor a $(Y_1 - 1)^2/2$, y la diferencia $Y_2 - (Y_1 - 1)^2/2$ se distribuye 
+exponencial con parámetro 1. Esto es, cuando aceptamos en el segundo paso no 
+sólo obtenemos $X$ sino que calculando
+$Y_2 - (Y_1 - 1)^2/2$ podemos generar una variable aleatoria exponencial con 
+parámetro 1 independiente de $X$. Esto es relevante pues si estamos generando una
+sucesión de variables aleatorias normales obtendríamos un algoritmo más eficiente.
+
+### Referencias
+* The Art of Computer Programming Vol. 2, Donald Knuth.
+* Probability, Jim Pitman.  
+* Simulation, Sheldon M. Ross. 
+* All of statistics, Larry Wasserman.  
+
+
