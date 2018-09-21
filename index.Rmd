@@ -20,10 +20,10 @@ Ciencia de Datos y en Computación del ITAM. Las notas fueron desarrolladas en
 errores en las notas se agradece la propuesta de correcciones mediante *pull requests*.
 
 ### Ligas {-}
-Correo: teresa.ortiz.mancera@gmail.com, maria.ortiz@itam.mx 
+Correo: teresa.ortiz.mancera@gmail.com, maria.ortiz@itam.mx   
 Notas: https://tereom.github.io/est-computacional-2018/    
-GitHub: https://github.com/tereom/est-computacional-2018
-
+GitHub: https://github.com/tereom/est-computacional-2018  
+ 
 ### Temario {-}
 
 1. **Manipulación y visualización de datos**
@@ -84,7 +84,8 @@ Referencias: @kruschke, @gelman-bayesian.
 
 ### Calificación {-}
 
-Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial (proyecto y exámen en clase) 40%, Examen final 40%.
+Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial 
+(proyecto y exámen en clase) 40%, Examen final 40%.
 
 ### Software {-}
 
@@ -94,4 +95,14 @@ Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial
 
 ### Otros {-}
 
-Socrative: https://b.socrative.com/login/student/ Room: ESTCOMP
+* [Socrative](https://b.socrative.com/login/student/) Room: **ESTCOMP** 
+Para encuestas y ejercicios en clase.
+
+* [DataCamp](https://www.datacamp.com/home): Tenemos una cuenta de *DataCamp 
+para clases* que les da acceso gratuito a todos los recursos de DataCamp a lo 
+largo del semestre.
+
+* [Registro correos](https://docs.google.com/spreadsheets/d/1cwi_5wV03gQ_0DqzK3hRGk70Pu3-dnIEF6He_eGAJAc/edit?usp=sharing): 
+Si quieres recibir noticias del curso y/o solicitar suscripción gratuita a 
+DataCamp registra tu correo en este documento.
+
