@@ -141,11 +141,13 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.068"
+#> [1] "0.066"
 ```
 
 
-## Muestras aleatorias
+## El principio del plug-in
+
+### Muestras aleatorias {-} 
 
 Supongamos que tenemos una población finita o _universo_ $U$, conformado
 por unidades individuales con propiedades que nos gustaría aprender (opinión 
@@ -256,8 +258,6 @@ mean(primaria_muestra$esp_3)
 La media muestral es una estadística descriptiva de la muestra, pero también la
 podemos usar para describir a la población de escuelas. 
 
-## El principio del _plug-in_
-
 Al usar la media observada para describir a la población estamos aplicando el 
 principio del *plug-in* que dice que una característica dada de una distribución
 puede ser aproximada por la equivalente evaluada en la distribución empírica de 
@@ -357,7 +357,7 @@ observaciones $\textbf{x}$ está también contenida en $P_n$.
 una muestra aleatoria de la distribución $P$, este no es siempre el caso 
 (e.g. si tenemos una serie de tiempo).
 
-#### Parámetros y estadísticas {-}
+### Parámetros y estadísticas {-}
 
 Cuando aplicamos teoría estadística a problemas reales, es común que las 
 respuestas estén dadas en términos de distribuciones de probabilidad. Por 
@@ -482,7 +482,7 @@ El principio del _plug-in_ provee de una estimación más no habla de precisión
 usaremos el bootstrap para estudiar el sesgo y el error estándar del 
 estimador _plug-in_ $\hat{\theta}=t(P_n)$. 
 
-## Distribuciones muestrales y errores estándar
+### Distribuciones muestrales y errores estándar {-}
 
 <div class="caja">
 La **distribución muestral** de una estadística es la distribución de 
@@ -807,7 +807,7 @@ entre la calificación de $y=$esp_3 y la de $z=$esp_6:
 $\hat{corr}(y,z)=0.9$. ¿Qué tan precisa es esta estimación? 
 
 
-## Variación en distribuciones bootstrap
+### Variación en distribuciones bootstrap {-}
 
 En el proceso de estimación bootstrap hay dos fuentes de variación pues:
 
@@ -1072,7 +1072,7 @@ $\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su
 variabilidad calculando el error estándar de cada una.
 
 
-## Más alla de muestras aleatorias simples
+### Más alla de muestras aleatorias simples {-}
 
 Introdujimos el bootstrap en el contexto de muestras aleatorias, esto es,
 suponiendo que las observaciones son independientes; en este escenario basta con
@@ -1395,7 +1395,8 @@ enigh_boot %>%
 #> 2 TRUE         35259.          1988.
 ```
 
-Sub-poblaciones como "jefas de familia mayores a 50" se conocen como un dominio, esto es
+Sub-poblaciones como "jefas de familia mayores a 50" se conocen como un dominio, 
+esto es
 un subgrupo cuyo tamaño de muestra es aleatorio. Este ejemplo nos recalca la 
 importancia de considerar el proceso en que se generó la muestra para calcular 
 los errores estándar bootstrap.
@@ -1424,7 +1425,7 @@ la muestra se seleccionó sin reemplazo.
 (deocumento)[http://www.isr.umich.edu/src/smp/asda/first_stage_ve_new.pdf]
 -->
 
-### Intervalos de confianza
+## Intervalos de confianza
 
 Hasta ahora hemos discutido la idea detrás del bootstrap y como se puede usar 
 para estimar errores estándar. Comenzamos con el error estándar pues es la 
