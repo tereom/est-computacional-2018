@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  <meta name="github-repo" content="tereom/est-computacional-2018" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  
+
+<meta name="author" content="María Teresa Ortiz">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="introduccion.html">
+<link rel="next" href="introduccion-a-r-y-al-paquete-ggplot2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.2/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.5/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.5/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.5/profvis.js"></script>
+<script src="libs/plotly-binding-4.8.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.39.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.39.2/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html"><i class="fa fa-check"></i>Temario</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduccion-a-visualizacion.html"><a href="introduccion-a-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Introducción a visualización</a><ul>
+<li class="chapter" data-level="" data-path="introduccion-a-visualizacion.html"><a href="introduccion-a-visualizacion.html#el-cuarteto-de-ascombe"><i class="fa fa-check"></i>El cuarteto de Ascombe</a></li>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-de-datos-en-la-estadistica"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a><ul>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#principios-generales-del-diseno-analitico"><i class="fa fa-check"></i>Principios generales del diseño analítico</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#tecnicas-de-visualizacion"><i class="fa fa-check"></i>Técnicas de visualización</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#indicadores-de-calidad-grafica"><i class="fa fa-check"></i>Indicadores de calidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#factor-de-engano-chartjunk-y-pies"><i class="fa fa-check"></i>Factor de engaño, chartjunk y pies</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#series-de-tiempo-y-promedio-de-45"><i class="fa fa-check"></i>Series de tiempo y promedio de 45</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#pequenos-multiplos-y-densidad-grafica"><i class="fa fa-check"></i>Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#tinta-de-datos"><i class="fa fa-check"></i>Tinta de datos</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#percepcion-de-escala"><i class="fa fa-check"></i>Percepción de escala</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#minard"><i class="fa fa-check"></i>Minard</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduccion-a-r-y-al-paquete-ggplot2.html"><a href="introduccion-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#r-en-analisis-de-datos"><i class="fa fa-check"></i>R en análisis de datos</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i>Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#recursos"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html"><i class="fa fa-check"></i><b>2.2</b> Visualización con ggplot2</a><ul>
+<li class="chapter" data-level="" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html#recursos-1"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manipulacion-y-agrupacion-de-datos.html"><a href="manipulacion-y-agrupacion-de-datos.html"><i class="fa fa-check"></i><b>3</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html"><i class="fa fa-check"></i><b>3.1</b> Transformación de datos</a><ul>
+<li><a href="transformacion-de-datos.html#separa-aplica-combina-split-apply-combine">Separa-aplica-combina (<em>split-apply-combine</em>)</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ejemplos-y-lectura-de-datos"><i class="fa fa-check"></i>Ejemplos y lectura de datos</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#filtrar"><i class="fa fa-check"></i>Filtrar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#seleccionar"><i class="fa fa-check"></i>Seleccionar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ordenar"><i class="fa fa-check"></i>Ordenar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#mutar"><i class="fa fa-check"></i>Mutar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#summarise-y-resumenes-por-grupo"><i class="fa fa-check"></i>Summarise y resúmenes por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#operador-pipeline"><i class="fa fa-check"></i>Operador pipeline</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#variables-por-grupo"><i class="fa fa-check"></i>Variables por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#verbos-de-dos-tablas"><i class="fa fa-check"></i>Verbos de dos tablas</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-mas-de-una-variable"><i class="fa fa-check"></i>Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#mas-de-un-tipo-de-observacion-en-una-misma-tabla"><i class="fa fa-check"></i>Mas de un tipo de observación en una misma tabla</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas"><i class="fa fa-check"></i>Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones.html"><a href="funciones.html"><i class="fa fa-check"></i><b>4.1</b> Funciones</a><ul>
+<li class="chapter" data-level="" data-path="funciones.html"><a href="funciones.html#estructura-de-una-funcion"><i class="fa fa-check"></i>Estructura de una función</a></li>
+<li class="chapter" data-level="" data-path="funciones.html"><a href="funciones.html#observaciones-del-uso-de-funciones"><i class="fa fa-check"></i>Observaciones del uso de funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteracion.html"><a href="iteracion.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html"><i class="fa fa-check"></i><b>5</b> Introducción a probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-como-extension-a-proporcion.html"><a href="probabilidad-como-extension-a-proporcion.html"><i class="fa fa-check"></i>Probabilidad como extensión a proporción</a></li>
+<li class="chapter" data-level="5.1" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.1</b> Interpretación frecuentista de probabilidad</a></li>
+<li class="chapter" data-level="5.2" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.2</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.3" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.3</b> Variables aleatorias</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="bootstrap-no-parametrico.html"><a href="bootstrap-no-parametrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
+<li class="chapter" data-level="6.1" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.1</b> El principio del plug-in</a><ul>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#muestras-aleatorias"><i class="fa fa-check"></i>Muestras aleatorias</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#funcion-de-distribucion-empirica"><i class="fa fa-check"></i>Función de distribución empírica</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#parametros-y-estadisticas"><i class="fa fa-check"></i>Parámetros y estadísticas</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#distribuciones-muestrales-y-errores-estandar"><i class="fa fa-check"></i>Distribuciones muestrales y errores estándar</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html"><i class="fa fa-check"></i><b>6.2</b> El estimador bootstrap del error estándar</a><ul>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html#variacion-en-distribuciones-bootstrap"><i class="fa fa-check"></i>Variación en distribuciones bootstrap</a></li>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html#mas-alla-de-muestras-aleatorias-simples"><i class="fa fa-check"></i>Más alla de muestras aleatorias simples</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="6.4" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.4</b> Bootstrap en R</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="teoria-basica-de-simulacion.html"><a href="teoria-basica-de-simulacion.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i><b>7.3.1</b> Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="7.3.2" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-1"><i class="fa fa-check"></i><b>7.3.2</b> Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
+<li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
+<li class="chapter" data-level="" data-path="probabilidad.html"><a href="probabilidad.html"><i class="fa fa-check"></i>4-Probabilidad</a></li>
+<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5-Bootstrap</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="teoria-de-visualizacion-de-datos" class="section level2">
+<h2><span class="header-section-number">1.2</span> Teoría de visualización de datos</h2>
+<p>Existe teoría fundamentada acerca de la visualización. Después del trabajo
+pionero de Tukey, los principios e indicadores de Tufte se basan en un estudio
+de la historia de la graficación y ejercicios de muestreo de la práctica gráfica
+a lo largo de varias disciplinas (¿cuáles son las mejores gráficas? ¿por qué?
+El trabajo de Cleveland es orientado a la práctica del análisis de datos
+(¿cuáles gráficas nos han ayudado a mostrar claramente los resultados del
+análisis?), por una parte, y a algunos estudios de percepción visual.</p>
+<div id="principios-generales-del-diseno-analitico" class="section level3 unnumbered">
+<h3>Principios generales del diseño analítico</h3>
+<p>Aplicables a una presentación o análisis completos, y como guía para construir
+nuevas visualizaciones <span class="citation">(Tufte <a href="#ref-tufte06">2006</a>)</span>.</p>
+<div class="caja">
+<p><strong>Principio 1.</strong> Muestra comparaciones, contrastes, diferencias.<br />
+<strong>Principio 2.</strong> Muestra causalidad, mecanismo, explicación, estructura
+sistemática.<br />
+<strong>Principio 3.</strong> Muestra datos multivariados, es decir, más de una o dos
+variables.<br />
+<strong>Principio 4.</strong> Integra palabras, números, imágenes y diagramas.<br />
+<strong>Principio 5.</strong> Describe la totalidad de la evidencia. Muestra fuentes usadas
+y problemas relevantes.<br />
+<strong>Principio 6.</strong> Las presentaciones analíticas, a fin de cuentas, se sostienen o
+caen dependiendo de la calidad, relevancia e integridad de su contenido.</p>
+</div>
+</div>
+<div id="tecnicas-de-visualizacion" class="section level3 unnumbered">
+<h3>Técnicas de visualización</h3>
+<p>Esta categoría incluye técnicas específicas que dependen de la forma de nuestros
+datos y el tipo de pregunta que queremos investigar (<span class="citation">Tukey (<a href="#ref-tukey77">1977</a>)</span>, <span class="citation">Cleveland (<a href="#ref-cleveland93">1993</a>)</span>,
+<span class="citation">Cleveland (<a href="#ref-cleveland94">1994</a>)</span>, <span class="citation">Tufte (<a href="#ref-tufte06">2006</a>)</span>).</p>
+<div class="caja">
+<p><strong>Tipos de gráficas:</strong> cuantiles, histogramas, caja y brazos, gráficas de
+dispersión, puntos/barras/ líneas, series de tiempo.<br />
+<strong>Técnicas para mejorar gráficas:</strong> Transformación de datos, transparencia,
+vibración, banking 45, suavizamiento y bandas de confianza.<br />
+<strong>Pequeños múltiplos</strong><br />
+<strong>Tablas</strong></p>
+</div>
+</div>
+<div id="indicadores-de-calidad-grafica" class="section level3 unnumbered">
+<h3>Indicadores de calidad gráfica</h3>
+<p>Aplicables a cualquier gráfica en particular. Estas son guías concretas y
+relativamente objetivas para evaluar la calidad de una gráfica <span class="citation">(Tufte <a href="#ref-tufte86">1986</a>)</span>.</p>
+<div class="caja">
+<p><strong>Integridad Gráfica.</strong> El factor de engaño, es decir, la distorsión gráfica de
+las cantidades representadas, debe ser mínimo.<br />
+<strong>Chartjunk.</strong> Minimizar el uso de decoración gráfica que interfiera con la
+interpretación de los datos: 3D, rejillas, rellenos con patrones.<br />
+<strong>Tinta de datos.</strong> Maximizar la proporción de tinta de datos vs. tinta total de
+la gráfica. <em>For non-data- ink, less is more. For data-ink, less is a bore.</em><br />
+<strong>Densidad de datos.</strong> Las mejores gráficas tienen mayor densidad de datos, que
+es la razón entre el tamaño del conjunto de datos y el área de la gráfica. Las
+gráficas se pueden encoger mucho. Percepción visual. Algunas tareas son más
+fáciles para el ojo humano que otras <span class="citation">(Cleveland <a href="#ref-cleveland94">1994</a>)</span>.</p>
+</div>
+</div>
+<div id="factor-de-engano-chartjunk-y-pies" class="section level3 unnumbered">
+<h3>Factor de engaño, chartjunk y pies</h3>
+<div style="float:right;position: relative; top: -10px;width:140px">
+<p><img src="imagenes/pies.jpg" /></p>
+</div>
+<p>El <strong>factor de engaño</strong> es el cociente entre el efecto mostrado en una gráfica y
+el efecto correspondiente en los datos. Idealmente, el factor de engaño debe ser
+1 (ninguna distorsión).<br />
+El <strong>chartjunk</strong> son aquellos elementos gráficos que no corresponden a variación
+de datos, o que entorpecen la interpretación de una gráfica.<br />
+Estos son los indicadores de calidad más fáciles de entender y aplicar, y
+afortunadamente cada vez son menos comunes.</p>
+<p>Un diseño popular que califica como chartjunk y además introduce factores de
+engaño es el pie de 3D. En la gráfica de la derecha, podemos ver como la
+rebanada C se ve más grande que la rebanada A, aunque claramente ese no es el
+caso (factor de engaño). La razón es la variación en la perspectiva que no
+corresponde a variación en los datos (chartjunk).</p>
+<p>Corregimos quitando el efecto 3D. Esto reduce el factor de engaño pero hay
+todavía elementos que pueden mejorar la comprensión: se trata de la
+decodificiacion que hay que hacer categoría - color - cuantificación. Podemos
+agregar las etiquetas como se muestra en la serie de la derecha, pero entonces:
+¿por qué no mostrar simplemente la tabla de datos? ¿qué agrega el pie a la
+interpretación?</p>
+<p>La deficiencias en el pie se pueden ver claramente al intentar graficar más
+categorías (13) . En el primer pie no podemos distinguir realmente cuáles son
+las categorías grandes y cuáles las chicas, y es muy difícil tener una imagen
+mental clara de estos datos. Agregar los porcentajes ayuda, pero entonces, otra
+vez, preguntamos cuál es el propósito del pie. La tabla de la izquierda hace
+todo el trabajo (una vez que ordenamos las categrías de la más grande a la más
+chica). Es posible hacer una gráfica de barras como la de abajo a la izquierda.</p>
+<div style="clear:both">
+
+</div>
+<div style="float:left;top: -10px;width:110px">
+<p><img src="imagenes/barras_pie.jpg" /></p>
+</div>
+<p>Hay otros tipos de chartjunk comunes: uno es la textura de barras, por ejemplo.
+El efecto es la producción de un efecto moiré que es desagradable y quita la
+atención de los datos, como en la gráfica de barras de abajo. Otro común son las
+rejillas, como mostramos en las gráficas de la izquierda. Nótese como en estos
+casos hay efectos ópticos no planeados que degradan la percepción de los
+patrones en los datos.</p>
+<p><img src="imagenes/barras_moire.jpg" /></p>
+</div>
+<div id="series-de-tiempo-y-promedio-de-45" class="section level3 unnumbered">
+<h3>Series de tiempo y promedio de 45</h3>
+<p>Las series de tiempo son una especie particular de las gráficas de dispersión,
+en donde la dimensión horizontal es el tiempo. Buscamos entender cómo varía una
+medición dada en el tiempo. Estas gráficas son mas útiles cuando se construyen
+usando el principio del promedio de 45 grados: los patrones de variación en el
+tiempo se distinguen mejor (aproximadamente) cuando el promedio de pendiente (en
+valor absoluto) en las gráficas está cercano a 45 grados. El siguiente ejempo,
+que muestra la actividad de manchas solares del sol, muestra claramente este
+principio:</p>
+<p><img src="imagenes/series_45.jpg" /></p>
+<p>Espto también es un principio para decidir la razón de aspecto de cualquier
+gráfica de dispersión (y también gráficas de barras). Esta regla supera el
+principio de que “las escalas deben comenzar en cero”. En realidad este
+último principio cuida contra dos errores en la graficación: no poner atención a
+la escala e intentar comparar gráficas que no están dibujadas en la misma
+escala. Poniendo atención a estos dos aspectos (incluso llamado a veces la
+atención a estos puntos, Stephen Few) no hay necesidad de seguir la regla del 0.</p>
+<div style="width:400px">
+<p><img src="imagenes/principio_cero.jpg" /></p>
+</div>
+<div style="clear:both">
+
+</div>
+</div>
+<div id="pequenos-multiplos-y-densidad-grafica" class="section level3 unnumbered">
+<h3>Pequeños múltiplos y densidad gráfica</h3>
+<p>La densidad de una gráfica es el tamaño del conjunto de datos que se grafica
+comparado con el área total de la gráfica. En el siguiente ejemplo, graficamos
+en logaritmo-10 de cabezas de ganado en Francia (cerdos, res, ovejas y
+caballos). La gráfica de la izquierda es pobre en densidad pues sólo representa
+4 datos. La manera más fácil de mejorar la densidad es hacer más chica la
+gráfica:</p>
+<div style="width=450px">
+<p><img src="imagenes/france_plot.jpg" /></p>
+</div>
+<p>La razón de este encogimiento es una que tiene qué ver con las oportunidades perdidas de una gráfica grande. Si repetimos este mismo patrón (misma escala, mismos tipos de ganado) para distintos países obtenemos la siguiente gráfica:</p>
+<div style="float:left;top: -10px;width:500px">
+<p><img src="imagenes/europe_plot.jpg" /></p>
+</div>
+<p>Esta es una gráfica de puntos. Es útil como sustituto de una gráfica de barras,
+y es superior en el sentido de que una mayor proporción de la tinta que se usa
+es tinta de datos. Otra vez, mayor proporción de tinta de datos representa más
+oportunidades que se pueden capitalizar, como muestra la gráfica de punto y
+líneas que mostramos al principio (rendimiento en campos de cebada).</p>
+</div>
+<div id="tinta-de-datos" class="section level3 unnumbered">
+<h3>Tinta de datos</h3>
+<p>Maximizar la proporción de tinta de datos en nuestras gráficas tiene beneficios
+inmediatos. La regla es: si hay tinta que no representa variación en los datos,
+o la eliminación de esa tinta no representa pérdidas de significado, esa tinta
+debe ser eliminada. El ejemplo más claro es el de las rejillas en gráficas y
+tablas:</p>
+<p><img src="imagenes/tinta_datos.jpg" /></p>
+<div style="float:left;top: -10px">
+<p><img src="imagenes/tabla_tinta_datos.jpg" /></p>
+</div>
+<p>¿Por qué usar grises en lugar de negros? La respuesta tiene qué ver con el
+principio de tinta de datos: si marcamos las diferencias sutil pero claramente,
+tenemos más oportunidades abiertas para hacer énfasis en lo que nos interesa: a
+una gráfica o tabla saturada no se le puede hacer más - es difícil agregar
+elementos adicionales que ayuden a la comprensión. Si comenzamos marcando con
+sutileza, entonces se puede hacer más. Los mapas geográficos son un buen ejemplo
+de este principio.</p>
+<p>El espacio en blanco es suficientemente bueno para indicar las fronteras en una
+tabla, y facilita la lectura:</p>
+<p><img src="imagenes/tabla_2_tinta_datos.jpg" /></p>
+</div>
+<div id="percepcion-de-escala" class="section level3 unnumbered">
+<h3>Percepción de escala</h3>
+<p>Entre la percepción visual y la interpretación de una gráfica están implícitas
+tareas visuales específicas que las personas debemos realizar para ver
+correctamente la gráfica. En la década de los ochenta, William S. Cleveland y
+Robert McGill realizaron algunos experimentos identificando y clasificando estas
+tareas para diferentes tipos de gráficos <span class="citation">(Cleveland and McGill <a href="#ref-cleveland84">1984</a>)</span>.
+En estos, se le pregunta a la persona que compare dos valores dentro de una
+gráfica, por ejemplo, en dos barras en una gráfica de barras, o dos rebanadas de
+una gráfica de pie.</p>
+<p><img src="imagenes/cleveland_tasks.png" /></p>
+<p>Los resultados de Cleveland y McGill fueron replicados por Heer y Bostock en
+2010 y los resultados se muestran en las gráficas de la derecha:</p>
+<div style="float:left;top:-10px;width:400px">
+<p><img src="imagenes/heer-bostock_results.png" /></p>
+</div>
+<div style="clear:both">
+
+</div>
+</div>
+<div id="minard" class="section level3 unnumbered">
+<h3>Minard</h3>
+<p>Concluimos esta sección con una gráfica que, aunque poco común, ejemplifica
+los principios de una buena gráfica, y es reconocida como una de las mejores
+visualizaciones de la historia.</p>
+<blockquote>
+<p>Una gráfica excelente, presenta datos interesantes de forma bien
+diseñada: es una cuestión de fondo, de diseño, y estadística… [Se] compone de
+ideas complejas comunicadas con claridad, precisión y eficiencia. … [Es] lo
+que da al espectador la mayor cantidad de ideas, en el menor tiempo, con
+la menor cantidad de tinta, y en el espacio más pequeño. … Es casi siempre
+multivariado. … Una excelente gráfica debe decir la verdad acerca de los
+datos. (Tufte, 1983)</p>
+</blockquote>
+<p>La famosa visualización de Charles Joseph Minard de la marcha de Napoleón sobre
+Moscú, ilustra los principios de una buena gráfica. Tufte señala que esta imagen
+“bien podría ser el mejor gráfico estadístico jamás dibujado”, y sostiene que
+“cuenta una historia rica y coherente con sus datos multivariados, mucho más
+esclarecedora que un solo número que rebota en el tiempo”. Se representan seis
+variables: el tamaño del ejército, su ubicación en una superficie bidimensional,
+la dirección del movimiento del ejército y la temperatura en varias fechas
+durante la retirada de Moscú“.</p>
+<p><img src="imagenes/minard.png" /></p>
+<p>Hoy en día Minard es reconocido como uno de los principales contribuyentes a la
+teoría de análisis de datos y creación de <strong>infografías</strong> con un fundamento
+estadístico.</p>
+<p>Se grafican 6 variables: el número de tropas de Napoleón, la distancia, la
+temperatura, la latitud y la longitud, la dirección en que viajaban las tropas
+y la localización relativa a fechas específicas.</p>
+<p>La
+gráfica de Minard, como la describe E.J. Marey, parece “desafiar la pluma del
+historiador con su brutal elocuencia”, la combinación de datos del mapa, y la
+serie de tiempo, dibujados en 1869, “retratan una secuencia de pérdidas
+devastadoras que sufrieron las tropas de Napoleón en 1812”. Comienza en la
+izquierda, en la frontera de Polonia y Rusia, cerca del río Niemen. La línea
+gruesa dorada muestra el tamaño de la Gran Armada (422,000) en el momento en que
+invadía Rusia en junio de 1812.</p>
+<p>El ancho de esta banda indica el tamaño de la armada en cada punto del mapa. En
+septiembre, la armada llegó a Moscú, que ya había sido saqueada y dejada
+desértica, con sólo 100,000 hombres.</p>
+<p>El camino del retiro de Napoleón desde Moscú está representado por la línea
+oscuara (gris) que está en la parte inferior, que está relacionada a su vez con
+la temperatura y las fechas en el diagrama de abajo. Fue un invierno muy frío,
+y muchos se congelaron en su salida de Rusia. Como se muestra en el mapa, cruzar
+el río Berezina fue un desastre, y el ejército de Napoleón logró regresar a
+Polonia con tan sólo 10,000 hombres.</p>
+<p>También se muestran los movimientos de las tropas auxiliaries, que buscaban
+proteger por atrás y por la delantera mientras la armada avanzaba hacia Moscú.
+La gráfica de Minard cuenta una historia rica y cohesiva, coherente con datos
+multivariados y con los hechos históricos, y que puede ser más ilustrativa que
+tan sólo representar un número rebotando a lo largo del tiempo.</p>
+</div>
+</div>
+<!-- </div> -->
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-tufte06">
+<p>Tufte, Edward R. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
+</div>
+<div id="ref-tukey77">
+<p>Tukey, J.W. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Series in Behavioral Science. Addison-Wesley Publishing Company. <a href="https://books.google.com.mx/books?id=UT9dAAAAIAAJ" class="uri">https://books.google.com.mx/books?id=UT9dAAAAIAAJ</a>.</p>
+</div>
+<div id="ref-cleveland93">
+<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
+</div>
+<div id="ref-cleveland94">
+<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p> 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
+</div>
+<div id="ref-tufte86">
+<p>Tufte, Edward R. 1986. <em>The Visual Display of Quantitative Information</em>. Cheshire, CT, USA: Graphics Press.</p>
+</div>
+<div id="ref-cleveland84">
+<p>Cleveland, William S., and Robert McGill. 1984. “Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.” <em>Journal of the American Statistical Association</em> 79 (387). American Statistical Association:pp. 531–54. <a href="http://www.jstor.org/stable/2288400" class="uri">http://www.jstor.org/stable/2288400</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduccion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introduccion-a-r-y-al-paquete-ggplot2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"text": "Edit"
+},
+"download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

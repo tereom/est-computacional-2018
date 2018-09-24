@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="rendimiento-en-r.html">
-<link rel="next" href="interpretacion-frecuentista-de-probabilidad.html">
+<link rel="next" href="probabilidad-como-extension-a-proporcion.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -53,6 +53,12 @@
 <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
 <script src="libs/highlight-6.2.0/highlight.js"></script>
 <script src="libs/profvis-binding-0.3.5/profvis.js"></script>
+<script src="libs/plotly-binding-4.8.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.39.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.39.2/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -141,28 +147,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#ligas"><i class="fa fa-check"></i>Ligas</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#temario"><i class="fa fa-check"></i>Temario</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software"><i class="fa fa-check"></i>Software</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#otros"><i class="fa fa-check"></i>Otros</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html"><i class="fa fa-check"></i>Temario</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="introducciona-a-visualizacion.html"><a href="introducciona-a-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Introduccióna a visualización</a><ul>
-<li class="chapter" data-level="" data-path="introducciona-a-visualizacion.html"><a href="introducciona-a-visualizacion.html#el-cuarteto-de-ascombe"><i class="fa fa-check"></i>El cuarteto de Ascombe</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduccion-a-visualizacion.html"><a href="introduccion-a-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Introducción a visualización</a><ul>
+<li class="chapter" data-level="" data-path="introduccion-a-visualizacion.html"><a href="introduccion-a-visualizacion.html#el-cuarteto-de-ascombe"><i class="fa fa-check"></i>El cuarteto de Ascombe</a></li>
 <li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
 <li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-de-datos-en-la-estadistica"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
 <li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos (Tufte, Cleveland, Tukey)</a><ul>
-<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#principios-generales-del-diseno-analitico"><i class="fa fa-check"></i>Principios generales del diseño analítico</a></li>
-<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#tecnicas-de-visualizacion"><i class="fa fa-check"></i>Técnicas de visualización</a></li>
-<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#indicadores-de-calidad-grafica"><i class="fa fa-check"></i>Indicadores de calidad gráfica</a></li>
-<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#factor-de-engano-chartjunk-y-pies"><i class="fa fa-check"></i>Factor de engaño, chartjunk y pies</a></li>
-<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#series-de-tiempo-y-promedio-de-45"><i class="fa fa-check"></i>Series de tiempo y promedio de 45</a></li>
-<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#pequenos-multiplos-y-densidad-grafica"><i class="fa fa-check"></i>Pequeños múltiplos y densidad gráfica</a></li>
-<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#tinta-de-datos"><i class="fa fa-check"></i>Tinta de datos</a></li>
-<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#percepcion-de-escala"><i class="fa fa-check"></i>Percepción de escala</a></li>
-<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html"><a href="teoria-de-visualizacion-de-datos-tufte-cleveland-tukey.html#minard"><i class="fa fa-check"></i>Minard</a></li>
+<li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a><ul>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#principios-generales-del-diseno-analitico"><i class="fa fa-check"></i>Principios generales del diseño analítico</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#tecnicas-de-visualizacion"><i class="fa fa-check"></i>Técnicas de visualización</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#indicadores-de-calidad-grafica"><i class="fa fa-check"></i>Indicadores de calidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#factor-de-engano-chartjunk-y-pies"><i class="fa fa-check"></i>Factor de engaño, chartjunk y pies</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#series-de-tiempo-y-promedio-de-45"><i class="fa fa-check"></i>Series de tiempo y promedio de 45</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#pequenos-multiplos-y-densidad-grafica"><i class="fa fa-check"></i>Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#tinta-de-datos"><i class="fa fa-check"></i>Tinta de datos</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#percepcion-de-escala"><i class="fa fa-check"></i>Percepción de escala</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#minard"><i class="fa fa-check"></i>Minard</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="introduccion-a-r-y-al-paquete-ggplot2.html"><a href="introduccion-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
@@ -214,6 +220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html"><i class="fa fa-check"></i><b>5</b> Introducción a probabilidad</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-como-extension-a-proporcion.html"><a href="probabilidad-como-extension-a-proporcion.html"><i class="fa fa-check"></i>Probabilidad como extensión a proporción</a></li>
 <li class="chapter" data-level="5.1" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.1</b> Interpretación frecuentista de probabilidad</a></li>
 <li class="chapter" data-level="5.2" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.2</b> Simulación para el cálculo de probabilidades</a></li>
 <li class="chapter" data-level="5.3" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.3</b> Variables aleatorias</a></li>
@@ -231,6 +238,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
 <li class="chapter" data-level="6.4" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.4</b> Bootstrap en R</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="teoria-basica-de-simulacion.html"><a href="teoria-basica-de-simulacion.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i><b>7.3.1</b> Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="7.3.2" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-1"><i class="fa fa-check"></i><b>7.3.2</b> Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -274,6 +297,7 @@ probabilidad.<br />
 <li>Interpretación frecuentista de probabilidad.</li>
 <li>Variables aleatorias: a qué se refieren.</li>
 </ol>
+<p>Las referencias para esta sección son <span class="citation">Pitman (<a href="#ref-pitman-prob">1992</a>)</span>, <span class="citation">Ross (<a href="#ref-ross">1998</a>)</span> y <span class="citation">Wasserman (<a href="#ref-wasserman">2010</a>)</span>.</p>
 <!-- Hadley:
 "Probabilidad es la maquinaria matemática necesaria para responder preguntas de
 eventos inciertos"
@@ -288,78 +312,19 @@ partir del conocimiento de una parte del fenómeno pretende establecer sus propi
 para lo cual forzosamente debe utilizar algún modelo probabilístico que describa
 el fenómeno. Es esta dependencia de la estadística con la teoría de probabilidad lo que justifica profundizar el estudio de esta ultima.
 
--->
-<div id="espacio-de-resultados-y-eventos" class="section level4 unnumbered">
-<h4>Espacio de resultados y eventos</h4>
-<div class="caja">
-<p>El <strong>espacio de resultados</strong> <span class="math inline">\(\Omega\)</span> es el conjunto de posibles resultados de un
-experimento aleatorio. A los puntos <span class="math inline">\(\omega \in \Omega\)</span> se les conoce como
-resultados muestrales, realizaciones o elementos.</p>
+--> 
 </div>
-<p>Ejemplo: Si lanzamos una moneda dos veces entonces el espacio de resultados es:</p>
-<p><span class="math display">\[\Omega = \{AA, AS, SA, SS \}\]</span></p>
-<div class="caja">
-<p>Un <strong>evento</strong> es un subconjunto del espacio muestral, los eventos usualmente se
-denotan por letras mayúsculas.</p>
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-pitman-prob">
+<p>Pitman, Jim. 1992. <em>Probability</em>. <a href="http://www.amazon.ca/Probability-Jim-Pitman/dp/0387979743/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1200243180&amp;sr=1-1" class="uri">http://www.amazon.ca/Probability-Jim-Pitman/dp/0387979743/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1200243180&amp;sr=1-1</a>.</p>
 </div>
-<p>El evento: que la primer lanzamiento resulte águila es</p>
-<p><span class="math display">\[A=\{AA, AS\}\]</span></p>
+<div id="ref-ross">
+<p>Ross, Sheldon M. 1998. <em>A First Course in Probability</em>. Fifth. Upper Saddle River, N.J.: Prentice Hall.</p>
 </div>
-<div id="eventos-equiprobables" class="section level4 unnumbered">
-<h4>Eventos equiprobables</h4>
-<p>Históricamente la primera aproximación a la probabilidad ocurrió con apuestas y
-juegos de azar, y se veía como una extensión de la idea de proporción, o
-cociente de una parte con respecto a un todo.</p>
-<p>Por ejemplo, si en la carrera de matemáticas del ITAM hay 300 estudiantes
-hombres y 700 mujeres, la proporción de hombres es:</p>
-<p><span class="math display">\[\frac{300}{700+300}=0.3\]</span>
-Ahora, supongamos que elegimos un estudiante al azar, la probabilidad de elegir
-una mujer es <span class="math inline">\(0.7\)</span>.</p>
-<p>En el ejemplo hay un supuesto implícito en elegir al azar (o aleatoriamente),
-en este caso estamos suponiendo que todos los estudiantes tienen la misma
-probabilidad de ser elegidos, que nos lleva al siguiente concepto:</p>
-<div class="caja">
-<p><strong>Eventos equiprobables</strong>. Si todos los elementos en el espacio de resultados
-tienen la misma oportunidad de ser elegidos entonces la probabilidad del evento A
-es el número de resultados en A dividido entre el número total de posibles
-resultados:</p>
+<div id="ref-wasserman">
+<p>Wasserman, Larry. 2010. <em>All of Statistics: A Concise Course in Statistical Inference</em>. Springer Publishing Company, Incorporated.</p>
 </div>
-<p><span class="math display">\[P(A)=\frac{\#(A)}{\#(\Omega)}\]</span></p>
-<p>Por lo que solo hace falta contar.</p>
-<p>Por ejemplo, la probabilidad de obtener <span class="math inline">\(AA\)</span> si lanzamos una moneda dos veces
-es <span class="math inline">\(1/4 = 0.25\)</span>, y la probabilidad del evento que la primer lanzamiento resulte
-águila es <span class="math inline">\(2/4 = 0.5\)</span>.</p>
-<p><img src="../imagenes/manicule2.jpg" /> Lanzamos un dado y anotamos el número de la cara
-superior, después lanzamos otro dado y anotamos el número de la cara superior.</p>
-<ul>
-<li><p>¿Cuál es el espacio de resultados?</p></li>
-<li><p>¿Cuál es la probabilidad de que la suma de los números sea 5?</p></li>
-<li><p>¿Cuál es la probabilidad de que el segundo número sea mayor que el primero?</p></li>
-<li><p>Repite las preguntas anteriores cuando lanzas 2 dados con <span class="math inline">\(n\)</span> caras (<span class="math inline">\(n \ge 4\)</span>).</p></li>
-</ul>
-</div>
-<div id="ejemplo-combinaciones" class="section level4 unnumbered">
-<h4>Ejemplo: combinaciones</h4>
-<p>Un comité de 5 personas será seleccionado de un grupo de 6 hombres y 9 mujeres.
-Si la selección es aleatoria, ¿cuál es la probabilidad de que el comité este
-conformado por 3 hombres y 2 mujeres?</p>
-<p>Hay <span class="math inline">\(\dbinom{15}{5}\)</span> posibles comités, cada uno tiene la misma posibilidad de
-ser seleccionado. Por otra parte, hay <span class="math inline">\(\dbinom{6}{3} \dbinom{9}{2}\)</span> posibles
-comités que incluyen 3 hombres y 2 mujeres, por
-lo tanto, la probabilidad que buscamos es:
-<span class="math display">\[\frac{\dbinom{6}{3} \dbinom{9}{2}}{\dbinom{15}{5}} \]</span></p>
-<p>y la función para calcular combinaciones en R es <em>choose(n, r)</em></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">choose</span>(<span class="dv">6</span>, <span class="dv">3</span>) <span class="op">*</span><span class="st"> </span><span class="kw">choose</span>(<span class="dv">9</span>, <span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">choose</span>(<span class="dv">15</span>, <span class="dv">5</span>)
-<span class="co">#&gt; [1] 0.24</span></code></pre>
-<p>Los solución a problemas derivados de juegos de azar se complica rápidamente
-y suele ser necesario conocer técnicas de conteo para resolverlos. Ahora, a
-pesar de que históricamente el desarrollo de estás técnicas surge de los juegos
-de azar, la realidad es que los jugadores en realidad estaban pensando en
-frecuencias relativas: ¿Si apuesto en un juego de dados de manera repetida,
-terminaré con ganancias o pérdidas? ¿Qué estrategia debo seguir para mejorar
-mis posibilidades de ganar? Es así que la interpretación frecuentista de la
-probabilidad estaba considerada desde un inicio.</p>
-</div> 
 </div>
             </section>
 
@@ -367,7 +332,7 @@ probabilidad estaba considerada desde un inicio.</p>
         </div>
       </div>
 <a href="rendimiento-en-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="interpretacion-frecuentista-de-probabilidad.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="probabilidad-como-extension-a-proporcion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

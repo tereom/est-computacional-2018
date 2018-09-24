@@ -4,8 +4,8 @@
 
 
 
-
-Estas notas se desarrollaron con base en @efron y abordan los siguientes temas:
+Estas notas se desarrollaron con base en @efron, adicionalmente se usaron ideas 
+de @tim. Abordamos los siguientes temas:
 
 * Muestras aleatorias  
 * El principio del _plug-in_  
@@ -18,8 +18,9 @@ población que produjo la muestra. Probabilidad va en la dirección contraria:
 de la composicion de una pob deducimos las propiedades de una muestra aleatoria
 x -->
 
-Como explican Efron y Tibshirani en *An Introduction to the bootstrap*, las 
-expicaciones del *bootstrap* y otros métodos computacionales, involucran
+#### Ejemplo: aspirina y ataques cardiacos {-}
+Como explican Efron y Tibshirani, las 
+explicaciones del *bootstrap* y otros métodos computacionales involucran
 las ideas de inferencia estadistica tradicional. Las ideas báscias no han 
 cambiado pero la implementación de estas sí.
 
@@ -29,9 +30,7 @@ Los tres conceptos básicos de estadística son:
 
 2. resúmenes (o descriptivos) de datos y
 
-3. inferencia. 
-
-#### Ejemplo: aspirina y ataques cardiacos {-}
+3. inferencia.
 
 Veamos un ejemplo de estos conceptos y como se introduce bootstrap. Usaremos 
 datos de un estudio clínico de consumo de aspirina y ataques cardiacos cuyos 
@@ -141,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.066"
+#> [1] "0.068"
 ```
 
 
@@ -229,8 +228,8 @@ glimpse(primaria)
 #> $ turno <chr> "NOCTURNO", "NOCTURNO", "NOCTURNO", "NOCTURNO", "NOCTURN...
 #> $ tipo  <chr> "GENERAL", "GENERAL", "GENERAL", "GENERAL", "GENERAL", "...
 #> $ mun   <int> 17, 28, 28, 14, 14, 17, 17, 14, 14, 14, 16, 16, 16, 16, ...
-#> $ esp_3 <dbl> 483, 571, 418, 777, 714, 659, 703, 646, 745, 700, 397, 7...
-#> $ esp_6 <dbl> 514, 456, 561, 540, 670, 570, 607, 748, 673, 645, 493, 6...
+#> $ esp_3 <dbl> 483.14, 571.03, 418.50, 776.57, 714.09, 659.04, 703.04, ...
+#> $ esp_6 <dbl> 513.98, 455.92, 561.27, 540.32, 670.00, 570.04, 606.64, ...
 set.seed(16021)
 n <- 300
 # muestra
@@ -252,7 +251,7 @@ Para español 3^o^ de primaria la media observada es
 
 ```r
 mean(primaria_muestra$esp_3)
-#> [1] 577
+#> [1] 577.27
 ```
 
 La media muestral es una estadística descriptiva de la muestra, pero también la
@@ -341,7 +340,7 @@ variable tipo de escuela, entonces la distribución empírica en la muestra es
 table(primaria_muestra$tipo) / n
 #> 
 #>    GENERAL PARTICULAR 
-#>      0.677      0.323
+#>    0.67667    0.32333
 ```
 
 Vale la pena notar que pasar de la muestra desagregada a la distribución 
@@ -397,7 +396,7 @@ completa.
 
 ```r
 cor(primaria_muestra$esp_3, primaria_muestra$esp_6)
-#> [1] 0.682
+#> [1] 0.6822
 ```
 
 Al igual que la media esto es una estimación _plug-in_. Otros ejemplos son:
@@ -408,7 +407,7 @@ de español para 3^o de primaria:
 
 ```r
 median(primaria_muestra$esp_3)
-#> [1] 562
+#> [1] 562.46
 ```
 
 * Supongamos que nos interesa estimar la probabilidad de que la calificación de 
@@ -422,7 +421,7 @@ La estimación _plug-in_ de $\hat{\theta}$ sería:
 
 ```r
 sum(primaria_muestra$esp_3 > 700) / n
-#> [1] 0.0567
+#> [1] 0.056667
 ```
 
 #### Ejemplo: dado {-}
@@ -624,7 +623,7 @@ tamaños de muestra?
 
 * En el caso de la media $\hat{\theta}=\bar{x}$ la aplicación del principio del 
 _plug-in_ para el cálculo de errores estándar es inmediata; sin embargo, hay 
-estadísticas para las cuáles no es fácil aplicar este método, 
+estadísticas para las cuáles no es fácil aplicar este método.
 
 * El método de aproximarlo con simulación, como lo hicimos en el ejercicio de 
 arriba no es factible pues en la práctica no podemos seleccionar un número 
@@ -787,7 +786,7 @@ mediaBoot <- function(x){
 }
 thetas_boot <- rerun(10000, mediaBoot(primaria_muestra$esp_3)) %>% flatten_dbl()
 sd(thetas_boot)
-#> [1] 3.86
+#> [1] 3.8618
 ```
 
 y se compara con $\hat{se}(\bar{x})$ (estimador *plug-in* del error estándar):
@@ -796,7 +795,7 @@ y se compara con $\hat{se}(\bar{x})$ (estimador *plug-in* del error estándar):
 ```r
 se <- function(x) sqrt(sum((x - mean(x)) ^ 2)) / length(x)
 se(primaria_muestra$esp_3)
-#> [1] 3.85
+#> [1] 3.8466
 ```
 
 **Nota:** Conforme $B$ aumenta $\hat{se}_{B}(\bar{x})\to \{\sum_{i=1}^n(x_i - \bar{x})^2 / n \}^{1/2}$, 
@@ -819,10 +818,13 @@ $B=\infty$, en esta caso $\hat{se}_B$ iguala la estimación _plug-in_
 $se_{P_n}$.* 
 
 En el proceso de *bootstrap* podemos controlar la variación del sgundo aspecto,
+conocida como **implementación de muestreo Monte Carlo**, y la variación 
+Monte Carlo decrece conforme incrementamos el número de muestras. 
 
-
-conocida como implementación de muestreo Monte Carlo, y la variación 
-Monte Carlo decrece conforme incrementamos el número de muestras.
+Podemos eliminar la variación Monte Carlo si seleccionamos todas las posibles
+muestras con reemplazo de tamaño $n$, hay ${2n-1}\choose{n}$ posibles muestras 
+y si seleccionamos todas obtenemos $\hat{se}_\infty$ (bootstrap ideal), sin
+embargo, en la mayor parte de los problemas no es factible proceder así.
 
 <!--
 * En la práctica para elegir el tamaño de $B$ debemos considerar que buscamos 
@@ -836,12 +838,15 @@ valor esperado, la variabilidad adicional de parar en $B$ replicaciones en lugar
 de seguir hasta infiniti se refleja en un incremento en el coeficiente de 
 variación
 -->
+Entonces, ¿cuántas muestras bootstrap? 
 
 1. Incluso un número chico de replicaciones bootstrap, digamos $B=25$ es 
 informativo, y $B=50$ con frecuencia es suficiente para dar una buena 
-estimación de $se_P(\hat{\theta})$.
+estimación de $se_P(\hat{\theta})$ (@efron).
 
-2. Cuando se busca estimar error estándar @tim recomienda $B=1000$ muestras.
+2. Cuando se busca estimar error estándar @tim recomienda $B=1000$ muestras, o 
+$B=10,000$ muestras dependiendo la presición que se busque.
+
 
 
 ```r
@@ -870,6 +875,7 @@ B_muestras
 #> 11  10000  3.83
 #> 12  20000  3.86
 ```
+
 
 
 #### Ejemplo componentes principales: calificaciones en exámenes {-}
@@ -908,10 +914,10 @@ Entonces un análisis de componentes principales proseguiría como sigue:
 pc_marks <- princomp(marks)
 summary(pc_marks)
 #> Importance of components:
-#>                        Comp.1 Comp.2  Comp.3 Comp.4 Comp.5
-#> Standard deviation     26.061 14.136 10.1276 9.1471  5.638
-#> Proportion of Variance  0.619  0.182  0.0935 0.0763  0.029
-#> Cumulative Proportion   0.619  0.801  0.8948 0.9710  1.000
+#>                          Comp.1   Comp.2    Comp.3   Comp.4   Comp.5
+#> Standard deviation     26.06114 14.13557 10.127604 9.147061 5.638077
+#> Proportion of Variance  0.61912  0.18214  0.093497 0.076269 0.028977
+#> Cumulative Proportion   0.61912  0.80126  0.894755 0.971023 1.000000
 loadings(pc_marks)
 #> 
 #> Loadings:
@@ -951,12 +957,12 @@ de la i-ésima columna).
 ```r
 G <- cov(marks) * 87 / 88
 G
-#>      MECH  VECT   ALG   ANL  STAT
-#> MECH  302 125.8 100.4 105.1 116.1
-#> VECT  126 170.9  84.2  93.6  97.9
-#> ALG   100  84.2 111.6 110.8 120.5
-#> ANL   105  93.6 110.8 217.9 153.8
-#> STAT  116  97.9 120.5 153.8 294.4
+#>        MECH    VECT    ALG     ANL    STAT
+#> MECH 302.29 125.777 100.43 105.065 116.071
+#> VECT 125.78 170.878  84.19  93.597  97.887
+#> ALG  100.43  84.190 111.60 110.839 120.486
+#> ANL  105.07  93.597 110.84 217.876 153.768
+#> STAT 116.07  97.887 120.49 153.768 294.372
 ```
 
 Los _pesos_ y las _componentes principales_ no son mas que los eigenvalores y 
@@ -970,14 +976,14 @@ eigen_G <- eigen(G)
 lambda <- eigen_G$values
 v <- eigen_G$vectors
 lambda
-#> [1] 679.2 199.8 102.6  83.7  31.8
+#> [1] 679.183 199.814 102.568  83.669  31.788
 v
-#>        [,1]    [,2]   [,3]     [,4]    [,5]
-#> [1,] -0.505  0.7487  0.300  0.29618 -0.0794
-#> [2,] -0.368  0.2074 -0.416 -0.78289 -0.1889
-#> [3,] -0.346 -0.0759 -0.145 -0.00324  0.9239
-#> [4,] -0.451 -0.3009 -0.597  0.51814 -0.2855
-#> [5,] -0.535 -0.5478  0.600 -0.17573 -0.1512
+#>          [,1]      [,2]     [,3]       [,4]      [,5]
+#> [1,] -0.50545  0.748748  0.29979  0.2961843 -0.079394
+#> [2,] -0.36835  0.207403 -0.41559 -0.7828882 -0.188876
+#> [3,] -0.34566 -0.075908 -0.14532 -0.0032363  0.923920
+#> [4,] -0.45112 -0.300888 -0.59663  0.5181397 -0.285522
+#> [5,] -0.53465 -0.547782  0.60028 -0.1757320 -0.151232
 ```
 
 1. Proponemos el siguiente modelo simple para puntajes correlacionados:
@@ -998,7 +1004,7 @@ los datos.
 ```r
 theta_hat <- lambda[1]/sum(lambda)
 theta_hat
-#> [1] 0.619
+#> [1] 0.61912
 ```
 
 El valor de $\hat{\theta}$ mide el porcentaje de la varianza explicada en la 
@@ -1039,7 +1045,7 @@ Estas tienen un error estándar
 ```r
 theta_se <- sd(thetas_boot)
 theta_se
-#> [1] 0.0484
+#> [1] 0.048405
 ```
 
 y media
@@ -1047,7 +1053,7 @@ y media
 
 ```r
 mean(thetas_boot)
-#> [1] 0.619
+#> [1] 0.61904
 ```
 
 la media de las replicaciones es muy similar a la estimación $\hat{\theta}$, 
@@ -1210,7 +1216,7 @@ el ingreso trimestral total sería:
 
 ```r
 sum(hogar$factor_hog * hogar$ing_cor / 1000)
-#> [1] 1.26e+09
+#> [1] 1257944071
 ```
 
 y ingreso trimestral medio (miles pesos)
@@ -1218,7 +1224,7 @@ y ingreso trimestral medio (miles pesos)
 
 ```r
 sum(hogar$factor_hog * hogar$ing_cor / 1000) / sum(hogar$factor_hog)
-#> [1] 39.7
+#> [1] 39.719
 ```
 
 Veamos ahora como calcular el error estándar siguiendo el bootstrap de Rao y Wu:
@@ -1300,7 +1306,7 @@ Y el error estándar:
 
 ```r
 map_dbl(boot_rep, ~media(w = .$factor_b, x = .$ing_cor)) %>% sd()
-#> [1] 946
+#> [1] 946.01
 ```
 
 
@@ -1344,17 +1350,17 @@ svyquantile(~ing_cor, enigh_boot, quantiles = seq(0.1, 1, 0.1), interval.type = 
 #> q0.9   76285
 #> q1   4150377
 #> SE:
-#>      ing_cor
-#> q0.1     144
-#> q0.2     165
-#> q0.3     193
-#> q0.4     218
-#> q0.5     239
-#> q0.6     348
-#> q0.7     484
-#> q0.8     769
-#> q0.9    1322
-#> q1   1318629
+#>         ing_cor
+#> q0.1     143.90
+#> q0.2     165.40
+#> q0.3     193.00
+#> q0.4     218.38
+#> q0.5     239.42
+#> q0.6     347.55
+#> q0.7     483.52
+#> q0.8     768.62
+#> q0.9    1322.12
+#> q1   1318629.10
 ```
 
 Supongamos que queremos calcular la media para los hogares con jefe de familia
@@ -1377,7 +1383,7 @@ hogar_mujer %>%
 #> 1 35259.
 # usamos bootstrap para calcular los errores estándar
 map_dbl(boot_rep_mujer, ~media(w = .$factor_b, x = .$ing_cor)) %>% sd()
-#> [1] 1789
+#> [1] 1788.6
 ```
 
 Comparemos con los resultados de `srvyr`. ¿qué pasa?
@@ -1406,7 +1412,7 @@ los errores estándar bootstrap.
 map_dbl(boot_rep, 
     function(x){hm <- filter(x, jefa_50); media(w = hm$factor_b, x = hm$ing_cor)}) %>% 
     sd()
-#> [1] 1965
+#> [1] 1965.4
 ```
 
 Resumiendo:
@@ -1441,22 +1447,22 @@ $\bar{x}$ se aproximará a una distribución normal:
 
 $$\bar{x} \overset{\cdot}{\sim} N(\mu_P,\sigma_P^2/n)$$
 
-Algunos ejemplos de como funciona el Teorema del Límite
-Central, la idea es ver como se aproxima la distribución muestral de la media 
+Veamos algunos ejemplos de como funciona el Teorema del Límite
+Central, buscamos ver como se aproxima la distribución muestral de la media 
 (cuando las observaciones provienen de distintas distribuciones) a una 
 Normal conforme aumenta el tamaño de muestra. Para esto, aproximamos la 
-distribución muestral de la media usando simulación.
+distribución muestral de la media usando simulación de la población.
 
 Vale la pena observar que hay distribuciones que requieren un mayor tamaño 
 de muestra $n$ para lograr una buena aproximación (por ejemplo la log-normal), 
 ¿a qué se debe esto?
 
-Para la opción de *Elecciones* tenemos una poblac ión de tamaño $N=143,437$ y el 
+Para la opción de *Elecciones* tenemos una población de tamaño $N=143,437$ y el 
 objetivo es estimar la media del tamaño de la lista nominal de las casillas 
-(datos de las elecciones presidenciales de 2012). Podemos ver como mejora la aproximación 
-Normal de la distribución muestral conforme aumenta el tamaño de muestra $n$; 
-sin embargo, también sobresale que no es necesario tomar una muestra demasiado
-grande ($n = 60$ ya es razonable).
+(datos de las elecciones presidenciales de 2012). Podemos ver como mejora la 
+aproximación Normal de la distribución muestral conforme aumenta el tamaño de 
+muestra $n$; sin embargo, también sobresale que no es necesario tomar una 
+muestra demasiado grande ($n = 60$ ya es razonable).
 
 
 ```r
@@ -1465,18 +1471,36 @@ knitr::include_app("https://tereom.shinyapps.io/15-TLC/", height = "1000px")
 
 <iframe src="https://tereom.shinyapps.io/15-TLC/?showcase=0" width="672" height="1000px"></iframe>
 
-A pesar de que los errores estándar suelen usarse 
-para construir intervalos de confianza basados en que las estimaciones tienen 
-una distribución normal; sin embargo, el bootstrap se puede usar para estimar 
-la función de distribución de $\hat{\theta}$ por lo que no es necesario hacer 
-supuestos distribucionales para $\hat{\theta}$ sino que podemos estimarla como 
-parte del proceso de construir intervalos de confianza.
+En lo que sigue veremos distintas maneras de construir intervalos de confianza 
+usando bootstrap.
 
-Para estudiar intervalos de confianza usaremos el siguiente ejemplo:
-supongamos que queremos estimar la kurtosis de una base de datos que consta de
+<div class="caja">
+Un **intervalo de confianza** $1-2\alpha$ para un parámetro $\theta$ es un intervalo
+tal que $P(a \le \theta \le) \ge 1-2\alpha$ para todo $\theta \in \Theta$.
+</div>
+
+Y comenzamos con la versión bootstrap del intervalo más popular.
+
+<div class="caja">
+1. **Intervalo Normal** con error estándar bootstrap. 
+El intervalo para $\hat{\theta}$ con un nivel de confianza de 
+$100\cdot(1-2\alpha)\%$ se define como:
+
+$$(\hat{\theta}-z^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+z^{(1-\alpha)}\cdot \hat{se})_B$$.
+
+donde $z^{(\alpha)}$ denota el percentil $100\cdot \alpha$ de una 
+distribución $N(0,1)$.
+</div>
+
+este intervalo está soportado por el Teorema Central del Límite, sin embargo,
+no es adecuado cuando $\hat{\theta}$ no se distribuye aproximadamente Normal.
+
+#### Ejemplo: kurtosis
+
+Supongamos que queremos estimar la kurtosis de una base de datos que consta de
 799 tiempos de espera entre pulsasiones de un nervio (Cox, Lewis 1976).
-$$\hat{\theta} = t(P_n) =\frac{1/n \sum_{i=1}^n(x_i-\hat{\mu})^3}{\hat{\sigma}^3}$$
 
+$$\hat{\theta} = t(P_n) =\frac{1/n \sum_{i=1}^n(x_i-\hat{\mu})^3}{\hat{\sigma}^3}$$
 
 
 ```r
@@ -1501,30 +1525,57 @@ kurtosis <- function(x){
 
 theta_hat <- kurtosis(nerve_long$val)
 theta_hat
-#> [1] 1.76
+#> [1] 1.7579
 
 kurtosis_boot <- function(x, n){
   x_boot <- sample(x, n, replace = TRUE)
   kurtosis(x_boot)
 }
-B <- 2000
+B <- 10000
 kurtosis <- rerun(B, kurtosis_boot(nerve_long$val, length(nerve_long$val))) %>% 
   flatten_dbl()
 ```
 
-1. Comencemos recordando el **Intervalo Normal**:
-
-$$(\hat{\theta}- z^{(1-\alpha)}\cdot \hat{se}, \hat{\theta}-z^{(\alpha)}\cdot \hat{se})$$
-
-este intervalo no es preciso cuando $\hat{\theta}$ no se distribuye Normal.
+Usando el intervalo normal tenemos:
 
 
 ```r
 li_normal <- round(theta_hat - 1.96 * sd(kurtosis), 2)
 ls_normal <- round(theta_hat + 1.96 * sd(kurtosis), 2)
+c(li_normal, ls_normal)
+#> [1] 1.44 2.08
 ```
 
-Veamos un histograma de las replicaciones bootstrap de $\hat{\theta}*$
+Una modificación común del intervalo normal es el intervalo t, estos intervalos
+son mejores en caso de muestras pequeñas ($n$ chica).
+
+<div class="caja">
+2. **Intervalo $t$** con error estándar bootstrap. Para una muestra de tamaño 
+$n$ el intervalo $t$ con un nivel de confianza de  $100\cdot(1-2\alpha)\%$ se
+define como:
+
+$$(\hat{\theta}-t^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+t^{(1-\alpha)}\cdot \hat{se}_B)$$.
+
+donde $t^{(\alpha)}_{n-1}$ denota denota el percentil $100\cdot \alpha$ de una 
+distribución $t$ con $n-1$ grados de libertad.
+</div>
+
+
+```r
+n_nerve <- nrow(nerve_long)
+li_t <- round(theta_hat + qt(0.025, n_nerve - 1) * sd(kurtosis), 2)
+ls_t <- round(theta_hat + qt(0.025, n_nerve - 1)* sd(kurtosis), 2)
+c(li_normal, ls_normal)
+#> [1] 1.44 2.08
+```
+
+
+Los intervalos normales y $t$ se valen de la estimación bootstrap del error estándar; sin embargo, el bootstrap se puede usar para estimar la función de
+distribución de $\hat{\theta}$ por lo que no es necesario hacer supuestos
+distribucionales para $\hat{\theta}$ sino que podemos estimarla como parte del
+proceso de construir intervalos de confianza.
+
+Veamos un histograma de las replicaciones bootstrap de $\hat{\theta}^*$
 
 
 ```r
@@ -1541,7 +1592,7 @@ qq_nerve <- ggplot(nerve_kurtosis) +
 grid.arrange(hist_nerve, qq_nerve, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-21-1.png" width="816" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-22-1.png" width="816" />
 
 En el ejemplo anterior el supuesto de normalidad parece razonable, veamos 
 como se comparan los cuantiles de la estimación de la distribución de 
@@ -1553,22 +1604,23 @@ comma(q_kurt <- quantile(kurtosis, probs = c(0.025, 0.05, 0.1, 0.9, 0.95, 0.975)
 comma(qnorm(p = c(0.025, 0.05, 0.1, 0.9, 0.95, 0.975), mean = theta_hat, 
   sd = sd(kurtosis)))
 #>  2.5%    5%   10%   90%   95% 97.5% 
-#> "1.4" "1.5" "1.5" "1.9" "2.0" "2.0" 
-#> [1] "1.4" "1.5" "1.6" "2.0" "2.0" "2.1"
+#> "1.4" "1.5" "1.5" "2.0" "2.0" "2.1" 
+#> [1] "1.4" "1.5" "1.5" "2.0" "2.0" "2.1"
 ```
 
 Esto sugiere usar los cuantiles del histograma bootstrap para definir los 
 límites de los intervalos de confianza:
 
-2. **Percentiles**. Denotemos por $G$ la función de distribución acumulada de
+<div class="caja">
+3. **Percentiles**. Denotemos por $G$ la función de distribución acumulada de
 $\hat{\theta}^*$ el intervalo percentil de $1-2\alpha$ se define por los 
 percentiles $\alpha$ y $1-\alpha$ de $G$
 $$(\theta^*_{\%,inf}, \theta^*_{\%,sup}) = (G^{-1}(\alpha), G^{-1}(1-\alpha))$$
-
 Por definición $G^{-1}(\alpha)=\hat{\theta}^*(\alpha)$, esto es, el percentil 
 $100\cdot \alpha$ de la distribución bootstrap, por lo que podemos escribir el
 intervalo bootstrap como 
 $$(\theta^*_{\%,inf}, \theta^*_{\%,sup})=(\hat{\theta}^*(\alpha),\hat{\theta}^*(1-\alpha))$$
+</div>
 
 
 ```r
@@ -1581,9 +1633,9 @@ ggplot(arrange(nerve_kurtosis, kurtosis)) +
   labs(x = "Cuantiles muestrales", y = "ecdf")
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-23-1.png" width="384" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-24-1.png" width="384" />
 
-Las expresiones regulares hacen referencia a la situación bootstrap _ideal_ 
+Las expresiones de arriba hacen referencia a la situación bootstrap _ideal_ 
 donde el número de replicaciones bootstrap es infinito, en la práctica usamos
 aproximaciones. Y se procede como sigue:
 
@@ -1593,7 +1645,7 @@ Intervalo percentil:
 + Generamos B muestras bootstrap independientes $\textbf{x}^{*1},..., \textbf{x}^{*B}$ y calculamos las replicaciones $\hat{\theta}^{*b}=s(x^{*b}).$  
 
 + Sea $\hat{\theta}^{*}_B(\alpha)$ el percentil $100\cdot\alpha$ de la 
-distribución empírica de $\hat{\theta}^{*}$, y $\hat{\theta}^{*}_B(\alpha)$
+distribución empírica de $\hat{\theta}^{*}$, y $\hat{\theta}^{*}_B(1-\alpha)$
 el correspondiente al percentil $100\cdot (1-\alpha)$, escribimos el intervalo
 de percentil $1-2\alpha$ como 
 $$(\theta^*_{\%,inf}, \theta^*_{\%,sup})\approx(\hat{\theta}^*_B(\alpha),\hat{\theta}^*_B(1-\alpha))$$
@@ -1606,18 +1658,15 @@ ls_per <- round(quantile(kurtosis, prob = 0.975), 2)
 li_per <- round(quantile(kurtosis, prob = 0.025), 2)
 stringr::str_c(li_normal, ls_normal, sep = ",")
 stringr::str_c(li_per, ls_per, sep = ",")
-#> [1] "1.44,2.07"
-#> [1] "1.43,2.05"
+#> [1] "1.44,2.08"
+#> [1] "1.43,2.06"
 ```
 
 Si la distribución de $\hat{\theta}^*$ es aproximadamente normal, entonces 
-los intervalos normales y de percentiles serán similares. El teorema del 
-límite central nos dice que conforme $n$ se acerca a infinito el histograma 
-bootstrap adquirirá una forma similar a la normal; sin embargo, cuando el 
-tamaño de muestra es chico habrá diferencias.
+los intervalos normales y de percentiles serán similares.
 
 Con el fin de comparar los intervalos creamos un ejemplo de simulación 
-(ejemplo tomado de Effron y Tibshirani), generamos una muestra de tamaño 10 de una 
+(ejemplo tomado de @efron), generamos una muestra de tamaño 10 de una 
 distribución normal estándar, supongamos que el parámetro de interés es 
 $e^{\mu}$ donde $\mu$ es la media poblacional.
 
@@ -1643,7 +1692,7 @@ qq_emu <- ggplot(theta_boot_df) +
 grid.arrange(hist_emu, qq_emu, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-25-1.png" width="816" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-26-1.png" width="816" />
 
 La distribución empírica de $\hat{\theta}^*$ es asimétrica, por lo que no
 esperamos que coincidan los intervalos.
@@ -1681,7 +1730,7 @@ qq_log <- ggplot(data_frame(theta_boot)) +
 grid.arrange(hist_log, qq_log, ncol = 2, newpage = FALSE)
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-27-1.png" width="816" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-28-1.png" width="816" />
 
 Y los intervalos se comparan:
 
@@ -1712,17 +1761,19 @@ para $\hat{\theta}^*$ usando percentiles:
 
 ```r
 exp(round(mean(x) - 1.96 * sd(log(theta_boot)), 2))
-#> [1] 0.527
+#> [1] 0.52729
 exp(round(mean(x) + 1.96 * sd(log(theta_boot)), 2))
-#> [1] 1.8
+#> [1] 1.804
 ```
 
 Podemos ver que el método de aplicar una transformación, calcular intervalos 
 usando la normal y aplicar la transformación inversa para volver a la escala
 original genera intervalos de confianza atractivos, el problema con este 
 método es que requiere que conozcamos la transformación adecuada para cada 
-parámetro. Por otra parte, podemos pensar en el método del percentil como un 
-algoritmo que incorpora la transformación de manera automática.
+parámetro. 
+
+Por otra parte, podemos pensar en el método del percentil como un 
+algoritmo que incorpora la transformación de manera automática:
 
 <div class="caja>
 **Lema**. Supongamos que la transformación $\hat{\phi}=m(\hat{\theta})$ 
@@ -1733,18 +1784,23 @@ en $\hat{\theta}$ es igual a
 $$(m^{-1} (\hat{\phi}-z^{(1-\alpha)}c), m^{-1}(\hat{\phi}-z^{(\alpha)}c))$$
 </div>
 
+Se dice que el intervalo de confianza de percentiles es **invariante a
+transformaciones**.
+
 Existen otras alternativas al método del percentil y cubren otras fallas del 
 intervalo normal. Por ejemplo, hay ocasiones en que $\hat{\theta}$ tiene una
 distribución normal sesgada:
 $$\hat{\theta} \approx N(\theta + sesgo, \hat{se}^2)$$
 
-en este caso no existe una transformación $m(\theta)$ que _arregle_ el intervalo.
+en este caso no existe una transformación $m(\theta)$ que _arregle_ el 
+intervalo.
 
-3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión mejorada
-del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
+<div class="caja>
+3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión 
+mejorada del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
 accelerated*).
 
-Usaremos un ejemplo de Effron y Tibshirani, los datos constan de los resultados 
+Usaremos un ejemplo de @efron, los datos constan de los resultados 
 en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos
 que queremos calcular un intervalo de confianza de 90\% para $\theta=var(A)$.
 El estimador plugin es:
@@ -1752,6 +1808,7 @@ $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/n$$
 notemos que el estimador _plug-in_ es ligeramente menor que el estimador
 usual insesgado:
 $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$
+</div>
 
 
 ```r
@@ -1766,9 +1823,9 @@ ggplot(spatial) +
 ```r
 
 sum((spatial$A - mean(spatial$A)) ^ 2) / nrow(spatial)
-#> [1] 172
+#> [1] 171.53
 sum((spatial$A - mean(spatial$A)) ^ 2) / (nrow(spatial) - 1)
-#> [1] 178
+#> [1] 178.4
 ```
 
 El método $BC_{a}$ corrige el sesgo de manera automática, lo cuál es una 
@@ -1809,20 +1866,23 @@ Una manera de calcular $\hat{a}$ es
 
 $$\hat{a}=\frac{\sum_{i=1}^n (\hat{\theta}(\cdot) - \hat{\theta}(i))^3}{6\{\sum_{i=1}^n (\hat{\theta}(\cdot) - \hat{\theta}(i))^2\}^{3/2}}$$
 
-Los intervalos $BC_{a}$ tienen 2 ventajas teóricas: 1) Respetan transformaciones, 
-esto nos dice que los extremos del intervalo se transforman de manera adecuada 
-si cambiamos el parámetro de interés por una función del mismo, 2) su precisión, 
-los intervalos $BC_{a}$ tienen precisión de segundo orden, esto es, los errores
-de cobertura se van a cero a una tasa de 1/n (los intervalos estándar y de 
-percentiles tienen precisión de primer orden).
+Los intervalos $BC_{a}$ tienen 2 ventajas teóricas: 
+
+1. Respetan transformaciones, esto nos dice que los extremos del intervalo se transforman de manera adecuada si cambiamos el parámetro de interés por una
+función del mismo.
+
+2. Su precisión, los intervalos $BC_{a}$ tienen precisión de segundo orden, esto
+es, los errores de cobertura se van a cero a una tasa de 1/n (los intervalos
+estándar y de percentiles tienen precisión de primer orden).
 
 Los intervalos $BC_{a}$ están implementados en el paquete boot (boot.ci) y 
 en el paquete bootstrap (bcanon). La desventaja de los intervalos $BC_{a}$ es 
-que requieron intenso cómputo estadístico, de acuerdo a Effron y Tibshirani al
-menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo. 
-Ante esto surgen los intervalos ABC (approximate bootstrap confidence intervals), 
-que es un método para aproximar $BC_{a}$ analíticamente (usando expansiones de 
-Taylor).
+que requieron intenso cómputo estadístico, de acuerdo a @efron al
+menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo.
+
+Ante esto surgen los intervalos ABC (approximate bootstrap confidence 
+intervals), que es un método para aproximar $BC_{a}$ analíticamente (usando
+expansiones de Taylor).
 
 Usando la implementación del paquete bootstrap:
 
@@ -1832,24 +1892,25 @@ var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
 bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada)
 #> $confpoints
 #>      alpha bca point
-#> [1,] 0.025       104
-#> [2,] 0.050       115
-#> [3,] 0.100       127
-#> [4,] 0.160       138
-#> [5,] 0.840       228
-#> [6,] 0.900       243
-#> [7,] 0.950       266
-#> [8,] 0.975       282
+#> [1,] 0.025    104.08
+#> [2,] 0.050    114.71
+#> [3,] 0.100    127.46
+#> [4,] 0.160    138.16
+#> [5,] 0.840    227.67
+#> [6,] 0.900    242.55
+#> [7,] 0.950    266.27
+#> [8,] 0.975    281.70
 #> 
 #> $z0
-#> [1] 0.147
+#> [1] 0.14717
 #> 
 #> $acc
-#> [1] 0.0612
+#> [1] 0.06124
 #> 
 #> $u
-#>  [1] 164 177 175 178 172 172 175 172 176 173 169 168 155 142 178 178 178
-#> [18] 151 178 177 166 173 177 178 178 173
+#>  [1] 164.39 176.72 174.52 178.38 172.05 172.05 174.52 172.05 175.96 173.04
+#> [11] 168.60 168.20 155.12 141.81 177.93 178.28 177.61 151.02 178.17 177.07
+#> [21] 165.88 173.04 177.07 177.84 178.39 173.04
 #> 
 #> $call
 #> bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada)
@@ -1860,7 +1921,7 @@ qplot(b_var) + geom_histogram(binwidth = 10)
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-30-1.png" width="672" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-31-1.png" width="672" />
 
 ```r
 
@@ -1871,7 +1932,7 @@ ggplot(data_frame(b_var)) +
   geom_abline()
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-30-2.png" width="672" />
+<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-31-2.png" width="672" />
 
 ![](../imagenes/manicule2.jpg) Comapara el intervalo anterior con los intervalos
 normal y de percentiles.
@@ -1879,6 +1940,7 @@ normal y de percentiles.
 Otros intervalos basados en bootstrap incluyen los intervalos pivotales y los 
 intervalos bootstrap-t. Sin embargo, BC y ABC son mejores alternativas.
 
+<div class="caja">
 4. **Intervalos pivotales**. Sea $\theta=s(P)$ y $\hat{\theta}=s(P_n)$ definimos
 el pivote $R=\hat{\theta}-\theta$. Sea $H(r)$ la función de distribución 
 acumulada del pivote:
@@ -1892,7 +1954,16 @@ estimar usando bootstrap:
 $$\hat{H}(r)=\frac{1}{B}\sum_{b=1}^B I(R^*_b \le r)$$
  y obtenemos
 $$C_n=(2\hat{\theta} - \hat{\theta}^*_{1-\alpha}, 2\hat{\theta} + \hat{\theta}^*_{1-\alpha})$$
+</div>
 
+<div class="caja">
+**Exactitud en intervalos de confianza.** Un intervalo de $95%$ de confianza
+exacto no captura el verdadero valor $2.5%$ de las veces, en cada lado.
+
+Un intervalo que sub-cubre un lado y sobre-cubre el otro es **sesgado**.
+</div>
+
+![](imagenes/manicule2.jpg) 
 
 ## Bootstrap en R
 
@@ -2020,7 +2091,22 @@ object_size(computos_boot)/nrow(computos_boot)
 #> 55.8 kB
 # el incremento en tamaño es << 100
 as.numeric(object_size(computos_boot)/object_size(muestra_computos))
-#> [1] 3.74
+#> [1] 3.7385
 ```
 
 
+<!--
+
+* Los intervalos de confianza bootstrap permiten crear intervalos de confianza
+... , dentro de las opciones para construir intervalos bootstrap los $BC_a$ 
+
+Bootstrap confidence intervals are unquestionably a tremendous methodological advance, and the BCa interval represents the “state of the art” as far as nonparametric confidence intervals goes
+
+* Cuando el tamaño de muestra $n$ es chico, la distribución 
+... usar t
+
+* La función de distribución empírica es una mala estimación en las colas de 
+las distribuciones, por lo que es difícil construir intervalos de confianza 
+(no paramétricos) para estadísticas que dependen mucho de las colas.
+
+-->

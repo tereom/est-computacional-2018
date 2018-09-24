@@ -11,6 +11,8 @@ probabilidad.
 2. Interpretación frecuentista de probabilidad.
 5. Variables aleatorias: a qué se refieren.
 
+Las referencias para esta sección son @pitman-prob, @ross y @wasserman.
+
 <!-- Hadley:
 "Probabilidad es la maquinaria matemática necesaria para responder preguntas de
 eventos inciertos"
@@ -28,6 +30,9 @@ el fenómeno. Es esta dependencia de la estadística con la teoría de probabili
 -->
 
 
+
+
+## Probabilidad como extensión a proporción {-}
 
 #### Espacio de resultados y eventos {-}
 
@@ -148,7 +153,7 @@ Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultado
 ```r
 lanzamientos_10 <- sample(c("A", "S"), 10, replace = TRUE)
 lanzamientos_10
-#>  [1] "S" "S" "A" "S" "S" "A" "S" "S" "A" "S"
+#>  [1] "S" "A" "S" "S" "A" "A" "S" "S" "S" "A"
 ```
 
 Podemos calcular las secuencia de frecuencias relativas de águila:
@@ -156,9 +161,9 @@ Podemos calcular las secuencia de frecuencias relativas de águila:
 
 ```r
 cumsum(lanzamientos_10 == "A") # suma acumulada de águilas
-#>  [1] 0 0 1 1 1 2 2 2 3 3
+#>  [1] 0 1 1 1 2 3 3 3 3 4
 cumsum(lanzamientos_10 == "A") / 1:10
-#>  [1] 0.00 0.00 0.33 0.25 0.20 0.33 0.29 0.25 0.33 0.30
+#>  [1] 0.000 0.500 0.333 0.250 0.400 0.500 0.429 0.375 0.333 0.400
 ```
 
 Una regla general, es que las frecuencias relativas basadas en un número 
@@ -193,12 +198,12 @@ head(lanzar())
 #> # A tibble: 6 x 3
 #>   num_lanzamiento lanzamiento frec_rel
 #>             <int> <chr>          <dbl>
-#> 1               1 S              0    
-#> 2               2 A              0.5  
-#> 3               3 A              0.667
+#> 1               1 A              1    
+#> 2               2 A              1    
+#> 3               3 S              0.667
 #> 4               4 A              0.75 
-#> 5               5 A              0.8  
-#> 6               6 A              0.833
+#> 5               5 S              0.6  
+#> 6               6 S              0.5
 
 set.seed(31287931)
 # usamos la función map_df del paquete purrr
@@ -260,7 +265,7 @@ n <- 10000
 moneda_1 <- sample(c("A", "S"), n, replace = TRUE)
 moneda_2 <- sample(c("A", "S"), n, replace = TRUE)
 sum(moneda_1 == moneda_2 & moneda_1 =="A") / n
-#> [1] 0.26
+#> [1] 0.257
 ```
 
 La respuesta 3 es la correcta, y lo que vemos es que incluso cuando el supuesto
@@ -325,7 +330,7 @@ comite <- function(){
 }
 
 rerun(1000, comite()) %>% flatten_dbl() %>% mean()
-#> [1] 0.22
+#> [1] 0.219
 ```
 
 #### Ejemplo: La ruina del jugador {-}
@@ -369,12 +374,12 @@ apostar <- function(dinero = 100, apuesta = 5, tope = 200){
 n_juegos <- 5000
 juegos <- rerun(n_juegos, apostar()) %>% flatten_dbl()
 mean(juegos)
-#> [1] 0.11
+#> [1] 0.114
 
 # incrementos de 50?
 juegos <- rerun(n_juegos, apostar(apuesta = 50)) %>% flatten_dbl()
 mean(juegos)
-#> [1] 0.44
+#> [1] 0.443
 ```
 
 La solución analítica la pueden leer en este documento de [caminatas aleatorias](http://web.mit.edu/neboat/Public/6.042/randomwalks.pdf):
@@ -470,7 +475,7 @@ circunferencia <- function(){
   sqrt(x ^ 2 + y ^ 2) < 1
 }
 rerun(10000, circunferencia()) %>% flatten_dbl() %>% mean()
-#> [1] 0.78
+#> [1] 0.784
 ```
 
 
@@ -567,7 +572,7 @@ curva <- function(){
 
 sims_x <- rerun(5000, curva()) %>% flatten_dbl()
 mean(sims_x > 0.2 & sims_x < 0.5)
-#> [1] 0.1
+#> [1] 0.104
 ```
 
 
@@ -663,7 +668,7 @@ Lo que nos dice que si tiramos el dado muchas veces deberíamos esperar que el p
 ```r
 x <- rnorm(10000, mean = 10)
 mean(x)
-#> [1] 10
+#> [1] 9.99
 ```
 
 <!--

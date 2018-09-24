@@ -1,5 +1,5 @@
 
-# Introduccióna a visualización
+# Introducción a visualización
 
 > "The simple graph has brought more information to the data analyst’s mind 
 than any other device." --- John Tukey
@@ -7,7 +7,7 @@ than any other device." --- John Tukey
 ### El cuarteto de Ascombe {-}
 
 En 1971 un estadístico llamado Frank Anscombe (fundador del departamento de 
-Estadística de la Universidad de Yale) encontró cuatro conjuntos de datos, cada 
+Estadística de la Universidad de Yale) publicó cuatro conjuntos de datos, cada 
 uno consiste de 11 observaciones y tienen las mismas propiedades estadísticas.
 
 Sin embargo, cuando analizamos los datos de manera gráfica en un histograma 
@@ -154,7 +154,7 @@ adulto, lo graficado para el niño).
 
 ![](imagenes/nyt.png)
 
-## Teoría de visualización de datos (Tufte, Cleveland, Tukey)
+## Teoría de visualización de datos
 Existe teoría fundamentada acerca de la visualización. Después del trabajo 
 pionero de Tukey, los principios e indicadores de Tufte se basan en un estudio 
 de la historia de la graficación y ejercicios de muestreo de la práctica gráfica 
@@ -539,7 +539,7 @@ print(read_csv)
 ##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
 ##         guess_max = guess_max, progress = progress)
 ## }
-## <bytecode: 0x69d4d30>
+## <bytecode: 0x707c4a0>
 ## <environment: namespace:readr>
 ```
 
