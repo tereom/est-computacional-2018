@@ -8,7 +8,7 @@ knitr::opts_chunk$set(
     collapse = TRUE, error=FALSE
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
-options(digits=3)
+options(digits=5)
 
 library(tidyverse)
 library(magrittr)
@@ -16,7 +16,8 @@ library(gridExtra)
 theme_set(theme_minimal())
 ```
 
-Estas notas se desarrollaron cocn base en @efron y abordan los siguientes temas:
+Estas notas se desarrollaron con base en @efron, adicionalmente se usaron ideas 
+de @tim. Abordamos los siguientes temas:
 
 * Muestras aleatorias  
 * El principio del _plug-in_  
@@ -1203,44 +1204,57 @@ $\bar{x}$ se aproximará a una distribución normal:
 
 $$\bar{x} \overset{\cdot}{\sim} N(\mu_P,\sigma_P^2/n)$$
 
-Algunos ejemplos de como funciona el Teorema del Límite
-Central, la idea es ver como se aproxima la distribución muestral de la media 
+Veamos algunos ejemplos de como funciona el Teorema del Límite
+Central, buscamos ver como se aproxima la distribución muestral de la media 
 (cuando las observaciones provienen de distintas distribuciones) a una 
 Normal conforme aumenta el tamaño de muestra. Para esto, aproximamos la 
-distribución muestral de la media usando simulación.
+distribución muestral de la media usando simulación de la población.
 
 Vale la pena observar que hay distribuciones que requieren un mayor tamaño 
 de muestra $n$ para lograr una buena aproximación (por ejemplo la log-normal), 
 ¿a qué se debe esto?
 
-Para la opción de *Elecciones* tenemos una poblac ión de tamaño $N=143,437$ y el 
+Para la opción de *Elecciones* tenemos una población de tamaño $N=143,437$ y el 
 objetivo es estimar la media del tamaño de la lista nominal de las casillas 
-(datos de las elecciones presidenciales de 2012). Podemos ver como mejora la aproximación 
-Normal de la distribución muestral conforme aumenta el tamaño de muestra $n$; 
-sin embargo, también sobresale que no es necesario tomar una muestra demasiado
-grande ($n = 60$ ya es razonable).
+(datos de las elecciones presidenciales de 2012). Podemos ver como mejora la 
+aproximación Normal de la distribución muestral conforme aumenta el tamaño de 
+muestra $n$; sin embargo, también sobresale que no es necesario tomar una 
+muestra demasiado grande ($n = 60$ ya es razonable).
 
 ```{r shiny_clt}
 knitr::include_app("https://tereom.shinyapps.io/15-TLC/", height = "1000px")
 ```
+
+En lo que sigue veremos distintas maneras de construir intervalos de confianza 
+usando bootstrap.
 
 <div class="caja">
 Un **intervalo de confianza** $1-2\alpha$ para un parámetro $\theta$ es un intervalo
 tal que $P(a \le \theta \le) \ge 1-2\alpha$ para todo $\theta \in \Theta$.
 </div>
 
-A pesar de que los errores estándar suelen usarse 
-para construir intervalos de confianza basados en que las estimaciones tienen 
-una distribución normal, el bootstrap se puede usar para estimar 
-la función de distribución de $\hat{\theta}$ por lo que no es necesario hacer 
-supuestos distribucionales para $\hat{\theta}$ sino que podemos estimarla como 
-parte del proceso de construir intervalos de confianza.
+Y comenzamos con la versión bootstrap del intervalo más popular.
 
-Para estudiar intervalos de confianza usaremos el siguiente ejemplo:
-supongamos que queremos estimar la kurtosis de una base de datos que consta de
+<div class="caja">
+1. **Intervalo Normal** con error estándar bootstrap. 
+El intervalo para $\hat{\theta}$ con un nivel de confianza de 
+$100\cdot(1-2\alpha)\%$ se define como:
+
+$$(\hat{\theta}-z^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+z^{(1-\alpha)}\cdot \hat{se})_B$$.
+
+donde $z^{(\alpha)}$ denota el percentil $100\cdot \alpha$ de una 
+distribución $N(0,1)$.
+</div>
+
+este intervalo está soportado por el Teorema Central del Límite, sin embargo,
+no es adecuado cuando $\hat{\theta}$ no se distribuye aproximadamente Normal.
+
+#### Ejemplo: kurtosis
+
+Supongamos que queremos estimar la kurtosis de una base de datos que consta de
 799 tiempos de espera entre pulsasiones de un nervio (Cox, Lewis 1976).
-$$\hat{\theta} = t(P_n) =\frac{1/n \sum_{i=1}^n(x_i-\hat{\mu})^3}{\hat{\sigma}^3}$$
 
+$$\hat{\theta} = t(P_n) =\frac{1/n \sum_{i=1}^n(x_i-\hat{\mu})^3}{\hat{\sigma}^3}$$
 
 ```{r}
 nerve <- read_delim("data/nerve.txt", "\t", escape_double = FALSE, 
@@ -1260,21 +1274,47 @@ kurtosis_boot <- function(x, n){
   x_boot <- sample(x, n, replace = TRUE)
   kurtosis(x_boot)
 }
-B <- 2000
+B <- 10000
 kurtosis <- rerun(B, kurtosis_boot(nerve_long$val, length(nerve_long$val))) %>% 
   flatten_dbl()
 ```
 
-1. Comencemos recordando el **Intervalo Normal**:
-
-$$(\hat{\theta}- z^{(1-\alpha)}\cdot \hat{se}, \hat{\theta}-z^{(\alpha)}\cdot \hat{se})$$ este intervalo no es preciso cuando $\hat{\theta}$ no se distribuye Normal.
+Usando el intervalo normal tenemos:
 
 ```{r, results="hold"}
 li_normal <- round(theta_hat - 1.96 * sd(kurtosis), 2)
 ls_normal <- round(theta_hat + 1.96 * sd(kurtosis), 2)
+c(li_normal, ls_normal)
 ```
 
-Veamos un histograma de las replicaciones bootstrap de $\hat{\theta}*$
+Una modificación común del intervalo normal es el intervalo t, estos intervalos
+son mejores en caso de muestras pequeñas ($n$ chica).
+
+<div class="caja">
+2. **Intervalo $t$** con error estándar bootstrap. Para una muestra de tamaño 
+$n$ el intervalo $t$ con un nivel de confianza de  $100\cdot(1-2\alpha)\%$ se
+define como:
+
+$$(\hat{\theta}-t^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+t^{(1-\alpha)}\cdot \hat{se}_B)$$.
+
+donde $t^{(\alpha)}_{n-1}$ denota denota el percentil $100\cdot \alpha$ de una 
+distribución $t$ con $n-1$ grados de libertad.
+</div>
+
+```{r, results="hold"}
+n_nerve <- nrow(nerve_long)
+li_t <- round(theta_hat + qt(0.025, n_nerve - 1) * sd(kurtosis), 2)
+ls_t <- round(theta_hat + qt(0.025, n_nerve - 1)* sd(kurtosis), 2)
+c(li_normal, ls_normal)
+```
+
+
+Los intervalos normales y $t$ se valen de la estimación bootstrap del error estándar; sin embargo, el bootstrap se puede usar para estimar la función de
+distribución de $\hat{\theta}$ por lo que no es necesario hacer supuestos
+distribucionales para $\hat{\theta}$ sino que podemos estimarla como parte del
+proceso de construir intervalos de confianza.
+
+Veamos un histograma de las replicaciones bootstrap de $\hat{\theta}^*$
 
 ```{r, fig.width=8.5, fig.height=4}
 nerve_kurtosis <- data_frame(kurtosis)
@@ -1303,15 +1343,16 @@ comma(qnorm(p = c(0.025, 0.05, 0.1, 0.9, 0.95, 0.975), mean = theta_hat,
 Esto sugiere usar los cuantiles del histograma bootstrap para definir los 
 límites de los intervalos de confianza:
 
-2. **Percentiles**. Denotemos por $G$ la función de distribución acumulada de
+<div class="caja">
+3. **Percentiles**. Denotemos por $G$ la función de distribución acumulada de
 $\hat{\theta}^*$ el intervalo percentil de $1-2\alpha$ se define por los 
 percentiles $\alpha$ y $1-\alpha$ de $G$
 $$(\theta^*_{\%,inf}, \theta^*_{\%,sup}) = (G^{-1}(\alpha), G^{-1}(1-\alpha))$$
-
 Por definición $G^{-1}(\alpha)=\hat{\theta}^*(\alpha)$, esto es, el percentil 
 $100\cdot \alpha$ de la distribución bootstrap, por lo que podemos escribir el
 intervalo bootstrap como 
 $$(\theta^*_{\%,inf}, \theta^*_{\%,sup})=(\hat{\theta}^*(\alpha),\hat{\theta}^*(1-\alpha))$$
+</div>
 
 ```{r, fig.width=4, fig.height=4}
 ggplot(arrange(nerve_kurtosis, kurtosis)) + 
@@ -1458,6 +1499,7 @@ $$\hat{\theta} \approx N(\theta + sesgo, \hat{se}^2)$$
 en este caso no existe una transformación $m(\theta)$ que _arregle_ el 
 intervalo.
 
+<div class="caja>
 3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión 
 mejorada del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
 accelerated*).
@@ -1470,6 +1512,7 @@ $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/n$$
 notemos que el estimador _plug-in_ es ligeramente menor que el estimador
 usual insesgado:
 $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$
+</div>
 
 ```{r spatial, fig.width=3.5, fig.height=3.5}
 library(bootstrap)
@@ -1519,20 +1562,23 @@ Una manera de calcular $\hat{a}$ es
 
 $$\hat{a}=\frac{\sum_{i=1}^n (\hat{\theta}(\cdot) - \hat{\theta}(i))^3}{6\{\sum_{i=1}^n (\hat{\theta}(\cdot) - \hat{\theta}(i))^2\}^{3/2}}$$
 
-Los intervalos $BC_{a}$ tienen 2 ventajas teóricas: 1) Respetan transformaciones, 
-esto nos dice que los extremos del intervalo se transforman de manera adecuada 
-si cambiamos el parámetro de interés por una función del mismo, 2) su precisión, 
-los intervalos $BC_{a}$ tienen precisión de segundo orden, esto es, los errores
-de cobertura se van a cero a una tasa de 1/n (los intervalos estándar y de 
-percentiles tienen precisión de primer orden).
+Los intervalos $BC_{a}$ tienen 2 ventajas teóricas: 
+
+1. Respetan transformaciones, esto nos dice que los extremos del intervalo se transforman de manera adecuada si cambiamos el parámetro de interés por una
+función del mismo.
+
+2. Su precisión, los intervalos $BC_{a}$ tienen precisión de segundo orden, esto
+es, los errores de cobertura se van a cero a una tasa de 1/n (los intervalos
+estándar y de percentiles tienen precisión de primer orden).
 
 Los intervalos $BC_{a}$ están implementados en el paquete boot (boot.ci) y 
 en el paquete bootstrap (bcanon). La desventaja de los intervalos $BC_{a}$ es 
-que requieron intenso cómputo estadístico, de acuerdo a Effron y Tibshirani al
-menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo. 
-Ante esto surgen los intervalos ABC (approximate bootstrap confidence intervals), 
-que es un método para aproximar $BC_{a}$ analíticamente (usando expansiones de 
-Taylor).
+que requieron intenso cómputo estadístico, de acuerdo a @efron al
+menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo.
+
+Ante esto surgen los intervalos ABC (approximate bootstrap confidence 
+intervals), que es un método para aproximar $BC_{a}$ analíticamente (usando
+expansiones de Taylor).
 
 Usando la implementación del paquete bootstrap:
 
@@ -1557,6 +1603,7 @@ normal y de percentiles.
 Otros intervalos basados en bootstrap incluyen los intervalos pivotales y los 
 intervalos bootstrap-t. Sin embargo, BC y ABC son mejores alternativas.
 
+<div class="caja">
 4. **Intervalos pivotales**. Sea $\theta=s(P)$ y $\hat{\theta}=s(P_n)$ definimos
 el pivote $R=\hat{\theta}-\theta$. Sea $H(r)$ la función de distribución 
 acumulada del pivote:
@@ -1570,7 +1617,16 @@ estimar usando bootstrap:
 $$\hat{H}(r)=\frac{1}{B}\sum_{b=1}^B I(R^*_b \le r)$$
  y obtenemos
 $$C_n=(2\hat{\theta} - \hat{\theta}^*_{1-\alpha}, 2\hat{\theta} + \hat{\theta}^*_{1-\alpha})$$
+</div>
 
+<div class="caja">
+**Exactitud en intervalos de confianza.** Un intervalo de $95%$ de confianza
+exacto no captura el verdadero valor $2.5%$ de las veces, en cada lado.
+
+Un intervalo que sub-cubre un lado y sobre-cubre el otro es **sesgado**.
+</div>
+
+![](imagenes/manicule2.jpg) 
 
 ## Bootstrap en R
 
@@ -1623,7 +1679,8 @@ object_size(computos_boot)/nrow(computos_boot)
 as.numeric(object_size(computos_boot)/object_size(muestra_computos))
 ```
 
-### Conclusiones y observaciones {-}
+
+<!--
 
 * Los intervalos de confianza bootstrap permiten crear intervalos de confianza
 ... , dentro de las opciones para construir intervalos bootstrap los $BC_a$ 
@@ -1637,4 +1694,4 @@ Bootstrap confidence intervals are unquestionably a tremendous methodological ad
 las distribuciones, por lo que es difícil construir intervalos de confianza 
 (no paramétricos) para estadísticas que dependen mucho de las colas.
 
-
+-->

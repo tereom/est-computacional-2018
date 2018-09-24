@@ -22,8 +22,8 @@ errores o tener sugerencias del material se agradece la propuesta de
 correcciones mediante [pull requests](https://github.com/tereom/est-computacional-2018).
 
 #### Ligas {-}
-Correo: teresa.ortiz.mancera@gmail.com, maria.ortiz@itam.mx   
 Notas: https://tereom.github.io/est-computacional-2018/    
+Correo: teresa.ortiz.mancera@gmail.com   
 GitHub: https://github.com/tereom/est-computacional-2018 
 
 </br>

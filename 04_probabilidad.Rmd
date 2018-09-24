@@ -35,7 +35,7 @@ knitr::opts_chunk$set(
     collapse = TRUE
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
-options(digits=2)
+options(digits=3)
 
 library(tidyverse)
 library(magrittr)
