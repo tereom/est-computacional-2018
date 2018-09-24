@@ -1230,7 +1230,7 @@ usando bootstrap.
 
 <div class="caja">
 Un **intervalo de confianza** $1-2\alpha$ para un parámetro $\theta$ es un intervalo
-tal que $P(a \le \theta \le) \ge 1-2\alpha$ para todo $\theta \in \Theta$.
+tal que $P(a \le \theta \le 1-a) = 1-2\alpha$ para todo $\theta \in \Theta$.
 </div>
 
 Y comenzamos con la versión bootstrap del intervalo más popular.
