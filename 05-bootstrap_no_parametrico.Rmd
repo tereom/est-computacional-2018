@@ -1572,7 +1572,7 @@ es, los errores de cobertura se van a cero a una tasa de 1/n (los intervalos
 estándar y de percentiles tienen precisión de primer orden).
 
 Los intervalos $BC_{a}$ están implementados en el paquete boot (boot.ci) y 
-en el paquete bootstrap (bcanon). La desventaja de los intervalos $BC_{a}$ es 
+en el paquete *bootstrap* (*bcanon*). La desventaja de los intervalos $BC_{a}$ es 
 que requieron intenso cómputo estadístico, de acuerdo a @efron al
 menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo.
 
