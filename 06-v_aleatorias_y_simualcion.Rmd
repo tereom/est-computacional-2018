@@ -1,5 +1,9 @@
 # Teoría básica de simulación
 
+> "Any one who considers arithmetical methods of producing random digits is, of course, in a state of sin."
+> -Von Neuman
+
+
 ```{r options, echo = FALSE, message=FALSE, error=TRUE}
 knitr::opts_chunk$set(
     comment = "#>",
@@ -43,7 +47,11 @@ en el intervalo $(0, 1)$.
     atmosférico (el paquete `random` contiene funciones para obtener números de 
     random.org),  
     - [ERNIE](https://en.wikipedia.org/wiki/Premium_Bond#ERNIE), usa ruido 
-    térmico en transistores.  
+    térmico en transistores y se utiliza en la lotería de bonos de Reino Unido.  
+    - [RAND Corporation](https://www.rand.org/pubs/monograph_reports/MR1418/index2.html) 
+    En 1955 publicó una tabla de un millón de números aleatorios
+    que fue ampliamente utilizada. Los números en la tabla se obtuvieron de una
+    ruleta electrónica.
     
     La desventaja de éstos métodos es que son costosos, tardados y no 
     reproducibles.
@@ -82,8 +90,58 @@ ciclo.
 Construir un buen algoritmo de números pseudo aleatorios es complicado, como 
 veremos en los siguientes ejemplos.
 
+#### Ejemplo: método de la parte media del cuadrado
+
+En 1946 Jon Von Neuman sugirió usar las operaciones aritméticas de una 
+computadora para generar secuencias de número pseudoaleatorios. 
+
+Sugirió el método *middle square*, para generar secuencias de dígitos
+pseudoaleatorios de 4 dígitos propuso:
+
+1. Se inicia con una semilla de 4 dígitos. 
+`seed = 9731`
+
+2. La semilla se eleva al cuadrado, produciendo un número de 8 dígitos (si el
+resultado tiene menos de 8 dígitos se añaden ceros al inicio).
+`value = 94692361`
+
+3. Los 4 números del centro serán el siguiente número en la secuencia, y se 
+devuelven como resultado.
+`seed = 6923`
+
+```{r, out.width="350px"}
+mid_square <- function(seed, n) {
+   seeds <- numeric(n)
+   values <- numeric(n)
+   for(i in 1:n) {
+       x <- seed ^ 2
+       seed = case_when(
+           nchar(x) > 2 ~ (x %/% 1e2) %% 1e4,
+           TRUE ~ 0)
+       values[i] <- x
+       seeds[i] <- seed
+   }
+   cbind(seeds, values)
+}
+x <- mid_square(1931, 10) 
+print(x, digits = 4)
+
+x <- mid_square(9731, 100) 
+print(x, digits = 4)
+```
+
+Este generador cae rápidamente en cilcos cortos, por ejemplo, si aparece un cero
+se propagará por siempre. 
+
+A inicios de 1950s se exploró el método y se propusieron mejoras, por ejemplo 
+para evitar caer en cero. Metrópolis logró obtener una secuencia de 750,000 
+números distintos al usar semillas de 38 bits (usaba sistema binario), además la
+secuencia de Metrópolis mostraba propiedades deseables. No obstante, el método
+del valor medio no es considerado un método bueno por lo común de los ciclos
+cortos.
+
 #### Ejemplo: rand {-}
-Por muchos años (antes de 1995)  el generador de la función _rand_ en Matlab fue 
+Por muchos años (antes de 1995) el generador de la función _rand_ en Matlab fue 
 el generador congruencial:
     
 $$X_{n+1} = (7^5)X_n mod(2^{31}-1)$$
@@ -233,7 +291,12 @@ de $[0,1]^k$.
 
 Los GCLs continuan siendo utilizados en muchas aplicaciones porque con una 
 elección cuidadosa de los parámetros pueden pasar muchas pruebas de 
-aleatoriedad, son rápidos y requiren poca memoria, sin embargo, actualmente el
+aleatoriedad, son rápidos y requiren poca memoria. Un ejemplo es Java, su
+generador de números aleatorios default [java.util.Random](https://docs.oracle.com/javase/8/docs/api/java/util/Random.html)
+es un GCL con multiplicador $a=25214903917$, incremento $c=11$ y 
+módulo $m=2^{48}$.
+
+, sin embargo, actualmente el
 generador default de R es el Mersenne-Twister que no pertenece a la clase de 
 GCLs (se puede elegir usar otros generadores para ver los disponible teclea 
 ?Random).
@@ -326,22 +389,22 @@ _prueba de poker_, puedes leer más de generadores aleatorios y pruebas en
 @knuth. En R hay pruebas implementadas en los paquetes `randtoolbox`y 
 `RDieHarder`.
 
-# Simulación de variables aleatorias
+## Simulación de variables aleatorias
 Veremos métodos generales para simular muestras de distribuciones univariadas, 
 generales se refiere a que se pueden utilizar independientemente de la forma
 de la función de densidad.
 
 Para utilizar estos métodos debemos tener un generador de números aleatorios
-confiable. En general, la mayoría de los métodos consisten en una transformación
+confiable, pues la mayoría de los métodos consisten en una transformación
 de números aleatorios.
 
-## Variables aletaorias discretas
+### Variables aletaorias discretas
 
-### Método de Inversión {-}
+#### Método de Inversión {-}
 Supongamos que deseamos generar el valor de una variable aleatoria discreta $X$
 con función de probabilidad:
 $$P(X=x_j) = p_j$$
-con $j=1,2,..$.
+con $j=0,1,2,..$.
 
 Para lograr esto generamos un número aleatorio $U$, esto es 
 $U\sim Uniforme(0,1)$ y definimos
@@ -374,11 +437,15 @@ y por tanto $X$ tiene la distribución deseada.
 2. Si las $x_i$, están ordenadas de tal manera que $x_0<x_1<x_2<\cdots$ y si
 denotamos por $P$ la función de distribución acumulada de $X$, entonces 
 $P(x_k)=\sum_{i=0}^kp_i$ y por tanto, $X$ será igual a $x_j$ si 
-$$P(x_{j-1}) \leq U \leq P(x_j)$$.
+$$P(x_{j-1}) \leq U \leq P(x_j)$$
+
 En otras palabras, tras generar un número aleatorio $U$ determinamos el valor de
 $X$ encontrando el intervalo $[P(x_{j-1}),P(x_j))$ en el que cae $U$, esto es 
 equivalente a encontrar la inversa de $P(U)$.
+
 </div>
+
+
 
 El tiempo que uno tarda en generar una variable aleatoria discreta usando el 
 método de arriba es proporcional al número de intervalos que uno debe buscar, 
@@ -389,6 +456,33 @@ $x_j$ en orden decreciente de $p_j$.
 inversión para generar 1000 simulaciones de una variable aleatoria $X$ tal que 
 $p_1=0.20, p_2= 0.15, 
 p_3=0.25, p_4=0.40$ donde $p_j=P(X=j)$.
+
+```{r, include=FALSE}
+ej <- data_frame(x_j = 0:4, p_j = c(0, 0.2, 0.15, 0.25, 0.4), P_j = cumsum(p_j))
+
+P_ej <- function(x){
+    case_when( 
+        x < 1 ~ 0, 
+        x < 2 ~ 0.2,
+        x < 3 ~ 0.35,
+        x < 4 ~ 0.6,
+        TRUE ~ 1
+        )
+}
+
+inv_ej <- function(x){
+    case_when( 
+        x < 0.2 ~ 1, 
+        x < 0.35 ~ 2,
+        x < 0.6 ~ 3,
+        TRUE ~ 4
+        )
+}
+
+ggplot(data.frame(x = 0:5), aes(x)) +
+    stat_function(fun = P_ej, aes(colour = "P"), alpha = 0.8) +
+    stat_function(fun = inv_ej, aes(colour = "Q"), alpha = 0.8) 
+```
 
 #### Ejemplos {-} 
 **Uniforme discreta**. Supongamos que deseamos simular de una variable aleatoria 
@@ -406,9 +500,12 @@ runifD <- function(n = 1, k) floor(k * runif(n)) + 1
 # discreta con parámetro k = 20
 x <- runifD(n = 1000, k = 20)
 qplot(x, binwidth = 1)
+```
 
-# También podmeos usar la función sample de R
-# qplot(sample(1:20, size = 1000, replace= TRUE), binwidth = 1)
+También podmeos usar la función sample de R:
+
+```{r, fig.height=4, fig.width=4, out.width="300px"}
+qplot(sample(1:20, size = 1000, replace= TRUE), binwidth = 1)
 ```
 
 **Poisson**: la clave para usar el método de la transformación inversa en este 
@@ -494,9 +591,9 @@ En promedio este algoritmo requiere $1/c$ iteraciones para obtener un valor
 generado para $X$.
 
 
-### Simulación de variables aleatorias continuas
+### Variables aleatorias continuas
 
-### Transformación inversa
+#### Transformación inversa {-}
 ```{r, include=FALSE}
 library(plyr)
 library(dplyr)
@@ -524,7 +621,7 @@ ggplot(data_frame(x = c(-2 , 2)), aes(x)) +
     
 ```
 
-#### Ejemplo: Exponencial
+#### Ejemplo: Exponencial  {-}
 
 Si $X$ es una variable aleatoria exponencial con tasa 1, entonces
 

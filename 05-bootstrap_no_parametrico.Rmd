@@ -2,7 +2,6 @@
 
 > Bootstrap: _to pull oneself up by one's bootstrap_
 
-
 ```{r options, echo = FALSE, message=FALSE, error=TRUE}
 knitr::opts_chunk$set(
     comment = "#>",
@@ -17,7 +16,7 @@ library(gridExtra)
 theme_set(theme_minimal())
 ```
 
-Estas notas se desarrollaron con base en @efron y abordan los siguientes temas:
+Estas notas se desarrollaron cocn base en @efron y abordan los siguientes temas:
 
 * Muestras aleatorias  
 * El principio del _plug-in_  
@@ -30,8 +29,9 @@ población que produjo la muestra. Probabilidad va en la dirección contraria:
 de la composicion de una pob deducimos las propiedades de una muestra aleatoria
 x -->
 
-Como explican Efron y Tibshirani en *An Introduction to the bootstrap*, las 
-expicaciones del *bootstrap* y otros métodos computacionales, involucran
+#### Ejemplo: aspirina y ataques cardiacos {-}
+Como explican Efron y Tibshirani, las 
+explicaciones del *bootstrap* y otros métodos computacionales involucran
 las ideas de inferencia estadistica tradicional. Las ideas báscias no han 
 cambiado pero la implementación de estas sí.
 
@@ -41,9 +41,7 @@ Los tres conceptos básicos de estadística son:
 
 2. resúmenes (o descriptivos) de datos y
 
-3. inferencia. 
-
-#### Ejemplo: aspirina y ataques cardiacos {-}
+3. inferencia.
 
 Veamos un ejemplo de estos conceptos y como se introduce bootstrap. Usaremos 
 datos de un estudio clínico de consumo de aspirina y ataques cardiacos cuyos 
@@ -573,7 +571,7 @@ tamaños de muestra?
 
 * En el caso de la media $\hat{\theta}=\bar{x}$ la aplicación del principio del 
 _plug-in_ para el cálculo de errores estándar es inmediata; sin embargo, hay 
-estadísticas para las cuáles no es fácil aplicar este método, 
+estadísticas para las cuáles no es fácil aplicar este método.
 
 * El método de aproximarlo con simulación, como lo hicimos en el ejercicio de 
 arriba no es factible pues en la práctica no podemos seleccionar un número 
@@ -763,10 +761,13 @@ $B=\infty$, en esta caso $\hat{se}_B$ iguala la estimación _plug-in_
 $se_{P_n}$.* 
 
 En el proceso de *bootstrap* podemos controlar la variación del sgundo aspecto,
+conocida como **implementación de muestreo Monte Carlo**, y la variación 
+Monte Carlo decrece conforme incrementamos el número de muestras. 
 
-
-conocida como implementación de muestreo Monte Carlo, y la variación 
-Monte Carlo decrece conforme incrementamos el número de muestras.
+Podemos eliminar la variación Monte Carlo si seleccionamos todas las posibles
+muestras con reemplazo de tamaño $n$, hay ${2n-1}\choose{n}$ posibles muestras 
+y si seleccionamos todas obtenemos $\hat{se}_\infty$ (bootstrap ideal), sin
+embargo, en la mayor parte de los problemas no es factible proceder así.
 
 <!--
 * En la práctica para elegir el tamaño de $B$ debemos considerar que buscamos 
@@ -780,12 +781,15 @@ valor esperado, la variabilidad adicional de parar en $B$ replicaciones en lugar
 de seguir hasta infiniti se refleja en un incremento en el coeficiente de 
 variación
 -->
+Entonces, ¿cuántas muestras bootstrap? 
 
 1. Incluso un número chico de replicaciones bootstrap, digamos $B=25$ es 
 informativo, y $B=50$ con frecuencia es suficiente para dar una buena 
-estimación de $se_P(\hat{\theta})$.
+estimación de $se_P(\hat{\theta})$ (@efron).
 
-2. Cuando se busca estimar error estándar @tim recomienda $B=1000$ muestras.
+2. Cuando se busca estimar error estándar @tim recomienda $B=1000$ muestras, o 
+$B=10,000$ muestras dependiendo la presición que se busque.
+
 
 ```{r}
 seMediaBoot <- function(x, B){
@@ -798,6 +802,7 @@ B_muestras <- data_frame(n_sims = c(5, 25, 50, 100, 200, 400, 1000, 1500, 3000,
     mutate(est = map_dbl(n_sims, ~seMediaBoot(x = primaria_muestra$esp_3, B = .)))
 B_muestras
 ```
+
 
 
 #### Ejemplo componentes principales: calificaciones en exámenes {-}
@@ -1219,9 +1224,14 @@ grande ($n = 60$ ya es razonable).
 knitr::include_app("https://tereom.shinyapps.io/15-TLC/", height = "1000px")
 ```
 
+<div class="caja">
+Un **intervalo de confianza** $1-2\alpha$ para un parámetro $\theta$ es un intervalo
+tal que $P(a \le \theta \le) \ge 1-2\alpha$ para todo $\theta \in \Theta$.
+</div>
+
 A pesar de que los errores estándar suelen usarse 
 para construir intervalos de confianza basados en que las estimaciones tienen 
-una distribución normal; sin embargo, el bootstrap se puede usar para estimar 
+una distribución normal, el bootstrap se puede usar para estimar 
 la función de distribución de $\hat{\theta}$ por lo que no es necesario hacer 
 supuestos distribucionales para $\hat{\theta}$ sino que podemos estimarla como 
 parte del proceso de construir intervalos de confianza.
@@ -1257,9 +1267,7 @@ kurtosis <- rerun(B, kurtosis_boot(nerve_long$val, length(nerve_long$val))) %>%
 
 1. Comencemos recordando el **Intervalo Normal**:
 
-$$(\hat{\theta}- z^{(1-\alpha)}\cdot \hat{se}, \hat{\theta}-z^{(\alpha)}\cdot \hat{se})$$
-
-este intervalo no es preciso cuando $\hat{\theta}$ no se distribuye Normal.
+$$(\hat{\theta}- z^{(1-\alpha)}\cdot \hat{se}, \hat{\theta}-z^{(\alpha)}\cdot \hat{se})$$ este intervalo no es preciso cuando $\hat{\theta}$ no se distribuye Normal.
 
 ```{r, results="hold"}
 li_normal <- round(theta_hat - 1.96 * sd(kurtosis), 2)
@@ -1316,7 +1324,7 @@ ggplot(arrange(nerve_kurtosis, kurtosis)) +
   
 ```
 
-Las expresiones regulares hacen referencia a la situación bootstrap _ideal_ 
+Las expresiones de arriba hacen referencia a la situación bootstrap _ideal_ 
 donde el número de replicaciones bootstrap es infinito, en la práctica usamos
 aproximaciones. Y se procede como sigue:
 
@@ -1326,7 +1334,7 @@ Intervalo percentil:
 + Generamos B muestras bootstrap independientes $\textbf{x}^{*1},..., \textbf{x}^{*B}$ y calculamos las replicaciones $\hat{\theta}^{*b}=s(x^{*b}).$  
 
 + Sea $\hat{\theta}^{*}_B(\alpha)$ el percentil $100\cdot\alpha$ de la 
-distribución empírica de $\hat{\theta}^{*}$, y $\hat{\theta}^{*}_B(\alpha)$
+distribución empírica de $\hat{\theta}^{*}$, y $\hat{\theta}^{*}_B(1-\alpha)$
 el correspondiente al percentil $100\cdot (1-\alpha)$, escribimos el intervalo
 de percentil $1-2\alpha$ como 
 $$(\theta^*_{\%,inf}, \theta^*_{\%,sup})\approx(\hat{\theta}^*_B(\alpha),\hat{\theta}^*_B(1-\alpha))$$
@@ -1341,13 +1349,10 @@ stringr::str_c(li_per, ls_per, sep = ",")
 ```
 
 Si la distribución de $\hat{\theta}^*$ es aproximadamente normal, entonces 
-los intervalos normales y de percentiles serán similares. El teorema del 
-límite central nos dice que conforme $n$ se acerca a infinito el histograma 
-bootstrap adquirirá una forma similar a la normal; sin embargo, cuando el 
-tamaño de muestra es chico habrá diferencias.
+los intervalos normales y de percentiles serán similares.
 
 Con el fin de comparar los intervalos creamos un ejemplo de simulación 
-(ejemplo tomado de Effron y Tibshirani), generamos una muestra de tamaño 10 de una 
+(ejemplo tomado de @efron), generamos una muestra de tamaño 10 de una 
 distribución normal estándar, supongamos que el parámetro de interés es 
 $e^{\mu}$ donde $\mu$ es la media poblacional.
 
@@ -1428,8 +1433,10 @@ Podemos ver que el método de aplicar una transformación, calcular intervalos
 usando la normal y aplicar la transformación inversa para volver a la escala
 original genera intervalos de confianza atractivos, el problema con este 
 método es que requiere que conozcamos la transformación adecuada para cada 
-parámetro. Por otra parte, podemos pensar en el método del percentil como un 
-algoritmo que incorpora la transformación de manera automática.
+parámetro. 
+
+Por otra parte, podemos pensar en el método del percentil como un 
+algoritmo que incorpora la transformación de manera automática:
 
 <div class="caja>
 **Lema**. Supongamos que la transformación $\hat{\phi}=m(\hat{\theta})$ 
@@ -1440,18 +1447,22 @@ en $\hat{\theta}$ es igual a
 $$(m^{-1} (\hat{\phi}-z^{(1-\alpha)}c), m^{-1}(\hat{\phi}-z^{(\alpha)}c))$$
 </div>
 
+Se dice que el intervalo de confianza de percentiles es **invariante a
+transformaciones**.
+
 Existen otras alternativas al método del percentil y cubren otras fallas del 
 intervalo normal. Por ejemplo, hay ocasiones en que $\hat{\theta}$ tiene una
 distribución normal sesgada:
 $$\hat{\theta} \approx N(\theta + sesgo, \hat{se}^2)$$
 
-en este caso no existe una transformación $m(\theta)$ que _arregle_ el intervalo.
+en este caso no existe una transformación $m(\theta)$ que _arregle_ el 
+intervalo.
 
-3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión mejorada
-del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
+3. **Intervalos acelerados y corregidos por sesgo**. Esta es una versión 
+mejorada del intervalo de percentil, la denotamos $BC_{a}$ (*bias-corrected and 
 accelerated*).
 
-Usaremos un ejemplo de Effron y Tibshirani, los datos constan de los resultados 
+Usaremos un ejemplo de @efron, los datos constan de los resultados 
 en dos pruebas espaciales de 26 niños con algún problema neurológico. Supongamos
 que queremos calcular un intervalo de confianza de 90\% para $\theta=var(A)$.
 El estimador plugin es:
@@ -1611,5 +1622,19 @@ object_size(computos_boot)/nrow(computos_boot)
 # el incremento en tamaño es << 100
 as.numeric(object_size(computos_boot)/object_size(muestra_computos))
 ```
+
+### Conclusiones y observaciones {-}
+
+* Los intervalos de confianza bootstrap permiten crear intervalos de confianza
+... , dentro de las opciones para construir intervalos bootstrap los $BC_a$ 
+
+Bootstrap confidence intervals are unquestionably a tremendous methodological advance, and the BCa interval represents the “state of the art” as far as nonparametric confidence intervals goes
+
+* Cuando el tamaño de muestra $n$ es chico, la distribución 
+... usar t
+
+* La función de distribución empírica es una mala estimación en las colas de 
+las distribuciones, por lo que es difícil construir intervalos de confianza 
+(no paramétricos) para estadísticas que dependen mucho de las colas.
 
 

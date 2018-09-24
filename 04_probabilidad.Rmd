@@ -11,6 +11,8 @@ probabilidad.
 2. Interpretación frecuentista de probabilidad.
 5. Variables aleatorias: a qué se refieren.
 
+Las referencias para esta sección son @pitman-prob, @ross y @wasserman.
+
 <!-- Hadley:
 "Probabilidad es la maquinaria matemática necesaria para responder preguntas de
 eventos inciertos"
@@ -39,6 +41,9 @@ library(tidyverse)
 library(magrittr)
 theme_set(theme_minimal())
 ```
+
+
+## Probabilidad como extensión a proporción {-}
 
 #### Espacio de resultados y eventos {-}
 
