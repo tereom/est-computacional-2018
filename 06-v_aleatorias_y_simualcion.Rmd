@@ -585,7 +585,7 @@ $E(X) = (a+b)/2, Var(X)=(n^2-1)/12$
 El ejemplo más común es el lanzamiento de un dado.
 
 #### Distribución Poisson {-}
-$X$ tienen una distribución Poisson con prámetro $\lambda$ si 
+$X$ tienen una distribución Poisson con parámetro $\lambda$ si 
 $$
 p(x) = \left\{
   \begin{array}{lr}
