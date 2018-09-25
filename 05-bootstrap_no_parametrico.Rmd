@@ -1597,7 +1597,7 @@ ggplot(data_frame(b_var)) +
   geom_abline()
 ```
 
-![](../imagenes/manicule2.jpg) Comapara el intervalo anterior con los intervalos
+![](imagenes/manicule2.jpg) Comapara el intervalo anterior con los intervalos
 normal y de percentiles.
 
 Otros intervalos basados en bootstrap incluyen los intervalos pivotales y los 
