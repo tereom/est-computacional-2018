@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.068"
+#> [1] "0.066"
 ```
 
 
@@ -1486,7 +1486,7 @@ Y comenzamos con la versión bootstrap del intervalo más popular.
 El intervalo para $\hat{\theta}$ con un nivel de confianza de 
 $100\cdot(1-2\alpha)\%$ se define como:
 
-$$(\hat{\theta}-z^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+z^{(1-\alpha)}\cdot \hat{se})_B$$.
+$$(\hat{\theta}-z^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+z^{(1-\alpha)}\cdot \hat{se})$$.
 
 donde $z^{(\alpha)}$ denota el percentil $100\cdot \alpha$ de una 
 distribución $N(0,1)$.
@@ -1554,7 +1554,7 @@ son mejores en caso de muestras pequeñas ($n$ chica).
 $n$ el intervalo $t$ con un nivel de confianza de  $100\cdot(1-2\alpha)\%$ se
 define como:
 
-$$(\hat{\theta}-t^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+t^{(1-\alpha)}\cdot \hat{se}_B)$$.
+$$(\hat{\theta}-t^{(1-\alpha)}_{n-1}\cdot \hat{se}_B, \hat{\theta}+t^{(1-\alpha)}_{n-1}\cdot \hat{se}_B)$$.
 
 donde $t^{(\alpha)}_{n-1}$ denota denota el percentil $100\cdot \alpha$ de una 
 distribución $t$ con $n-1$ grados de libertad.
@@ -1564,8 +1564,8 @@ distribución $t$ con $n-1$ grados de libertad.
 ```r
 n_nerve <- nrow(nerve_long)
 li_t <- round(theta_hat + qt(0.025, n_nerve - 1) * sd(kurtosis), 2)
-ls_t <- round(theta_hat + qt(0.025, n_nerve - 1)* sd(kurtosis), 2)
-c(li_normal, ls_normal)
+ls_t <- round(theta_hat - qt(0.025, n_nerve - 1) * sd(kurtosis), 2)
+c(li_t, ls_t)
 #> [1] 1.44 2.08
 ```
 
@@ -1813,7 +1813,7 @@ $$\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)$$
 
 ```r
 library(bootstrap)
-data(spatial)
+
 ggplot(spatial) +
     geom_point(aes(A, B))
 ```
@@ -1850,7 +1850,7 @@ El valor de la corrección por sesgo $\hat{z}_0$ se obtiene de la
 propoción de de replicaciones bootstrap menores a la estimación original 
 $\hat{\theta}$, 
 
-$$\Phi^{-1}\bigg(\frac{\#\{\hat{\theta}^*(b) < \hat{\theta} \} }{B} \bigg)$$
+$$z_0=\Phi^{-1}\bigg(\frac{\#\{\hat{\theta}^*(b) < \hat{\theta} \} }{B} \bigg)$$
 
 a grandes razgos $\hat{z}_0$ mide la mediana del sesgo de $\hat{\theta}^*$, esto 
 es, la discrepancia entre la mediana de $\hat{\theta}^*$ y $\hat{\theta}$ en 
@@ -1868,15 +1868,15 @@ $$\hat{a}=\frac{\sum_{i=1}^n (\hat{\theta}(\cdot) - \hat{\theta}(i))^3}{6\{\sum_
 
 Los intervalos $BC_{a}$ tienen 2 ventajas teóricas: 
 
-1. Respetan transformaciones, esto nos dice que los extremos del intervalo se transforman de manera adecuada si cambiamos el parámetro de interés por una
+1. Respetan transformaciones, esto nos dice que los extremos del intervalo se 
+transforman de manera adecuada si cambiamos el parámetro de interés por una
 función del mismo.
 
-2. Su precisión, los intervalos $BC_{a}$ tienen precisión de segundo orden, esto
-es, los errores de cobertura se van a cero a una tasa de 1/n (los intervalos
-estándar y de percentiles tienen precisión de primer orden).
+2. Su exactitud, los intervalos $BC_{a}$ tienen precisión de segundo orden, esto
+es, los errores de cobertura se van a cero a una tasa de 1/n.
 
-Los intervalos $BC_{a}$ están implementados en el paquete boot (boot.ci) y 
-en el paquete bootstrap (bcanon). La desventaja de los intervalos $BC_{a}$ es 
+Los intervalos $BC_{a}$ están implementados en el paquete boot (`boot.ci()`) y 
+en el paquete bootstrap (`bcanon()`). La desventaja de los intervalos $BC_{a}$ es 
 que requieron intenso cómputo estadístico, de acuerdo a @efron al
 menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo.
 
@@ -1889,17 +1889,11 @@ Usando la implementación del paquete bootstrap:
 
 ```r
 var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
-bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada)
+bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 0.975))
 #> $confpoints
 #>      alpha bca point
 #> [1,] 0.025    104.08
-#> [2,] 0.050    114.71
-#> [3,] 0.100    127.46
-#> [4,] 0.160    138.16
-#> [5,] 0.840    227.67
-#> [6,] 0.900    242.55
-#> [7,] 0.950    266.27
-#> [8,] 0.975    281.70
+#> [2,] 0.975    281.70
 #> 
 #> $z0
 #> [1] 0.14717
@@ -1913,28 +1907,11 @@ bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada)
 #> [21] 165.88 173.04 177.07 177.84 178.39 173.04
 #> 
 #> $call
-#> bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada)
-
-b_var <- rerun(1000, var_sesgada(sample(spatial[, 1], size = length(spatial[, 1]), replace = TRUE))) %>% flatten_dbl()
-
-qplot(b_var) + geom_histogram(binwidth = 10)
-#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+#> bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 
+#>     0.975))
 ```
 
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-31-1.png" width="672" />
-
-```r
-
-ggplot(data_frame(b_var)) +
-    geom_abline(color = "red", alpha = 0.5) +
-    stat_qq(aes(sample = b_var), 
-        dparams = list(mean = mean(b_var), sd = sd(b_var))) +
-  geom_abline()
-```
-
-<img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-31-2.png" width="672" />
-
-![](../imagenes/manicule2.jpg) Comapara el intervalo anterior con los intervalos
+![](imagenes/manicule2.jpg) Comapara el intervalo anterior con los intervalos
 normal y de percentiles.
 
 Otros intervalos basados en bootstrap incluyen los intervalos pivotales y los 
@@ -1963,7 +1940,11 @@ exacto no captura el verdadero valor $2.5%$ de las veces, en cada lado.
 Un intervalo que sub-cubre un lado y sobre-cubre el otro es **sesgado**.
 </div>
 
-![](imagenes/manicule2.jpg) 
+* Los intervalos estándar y de percentiles tienen exactitud de primer 
+orden: los errores de cobertura se van a cero a una tasa de $1/\sqrt{n}$.
+
+* Los intervalos $BC_a$normales y de percentiles tienen exactitud de segundo 
+orden: los errores de cobertura se van a cero a una tasa de $1/n$.
 
 ## Bootstrap en R
 
@@ -2037,7 +2018,7 @@ contiene 88-22=66.
 ```r
 first_computos_boot <- computos_boot$splits[[1]]
 first_computos_boot 
-#> <10000/3711/10000>
+#> <10000/3718/10000>
 ```
 
 Y podemos obtener los datos de la muestra bootstrap con la función 
@@ -2049,16 +2030,16 @@ as.data.frame(first_computos_boot)
 #> # A tibble: 10,000 x 36
 #>    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA
 #>        <int>      <int>   <int>      <int> <chr>               <int>
-#>  1        30         16     312          1 C                       0
-#>  2        21         16      99          1 B                       0
-#>  3        13          7     130          2 C                       0
-#>  4        11          9     962          1 C                       0
-#>  5        27          2      48          1 B                       0
-#>  6         9         16    3267          1 C                       0
-#>  7        29          3      79          1 B                       0
-#>  8        20          3    2307          1 C                       0
-#>  9        21          9    1390          1 C                       0
-#> 10        13          5    1321          1 B                       0
+#>  1        21         15    1964          1 B                       0
+#>  2        14         16    2577          2 C                       0
+#>  3        19          1     409          1 B                       0
+#>  4        19         12    2394          1 C                       0
+#>  5        18          3      52          1 C                       0
+#>  6        32          2    1738          1 B                       0
+#>  7         9         11    5470          1 B                       0
+#>  8        20          1    1024          1 C                       0
+#>  9        11         11    1915          1 C                       0
+#> 10        26          3    1344          1 B                       0
 #> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <int>,
 #> #   CASILLA <int>, ESTATUS_ACTA <int>, ORDEN <int>,
 #> #   LISTA_NOMINAL_CASILLA <int>, ID_GRUPO <int>, TIPO_RECUENTO <int>,
@@ -2094,19 +2075,38 @@ as.numeric(object_size(computos_boot)/object_size(muestra_computos))
 #> [1] 3.7385
 ```
 
+El paquete `boot` está asociado al libro *Bootstrap Methods and Their 
+Applications* (@davison).
 
-<!--
+Y `bootsrtap` contiene datos usados en @efron.
 
-* Los intervalos de confianza bootstrap permiten crear intervalos de confianza
-... , dentro de las opciones para construir intervalos bootstrap los $BC_a$ 
+## Conclusiones y observaciones
 
-Bootstrap confidence intervals are unquestionably a tremendous methodological advance, and the BCa interval represents the “state of the art” as far as nonparametric confidence intervals goes
+* El principio fundamental del Bootstrap no paramétrico es que podemos estimar
+la distribución poblacional con la distribución empírica. Por tanto para 
+hacer inferencia tomamos muestras con reemplazo de la distribución empírica y 
+analizamos la variación de la estadística de interés a lo largo de las 
+muestras.
 
-* Cuando el tamaño de muestra $n$ es chico, la distribución 
-... usar t
+* El bootstrap nos da la posibilidad de crear intervalos de confianza
+cuando no contamos con fórmulas para hacerlo de manera analítica y sin 
+supuestos distribucionales de la población.
+
+* Hay muchas opciones para construir intervalos bootstrap, los que tienen 
+mejores propiedades son los intervalos $BC_a$, sin embargo los más comunes son 
+los intervalos normales con error estándar bootstrap y los intervalos de 
+percentiles de la distribución bootstrap.
+
+* Antes de hacer intervalos normales vale la pena graficar la distribución 
+bootstrap y evaluar si el supuesto de normalidad es razonable.
+
+* En cuanto al número de muestras bootstrap se recomienda al menos $1,000$ 
+al hacer pruebas, y $10,000$ o $15,000$ para los resultados finales, sobre
+todo cuando se hacen intervalos de confianza de percentiles.
 
 * La función de distribución empírica es una mala estimación en las colas de 
 las distribuciones, por lo que es difícil construir intervalos de confianza 
-(no paramétricos) para estadísticas que dependen mucho de las colas.
+(usando bootstrap no paramétrico) para estadísticas que dependen mucho de las 
+colas.
 
--->
+

@@ -220,10 +220,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html"><i class="fa fa-check"></i><b>5</b> Introducción a probabilidad</a><ul>
-<li class="chapter" data-level="" data-path="probabilidad-como-extension-a-proporcion.html"><a href="probabilidad-como-extension-a-proporcion.html"><i class="fa fa-check"></i>Probabilidad como extensión a proporción</a></li>
-<li class="chapter" data-level="5.1" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.1</b> Interpretación frecuentista de probabilidad</a></li>
-<li class="chapter" data-level="5.2" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.2</b> Simulación para el cálculo de probabilidades</a></li>
-<li class="chapter" data-level="5.3" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.3</b> Variables aleatorias</a></li>
+<li class="chapter" data-level="5.1" data-path="probabilidad-como-extension-a-proporcion.html"><a href="probabilidad-como-extension-a-proporcion.html"><i class="fa fa-check"></i><b>5.1</b> Probabilidad como extensión a proporción</a></li>
+<li class="chapter" data-level="5.2" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.2</b> Interpretación frecuentista de probabilidad</a></li>
+<li class="chapter" data-level="5.3" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.3</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.4" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.4</b> Variables aleatorias</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="bootstrap-no-parametrico.html"><a href="bootstrap-no-parametrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
 <li class="chapter" data-level="6.1" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.1</b> El principio del plug-in</a><ul>
@@ -238,6 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
 <li class="chapter" data-level="6.4" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.4</b> Bootstrap en R</a></li>
+<li class="chapter" data-level="6.5" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.5</b> Conclusiones y observaciones</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="teoria-basica-de-simulacion.html"><a href="teoria-basica-de-simulacion.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
 <li class="chapter" data-level="7.1" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
@@ -259,7 +260,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
 <li class="chapter" data-level="" data-path="probabilidad.html"><a href="probabilidad.html"><i class="fa fa-check"></i>4-Probabilidad</a></li>
-<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5-Bootstrap</a></li>
+<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5-Bootstrap</a><ul>
+<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html#solucion"><i class="fa fa-check"></i>Solución</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cobertura-de-intervalos-de-confianza.html"><a href="cobertura-de-intervalos-de-confianza.html"><i class="fa fa-check"></i>6-Cobertura de intervalos de confianza</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -326,7 +330,7 @@ tal que <span class="math inline">\(P(a \le \theta \le) \ge 1-2\alpha\)</span> p
 El intervalo para <span class="math inline">\(\hat{\theta}\)</span> con un nivel de confianza de
 <span class="math inline">\(100\cdot(1-2\alpha)\%\)</span> se define como:</li>
 </ol>
-<p><span class="math display">\[(\hat{\theta}-z^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+z^{(1-\alpha)}\cdot \hat{se})_B\]</span>.</p>
+<p><span class="math display">\[(\hat{\theta}-z^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+z^{(1-\alpha)}\cdot \hat{se})\]</span>.</p>
 <p>donde <span class="math inline">\(z^{(\alpha)}\)</span> denota el percentil <span class="math inline">\(100\cdot \alpha\)</span> de una
 distribución <span class="math inline">\(N(0,1)\)</span>.</p>
 </div>
@@ -380,14 +384,14 @@ son mejores en caso de muestras pequeñas (<span class="math inline">\(n\)</span
 <span class="math inline">\(n\)</span> el intervalo <span class="math inline">\(t\)</span> con un nivel de confianza de <span class="math inline">\(100\cdot(1-2\alpha)\%\)</span> se
 define como:</li>
 </ol>
-<p><span class="math display">\[(\hat{\theta}-t^{(1-\alpha)}\cdot \hat{se}_B, \hat{\theta}+t^{(1-\alpha)}\cdot \hat{se}_B)\]</span>.</p>
+<p><span class="math display">\[(\hat{\theta}-t^{(1-\alpha)}_{n-1}\cdot \hat{se}_B, \hat{\theta}+t^{(1-\alpha)}_{n-1}\cdot \hat{se}_B)\]</span>.</p>
 <p>donde <span class="math inline">\(t^{(\alpha)}_{n-1}\)</span> denota denota el percentil <span class="math inline">\(100\cdot \alpha\)</span> de una
 distribución <span class="math inline">\(t\)</span> con <span class="math inline">\(n-1\)</span> grados de libertad.</p>
 </div>
 <pre class="sourceCode r"><code class="sourceCode r">n_nerve &lt;-<span class="st"> </span><span class="kw">nrow</span>(nerve_long)
 li_t &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, n_nerve <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)
-ls_t &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, n_nerve <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)<span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)
-<span class="kw">c</span>(li_normal, ls_normal)
+ls_t &lt;-<span class="st"> </span><span class="kw">round</span>(theta_hat <span class="op">-</span><span class="st"> </span><span class="kw">qt</span>(<span class="fl">0.025</span>, n_nerve <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(kurtosis), <span class="dv">2</span>)
+<span class="kw">c</span>(li_t, ls_t)
 <span class="co">#&gt; [1] 1.44 2.08</span></code></pre>
 <p>Los intervalos normales y <span class="math inline">\(t\)</span> se valen de la estimación bootstrap del error estándar; sin embargo, el bootstrap se puede usar para estimar la función de
 distribución de <span class="math inline">\(\hat{\theta}\)</span> por lo que no es necesario hacer supuestos
@@ -556,7 +560,7 @@ usual insesgado:
 <span class="math display">\[\hat{\theta}=\sum_{i=1}^n(A_i-\bar{A})^2/(n-1)\]</span></p>
 </div>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bootstrap)
-<span class="kw">data</span>(spatial)
+
 <span class="kw">ggplot</span>(spatial) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(A, B))</code></pre>
 <p><img src="05-bootstrap_no_parametrico_files/figure-html/spatial-1.png" width="336" /></p>
@@ -567,7 +571,7 @@ usual insesgado:
 <span class="co">#&gt; [1] 178.4</span></code></pre>
 <p>El método <span class="math inline">\(BC_{a}\)</span> corrige el sesgo de manera automática, lo cuál es una
 de sus prinicipales ventajas comparado con el método del percentil.</p>
-<div class="caja>
+&lt;div class=“caja&gt;
 Los extremos en los intervalos <span class="math inline">\(BC_{a}\)</span> están dados por percentiles de la
 distribución bootstrap, los percentiles usados dependen de dos números <span class="math inline">\(\hat{a}\)</span>
 y <span class="math inline">\(\hat{z}_0\)</span>, que se denominan la aceleración y la corrección del sesgo:
@@ -584,7 +588,7 @@ y <span class="math inline">\(\alpha_2=1-\alpha\)</span>, obteniendo así los in
 El valor de la corrección por sesgo <span class="math inline">\(\hat{z}_0\)</span> se obtiene de la
 propoción de de replicaciones bootstrap menores a la estimación original
 <span class="math inline">\(\hat{\theta}\)</span>,</p>
-<p><span class="math display">\[\Phi^{-1}\bigg(\frac{\#\{\hat{\theta}^*(b) &lt; \hat{\theta} \} }{B} \bigg)\]</span></p>
+<p><span class="math display">\[z_0=\Phi^{-1}\bigg(\frac{\#\{\hat{\theta}^*(b) &lt; \hat{\theta} \} }{B} \bigg)\]</span></p>
 <p>a grandes razgos <span class="math inline">\(\hat{z}_0\)</span> mide la mediana del sesgo de <span class="math inline">\(\hat{\theta}^*\)</span>, esto
 es, la discrepancia entre la mediana de <span class="math inline">\(\hat{\theta}^*\)</span> y <span class="math inline">\(\hat{\theta}\)</span> en
 unidades normales.</p>
@@ -598,14 +602,14 @@ Una manera de calcular <span class="math inline">\(\hat{a}\)</span> es</p>
 <p><span class="math display">\[\hat{a}=\frac{\sum_{i=1}^n (\hat{\theta}(\cdot) - \hat{\theta}(i))^3}{6\{\sum_{i=1}^n (\hat{\theta}(\cdot) - \hat{\theta}(i))^2\}^{3/2}}\]</span></p>
 <p>Los intervalos <span class="math inline">\(BC_{a}\)</span> tienen 2 ventajas teóricas:</p>
 <ol style="list-style-type: decimal">
-<li><p>Respetan transformaciones, esto nos dice que los extremos del intervalo se transforman de manera adecuada si cambiamos el parámetro de interés por una
+<li><p>Respetan transformaciones, esto nos dice que los extremos del intervalo se
+transforman de manera adecuada si cambiamos el parámetro de interés por una
 función del mismo.</p></li>
-<li><p>Su precisión, los intervalos <span class="math inline">\(BC_{a}\)</span> tienen precisión de segundo orden, esto
-es, los errores de cobertura se van a cero a una tasa de 1/n (los intervalos
-estándar y de percentiles tienen precisión de primer orden).</p></li>
+<li><p>Su exactitud, los intervalos <span class="math inline">\(BC_{a}\)</span> tienen precisión de segundo orden, esto
+es, los errores de cobertura se van a cero a una tasa de 1/n.</p></li>
 </ol>
-<p>Los intervalos <span class="math inline">\(BC_{a}\)</span> están implementados en el paquete boot (boot.ci) y
-en el paquete bootstrap (bcanon). La desventaja de los intervalos <span class="math inline">\(BC_{a}\)</span> es
+<p>Los intervalos <span class="math inline">\(BC_{a}\)</span> están implementados en el paquete boot (<code>boot.ci()</code>) y
+en el paquete bootstrap (<code>bcanon()</code>). La desventaja de los intervalos <span class="math inline">\(BC_{a}\)</span> es
 que requieron intenso cómputo estadístico, de acuerdo a <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span> al
 menos <span class="math inline">\(B= 1000\)</span> replicaciones son necesairas para reducir el error de muestreo.</p>
 <p>Ante esto surgen los intervalos ABC (approximate bootstrap confidence
@@ -613,17 +617,11 @@ intervals), que es un método para aproximar <span class="math inline">\(BC_{a}\
 expansiones de Taylor).</p>
 <p>Usando la implementación del paquete bootstrap:</p>
 <pre class="sourceCode r"><code class="sourceCode r">var_sesgada &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(x)
-<span class="kw">bcanon</span>(<span class="dt">x =</span> spatial[, <span class="dv">1</span>], <span class="dt">nboot =</span> <span class="dv">2000</span>, <span class="dt">theta =</span> var_sesgada)
+<span class="kw">bcanon</span>(<span class="dt">x =</span> spatial[, <span class="dv">1</span>], <span class="dt">nboot =</span> <span class="dv">2000</span>, <span class="dt">theta =</span> var_sesgada, <span class="dt">alpha =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))
 <span class="co">#&gt; $confpoints</span>
 <span class="co">#&gt;      alpha bca point</span>
 <span class="co">#&gt; [1,] 0.025    104.08</span>
-<span class="co">#&gt; [2,] 0.050    114.71</span>
-<span class="co">#&gt; [3,] 0.100    127.46</span>
-<span class="co">#&gt; [4,] 0.160    138.16</span>
-<span class="co">#&gt; [5,] 0.840    227.67</span>
-<span class="co">#&gt; [6,] 0.900    242.55</span>
-<span class="co">#&gt; [7,] 0.950    266.27</span>
-<span class="co">#&gt; [8,] 0.975    281.70</span>
+<span class="co">#&gt; [2,] 0.975    281.70</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $z0</span>
 <span class="co">#&gt; [1] 0.14717</span>
@@ -637,21 +635,9 @@ expansiones de Taylor).</p>
 <span class="co">#&gt; [21] 165.88 173.04 177.07 177.84 178.39 173.04</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $call</span>
-<span class="co">#&gt; bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada)</span>
-
-b_var &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">var_sesgada</span>(<span class="kw">sample</span>(spatial[, <span class="dv">1</span>], <span class="dt">size =</span> <span class="kw">length</span>(spatial[, <span class="dv">1</span>]), <span class="dt">replace =</span> <span class="ot">TRUE</span>))) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
-
-<span class="kw">qplot</span>(b_var) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">10</span>)
-<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></code></pre>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">
-<span class="kw">ggplot</span>(<span class="kw">data_frame</span>(b_var)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">stat_qq</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> b_var), 
-        <span class="dt">dparams =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(b_var), <span class="dt">sd =</span> <span class="kw">sd</span>(b_var))) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_abline</span>()</code></pre>
-<p><img src="05-bootstrap_no_parametrico_files/figure-html/unnamed-chunk-31-2.png" width="672" /></p>
-<p><img src="../imagenes/manicule2.jpg" /> Comapara el intervalo anterior con los intervalos
+<span class="co">#&gt; bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, </span>
+<span class="co">#&gt;     0.975))</span></code></pre>
+<p><img src="imagenes/manicule2.jpg" /> Comapara el intervalo anterior con los intervalos
 normal y de percentiles.</p>
 <p>Otros intervalos basados en bootstrap incluyen los intervalos pivotales y los
 intervalos bootstrap-t. Sin embargo, BC y ABC son mejores alternativas.</p>
@@ -676,7 +662,12 @@ y obtenemos
 exacto no captura el verdadero valor <span class="math inline">\(2.5%\)</span> de las veces, en cada lado.</p>
 <p>Un intervalo que sub-cubre un lado y sobre-cubre el otro es <strong>sesgado</strong>.</p>
 </div>
-<p><img src="imagenes/manicule2.jpg" /></p>
+<ul>
+<li><p>Los intervalos estándar y de percentiles tienen exactitud de primer
+orden: los errores de cobertura se van a cero a una tasa de <span class="math inline">\(1/\sqrt{n}\)</span>.</p></li>
+<li><p>Los intervalos <span class="math inline">\(BC_a\)</span>normales y de percentiles tienen exactitud de segundo
+orden: los errores de cobertura se van a cero a una tasa de <span class="math inline">\(1/n\)</span>.</p></li>
+</ul>
 </div>
 </div>
 <h3>Referencias</h3>

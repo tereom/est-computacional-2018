@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="funciones.html">
-<link rel="next" href="iteracion.html">
+<link rel="prev" href="bootstrap.html">
+<link rel="next" href="referencias.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -286,172 +286,89 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="vectores" class="section level2">
-<h2><span class="header-section-number">4.2</span> Vectores</h2>
-<p>En R se puede trabajar con distintas estructuras de datos, algunas son de una
-sola dimensión y otras permiten más, como indica el diagrama de abajo:</p>
-<p><img src="imagenes/data_structures.png" width="250px"/></p>
-<p>Hasta ahora nos hemos centrado en trabajar con <code>data.frames</code>, y hemos usado
-vectores atómicos sin profundizar, en esta sección se explican características
-de los vectores, y veremos que son la base de los <code>data.frames</code>.</p>
-<p>En R hay dos tipos de vectores, esto es, estructuras de datos de una sola
-dimensión: los vectores atómicos y las listas.</p>
-<ul>
-<li>Los vectores atómicos pueden ser de 6 tipos: lógico, entero, double, caracter,
-complejo y raw. Los dos últimos son poco comunes.</li>
-</ul>
-<p>Vector atómico de tipo lógico:</p>
-<pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)
-a
-<span class="co">#&gt; [1]  TRUE FALSE FALSE</span></code></pre>
-<p>Numérico (double):</p>
-<pre class="sourceCode r"><code class="sourceCode r">b &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="fl">4.1</span>, <span class="dv">7</span>, <span class="fl">9.2</span>)
-b
-<span class="co">#&gt; [1] 5.0 2.0 4.1 7.0 9.2</span>
-b[<span class="dv">1</span>]
-<span class="co">#&gt; [1] 5</span>
-b[<span class="dv">2</span>]
-<span class="co">#&gt; [1] 2</span>
-b[<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]
-<span class="co">#&gt; [1] 2.0 4.1 7.0</span></code></pre>
-<p>Las operaciones básicas con vectores atómicos son componente a componente:</p>
-<pre class="sourceCode r"><code class="sourceCode r">c &lt;-<span class="st"> </span>b <span class="op">+</span><span class="st"> </span><span class="dv">10</span>
-c
-<span class="co">#&gt; [1] 15.0 12.0 14.1 17.0 19.2</span>
-d &lt;-<span class="st"> </span><span class="kw">sqrt</span>(b)
-d
-<span class="co">#&gt; [1] 2.236068 1.414214 2.024846 2.645751 3.033150</span>
-b <span class="op">+</span><span class="st"> </span>d
-<span class="co">#&gt; [1]  7.236068  3.414214  6.124846  9.645751 12.233150</span>
-<span class="dv">10</span> <span class="op">*</span><span class="st"> </span>b
-<span class="co">#&gt; [1] 50 20 41 70 92</span>
-b <span class="op">*</span><span class="st"> </span>d
-<span class="co">#&gt; [1] 11.180340  2.828427  8.301867 18.520259 27.904982</span></code></pre>
-<p>Y podemos crear secuencias como sigue:</p>
-<pre class="sourceCode r"><code class="sourceCode r">e &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-e
-<span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</span>
-f &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.25</span>)
-f
-<span class="co">#&gt; [1] 0.00 0.25 0.50 0.75 1.00</span></code></pre>
-<p>Para calcular características de vectores atómicos usamos funciones:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># media del vector</span>
-<span class="kw">mean</span>(b)
-<span class="co">#&gt; [1] 5.46</span>
-<span class="co"># suma de sus componentes</span>
-<span class="kw">sum</span>(b)
-<span class="co">#&gt; [1] 27.3</span>
-<span class="co"># longitud del vector</span>
-<span class="kw">length</span>(b)
-<span class="co">#&gt; [1] 5</span></code></pre>
-<p>Y ejemplo de vector atómico de tipo caracter y funciones:</p>
-<pre class="sourceCode r"><code class="sourceCode r">frutas &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;manzana&#39;</span>, <span class="st">&#39;manzana&#39;</span>, <span class="st">&#39;pera&#39;</span>, <span class="st">&#39;plátano&#39;</span>, <span class="st">&#39;fresa&#39;</span>, <span class="st">&quot;kiwi&quot;</span>)
-frutas
-<span class="co">#&gt; [1] &quot;manzana&quot; &quot;manzana&quot; &quot;pera&quot;    &quot;plátano&quot; &quot;fresa&quot;   &quot;kiwi&quot;</span>
-<span class="kw">grep</span>(<span class="st">&quot;a&quot;</span>, frutas)
-<span class="co">#&gt; [1] 1 2 3 4 5</span>
-<span class="kw">gsub</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;x&quot;</span>, frutas)
-<span class="co">#&gt; [1] &quot;mxnzxnx&quot; &quot;mxnzxnx&quot; &quot;perx&quot;    &quot;plátxno&quot; &quot;fresx&quot;   &quot;kiwi&quot;</span></code></pre>
-<ul>
-<li>Las listas, a diferencia de los vectores atómicos, puden contener otras
-listas. Las listas son muy flexibles pues pueden almacenar objetos de cualquier
-tipo.</li>
-</ul>
-<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="st">&quot;Mila&quot;</span>, <span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">3.2</span>))
-<span class="kw">str</span>(x)
-<span class="co">#&gt; List of 4</span>
-<span class="co">#&gt;  $ : int [1:3] 1 2 3</span>
-<span class="co">#&gt;  $ : chr &quot;Mila&quot;</span>
-<span class="co">#&gt;  $ : logi [1:3] TRUE FALSE FALSE</span>
-<span class="co">#&gt;  $ : num [1:3] 2 5 3.2</span></code></pre>
-<p>Las listas son vectores <em>recursivos</em> debido a que pueden almacenar otras listas.</p>
-<pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="kw">list</span>())))
-<span class="kw">str</span>(y)
-<span class="co">#&gt; List of 1</span>
-<span class="co">#&gt;  $ :List of 1</span>
-<span class="co">#&gt;   ..$ :List of 1</span>
-<span class="co">#&gt;   .. ..$ : list()</span></code></pre>
-<p>Para construir subconjuntos a partir de listas usamo <code>[]</code> y <code>[[]]</code>. En el primer
-caso siempre obtenemos como resultado una lista:</p>
-<pre class="sourceCode r"><code class="sourceCode r">x_<span class="dv">1</span> &lt;-<span class="st"> </span>x[<span class="dv">1</span>]
-x_<span class="dv">1</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] 1 2 3</span>
-<span class="kw">str</span>(x_<span class="dv">1</span>)
-<span class="co">#&gt; List of 1</span>
-<span class="co">#&gt;  $ : int [1:3] 1 2 3</span></code></pre>
-<p>Y en el caso de <code>[[]]</code> extraemos un componente de la lista, eliminando un nivel
-de la jerarquía de la lista.</p>
-<pre class="sourceCode r"><code class="sourceCode r">x_<span class="dv">2</span> &lt;-<span class="st"> </span>x[[<span class="dv">1</span>]]
-x_<span class="dv">2</span>
-<span class="co">#&gt; [1] 1 2 3</span>
-<span class="kw">str</span>(x_<span class="dv">2</span>)
-<span class="co">#&gt;  int [1:3] 1 2 3</span></code></pre>
-<p>¿Cómo se comparan <code>y</code>, <code>y[1]</code> y <code>y[[1]]</code>?</p>
-<div id="propiedades" class="section level3 unnumbered">
-<h3>Propiedades</h3>
-<p>Todos los vectores (atómicos y listas) tienen las propiedades tipo y longitud,
-la función <code>typeof()</code> se usa para determinar el tipo,
-=======
-Todos los vectores tienen las propiedades tipo y longitud, la función <code>typeof()</code>
-se usa para determinar el tipo,
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 27ef834b49e0e8bc1097a6234d308d5406dca20c</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(a)
-<span class="co">#&gt; [1] &quot;logical&quot;</span>
-<span class="kw">typeof</span>(b)
-<span class="co">#&gt; [1] &quot;double&quot;</span>
-<span class="kw">typeof</span>(frutas)
-<span class="co">#&gt; [1] &quot;character&quot;</span>
-<span class="kw">typeof</span>(x)
-<span class="co">#&gt; [1] &quot;list&quot;</span></code></pre>
-<p>y <code>length()</code> la longitud:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(a)
-<span class="co">#&gt; [1] 3</span>
-<span class="kw">length</span>(frutas)
-<span class="co">#&gt; [1] 6</span>
-<span class="kw">length</span>(x)
-<span class="co">#&gt; [1] 4</span>
-<span class="kw">length</span>(y)
-<span class="co">#&gt; [1] 1</span></code></pre>
-<p>La flexibilidad de las listas las convierte en estructuras muy útiles y muy
-comunes, muchas funciones regresan resultados en forma de lista. Incluso podemos
-ver que un data.frame es una lista de vectores, donde todos los vectores son
-de la misma longitud.</p>
-<p>Adicionalmente, los vectores pueden tener atributo de nombres, que puede usarse
-para indexar.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(b) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;momo&quot;</span>, <span class="st">&quot;mila&quot;</span>, <span class="st">&quot;duna&quot;</span>, <span class="st">&quot;milu&quot;</span>, <span class="st">&quot;moka&quot;</span>)
-b
-<span class="co">#&gt; momo mila duna milu moka </span>
-<span class="co">#&gt;  5.0  2.0  4.1  7.0  9.2</span>
-b[<span class="st">&quot;moka&quot;</span>]
-<span class="co">#&gt; moka </span>
-<span class="co">#&gt;  9.2</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(x) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)
-x
-<span class="co">#&gt; $a</span>
-<span class="co">#&gt; [1] 1 2 3</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $b</span>
-<span class="co">#&gt; [1] &quot;Mila&quot;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $c</span>
-<span class="co">#&gt; [1]  TRUE FALSE FALSE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $d</span>
-<span class="co">#&gt; [1] 2.0 5.0 3.2</span>
-x<span class="op">$</span>a
-<span class="co">#&gt; [1] 1 2 3</span>
-x[[<span class="st">&quot;c&quot;</span>]]
-<span class="co">#&gt; [1]  TRUE FALSE FALSE</span></code></pre>
+<div id="cobertura-de-intervalos-de-confianza" class="section level2 unnumbered">
+<h2>6-Cobertura de intervalos de confianza</h2>
+<p>En este problema realizarás un ejercicio de simulación para comparar la
+exactitud de distintos intervalos de confianza. Simularás muestras de<br />
+una distribución Poisson con parámetro <span class="math inline">\(\lambda=2.5\)</span> y el estadístico de interés<br />
+es <span class="math inline">\(\theta=exp(-2\lambda)\)</span>.</p>
+<p>Sigue el siguiente proceso:</p>
+<ol style="list-style-type: lower-roman">
+<li><p>Genera una muestra aleatoria de tamaño <span class="math inline">\(n=60\)</span> con distribución
+<span class="math inline">\(Poisson(\lambda)\)</span>, parámetro <span class="math inline">\(\lambda=2.5\)</span> (en R usa la función <code>rpois()</code>).</p></li>
+<li><p>Genera <span class="math inline">\(10,000\)</span> muestras bootstrap y calcula intervalos de confianza del
+95% para <span class="math inline">\(\hat{\theta}\)</span> usando 1) el método normal, 2) percentiles y 3) <span class="math inline">\(BC_a\)</span>.</p></li>
+<li><p>Revisa si el intervalo de confianza contiene el verdadero valor del
+parámetro (<span class="math inline">\(\theta=exp(-2\cdot2.5)\)</span>), en caso de que no lo contenga registra si
+falló por la izquierda (el límite inferior &gt;1) o falló por la derecha (el límite
+superior
+&lt;1).</p></li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Repite el proceso descrito 1000 veces y llena la siguiente tabla:</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Método</th>
+<th>% fallo izquierda</th>
+<th>% fallo derecha</th>
+<th>Cobertura</th>
+<th>Longitud promedio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Normal</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Percentiles</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>BC_a</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>La columna cobertura es una estimación de la cobertura del intervalo basada en
+las simulaciones, para calcularla simplemente escribe el porcentaje de los
+intervalos que incluyeron el verdadero valor del parámetro. La longitud promedio
+es la longitud promedio de los intervalos de confianza bajo cada método.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>Realiza una gráfica de páneles, en cada panel mostrarás los resultados de
+uno de los métodos (normal, percentiles y BC_a), el eje x corresponderá al
+número de intervalo de confianza (<span class="math inline">\(1,...,1000\)</span>) y en el vertical
+graficarás los límites de los intervalos, es decir graficarás 2 líneas (usa
+<code>geom_line()</code>) una corresponderá a los límites inferiores de los intervalos, y
+otra a los superiores.</p></li>
+<li><p>Repite los incisos a) y b) seleccionando muestras de tamaño <span class="math inline">\(300\)</span>.</p></li>
+</ol>
+<p>Nota: Un ejemplo en donde la cantidad <span class="math inline">\(P(X=0)^2 = e^{-\lambda}\)</span> es de interés
+es como sigue: las llamadas telefónicas a un conmutador se modelan con
+un proceso Poisson y <span class="math inline">\(\lambda\)</span> es el número promedio de llamadas por minuto,
+entonce <span class="math inline">\(e^{- \lambda}\)</span> es la probabilidad de que no se reciban llamadas en
+1 minuto.</p>
+
 </div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="funciones.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="iteracion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bootstrap.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -481,7 +398,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/03-temas_selectos_r.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/98-tareas.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
