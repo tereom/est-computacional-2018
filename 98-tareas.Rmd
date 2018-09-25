@@ -88,7 +88,7 @@ grafica la distribución de probabilidad de $X$
 1. **Distribución muestral.** Consideramos la base de datos [primaria](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/primarias.csv), 
 y la columna de calificaciones de español 3^o^ de primaria (`esp_3`). 
 
-- Seleccina una muestra de tamaño $n = 10, 100, 1000$. Para cada muestra 
+- Selecciona una muestra de tamaño $n = 10, 100, 200$. Para cada muestra 
 calcula media y el error estándar de la media usando el principio del *plug-in*:
 $\hat{\mu}=\bar{x}$, y $\hat{se}(\bar{x})=\hat{\sigma}_{P_n}/\sqrt{n}$.
 
@@ -108,5 +108,226 @@ tamaños de muestra?
 2. **Bootstrap correlación.** Nuevamente trabaja con los datos `primaria`, 
 selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del 
 _plug-in_ para estimar la correlación entre la calificación de $y=$español 3 y 
-la de $z=$español 6: $\hat{corr}(y,z)=0.9$. Usa bootstrap para calcular el error
+la de $z=$español 6: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
 estándar de la estimación.
+
+### Solución {-}
+
+#### 1. Distribución muestral
+Suponemos que me interesa hacer inferencia del promedio de las 
+calificaciones de los estudiantes de tercero de primaria en Ciudad de México.
+
+En este ejercicio planteamos 3 escenarios (que simulamos): 1) que tengo una 
+muestra de tamaño 10, 2) que tengo una muestra de tamaño 100, y 3) que tengo una 
+muestra de tamaño 1000 
+
+- Selección de muestras:
+
+```{r message=FALSE}
+library(tidyverse)
+primarias <- readr::read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/primarias.csv")
+set.seed(373783326)
+muestras <- data_frame(tamanos = c(10, 100, 1000)) %>% 
+    mutate(muestras = map(tamanos, ~sample(primarias$esp_3, size = .)))
+```
+
+Ahora procedemos de manera *usual* en estadística (usando fórmulas y no 
+simulación), estimo la media de la muestra con el estimador *plug-in* 
+$$\bar{x}={1/n\sum x_i}$$ 
+y el error estándar de $\bar{x}$ con el estimador *plug-in* 
+$$\hat{se}(\bar{x}) =\bigg\{\frac{1}{n^2}\sum_{i=1}^n(x_i-\bar{x})^2\bigg\}^{1/2}$$
+
+- Estimadores *plug-in*:
+```{r}
+se_plug_in <- function(x){
+    x_bar <- mean(x)
+    n_x <- length(x)
+    var_x <- 1 / n_x ^ 2 * sum((x - x_bar) ^ 2)
+    sqrt(var_x)
+}
+muestras_est <- muestras %>% 
+    mutate(
+        medias = map_dbl(muestras, mean), 
+        e_estandar_plug_in = map_dbl(muestras, se_plug_in)
+    )
+muestras_est
+```
+
+Ahora, recordemos que la distribución muestral es la distribución de una
+estadística, considerada como una variable aleatoria. Usando esta definción 
+podemos aproximarla, para cada tamaño de muestra, simulando:  
+1) simulamos muestras de tamaño $n$ de la población,  
+2) calculamos la estadística de interés (en este caso $\bar{x}$),  
+3) vemos la distribución de la estadística a lo largo de simulaciones.
+
+- Histogramas de distribución muestral y aproximación de errores estándar con 
+simulación 
+
+```{r, out.height="500px", out.height="350px"}
+muestras_sims <- muestras_est %>%
+    mutate(
+        sims_muestras = map(tamanos, ~rerun(10000, sample(primarias$esp_3, 
+            size = ., replace = TRUE))), 
+        sims_medias = map(sims_muestras, ~map_dbl(., mean)), 
+        e_estandar_aprox = map_dbl(sims_medias, sd)
+        )
+sims_medias <- muestras_sims %>% 
+    select(tamanos, sims_medias) %>% 
+    unnest(sims_medias) 
+
+ggplot(sims_medias, aes(x = sims_medias)) +
+    geom_histogram(binwidth = 2) +
+    facet_wrap(~tamanos, nrow = 1)
+```
+
+Notamos que la variación en la distribución muestral decrece conforme aumenta
+el tamaño de muestra, esto es esperado pues el error estándar de una media 
+es $\sigma_P / \sqrt{n}$, y dado que en este ejemplo estamos calculando la media 
+para la misma población el valor poblacional $\sigma_P$ es constante y solo 
+cambia el denominador.
+
+Nuestros valores de error estándar con simulación están en la columna 
+`e_estandar_aprox`:
+
+```{r}
+muestras_sims %>% 
+    select(tamanos, medias, e_estandar_plug_in, e_estandar_aprox)
+```
+
+En este ejercicio estamos simulando para examinar las distribuciones muestrales
+y para ver que podemos aproximar el error estándar de la media usando 
+simulación; sin embargo, dado que en este caso hipotético conocemos la varianza 
+poblacional y la fórmula del error estándar de una media, podemos calcular el 
+verdadero error estándar para una muestra de cada tamaño.
+
+- Calcula el error estándar de la media para cada tamaño de muestra usando la
+información poblacional:
+
+```{r}
+muestras_sims_est <- muestras_sims %>% 
+    mutate(e_estandar_pob = sd(primarias$esp_3) * sqrt(tamanos - 1) / tamanos)
+muestras_sims_est %>% 
+    select(tamanos, e_estandar_plug_in, e_estandar_aprox, e_estandar_pob)
+```
+
+En la tabla de arriba podemos comparar los 3 errores estándar que calculamos, 
+recordemos que de estos 3 el *plug-in* es el único que podríamos obtener en 
+un escenario real pues los otros dos los calculamos usando la población. 
+
+Una alternativa al estimador *plug-in* del error estándar es usar *bootstrap* 
+(en muchos casos no podemos calcular el error estándar *plug-in* por falta de 
+fórmulas) pero podemos usar *bootstrap*: utilizamos una 
+estimación de la distribución poblacional y calculamos el error estándar 
+bootstrap usando simulación. Hacemos el mismo procedimiento que usamos para 
+calcular *e_estandar_apox* pero sustituimos la distribuciín poblacional por la 
+distriución empírica. Hagámoslo usando las muestras que sacamos en el primer 
+paso:
+
+```{r}
+muestras_sims_est_boot <- muestras_sims_est %>% 
+    mutate(
+        sims_muestras_boot = map2(muestras, tamanos,
+            ~rerun(10000, sample(.x, size = .y, replace = TRUE))), 
+        sims_medias_boot = map(sims_muestras_boot, ~map_dbl(., mean)), 
+        e_estandar_boot = map_dbl(sims_medias_boot, sd)
+        )
+```
+
+
+Y la tabla con todos los errores estándar quedaría:
+
+```{r}
+muestras_sims_est_boot %>% 
+    select(tamanos, e_estandar_boot, e_estandar_plug_in, e_estandar_aprox, 
+        e_estandar_pob)
+```
+
+Observamos que el estimador bootstrap del error estándar es muy similar al 
+estimador plug-in del error estándar, esto es esperado pues se calcularon con la 
+misma muestra y el error estándar *bootstrap* converge al *plug-in* conforme 
+incrementamos el número de muestras *bootstrap*.
+
+#### 2. Correlación {-}
+2. **Bootstrap correlación.** Nuevamente trabaja con los datos `primaria`, 
+selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del 
+_plug-in_ para estimar la correlación entre la calificación de $y=$español 3 y 
+la de $z=$español 6: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
+estándar de la estimación.
+
+- Selección de la muestra
+```{r}
+set.seed(11729874)
+muestra <- sample_n(primarias, size = 100)
+```
+
+- Estimador de la correlación:
+
+```{r}
+cor(muestra$esp_3, muestra$esp_6)
+```
+
+- Error estándar con bootstrap
+
+```{r}
+cor_rep <- function(){
+    muestra_boot <- sample_n(muestra, size = 100, replace = TRUE)
+    cor(muestra_boot$esp_3, muestra_boot$esp_6)
+}
+replicaciones <- rerun(10000, cor_rep()) %>% flatten_dbl()
+sd(replicaciones)
+```
+
+
+
+
+
+## 6-Cobertura de intervalos de confianza {-}
+En este problema realizarás un ejercicio de simulación para comparar la 
+exactitud de distintos intervalos de confianza. Simularás muestras de  
+una distribución Poisson con parámetro $\lambda=2.5$ y el estadístico de interés  
+es $\theta=exp(-2\lambda)$.
+
+Sigue el siguiente proceso:
+
+i) Genera una muestra aleatoria de tamaño $n=60$ con distribución 
+$Poisson(\lambda)$, parámetro $\lambda=2.5$ (en R usa la función `rpois()`).
+
+ii) Genera $10,000$ muestras bootstrap y calcula intervalos de confianza del 
+95\% para $\hat{\theta}$ usando 1) el método normal, 2) percentiles y 3) $BC_a$.
+
+iii) Revisa si el intervalo de confianza contiene el verdadero valor del 
+parámetro ($\theta=exp(-2\cdot2.5)$), en caso de que no lo contenga registra si 
+falló por la izquierda (el límite inferior >1) o falló por la derecha (el límite 
+superior 
+<1).
+
+a) Repite el proceso descrito 1000 veces y llena la siguiente tabla:
+
+Método     | \% fallo izquierda   | \% fallo derecha  | Cobertura | Longitud promedio
+-----------|----------------------|-------------------|-----------|------------ 
+Normal     |                      |                   |           |
+Percentiles|                      |                   |           |
+BC_a       |                      |                   |           |
+
+La columna cobertura es una estimación de la cobertura del intervalo basada en 
+las simulaciones, para calcularla simplemente escribe el porcentaje de los 
+intervalos que incluyeron el verdadero valor del parámetro. La longitud promedio
+es la longitud promedio de los intervalos de confianza bajo cada método.
+
+b) Realiza una gráfica de páneles, en cada panel mostrarás los resultados de 
+uno de los métodos (normal, percentiles y BC_a), el eje x corresponderá al 
+número de intervalo de confianza ($1,...,1000$) y en el vertical 
+graficarás los límites de los intervalos, es decir graficarás 2 líneas (usa 
+`geom_line()`) una corresponderá a los límites inferiores de los intervalos, y 
+otra a los superiores.
+
+c) Repite los incisos a) y b) seleccionando muestras de tamaño $300$.
+
+Nota: Un ejemplo en donde la cantidad $P(X=0)^2 = e^{-\lambda}$ es de interés 
+es como sigue: las llamadas telefónicas a un conmutador se modelan con 
+un proceso Poisson y $\lambda$ es el número promedio de llamadas por minuto, 
+entonce $e^{- \lambda}$ es la probabilidad de que no se reciban llamadas en 
+1 minuto.
+
+
+
