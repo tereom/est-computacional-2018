@@ -1948,15 +1948,17 @@ orden: los errores de cobertura se van a cero a una tasa de $1/n$.
 
 ## Bootstrap en R
 
-#### El paquete `rsample`
+Es común crear nuestras porpias funciones cuando usamos bootstrap, sin embargo, 
+en R también hay alternativas que pueden resultar convenientes, mencionamos 3:
 
-El paquete `rsample` (forma parte de la colección [tidymodels](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)) 
-tiene una función `bootsrtraps()`:
-
-* `bootsrtaps()` regresa un arreglo cuadrangular (`tibble`, 
+1. El paquete `rsample` (forma parte de la colección [tidymodels](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)) 
+y tiene una función `bootsrtraps()`:  
+ `bootsrtaps()` regresa un arreglo cuadrangular (`tibble`, 
 `data.frame`) que incluye una columna con las muestras bootstrap y un 
 identificador del número y tipo de muestra.
 
+Veamos un ejemplo donde seleccionamos muestras del conjunto de datos 
+`muestra_computos` que contiene 10,000 observaciones.
 
 ```r
 library(rsample)
@@ -2004,21 +2006,40 @@ muestra_computos
 #> #   pan <int>, pri <int>, prd <int>
 ```
 
+Generamos 100 muestras bootstrap, y la función nos regresa un arreglo con 100
+renglones, cada uno corresponde a una muestra bootstrap.
 
 
 ```r
+set.seed(839287482)
 computos_boot <- bootstraps(muestra_computos, times = 100)
+computos_boot
+#> # Bootstrap sampling 
+#> # A tibble: 100 x 2
+#>    splits       id          
+#>    <list>       <chr>       
+#>  1 <S3: rsplit> Bootstrap001
+#>  2 <S3: rsplit> Bootstrap002
+#>  3 <S3: rsplit> Bootstrap003
+#>  4 <S3: rsplit> Bootstrap004
+#>  5 <S3: rsplit> Bootstrap005
+#>  6 <S3: rsplit> Bootstrap006
+#>  7 <S3: rsplit> Bootstrap007
+#>  8 <S3: rsplit> Bootstrap008
+#>  9 <S3: rsplit> Bootstrap009
+#> 10 <S3: rsplit> Bootstrap010
+#> # ... with 90 more rows
 ```
 
 La columna `splits` tiene información de las muestras seleccionadas, para la 
-primera vemos que de 88 observaciones en `marks` la primera muestra bootstrap 
-contiene 88-22=66.
+primera vemos que de 10,000 observaciones en la muestra original la primera 
+muestra bootstrap contiene 10000-3709=6291.
 
 
 ```r
 first_computos_boot <- computos_boot$splits[[1]]
 first_computos_boot 
-#> <10000/3718/10000>
+#> <10000/3709/10000>
 ```
 
 Y podemos obtener los datos de la muestra bootstrap con la función 
@@ -2030,16 +2051,16 @@ as.data.frame(first_computos_boot)
 #> # A tibble: 10,000 x 36
 #>    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA
 #>        <int>      <int>   <int>      <int> <chr>               <int>
-#>  1        21         15    1964          1 B                       0
-#>  2        14         16    2577          2 C                       0
-#>  3        19          1     409          1 B                       0
-#>  4        19         12    2394          1 C                       0
-#>  5        18          3      52          1 C                       0
-#>  6        32          2    1738          1 B                       0
-#>  7         9         11    5470          1 B                       0
-#>  8        20          1    1024          1 C                       0
-#>  9        11         11    1915          1 C                       0
-#> 10        26          3    1344          1 B                       0
+#>  1        20          3    1246          3 C                       0
+#>  2        21          7       9          1 B                       0
+#>  3        30          2    3609          1 B                       0
+#>  4        15          3     433          2 C                       0
+#>  5         7          3     861          1 B                       0
+#>  6        32          2     565          1 B                       0
+#>  7        15         36    4402          1 B                       0
+#>  8         5          5     542          2 C                       0
+#>  9        16          9    2213          1 C                       0
+#> 10         5          4    1006          1 E                       2
 #> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <int>,
 #> #   CASILLA <int>, ESTATUS_ACTA <int>, ORDEN <int>,
 #> #   LISTA_NOMINAL_CASILLA <int>, ID_GRUPO <int>, TIPO_RECUENTO <int>,
@@ -2075,10 +2096,19 @@ as.numeric(object_size(computos_boot)/object_size(muestra_computos))
 #> [1] 3.7385
 ```
 
-El paquete `boot` está asociado al libro *Bootstrap Methods and Their 
-Applications* (@davison).
+2. El paquete `boot` está asociado al libro *Bootstrap Methods and Their 
+Applications* (@davison) y tiene, entre otras, funciones para calcular 
+replicaciones bootstrap y para construir intervalos de confianza usando bootstrap: 
+    + calculo de replicaciones bootstrap con la función `boot()`,
+    + intervalos normales, de percentiles y $BC_a$ con la función `boot.ci()`,
+    + intevalos ABC con la función `abc.ci().
+    
 
-Y `bootsrtap` contiene datos usados en @efron.
+3. El paquete `bootsrtap` contiene datos usados en @efron, y la implementación 
+de funciones para calcular replicaciones y construir intervalos de confianza:
+    + calculo de replicaciones bootstrap con la función `bootstrap()`,
+    + intervalos $BC_a$ con la función `bcanon()`, 
+    + intevalos ABC con la función `abcnon().
 
 ## Conclusiones y observaciones
 

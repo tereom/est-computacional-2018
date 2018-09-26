@@ -288,15 +288,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="bootstrap-en-r" class="section level2">
 <h2><span class="header-section-number">6.4</span> Bootstrap en R</h2>
-<div id="el-paquete-rsample" class="section level4">
-<h4><span class="header-section-number">6.4.0.1</span> El paquete <code>rsample</code></h4>
-<p>El paquete <code>rsample</code> (forma parte de la colección <a href="https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/">tidymodels</a>)
-tiene una función <code>bootsrtraps()</code>:</p>
-<ul>
-<li><code>bootsrtaps()</code> regresa un arreglo cuadrangular (<code>tibble</code>,
+<p>Es común crear nuestras porpias funciones cuando usamos bootstrap, sin embargo,
+en R también hay alternativas que pueden resultar convenientes, mencionamos 3:</p>
+<ol style="list-style-type: decimal">
+<li>El paquete <code>rsample</code> (forma parte de la colección <a href="https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/">tidymodels</a>)
+y tiene una función <code>bootsrtraps()</code>:<br />
+<code>bootsrtaps()</code> regresa un arreglo cuadrangular (<code>tibble</code>,
 <code>data.frame</code>) que incluye una columna con las muestras bootstrap y un
 identificador del número y tipo de muestra.</li>
-</ul>
+</ol>
+<p>Veamos un ejemplo donde seleccionamos muestras del conjunto de datos
+<code>muestra_computos</code> que contiene 10,000 observaciones.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)
 <span class="co">#&gt; Loading required package: broom</span>
 <span class="co">#&gt; </span>
@@ -340,29 +342,48 @@ muestra_computos
 <span class="co">#&gt; #   PRD_PT_MC &lt;int&gt;, PRD_PT &lt;int&gt;, PRD_MC &lt;int&gt;, PT_MC &lt;int&gt;,</span>
 <span class="co">#&gt; #   ID_MUNICIPIO &lt;int&gt;, LISTA_NOMINAL &lt;int&gt;, VOTOS_RESERVADOS &lt;int&gt;,</span>
 <span class="co">#&gt; #   pan &lt;int&gt;, pri &lt;int&gt;, prd &lt;int&gt;</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">computos_boot &lt;-<span class="st"> </span><span class="kw">bootstraps</span>(muestra_computos, <span class="dt">times =</span> <span class="dv">100</span>)</code></pre>
+<p>Generamos 100 muestras bootstrap, y la función nos regresa un arreglo con 100
+renglones, cada uno corresponde a una muestra bootstrap.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">839287482</span>)
+computos_boot &lt;-<span class="st"> </span><span class="kw">bootstraps</span>(muestra_computos, <span class="dt">times =</span> <span class="dv">100</span>)
+computos_boot
+<span class="co">#&gt; # Bootstrap sampling </span>
+<span class="co">#&gt; # A tibble: 100 x 2</span>
+<span class="co">#&gt;    splits       id          </span>
+<span class="co">#&gt;    &lt;list&gt;       &lt;chr&gt;       </span>
+<span class="co">#&gt;  1 &lt;S3: rsplit&gt; Bootstrap001</span>
+<span class="co">#&gt;  2 &lt;S3: rsplit&gt; Bootstrap002</span>
+<span class="co">#&gt;  3 &lt;S3: rsplit&gt; Bootstrap003</span>
+<span class="co">#&gt;  4 &lt;S3: rsplit&gt; Bootstrap004</span>
+<span class="co">#&gt;  5 &lt;S3: rsplit&gt; Bootstrap005</span>
+<span class="co">#&gt;  6 &lt;S3: rsplit&gt; Bootstrap006</span>
+<span class="co">#&gt;  7 &lt;S3: rsplit&gt; Bootstrap007</span>
+<span class="co">#&gt;  8 &lt;S3: rsplit&gt; Bootstrap008</span>
+<span class="co">#&gt;  9 &lt;S3: rsplit&gt; Bootstrap009</span>
+<span class="co">#&gt; 10 &lt;S3: rsplit&gt; Bootstrap010</span>
+<span class="co">#&gt; # ... with 90 more rows</span></code></pre>
 <p>La columna <code>splits</code> tiene información de las muestras seleccionadas, para la
-primera vemos que de 88 observaciones en <code>marks</code> la primera muestra bootstrap
-contiene 88-22=66.</p>
+primera vemos que de 10,000 observaciones en la muestra original la primera
+muestra bootstrap contiene 10000-3709=6291.</p>
 <pre class="sourceCode r"><code class="sourceCode r">first_computos_boot &lt;-<span class="st"> </span>computos_boot<span class="op">$</span>splits[[<span class="dv">1</span>]]
 first_computos_boot 
-<span class="co">#&gt; &lt;10000/3718/10000&gt;</span></code></pre>
+<span class="co">#&gt; &lt;10000/3709/10000&gt;</span></code></pre>
 <p>Y podemos obtener los datos de la muestra bootstrap con la función
 <code>as.data.frame()</code></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.data.frame</span>(first_computos_boot)
 <span class="co">#&gt; # A tibble: 10,000 x 36</span>
 <span class="co">#&gt;    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA</span>
 <span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;   &lt;int&gt;      &lt;int&gt; &lt;chr&gt;               &lt;int&gt;</span>
-<span class="co">#&gt;  1        21         15    1964          1 B                       0</span>
-<span class="co">#&gt;  2        14         16    2577          2 C                       0</span>
-<span class="co">#&gt;  3        19          1     409          1 B                       0</span>
-<span class="co">#&gt;  4        19         12    2394          1 C                       0</span>
-<span class="co">#&gt;  5        18          3      52          1 C                       0</span>
-<span class="co">#&gt;  6        32          2    1738          1 B                       0</span>
-<span class="co">#&gt;  7         9         11    5470          1 B                       0</span>
-<span class="co">#&gt;  8        20          1    1024          1 C                       0</span>
-<span class="co">#&gt;  9        11         11    1915          1 C                       0</span>
-<span class="co">#&gt; 10        26          3    1344          1 B                       0</span>
+<span class="co">#&gt;  1        20          3    1246          3 C                       0</span>
+<span class="co">#&gt;  2        21          7       9          1 B                       0</span>
+<span class="co">#&gt;  3        30          2    3609          1 B                       0</span>
+<span class="co">#&gt;  4        15          3     433          2 C                       0</span>
+<span class="co">#&gt;  5         7          3     861          1 B                       0</span>
+<span class="co">#&gt;  6        32          2     565          1 B                       0</span>
+<span class="co">#&gt;  7        15         36    4402          1 B                       0</span>
+<span class="co">#&gt;  8         5          5     542          2 C                       0</span>
+<span class="co">#&gt;  9        16          9    2213          1 C                       0</span>
+<span class="co">#&gt; 10         5          4    1006          1 E                       2</span>
 <span class="co">#&gt; # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA &lt;int&gt;,</span>
 <span class="co">#&gt; #   CASILLA &lt;int&gt;, ESTATUS_ACTA &lt;int&gt;, ORDEN &lt;int&gt;,</span>
 <span class="co">#&gt; #   LISTA_NOMINAL_CASILLA &lt;int&gt;, ID_GRUPO &lt;int&gt;, TIPO_RECUENTO &lt;int&gt;,</span>
@@ -391,10 +412,23 @@ el uso de memoria.</p>
 <span class="co"># el incremento en tamaño es &lt;&lt; 100</span>
 <span class="kw">as.numeric</span>(<span class="kw">object_size</span>(computos_boot)<span class="op">/</span><span class="kw">object_size</span>(muestra_computos))
 <span class="co">#&gt; [1] 3.7385</span></code></pre>
-<p>El paquete <code>boot</code> está asociado al libro <em>Bootstrap Methods and Their
-Applications</em> (<span class="citation">Davison and Hinkley (<a href="#ref-davison">1997</a>)</span>).</p>
-<p>Y <code>bootsrtap</code> contiene datos usados en <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span>.</p>
-</div>
+<ol start="2" style="list-style-type: decimal">
+<li>El paquete <code>boot</code> está asociado al libro <em>Bootstrap Methods and Their
+Applications</em> (<span class="citation">Davison and Hinkley (<a href="#ref-davison">1997</a>)</span>) y tiene, entre otras, funciones para calcular
+replicaciones bootstrap y para construir intervalos de confianza usando bootstrap:
+<ul>
+<li>calculo de replicaciones bootstrap con la función <code>boot()</code>,</li>
+<li>intervalos normales, de percentiles y <span class="math inline">\(BC_a\)</span> con la función <code>boot.ci()</code>,</li>
+<li>intevalos ABC con la función `abc.ci().</li>
+</ul></li>
+<li>El paquete <code>bootsrtap</code> contiene datos usados en <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span>, y la implementación
+de funciones para calcular replicaciones y construir intervalos de confianza:
+<ul>
+<li>calculo de replicaciones bootstrap con la función <code>bootstrap()</code>,</li>
+<li>intervalos <span class="math inline">\(BC_a\)</span> con la función <code>bcanon()</code>,</li>
+<li>intevalos ABC con la función `abcnon().</li>
+</ul></li>
+</ol>
 </div>
 <h3>Referencias</h3>
 <div id="refs" class="references">

@@ -221,8 +221,8 @@ muestras_sims %>%
 En este ejercicio estamos simulando para examinar las distribuciones muestrales
 y para ver que podemos aproximar el error estándar de la media usando 
 simulación; sin embargo, dado que en este caso hipotético conocemos la varianza 
-poblacional y la fórmula del error estándar de una media, podemos calcular el 
-verdadero error estándar para una muestra de cada tamaño.
+poblacional y la fórmula del error estándar de una media, por lo que podemos 
+calcular el verdadero error estándar para una muestra de cada tamaño.
 
 - Calcula el error estándar de la media para cada tamaño de muestra usando la
 información poblacional:
@@ -230,7 +230,7 @@ información poblacional:
 
 ```r
 muestras_sims_est <- muestras_sims %>% 
-    mutate(e_estandar_pob = sd(primarias$esp_3) * sqrt(tamanos - 1) / tamanos)
+    mutate(e_estandar_pob = sd(primarias$esp_3) / sqrt(tamanos))
 muestras_sims_est %>% 
     select(tamanos, e_estandar_plug_in, e_estandar_aprox, e_estandar_pob)
 ```
@@ -239,8 +239,8 @@ muestras_sims_est %>%
 ## # A tibble: 3 x 4
 ##   tamanos e_estandar_plug_in e_estandar_aprox e_estandar_pob
 ##     <dbl>              <dbl>            <dbl>          <dbl>
-## 1      10              21.1             21.0           20.0 
-## 2     100               6.11             6.69           6.64
+## 1      10              21.1             21.0           21.1 
+## 2     100               6.11             6.69           6.67
 ## 3    1000               2.11             2.13           2.11
 ```
 
@@ -282,8 +282,8 @@ muestras_sims_est_boot %>%
 ## # A tibble: 3 x 5
 ##   tamanos e_estandar_boot e_estandar_plug… e_estandar_aprox e_estandar_pob
 ##     <dbl>           <dbl>            <dbl>            <dbl>          <dbl>
-## 1      10           21.3             21.1             21.0           20.0 
-## 2     100            6.11             6.11             6.69           6.64
+## 1      10           21.3             21.1             21.0           21.1 
+## 2     100            6.11             6.11             6.69           6.67
 ## 3    1000            2.08             2.11             2.13           2.11
 ```
 
