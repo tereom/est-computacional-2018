@@ -197,15 +197,15 @@ muestras_sims %>%
 En este ejercicio estamos simulando para examinar las distribuciones muestrales
 y para ver que podemos aproximar el error estándar de la media usando 
 simulación; sin embargo, dado que en este caso hipotético conocemos la varianza 
-poblacional y la fórmula del error estándar de una media, podemos calcular el 
-verdadero error estándar para una muestra de cada tamaño.
+poblacional y la fórmula del error estándar de una media, por lo que podemos 
+calcular el verdadero error estándar para una muestra de cada tamaño.
 
 - Calcula el error estándar de la media para cada tamaño de muestra usando la
 información poblacional:
 
 ```{r}
 muestras_sims_est <- muestras_sims %>% 
-    mutate(e_estandar_pob = sd(primarias$esp_3) * sqrt(tamanos - 1) / tamanos)
+    mutate(e_estandar_pob = sd(primarias$esp_3) / sqrt(tamanos))
 muestras_sims_est %>% 
     select(tamanos, e_estandar_plug_in, e_estandar_aprox, e_estandar_pob)
 ```
