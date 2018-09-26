@@ -305,7 +305,7 @@ GCLs (se puede elegir usar otros generadores para ver los disponible teclea
 El generador **Mersenne-Twister** se desarrolló en 1997 por Makoto Matsumoto y 
 Takuji Nishimura (@matsumoto), es el generador default en muchos programas, por
 ejemplo, en Python, Ruby, C++ estándar, Excel y Matlab (más [aquí](https://en.wikipedia.org/wiki/Mersenne_Twister)).
-Este generador tiene propiedades deseables como un periodo largo (2^19937-1) y 
+Este generador tiene propiedades deseables como un periodo largo [(2^19937-1)](http://lcn2.github.io/mersenne-english-name/m19937/prime-c.html) y 
 el hecho que pasa muchas pruebas de aleatoriedad. 
 
 ### Pruebas de aleatoriedad {-}
