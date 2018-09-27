@@ -584,7 +584,7 @@ y <span class="math inline">\(\Phi\)</span> es la función de distribución acum
 y <span class="math inline">\(z^{\alpha}\)</span> es el percentil <span class="math inline">\(100 \cdot \alpha\)</span> de una distribución normal
 estándar.
 </div>
-<p>Notemos que si <span class="math inline">\(\hat{a}\)</span> y <span class="math inline">\(\hat{z}_0\)</span> son cero entonces <span class="math inline">\(\alpha_1=\alpha\)</span> y
+<p>Notemos que si <span class="math inline">\(\hat{a}\)</span> y <span class="math inline">\(\hat{z}_0\)</span> son cero entonces <span class="math inline">\(\alpha_1=\alpha\)</span><br />
 y <span class="math inline">\(\alpha_2=1-\alpha\)</span>, obteniendo así los intervalos de percentiles.
 El valor de la corrección por sesgo <span class="math inline">\(\hat{z}_0\)</span> se obtiene de la
 propoción de de replicaciones bootstrap menores a la estimación original
@@ -611,7 +611,7 @@ es, los errores de cobertura se van a cero a una tasa de 1/n.</p></li>
 </ol>
 <p>Los intervalos <span class="math inline">\(BC_{a}\)</span> están implementados en el paquete boot (<code>boot.ci()</code>) y
 en el paquete bootstrap (<code>bcanon()</code>). La desventaja de los intervalos <span class="math inline">\(BC_{a}\)</span> es
-que requieron intenso cómputo estadístico, de acuerdo a <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span> al
+que requieren intenso cómputo estadístico, de acuerdo a <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span> al
 menos <span class="math inline">\(B= 1000\)</span> replicaciones son necesairas para reducir el error de muestreo.</p>
 <p>Ante esto surgen los intervalos ABC (approximate bootstrap confidence
 intervals), que es un método para aproximar <span class="math inline">\(BC_{a}\)</span> analíticamente (usando

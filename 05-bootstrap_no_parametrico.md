@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.07"
+#> [1] "0.068"
 ```
 
 
@@ -1845,7 +1845,7 @@ y $z^{\alpha}$ es el percentil $100 \cdot \alpha$ de una distribución normal
 estándar.
 </div>
 
-Notemos que si $\hat{a}$ y $\hat{z}_0$ son cero entonces $\alpha_1=\alpha$ y 
+Notemos que si $\hat{a}$ y $\hat{z}_0$ son cero entonces $\alpha_1=\alpha$  
 y $\alpha_2=1-\alpha$, obteniendo así los intervalos de percentiles.
 El valor de la corrección por sesgo $\hat{z}_0$ se obtiene de la 
 propoción de de replicaciones bootstrap menores a la estimación original 
@@ -1878,7 +1878,7 @@ es, los errores de cobertura se van a cero a una tasa de 1/n.
 
 Los intervalos $BC_{a}$ están implementados en el paquete boot (`boot.ci()`) y 
 en el paquete bootstrap (`bcanon()`). La desventaja de los intervalos $BC_{a}$ es 
-que requieron intenso cómputo estadístico, de acuerdo a @efron al
+que requieren intenso cómputo estadístico, de acuerdo a @efron al
 menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo.
 
 Ante esto surgen los intervalos ABC (approximate bootstrap confidence 
