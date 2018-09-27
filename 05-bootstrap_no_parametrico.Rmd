@@ -1229,8 +1229,9 @@ En lo que sigue veremos distintas maneras de construir intervalos de confianza
 usando bootstrap.
 
 <div class="caja">
-Un **intervalo de confianza** $1-2\alpha$ para un parámetro $\theta$ es un intervalo
-tal que $P(a \le \theta \le) \ge 1-2\alpha$ para todo $\theta \in \Theta$.
+Un **intervalo de confianza** $(1-2\alpha)$% para un parámetro $\theta$ es un 
+intervalo $(a,b)$ tal que $P(a \le \theta \le b) = 1-2\alpha$ para todo 
+$\theta \in \Theta$.
 </div>
 
 Y comenzamos con la versión bootstrap del intervalo más popular.
@@ -1540,7 +1541,7 @@ y $z^{\alpha}$ es el percentil $100 \cdot \alpha$ de una distribución normal
 estándar.
 </div>
 
-Notemos que si $\hat{a}$ y $\hat{z}_0$ son cero entonces $\alpha_1=\alpha$ y 
+Notemos que si $\hat{a}$ y $\hat{z}_0$ son cero entonces $\alpha_1=\alpha$  
 y $\alpha_2=1-\alpha$, obteniendo así los intervalos de percentiles.
 El valor de la corrección por sesgo $\hat{z}_0$ se obtiene de la 
 propoción de de replicaciones bootstrap menores a la estimación original 
@@ -1573,7 +1574,7 @@ es, los errores de cobertura se van a cero a una tasa de 1/n.
 
 Los intervalos $BC_{a}$ están implementados en el paquete boot (`boot.ci()`) y 
 en el paquete bootstrap (`bcanon()`). La desventaja de los intervalos $BC_{a}$ es 
-que requieron intenso cómputo estadístico, de acuerdo a @efron al
+que requieren intenso cómputo estadístico, de acuerdo a @efron al
 menos $B= 1000$ replicaciones son necesairas para reducir el error de muestreo.
 
 Ante esto surgen los intervalos ABC (approximate bootstrap confidence 
@@ -1583,6 +1584,7 @@ expansiones de Taylor).
 Usando la implementación del paquete bootstrap:
 
 ```{r}
+library(bootstrap)
 var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
 bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 0.975))
 ```
