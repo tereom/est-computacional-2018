@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.068"
+#> [1] "0.066"
 ```
 
 
@@ -1889,6 +1889,7 @@ Usando la implementación del paquete bootstrap:
 
 
 ```r
+library(bootstrap)
 var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
 bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 0.975))
 #> $confpoints
