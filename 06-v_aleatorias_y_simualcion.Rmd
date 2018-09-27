@@ -418,7 +418,7 @@ Comencemos repasando algunos conceptos:
 
 <div class="caja">
 Una **variable aleatoria** es un mapeo entre el espacio de resultados y los 
-números reales
+números reales.
 </div>
 
 Ejemplo. Lanzamos una moneda justa dos veces, definimos $X$ como en el número de
