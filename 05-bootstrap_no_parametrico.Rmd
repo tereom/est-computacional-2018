@@ -1584,6 +1584,7 @@ expansiones de Taylor).
 Usando la implementación del paquete bootstrap:
 
 ```{r}
+library(bootstrap)
 var_sesgada <- function(x) sum((x - mean(x)) ^ 2) / length(x)
 bcanon(x = spatial[, 1], nboot = 2000, theta = var_sesgada, alpha = c(0.025, 0.975))
 ```
