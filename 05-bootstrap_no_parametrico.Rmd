@@ -1541,7 +1541,7 @@ y $z^{\alpha}$ es el percentil $100 \cdot \alpha$ de una distribución normal
 estándar.
 </div>
 
-Notemos que si $\hat{a}$ y $\hat{z}_0$ son cero entonces $\alpha_1=\alpha$ y 
+Notemos que si $\hat{a}$ y $\hat{z}_0$ son cero entonces $\alpha_1=\alpha$  
 y $\alpha_2=1-\alpha$, obteniendo así los intervalos de percentiles.
 El valor de la corrección por sesgo $\hat{z}_0$ se obtiene de la 
 propoción de de replicaciones bootstrap menores a la estimación original 
