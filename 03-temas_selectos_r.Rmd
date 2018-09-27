@@ -35,7 +35,7 @@ for (i in 1:2) print(i)
 `for`(i, 1:2, print(i))
 ```
 
-Para escribir código eficiente y fácil de leer es importante saber esvribir
+Para escribir código eficiente y fácil de leer es importante saber escribir
 funciones, se dice que si hiciste *copy-paste* de una sección de tu código 3
 o más veces es momento de escribir una función.
 
