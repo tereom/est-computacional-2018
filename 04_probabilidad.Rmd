@@ -43,7 +43,7 @@ theme_set(theme_minimal())
 ```
 
 
-## Probabilidad como extensión a proporción {-}
+## Probabilidad como extensión a proporción
 
 #### Espacio de resultados y eventos {-}
 
@@ -608,7 +608,7 @@ distribuida sobre un área o volumen $\Omega$, y $P(A)$ representa la proporció
 de esa masa en el 
 subconjunto $A$.
 
-![](../imagenes/manicule2.jpg) Definimos $X$ como la variable aleatoria del 
+![](imagenes/manicule2.jpg) Definimos $X$ como la variable aleatoria del 
 número de juegos antes de que termine el experimento de la ruina del jugador, 
 grafica la distribución de probabilidad de $X$ 
 (calcula $P(X=1), P(X=2),...,P(X=50)$).
