@@ -1475,8 +1475,9 @@ En lo que sigue veremos distintas maneras de construir intervalos de confianza
 usando bootstrap.
 
 <div class="caja">
-Un **intervalo de confianza** $1-2\alpha$ para un parámetro $\theta$ es un intervalo
-tal que $P(a \le \theta \le) \ge 1-2\alpha$ para todo $\theta \in \Theta$.
+Un **intervalo de confianza** $(1-2\alpha)$% para un parámetro $\theta$ es un 
+intervalo $(a,b)$ tal que $P(a \le \theta \le b) = 1-2\alpha$ para todo 
+$\theta \in \Theta$.
 </div>
 
 Y comenzamos con la versión bootstrap del intervalo más popular.
@@ -1844,7 +1845,7 @@ y $z^{\alpha}$ es el percentil $100 \cdot \alpha$ de una distribución normal
 estándar.
 </div>
 
-Notemos que si $\hat{a}$ y $\hat{z}_0$ son cero entonces $\alpha_1=\alpha$ y 
+Notemos que si $\hat{a}$ y $\hat{z}_0$ son cero entonces $\alpha_1=\alpha$  
 y $\alpha_2=1-\alpha$, obteniendo así los intervalos de percentiles.
 El valor de la corrección por sesgo $\hat{z}_0$ se obtiene de la 
 propoción de de replicaciones bootstrap menores a la estimación original 

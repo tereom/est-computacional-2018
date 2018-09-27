@@ -320,8 +320,9 @@ muestra demasiado grande (<span class="math inline">\(n = 60\)</span> ya es razo
 <p>En lo que sigue veremos distintas maneras de construir intervalos de confianza
 usando bootstrap.</p>
 <div class="caja">
-<p>Un <strong>intervalo de confianza</strong> <span class="math inline">\(1-2\alpha\)</span> para un parámetro <span class="math inline">\(\theta\)</span> es un intervalo
-tal que <span class="math inline">\(P(a \le \theta \le) \ge 1-2\alpha\)</span> para todo <span class="math inline">\(\theta \in \Theta\)</span>.</p>
+<p>Un <strong>intervalo de confianza</strong> <span class="math inline">\((1-2\alpha)\)</span>% para un parámetro <span class="math inline">\(\theta\)</span> es un
+intervalo <span class="math inline">\((a,b)\)</span> tal que <span class="math inline">\(P(a \le \theta \le b) = 1-2\alpha\)</span> para todo
+<span class="math inline">\(\theta \in \Theta\)</span>.</p>
 </div>
 <p>Y comenzamos con la versión bootstrap del intervalo más popular.</p>
 <div class="caja">
@@ -583,7 +584,7 @@ y <span class="math inline">\(\Phi\)</span> es la función de distribución acum
 y <span class="math inline">\(z^{\alpha}\)</span> es el percentil <span class="math inline">\(100 \cdot \alpha\)</span> de una distribución normal
 estándar.
 </div>
-<p>Notemos que si <span class="math inline">\(\hat{a}\)</span> y <span class="math inline">\(\hat{z}_0\)</span> son cero entonces <span class="math inline">\(\alpha_1=\alpha\)</span> y
+<p>Notemos que si <span class="math inline">\(\hat{a}\)</span> y <span class="math inline">\(\hat{z}_0\)</span> son cero entonces <span class="math inline">\(\alpha_1=\alpha\)</span><br />
 y <span class="math inline">\(\alpha_2=1-\alpha\)</span>, obteniendo así los intervalos de percentiles.
 El valor de la corrección por sesgo <span class="math inline">\(\hat{z}_0\)</span> se obtiene de la
 propoción de de replicaciones bootstrap menores a la estimación original
