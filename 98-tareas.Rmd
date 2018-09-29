@@ -282,6 +282,7 @@ sd(replicaciones)
 
 
 ## 6-Cobertura de intervalos de confianza {-}
+
 En este problema realizarás un ejercicio de simulación para comparar la 
 exactitud de distintos intervalos de confianza. Simularás muestras de  
 una distribución Poisson con parámetro $\lambda=2.5$ y el estadístico de interés  
@@ -297,9 +298,8 @@ ii) Genera $10,000$ muestras bootstrap y calcula intervalos de confianza del
 
 iii) Revisa si el intervalo de confianza contiene el verdadero valor del 
 parámetro ($\theta=exp(-2\cdot2.5)$), en caso de que no lo contenga registra si 
-falló por la izquierda (el límite inferior >1) o falló por la derecha (el límite 
-superior 
-<1).
+falló por la izquierda (el límite inferior $exp(-2.5*\lambda)$) o falló por la 
+derecha (el límite superior <$exp(-2.5*\lambda)$).
 
 a) Repite el proceso descrito 1000 veces y llena la siguiente tabla:
 
