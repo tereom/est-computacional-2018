@@ -565,10 +565,8 @@ data_frame(x = runif(1000), y = runif(1000) * 2.5, dentro = dbeta(x, 5, 2) > y,
 ```
 
 
-En el caso discreto.
-
-Supongamos que el proceso de selección del comité tiene sesgo, las mujeres 
-se seleccionan con mayor probabilidad que los hombres
+En el caso discreto: Supongamos que el proceso de selección del comité tiene 
+sesgo, las mujeres se seleccionan con mayor probabilidad que los hombres:
 
 ```{r}
 comite <- function(){
@@ -582,8 +580,70 @@ comite <- function(){
 rerun(1000, comite()) %>% flatten_dbl() %>% mean()
 ```
 
-Y para el caso continuo comencemos con un dardo en una sola dimensión en el 
-caso de eventos equiprobables:
+
+## Probabilidad: definición matemática
+Desde un punto de vista puramente matemático, la probabilidad se define como
+una función de eventos. Los eventos se representan como conjuntos, y suponemos 
+que la función de probabilidad satisface las reglas básicas de proporción. Antes
+de definir estas reglas consideremos la representación de los eventos como 
+subconjuntos de un espacio de resultados.
+
+Supongamos que tenemos un espacio de resultados $\Omega$, y que todos los 
+eventos de interés están representados como subconjuntos de $\Omega$. Podemos
+pensar en $\Omega$ como una representación de todas las situaciones que pueden
+ocurrir, no suponemos que es finito, ni que los eventos son igualmente 
+probables.
+
+Las reglas de la probabilidad involucran relaciones lógicas entre eventos; estas
+se traducen a relaciones de conjuntos. Por ejemplo, si C es el evento que ocurre
+si sucede A o si sucede B, entonces el conjunto de maneras en las que ocurre C
+es la unión del conjunto de maneras en que ocurre A y el conjunto de maneras en 
+que ocurre B. Veamos como se traduce de eventos a conjuntos
+
+Lenguaje de eventos | Lenguaje de conjuntos | Notación de conjuntos
+--------------------|-----------------------|----------------------
+Espacio de resultados| conjunto universal   | $\Omega$
+evento              | subconjunto de $\Omega$| $A,B,C,...$
+evento imposible    | conjunto vacío        | $\emptyset$
+no A, opuesto de A  |complemento de A       | $A^c$
+A o B               |unión de A y B         | $A\cup B$
+tanto A como B      | intersección de A y B | $AB,A\cap B$ 
+A y B mutuamente excluyentes |A y B disjuntos | $AB=\emptyset$
+si A entonces B     | A es subconjunto de B | $A\subset B$
+
+
+#### Particiones y axiomas de probabilidad {-}
+<div class="caja">
+Decimos que un conjunto de $n$ eventos $B_1,...,B_n$ es una **partición** del evento 
+$B$ si $B=B_1 \cup B_2 \cup \cdot\cdot\cdot \cup B_n$ y los eventos 
+$B_1,...,B_n$ son mutuamente excluyentes. 
+</div>
+
+Ahora podemos definir probabilidad:
+
+<div class="caja">
+Una función $P$ es una **función de probabilidad** si satisface las siguientes 
+condiciones:
+
+1. Un valor de probabilidad debe ser no-negativo: 
+$$P(B) \geq 0$$ para cualquier evento $B$  
+2. La suma de las probabilidades a través de todos los posibles eventos en el 
+espacio de resultados debe ser 1 (i.e. uno de los eventos en el espacio de 
+resultados debe ocurrir). 
+$$P(\Omega) = 1$$
+3. Si $B_1,...,B_n$ es una partición del evento $B$ entonces, la probabilidad 
+de que ocurra B es la suma de las probabilidades individuales:
+$$P(B)=P(B_1)+P(B_2) + \cdot\cdot\cdot +P(B_n)$$
+</div>
+
+### Propiedades de la función de probabilidad:
+* $P(A^c) = 1 - P(A)$    
+* $P(\emptyset)=0$  
+* Si $A \subset B$ entonces $P(A) \le P(B)$  
+* $0\le P(A) \le 1$
+* La regla general de la suma: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+
+
 
 ## Variables aleatorias
 
