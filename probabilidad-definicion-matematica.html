@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="introduccion-a-visualizacion.html">
-<link rel="next" href="teoria-de-visualizacion-de-datos.html">
+<link rel="prev" href="simulacion-para-el-calculo-de-probabilidades.html">
+<link rel="next" href="variables-aleatorias.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -297,96 +297,111 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="introduccion" class="section level2">
-<h2><span class="header-section-number">1.1</span> Introducción</h2>
-<p>La visualización de datos no trata de hacer gráficas “bonitas” o “divertidas”,
-ni de simplificar lo complejo o ayudar a una persona “que no entiende mucho” a
-entender ideas complejas. Más bien, trata de aprovechar nuestra gran capacidad
-de procesamiento visual para exhibir de manera clara aspectos importantes de los
-datos.</p>
-<p>El siguiente ejemplo de <span class="citation">(Tufte <a href="#ref-tufte06">2006</a>)</span>, ilustra claramente la diferencia entre estos
-dos enfoques. A la izquierda están gráficas (más o menos típicas de Powerpoint)
-basadas en la filosofía de simplificar, de intentar no “ahogar” al lector con
-datos. El resultado es una colección incoherente, de bajo contenido, que no
-tiene mucho qué decir y que es, “indeferente al contenido y la evidencia”.
-A la derecha está una variación del rediseño de Tufte en forma de tabla, que en
-este caso particular es una manera eficiente de mostrar claramente los patrones
-que hay en este conjunto simple de datos.</p>
-<p>¿Qué principios son los que soportan la efectividad de esta tabla sobre la
-gráfica de la derecha? Veremos que hay dos conjuntos de principios importantes:
-unos relacionados con el diseño y otros con la naturaleza del análisis de datos,
-independientemente del método de visualización.</p>
-<p><img src="imagenes/tufte_cancer.jpg" /></p>
-<div id="visualizacion-de-datos-en-la-estadistica" class="section level3 unnumbered">
-<h3>Visualización de datos en la estadística</h3>
-<p>La estadística tradicionalmente se divide en dos partes: una parte de naturaleza
-exploratoria, donde jugamos el papel de detectives en búsqueda de los elementos
-de evidencia importante, y una parte de naturaleza inferencial, donde nos
-convertimos en jueces donde le damos pesos de credibilidad a la evidencia que
-presenta el detective. Estas dos partes tienen interacción fuerte en la
-práctica, pero por razones históricas se considera “superior” a la parte
-inferencial por encima de la exploratoria.</p>
-<p>Aunque en el proceso de inferencia las gráficas cada vez son más importantes, la
-visualización entra más claramente dentro del análisis exploratorio de datos. Y
-como en un principio no es claro como la visualización aporta al proceso de la
-inferencia, se le consideró por mucho tiempo como un área de poca importancia
-para la estadística: una herramienta que en todo caso sirve para comunicar ideas
-simples, de manera deficiente, y a personas poco sofisticadas.</p>
-<div style="float:right;top:-10px;width:500px;padding:2px">
-<p><img src="01-repaso-visualizacion_files/figure-html/barley_plot-1.png" width="480" /></p>
+<div id="probabilidad-definicion-matematica" class="section level2">
+<h2><span class="header-section-number">5.4</span> Probabilidad: definición matemática</h2>
+<p>Desde un punto de vista puramente matemático, la probabilidad se define como
+una función de eventos. Los eventos se representan como conjuntos, y suponemos
+que la función de probabilidad satisface las reglas básicas de proporción. Antes
+de definir estas reglas consideremos la representación de los eventos como
+subconjuntos de un espacio de resultados.</p>
+<p>Supongamos que tenemos un espacio de resultados <span class="math inline">\(\Omega\)</span>, y que todos los
+eventos de interés están representados como subconjuntos de <span class="math inline">\(\Omega\)</span>. Podemos
+pensar en <span class="math inline">\(\Omega\)</span> como una representación de todas las situaciones que pueden
+ocurrir, no suponemos que es finito, ni que los eventos son igualmente
+probables.</p>
+<p>Las reglas de la probabilidad involucran relaciones lógicas entre eventos; estas
+se traducen a relaciones de conjuntos. Por ejemplo, si C es el evento que ocurre
+si sucede A o si sucede B, entonces el conjunto de maneras en las que ocurre C
+es la unión del conjunto de maneras en que ocurre A y el conjunto de maneras en
+que ocurre B. Veamos como se traduce de eventos a conjuntos</p>
+<table>
+<thead>
+<tr class="header">
+<th>Lenguaje de eventos</th>
+<th>Lenguaje de conjuntos</th>
+<th>Notación de conjuntos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Espacio de resultados</td>
+<td>conjunto universal</td>
+<td><span class="math inline">\(\Omega\)</span></td>
+</tr>
+<tr class="even">
+<td>evento</td>
+<td>subconjunto de <span class="math inline">\(\Omega\)</span></td>
+<td><span class="math inline">\(A,B,C,...\)</span></td>
+</tr>
+<tr class="odd">
+<td>evento imposible</td>
+<td>conjunto vacío</td>
+<td><span class="math inline">\(\emptyset\)</span></td>
+</tr>
+<tr class="even">
+<td>no A, opuesto de A</td>
+<td>complemento de A</td>
+<td><span class="math inline">\(A^c\)</span></td>
+</tr>
+<tr class="odd">
+<td>A o B</td>
+<td>unión de A y B</td>
+<td><span class="math inline">\(A\cup B\)</span></td>
+</tr>
+<tr class="even">
+<td>tanto A como B</td>
+<td>intersección de A y B</td>
+<td><span class="math inline">\(AB,A\cap B\)</span></td>
+</tr>
+<tr class="odd">
+<td>A y B mutuamente excluyentes</td>
+<td>A y B disjuntos</td>
+<td><span class="math inline">\(AB=\emptyset\)</span></td>
+</tr>
+<tr class="even">
+<td>si A entonces B</td>
+<td>A es subconjunto de B</td>
+<td><span class="math inline">\(A\subset B\)</span></td>
+</tr>
+</tbody>
+</table>
+<div id="particiones-y-axiomas-de-probabilidad" class="section level4 unnumbered">
+<h4>Particiones y axiomas de probabilidad</h4>
+<div class="caja">
+<p>Decimos que un conjunto de <span class="math inline">\(n\)</span> eventos <span class="math inline">\(B_1,...,B_n\)</span> es una <strong>partición</strong> del evento
+<span class="math inline">\(B\)</span> si <span class="math inline">\(B=B_1 \cup B_2 \cup \cdot\cdot\cdot \cup B_n\)</span> y los eventos
+<span class="math inline">\(B_1,...,B_n\)</span> son mutuamente excluyentes.</p>
 </div>
-<p>El peor lado de este punto de vista consiste en restringirse a el análisis
-estadístico rutinario <span class="citation">Cleveland (<a href="#ref-cleveland93">1993</a>)</span>: aplicar las recetas y
-negarse a ver los datos de distinta manera (¡incluso pensar que esto puede
-sesgar los resultados, o que nos podría engañar!). El siguiente ejemplo muestra
-un caso grave y real (no simulado) de este análisis estadístico rutinario
-(tomado de <span class="citation">Cleveland (<a href="#ref-cleveland94">1994</a>)</span>).</p>
-<p>A la derecha mostramos los resultados de un experimento de agricultura. Se
-cultivaron diez variedades de cebada en seis sitios de Minnesota, en 1921 y
-1932. Este es uno de los primeros ejemplos en el que se aplicaron las ideas de
-Fisher en cuanto a diseño de experimentos.</p>
-<p>Estos datos fueron reanalizados desde esa época por muchos agrónomos. Hasta muy
-recientemente se detectó la anomalía en el comportamiento de los años en el
-sitio Morris, el cual es evidente en la gráfica. Investigación posterior ha
-mostrado convincentemente que en algún momento alguien volteó las etiquetas de
-los años en este sitio.</p>
-<p>Este ejemplo muestra, en primer lugar, que la visualización es crucial en el
-proceso de análisis de datos: sin ella estamos expuestos a no encontrar aspectos
-importantes de los datos (errores) que deben ser discutidos - aún cuando nuestra
-receta de análisis no considere estos aspectos. Ninguna receta puede aproximarse
-a describir todas las complejidades y detalles en un conjunto de datos de tamaño
-razonable (este ejemplo, en realidad, es chico). Sin embargo, la visualización
-de datos, por su enfoque menos estructurado, y el hecho de que se apoya en un
-medio con un “ancho de banda” mayor al que puede producir un cierto número de
-cantidades resumen, es ideal para investigar estos aspectos y detalles.</p>
-<div style="clear:both">
-
+<p>Ahora podemos definir probabilidad:</p>
+<div class="caja">
+<p>Una función <span class="math inline">\(P\)</span> es una <strong>función de probabilidad</strong> si satisface las siguientes
+condiciones:</p>
+<ol style="list-style-type: decimal">
+<li>Un valor de probabilidad debe ser no-negativo:
+<span class="math display">\[P(B) \geq 0\]</span> para cualquier evento <span class="math inline">\(B\)</span><br />
+</li>
+<li>La suma de las probabilidades a través de todos los posibles eventos en el
+espacio de resultados debe ser 1 (i.e. uno de los eventos en el espacio de
+resultados debe ocurrir).
+<span class="math display">\[P(\Omega) = 1\]</span></li>
+<li>Si <span class="math inline">\(B_1,...,B_n\)</span> es una partición del evento <span class="math inline">\(B\)</span> entonces, la probabilidad
+de que ocurra B es la suma de las probabilidades individuales:
+<span class="math display">\[P(B)=P(B_1)+P(B_2) + \cdot\cdot\cdot +P(B_n)\]</span></li>
+</ol>
 </div>
 </div>
-<div id="visualizacion-popular-de-datos" class="section level3 unnumbered">
-<h3>Visualización popular de datos</h3>
-<p>Publicaciones populares (periódicos, revistas, sitios internet) muchas veces
-incluyen visualización de datos como parte de sus artículos o reportajes. En
-general siguen el mismo patrón que en la visión tradicionalista de la
-estadística: sirven más para divertir que para explicar, tienden a explicar
-ideas simples y conjuntos chicos de datos, y se consideran como una “ayuda”
-para los “lectores menos sofisticados”. Casi siempre se trata de gráficas
-triviales (muchas veces con errores graves) que no aportan mucho a artículos que
-tienen un nivel de complejidad mucho mayor (es la filosofía: lo escrito para el
-adulto, lo graficado para el niño).</p>
-<p><img src="imagenes/nyt.png" /></p>
-</div>
-</div>
-<h3>Referencias</h3>
-<div id="refs" class="references">
-<div id="ref-tufte06">
-<p>Tufte, Edward R. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
-</div>
-<div id="ref-cleveland93">
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
-</div>
-<div id="ref-cleveland94">
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p> 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
+<div id="propiedades-de-la-funcion-de-probabilidad" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> Propiedades de la función de probabilidad:</h3>
+<ul>
+<li><span class="math inline">\(P(A^c) = 1 - P(A)\)</span><br />
+</li>
+<li><span class="math inline">\(P(\emptyset)=0\)</span><br />
+</li>
+<li>Si <span class="math inline">\(A \subset B\)</span> entonces <span class="math inline">\(P(A) \le P(B)\)</span><br />
+</li>
+<li><span class="math inline">\(0\le P(A) \le 1\)</span></li>
+<li>La regla general de la suma: <span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span></li>
+</ul>
 </div>
 </div>
             </section>
@@ -394,8 +409,8 @@ adulto, lo graficado para el niño).</p>
           </div>
         </div>
       </div>
-<a href="introduccion-a-visualizacion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="teoria-de-visualizacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="simulacion-para-el-calculo-de-probabilidades.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="variables-aleatorias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -425,7 +440,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/04_probabilidad.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

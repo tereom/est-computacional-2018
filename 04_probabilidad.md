@@ -153,7 +153,7 @@ Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultado
 ```r
 lanzamientos_10 <- sample(c("A", "S"), 10, replace = TRUE)
 lanzamientos_10
-#>  [1] "A" "S" "S" "S" "S" "S" "A" "A" "A" "S"
+#>  [1] "A" "A" "S" "A" "S" "A" "A" "A" "S" "A"
 ```
 
 Podemos calcular las secuencia de frecuencias relativas de águila:
@@ -161,9 +161,9 @@ Podemos calcular las secuencia de frecuencias relativas de águila:
 
 ```r
 cumsum(lanzamientos_10 == "A") # suma acumulada de águilas
-#>  [1] 1 1 1 1 1 1 2 3 4 4
+#>  [1] 1 2 2 3 3 4 5 6 6 7
 cumsum(lanzamientos_10 == "A") / 1:10
-#>  [1] 1.000 0.500 0.333 0.250 0.200 0.167 0.286 0.375 0.444 0.400
+#>  [1] 1.000 1.000 0.667 0.750 0.600 0.667 0.714 0.750 0.667 0.700
 ```
 
 Una regla general, es que las frecuencias relativas basadas en un número 
@@ -198,12 +198,12 @@ head(lanzar())
 #> # A tibble: 6 x 3
 #>   num_lanzamiento lanzamiento frec_rel
 #>             <int> <chr>          <dbl>
-#> 1               1 S              0    
-#> 2               2 A              0.5  
+#> 1               1 A              1    
+#> 2               2 S              0.5  
 #> 3               3 A              0.667
 #> 4               4 A              0.75 
-#> 5               5 A              0.8  
-#> 6               6 A              0.833
+#> 5               5 S              0.6  
+#> 6               6 S              0.5
 
 set.seed(31287931)
 # usamos la función map_df del paquete purrr
@@ -589,10 +589,8 @@ data_frame(x = runif(1000), y = runif(1000) * 2.5, dentro = dbeta(x, 5, 2) > y,
 <img src="04_probabilidad_files/figure-html/unnamed-chunk-24-1.png" width="350px" />
 
 
-En el caso discreto.
-
-Supongamos que el proceso de selección del comité tiene sesgo, las mujeres 
-se seleccionan con mayor probabilidad que los hombres
+En el caso discreto: Supongamos que el proceso de selección del comité tiene 
+sesgo, las mujeres se seleccionan con mayor probabilidad que los hombres:
 
 
 ```r
@@ -608,8 +606,70 @@ rerun(1000, comite()) %>% flatten_dbl() %>% mean()
 #> [1] 0.094
 ```
 
-Y para el caso continuo comencemos con un dardo en una sola dimensión en el 
-caso de eventos equiprobables:
+
+## Probabilidad: definición matemática
+Desde un punto de vista puramente matemático, la probabilidad se define como
+una función de eventos. Los eventos se representan como conjuntos, y suponemos 
+que la función de probabilidad satisface las reglas básicas de proporción. Antes
+de definir estas reglas consideremos la representación de los eventos como 
+subconjuntos de un espacio de resultados.
+
+Supongamos que tenemos un espacio de resultados $\Omega$, y que todos los 
+eventos de interés están representados como subconjuntos de $\Omega$. Podemos
+pensar en $\Omega$ como una representación de todas las situaciones que pueden
+ocurrir, no suponemos que es finito, ni que los eventos son igualmente 
+probables.
+
+Las reglas de la probabilidad involucran relaciones lógicas entre eventos; estas
+se traducen a relaciones de conjuntos. Por ejemplo, si C es el evento que ocurre
+si sucede A o si sucede B, entonces el conjunto de maneras en las que ocurre C
+es la unión del conjunto de maneras en que ocurre A y el conjunto de maneras en 
+que ocurre B. Veamos como se traduce de eventos a conjuntos
+
+Lenguaje de eventos | Lenguaje de conjuntos | Notación de conjuntos
+--------------------|-----------------------|----------------------
+Espacio de resultados| conjunto universal   | $\Omega$
+evento              | subconjunto de $\Omega$| $A,B,C,...$
+evento imposible    | conjunto vacío        | $\emptyset$
+no A, opuesto de A  |complemento de A       | $A^c$
+A o B               |unión de A y B         | $A\cup B$
+tanto A como B      | intersección de A y B | $AB,A\cap B$ 
+A y B mutuamente excluyentes |A y B disjuntos | $AB=\emptyset$
+si A entonces B     | A es subconjunto de B | $A\subset B$
+
+
+#### Particiones y axiomas de probabilidad {-}
+<div class="caja">
+Decimos que un conjunto de $n$ eventos $B_1,...,B_n$ es una **partición** del evento 
+$B$ si $B=B_1 \cup B_2 \cup \cdot\cdot\cdot \cup B_n$ y los eventos 
+$B_1,...,B_n$ son mutuamente excluyentes. 
+</div>
+
+Ahora podemos definir probabilidad:
+
+<div class="caja">
+Una función $P$ es una **función de probabilidad** si satisface las siguientes 
+condiciones:
+
+1. Un valor de probabilidad debe ser no-negativo: 
+$$P(B) \geq 0$$ para cualquier evento $B$  
+2. La suma de las probabilidades a través de todos los posibles eventos en el 
+espacio de resultados debe ser 1 (i.e. uno de los eventos en el espacio de 
+resultados debe ocurrir). 
+$$P(\Omega) = 1$$
+3. Si $B_1,...,B_n$ es una partición del evento $B$ entonces, la probabilidad 
+de que ocurra B es la suma de las probabilidades individuales:
+$$P(B)=P(B_1)+P(B_2) + \cdot\cdot\cdot +P(B_n)$$
+</div>
+
+### Propiedades de la función de probabilidad:
+* $P(A^c) = 1 - P(A)$    
+* $P(\emptyset)=0$  
+* Si $A \subset B$ entonces $P(A) \le P(B)$  
+* $0\le P(A) \le 1$
+* La regla general de la suma: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+
+
 
 ## Variables aleatorias
 

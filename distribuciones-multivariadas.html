@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="introduccion-a-visualizacion.html">
-<link rel="next" href="teoria-de-visualizacion-de-datos.html">
+<link rel="prev" href="simulacion-de-modelos.html">
+<link rel="next" href="tareas.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -297,105 +297,151 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="introduccion" class="section level2">
-<h2><span class="header-section-number">1.1</span> Introducción</h2>
-<p>La visualización de datos no trata de hacer gráficas “bonitas” o “divertidas”,
-ni de simplificar lo complejo o ayudar a una persona “que no entiende mucho” a
-entender ideas complejas. Más bien, trata de aprovechar nuestra gran capacidad
-de procesamiento visual para exhibir de manera clara aspectos importantes de los
-datos.</p>
-<p>El siguiente ejemplo de <span class="citation">(Tufte <a href="#ref-tufte06">2006</a>)</span>, ilustra claramente la diferencia entre estos
-dos enfoques. A la izquierda están gráficas (más o menos típicas de Powerpoint)
-basadas en la filosofía de simplificar, de intentar no “ahogar” al lector con
-datos. El resultado es una colección incoherente, de bajo contenido, que no
-tiene mucho qué decir y que es, “indeferente al contenido y la evidencia”.
-A la derecha está una variación del rediseño de Tufte en forma de tabla, que en
-este caso particular es una manera eficiente de mostrar claramente los patrones
-que hay en este conjunto simple de datos.</p>
-<p>¿Qué principios son los que soportan la efectividad de esta tabla sobre la
-gráfica de la derecha? Veremos que hay dos conjuntos de principios importantes:
-unos relacionados con el diseño y otros con la naturaleza del análisis de datos,
-independientemente del método de visualización.</p>
-<p><img src="imagenes/tufte_cancer.jpg" /></p>
-<div id="visualizacion-de-datos-en-la-estadistica" class="section level3 unnumbered">
-<h3>Visualización de datos en la estadística</h3>
-<p>La estadística tradicionalmente se divide en dos partes: una parte de naturaleza
-exploratoria, donde jugamos el papel de detectives en búsqueda de los elementos
-de evidencia importante, y una parte de naturaleza inferencial, donde nos
-convertimos en jueces donde le damos pesos de credibilidad a la evidencia que
-presenta el detective. Estas dos partes tienen interacción fuerte en la
-práctica, pero por razones históricas se considera “superior” a la parte
-inferencial por encima de la exploratoria.</p>
-<p>Aunque en el proceso de inferencia las gráficas cada vez son más importantes, la
-visualización entra más claramente dentro del análisis exploratorio de datos. Y
-como en un principio no es claro como la visualización aporta al proceso de la
-inferencia, se le consideró por mucho tiempo como un área de poca importancia
-para la estadística: una herramienta que en todo caso sirve para comunicar ideas
-simples, de manera deficiente, y a personas poco sofisticadas.</p>
-<div style="float:right;top:-10px;width:500px;padding:2px">
-<p><img src="01-repaso-visualizacion_files/figure-html/barley_plot-1.png" width="480" /></p>
+<div id="distribuciones-multivariadas" class="section level2">
+<h2><span class="header-section-number">8.1</span> Distribuciones multivariadas</h2>
+<p>Hasta ahora hemos estudiado distribuciones univariadas y como simular de ellas,
+sin embargo, es común que un modelo probabilístico involucre más de una variable
+aleatoria por lo que estudiaremos el concepto de distribuciones de probabilidad
+multivariadas.</p>
+<div class="caja">
+<p>La <strong>distribución conjunta</strong> sobre un conjunto de variables aleatorias
+<span class="math inline">\(\{X_1,...,X_n\}\)</span>, que denotamos <span class="math inline">\(p(x_1,...,x_n)\)</span>, asigna probabilidades a todos
+los eventos determinados por el conjunto de variables aleatorias.</p>
+<p>En el caso <strong>discreto bivariado</strong>, dado las variables aleatorias discretas <span class="math inline">\(X\)</span> y
+<span class="math inline">\(Y\)</span>, definimos la función de densidad conjunta como <span class="math inline">\(f(x,y)=P(X=x, Y=y)\)</span>.</p>
 </div>
-<p>El peor lado de este punto de vista consiste en restringirse a el análisis
-estadístico rutinario <span class="citation">Cleveland (<a href="#ref-cleveland93">1993</a>)</span>: aplicar las recetas y
-negarse a ver los datos de distinta manera (¡incluso pensar que esto puede
-sesgar los resultados, o que nos podría engañar!). El siguiente ejemplo muestra
-un caso grave y real (no simulado) de este análisis estadístico rutinario
-(tomado de <span class="citation">Cleveland (<a href="#ref-cleveland94">1994</a>)</span>).</p>
-<p>A la derecha mostramos los resultados de un experimento de agricultura. Se
-cultivaron diez variedades de cebada en seis sitios de Minnesota, en 1921 y
-1932. Este es uno de los primeros ejemplos en el que se aplicaron las ideas de
-Fisher en cuanto a diseño de experimentos.</p>
-<p>Estos datos fueron reanalizados desde esa época por muchos agrónomos. Hasta muy
-recientemente se detectó la anomalía en el comportamiento de los años en el
-sitio Morris, el cual es evidente en la gráfica. Investigación posterior ha
-mostrado convincentemente que en algún momento alguien volteó las etiquetas de
-los años en este sitio.</p>
-<p>Este ejemplo muestra, en primer lugar, que la visualización es crucial en el
-proceso de análisis de datos: sin ella estamos expuestos a no encontrar aspectos
-importantes de los datos (errores) que deben ser discutidos - aún cuando nuestra
-receta de análisis no considere estos aspectos. Ninguna receta puede aproximarse
-a describir todas las complejidades y detalles en un conjunto de datos de tamaño
-razonable (este ejemplo, en realidad, es chico). Sin embargo, la visualización
-de datos, por su enfoque menos estructurado, y el hecho de que se apoya en un
-medio con un “ancho de banda” mayor al que puede producir un cierto número de
-cantidades resumen, es ideal para investigar estos aspectos y detalles.</p>
-<div style="clear:both">
+<p><strong>Ejemplo.</strong> Consideremos una distribución sobre la población de departamentos
+en renta de Hong Kong, el espacio de resultados es el conjunto de todos los
+departamentos en la población. En muchas ocasiones buscamos resolver preguntas
+que involucran más de una variable aleatoria, en este ejemplo nos interesan:</p>
+<ul>
+<li><p>Renta mensual: toma los valores baja (≤1k), media ((1k,5k]),
+media alta ((5k,12k]) y alta (&gt;12k).</p></li>
+<li><p>Tipo de departamento: toma 3 valores, público, privado u otros.</p></li>
+</ul>
+<p>La distribución conjunta de variables aleatorias discretas se puede representar
+por medio de tablas.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Renta/Tipo</th>
+<th>público</th>
+<th>privado</th>
+<th>otros</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>baja</strong></td>
+<td>0.17</td>
+<td>0.01</td>
+<td>0.02</td>
+</tr>
+<tr class="even">
+<td><strong>media</strong></td>
+<td>0.44</td>
+<td>0.03</td>
+<td>0.01</td>
+</tr>
+<tr class="odd">
+<td><strong>media alta</strong></td>
+<td>0.09</td>
+<td>0.07</td>
+<td>0.01</td>
+</tr>
+<tr class="even">
+<td><strong>alta</strong></td>
+<td>0</td>
+<td>0.14</td>
+<td>0.10</td>
+</tr>
+</tbody>
+</table>
+<div class="caja">
+<p>En el caso <strong>continuo bivariado</strong>, decimos que la función <span class="math inline">\(p(x,y)\)</span> es una
+función de densidad de probabilidad para las variables aleatorias <span class="math inline">\((X,Y)\)</span> si:</p>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(p(x,y) \geq 0\)</span> para toda <span class="math inline">\((x,y)\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{-\infty}^{\infty}p(x,y)dxdy=1\)</span>.</p></li>
+<li>Para cualquier conjunto <span class="math inline">\(A \subset \mathbb{R} \times \mathbb{R}\)</span>,
+<span class="math inline">\(P((X,Y) \in A) = \int\int_A p(x,y)dxdy\)</span>.</li>
+</ol>
+</div>
+<p><strong>Ejemplo.</strong> Sean <span class="math inline">\((X,Y)\)</span> uniformes en el cuadrado unitario, entonces
+<span class="math display">\[
+p(x,y) = \left\{
+  \begin{array}{lr}
+    1   &amp;  0\leq x \leq 1,0\leq y \leq 1\\
+    0 &amp;  e.o.c.
+  \end{array}
+\right.
+\]</span></p>
+<p>Para encontrar <span class="math inline">\(P(X &lt; 1/2, Y&lt;1/2)\)</span>, esto es la probailidad del evento
+<span class="math inline">\(A=\{X&lt;1/2, Y&lt;1/2\}\)</span>. La integral de <span class="math inline">\(p\)</span> sobre este subconjunto corresponde,
+en este caso, a calcular el área del conjunto <span class="math inline">\(A\)</span> que es igual a 1/4.</p>
+<p>De la distribución conjunta <span class="math inline">\(p(x_1,...,x_n)\)</span> podemos obtener la distribución de
+únciamente una variable aleatoria <span class="math inline">\(X_j\)</span>, donde <span class="math inline">\(X_j \in \{X_1,...,X_n\}\)</span>, la
+llamamos la distribución marginal de <span class="math inline">\(X_j\)</span>.</p>
+<br/>
+<div class="caja">
+<p>Sea <span class="math inline">\(\{X_1,...,X_n\}\)</span> un conjunto de variables aleatorias con distribución conjunta <span class="math inline">\(p(x_1,...,x_n)\)</span>, la <strong>distribución marginal</strong> de <span class="math inline">\(X_j\)</span> (<span class="math inline">\(j \in \{1,...,n\}\)</span>)
+se define como,
+<span class="math display">\[p_{X_j}(x_j) = \sum_{x_1,...,x_{j-1},x_{j+1},...,x_n}p(x_1,...,x_n)\mbox{ en el caso discreto,}\]</span>
+<span class="math display">\[p_{X_j}(x_j) = \int_{x_1,...,x_{j-1},x_{j+1},...,x_n}p(x_1,...,x_n)dx_1,...,dx_n\mbox{ en el caso continuo}\]</span></p>
+</div>
+<p><br/></p>
+<p><strong>Ejemplo.</strong> Retomando el problema de los departamentos, ¿Cuál es la
+probabilidad de que
+un departamento elegido al azar sea público?</p>
+<!--
+
+Renta/Tipo    |público | privado |otros |p(Renta)  
+--------------|:--------|:---------|:------|:-------  
+**baja**      |0.17    |0.01     |0.02   | **0.2**
+**media**     |0.44    |0.03     |0.01   | **0.48**
+**media alta**|0.09    |0.07     |0.01   | **0.17**
+**alta**      |0       |0.14     |0.10   |**0.15**
+**p(Tipo)**   |**0.7** |**0.25** |**0.5**|**1**  
+-->
+<div id="probabilidad-condicional" class="section level3">
+<h3><span class="header-section-number">8.1.1</span> Probabilidad condicional</h3>
+<div class="caja">
+<p>Sean <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> dos eventos entonces, con <span class="math inline">\(P(B)&gt;0\)</span>, entonces la probabilidad
+condicional de <span class="math inline">\(A\)</span> dado <span class="math inline">\(B\)</span> es</p>
+<p><span class="math display">\[P(A|B)=\frac{P(AB)}{P(B)}\]</span></p>
+</div>
+<p><strong>Ejemplo.</strong> ¿Cuál es la probabilidad de que un departamento privado tenga
+renta <em>baja</em>?<br />
+¿Cómo se compara con la probabilidad de que la renta sea baja (desconozco
+el tipo de departamento)?</p>
+<p>La noción de probabilidad condicional se extiende a distribuciones
+condicionales:</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> dos variables aleatorias con función de densidad conjunta
+<span class="math inline">\(p(x,y)\)</span>, entonces la <strong>función de densidad condicional</strong> de <span class="math inline">\(X\)</span> dado <span class="math inline">\(Y=y\)</span>,
+para toda <span class="math inline">\(y\)</span> tal que <span class="math inline">\(p_Y(y) &gt; 0\)</span>, se define como
+<span class="math display">\[p_{X\vert Y}(x\vert y) = \frac{p(x, y)}{p_Y(y).}\]</span></p>
+</div>
+<p><br/></p>
+<p><strong>Ejemplo.</strong> ¿Cuál es la distribución condicional de <em>renta</em> dado renta
+<em>privado </em>?<br />
+Para obtener toda la distribución condicional calculamos los dos casos
+restantes (renta media, media alta y alta).
+<br/></p>
+<p>Vale la pena destacar que una distribución condicional es una distribución de
+probabilidad. En el ejemplo anterior, notemos que cada renglón de la tabla
+probabilidades suman uno, son no negativas y menores que uno.</p>
 
 </div>
 </div>
-<div id="visualizacion-popular-de-datos" class="section level3 unnumbered">
-<h3>Visualización popular de datos</h3>
-<p>Publicaciones populares (periódicos, revistas, sitios internet) muchas veces
-incluyen visualización de datos como parte de sus artículos o reportajes. En
-general siguen el mismo patrón que en la visión tradicionalista de la
-estadística: sirven más para divertir que para explicar, tienden a explicar
-ideas simples y conjuntos chicos de datos, y se consideran como una “ayuda”
-para los “lectores menos sofisticados”. Casi siempre se trata de gráficas
-triviales (muchas veces con errores graves) que no aportan mucho a artículos que
-tienen un nivel de complejidad mucho mayor (es la filosofía: lo escrito para el
-adulto, lo graficado para el niño).</p>
-<p><img src="imagenes/nyt.png" /></p>
-</div>
-</div>
-<h3>Referencias</h3>
-<div id="refs" class="references">
-<div id="ref-tufte06">
-<p>Tufte, Edward R. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
-</div>
-<div id="ref-cleveland93">
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
-</div>
-<div id="ref-cleveland94">
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p> 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
-</div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="introduccion-a-visualizacion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="teoria-de-visualizacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="simulacion-de-modelos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -425,7 +471,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/07-simulacion_modelos.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

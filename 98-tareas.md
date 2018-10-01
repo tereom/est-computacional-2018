@@ -113,7 +113,7 @@ estándar de la estimación.
 
 ### Solución {-}
 
-#### 1. Distribución muestral
+#### 1. Distribución muestral {-}
 Suponemos que me interesa hacer inferencia del promedio de las 
 calificaciones de los estudiantes de tercero de primaria en Ciudad de México.
 
@@ -189,7 +189,8 @@ sims_medias <- muestras_sims %>%
 
 ggplot(sims_medias, aes(x = sims_medias)) +
     geom_histogram(binwidth = 2) +
-    facet_wrap(~tamanos, nrow = 1)
+    facet_wrap(~tamanos, nrow = 1) +
+    theme_minimal()
 ```
 
 <img src="98-tareas_files/figure-html/unnamed-chunk-3-1.png" width="672" height="350px" />
@@ -253,7 +254,7 @@ Una alternativa al estimador *plug-in* del error estándar es usar *bootstrap*
 fórmulas) pero podemos usar *bootstrap*: utilizamos una 
 estimación de la distribución poblacional y calculamos el error estándar 
 bootstrap usando simulación. Hacemos el mismo procedimiento que usamos para 
-calcular *e_estandar_apox* pero sustituimos la distribuciín poblacional por la 
+calcular *e_estandar_apox* pero sustituimos la distribución poblacional por la 
 distriución empírica. Hagámoslo usando las muestras que sacamos en el primer 
 paso:
 
@@ -266,7 +267,36 @@ muestras_sims_est_boot <- muestras_sims_est %>%
         sims_medias_boot = map(sims_muestras_boot, ~map_dbl(., mean)), 
         e_estandar_boot = map_dbl(sims_medias_boot, sd)
         )
+muestras_sims_est_boot
 ```
+
+```
+## # A tibble: 3 x 11
+##   tamanos muestras medias e_estandar_plug… sims_muestras sims_medias
+##     <dbl> <list>    <dbl>            <dbl> <list>        <list>     
+## 1      10 <dbl [1…   567.            21.1  <list [10,00… <dbl [10,0…
+## 2     100 <dbl [1…   575.             6.11 <list [10,00… <dbl [10,0…
+## 3    1000 <dbl [1…   576.             2.11 <list [10,00… <dbl [10,0…
+## # ... with 5 more variables: e_estandar_aprox <dbl>, e_estandar_pob <dbl>,
+## #   sims_muestras_boot <list>, sims_medias_boot <list>,
+## #   e_estandar_boot <dbl>
+```
+
+Graficamos los histogramas de la distribución bootstrap para cada muestra.
+
+
+```r
+sims_medias_boot <- muestras_sims_est_boot %>% 
+    select(tamanos, sims_medias_boot) %>% 
+    unnest(sims_medias_boot) 
+
+ggplot(sims_medias_boot, aes(x = sims_medias_boot)) +
+    geom_histogram(binwidth = 4) +
+    facet_wrap(~tamanos, nrow = 1) +
+    theme_minimal()
+```
+
+<img src="98-tareas_files/figure-html/unnamed-chunk-7-1.png" width="672" height="350px" />
 
 
 Y la tabla con todos los errores estándar quedaría:
@@ -338,6 +368,7 @@ sd(replicaciones)
 
 
 ## 6-Cobertura de intervalos de confianza {-}
+
 En este problema realizarás un ejercicio de simulación para comparar la 
 exactitud de distintos intervalos de confianza. Simularás muestras de  
 una distribución Poisson con parámetro $\lambda=2.5$ y el estadístico de interés  
@@ -353,9 +384,8 @@ ii) Genera $10,000$ muestras bootstrap y calcula intervalos de confianza del
 
 iii) Revisa si el intervalo de confianza contiene el verdadero valor del 
 parámetro ($\theta=exp(-2\cdot2.5)$), en caso de que no lo contenga registra si 
-falló por la izquierda (el límite inferior >1) o falló por la derecha (el límite 
-superior 
-<1).
+falló por la izquierda (el límite inferior $exp(-2.5*\lambda)$) o falló por la 
+derecha (el límite superior <$exp(-2.5*\lambda)$).
 
 a) Repite el proceso descrito 1000 veces y llena la siguiente tabla:
 
@@ -385,5 +415,149 @@ un proceso Poisson y $\lambda$ es el número promedio de llamadas por minuto,
 entonce $e^{- \lambda}$ es la probabilidad de que no se reciban llamadas en 
 1 minuto.
 
+### Solución {-}
 
+
+```r
+lambda <- 2.5
+calcula_intervalos <- function(n = 60, B = 10000) {
+    x <- rpois(n, lambda)
+    theta <- exp(-2 * mean(x))
+    theta_b <- rerun(B, sample(x, size = n, replace = TRUE)) %>% 
+        map_dbl(~exp(-2 * mean(.)))
+    bca <- bootstrap::bcanon(x, nboot = B, theta = function(y) exp(-2 * mean(y)), 
+        alpha = c(0.025, 0.975))$confpoints[, 2]
+    intervalos <- data_frame(metodo = c("normal", "percent", "BC_a"), 
+        izq = c(theta - 1.96 * sd(theta_b), quantile(theta_b, probs = 0.025), 
+            bca[1]),
+        der = c(theta + 1.96 * sd(theta_b), quantile(theta_b, probs = 0.975), 
+            bca[2])
+    )
+    list(theta = theta, intervalos = intervalos)
+}
+```
+
+
+```r
+set.seed(83789173)
+n_sims <- 5000
+# sims_intervalos_60 <- rerun(n_sims, calcula_intervalos()) 
+# write_rds(sims_intervalos_60, path = "sims_intervalos_60.rds") 
+sims_intervalos_60 <- read_rds("data/sims_intervalos_60.rds")
+sims_intervalos_60 %>% 
+    map_df(~.$intervalos) %>% 
+    group_by(metodo) %>%
+        summarise(
+            falla_izq = 100 * sum(izq > exp(-2 * lambda)) / n_sims, 
+            falla_der = 100 * sum(der < exp(-2 * lambda)) / n_sims, 
+            cobertura = 100 - falla_izq - falla_der, 
+            long_media = mean(der - izq),
+            long_min = min(der - izq),
+            long_max = max(der - izq)
+            )
+```
+
+```
+## # A tibble: 3 x 7
+##   metodo  falla_izq falla_der cobertura long_media long_min long_max
+##   <chr>       <dbl>     <dbl>     <dbl>      <dbl>    <dbl>    <dbl>
+## 1 BC_a         2.26      2.8       94.9     0.0117  0.00258   0.0356
+## 2 normal       0.1       4.88      95.0     0.0126  0.00276   0.0380
+## 3 percent      3.1       2         94.9     0.0124  0.00265   0.0381
+```
+
+
+```r
+intervalos_muestra <- sims_intervalos_60 %>% 
+    map_df(~.$intervalos) %>% 
+    mutate(sim = rep(1:n_sims, each = 3)) %>% 
+    filter(sim <= 500) %>% 
+    mutate(
+        sim_factor = reorder(sim, der - izq), 
+        sim = as.numeric(sim_factor)
+        )
+thetas <- sims_intervalos_60 %>% 
+    map_dbl(~.$theta) 
+
+thetas_df <- data_frame(thetas = thetas, sim = 1:n_sims) %>% 
+        mutate(
+        sim_factor = factor(sim, 
+            levels = levels(intervalos_muestra$sim_factor)), 
+        sim = as.numeric(sim_factor)
+        ) %>% 
+        dplyr::filter(sim <= 500) 
+
+ggplot(intervalos_muestra) +
+    geom_hline(yintercept = exp(-2 * 2.5), alpha = 0.6) +
+    geom_line(aes(x = sim, y = izq), color = "red", alpha = 0.5) +
+    geom_line(aes(x = sim, y = der), color = "red", alpha = 0.5) +
+    geom_line(data = thetas_df, aes(x = sim, y = thetas), color = "blue", 
+        alpha = 0.5) +
+    facet_wrap(~ metodo, ncol = 1)
+```
+
+<img src="98-tareas_files/figure-html/unnamed-chunk-14-1.png" width="480" />
+
+
+
+```r
+set.seed(83789173)
+# sims_intervalos_300 <- rerun(n_sims, calcula_intervalos(n = 300)) 
+# write_rds(sims_intervalos_300, path = "sims_intervalos_300.rds") 
+sims_intervalos_300 <- read_rds("data/sims_intervalos_300.rds")
+sims_intervalos_300 %>% 
+    map_df(~.$intervalos) %>% 
+    group_by(metodo) %>%
+        summarise(
+            falla_izq = 100 * sum(izq > exp(-2 * lambda)) / n_sims, 
+            falla_der = 100 * sum(der < exp(-2 * lambda)) / n_sims, 
+            cobertura = 100 - falla_izq - falla_der, 
+            longitud = mean(der - izq), 
+            long_media = mean(der - izq),
+            long_min = min(der - izq),
+            long_max = max(der - izq)
+            )
+```
+
+```
+## # A tibble: 3 x 8
+##   metodo falla_izq falla_der cobertura longitud long_media long_min
+##   <chr>      <dbl>     <dbl>     <dbl>    <dbl>      <dbl>    <dbl>
+## 1 BC_a        2.2       2.3       95.5  0.00491    0.00491  0.00246
+## 2 normal      0.82      3.72      95.5  0.00498    0.00498  0.00249
+## 3 perce…      2.48      1.92      95.6  0.00496    0.00496  0.00248
+## # ... with 1 more variable: long_max <dbl>
+```
+
+
+```r
+intervalos_muestra <- sims_intervalos_300 %>% 
+    map_df(~.$intervalos) %>% 
+    mutate(sim = rep(1:n_sims, each = 3)) %>% 
+    filter(sim <= 500) %>% 
+    mutate(
+        sim_factor = reorder(sim, der - izq), 
+        sim = as.numeric(sim_factor)
+        )
+thetas <- sims_intervalos_300 %>% 
+    map_dbl(~.$theta) 
+
+thetas_df <- data_frame(thetas = thetas, sim = 1:n_sims) %>% 
+        mutate(
+        sim_factor = factor(sim, 
+            levels = levels(intervalos_muestra$sim_factor)), 
+        sim = as.numeric(sim_factor)
+        ) %>% 
+        dplyr::filter(sim <= 500) 
+
+ggplot(intervalos_muestra) +
+    geom_hline(yintercept = exp(-2 * 2.5), alpha = 0.6) +
+    geom_line(aes(x = sim, y = izq), color = "red", alpha = 0.5) +
+    geom_line(aes(x = sim, y = der), color = "red", alpha = 0.5) +
+    geom_line(data = thetas_df, aes(x = sim, y = thetas), color = "blue", 
+        alpha = 0.5) +
+    facet_wrap(~ metodo, ncol = 1)
+```
+
+<img src="98-tareas_files/figure-html/unnamed-chunk-16-1.png" width="480" />
 

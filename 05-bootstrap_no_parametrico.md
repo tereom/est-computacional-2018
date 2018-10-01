@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.067"
+#> [1] "0.07"
 ```
 
 
@@ -1954,9 +1954,8 @@ Es común crear nuestras porpias funciones cuando usamos bootstrap, sin embargo,
 en R también hay alternativas que pueden resultar convenientes, mencionamos 3:
 
 1. El paquete `rsample` (forma parte de la colección [tidymodels](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)) 
-y tiene una función `bootsrtraps()`:  
- `bootsrtaps()` regresa un arreglo cuadrangular (`tibble`, 
-`data.frame`) que incluye una columna con las muestras bootstrap y un 
+y tiene una función `bootsrtraps()` que regresa un arreglo cuadrangular 
+(`tibble`, `data.frame`) que incluye una columna con las muestras bootstrap y un 
 identificador del número y tipo de muestra.
 
 Veamos un ejemplo donde seleccionamos muestras del conjunto de datos 
