@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
     collapse = TRUE, error=FALSE
 )
 comma <- function(x) format(x, digits = 2, big.mark = ",")
-options(digits=3)
+options(digits = 3)
 
 library(tidyverse)
 library(gridExtra)
@@ -201,7 +201,7 @@ cuando se grafican ternas emergen patrones no deseados.
 library(tourr)
 library(plotly)
 
-n <- 1500 # longitud de la sucesión
+n <- 150000 # longitud de la sucesión
 x <- rep(NA, n)
 u <- rep(NA, n)
  
@@ -214,7 +214,7 @@ for(i in 2:n){
 u_randu <- u
 
 set.seed(8111938)
-mat <- matrix(u, ncol = 3, byrow = TRUE)
+mat <- matrix(u[1:1500], ncol = 3, byrow = TRUE)
 tour <- new_tour(mat, grand_tour(), NULL)
 steps <- seq(0, 1, 0.01)
 names(steps) <- steps
@@ -341,7 +341,7 @@ exculyentes.
 3. Calcular el valor esperado en cada celda bajo $F$: $e_i=np_i$.  
 4. Calcular la estadística de prueba:
 
-$$\chi^2 = \sum_{i=1}^c \frac{(O_i - e_i)^2}{e_i} \sim \chi^2_{c-k-1}$$
+$$\chi^2 = \sum_{i=1}^c \frac{(o_i - e_i)^2}{e_i} \sim \chi^2_{c-k-1}$$
     donde $c$ es el número de celdas y $k$ el número de parámetros estimados en 
     $F$ a partir de los datos observados.
 
@@ -351,9 +351,16 @@ u_randu_cat <- cut(u_randu, breaks = seq(0, 1, 0.1))
 u_mt <- runif(150000)
 u_mt_cat <- cut(u_mt, breaks = seq(0, 1, 0.1))
 
-chisq.test(table(u_rand_cat))
-chisq.test(table(u_randu_cat))
-chisq.test(table(u_mt_cat))
+chisq_test <- function(o_i) {
+    expected <- rep(15000, 10)
+    observed <- table(o_i)
+    x2 <- sum((observed - expected) ^ 2 / expected)
+    list(x2 = x2, p_value = pchisq(x2, 8))
+}
+
+chisq_test(u_rand_cat)
+chisq_test(u_randu_cat)
+chisq_test(u_mt_cat)
 ```
 
 Una variación de esta prueba de bondad de ajuste $\chi^2$, es la prueba de u
@@ -366,7 +373,7 @@ excluyentes, y se aplica la prueba $\chi^2$ a los vectores sucesivos
 $(u_1,u_2,...,u_k),(u_{k+1},u_{k+2},...,u_{2k}),...$
 
 #### Ejemplo: prueba de espera
-Busca probar independencia y uniformidad
+$H_0:$ independencia y uniformidad
 
 Procedimiento:  
 1. Seleccionar un subintervalo del $(0,1)$.  
@@ -380,9 +387,28 @@ en 2.
 6. Aplicar una prueba $\chi^2$ a los tiempos de espera.
 
 ```{r}
-library(randtoolbox)
-gap.test(u_mt)
-gap.test(u_randu)
+# 1
+intervalo <- c(0, 0.5)
+# 2
+p_intervalo <- 0.5
+# 3 evaluamos u_rand
+gap_u_rand <- data_frame(posicion = 1:length(u_rand), u_rand = u_rand, 
+    en_intervalo = (0.5 < u_rand & u_rand < 1))
+    
+posiciones <- gap_u_rand %>% 
+    filter(en_intervalo) %>%
+    mutate(
+        espera = posicion - lag(posicion), 
+        espera = ifelse(is.na(espera), posicion, espera), 
+        espera = factor(espera, levels = 1:18)
+        ) 
+# 4
+gap_frec <- as.data.frame(table(posiciones$espera)) %>% 
+    rename(espera = Var1, obs = Freq)
+# esperados geométrica
+gap_frec$geom <- (dgeom(0:18, p_intervalo) * 150000) [-1]
+x2 <- sum((gap_frec$obs - gap_frec$geom) ^ 2 / gap_frec$geom) - 1
+pchisq(x2, 17)
 ```
 
 Otras pruebas de aleatoriedad son _prueba de rachas_, _Kolmogorov-Smirnov_, 
@@ -742,7 +768,7 @@ $E(X) = (a+b)/2, Var(X)= (b-a)^2/12$
 <br/>
 
 
-```{r graficas_uniformes, fig.height=4, fig.width=9, eval = FALSE}
+```{r graficas_uniformes, fig.height=4, fig.width=9}
 densidades <- ggplot(data_frame(x = c(-5 , 5)), aes(x)) + 
     stat_function(fun = dunif, aes(colour = "a=0; b=1"), show.legend = FALSE) +
     stat_function(fun = dunif, args = list(min = -5, max = 5), aes(colour = "a=-5; b=5"), show.legend = FALSE) +
@@ -829,13 +855,14 @@ de espera hasta un evento, por ejemplo modelar el tiempo de vida de un
 componente electrónico o el tiempo de espera entre llamadas telefónicas.
 
 #### Distribución Gamma {-}
-Comencemos definiendo la función Gamma: para $\alpha>0$, 
+* Comencemos definiendo la **función Gamma**: para $\alpha>0$, 
 $\Gamma(\alpha)=\int_0^{\infty}y^{\alpha-1}e^{-y}dy$, esta función es una 
 extensión de la función factorial, tenemos que si $n$ es un entero positivo,
 $\Gamma(n)=(n-1)!$.  
 
-Ahora, $X$ tienen una distribución Gamma con parámetros $\alpha$, $\beta$, 
+* Ahora, $X$ tienen una **distribución Gamma** con parámetros $\alpha$, $\beta$, 
 denotado como $X \sim Gamma(\alpha, \beta)$ si 
+
 $$
 p(x) = \left\{
   \begin{array}{lr}
@@ -847,8 +874,10 @@ $$
 $E(X)=\alpha \beta, Var(X)=\alpha \beta^2$
 <br/>
 
-Vale la pena notar que una distribución exponencial es una $Gamma(1, \beta)$. 
-Si $X_i \sim Gamma(\alpha_i, \beta)$ independientes, entonces 
+* Vale la pena notar que una distribución exponencial es una $Gamma(1, \beta)$. 
+
+* Una propiedad adicional es que si $X_i \sim Gamma(\alpha_i, \beta)$ 
+independientes, entonces 
 $\sum_{i=1}^n X_i \sim Gamma(\sum_{i=1}^n \alpha_i, \beta)$. 
 
 En la práctica la distribución Gamma se ha usado para modelar el tamaño de 
@@ -876,7 +905,8 @@ grid.arrange(densidades, dists, ncol = 2, newpage = FALSE)
 
 
 #### Distribución Beta {-}
-$X$ tiene una distrinución Beta con parámetros $\alpha > 0$ y $\beta >0$, 
+
+* $X$ tiene una distrinución Beta con parámetros $\alpha > 0$ y $\beta >0$, 
 $X \sim Beta(\alpha, \beta)$ si 
 
 $$
@@ -918,6 +948,7 @@ grid.arrange(densidades, dists, ncol = 2, newpage = FALSE)
 ```
 
 ## Simulación de variables aleatorias
+
 Veremos métodos generales para simular muestras de distribuciones univariadas, 
 generales se refiere a que se pueden utilizar independientemente de la forma
 de la función de densidad.
@@ -926,7 +957,7 @@ Para utilizar estos métodos debemos tener un generador de números aleatorios
 confiable, pues la mayoría de los métodos consisten en una transformación
 de números aleatorios.
 
-### Variables aletaorias discretas
+### Variables aletaorias discretas {-}
 
 #### Método de Inversión {-}
 Supongamos que deseamos generar el valor de una variable aleatoria discreta $X$
@@ -972,8 +1003,6 @@ $X$ encontrando el intervalo $[P(x_{j-1}),P(x_j))$ en el que cae $U$, esto es
 equivalente a encontrar la inversa de $P(U)$.
 
 </div>
-
-
 
 El tiempo que uno tarda en generar una variable aleatoria discreta usando el 
 método de arriba es proporcional al número de intervalos que uno debe buscar, 
@@ -1040,7 +1069,7 @@ qplot(sample(1:20, size = 1000, replace= TRUE), binwidth = 1)
 ejemplo es notar que:
 $$p_{i+1}=\frac{\lambda}{i+1}p_i$$
 
-donde $p_i=P(X=i) = e^-{\lambda} \lambda^i/i!$, con $i=0,1,...$. Ahora, 
+donde $p_i=P(X=i) = e^{-\lambda} \cdot \lambda^i/i!$, con $i=0,1,...$. Ahora, 
 la cantidad $i$ se refiere al valor que estamos considerando, $p=p_i$ es la 
 probabilidad de $X = i$ y $P=P(i)$ es la probabilidad de $X\leq i$. Entonces, 
 para generar una observación sequimos los siguientes pasos:
@@ -1121,7 +1150,7 @@ generado para $X$.
 
 ### Variables aleatorias continuas
 
-#### Transformación inversa {-}
+#### Método de inversión {-}
 ```{r, include=FALSE}
 library(plyr)
 library(dplyr)
@@ -1129,13 +1158,17 @@ library(dplyr)
 
 <div class = "caja">
 Sea $U$ una variable aleatoria con ditribución $U(0,1)$. Para cualquier 
-función de distribución $F$ la variable aleatoria $X$ definida como 
-$$X = F^{-1}(U)$$
-tiene distribución $F$.   
+función de distribución $F_X$ ($F_X$ es creciente y continua entonces existe
+$F_X^{-1}$) la variable aleatoria $X$ definida como:
+$$X = F_X^{-1}(U)$$
+tiene distribución $F_X$.   
 </div>
 
 La proposición anterior nos da un camino para simular variables aleatorias 
-continuas generando un número aleatorio $U$ y definiendo $X = F^{-1}(U)$:
+continuas:
+
+1. Generamos un número aleatorio $U$.  
+2. Definimos $X = F^{-1}(U)$:
 
 ```{r inversion_normal, fig.width=5, fig.height=4.2, warning=FALSE}
 ggplot(data_frame(x = c(-2 , 2)), aes(x)) + 
@@ -1188,30 +1221,35 @@ ggplot() +
 ```
 
 El algoritmo anterior también provee una manera de generar variables aleatorias
-Poisson. Primero, recordemos que un proceso Poisson con tasa $\lambda$ resulta
-cuando los tiempos de espera entre eventos sucesivos son exponenciales 
-independientes con parámetro $\beta$, para este proceso el número de eventos 
-al tiempo 1 se distribuye Poisson con parámetro $\lambda = 1/\beta$. Para este
-proceso, $N(1)$, el número de eventos en el tiempo 1 se distribuye Poisson con 
-media $1/\beta$. Si denotamos por $X_i$ los tiempos entre eventos, el $n$-ésimo
-evento ocurrirá en el tiempo $\sum_{i=1}^n X_i$ y por tanto el número de eventos
+Poisson. Para esto usamos la relación entre la Poisson y la exponencial:
+
+* Un proceso Poisson con tasa $\lambda$ resulta cuando los tiempos de espera 
+entre eventos sucesivos son exponenciales independientes con parámetro $\beta$,
+
+* Para este proceso, $N(1)$, el número de eventos en el tiempo 1 se distribuye 
+Poisson con media $1/\beta$. 
+
+* Si denotamos por $X_i$ los tiempos entre eventos, el $n$-ésimo evento 
+ocurrirá en el tiempo $\sum_{i=1}^n X_i$ y por tanto el número de eventos
 al tiempo 1 se puede expresar como:
 
 $$N(1)=max\bigg\{n: \sum_{i=1}^nX_i \leq 1\bigg\}$$
 
-Esto es, el número de eventos al tiempo 1 es igual a la $n$ mayor para la cual 
-el n-ésimo evento ocurrió al tiempo 1. Por ejemplo, si el cuarto evento ocurrió
-al tiempo uno pero el quinto no, habría 4 eventos al tiempo 1. Por tanto, usando
-el ejemplo anterior, podemos generar una variable aleatoria Poisson con media 
-$\lambda = 1/\beta$ generando números aleatorios $U_1,...U_n,...$ y definiendo
+* Esto es, el número de eventos al tiempo 1 es igual a la $n$ mayor para la cual 
+el n-ésimo evento ocurrió al tiempo 1. 
 
-$$N=max\bigg\{n: \sum_{i=1}^n -\beta log(U_i)\bigg\}$$
-$$=max\bigg\{n: \sum_{i=1}^n -1/\lambda log(U_i)\bigg\}$$
+* Por ejemplo, si el cuarto evento ocurrió al tiempo uno pero el quinto no, 
+habría 4 eventos al tiempo 1. Por tanto podemos generar una variable aleatoria 
+Poisson con media $\lambda = 1/\beta$ generando números aleatorios 
+$U_1,...U_n,...$ y definiendo
+
+$$N=max\bigg\{n: \sum_{i=1}^n -\beta log(U_i) \le 1\bigg\}$$
+$$=max\bigg\{n: \sum_{i=1}^n -1/\lambda log(U_i) \le 1\bigg\}$$
 $$=max\bigg\{n:\sum_{i=1}^n log(U_i)\geq -\lambda \bigg\}$$
 $$=max\{n:log(U_1\cdot\cdot\cdot U_n) \geq -\lambda\}$$
 $$=max\{n: U_1\cdot \cdot \cdot U_n \geq e^{-\lambda}\}$$
 
-Entonces, una variable aleatoria Poisson con media $\lambda$ se puede generar
+Es así, que una variable aleatoria Poisson con media $\lambda$ se puede generar
 a partir de una sucesión de números aleatorios, generando números hasta que
 el producto sea menor a $e^{-\lambda}$ y definiendo $X$ como uno menos del 
 número de números aleatorios requeridos.
@@ -1235,14 +1273,16 @@ mean(rdply(1000, poisson(10))$V1)
 
 #### Ejemplo: Gamma {-}
 
-Supongamos que deseamos generar el valor de una variable aleatoria $gamma(n,\beta)$, 
-la función de distribución es,
+Supongamos que deseamos generar el valor de una variable aleatoria 
+$Gamma(n,\beta)$, la función de distribución es,
 
 $$\int_{0}^x \frac{1}{\beta^n \Gamma(n)}x^{n-1}e^{-x/\beta}dy$$
 
-la inversa de la función de distribución acumulada anterior no se puede escribir 
-de forma cerrada. Sin embargo, podemos simular de ella usando que
-una $gamma(n,\beta)$ se puede ver como la suma de $n$ exponenciales independientes, cada una con parámetro $\beta$:
+* La inversa de la función de distribución acumulada anterior no se puede 
+escribir de forma cerrada. 
+
+* Sin embargo, podeos usar que una $Gamma(n,\beta)$ se puede ver como la suma 
+de $n$ exponenciales independientes, cada una con parámetro $\beta$:
 
 $$X=-\beta log(U_1)-\cdot\cdot\cdot - \beta log(U_n)$$
 $$=-\beta log(U_1\cdot\cdot\cdot U_n)$$
@@ -1260,8 +1300,16 @@ var(sims_gamma$V1)
 ```
 
 ### Aceptación y rechazo {-}
-Supongamos que tenemos un método para generar variables aleatorias con función de densidad $g(x)$, podemos usarla como base para generar observaciones de una variable aleatoria con densidad $f(x)$ generando $Y$ de $g$ y después aceptando 
-el valor generado con una probabilidad proporcional a $f(Y)/g(Y)$. Sea $c$ una constante tal que 
+
+* Supongamos que tenemos un método para generar variables aleatorias con función 
+de densidad $g(x)$, 
+
+* podemos usarla como base para generar observaciones de una variable aleatoria 
+con densidad $f(x)$ generando $Y$ de $g$ y después aceptando 
+el valor generado con una probabilidad proporcional a $f(Y)/g(Y)$. 
+
+* Sea $c$ una constante tal que 
+
 $$\frac{f(y)}{g(y)} \leq c$$
 
 para toda $c$, entonces el método se puede escribir como sigue:
