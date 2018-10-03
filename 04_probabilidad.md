@@ -153,7 +153,7 @@ Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultado
 ```r
 lanzamientos_10 <- sample(c("A", "S"), 10, replace = TRUE)
 lanzamientos_10
-#>  [1] "S" "A" "A" "A" "S" "S" "S" "A" "A" "A"
+#>  [1] "A" "S" "A" "A" "A" "A" "S" "S" "S" "A"
 ```
 
 Podemos calcular las secuencia de frecuencias relativas de águila:
@@ -161,9 +161,9 @@ Podemos calcular las secuencia de frecuencias relativas de águila:
 
 ```r
 cumsum(lanzamientos_10 == "A") # suma acumulada de águilas
-#>  [1] 0 1 2 3 3 3 3 4 5 6
+#>  [1] 1 1 2 3 4 5 5 5 5 6
 cumsum(lanzamientos_10 == "A") / 1:10
-#>  [1] 0.000 0.500 0.667 0.750 0.600 0.500 0.429 0.500 0.556 0.600
+#>  [1] 1.000 0.500 0.667 0.750 0.800 0.833 0.714 0.625 0.556 0.600
 ```
 
 Una regla general, es que las frecuencias relativas basadas en un número 
@@ -198,12 +198,12 @@ head(lanzar())
 #> # A tibble: 6 x 3
 #>   num_lanzamiento lanzamiento frec_rel
 #>             <int> <chr>          <dbl>
-#> 1               1 A              1    
-#> 2               2 S              0.5  
-#> 3               3 S              0.333
-#> 4               4 S              0.25 
-#> 5               5 S              0.2  
-#> 6               6 A              0.333
+#> 1               1 S              0    
+#> 2               2 S              0    
+#> 3               3 A              0.333
+#> 4               4 A              0.5  
+#> 5               5 A              0.6  
+#> 6               6 A              0.667
 
 set.seed(31287931)
 # usamos la función map_df del paquete purrr
