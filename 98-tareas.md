@@ -363,10 +363,6 @@ sd(replicaciones)
 ## [1] 0.04548587
 ```
 
-
-
-
-
 ## 6-Cobertura de intervalos de confianza {-}
 
 En este problema realizarás un ejercicio de simulación para comparar la 
@@ -560,4 +556,295 @@ ggplot(intervalos_muestra) +
 ```
 
 <img src="98-tareas_files/figure-html/unnamed-chunk-16-1.png" width="480" />
+
+## Examen parcial a casa {-}
+
+**Entrega:** 8 de octubre antes de las 16:00 horas
+
+**Instrucciones:**
+
+* Resuelve todas las preguntas, tus respuestas deben ser claras y debes explicar 
+los resultados, incluye también tus procedimientos/código de manera ordenada, 
+el código comentado.
+
+* Se evaluará la presentación de resultados (calidad de las gráficas, tablas, 
+...), revisa la sección de teoría de visualización en las notas.
+
+* Se puede realizar individual o en parejas, en el caso de parejas envíen una 
+sola respuesta con el nombre de ambos.
+
+* Si tienes preguntas puedes escribirlas en [este documento](https://docs.google.com/document/d/1z-CJ9HXQkS9REI5ofkvT2ZzGzJdAGJUNrEWO3uhLgqA/edit?usp=sharing), será el único medio para resolver dudas del examen (**no 
+correos**).
+
+* El examen se puede entregar después de la fecha establecida, sin embargo habrá 
+una penalización de un punto (sobre 10) por cada día tarde.
+
+
+</br>
+
+#### 1. Probabilidad {-}
+Puedes usar simulación o encontrar la respuesta de manera analítica (incluye 
+procedimiento).
+
+a) Una caja contiene 10 pares de aretes, si se seleccionan 8 aretes.
+
++ ¿Cuál es el epacio de resultados? 
+
++ ¿Cuál es la probabilidad de que no se seleccione ningún par?
+
++ ¿Cuál es la probabilidad de que se seleccione exactamente un par completo?
+
+b) A y B juegan una serie de juegos. En cada juego A gana con probabilidad 0.35 
+y B con probabilidad 0.65 (independiente de lo ocurrido en los otros juegos). 
+Paran de jugar cuando el número total de juegos ganados de un jugador es dos 
+juegos más que el total de juegos ganados por el otro jugador:
+
++ Cuál es el espacio de resultados?
+
++ Encuentra la probabilidad de que se jueguen 4 juegos en total.
+
++ Encuentra la probabilidad de que A gane la serie.
+
+***
+
+#### 2. Manipulación de datos y Bootstrap  {-}
+La bioequivalencia es un término utilizado en farmacocinética para evaluar la 
+equivalencia terapéutica entre dos formulaciones de un medicamento que contiene 
+el mismo principio activo o fármaco. Cuando una farmacéutica cambia una fórmula 
+o desarrolla una nueva presentación de un medicamento ya disponible al público, 
+requiere aprobación de la FDA para poder distribuirlo, para lograr esta 
+aprobación debe demostrar que el nuevo medicamento es bioequivalente al 
+medicamento ya aprobado, es así que se diseñan ensayos clínicos donde se compara 
+la respuesta de los participantes al recibir las distintas formulaciones del 
+medicamento. 
+
+En este ejercicio analizarás la bioequivalencia de una nueva tableta de 
+Cimetidine de 800 mg en relación a tabletas aprobadas de 400 mg:
+
+* En el ensayo clínico participaron 24 voluntarios saludables, cada uno se 
+asignó de manera aleatoria para recibir la formulación de 800 mg (formulación a 
+prueba) o dos tabletas de 400 mg (formulación referencia).
+
+* Se recolectaron muestras de sangre antes de la dosis y durante las siguientes 
+24 horas. 
+
+Realiza lo siguiente:
+
+1. Lee los datos [cimetidine_raw](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/cimeditine_boot.csv), las variables son: 
+    + `formulation` indica si la observación corresponde a formulación de 
+    refernecia o de prueba, 
+    + `subj` identifica al sujeto, 
+    + `seq` toma dos valores 1 indica que el sujeto se eavluó tomando la 
+    formulación de tratamiento primero y después la de referencia, 2 indica el 
+    caso contrario,
+    + `prd` indica el periodo (1 o 2), 
+    + las variables `HRXX` indican la medición (concentración de Cimeditine en 
+    mCG/ml) para la hora XX (HR00 corresponde a la hora cero, HR05 a media hora, 
+    HR10 a una hora,..., HR240 a 24 horas). 
+    Desafortunadamente estos datos crudos están truncados y para algunos sujetos
+(1, 3, 5, 8, 9, 12, 16, 17, 19, 22, 23) no tenemos las mediciones del tratamiento 
+de referencia, sin embargo, podemos usar la información disponible para entender
+como se calculan las métricas.
+
+2. ¿cumplen los principios de los datos limpios?, En caso de que no los cumplan 
+limpialos y explica que fallaba. Imprime las primeras líneas de los datos 
+limpios (si ya estaban limpios entonces los datos originales).
+
+3. Grafica la concentración del medicamento por hora. Debes graficar en el eje 
+horizontal la hora, en el eje vertical la concentración para cada persona, bajo 
+cada tratamiento. Un ejemplo de lo que debes hacer  es [esta gráfica](https://en.wikipedia.org/wiki/Bioequivalence#/media/File:Bupropion_bioequivalency_comparison.svg),
+con la diferencia que la curva de Wikipedia es el promedio sobre todos los individuos y 
+tu graficarás una para cada uno. ¿Qué puedes ver en las gráficas?
+
+Para comprobar bioequivalencia la FDA solicita que el medicamento de prueba 
+tenga un comportamiento similar al del medicamento de referencia. Para ello se
+compara la máxima concentración de medicamento (CMAX), el tiempo que tarda el 
+individuo en alcanzar las concentración máxima en sangre (TMAX), y el área bajo 
+la curva de concentración contra tiempo (AUC, que acabas de graficar). En 
+particular para que la FDA concluya bioequivalencia se requiere que para cada 
+medición (CMAX, TMAX y AUC) un intervalo de 90% de confianza para el cociente 
+$\mu_T/\mu_R$ de la media del tratamiento de prueba $\mu_T$ y la media de la 
+referencia $\mu_R$ esté contenido en el intervalo $(80\%, 125\%)$. En este 
+ejercicio usarás bootstrap para calcular un intervalo de confianza para el 
+cociente de las medias de AUC. 
+
+4. Calcula el AUC para cada individuo en cada tratamiento disponible, usa la 
+fórmula de área trapezoidal:
+$$AUC = \sum_{\tau=1}^k(c_\tau + c_{\tau−1}) × (t_\tau − t_{\tau-1}) / 2$$ donde 
+$c$ es la concentración y $t$ son las horas. Tip: Si usas las funciones de dplyr 
+puede resultar útil usar `lag()`. Presenta una tabla con tus resultados.
+
+5. En estos últimos dos incisos usa los datos [cimeditine_boot.csv](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/cimeditine_boot.csv), 
+para el $i$-ésimo individuo `subj` tienes mediciones de AUC bajo tratamiento y 
+referencia, denotemos a este par $x_i=(auc_{Ti}, auc_{Ri})$, suponiendo que las 
+$x_i$ se obuvieron de manera aleatoria de una distribución bivariada $P$, 
+entonces la cantidad poblacional de interés es el parámetro 
+$\theta = \mu_T/\mu_R$. Calcula el estimador *plug-in* de $\theta$.
+
++ Usa bootstrap para generar un intervalo del 90% de confianza para $\theta$, 
+¿la nueva tableta cumple el criterio de bioequivalencia de la FDA?
+
+***
+
+
+#### 3. Conteo rápido {-}
+
+En México, las elecciones tienen lugar un domingo, los resultados oficiales 
+del proceso se presentan a la población una semana después. A fin de evitar 
+proclamaciones de victoria injustificadas durante ese periodo el INE organiza un 
+conteo rápido.
+El conteo rápido es un procedimiento para estimar, a partir de una muestra 
+aleatoria de casillas, el porcentaje de votos a favor de los candidatos 
+en la elección. 
+
+En este ejercicio deberás crear intervalos de confianza para la proporción de
+votos que recibió cada candidato en las elecciones de 2006. La inferencia se 
+hará a partir de una muestra de las casillas similar a la que se utilizó para el 
+conteo rápido de 2006.
+
+El diseño utilizado es *muestreo estratificado simple*, lo que quiere decir que:
+
+i) se particionan las casillas de la pablación en estratos (cada casilla
+pertenece a exactamente un estrato), y 
+
+ii) dentro de cada estrato se usa *muestreo aleatorio* para seleccionar las 
+casillas que estarán en la muestra. 
+
+En este ejercicio (similar al conteo rápido de 2006):
+
+* Se seleccionó una muestra de $7,200$ casillas
+
+* La muestra se repartió a lo largo de 300 estratos. 
+
+* La tabla `muestra_estratos` contiene en la columna $N$ el número total de 
+casillas en el estrato y en $n$ el número de casillas que se seleccionaron en la 
+muestra, para cada estrato:
+
+
+
+```r
+library(tidyverse)
+muestra_estratos <- read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/muestra_estratos.csv")
+```
+
+* La tabla `muestra_2006` contiene para cada casilla:
+    + el estrato al que pertenece: `estrato`
+    + el número de votos que recibió cada partido/coalición: `pan`, `pri_pvem`, 
+    `panal`, `prd_pt_convergencia`, `psd` y la columna `otros` indica el 
+    número de votos nulos o por candidatos no registrados.
+    + el total de votos registrado en la casilla: `total`.
+
+
+```r
+muestra_2006 <- read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/muestra_2006.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   casilla_id = col_integer(),
+##   edo_id = col_integer(),
+##   pri_pvem = col_integer(),
+##   pan = col_integer(),
+##   panal = col_integer(),
+##   prd_pt_conv = col_integer(),
+##   psd = col_integer(),
+##   otros = col_integer(),
+##   total = col_integer(),
+##   estrato = col_integer()
+## )
+```
+
+
+Una de las metodolgías de estimación, que se usa en el conteo rápido, es 
+*estimador de razón* y se contruyen intervalos de 95% de confianza usando el 
+método normal con error estándar bootstrap. En este ejercicio debes construir 
+intervalos usando este procedimiento.
+
+Para cada candidato:
+
+1. Calcula el estimador de razón combinado, para muestreo estratificado la 
+fórmula es:
+
+$$\hat{p}=\frac{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}{\sum_h \frac{N_h}{n_h} \sum_i X_{hi}}$$
+donde:
+
+* $\hat{p}$ es la estimación de la proporción de votos que recibió el candidato
+en la elección.
+
+* $Y_{hi}$ es el número total de votos que recibió el candidato
+en la $i$-ésima casillas, que pertence al $h$-ésimo estrato.
+
+* $X_{hi}$ es el número total de votos en la $i$-ésima casilla, que pertence al 
+$h$-ésimo estrato. 
+
+* $N_h$ es el número total de casillas en el $h$-ésimo estrato.
+
+* $n_h$ es el número de casillas del $h$-ésimo estrato que se seleccionaron en 
+la muestra.
+
+2. Utiliza **bootstrap** para calcular el error estándar, y reporta tu 
+estimación del error.
+    + Genera 1000 muestras bootstrap.
+    + Recuerda que las muestras bootstrap tienen que tomar en cuenta la 
+    metodología que se utilizó en la selección de la muestra original.
+
+3. Construye un intervalo del 95% de confianza utilizando el método normal.
+
+Repite para todos los partidos (y la categoría otros). Reporta tus intervalos
+en una tabla. 
+
+
+#### 4. Simulación de variables aleatorias  {-}
+Recuerda que una variable aleatoria $X$ tiene una distribución geométrica
+con parámetro $p$ si
+$$p_X(i) = P(X=i)=pq^{i-1}$$
+para $i=1,2,...$  y donde $q=1-p$. 
+
+Notemos que
+$$\sum_{i=1}^{j-1}P(X=i)=1-P(X\geq j-1)$$
+$$=1 - q^{j-1}$$
+para $j\geq 1$.
+por lo que podemos generar un valor de $X$ generando un número aleatorio
+$U$ y seleccionando $j$ tal que
+$$1-q^{j-1} \leq U \leq 1-q^j$$
+
+Esto es, podemos definir $X$ como:
+$$X=min\{j : (1-p)^j < 1-U\}$$
+usando que el logaritmo es una función monótona (i.e. $a<b$ implica $log(a)<log(b)$) obtenemos que podemos expresar $X$ como 
+$$X=min\big\{j : j \cdot log(q) < log(1-U)\big\}$$
+$$=min\big\{j : j > log(U)/log(q)\big\}$$
+entonces
+$$X= int\bigg(\frac{log(U)}{log(q)}\bigg)+1$$
+
+es geométrica con parámetro $p$.
+
+Ahora, sea $X$ el número de lanzamientos de una moneda que se requieren
+para alcanzar $r$ éxitos (soles) cuando cada lanzamiento es independiente,  $X$ tiene una distribución binomial negativa.
+
+Una variable aleatoria $X$ tiene distribución binomial negativa con parámetros $(r,p)$ donde $r$ es un entero positivo y $0<p<r$ si
+$$P(X=j)=\frac{(j-1)!}{(j-r)!(r-1)!}p^r(1-p)^{j-r}.$$
+
+a) Recuerda la distribución geométrica ¿cuál es a relación entre la variable 
+aleatoria binomial negativa y la geométrica?
+
+b) Utiliza el procedimiento descrito para generar observaciones de una variable aleatoria con distribución geométrica y la relación entre la geométrica y la 
+binomial negativa para generar simulaciones de una variable aleatoria con
+distribución binomial negativa (parámetro p = 0.4, r = 20). Utiliza la semilla 
+221285 (en R usa set.seed) y reporta las primeras 10 simulaciones obtenidas.
+
+c) Verifica la relación
+$$p_{j+1}=\frac{j(1-p)}{j+1-r}p_j$$
+y úsala para generar un nuevo algoritmo de simulación, vuelve a definir la
+semilla y reporta las primeras 10 simulaciones.
+
+d) Realiza 10,000 simulaciones usando cada uno de los algoritmos y compara el 
+tiempo de ejecución.
+
+e) Genera un histogrma para cada algoritmo (usa 1000 simulaciones) y comparalo 
+con la distribución construida usando la función de R _dnbinom_.
+
+***
+
+
 
