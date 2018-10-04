@@ -351,9 +351,23 @@ equivalente a encontrar la inversa de <span class="math inline">\(P(U)\)</span>.
 método de arriba es proporcional al número de intervalos que uno debe buscar,
 es por esto que en ocasiones vale la pena considerar los posibles valores
 <span class="math inline">\(x_j\)</span> en orden decreciente de <span class="math inline">\(p_j\)</span>.</p>
-<p><img src="../imagenes/manicule2.jpg" /> Utiliza la función runif de R y el método de
+<p><img src="imagenes/manicule2.jpg" /> Utiliza la función runif de R y el método de
 inversión para generar 1000 simulaciones de una variable aleatoria <span class="math inline">\(X\)</span> tal que
 <span class="math inline">\(p_1=0.20, p_2= 0.15, p_3=0.25, p_4=0.40\)</span> donde <span class="math inline">\(p_j=P(X=j)\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">inv_ej &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">n =</span> <span class="dv">1000</span>){
+    sims_unif &lt;-<span class="st"> </span><span class="kw">runif</span>(n)
+    sims_x &lt;-<span class="st"> </span><span class="kw">case_when</span>( 
+        sims_unif <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.2</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, 
+        sims_unif <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.35</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,
+        sims_unif <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.6</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>,
+        <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="dv">4</span>
+        )
+}
+sims &lt;-<span class="st"> </span><span class="kw">inv_ej</span>()
+<span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">prop.table</span>(<span class="kw">table</span>(sims))
+<span class="co">#&gt; sims</span>
+<span class="co">#&gt;    1    2    3    4 </span>
+<span class="co">#&gt; 19.0 15.4 24.6 41.0</span></code></pre>
 </div>
 <div id="ejemplos" class="section level4 unnumbered">
 <h4>Ejemplos</h4>
@@ -403,7 +417,7 @@ rpoisI &lt;-<span class="st"> </span><span class="cf">function</span>(<span clas
   }
   i
 }
-sims_pois &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">2000</span>, <span class="kw">rpoisI</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+sims_pois &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">rpoisI</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
 
 <span class="kw">qplot</span>(sims_pois, <span class="dt">binwidth =</span> <span class="dv">1</span>)</code></pre>
 <p><img src="06-v_aleatorias_y_simualcion_files/figure-html/unnamed-chunk-11-1.png" width="300px" /></p>
@@ -445,14 +459,29 @@ es como sigue:</p>
 </li>
 <li>Si <span class="math inline">\(U &lt; p_y/(cq_y)\)</span> definimos <span class="math inline">\(X=Y\)</span> y paramos, en otro caso regresamos a 1.</li>
 </ol>
-</div>
-<p><img src="../imagenes/manicule2.jpg" />. Supongamos que queremos simular el valor de una variable aleatoria <span class="math inline">\(X\)</span>
-que toma uno de los valores <span class="math inline">\(1, 2,3,4\)</span> con probabilidades <span class="math inline">\(p_1=0.20, p_2= 0.15, p_3=0.25, p_4=0.40\)</span> donde <span class="math inline">\(p_j=P(X=j)\)</span>. Usemos el método de aceptación y rechazo
-con <span class="math inline">\(q\)</span> la densidad uniforme en <span class="math inline">\(1,...,10\)</span>. Implementa una función usando el
-método de aceptación y rechazo. ¿Cómo se compara en velocidad con la función
-que implementaste usando el método de la transformación inversa?</p>
-<p>En promedio este algoritmo requiere <span class="math inline">\(1/c\)</span> iteraciones para obtener un valor
+<p>En promedio este algoritmo requiere <span class="math inline">\(c\)</span> iteraciones para obtener un valor
 generado para <span class="math inline">\(X\)</span>.</p>
+</div>
+<p><img src="imagenes/manicule2.jpg" />. Supongamos que queremos simular el valor de una
+variable aleatoria <span class="math inline">\(X\)</span> que toma uno de los valores <span class="math inline">\(1,2,3,4\)</span> con probabilidades
+<span class="math inline">\(p_1=0.20, p_2= 0.15, p_3=0.25, p_4=0.40\)</span> donde <span class="math inline">\(p_j=P(X=j)\)</span>. Usemos el método
+de aceptación y rechazo con <span class="math inline">\(q\)</span> la densidad uniforme en <span class="math inline">\(1,...,4\)</span>. ¿Cómo se
+compara en velocidad con la función que implementaste usando el método de la
+transformación inversa?</p>
+<pre class="sourceCode r"><code class="sourceCode r">sim_acept_rechazo &lt;-<span class="st"> </span><span class="cf">function</span>() {
+  c &lt;-<span class="st"> </span><span class="fl">0.4</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.25</span>
+  p_j &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.15</span>, <span class="fl">0.25</span>, <span class="fl">0.4</span>)
+  prop &lt;-<span class="st"> </span><span class="kw">floor</span>(<span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
+  <span class="cf">while</span>(<span class="kw">runif</span>(<span class="dv">1</span>) <span class="op">&gt;</span><span class="st"> </span>p_j[prop] <span class="op">/</span><span class="st"> </span>(c <span class="op">*</span><span class="st"> </span><span class="fl">0.25</span>)){
+      prop &lt;-<span class="st"> </span><span class="kw">floor</span>(<span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
+  }
+  prop
+}
+sims &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">sim_acept_rechazo</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+<span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">prop.table</span>(<span class="kw">table</span>(sims))
+<span class="co">#&gt; sims</span>
+<span class="co">#&gt;    1    2    3    4 </span>
+<span class="co">#&gt; 21.9 15.3 24.4 38.4</span></code></pre>
 </div>
 <div id="variables-aleatorias-continuas-1" class="section level3">
 <h3><span class="header-section-number">7.3.1</span> Variables aleatorias continuas</h3>
@@ -500,15 +529,15 @@ se distribuye uniforme(0,1).</p>
 exponencial con media <span class="math inline">\(c\)</span>, por tanto una variable aleatoria exponencial con
 parámetro <span class="math inline">\(\beta\)</span> se puede generar de la siguiente manera:</p>
 <p><span class="math display">\[X=-\beta log(U)\]</span></p>
-<pre class="sourceCode r"><code class="sourceCode r">simExpBeta &lt;-<span class="st"> </span><span class="cf">function</span>(beta){
-  <span class="op">-</span>beta <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(<span class="kw">runif</span>(<span class="dv">1</span>))
+<pre class="sourceCode r"><code class="sourceCode r">sim_exp_beta &lt;-<span class="st"> </span><span class="cf">function</span>(beta, <span class="dt">n =</span> <span class="dv">1000</span>){
+  <span class="op">-</span>beta <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(<span class="kw">runif</span>(n))
 }
-sims_exp &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">simExpBeta</span>(<span class="dv">2</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+sims_exp &lt;-<span class="st"> </span><span class="kw">sim_exp_beta</span>(<span class="dv">2</span>)
 <span class="kw">mean</span>(sims_exp)
-<span class="co">#&gt; [1] 2.0276</span>
+<span class="co">#&gt; [1] 2.0487</span>
 <span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> sims_exp, <span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.7</span>)</code></pre>
-<p><img src="06-v_aleatorias_y_simualcion_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="06-v_aleatorias_y_simualcion_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>El algoritmo anterior también provee una manera de generar variables aleatorias
 Poisson. Para esto usamos la relación entre la Poisson y la exponencial:</p>
 <ul>
@@ -550,9 +579,9 @@ número de números aleatorios requeridos.</p>
 }
 
 <span class="kw">poisson</span>(<span class="dv">10</span>)
-<span class="co">#&gt; [1] 8</span>
+<span class="co">#&gt; [1] 10</span>
 <span class="kw">mean</span>(<span class="kw">rdply</span>(<span class="dv">1000</span>, <span class="kw">poisson</span>(<span class="dv">10</span>))<span class="op">$</span>V1)
-<span class="co">#&gt; [1] 10.079</span></code></pre>
+<span class="co">#&gt; [1] 10.099</span></code></pre>
 </div>
 <div id="ejemplo-gamma" class="section level4 unnumbered">
 <h4>Ejemplo: Gamma</h4>
@@ -574,9 +603,9 @@ ganancias computacionales.</p>
 }
 sims_gamma &lt;-<span class="st"> </span><span class="kw">rdply</span>(<span class="dv">1000</span>, <span class="kw">gamma_nb</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">beta =</span> <span class="dv">2</span>))
 <span class="kw">mean</span>(sims_gamma<span class="op">$</span>V1)
-<span class="co">#&gt; [1] 19.799</span>
+<span class="co">#&gt; [1] 19.678</span>
 <span class="kw">var</span>(sims_gamma<span class="op">$</span>V1)
-<span class="co">#&gt; [1] 39.375</span></code></pre>
+<span class="co">#&gt; [1] 38.735</span></code></pre>
 </div>
 </div>
 <div id="aceptacion-y-rechazo-1" class="section level3 unnumbered">
@@ -634,7 +663,7 @@ La variable aleatoria beta toma valores en el intervalo (0,1) por lo que conside
 }
 sims &lt;-<span class="st"> </span><span class="kw">rdply</span>(<span class="dv">1000</span>, beta24)
 <span class="kw">mean</span>(sims<span class="op">$</span>V1)
-<span class="co">#&gt; [1] 0.33148</span></code></pre>
+<span class="co">#&gt; [1] 0.33246</span></code></pre>
 </div>
 <div id="ejemplo-gamma32-1" class="section level4 unnumbered">
 <h4>Ejemplo: Gamma(3/2, 1)</h4>
@@ -642,7 +671,7 @@ sims &lt;-<span class="st"> </span><span class="kw">rdply</span>(<span class="dv
 <span class="math display">\[f(x)=\frac{1}{\Gamma(3/2)}x^{1/2}e^{-x}\]</span>
 dado que la variable aleatoria de nuestro interés se concentra en los números positivos, y tiene media <span class="math inline">\(3/2\)</span>, es conveniente usar el método de aceptación y rechazo con la variable aleatoria exponencial de la misma media.
 <span class="math display">\[g(x)=\frac{2}{3}e^{-x2/3}\]</span></p>
-<p><img src="../imagenes/manicule2.jpg" /> Usa el método de aceptación y rechazo para generar 1000 observaciones de una variable aleatoria con distribución gamma(3/2,1).</p>
+<p><img src="imagenes/manicule2.jpg" /> Usa el método de aceptación y rechazo para generar 1000 observaciones de una variable aleatoria con distribución gamma(3/2,1).</p>
 </div>
 <div id="ejemplo-variable-aleatoria-normal" class="section level4 unnumbered">
 <h4>Ejemplo: Variable aleatoria normal</h4>
