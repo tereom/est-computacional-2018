@@ -593,7 +593,7 @@ correspondientes y seleccionamos una carta.
 
 + ¿Cuál es el epacio de resultados? 
 
-+  ¿Cuál es la probabilidad de que hayamos seleccionado un As?
++ ¿Cuál es la probabilidad de que hayamos seleccionado un As?
 
 b) A y B juegan una serie de juegos. En cada juego A gana con probabilidad 0.35 
 y B con probabilidad 0.65 (independiente de lo ocurrido en los otros juegos). 
@@ -631,7 +631,7 @@ prueba) o dos tabletas de 400 mg (formulación referencia).
 
 Realiza lo siguiente:
 
-1. Lee los datos [cimetidine_raw](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/cimeditine_boot.csv), las variables son: 
+1. Lee los datos [cimetidine_raw](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/cimeditine_raw.txt), las variables son: 
     + `formulation` indica si la observación corresponde a formulación de 
     refernecia o de prueba, 
     + `subj` identifica al sujeto, 
