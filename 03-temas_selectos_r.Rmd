@@ -35,7 +35,7 @@ for (i in 1:2) print(i)
 `for`(i, 1:2, print(i))
 ```
 
-Para escribir código eficiente y fácil de leer es importante saber esvribir
+Para escribir código eficiente y fácil de leer es importante saber escribir
 funciones, se dice que si hiciste *copy-paste* de una sección de tu código 3
 o más veces es momento de escribir una función.
 
@@ -56,7 +56,7 @@ wtd_mean(1:10, 10:1)
 
 ![](imagenes/manicule2.jpg) Escribe una función que reciba un vector y devuelva
 el mismo vector reescalado al rango 0 a 1. 
-    * Comienza escribirendo el código para un caso paricular, por ejemplo, 
+    * Comienza escribiendo el código para un caso particular, por ejemplo, 
     empieza reescalando el vector `r vec <- c(0, 5, 10)`. Tip: la función 
     `range()` devuelve el rango de un vector.  
     * Aplica tu función a las columnas a a d del data.frame df
@@ -168,7 +168,7 @@ f(2)
 ```
 Como consecuencia de las reglas de búsqueda de R, todos los objetos deben ser 
 guardados en memoria y, si uno no es cuidadoso se pueden cometer errores 
-facilmente.
+fácilmente.
 
 ```{r}
 y <- 100
@@ -193,7 +193,7 @@ f(2, 3, a = 1)
 f(1, 3, b = 1)
 ```
 
-2. Los argumentos de las funciones en R se evaluan conforme se necesitan (*lazy
+2. Los argumentos de las funciones en R se evalúan conforme se necesitan (*lazy
 evaluation*), 
 
 ```{r}
@@ -208,7 +208,7 @@ no produce ningún error.
 
 3. Funciones con el mismo nombre en distintos paquetes:
 
-La función filter (incluída en R base) aplica un filtro lineal a una serie
+La función `filter()` (incluida en R base) aplica un filtro lineal a una serie
 de tiempo de una variable.
 
 ```{r}
@@ -315,7 +315,7 @@ grep("a", frutas)
 gsub("a", "x", frutas)
 ```
 
-* Las listas, a diferencia de los vectores atómicos, puden contener otras 
+* Las listas, a diferencia de los vectores atómicos, pueden contener otras 
 listas. Las listas son muy flexibles pues pueden almacenar objetos de cualquier 
 tipo.
 
@@ -332,7 +332,7 @@ str(y)
 ```
 
 
-Para construir subconjuntos a partir de listas usamo `[]` y `[[]]`. En el primer 
+Para construir subconjuntos a partir de listas usamos `[]` y `[[]]`. En el primer 
 caso siempre obtenemos como resultado una lista:
 
 ```{r}
@@ -399,7 +399,7 @@ x[["c"]]
 
 ## Iteración
 
-En analisis de datos es común implementar rutinas iterativas, esto es, cuando
+En análisis de datos es común implementar rutinas iterativas, esto es, cuando
 debemos aplicar los mismos pasos a distintas entradas.
 
 ```{r}
@@ -468,7 +468,7 @@ Diseña primero, luego optimiza. La optimización del código es un proceso
 iterativo:  
 1. Encuentra el cuello de botella más importante.  
 2. Intenta eliminarlo (no siempre se puede).  
-3. Repie hasta que tu código sea lo suficientemente rápido.  
+3. Repite hasta que tu código sea lo suficientemente rápido.  
 
 ### Diagnosticar {-}
 
@@ -593,7 +593,7 @@ veces están mejor escritas de lo que nosotros podríamos hacer.
 3. Usar funciones vectorizadas en R (casi siempre). No hacer crecer objetos (es 
 preferible definir su tamaño antes de operar en ellos).
 4. Paralelizar.
-5. La más simple y muchas veces la más barata: conseguie una máquina más grande 
+5. La más simple y muchas veces la más barata: conseguir una máquina más grande 
 (por ejemplo [Amazon web services](http://aws.amazon.com)).
 
 A continuación revisamos y ejemplificamos los puntos anteriores, los ejemplos de código se 
@@ -630,7 +630,7 @@ del problema, por ejemplo:
 Es común escuchar que en R _vectorizar_ es conveniente, el enfoque vectorizado 
 va más allá que evitar ciclos _for_:
 
-* Pensar en objetos, en lugar de enfocarse en las compoentes de un vector, se 
+* Pensar en objetos, en lugar de enfocarse en las componentes de un vector, se 
 piensa únicamente en el vector completo.  
 
 * Los ciclos en las funciones vectorizadas de R están escritos en C, lo que los 

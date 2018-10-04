@@ -14,17 +14,26 @@ description: "Curso de estadística computacional, Maestría en Ciencia de Datos
 
 
 # Información del curso {-}
-Notas del curso Estadística Computacional de los programas de maestría en 
+
+Notas del curso *Estadística Computacional* de los programas de maestría en 
 Ciencia de Datos y en Computación del ITAM. Las notas fueron desarrolladas en 
 2014 por Teresa Ortiz quien las actualiza anualmente. En caso de encontrar 
-errores en las notas se agradece la propuesta de correcciones mediante *pull requests*.
+errores o tener sugerencias del material se agradece la propuesta de 
+correcciones mediante [pull requests](https://github.com/tereom/est-computacional-2018).
 
-### Ligas {-}
-Correo: teresa.ortiz.mancera@gmail.com, maria.ortiz@itam.mx 
+#### Ligas {-}
 Notas: https://tereom.github.io/est-computacional-2018/    
-GitHub: https://github.com/tereom/est-computacional-2018
+Correo: teresa.ortiz.mancera@gmail.com   
+GitHub: https://github.com/tereom/est-computacional-2018 
 
-### Temario {-}
+</br>
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Este trabajo está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>.
+
+
+ 
+ 
+## Temario {-}
 
 1. **Manipulación y visualización de datos**
 
@@ -84,7 +93,23 @@ Referencias: @kruschke, @gelman-bayesian.
 
 ### Calificación {-}
 
-Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial (proyecto y exámen en clase) 40%, Examen final 40%.
+* Tareas 20% (se envían por correo con título *EstComp-TareaXX*).
+
+* Exámen parcial (proyecto y exámen en clase) 40%:
+    - Proyecto a casa:
+        + La descripción y material estará disponible en una liga aquí a partir 
+        del **3 de octubre** y las respuestas se enviarán por correo a más tardar el 
+        **8 de octubre a las 16:00 horas**.  
+        + Cada día tarde se descuenta un punto del máximo puntaje (10), es decir,
+        si entregan el 8 después de las 16:00 horas se califica sobre 9, 
+        si entregan el 9 después de las 16:00 horas se califica sobre 8, ...  
+        + El proyecto se puede realizar individual o en parejas.  
+    - Examen en clase:
+        + Individual el **8 de octubre** de 16:00 a 17:00 horas. 
+        + Pueden consultar internet, notas, o cualquier recurso que traigan a 
+        clase.
+
+* Examen final 40%.
 
 ### Software {-}
 
@@ -92,6 +117,16 @@ Tareas 20% (se envían por correo con título: EstComp-TareaXX), exámen parcial
 - https://www.rstudio.com
 - http://mc-stan.org
 
-### Otros {-}
+### Otros recursos {-}
 
-Socrative: https://b.socrative.com/login/student/ Room: ESTCOMP
+* [Socrative](https://b.socrative.com/login/student/) (Room **ESTCOMP**):
+Para encuestas y ejercicios en clase.
+
+* [DataCamp](https://www.datacamp.com/home): Tenemos una cuenta de *DataCamp 
+para clases* que les da acceso gratuito a todos los recursos de DataCamp a lo 
+largo del semestre.
+
+* [Registro correos](https://docs.google.com/spreadsheets/d/1cwi_5wV03gQ_0DqzK3hRGk70Pu3-dnIEF6He_eGAJAc/edit?usp=sharing): 
+Si quieres recibir noticias del curso y/o solicitar suscripción gratuita a 
+DataCamp registra tu correo en este documento.
+
