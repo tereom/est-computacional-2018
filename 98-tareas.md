@@ -586,13 +586,14 @@ una penalización de un punto (sobre 10) por cada día tarde.
 Puedes usar simulación o encontrar la respuesta de manera analítica (incluye 
 procedimiento).
 
-a) Una caja contiene 10 pares de aretes, si se seleccionan 8 aretes.
+a) Revolvemos una baraja de cartas (52) y la partimos en dos mitades (26 cartas 
+en cada parte). Extraemos una carta de la primera mitad y resulta en As. 
+Colocamos el As en la segunda mitad de la baraja, revolvemos las 27 cartas 
+correspondientes y seleccionamos una carta.
 
 + ¿Cuál es el epacio de resultados? 
 
-+ ¿Cuál es la probabilidad de que no se seleccione ningún par?
-
-+ ¿Cuál es la probabilidad de que se seleccione exactamente un par completo?
++  ¿Cuál es la probabilidad de que hayamos seleccionado un As?
 
 b) A y B juegan una serie de juegos. En cada juego A gana con probabilidad 0.35 
 y B con probabilidad 0.65 (independiente de lo ocurrido en los otros juegos). 
@@ -681,20 +682,19 @@ $x_i$ se obuvieron de manera aleatoria de una distribución bivariada $P$,
 entonces la cantidad poblacional de interés es el parámetro 
 $\theta = \mu_T/\mu_R$. Calcula el estimador *plug-in* de $\theta$.
 
-+ Usa bootstrap para generar un intervalo del 90% de confianza para $\theta$, 
+6. Usa bootstrap para generar un intervalo del 90% de confianza para $\theta$, 
 ¿la nueva tableta cumple el criterio de bioequivalencia de la FDA?
 
 ***
 
 
-#### 3. Conteo rápido {-}
+#### 3. Bootstrap {-}
 
 En México, las elecciones tienen lugar un domingo, los resultados oficiales 
 del proceso se presentan a la población una semana después. A fin de evitar 
 proclamaciones de victoria injustificadas durante ese periodo el INE organiza un 
-conteo rápido.
-El conteo rápido es un procedimiento para estimar, a partir de una muestra 
-aleatoria de casillas, el porcentaje de votos a favor de los candidatos 
+conteo rápido.El conteo rápido es un procedimiento para estimar, a partir de una 
+muestra aleatoria de casillas, el porcentaje de votos a favor de los candidatos 
 en la elección. 
 
 En este ejercicio deberás crear intervalos de confianza para la proporción de

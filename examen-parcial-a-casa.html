@@ -321,12 +321,14 @@ una penalización de un punto (sobre 10) por cada día tarde.</p></li>
 <p>Puedes usar simulación o encontrar la respuesta de manera analítica (incluye
 procedimiento).</p>
 <ol style="list-style-type: lower-alpha">
-<li>Una caja contiene 10 pares de aretes, si se seleccionan 8 aretes.</li>
+<li>Revolvemos una baraja de cartas (52) y la partimos en dos mitades (26 cartas
+en cada parte). Extraemos una carta de la primera mitad y resulta en As.
+Colocamos el As en la segunda mitad de la baraja, revolvemos las 27 cartas
+correspondientes y seleccionamos una carta.</li>
 </ol>
 <ul>
 <li><p>¿Cuál es el epacio de resultados?</p></li>
-<li><p>¿Cuál es la probabilidad de que no se seleccione ningún par?</p></li>
-<li><p>¿Cuál es la probabilidad de que se seleccione exactamente un par completo?</p></li>
+<li><p>¿Cuál es la probabilidad de que hayamos seleccionado un As?</p></li>
 </ul>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>A y B juegan una serie de juegos. En cada juego A gana con probabilidad 0.35
@@ -412,21 +414,18 @@ referencia, denotemos a este par <span class="math inline">\(x_i=(auc_{Ti}, auc_
 <span class="math inline">\(x_i\)</span> se obuvieron de manera aleatoria de una distribución bivariada <span class="math inline">\(P\)</span>,
 entonces la cantidad poblacional de interés es el parámetro
 <span class="math inline">\(\theta = \mu_T/\mu_R\)</span>. Calcula el estimador <em>plug-in</em> de <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Usa bootstrap para generar un intervalo del 90% de confianza para <span class="math inline">\(\theta\)</span>,
+¿la nueva tableta cumple el criterio de bioequivalencia de la FDA?</p></li>
 </ol>
-<ul>
-<li>Usa bootstrap para generar un intervalo del 90% de confianza para <span class="math inline">\(\theta\)</span>,
-¿la nueva tableta cumple el criterio de bioequivalencia de la FDA?</li>
-</ul>
 <hr />
 </div>
-<div id="conteo-rapido" class="section level4 unnumbered">
-<h4>3. Conteo rápido</h4>
+<div id="bootstrap-1" class="section level4 unnumbered">
+<h4>3. Bootstrap</h4>
 <p>En México, las elecciones tienen lugar un domingo, los resultados oficiales
 del proceso se presentan a la población una semana después. A fin de evitar
 proclamaciones de victoria injustificadas durante ese periodo el INE organiza un
-conteo rápido.
-El conteo rápido es un procedimiento para estimar, a partir de una muestra
-aleatoria de casillas, el porcentaje de votos a favor de los candidatos
+conteo rápido.El conteo rápido es un procedimiento para estimar, a partir de una
+muestra aleatoria de casillas, el porcentaje de votos a favor de los candidatos
 en la elección.</p>
 <p>En este ejercicio deberás crear intervalos de confianza para la proporción de
 votos que recibió cada candidato en las elecciones de 2006. La inferencia se
