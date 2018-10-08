@@ -667,7 +667,7 @@ $h$-ésimo estrato.
 la muestra.
 
 2. Utiliza **bootstrap** para calcular el error estándar, y reporta tu 
-estimación del error.
+estimación del error estándar.
     + Genera 1000 muestras bootstrap.
     + Recuerda que las muestras bootstrap tienen que tomar en cuenta la 
     metodología que se utilizó en la selección de la muestra original.
