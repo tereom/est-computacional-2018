@@ -274,8 +274,8 @@ y
 $$
 h(y) = \left\{
   \begin{array}{lr}
-    y^4e^{-y} & : x > 0\\
-    0 & : x \le 0
+    y^4e^{-y} & : y > 0\\
+    0 & : y \le 0
   \end{array}
 \right.
 $$
@@ -513,7 +513,7 @@ modelo como sigue:
 
 ```r
 tipo_nacimiento <- sample(c("unico", "fraternal", "identicos"), 
-  size = 400, replace = TRUE, prob = c(1 - 1 / 125 - 1 / 1300, 1 / 125, 1 / 300))
+  size = 400, replace = TRUE, prob = c(1 - 1 / 125 - 1 / 300, 1 / 125, 1 / 300))
 n_unico <- sum(tipo_nacimiento == "unico")  # número de nacimientos únicos
 n_fraternal <- sum(tipo_nacimiento == "fraternal")
 n_identicos <- 400 - n_unico - n_fraternal
@@ -531,7 +531,7 @@ niñas en 400 nacimientos.
 ```r
 modelo2 <- function(){
     tipo_nacimiento <- sample(c("unico", "fraternal", "identicos"), 
-        size = 400, replace = TRUE, prob = c(1 - 1 / 125 - 1 / 1300, 1 / 125, 1 / 300))
+        size = 400, replace = TRUE, prob = c(1 - 1 / 125 - 1 / 300, 1 / 125, 1 / 300))
     # número de nacimientos de cada tipo
     n_unico <- sum(tipo_nacimiento == "unico")  # número de nacimientos únicos
     n_fraternal <- sum(tipo_nacimiento == "fraternal")
@@ -545,7 +545,7 @@ modelo2 <- function(){
 
 sims_ninas_2 <- rerun(1000, modelo2()) %>% flatten_dbl()
 mean(sims_ninas_2)
-#> [1] 197
+#> [1] 198
 
 ggplot() + geom_histogram(aes(x = sims_ninas_2), binwidth = 4, alpha = 0.7)
 ```
@@ -567,7 +567,7 @@ sexo <- rbinom(10, 1, 0.52)
 altura <- rnorm(sexo, mean = 161.8 * (sexo == 1) + 175 * (sexo == 0), 
   sd = 6.86 * (sexo == 1) + 7.37 * (sexo == 0))
 mean(altura)
-#> [1] 170
+#> [1] 172
 ```
 
 Simulamos la distribución de la altura promedio:
@@ -584,7 +584,7 @@ media_alturas <- sims_alturas %>% map_dbl(mean)
 mean(media_alturas)
 #> [1] 168
 sd(media_alturas)
-#> [1] 3.11
+#> [1] 3.05
 ggplot() + geom_histogram(aes(x = media_alturas), binwidth = 1.2, alpha = 0.7)
 ```
 
@@ -657,7 +657,7 @@ Podemos calcular la media y su intervalo de confianza:
 medias <- sims_y %>% map_dbl(mean)
 quantile(medias, c(0.025, 0.975))
 #>  2.5% 97.5% 
-#>  79.5  90.9
+#>  79.7  90.8
 
 qplot(medias, geom = "histogram", binwidth = 1.5)
 ```
@@ -723,7 +723,7 @@ medias_incert <- sims_puntajes %>% map_dbl(mean)
     
 quantile(medias_incert, c(0.025, 0.975))
 #>  2.5% 97.5% 
-#>  79.2  91.0
+#>  79.2  90.9
 qplot(medias_incert, geom = "histogram", binwidth = 1)
 ```
 
