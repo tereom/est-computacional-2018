@@ -57,14 +57,21 @@ media alta ((5k,12k]) y alta (>12k).
 La distribución conjunta de variables aleatorias discretas se puede representar 
 por medio de tablas.
 
-<div class="mi-tabla">
-Renta/Tipo    |público | privado |otros  
---------------|------|-----|----  
-**baja**      |0.17  |0.01 |0.02  
-**media**     |0.44  |0.03 |0.01  
-**media alta**|0.09  |0.07 |0.01  
-**alta**      |0     |0.14 |0.10  
-</div>
+
+\begin{table}[]
+\centering
+\begin{tabular}{llll}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+\textbf{Renta/Tipo} & \textbf{Público} & \textbf{Privado} & \textbf{Otros} \\ \hline
+\textbf{baja} & 0.17 & 0.01 & 0.02 \\ \hline
+\rowcolor[HTML]{EFEFEF} 
+\textbf{media} & 0.44 & 0.03 & 0.01 \\ \hline
+\textbf{media alta} & 0.09 & 0.07 & 0.01 \\ \hline
+\rowcolor[HTML]{EFEFEF} 
+\textbf{alta} & 0 & 0.14 & 0.10 \\ \hline
+\end{tabular}
+\end{table}
 
 
 <div class = "caja">
