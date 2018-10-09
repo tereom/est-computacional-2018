@@ -561,7 +561,7 @@ modelo como sigue:
 
 ```{r}
 tipo_nacimiento <- sample(c("unico", "fraternal", "identicos"), 
-  size = 400, replace = TRUE, prob = c(1 - 1 / 125 - 1 / 1300, 1 / 125, 1 / 300))
+  size = 400, replace = TRUE, prob = c(1 - 1 / 125 - 1 / 300, 1 / 125, 1 / 300))
 n_unico <- sum(tipo_nacimiento == "unico")  # número de nacimientos únicos
 n_fraternal <- sum(tipo_nacimiento == "fraternal")
 n_identicos <- 400 - n_unico - n_fraternal
@@ -577,7 +577,7 @@ niñas en 400 nacimientos.
 ```{r, out.width="350px"}
 modelo2 <- function(){
     tipo_nacimiento <- sample(c("unico", "fraternal", "identicos"), 
-        size = 400, replace = TRUE, prob = c(1 - 1 / 125 - 1 / 1300, 1 / 125, 1 / 300))
+        size = 400, replace = TRUE, prob = c(1 - 1 / 125 - 1 / 300, 1 / 125, 1 / 300))
     # número de nacimientos de cada tipo
     n_unico <- sum(tipo_nacimiento == "unico")  # número de nacimientos únicos
     n_fraternal <- sum(tipo_nacimiento == "fraternal")
