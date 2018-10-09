@@ -35,6 +35,7 @@
 <link rel="next" href="tareas.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
@@ -260,9 +261,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="simulacion-de-modelos.html"><a href="simulacion-de-modelos.html"><i class="fa fa-check"></i><b>8</b> Simulación de modelos</a><ul>
-<li class="chapter" data-level="8.0.1" data-path="simulacion-de-modelos.html"><a href="simulacion-de-modelos.html#para-que-simular-de-un-modelo"><i class="fa fa-check"></i><b>8.0.1</b> ¿Para qué simular de un modelo?</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-modelos.html"><a href="simulacion-de-modelos.html#para-que-simular-de-un-modelo"><i class="fa fa-check"></i>¿Para qué simular de un modelo?</a></li>
 <li class="chapter" data-level="8.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html"><i class="fa fa-check"></i><b>8.1</b> Distribuciones multivariadas</a><ul>
-<li class="chapter" data-level="8.1.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#probabilidad-condicional"><i class="fa fa-check"></i><b>8.1.1</b> Probabilidad condicional</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#regla-de-bayes"><i class="fa fa-check"></i>Regla de Bayes</a></li>
+<li class="chapter" data-level="8.1.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i><b>8.1.1</b> Independencia</a></li>
+<li class="chapter" data-level="8.1.2" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#modelos-graficos-y-simulacion-predictiva"><i class="fa fa-check"></i><b>8.1.2</b> Modelos gráficos y simulación predictiva</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -322,6 +325,7 @@ media alta ((5k,12k]) y alta (&gt;12k).</p></li>
 </ul>
 <p>La distribución conjunta de variables aleatorias discretas se puede representar
 por medio de tablas.</p>
+<div class="mi-tabla">
 <table>
 <thead>
 <tr class="header">
@@ -358,11 +362,12 @@ por medio de tablas.</p>
 </tr>
 </tbody>
 </table>
+</div>
 <div class="caja">
 <p>En el caso <strong>continuo bivariado</strong>, decimos que la función <span class="math inline">\(p(x,y)\)</span> es una
-función de densidad de probabilidad para las variables aleatorias <span class="math inline">\((X,Y)\)</span> si:</p>
-<ol style="list-style-type: decimal">
-<li><p><span class="math inline">\(p(x,y) \geq 0\)</span> para toda <span class="math inline">\((x,y)\)</span>.</p></li>
+función de densidad de probabilidad para las variables aleatorias <span class="math inline">\((X,Y)\)</span> si:
+1. <span class="math inline">\(p(x,y) \geq 0\)</span> para toda <span class="math inline">\((x,y)\)</span>.</p>
+<ol start="2" style="list-style-type: decimal">
 <li><p><span class="math inline">\(\int_{-\infty}^{\infty}p(x,y)dxdy=1\)</span>.</p></li>
 <li>Para cualquier conjunto <span class="math inline">\(A \subset \mathbb{R} \times \mathbb{R}\)</span>,
 <span class="math inline">\(P((X,Y) \in A) = \int\int_A p(x,y)dxdy\)</span>.</li>
@@ -385,15 +390,15 @@ en este caso, a calcular el área del conjunto <span class="math inline">\(A\)</
 llamamos la distribución marginal de <span class="math inline">\(X_j\)</span>.</p>
 <br/>
 <div class="caja">
-<p>Sea <span class="math inline">\(\{X_1,...,X_n\}\)</span> un conjunto de variables aleatorias con distribución conjunta <span class="math inline">\(p(x_1,...,x_n)\)</span>, la <strong>distribución marginal</strong> de <span class="math inline">\(X_j\)</span> (<span class="math inline">\(j \in \{1,...,n\}\)</span>)
-se define como,
+<p>Sea <span class="math inline">\(\{X_1,...,X_n\}\)</span> un conjunto de variables aleatorias con distribución
+conjunta <span class="math inline">\(p(x_1,...,x_n)\)</span>, la <strong>distribución marginal</strong> de <span class="math inline">\(X_j\)</span>
+(<span class="math inline">\(j \in \{1,...,n\}\)</span>) se define como,
 <span class="math display">\[p_{X_j}(x_j) = \sum_{x_1,...,x_{j-1},x_{j+1},...,x_n}p(x_1,...,x_n)\mbox{ en el caso discreto,}\]</span>
 <span class="math display">\[p_{X_j}(x_j) = \int_{x_1,...,x_{j-1},x_{j+1},...,x_n}p(x_1,...,x_n)dx_1,...,dx_n\mbox{ en el caso continuo}\]</span></p>
 </div>
 <p><br/></p>
 <p><strong>Ejemplo.</strong> Retomando el problema de los departamentos, ¿Cuál es la
-probabilidad de que
-un departamento elegido al azar sea público?</p>
+probabilidad de que un departamento elegido al azar tenga renta baja?</p>
 <!--
 
 Renta/Tipo    |público | privado |otros |p(Renta)  
@@ -404,17 +409,16 @@ Renta/Tipo    |público | privado |otros |p(Renta)
 **alta**      |0       |0.14     |0.10   |**0.15**
 **p(Tipo)**   |**0.7** |**0.25** |**0.5**|**1**  
 -->
-<div id="probabilidad-condicional" class="section level3">
-<h3><span class="header-section-number">8.1.1</span> Probabilidad condicional</h3>
+<div id="probabilidad-condicional" class="section level4 unnumbered">
+<h4>Probabilidad condicional</h4>
 <div class="caja">
-<p>Sean <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> dos eventos entonces, con <span class="math inline">\(P(B)&gt;0\)</span>, entonces la probabilidad
+<p>Sean <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> dos eventos, con <span class="math inline">\(P(B)&gt;0\)</span>, la probabilidad
 condicional de <span class="math inline">\(A\)</span> dado <span class="math inline">\(B\)</span> es</p>
 <p><span class="math display">\[P(A|B)=\frac{P(AB)}{P(B)}\]</span></p>
 </div>
 <p><strong>Ejemplo.</strong> ¿Cuál es la probabilidad de que un departamento privado tenga
-renta <em>baja</em>?<br />
-¿Cómo se compara con la probabilidad de que la renta sea baja (desconozco
-el tipo de departamento)?</p>
+renta <em>baja</em>? ¿Cómo se compara con la probabilidad de que la renta sea baja
+(desconozco el tipo de departamento)?</p>
 <p>La noción de probabilidad condicional se extiende a distribuciones
 condicionales:</p>
 <div class="caja">
@@ -424,15 +428,729 @@ para toda <span class="math inline">\(y\)</span> tal que <span class="math inlin
 <span class="math display">\[p_{X\vert Y}(x\vert y) = \frac{p(x, y)}{p_Y(y).}\]</span></p>
 </div>
 <p><br/></p>
-<p><strong>Ejemplo.</strong> ¿Cuál es la distribución condicional de <em>renta</em> dado renta
-<em>privado </em>?<br />
-Para obtener toda la distribución condicional calculamos los dos casos
+<p><strong>Ejemplo.</strong> ¿Cuál es la distribución condicional de <em>renta</em> dado tipo
+<em>privado </em>? Para obtener toda la distribución condicional calculamos los dos casos
 restantes (renta media, media alta y alta).
 <br/></p>
 <p>Vale la pena destacar que una distribución condicional es una distribución de
 probabilidad. En el ejemplo anterior, notemos que cada renglón de la tabla
 probabilidades suman uno, son no negativas y menores que uno.</p>
+</div>
+<div id="probabilidad-total" class="section level4 unnumbered">
+<h4>Probabilidad Total</h4>
+<div class="caja">
+<p>Sean <span class="math inline">\(E\)</span>, <span class="math inline">\(F\)</span> dos eventos entonces,
+<span class="math display">\[P(E) = P(E\vert F)P(F) + P(E\vert F^c)P(F^c).\]</span>
+De manera más general, sean <span class="math inline">\(F_i\)</span> <span class="math inline">\(i = 1,...,n\)</span> eventos mutuamente excluyentes cuya unión es el espacio muestral, entonces
+<span class="math display">\[P(E) = \sum_{i=1}^n P(E\vert F_i)P(F_i).\]</span></p>
+</div>
+<p><strong>Ejemplo.</strong> Supongamos que una aseguradora clasifica a la gente en tres grupos
+de acuerdo a su nivel de riesgo: bajo, medio y alto. De acuerdo a los registros,
+las probabilidades de incurrir en un accidente en un laspo de un año son 0.05,
+0.15 y 0.30 respectivamente. Si el 20% de la población se clasifica en riesgo
+bajo, 50% en medio y 30% en alto, ¿qué proporción de la población tiene un
+accidente en un año dado?</p>
+<p>Para variables aleatorias tenemos:</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> dos variables aleatorias, podemos expresar la distribución
+marginal de <span class="math inline">\(X\)</span> como:
+<span class="math display">\[p_X(x) = \sum_{y} p_{X \vert Y}(x\vert y)p_Y(y).\]</span></p>
+</div>
+<p><br/></p>
+<p><img src="imagenes/manicule2.jpg" /> Supongamos que ruedo un dado, si
+observo un número par lanzo una moneda justa
+(la probabilidad de observar águila es la misma que la de observar sol), si el
+dado muestra un número impar lanzo una moneda sesgada en la que la probabilidad
+de observar águila es 0.9. Si observo sol, ¿Cuál es la probabilidad de que haya lanzado la moneda sesgada?</p>
+<p>El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente conozco la probabilidad de observar sol condicional a que la moneda es sesgada
+pero ahora me interesa conocer la probabilidad de que haya lanzado una moneda
+sesgada una vez que observé un sol en el volado.</p>
+</div>
+<div id="regla-de-bayes" class="section level3 unnumbered">
+<h3>Regla de Bayes</h3>
+<p>La regla de Bayes es una consecuencia de la definición de probabilidad condicional.</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(F_i\)</span> <span class="math inline">\(i = 1,...,n\)</span> eventos mutuamente excluyentes cuya unión es el espacio muestral, entonces
+<span class="math display">\[P(F_j\vert E) = \frac{P(E\vert F_j)P(F_j)}{\sum_{i=1}^n P(E\vert F_i)P(F_i)}\]</span>
+esta identidad se conoce como la <strong>regla de Bayes</strong>.</p>
+</div>
+<p><strong>Ejemplo.</strong> En el contexto del ejemplo de los seguros ahora nos hacemos la
+siguiente pregunta: si un asegurado tuvo accidentes en 2013, ¿cuál es la
+probabilidad de que clasifique en riesgo bajo?</p>
+<!--
+$$P(B\vert Accidente) = \frac{P(Accidente\vert B)P(B)}{P(Accidente\vert B)P(B) + P(Accidente\vert M)P(M) + P(Accidente\vert A)P(A)}$$
+Notemos que el denominador corresponde a la probabilidad de accidente que calculamos previamente ($P(Accidente) = 0.175$), 
+$$P(B\vert Accidente) = \frac{0.05\cdot 0.20}{0.175} \approx .057$$
+La nueva información implica que actualizemos de $P(B)= 0.20$ a $P(B\vert Accidente)=0.057$.
+-->
+<p>Al igual que con probabilidad condicional, la Regla de Bayes tiene una
+definición análoga para variables aleatorias.</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> dos variables aleatorias,
+<span class="math display">\[p_{X\vert Y}(x\vert y) = \frac{p_{Y\vert X}(y\vert x)p_X(x)}{p_Y(y)}.\]</span></p>
+</div>
+<p><img src="imagenes/manicule2.jpg" /> Supongamos ahora que una compañía de
+seguros divide a la gente en dos clases: propensos a accidente (30% de las
+personas) y no propensos a accidente. En un año dado aquellos propensos a
+accidentes sufren un accidente con probabilidad 0.4, mientras que los del otro
+grupo sufren un accidente con probabilidad 0.2. ¿Cuál es la probabilidad de que
+un asegurado tenga un accidente en su segundo año condicional a que sufrió un
+accidente en el primer año?</p>
+<p>Una consecuencia de la regla de Bayes es que cualquier distribución multivariada
+sobre <span class="math inline">\(n\)</span> variables <span class="math inline">\(X_1,X_2,...X_n\)</span> se puede expresar como:</p>
+<div class="caja">
+<p><span class="math display">\[p(x_1,x_2,...x_n) = p_{X_1}(x_1)p_{X_2\vert X_1}(x_2\vert x_1)p_{X_3\vert X_1X_2}(x_3\vert x_1x_2)···p_{X_n\vert X_1...X_{n-1}}(x_n\vert x_1...x_{n-1})\]</span>
+esta igualdad se conoce como <strong>regla de la cadena</strong>.</p>
+</div>
+<p>Nótese que esta regla funciona para cualquier ordenamiento de las variables aleatorias.</p>
+<p><img src="imagenes/manicule2.jpg" /> Supongamos ahora que una compañía de
+seguros divide a la gente en dos clases: propensos a accidente (30% de las
+personas) y no propensos a accidente. En un año dado aquellos propensos a
+accidentes sufren un accidente con probabilidad 0.4, mientras que los del otro
+grupo sufren un accidente con probabilidad 0.2. ¿Cuál es la probabilidad de que
+un asegurado tenga un accidente en su segundo año condicional a que sufrió un
+accidente en el primer año?</p>
+</div>
+<div id="independencia" class="section level3">
+<h3><span class="header-section-number">8.1.1</span> Independencia</h3>
+<div class="caja">
+<p>Los eventos <span class="math inline">\(E\)</span>, <span class="math inline">\(F\)</span> son independientes sí y solo sí
+<span class="math display">\[P(EF) = P(E)P(F)\]</span></p>
+</div>
+<p>De la definición de independencia se sigue que <span class="math inline">\(P(E\vert F) = P(E)\)</span>. Esto es, los eventos <span class="math inline">\(E\)</span> y <span class="math inline">\(F\)</span> son independientes si saber que uno de ellos ocurrió no afecta la probabilidad del otro. Utilizaremos la notación <span class="math inline">\(E\perp F\)</span> que se lee “<span class="math inline">\(E\)</span> es independiente de <span class="math inline">\(F\)</span>”.</p>
+<div class="caja">
+<p>Dos variables aleatorias <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, son independientes sí y sólo sí
+<span class="math display">\[p(x,y) = p_X(x)p_Y(y)\]</span></p>
+</div>
+<p><br/></p>
+<p>Más aún, <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes sí y sólo sí <span class="math inline">\(p(x,y) \propto g(x)h(y)\)</span>,
+por lo que para demostrar independecia podemos omitir las constantes en la
+factorización de las densidades</p>
+<p>Similar a la independencia en eventos, la independencia de variables aleatorias implica que <span class="math inline">\(p_{X\vert Y}(x\vert y) = p_X(x)\)</span>, esto es, <span class="math inline">\(Y = y\)</span> no provee
+información sobre <span class="math inline">\(X\)</span>.</p>
+<p><strong>Ejemplo.</strong> Consideremos la función de densidad conjunta <span class="math inline">\(p(x,y) = \frac{1}{384} x^2y^4e^{-y-(x/2)}\)</span>, <span class="math inline">\(x&gt;0\)</span>, <span class="math inline">\(y&gt;0\)</span>, ¿<span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes?</p>
+<p>Podemos definir
+<span class="math display">\[
+g(x) = \left\{
+  \begin{array}{lr}
+    x^2e^{-x/2} &amp; : x &gt; 0\\
+    0 &amp; : x \le 0
+  \end{array}
+\right.
+\]</span>
+y
+<span class="math display">\[
+h(y) = \left\{
+  \begin{array}{lr}
+    y^4e^{-y} &amp; : x &gt; 0\\
+    0 &amp; : x \le 0
+  \end{array}
+\right.
+\]</span>
+entonces <span class="math inline">\(p(x,y) \propto g(x)h(y)\)</span>, para toda <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> <span class="math inline">\(\in \mathbb{R}\)</span> y
+concluímos que <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes.</p>
+<p>**Ejemplo.*. Si la densidad conjunta de <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> está dada por:
+<span class="math display">\[
+p(x, y) = \left\{
+  \begin{array}{lr}
+    2 &amp; : 0 &lt; x &lt; y, 0 &lt; y &lt; 1\\
+    0 &amp; : e.o.c.
+  \end{array}
+\right.
+\]</span></p>
+<p>¿<span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes?</p>
+<p><strong>Ejercicio</strong>. Recordando el ejemplo de departamentos en Hong Kong, veamos si
+Renta y Tipo son independientes, para esto comparemos <span class="math inline">\(p(renta|tipo)\)</span> y
+<span class="math inline">\(p(renta)\)</span>.</p>
+<div id="independencia-condicional" class="section level4">
+<h4><span class="header-section-number">8.1.1.1</span> Independencia condicional</h4>
+<p>La independencia de eventos o variables aleatorias es poco común en la práctica,
+más frecuente es el caso en que dos eventos son independientes dado un tercer
+evento.</p>
+<p><strong>Ejemplo.</strong> En una competencia de velocidad, cada atleta
+se somete a dos pruebas de dopaje que buscan detectar si el deportista ingirió
+una substania prohibida. La prueba A consiste en un examen de sangre y la prueba
+B en un exámen de orina, cada prueba se realiza en un laboratorio distinto y no
+hay intercambio de información entre los laboratorios. Es razonable pensar
+que los resultados de los dos exámenes no son independientes. Ahora, supongamos
+que sabemos que el atleta consumió la substancia prohibida, en este caso
+podemos argumentar que conocer el resultado de la prueba A no cambia la
+probabilidad de que el atleta salga positivo en la prueba B. Decimos que
+el resultado de la prueba B es condicionalmente independiente del resultado
+de la prueba A dado que el atleta consumió la substancia.</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> y <span class="math inline">\(C\)</span>, tres eventos decimos que <span class="math inline">\(A\)</span> es independiente de <span class="math inline">\(B\)</span>
+condicional a <span class="math inline">\(C\)</span> (<span class="math inline">\(A \perp B \vert C\)</span>) si,
+<span class="math display">\[ P(A,B\vert C) = P(A\vert C)P(B\vert C)\]</span></p>
+</div>
+<p>Similar al caso de independencia, <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> son condicionalmente independientes
+dado <span class="math inline">\(C\)</span> sí y solo sí <span class="math inline">\(P(A \vert B,C) = P(A \vert C)\)</span>, esto es, una vez que
+conocemos el valor de <span class="math inline">\(C\)</span>, <span class="math inline">\(B\)</span> no proporciona información adicional sobre <span class="math inline">\(A\)</span>.</p>
+<p><strong>Ejemplo.</strong> Retomemos el ejercicio de asegurados. En la solución de este
+ejercicio utilizamos que <span class="math inline">\(P(A_2|AA_1) = 0.4\)</span> y que <span class="math inline">\(P(A_2|A^cA_1) = 0.2\)</span>, al
+establecer esa igualdad estamos asumiendo que <span class="math inline">\(A_2\)</span> (el asegurado tiene un
+accidente en el año 2) y <span class="math inline">\(A_1\)</span> (el asegurado tiene un accidente en el año 1) son
+eventos condicionalmente independientes dado <span class="math inline">\(A\)</span> (el asegurado es propenso a
+accidentes): <span class="math inline">\(P(A_2|AA_1) = P(A_2|A) = 0.4\)</span> y <span class="math inline">\(P(A_2|A^cA_1) = P(A_2|A^c) = 0.2\)</span>.</p>
+<p><strong>Ejemplo.</strong> Retomemos el ejercicio de asegurados. En la solución de este
+ejercicio utilizamos que <span class="math inline">\(P(A_2|AA_1) = 0.4\)</span> y que <span class="math inline">\(P(A_2|A^cA_1) = 0.2\)</span>, al
+establecer esa igualdad estamos asumiendo que <span class="math inline">\(A_2\)</span> (el asegurado tiene un
+accidente en el año 2) y <span class="math inline">\(A_1\)</span> (el asegurado tiene un accidente en el año 1) son
+eventos condicionalmente independientes dado <span class="math inline">\(A\)</span> (el asegurado es propenso a
+accidentes): <span class="math inline">\(P(A_2|AA_1) = P(A_2|A) = 0.4\)</span> y <span class="math inline">\(P(A_2|A^cA_1) = P(A_2|A^c) = 0.2\)</span>.</p>
+<p>En el caso de variables aleatorias definimos independencia condicional como
+sigue.</p>
+<div class="caja">
+<p>Sean <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> y <span class="math inline">\(Z\)</span>, tres variables aleatorias decimos que <span class="math inline">\(X\)</span> es independiente
+de <span class="math inline">\(Y\)</span> condicional a <span class="math inline">\(Z\)</span> (<span class="math inline">\(X \perp Y \vert Z\)</span>) si y sólo sí,
+<span class="math display">\[p(x,y\vert z) = p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).\]</span></p>
+</div>
+<p>Y tenemos que <span class="math inline">\(X\)</span> es independiente de <span class="math inline">\(Y\)</span> condicional a <span class="math inline">\(Z\)</span> sí y sólo sí,
+<span class="math inline">\(p(x,y,z) \propto g(x,z)h(y,z)\)</span>.</p>
+<p><strong>Ejemplo</strong>. Supongamos que ruedo un dado, si observo un número par realizo dos
+lanzamientos de una moneda justa (la probabilidad de observar águila es la misma
+que la de observar sol), si el dado muestra un número impar realizo dos
+lanzamientos de una moneda sesgada en la que la probabilidad de observar águila
+es 0.9. Denotemos por <span class="math inline">\(Z\)</span> la variable aleatoria asociada a la selección de la
+moneda, <span class="math inline">\(X_1\)</span> la correspondiente al primer lanzamiento y <span class="math inline">\(X_2\)</span> la
+correspondiente al segundo. Entonces, <span class="math inline">\(X_1\)</span> y <span class="math inline">\(X_2\)</span> no son independientes, sin
+embargo, son condicionalmente independientes (<span class="math inline">\(X_1 \perp X_2 \vert Z\)</span>), puesto
+que una vez que se que moneda voy a lanzar el resultado del primer lanzamiento
+no aporta información adicional para el segundo lanzamiento. Calcularemos la distribución conjunta y la distribución condicional de <span class="math inline">\(X_2\)</span> dado <span class="math inline">\(X_1\)</span>.</p>
+<p>La distribución conjunta esta determinada por la siguiente tabla:</p>
+<div class="mi-tabla">
+<table>
+<thead>
+<tr class="header">
+<th>Z</th>
+<th align="left">X1</th>
+<th align="left">X2</th>
+<th align="left">P(Z,X1,X2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>justa</td>
+<td align="left">a</td>
+<td align="left">a</td>
+<td align="left">0.125</td>
+</tr>
+<tr class="even">
+<td>justa</td>
+<td align="left">a</td>
+<td align="left">s</td>
+<td align="left">0.125</td>
+</tr>
+<tr class="odd">
+<td>justa</td>
+<td align="left">s</td>
+<td align="left">a</td>
+<td align="left">0.125</td>
+</tr>
+<tr class="even">
+<td>justa</td>
+<td align="left">s</td>
+<td align="left">s</td>
+<td align="left">0.125</td>
+</tr>
+<tr class="odd">
+<td>ses</td>
+<td align="left">a</td>
+<td align="left">a</td>
+<td align="left">0.405</td>
+</tr>
+<tr class="even">
+<td>ses</td>
+<td align="left">a</td>
+<td align="left">s</td>
+<td align="left">0.045</td>
+</tr>
+<tr class="odd">
+<td>ses</td>
+<td align="left">s</td>
+<td align="left">a</td>
+<td align="left">0.045</td>
+</tr>
+<tr class="even">
+<td>ses</td>
+<td align="left">s</td>
+<td align="left">s</td>
+<td align="left">0.005</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>La distribución condicional <span class="math inline">\(p(X_2|X_1)\)</span> es,</p>
+<div class="mi-tabla">
+<table>
+<thead>
+<tr class="header">
+<th>X1/X2</th>
+<th>a</th>
+<th>s</th>
+<th>.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>a</strong></td>
+<td>0.757</td>
+<td>0.243</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>s</strong></td>
+<td>0.567</td>
+<td>0.433</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>y la distribución condicional <span class="math inline">\(p(X_2|X_1,Z)=p(X_2|Z)\)</span> es,</p>
+<div class="mi-tabla">
+<table>
+<thead>
+<tr class="header">
+<th>X1/X2</th>
+<th>Z</th>
+<th>a</th>
+<th>s</th>
+<th>.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>a</strong></td>
+<td>par</td>
+<td>0.5</td>
+<td>0.5</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>s</strong></td>
+<td>par</td>
+<td>0.5</td>
+<td>0.5</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td><strong>a</strong></td>
+<td>impar</td>
+<td>0.9</td>
+<td>0.1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>s</strong></td>
+<td>impar</td>
+<td>0.9</td>
+<td>0.1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>En este punto es claro que <span class="math inline">\(X \perp Y \vert Z\)</span> no implica <span class="math inline">\(X \perp Y\)</span>, pues
+como vimos en el ejemplo de las monedas <span class="math inline">\(X_1 \perp X_2 \vert Z\)</span> pero
+<span class="math inline">\(X_1 \not \perp X_2\)</span>. Más aún, <span class="math inline">\(X \perp Y\)</span> tampoco implica <span class="math inline">\(X \perp Y \vert Z\)</span>.</p>
+<div class="caja">
+<p>La independencia condicional tiene importantes consecuencias, por ejemplo, si <span class="math inline">\(X\)</span>
+es independiente de <span class="math inline">\(Y\)</span> dado <span class="math inline">\(Z\)</span> entonces,
+<span class="math display">\[p(x,y,z) = p_Z(z)p_{X\vert Z}(x\vert z)p_{Y\vert Z}(y\vert z).\]</span></p>
+</div>
+<p>Esta expresión de la densidad conjunta es similar a la que obtendríamos usando
+la regla de la cadena; sin embargo, el número de parámetros necesarios bajo esta
+representación es menor lo que facilita la estimación.</p>
+</div>
+</div>
+<div id="modelos-graficos-y-simulacion-predictiva" class="section level3">
+<h3><span class="header-section-number">8.1.2</span> Modelos gráficos y simulación predictiva</h3>
+<p>El objetivo de esta sección es la simulación de modelos, una manera conveniente
+de simular de un modelo probabilístico es a partir del modelo gráfico
+asociado. Un modelo gráfico representa todas las cantidades involucradas en el
+modelo mediante nodos de una gráfica dirigida, el modelo representa el supuesto
+que dados los nodos padres <span class="math inline">\(padres(v)\)</span> cada nodo es independiente del resto de
+los nodos a excepción de sus descendientes.</p>
+<p>Los nodos en las gráficas se clasifican en 3 tipos:</p>
+<ul>
+<li><p><strong>Constantes</strong> fijas por el diseño del estudio, siempre son nodos sin padres.</p></li>
+<li><p><strong>Estocásticos</strong> son variables a los que se les asigna una distribución.</p></li>
+<li><p><strong>Determinísticos</strong> son funciones lógicas de otros nodos.</p></li>
+</ul>
+<p>Los supuestos de independencia condicional que representa la gráfica implican
+que la distribución conjunta de todas las cantidades V tiene una factorización
+en términos de la distribución condicional <span class="math inline">\(p(v|padres(v))\)</span> de tal manera que:
+<span class="math display">\[p(V) = \prod p(v|padres(v))\]</span></p>
+<p>Veamos como usar las gráficas para simular de modelos probabilísticos. Los
+siguientes ejemplos están escritos con base en <span class="citation">(<span class="citeproc-not-found" data-reference-id="gelman"><strong>???</strong></span>)</span>.</p>
+<div id="ejemplo-de-simulacion-discreta-predictiva" class="section level4 unnumbered">
+<h4>Ejemplo de simulación discreta predictiva</h4>
+<p>La probabilidad de que un bebé sea niña o niño es 48.8% y 51.2%
+respectivamente. Supongamos que hay 400 nacimientos en un hospital en un año
+dado. ¿Cuántas niñas nacerán?</p>
+<p>Comencemos viendo el modelo gráfico asociado.</p>
+<p><img src="imagenes/ninas_1.png" /></p>
+<p>La gráfica superior muestra todas las variables relevantes en el problema, y las
+dependencias entre ellas. En este caso <span class="math inline">\(n\)</span> es una constante que representa el
+número de nacimientos, (<span class="math inline">\(n=400\)</span>), <span class="math inline">\(p=48.8\)</span> es la probabilidad de que un nacimiento
+resulte en niña y <span class="math inline">\(k \sim Binomial(p, n)\)</span>. Debido a que el número de éxitos
+(nacimientos que resultan en niña) depende de la tasa p y el número de
+experimentos n, los nodos que representan a éstas dos últimas variables están
+dirigidos al nodo que representa k.</p>
+<p>Una vez que tenemos la gráfica es fácil simular del modelo:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(arm)
+<span class="co">#&gt; Error in library(arm): there is no package called &#39;arm&#39;</span>
+<span class="kw">library</span>(tidyr)
+<span class="kw">set.seed</span>(<span class="dv">918739837</span>)
+n_ninas &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, <span class="dv">400</span>, <span class="fl">0.488</span>)</code></pre>
+<p>esto nos muestra algo que podría ocurrir en 400 nacimientos. Ahora, para tener
+una noción de la distribución simulamos el proceso 1000 veces:</p>
+<pre class="sourceCode r"><code class="sourceCode r">sims_ninas &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">rbinom</span>(<span class="dv">1</span>, <span class="dv">400</span>, <span class="fl">0.488</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+<span class="kw">mean</span>(sims_ninas)
+<span class="co">#&gt; [1] 196</span>
+<span class="kw">sd</span>(sims_ninas)
+<span class="co">#&gt; [1] 10.1</span>
 
+<span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> sims_ninas), <span class="dt">binwidth =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-3-1.png" width="350px" /></p>
+<p>El histograma de arriba representa la distribución de probabilidad para el
+número de niñas y refleja la incertidumbre en los nacimientos.</p>
+<p>Podemos agregar complejidad al modelo, por ejemplo con probabilidad 1/125 un
+nacimiento resulta en gemelos fraternales, y para cada uno de los bebés hay una
+posibilidad de aproximadamente 49.5% de ser niña. Además la probabilidad de
+gemelos idénticos es de 1/300 y estos a su vez resultan en niñas en
+aproximadamente 40.5% de los casos.</p>
+<p><img src="imagenes/ninas_2.png" /></p>
+<p>Podemos simular 400 nacimientos bajo este
+modelo como sigue:</p>
+<pre class="sourceCode r"><code class="sourceCode r">tipo_nacimiento &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;unico&quot;</span>, <span class="st">&quot;fraternal&quot;</span>, <span class="st">&quot;identicos&quot;</span>), 
+  <span class="dt">size =</span> <span class="dv">400</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">125</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">1300</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">125</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">300</span>))
+n_unico &lt;-<span class="st"> </span><span class="kw">sum</span>(tipo_nacimiento <span class="op">==</span><span class="st"> &quot;unico&quot;</span>)  <span class="co"># número de nacimientos únicos</span>
+n_fraternal &lt;-<span class="st"> </span><span class="kw">sum</span>(tipo_nacimiento <span class="op">==</span><span class="st"> &quot;fraternal&quot;</span>)
+n_identicos &lt;-<span class="st"> </span><span class="dv">400</span> <span class="op">-</span><span class="st"> </span>n_unico <span class="op">-</span><span class="st"> </span>n_fraternal
+n_ninas &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_unico, <span class="fl">0.488</span>) <span class="op">+</span>
+<span class="st">           </span><span class="kw">rbinom</span>(<span class="dv">1</span>, <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>n_fraternal, <span class="fl">0.495</span>) <span class="op">+</span><span class="st"> </span><span class="co"># en cada nacimiento hay 2 bebés</span>
+<span class="st">           </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_identicos, <span class="fl">0.495</span>)
+n_ninas
+<span class="co">#&gt; [1] 183</span></code></pre>
+<p>Repetimos la simulación 1000 veces para aproximar la distribución de número de
+niñas en 400 nacimientos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">modelo2 &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    tipo_nacimiento &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;unico&quot;</span>, <span class="st">&quot;fraternal&quot;</span>, <span class="st">&quot;identicos&quot;</span>), 
+        <span class="dt">size =</span> <span class="dv">400</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">125</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">1300</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">125</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">300</span>))
+    <span class="co"># número de nacimientos de cada tipo</span>
+    n_unico &lt;-<span class="st"> </span><span class="kw">sum</span>(tipo_nacimiento <span class="op">==</span><span class="st"> &quot;unico&quot;</span>)  <span class="co"># número de nacimientos únicos</span>
+    n_fraternal &lt;-<span class="st"> </span><span class="kw">sum</span>(tipo_nacimiento <span class="op">==</span><span class="st"> &quot;fraternal&quot;</span>)
+    n_identicos &lt;-<span class="st"> </span><span class="dv">400</span> <span class="op">-</span><span class="st"> </span>n_unico <span class="op">-</span><span class="st"> </span>n_fraternal
+    <span class="co"># simulamos para cada tipo de nacimiento</span>
+    n_ninas &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_unico, <span class="fl">0.488</span>) <span class="op">+</span>
+<span class="st">        </span><span class="kw">rbinom</span>(<span class="dv">1</span>, <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>n_fraternal, <span class="fl">0.495</span>) <span class="op">+</span><span class="st"> </span><span class="co"># en cada nacimiento hay 2 bebés</span>
+<span class="st">    </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_identicos, <span class="fl">0.495</span>)
+  n_ninas
+}
+
+sims_ninas_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">modelo2</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+<span class="kw">mean</span>(sims_ninas_<span class="dv">2</span>)
+<span class="co">#&gt; [1] 197</span>
+
+<span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> sims_ninas_<span class="dv">2</span>), <span class="dt">binwidth =</span> <span class="dv">4</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-6-1.png" width="350px" /></p>
+</div>
+<div id="ejemplo-de-simulacion-continua-predictiva" class="section level4">
+<h4><span class="header-section-number">8.1.2.1</span> Ejemplo de simulación continua predictiva</h4>
+<p>El 52% de los adultos en EUA son mujeres y el 48% hombres, las estaturas de
+los hombres se distribuyen aproximadamente normal con media 175 cm y desviación
+estándar de 7.37 cm, en el caso de las mujeres la distribución es
+aproximadamente normal con media 161.80 cm y desviación estándar de 6.86 cm.
+Supongamos que seleccionamos 10 adultos al azar, ¿cuál es el modelo gráfico
+asociado? ¿qué podemos decir del promedio de estatura?</p>
+<pre class="sourceCode r"><code class="sourceCode r">sexo &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="fl">0.52</span>)
+altura &lt;-<span class="st"> </span><span class="kw">rnorm</span>(sexo, <span class="dt">mean =</span> <span class="fl">161.8</span> <span class="op">*</span><span class="st"> </span>(sexo <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">175</span> <span class="op">*</span><span class="st"> </span>(sexo <span class="op">==</span><span class="st"> </span><span class="dv">0</span>), 
+  <span class="dt">sd =</span> <span class="fl">6.86</span> <span class="op">*</span><span class="st"> </span>(sexo <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">7.37</span> <span class="op">*</span><span class="st"> </span>(sexo <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))
+<span class="kw">mean</span>(altura)
+<span class="co">#&gt; [1] 170</span></code></pre>
+<p>Simulamos la distribución de la altura promedio:</p>
+<pre class="sourceCode r"><code class="sourceCode r">mediaAltura &lt;-<span class="st"> </span><span class="cf">function</span>(){
+  sexo &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="fl">0.52</span>)
+  altura &lt;-<span class="st"> </span><span class="kw">rnorm</span>(sexo, <span class="dt">mean =</span> <span class="fl">161.8</span> <span class="op">*</span><span class="st"> </span>(sexo <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">175</span> <span class="op">*</span><span class="st"> </span>(sexo <span class="op">==</span><span class="st"> </span><span class="dv">0</span>), 
+    <span class="dt">sd =</span> <span class="fl">6.86</span> <span class="op">*</span><span class="st"> </span>(sexo <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">7.37</span> <span class="op">*</span><span class="st"> </span>(sexo <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))
+}
+sims_alturas &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">mediaAltura</span>()) 
+media_alturas &lt;-<span class="st"> </span>sims_alturas <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(mean)
+<span class="kw">mean</span>(media_alturas)
+<span class="co">#&gt; [1] 168</span>
+<span class="kw">sd</span>(media_alturas)
+<span class="co">#&gt; [1] 3.11</span>
+<span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> media_alturas), <span class="dt">binwidth =</span> <span class="fl">1.2</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-8-1.png" width="350px" /></p>
+<p>¿Y que podemos decir de la altura máxima?</p>
+<pre class="sourceCode r"><code class="sourceCode r">alt_max &lt;-<span class="st"> </span>sims_alturas <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(max)
+<span class="kw">qplot</span>(alt_max, <span class="dt">geom =</span> <span class="st">&quot;histogram&quot;</span>, <span class="dt">binwidth =</span> <span class="fl">1.5</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-9-1.png" width="350px" /></p>
+<p><img src="imagenes/manicule2.jpg" /> Supongamos que una compañía cambia la tecnología
+usada para producir una cámara, un estudio estima que el ahorro en la producción
+es de $5 por unidad con un error estándar de $4. Más aún, una proyección
+estima que el tamaño del mercado (esto es, el número de cámaras que se venderá)
+es de 40,000 con un error estándar de 10,000. Suponiendo que las dos fuentes de
+incertidumbre son independientes, usa simulación para estimar el total de dinero
+que ahorrará la compañía, calcula un intervalo de confianza.</p>
+</div>
+<div id="ejemplo-de-simulacion-de-un-modelo-de-regresion" class="section level4">
+<h4><span class="header-section-number">8.1.2.2</span> Ejemplo de simulación de un modelo de regresión</h4>
+<p>En regresión utilizamos simulación para capturar tanto la incertidumbre en la
+predicción (término de error en el modelo) como la incertidumbre en la inferencia
+(errores estándar de los coeficientes e incertidumbre del error residual).</p>
+<p>Comenzamos con un ejemplo en el que simulamos únicamente <strong>incertidumbre en la
+predicción</strong>.</p>
+<p>Supongamos que el puntaje de un niño de tres años en una prueba cognitiva esta
+relacionado con las características de la madre, el siguiente modelo resume la
+diferencia en los puntajes promedio de los niños cuyas madres se graduaron
+de preparatoria y los que no.</p>
+<p><span class="math display">\[y_i= \beta_0 + \beta_1 X_{i1} + \epsilon_i\]</span></p>
+<ul>
+<li>donde <span class="math inline">\(y_i\)</span> es el puntaje del i-ésimo niño,</li>
+<li><span class="math inline">\(X_{i1}\)</span> es una variable binaria que indica si la madre se graduó de
+preparatoria (codificado como 1) o no (codificado como 0), y</li>
+<li><span class="math inline">\(\epsilon_i\)</span> son los error aleatorios, estos son
+independientes con distribución normal <span class="math inline">\(\epsilon_i \sim N(0, \sigma^2)\)</span>.</li>
+</ul>
+<p>Ahora consideremos el problema de simular el puntaje de 50 niños 30 con madres
+que terminaron la preparatoria y 20 cuyas madres no terminaron. Los coeficientes
+que usaremos son:</p>
+<p><span class="math display">\[\beta_0 = 78\]</span>
+<span class="math display">\[\beta_1 = 12\]</span>
+<span class="math display">\[\sigma = 20\]</span></p>
+<p>El modelo gráfico asociado sería como sigue:</p>
+<p><img src="imagenes/regresion.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">vector_mu &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">78</span> <span class="op">+</span><span class="st"> </span><span class="dv">12</span>, <span class="dv">30</span>), <span class="kw">rep</span>(<span class="dv">78</span>, <span class="dv">20</span>)) <span class="co"># beta_0 + beta_1 X</span>
+y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">50</span>, vector_mu, <span class="dv">20</span>)
+sims_y &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">2000</span>, <span class="kw">rnorm</span>(<span class="dv">50</span>, vector_mu, <span class="dv">20</span>))</code></pre>
+<p>Podemos calcular la media y su intervalo de confianza:</p>
+<pre class="sourceCode r"><code class="sourceCode r">medias &lt;-<span class="st"> </span>sims_y <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(mean)
+<span class="kw">quantile</span>(medias, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))
+<span class="co">#&gt;  2.5% 97.5% </span>
+<span class="co">#&gt;  79.5  90.9</span>
+
+<span class="kw">qplot</span>(medias, <span class="dt">geom =</span> <span class="st">&quot;histogram&quot;</span>, <span class="dt">binwidth =</span> <span class="fl">1.5</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-12-1.png" width="350px" /></p>
+<p>Supongamos ahora que nos interesa incorporar que tenemos <strong>incertidumbre en los
+coeficientes de regresión</strong>, y expresamos nuestra incertidumbre a través de
+distribuciones de probabilidad, ¿cómo sería el modelo gráfico asociado?</p>
+<p>Primero suponemos que <span class="math inline">\(\sigma^2\)</span> tiene una distribución centrada en 20<sup>2</sup>,
+proporcional a una distribución <span class="math inline">\(\chi^2\)</span> con 432 grados de libertad.</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+\begin{pmatrix}\beta_{0}\\
+\beta_{1}
+\end{pmatrix} &amp; \sim &amp; N\left[\left(\begin{array}{c}
+77\\
+12
+\end{array}\right), \sigma^2 \left(\begin{array}{cc}
+0.01 &amp; -0.01\\
+-0.01 &amp; 0.01
+\end{array}\right)\right]
+\end{eqnarray*}
+\]</span></p>
+<p>Finalmente, simulamos del modelo incorporando tanto la incertidumbre
+correpondiente a la predicción como la incertidumbre en los coeficientes de
+regresión.</p>
+<ol style="list-style-type: decimal">
+<li><p>Simula <span class="math inline">\(\sigma=20\sqrt{(432)/X}\)</span> donde <span class="math inline">\(X\)</span> es una generación de una
+distribución <span class="math inline">\(\chi^2\)</span> con <span class="math inline">\(432\)</span> grados de libertad.</p></li>
+<li><p>Dado <span class="math inline">\(\sigma\)</span> (obtenido del paso anterior), simula <span class="math inline">\(\beta\)</span> de una distribución
+normal multivariada con media <span class="math inline">\((77,12)\)</span> y matriz de covarianzas <span class="math inline">\(\sigma^2 V\)</span>.</p></li>
+<li><p>Simula <span class="math inline">\(y\)</span> el vector de observaciones usando los parámetros de 1 y 2.</p></li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">simula_parametros &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    <span class="co"># empezamos simulando sigma</span>
+    sigma &lt;-<span class="st"> </span><span class="dv">20</span> <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((<span class="dv">432</span>) <span class="op">/</span><span class="st"> </span><span class="kw">rchisq</span>(<span class="dv">1</span>, <span class="dv">432</span>))
+    <span class="co"># la usamos para simular betas</span>
+    beta &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">mvrnorm</span>(<span class="dv">1</span>, <span class="dt">mu =</span> <span class="kw">c</span>(<span class="dv">78</span>, <span class="dv">12</span>), 
+        <span class="co"># Sigma = sigma ^ 2 * matrix(c(4.2, -4.2, -4.2, 5.4), nrow = 2))</span>
+        <span class="dt">Sigma =</span> sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">0.011</span>, <span class="fl">-0.011</span>, <span class="fl">-0.011</span>, <span class="fl">0.013</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))
+    <span class="co"># Simulamos parámetros</span>
+    <span class="kw">list</span>(<span class="dt">sigma =</span> sigma, <span class="dt">beta =</span> beta)
+}
+
+sims_parametros &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">10000</span>, <span class="kw">simula_parametros</span>()) 
+
+<span class="co"># simulamos los puntajes</span>
+simula_puntajes &lt;-<span class="st"> </span><span class="cf">function</span>(beta, sigma, <span class="dt">n_hs =</span> <span class="dv">30</span>, <span class="dt">n_nhs =</span> <span class="dv">20</span>){
+    vector_mu &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(beta[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>beta[<span class="dv">2</span>], n_hs), <span class="kw">rep</span>(beta[<span class="dv">1</span>], n_nhs)) <span class="co"># beta_0 + beta_1 X</span>
+    obs =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">50</span>, vector_mu, sigma)
+}
+
+sims_puntajes &lt;-<span class="st"> </span><span class="kw">map</span>(sims_parametros, <span class="op">~</span><span class="kw">simula_puntajes</span>(<span class="dt">beta =</span> .[[<span class="st">&quot;beta&quot;</span>]], <span class="dt">sigma =</span> .[[<span class="st">&quot;sigma&quot;</span>]]))
+medias_incert &lt;-<span class="st"> </span>sims_puntajes <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(mean)
+    
+<span class="kw">quantile</span>(medias_incert, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))
+<span class="co">#&gt;  2.5% 97.5% </span>
+<span class="co">#&gt;  79.2  91.0</span>
+<span class="kw">qplot</span>(medias_incert, <span class="dt">geom =</span> <span class="st">&quot;histogram&quot;</span>, <span class="dt">binwidth =</span> <span class="dv">1</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-13-1.png" width="350px" /></p>
+<p>Los parametros se obtuvieron de ajustar el modelo de regresión lineal.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(foreign)
+kids_iq &lt;-<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&quot;data/kidiq.dta&quot;</span>)
+lm_kid &lt;-<span class="st"> </span><span class="kw">lm</span>(kid_score <span class="op">~</span><span class="st"> </span>mom_hs, kids_iq)
+V &lt;-<span class="st"> </span><span class="kw">vcov</span>(lm_kid) <span class="op">/</span><span class="st"> </span><span class="dv">20</span> <span class="op">^</span><span class="st"> </span><span class="dv">2</span>
+<span class="kw">summary</span>(lm_kid)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = kid_score ~ mom_hs, data = kids_iq)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;    Min     1Q Median     3Q    Max </span>
+<span class="co">#&gt; -57.55 -13.32   2.68  14.68  58.45 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept)    77.55       2.06   37.67   &lt;2e-16 ***</span>
+<span class="co">#&gt; mom_hs         11.77       2.32    5.07    6e-07 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 19.9 on 432 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-squared:  0.0561, Adjusted R-squared:  0.0539 </span>
+<span class="co">#&gt; F-statistic: 25.7 on 1 and 432 DF,  p-value: 5.96e-07</span></code></pre>
+<p>Podemos usar simulación para calcular intervalos de confianza para <span class="math inline">\(\beta_0\)</span> y
+<span class="math inline">\(\beta_1\)</span>,</p>
+<pre class="sourceCode r"><code class="sourceCode r">sims_parametros <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(<span class="op">~</span>(.<span class="op">$</span>beta[<span class="dv">1</span>])) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()
+<span class="co">#&gt; [1] 2.11</span>
+sims_parametros <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(<span class="op">~</span>(.<span class="op">$</span>beta[<span class="dv">2</span>])) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()
+<span class="co">#&gt; [1] 2.3</span></code></pre>
+<p>No parece que valga la pena el esfuerzo cuando podemos calcular los intervalos
+analíticamente, sin embargo con simulación podemos responder fácilmente otras
+preguntas, por ejemplo, la pregunta inicial: ¿cuál es la media esperada para un
+conjunto de 50 niños, 30 con madres que hicieron preparatoria y 20 que no? es
+fácil de responder con simulación.</p>
+<p>Podríamos usar <code>predict()</code> para calcular el estimador puntual de la media en el
+examen para los niños:</p>
+<pre class="sourceCode r"><code class="sourceCode r">pred_mi_pob &lt;-<span class="st"> </span><span class="kw">predict</span>(lm_kid, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">mom_hs =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">30</span>), 
+    <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">20</span>))), <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)
+<span class="kw">mean</span>(pred_mi_pob<span class="op">$</span>fit)
+<span class="co">#&gt; [1] 84.6</span></code></pre>
+<p>¿Cómo calculas el error estándar? En este caso se puede resolver pues es una
+combinación lineal de los coeficientes del modelo, pero en muchos casos nuestro
+objetivo es más complicado que coeficientes o combinaciones lineales de estos.</p>
+</div>
+<div id="simulacion-de-predicciones-no-lineales" class="section level4">
+<h4><span class="header-section-number">8.1.2.3</span> Simulación de predicciones no lineales</h4>
+<p>Veamos un ejemplo de las elecciones en el congreso de EUA. Tenemos un modelo
+que usaremos para predecir la elección de 1990 basados en la de 1988.</p>
+<p><strong>Explicación del problema</strong>. EUA está dividido en 435 distritos congresionales,
+definimos la variable de interés <span class="math inline">\(y_i\)</span> con <span class="math inline">\(i=1,...,n\)</span>, como la participación
+del partido Demócrata en el distrito <span class="math inline">\(i\)</span> en <span class="math inline">\(1988\)</span>. La participación se calcula
+como el porcentaje de los votos correspondientes a los demócratas del total de
+votos que recibieron los demócratas y republicanos, esto es, se excluyen los
+votos a otros partidos.</p>
+<p>El modelo del que simularemos se construyó usando datos de 1986 y 1988.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Los datos están almacenados en 3 archivos correspondientes al año</span>
+paths &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">&quot;data/congress&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)
+paths &lt;-<span class="st"> </span><span class="kw">set_names</span>(paths, <span class="kw">basename</span>(paths))
+
+<span class="co"># Leemos los datos y recodificamos variables</span>
+congress &lt;-<span class="st"> </span><span class="kw">map_dfr</span>(paths, read.table, <span class="dt">quote =</span> <span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">&quot;</span>, 
+  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>, <span class="dt">.id =</span> <span class="st">&quot;year&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">435</span>, <span class="dv">3</span>),
+         <span class="dt">year =</span> <span class="kw">parse_number</span>(year),          <span class="co"># año de la elección</span>
+         <span class="dt">incumbency =</span> <span class="kw">ifelse</span>(V3 <span class="op">==</span><span class="st"> </span><span class="dv">-9</span>, <span class="ot">NA</span>, V3), <span class="co"># codificar NAs              </span>
+         <span class="dt">dem_share =</span> V4 <span class="op">/</span><span class="st"> </span>(V4 <span class="op">+</span><span class="st"> </span>V5)) <span class="op">%&gt;%</span><span class="st">       </span><span class="co"># participación demócrata</span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(id, year, incumbency, dem_share)
+
+<span class="kw">glimpse</span>(congress)
+<span class="co">#&gt; Observations: 1,305</span>
+<span class="co">#&gt; Variables: 4</span>
+<span class="co">#&gt; $ id         &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ...</span>
+<span class="co">#&gt; $ year       &lt;dbl&gt; 1986, 1986, 1986, 1986, 1986, 1986, 1986, 1986, 198...</span>
+<span class="co">#&gt; $ incumbency &lt;int&gt; 1, 1, 1, -1, 1, -1, 0, -1, -1, 1, 1, 1, 1, 1, 1, 0,...</span>
+<span class="co">#&gt; $ dem_share  &lt;dbl&gt; 0.745, 0.674, 0.696, 0.465, 0.391, 0.358, 0.549, 0....</span>
+
+<span class="co"># datos en forma horizontal</span>
+congress_share &lt;-<span class="st"> </span><span class="kw">spread</span>(dplyr<span class="op">::</span><span class="kw">select</span>(congress, <span class="op">-</span>incumbency), year, dem_share)
+<span class="kw">colnames</span>(congress_share) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;share_86&quot;</span>, <span class="st">&quot;share_88&quot;</span>, <span class="st">&quot;share_90&quot;</span>)
+congress_inc &lt;-<span class="st"> </span><span class="kw">spread</span>(dplyr<span class="op">::</span><span class="kw">select</span>(congress, <span class="op">-</span>dem_share), year, incumbency)
+<span class="kw">colnames</span>(congress_inc) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;inc_86&quot;</span>, <span class="st">&quot;inc_88&quot;</span>, <span class="st">&quot;inc_90&quot;</span>)
+
+<span class="co"># quitamos NAs</span>
+congress_h &lt;-<span class="st"> </span><span class="kw">na.omit</span>(<span class="kw">left_join</span>(congress_share, congress_inc))
+<span class="co">#&gt; Joining, by = &quot;id&quot;</span>
+<span class="kw">glimpse</span>(congress_h)
+<span class="co">#&gt; Observations: 431</span>
+<span class="co">#&gt; Variables: 7</span>
+<span class="co">#&gt; $ id       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16...</span>
+<span class="co">#&gt; $ share_86 &lt;dbl&gt; 0.745, 0.674, 0.696, 0.465, 0.391, 0.358, 0.549, 0.22...</span>
+<span class="co">#&gt; $ share_88 &lt;dbl&gt; 0.772, 0.636, 0.665, 0.274, 0.264, 0.334, 0.632, 0.33...</span>
+<span class="co">#&gt; $ share_90 &lt;dbl&gt; 0.714, 0.597, 0.521, 0.234, 0.477, 0.256, 0.602, 0.49...</span>
+<span class="co">#&gt; $ inc_86   &lt;int&gt; 1, 1, 1, -1, 1, -1, 0, -1, -1, 1, 1, 1, 1, 1, 1, 0, 1...</span>
+<span class="co">#&gt; $ inc_88   &lt;int&gt; 1, 1, 1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, ...</span>
+<span class="co">#&gt; $ inc_90   &lt;int&gt; 1, 1, 0, -1, 0, -1, 0, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1...</span>
+
+<span class="kw">ggplot</span>(congress_h, <span class="kw">aes</span>(<span class="dt">x =</span> share_<span class="dv">86</span>, <span class="dt">y =</span> share_<span class="dv">88</span>, <span class="dt">color =</span> <span class="kw">factor</span>(inc_<span class="dv">86</span>))) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;&quot;</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-17-1.png" width="528" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># quitamos las elecciones que no se compitieron</span>
+congress_h &lt;-<span class="st"> </span><span class="kw">filter</span>(congress_h, share_<span class="dv">88</span> <span class="op">!=</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>share_<span class="dv">88</span> <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)
+
+fit_<span class="dv">88</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(share_<span class="dv">88</span> <span class="op">~</span><span class="st"> </span>share_<span class="dv">86</span> <span class="op">+</span><span class="st"> </span>inc_<span class="dv">88</span>, <span class="dt">data =</span> congress_h)
+<span class="kw">summary</span>(fit_<span class="dv">88</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = share_88 ~ share_86 + inc_88, data = congress_h)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
+<span class="co">#&gt; -0.2416 -0.0428 -0.0059  0.0523  0.2263 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept)   0.3004     0.0151    19.9   &lt;2e-16 ***</span>
+<span class="co">#&gt; share_86      0.3858     0.0278    13.9   &lt;2e-16 ***</span>
+<span class="co">#&gt; inc_88        0.1043     0.0069    15.1   &lt;2e-16 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 0.0774 on 351 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-squared:  0.846,  Adjusted R-squared:  0.845 </span>
+<span class="co">#&gt; F-statistic:  965 on 2 and 351 DF,  p-value: &lt;2e-16</span></code></pre>
+<p>Simulemos del modelo:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Matriz X</span>
+X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, congress_h<span class="op">$</span>share_<span class="dv">88</span>, congress_h<span class="op">$</span>inc_<span class="dv">90</span>)
+simula_modelo &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    sigma &lt;-<span class="st"> </span><span class="fl">0.08</span> <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((<span class="dv">351</span>) <span class="op">/</span><span class="st"> </span><span class="kw">rchisq</span>(<span class="dv">1</span>, <span class="dv">351</span>))
+    beta &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw">mvrnorm</span>(<span class="dv">1</span>, <span class="dt">mu =</span> <span class="kw">c</span>(<span class="fl">0.30</span>, <span class="fl">0.39</span>, <span class="fl">0.10</span>), 
+        <span class="dt">Sigma =</span> sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">0.04</span>, <span class="fl">-0.07</span>, <span class="fl">0.01</span>, <span class="fl">-0.07</span>, <span class="fl">0.13</span>, <span class="fl">-0.02</span>, <span class="fl">0.01</span>, 
+            <span class="fl">-0.02</span>, <span class="fl">0.01</span>), <span class="dt">nrow =</span> <span class="dv">3</span>))
+    mu &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>beta
+    <span class="kw">data_frame</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">358</span>, <span class="dt">dem_share =</span> <span class="kw">rnorm</span>(<span class="dv">358</span>, mu, sigma))
+}
+
+sims_congress &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">2000</span>, <span class="kw">simula_modelo</span>()) 
+sims_congress &lt;-<span class="st"> </span>sims_congress <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">sim =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2000</span>, <span class="dt">each =</span> <span class="dv">358</span>))
+
+<span class="kw">ggplot</span>(sims_congress, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(id, dem_share), <span class="dt">y =</span> dem_share)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">yintercept =</span> <span class="fl">0.5</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-19-1.png" width="864" /></p>
+<p>Podemos preguntarnos cuántas elecciones ganaron los demócratas en 1990:
+<span class="math inline">\(\sum I(\grave{y} &gt; 0.5)\)</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">sims_congress <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(sim) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">wins =</span> <span class="kw">sum</span>(dem_share <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_wins =</span> <span class="kw">mean</span>(wins),
+            <span class="dt">median_wins =</span> <span class="kw">median</span>(wins), 
+            <span class="dt">sd_wins =</span> <span class="kw">sd</span>(wins))</code></pre>
+<p>Veamos lo que ocurrió realmente</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(congress_h<span class="op">$</span>share_<span class="dv">90</span> <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)</code></pre>
+<p>Podemos usar la función <code>sim()</code> del paquete <code>arm</code> para simular de modelos lineales
+y lineales generalizados.</p>
+
+</div>
 </div>
 </div>
 <!-- </div> -->

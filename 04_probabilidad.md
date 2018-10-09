@@ -89,7 +89,7 @@ Por ejemplo, la probabilidad de obtener $AA$ si lanzamos una moneda dos veces
 es $1/4 = 0.25$, y la probabilidad del evento que la primer lanzamiento resulte 
 águila es $2/4 = 0.5$.
 
-![](../imagenes/manicule2.jpg) Lanzamos un dado y anotamos el número de la cara
+![](imagenes/manicule2.jpg) Lanzamos un dado y anotamos el número de la cara
 superior, después lanzamos otro dado y anotamos el número de la cara superior.
 
 * ¿Cuál es el espacio de resultados?
@@ -153,7 +153,7 @@ Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultado
 ```r
 lanzamientos_10 <- sample(c("A", "S"), 10, replace = TRUE)
 lanzamientos_10
-#>  [1] "A" "S" "S" "A" "S" "S" "A" "S" "A" "S"
+#>  [1] "A" "A" "S" "S" "A" "S" "A" "A" "S" "S"
 ```
 
 Podemos calcular las secuencia de frecuencias relativas de águila:
@@ -161,9 +161,9 @@ Podemos calcular las secuencia de frecuencias relativas de águila:
 
 ```r
 cumsum(lanzamientos_10 == "A") # suma acumulada de águilas
-#>  [1] 1 1 1 2 2 2 3 3 4 4
+#>  [1] 1 2 2 2 3 3 4 5 5 5
 cumsum(lanzamientos_10 == "A") / 1:10
-#>  [1] 1.000 0.500 0.333 0.500 0.400 0.333 0.429 0.375 0.444 0.400
+#>  [1] 1.000 1.000 0.667 0.500 0.600 0.500 0.571 0.625 0.556 0.500
 ```
 
 Una regla general, es que las frecuencias relativas basadas en un número 
@@ -198,12 +198,12 @@ head(lanzar())
 #> # A tibble: 6 x 3
 #>   num_lanzamiento lanzamiento frec_rel
 #>             <int> <chr>          <dbl>
-#> 1               1 S              0    
-#> 2               2 A              0.5  
-#> 3               3 A              0.667
-#> 4               4 A              0.75 
-#> 5               5 A              0.8  
-#> 6               6 S              0.667
+#> 1               1 A              1    
+#> 2               2 S              0.5  
+#> 3               3 S              0.333
+#> 4               4 A              0.5  
+#> 5               5 S              0.4  
+#> 6               6 S              0.333
 
 set.seed(31287931)
 # usamos la función map_df del paquete purrr
@@ -395,7 +395,7 @@ p = 0.47
 
 
 
-![](../imagenes/manicule2.jpg) Cumpleaños. ¿Cuántas personas debe haber en un 
+![](imagenes/manicule2.jpg) Cumpleaños. ¿Cuántas personas debe haber en un 
 salón para que la probabilidad de encontrar 2 con el mismo cumpleaños sea 0.5?
 Supuestos:
 
@@ -408,7 +408,7 @@ días del año.
 
 
 
-![](../imagenes/manicule2.jpg)  Chabelo (Monty Hall) Supongamos que estamos 
+![](imagenes/manicule2.jpg)  Chabelo (Monty Hall) Supongamos que estamos 
 jugando las catafixias de Chabelo, en este juego hay 3 catafixias: 2 de ellas 
 están vacías y una tiene un premio:
 
@@ -420,7 +420,7 @@ cerrada. Chabelo abre tu segunda elección de catafixia y se revela si ganaste.
 
     ¿Cuál es la probabilidad de que ganes si cambias de catafixia?
 
-![](../imagenes/manicule2.jpg) **Urna**: 10 personas (con nombres distintos) 
+![](imagenes/manicule2.jpg) **Urna**: 10 personas (con nombres distintos) 
 escriben sus nombres y los ponen en una urna, después seleccionan un nombre (al 
 azar). 
 

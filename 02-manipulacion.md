@@ -758,12 +758,14 @@ anti_join(x, y)
 
 Resumamos lo que observamos arriba:
 
+<div class="mi-tabla">
 Tipo | Acción
 -----|-------
 inner|Incluye únicamente las filas que aparecen tanto en x como en y
 left |Incluye todas las filas en x y las filas de y que coincidan
 semi |Incluye las filas de x que coincidan con y
 anti |Incluye las filas de x que no coinciden con y
+</div>
 
 Ahora combinamos datos a nivel hora con condiciones climáticas, ¿cuál es el tipo
 de unión adecuado?
@@ -843,18 +845,22 @@ Veamos un ejemplo:
 La mayor parte de las bases de datos en estadística tienen forma rectangular, 
 ¿cuántas variables tiene la siguiente tabla?
 
+<div class="mi-tabla">
 |   |tratamientoA|tratamientoB
 ----|------------|---------
 Juan Aguirre|-   |2
 Ana Bernal  |16  |11
 José López  |3   |1
+</div>
 
 La tabla anterior también se puede estructurar de la siguiente manera:
 
+<div class="mi-tabla">
  ||Juan Aguirre| Ana Bernal|José López
 --|------------|-----------|----------
 tratamientoA|- |    16     |   3
 tratamientoB|2 |    11     |   1
+</div>
 
 Si vemos los principios (cada variable forma una columna, cada observación 
 forma un renglón, cada tipo de unidad observacional forma una tabla), ¿las 
@@ -866,6 +872,7 @@ cuáles las observaciones de esta pequeña base. Las variables son:
 persona/nombre, tratamiento y resultado. Entonces, siguiendo los principios de
 _datos limpios_ obtenemos la siguiente estructura: 
 
+<div class="mi-tabla">
 nombre      |tratamiento|resultado
 ------------|-----|---------
 Juan Aguirre|a    |-
@@ -874,6 +881,7 @@ José López  |a    |3
 Juan Aguirre|b    |2
 Ana Bernal  |b    |11
 José López  |b    |1
+</div>
 
 ### Limpieza bases de datos {-}
 

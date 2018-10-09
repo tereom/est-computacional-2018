@@ -35,6 +35,7 @@
 <link rel="next" href="probabilidad-definicion-matematica.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
@@ -260,9 +261,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="simulacion-de-modelos.html"><a href="simulacion-de-modelos.html"><i class="fa fa-check"></i><b>8</b> Simulación de modelos</a><ul>
-<li class="chapter" data-level="8.0.1" data-path="simulacion-de-modelos.html"><a href="simulacion-de-modelos.html#para-que-simular-de-un-modelo"><i class="fa fa-check"></i><b>8.0.1</b> ¿Para qué simular de un modelo?</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-modelos.html"><a href="simulacion-de-modelos.html#para-que-simular-de-un-modelo"><i class="fa fa-check"></i>¿Para qué simular de un modelo?</a></li>
 <li class="chapter" data-level="8.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html"><i class="fa fa-check"></i><b>8.1</b> Distribuciones multivariadas</a><ul>
-<li class="chapter" data-level="8.1.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#probabilidad-condicional"><i class="fa fa-check"></i><b>8.1.1</b> Probabilidad condicional</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#regla-de-bayes"><i class="fa fa-check"></i>Regla de Bayes</a></li>
+<li class="chapter" data-level="8.1.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i><b>8.1.1</b> Independencia</a></li>
+<li class="chapter" data-level="8.1.2" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#modelos-graficos-y-simulacion-predictiva"><i class="fa fa-check"></i><b>8.1.2</b> Modelos gráficos y simulación predictiva</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -389,7 +392,7 @@ juegos &lt;-<span class="st"> </span><span class="kw">rerun</span>(n_juegos, <sp
 <span class="co">#&gt; [1] 0.083</span>
 <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)) <span class="op">^</span><span class="st"> </span>(<span class="dv">200</span> <span class="op">/</span><span class="st"> </span><span class="dv">50</span>)) <span class="co"># apostando de 50 en 50</span>
 <span class="co">#&gt; [1] 0.44</span></code></pre>
-<p><img src="../imagenes/manicule2.jpg" /> Cumpleaños. ¿Cuántas personas debe haber en un
+<p><img src="imagenes/manicule2.jpg" /> Cumpleaños. ¿Cuántas personas debe haber en un
 salón para que la probabilidad de encontrar 2 con el mismo cumpleaños sea 0.5?
 Supuestos:</p>
 <ul>
@@ -398,7 +401,7 @@ Supuestos:</p>
 <li><p>La probabilidad de que alguien nazca un día dado es la misma para todos los
 días del año.</p></li>
 </ul>
-<p><img src="../imagenes/manicule2.jpg" /> Chabelo (Monty Hall) Supongamos que estamos
+<p><img src="imagenes/manicule2.jpg" /> Chabelo (Monty Hall) Supongamos que estamos
 jugando las catafixias de Chabelo, en este juego hay 3 catafixias: 2 de ellas
 están vacías y una tiene un premio:</p>
 <ol style="list-style-type: decimal">
@@ -409,7 +412,7 @@ restantes.</li>
 cerrada. Chabelo abre tu segunda elección de catafixia y se revela si ganaste.</p>
 <p>¿Cuál es la probabilidad de que ganes si cambias de catafixia?</p></li>
 </ol>
-<p><img src="../imagenes/manicule2.jpg" /> <strong>Urna</strong>: 10 personas (con nombres distintos)
+<p><img src="imagenes/manicule2.jpg" /> <strong>Urna</strong>: 10 personas (con nombres distintos)
 escriben sus nombres y los ponen en una urna, después seleccionan un nombre (al
 azar).</p>
 <ul>
