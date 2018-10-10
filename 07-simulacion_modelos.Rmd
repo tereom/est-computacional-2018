@@ -296,8 +296,8 @@ y
 $$
 h(y) = \left\{
   \begin{array}{lr}
-    y^4e^{-y} & : x > 0\\
-    0 & : x \le 0
+    y^4e^{-y} & : y > 0\\
+    0 & : y \le 0
   \end{array}
 \right.
 $$
@@ -467,7 +467,7 @@ Veamos como usar las gráficas para simular de modelos probabilísticos. Los
 siguientes ejemplos están escritos con base en @gelman.
 
 #### Ejemplo de simulación discreta predictiva {-}
-La probabilidad de que un bebé sea niño o niña es 48.8\% y 51.2\% 
+La probabilidad de que un bebé sea niña o niño es 48.8\% y 51.2\% 
 respectivamente. Supongamos que hay 400 nacimientos en un hospital en un año 
 dado. ¿Cuántas niñas nacerán? 
 
