@@ -169,21 +169,25 @@ $$p_X(x) = \sum_{y} p_{X \vert Y}(x\vert y)p_Y(y).$$
 </div>
 <br/>
 
-![](imagenes/manicule2.jpg) Supongamos que ruedo un dado, si 
-observo un número par lanzo una moneda justa 
+![](imagenes/manicule2.jpg) Supongamos que ruedo un dado, si observo un número
+par lanzo una moneda justa 
 (la probabilidad de observar águila es la misma que la de observar sol), si el 
 dado muestra un número impar lanzo una moneda sesgada en la que la probabilidad 
-de observar águila es 0.9. Si observo sol, ¿Cuál es la probabilidad de que haya lanzado la moneda sesgada?
+de observar águila es 0.9. Si observo sol, ¿Cuál es la probabilidad de que haya 
+lanzado la moneda sesgada?
 
-El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente conozco la probabilidad de observar sol condicional a que la moneda es sesgada 
+El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente 
+conozco la probabilidad de observar sol condicional a que la moneda es sesgada 
 pero ahora me interesa conocer la probabilidad de que haya lanzado una moneda
 sesgada una vez que observé un sol en el volado.
 
 ### Regla de Bayes {-}
-La regla de Bayes es una consecuencia de la definición de probabilidad condicional.
+La regla de Bayes es una consecuencia de la definición de probabilidad 
+condicional.
 
 <div class="caja">
-Sean $F_i$ $i = 1,...,n$ eventos mutuamente excluyentes cuya unión es el espacio muestral, entonces
+Sean $F_i$ $i = 1,...,n$ eventos mutuamente excluyentes cuya unión es el espacio
+muestral, entonces
 $$P(F_j\vert E) = \frac{P(E\vert F_j)P(F_j)}{\sum_{i=1}^n P(E\vert F_i)P(F_i)}$$
 esta identidad se conoce como la **regla de Bayes**.
 </div>
@@ -199,9 +203,22 @@ $$P(B\vert Accidente) = \frac{0.05\cdot 0.20}{0.175} \approx .057$$
 La nueva información implica que actualizemos de $P(B)= 0.20$ a $P(B\vert Accidente)=0.057$.
 -->
 
+![](imagenes/manicule2.jpg) [La intuición es engañosa](http://www.amazon.com/The-Drunkards-Walk-Randomness-Rules/dp/0307275175): 
+En estudios en Alemania y EUA, investigadores
+le pidieron a médicos que estimaran la probabilidad de que una mujer 
+asintomática entre los 40 y 50 años tuviera cáncer de mama si su mamograma 
+era positivo. Se les explicó que el 7\% de los mamogramas indican cáncer cuando
+no lo hay (falsos positivos). Adicional mente, se le explicó a los médicos que 
+la incidencia de cáncer de mama en ese grupo de edad es 0.8\% y la tasa de 
+falsos negativos de 10\%. En Alemania, un tercio de los médicos determinaron
+que la probabilidad era cercana al 90\% y la mediana de las estimaciones fue
+70\%. En EUA 95 de 100 médicos estimaron que la probabilidad rondaba el 75\%.
+¿Cómo determinas la probabilidad de que una mujer con mamograma positivo tenga
+cáncer?
+
+
 Al igual que con probabilidad condicional, la Regla de Bayes tiene una 
 definición análoga para variables aleatorias. 
-
 
 <div class="caja">
 Sean $X$, $Y$ dos variables aleatorias, 
@@ -228,14 +245,6 @@ esta igualdad se conoce como **regla de la cadena**.
 
 Nótese que esta regla funciona para cualquier ordenamiento de las variables aleatorias.
 
-![](imagenes/manicule2.jpg) Supongamos ahora que una compañía de
-seguros divide a la gente en dos clases: propensos a accidente (30\% de las 
-personas) y no propensos a accidente. En un año dado aquellos propensos a 
-accidentes sufren un accidente con probabilidad 0.4, mientras que los del otro 
-grupo sufren un accidente con probabilidad 0.2. ¿Cuál es la probabilidad de que 
-un asegurado tenga un accidente en su segundo año condicional a que sufrió un
-accidente en el primer año?
-
 
 ### Independencia
 
@@ -244,7 +253,9 @@ Los eventos $E$, $F$ son independientes sí y solo sí
 $$P(EF) = P(E)P(F)$$
 </div>
 
-De la definición de independencia se sigue que $P(E\vert F) = P(E)$. Esto es, los eventos $E$ y $F$ son independientes si saber que uno de ellos ocurrió no afecta la probabilidad del otro. Utilizaremos la notación $E\perp F$ que se lee "$E$ es independiente de $F$".
+De la definición de independencia se sigue que $P(E\vert F) = P(E)$. Esto es, 
+los eventos $E$ y $F$ son independientes si saber que uno de ellos ocurrió no 
+afecta la probabilidad del otro. Utilizaremos la notación $E\perp F$ que se lee "$E$ es independiente de $F$".
 
 <div class="caja">
 Dos variables aleatorias $X$, $Y$, son independientes sí y sólo sí
@@ -519,7 +530,7 @@ n_fraternal <- sum(tipo_nacimiento == "fraternal")
 n_identicos <- 400 - n_unico - n_fraternal
 n_ninas <- rbinom(1, n_unico, 0.488) +
            rbinom(1, 2 * n_fraternal, 0.495) + # en cada nacimiento hay 2 bebés
-           2 * rbinom(1, n_identicos, 0.495)
+           2 * rbinom(1, n_identicos, 0.405)
 n_ninas
 #> [1] 183
 ```
@@ -539,14 +550,15 @@ modelo2 <- function(){
     # simulamos para cada tipo de nacimiento
     n_ninas <- rbinom(1, n_unico, 0.488) +
         rbinom(1, 2 * n_fraternal, 0.495) + # en cada nacimiento hay 2 bebés
-    2 * rbinom(1, n_identicos, 0.495)
+    2 * rbinom(1, n_identicos, 0.405)
   n_ninas
 }
 
 sims_ninas_2 <- rerun(1000, modelo2()) %>% flatten_dbl()
 mean(sims_ninas_2)
 #> [1] 198
-
+sd(sims_ninas_2)
+#> [1] 10.2
 ggplot() + geom_histogram(aes(x = sims_ninas_2), binwidth = 4, alpha = 0.7)
 ```
 
@@ -605,8 +617,9 @@ usada para producir una cámara, un estudio estima que el ahorro en la producci�
 es de \$5 por unidad con un error estándar de \$4. Más aún, una proyección
 estima que el tamaño del mercado (esto es, el número de cámaras que se venderá)
 es de 40,000 con un error estándar de 10,000. Suponiendo que las dos fuentes de
-incertidumbre son independientes, usa simulación para estimar el total de dinero
-que ahorrará la compañía, calcula un intervalo de confianza.
+incertidumbre son independientes, usa simulación de variables aleatorias 
+normales para estimar el total de dinero que ahorrará la compañía, calcula un 
+intervalo de confianza. 
 
 #### Ejemplo de simulación de un modelo de regresión 
 
@@ -930,5 +943,5 @@ Veamos lo que ocurrió realmente
 sum(congress_h$share_90 > 0.5)
 ```
 
-Podemos usar la función `sim()` del paquete `arm` para simular de modelos lineales 
-y lineales generalizados.
+Podemos usar la función `sim()` del paquete `arm` para simular de modelos 
+lineales y lineales generalizados.

@@ -278,7 +278,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="cobertura-de-intervalos-de-confianza.html"><a href="cobertura-de-intervalos-de-confianza.html"><i class="fa fa-check"></i>6-Cobertura de intervalos de confianza</a><ul>
 <li class="chapter" data-level="" data-path="cobertura-de-intervalos-de-confianza.html"><a href="cobertura-de-intervalos-de-confianza.html#solucion-1"><i class="fa fa-check"></i>Solución</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="examen-parcial-a-casa.html"><a href="examen-parcial-a-casa.html"><i class="fa fa-check"></i>Examen parcial a casa</a></li>
+<li class="chapter" data-level="8.2" data-path="simulacion-de-modelos-1.html"><a href="simulacion-de-modelos-1.html"><i class="fa fa-check"></i><b>8.2</b> 7-Simulación de modelos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -457,20 +457,24 @@ marginal de <span class="math inline">\(X\)</span> como:
 <span class="math display">\[p_X(x) = \sum_{y} p_{X \vert Y}(x\vert y)p_Y(y).\]</span></p>
 </div>
 <p><br/></p>
-<p><img src="imagenes/manicule2.jpg" /> Supongamos que ruedo un dado, si
-observo un número par lanzo una moneda justa
+<p><img src="imagenes/manicule2.jpg" /> Supongamos que ruedo un dado, si observo un número
+par lanzo una moneda justa
 (la probabilidad de observar águila es la misma que la de observar sol), si el
 dado muestra un número impar lanzo una moneda sesgada en la que la probabilidad
-de observar águila es 0.9. Si observo sol, ¿Cuál es la probabilidad de que haya lanzado la moneda sesgada?</p>
-<p>El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente conozco la probabilidad de observar sol condicional a que la moneda es sesgada
+de observar águila es 0.9. Si observo sol, ¿Cuál es la probabilidad de que haya
+lanzado la moneda sesgada?</p>
+<p>El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente
+conozco la probabilidad de observar sol condicional a que la moneda es sesgada
 pero ahora me interesa conocer la probabilidad de que haya lanzado una moneda
 sesgada una vez que observé un sol en el volado.</p>
 </div>
 <div id="regla-de-bayes" class="section level3 unnumbered">
 <h3>Regla de Bayes</h3>
-<p>La regla de Bayes es una consecuencia de la definición de probabilidad condicional.</p>
+<p>La regla de Bayes es una consecuencia de la definición de probabilidad
+condicional.</p>
 <div class="caja">
-<p>Sean <span class="math inline">\(F_i\)</span> <span class="math inline">\(i = 1,...,n\)</span> eventos mutuamente excluyentes cuya unión es el espacio muestral, entonces
+<p>Sean <span class="math inline">\(F_i\)</span> <span class="math inline">\(i = 1,...,n\)</span> eventos mutuamente excluyentes cuya unión es el espacio
+muestral, entonces
 <span class="math display">\[P(F_j\vert E) = \frac{P(E\vert F_j)P(F_j)}{\sum_{i=1}^n P(E\vert F_i)P(F_i)}\]</span>
 esta identidad se conoce como la <strong>regla de Bayes</strong>.</p>
 </div>
@@ -483,6 +487,18 @@ Notemos que el denominador corresponde a la probabilidad de accidente que calcul
 $$P(B\vert Accidente) = \frac{0.05\cdot 0.20}{0.175} \approx .057$$
 La nueva información implica que actualizemos de $P(B)= 0.20$ a $P(B\vert Accidente)=0.057$.
 -->
+<p><img src="imagenes/manicule2.jpg" /> <a href="http://www.amazon.com/The-Drunkards-Walk-Randomness-Rules/dp/0307275175">La intuición es engañosa</a>:
+En estudios en Alemania y EUA, investigadores
+le pidieron a médicos que estimaran la probabilidad de que una mujer
+asintomática entre los 40 y 50 años tuviera cáncer de mama si su mamograma
+era positivo. Se les explicó que el 7% de los mamogramas indican cáncer cuando
+no lo hay (falsos positivos). Adicional mente, se le explicó a los médicos que
+la incidencia de cáncer de mama en ese grupo de edad es 0.8% y la tasa de
+falsos negativos de 10%. En Alemania, un tercio de los médicos determinaron
+que la probabilidad era cercana al 90% y la mediana de las estimaciones fue
+70%. En EUA 95 de 100 médicos estimaron que la probabilidad rondaba el 75%.
+¿Cómo determinas la probabilidad de que una mujer con mamograma positivo tenga
+cáncer?</p>
 <p>Al igual que con probabilidad condicional, la Regla de Bayes tiene una
 definición análoga para variables aleatorias.</p>
 <div class="caja">
@@ -503,13 +519,6 @@ sobre <span class="math inline">\(n\)</span> variables <span class="math inline"
 esta igualdad se conoce como <strong>regla de la cadena</strong>.</p>
 </div>
 <p>Nótese que esta regla funciona para cualquier ordenamiento de las variables aleatorias.</p>
-<p><img src="imagenes/manicule2.jpg" /> Supongamos ahora que una compañía de
-seguros divide a la gente en dos clases: propensos a accidente (30% de las
-personas) y no propensos a accidente. En un año dado aquellos propensos a
-accidentes sufren un accidente con probabilidad 0.4, mientras que los del otro
-grupo sufren un accidente con probabilidad 0.2. ¿Cuál es la probabilidad de que
-un asegurado tenga un accidente en su segundo año condicional a que sufrió un
-accidente en el primer año?</p>
 </div>
 <div id="independencia" class="section level3">
 <h3><span class="header-section-number">8.1.1</span> Independencia</h3>
@@ -517,7 +526,9 @@ accidente en el primer año?</p>
 <p>Los eventos <span class="math inline">\(E\)</span>, <span class="math inline">\(F\)</span> son independientes sí y solo sí
 <span class="math display">\[P(EF) = P(E)P(F)\]</span></p>
 </div>
-<p>De la definición de independencia se sigue que <span class="math inline">\(P(E\vert F) = P(E)\)</span>. Esto es, los eventos <span class="math inline">\(E\)</span> y <span class="math inline">\(F\)</span> son independientes si saber que uno de ellos ocurrió no afecta la probabilidad del otro. Utilizaremos la notación <span class="math inline">\(E\perp F\)</span> que se lee “<span class="math inline">\(E\)</span> es independiente de <span class="math inline">\(F\)</span>”.</p>
+<p>De la definición de independencia se sigue que <span class="math inline">\(P(E\vert F) = P(E)\)</span>. Esto es,
+los eventos <span class="math inline">\(E\)</span> y <span class="math inline">\(F\)</span> son independientes si saber que uno de ellos ocurrió no
+afecta la probabilidad del otro. Utilizaremos la notación <span class="math inline">\(E\perp F\)</span> que se lee “<span class="math inline">\(E\)</span> es independiente de <span class="math inline">\(F\)</span>”.</p>
 <div class="caja">
 <p>Dos variables aleatorias <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, son independientes sí y sólo sí
 <span class="math display">\[p(x,y) = p_X(x)p_Y(y)\]</span></p>
@@ -833,7 +844,7 @@ n_fraternal &lt;-<span class="st"> </span><span class="kw">sum</span>(tipo_nacim
 n_identicos &lt;-<span class="st"> </span><span class="dv">400</span> <span class="op">-</span><span class="st"> </span>n_unico <span class="op">-</span><span class="st"> </span>n_fraternal
 n_ninas &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_unico, <span class="fl">0.488</span>) <span class="op">+</span>
 <span class="st">           </span><span class="kw">rbinom</span>(<span class="dv">1</span>, <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>n_fraternal, <span class="fl">0.495</span>) <span class="op">+</span><span class="st"> </span><span class="co"># en cada nacimiento hay 2 bebés</span>
-<span class="st">           </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_identicos, <span class="fl">0.495</span>)
+<span class="st">           </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_identicos, <span class="fl">0.405</span>)
 n_ninas
 <span class="co">#&gt; [1] 183</span></code></pre>
 <p>Repetimos la simulación 1000 veces para aproximar la distribución de número de
@@ -848,14 +859,15 @@ niñas en 400 nacimientos.</p>
     <span class="co"># simulamos para cada tipo de nacimiento</span>
     n_ninas &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_unico, <span class="fl">0.488</span>) <span class="op">+</span>
 <span class="st">        </span><span class="kw">rbinom</span>(<span class="dv">1</span>, <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>n_fraternal, <span class="fl">0.495</span>) <span class="op">+</span><span class="st"> </span><span class="co"># en cada nacimiento hay 2 bebés</span>
-<span class="st">    </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_identicos, <span class="fl">0.495</span>)
+<span class="st">    </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, n_identicos, <span class="fl">0.405</span>)
   n_ninas
 }
 
 sims_ninas_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">modelo2</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
 <span class="kw">mean</span>(sims_ninas_<span class="dv">2</span>)
 <span class="co">#&gt; [1] 198</span>
-
+<span class="kw">sd</span>(sims_ninas_<span class="dv">2</span>)
+<span class="co">#&gt; [1] 10.2</span>
 <span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> sims_ninas_<span class="dv">2</span>), <span class="dt">binwidth =</span> <span class="dv">4</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>)</code></pre>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-6-1.png" width="350px" /></p>
 </div>
@@ -895,8 +907,9 @@ usada para producir una cámara, un estudio estima que el ahorro en la producci�
 es de $5 por unidad con un error estándar de $4. Más aún, una proyección
 estima que el tamaño del mercado (esto es, el número de cámaras que se venderá)
 es de 40,000 con un error estándar de 10,000. Suponiendo que las dos fuentes de
-incertidumbre son independientes, usa simulación para estimar el total de dinero
-que ahorrará la compañía, calcula un intervalo de confianza.</p>
+incertidumbre son independientes, usa simulación de variables aleatorias
+normales para estimar el total de dinero que ahorrará la compañía, calcula un
+intervalo de confianza.</p>
 </div>
 <div id="ejemplo-de-simulacion-de-un-modelo-de-regresion" class="section level4">
 <h4><span class="header-section-number">8.1.2.2</span> Ejemplo de simulación de un modelo de regresión</h4>
@@ -1147,8 +1160,8 @@ sims_congress &lt;-<span class="st"> </span>sims_congress <span class="op">%&gt;
             <span class="dt">sd_wins =</span> <span class="kw">sd</span>(wins))</code></pre>
 <p>Veamos lo que ocurrió realmente</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(congress_h<span class="op">$</span>share_<span class="dv">90</span> <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)</code></pre>
-<p>Podemos usar la función <code>sim()</code> del paquete <code>arm</code> para simular de modelos lineales
-y lineales generalizados.</p>
+<p>Podemos usar la función <code>sim()</code> del paquete <code>arm</code> para simular de modelos
+lineales y lineales generalizados.</p>
 
 </div>
 </div>
