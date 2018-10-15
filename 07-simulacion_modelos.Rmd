@@ -467,7 +467,7 @@ Veamos como usar las gráficas para simular de modelos probabilísticos. Los
 siguientes ejemplos están escritos con base en @gelman.
 
 #### Ejemplo de simulación discreta predictiva {-}
-La probabilidad de que un bebé sea niña o niño es 48.8\% y 51.2\% 
+La probabilidad de que un bebé sea niña o niño es $48.8\%$ y $51.2\%$
 respectivamente. Supongamos que hay 400 nacimientos en un hospital en un año 
 dado. ¿Cuántas niñas nacerán? 
 
@@ -505,9 +505,9 @@ La gráfica superior muestra todas las variables relevantes en el problema, y la
 dependencias entre ellas. En este caso $n$ es una constante que representa el 
 número de nacimientos, ($n=400$), $p=48.8$ es la probabilidad de que un nacimiento 
 resulte en niña y $k \sim Binomial(p, n)$. Debido a que el número de éxitos
-(nacimientos que resultan en niña) depende de la tasa p y el número de 
-experimentos n, los nodos que representan a éstas dos últimas variables están
-dirigidos al nodo que representa k.
+(nacimientos que resultan en niña) depende de la tasa $p$ y el número de 
+experimentos $n$, los nodos que representan a éstas dos últimas variables están
+dirigidos al nodo que representa $k$.
 
 Una vez que tenemos la gráfica es fácil simular del modelo:
 
@@ -520,8 +520,8 @@ set.seed(918739837)
 n_ninas <- rbinom(1, 400, 0.488)
 ```
 
-esto nos muestra algo que podría ocurrir en 400 nacimientos. Ahora, para tener 
-una noción de la distribución simulamos el proceso 1000 veces:
+esto nos muestra algo que podría ocurrir en $400$ nacimientos. Ahora, para tener 
+una noción de la distribución simulamos el proceso $1000$ veces:
 
 ```{r out.width="350px"}
 sims_ninas <- rerun(1000, rbinom(1, 400, 0.488)) %>% flatten_dbl()
@@ -534,11 +534,11 @@ ggplot() + geom_histogram(aes(x = sims_ninas), binwidth = 3, alpha = 0.7)
 El histograma de arriba representa la distribución de probabilidad para el 
 número de niñas y refleja la incertidumbre en los nacimientos. 
 
-Podemos agregar complejidad al modelo, por ejemplo con probabilidad 1/125 un
+Podemos agregar complejidad al modelo, por ejemplo con probabilidad $1/125$ un
 nacimiento resulta en gemelos fraternales, y para cada uno de los bebés hay una
-posibilidad de aproximadamente 49.5\% de ser niña. Además la probabilidad de 
-gemelos idénticos es de 1/300 y estos a su vez resultan en niñas en 
-aproximadamente 40.5\% de los casos. 
+posibilidad de aproximadamente $49.5\%$ de ser niña. Además la probabilidad de 
+gemelos idénticos es de $1/300$ y estos a su vez resultan en niñas en 
+aproximadamente $40.5\%$ de los casos. 
 
 
 ```{r, echo = FALSE, eval = FALSE, fig.width=3.5, fig.width=3.5, message=FALSE, out.width="150px", out.height="150px"}
