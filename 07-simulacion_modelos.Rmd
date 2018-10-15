@@ -669,14 +669,14 @@ de preparatoria y los que no.
 
 $$y_i= \beta_0 + \beta_1 X_{i1} + \epsilon_i$$
 
-* donde $y_i$ es el puntaje del i-ésimo niño,
+* donde $y_i$ es el puntaje del $i$-ésimo niño,
 * $X_{i1}$ es una variable binaria que indica si la madre se graduó de 
-preparatoria (codificado como 1) o no (codificado como 0), y 
+preparatoria (codificado como $1$) o no (codificado como $0$), y 
 * $\epsilon_i$ son los error aleatorios, estos son 
 independientes con distribución normal $\epsilon_i \sim N(0, \sigma^2)$. 
 
-Ahora consideremos el problema de simular el puntaje de 50 niños 30 con madres
-que terminaron la preparatoria y 20 cuyas madres no terminaron. Los coeficientes
+Ahora consideremos el problema de simular el puntaje de $50$ niños $30$ con madres
+que terminaron la preparatoria y $20$ cuyas madres no terminaron. Los coeficientes
 que usaremos son:
 
 $$\beta_0 = 78$$
@@ -725,8 +725,8 @@ Supongamos ahora que nos interesa incorporar que tenemos **incertidumbre en los
 coeficientes de regresión**, y expresamos nuestra incertidumbre a través de 
 distribuciones de probabilidad, ¿cómo sería el modelo gráfico asociado?
 
-Primero suponemos que $\sigma^2$ tiene una distribución centrada en 20^2^, 
-proporcional a una distribución $\chi^2$ con 432 grados de libertad.
+Primero suponemos que $\sigma^2$ tiene una distribución centrada en $20^2$, 
+proporcional a una distribución $\chi^2$ con $432$ grados de libertad.
 
 $$
 \begin{eqnarray*}
