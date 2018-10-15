@@ -197,7 +197,7 @@ La regla de Bayes es una consecuencia de la definición de probabilidad
 condicional.
 
 <div class="caja">
-Sean $F_i$ $i = 1,...,n$ eventos mutuamente excluyentes cuya unión es el espacio
+Sean $F_i$ y $i = 1,...,n$ eventos mutuamente excluyentes cuya unión es el espacio
 muestral, entonces
 $$P(F_j\vert E) = \frac{P(E\vert F_j)P(F_j)}{\sum_{i=1}^n P(E\vert F_i)P(F_i)}$$
 esta identidad se conoce como la **regla de Bayes**.
