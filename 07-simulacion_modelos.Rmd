@@ -147,7 +147,7 @@ $$p_{X\vert Y}(x\vert y) = \frac{p(x, y)}{p_Y(y).}$$
 <br/>
 
 **Ejemplo.** ¿Cuál es la distribución condicional de _renta_ dado tipo 
-_privado _? Para obtener toda la distribución condicional calculamos los dos casos 
+_privado_? Para obtener toda la distribución condicional calculamos los dos casos 
 restantes (renta media, media alta y alta).
 <br/>
 
@@ -165,10 +165,10 @@ $$P(E) = \sum_{i=1}^n P(E\vert F_i)P(F_i).$$
 </div>
 
 **Ejemplo.** Supongamos que una aseguradora clasifica a la gente en tres grupos 
-de acuerdo a su nivel de riesgo: bajo, medio y alto. De acuerdo a los registros, 
-las probabilidades de incurrir en un accidente en un laspo de un año son 0.05,
-0.15 y 0.30 respectivamente. Si el 20\% de la población se clasifica en riesgo 
-bajo, 50\% en medio y 30\% en alto, ¿qué proporción de la población tiene un
+de acuerdo a su nivel de riesgo: _bajo_, _medio_ y _alto_. De acuerdo a los registros, 
+las probabilidades de incurrir en un accidente en un laspo de un año son $0.05$,
+$0.15$ y $0.30$ respectivamente. Si el $20\%$ de la población se clasifica en riesgo 
+bajo, $50\%$ en medio y $30\%$ en alto, ¿qué proporción de la población tiene un
 accidente en un año dado?
 
 Para variables aleatorias tenemos:
