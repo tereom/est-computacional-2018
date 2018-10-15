@@ -464,7 +464,7 @@ $$p(V) = \prod p(v|padres(v))$$
 
 
 Veamos como usar las gráficas para simular de modelos probabilísticos. Los 
-siguientes ejemplos están escritos con base en @gelman.
+siguientes ejemplos están escritos con base en [@gelman](https://library.gwu.edu/).
 
 #### Ejemplo de simulación discreta predictiva {-}
 La probabilidad de que un bebé sea niña o niño es 48.8\% y 51.2\% 
