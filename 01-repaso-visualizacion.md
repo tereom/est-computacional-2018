@@ -238,6 +238,8 @@ agregar las etiquetas como se muestra en la serie de la derecha, pero entonces:
 ¿por qué no mostrar simplemente la tabla de datos? ¿qué agrega el pie a la 
 interpretación?
 
+<div style="clear:both"></div>
+
 La deficiencias en el pie se pueden ver claramente al intentar graficar más 
 categorías (13) . En el primer pie no podemos distinguir realmente cuáles son 
 las categorías grandes y cuáles las chicas, y es muy difícil tener una imagen 
@@ -246,12 +248,13 @@ vez, preguntamos cuál es el propósito del pie. La tabla de la izquierda hace
 todo el trabajo (una vez que ordenamos las categrías de la más grande a la más 
 chica). Es posible hacer una gráfica de barras como la de abajo a la izquierda.
 
-<div style="clear:both"></div>
 
-<div style= "float:left;top: -10px;width:110px">
+
+<div style= "float:left;top: -10px;width:120px">
 ![](imagenes/barras_pie.jpg)
 </div>
 
+<div style="clear:both"></div>
 
 Hay otros tipos de chartjunk comunes: uno es la textura de barras, por ejemplo. 
 El efecto es la producción de un efecto moiré que es desagradable y quita la 
@@ -539,7 +542,7 @@ print(read_csv)
 ##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
 ##         guess_max = guess_max, progress = progress)
 ## }
-## <bytecode: 0x71f6f78>
+## <bytecode: 0x6cb67c0>
 ## <environment: namespace:readr>
 ```
 

@@ -557,7 +557,7 @@ ggplot(intervalos_muestra) +
 
 <img src="98-tareas_files/figure-html/unnamed-chunk-16-1.png" width="480" />
 
-## 7-Simulación de modelos
+## 7-Simulación de modelos {-}
 Supongamos que una compañía cambia la tecnología usada para producir una cámara, 
 un estudio estima que el ahorro en la producción es de \$5 por unidad con un 
 error estándar de \$4. Más aún, una proyección estima que el tamaño del mercado 
@@ -566,5 +566,170 @@ estándar de 10,000. Suponiendo que las dos fuentes de incertidumbre son
 independientes, usa simulación de variables aleatorias normales para estimar el 
 total de dinero que ahorrará la compañía, calcula un intervalo de confianza. 
 
+## 8-Simulación de modelos de regresión {-}
+
+Los datos [beauty](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv) consisten en evaluaciones de estudiantes a profesores, los 
+estudiantes calificaron belleza y calidad de enseñanza para distintos cursos en 
+la Universidad de Texas. Las evaluaciones de curso se realizaron al final del 
+semestre y tiempo después 6 estudiantes que no llevaron el curso realizaron los 
+juicios de belleza. 
+
+Ajustamos el siguiente modelo de regresión lineal usando las variables 
+_edad_ (age), _belleza_ (btystdave), _sexo_ (female) e _inglés no es primera 
+lengua_ (nonenglish) para predecir las evaluaciones del curso 
+(courseevaluation).
+.
+
+
+```r
+beauty <- readr::read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   .default = col_integer(),
+##   btystdave = col_double(),
+##   btystdf2u = col_double(),
+##   btystdfl = col_double(),
+##   btystdfu = col_double(),
+##   btystdm2u = col_double(),
+##   btystdml = col_double(),
+##   btystdmu = col_double(),
+##   courseevaluation = col_double(),
+##   percentevaluating = col_double(),
+##   profevaluation = col_double(),
+##   btystdvariance = col_double(),
+##   btystdavepos = col_double(),
+##   btystdaveneg = col_double()
+## )
+```
+
+```
+## See spec(...) for full column specifications.
+```
+
+```r
+fit_score <- lm(courseevaluation ~ age + btystdave + female + nonenglish, 
+                data = beauty)
+```
+
+
+1. La instructora A es una mujer de 50 años, el inglés es su primera lengua y 
+tiene un puntaje de belleza de -1. El instructor B es un hombre de 60 años, 
+su primera lengua es el inglés y tiene un puntaje de belleza de -0.5. Simula
+1000 generaciones de la evaluación del curso de estos dos instructores. En 
+tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
+predicción. 
+
+Para hacer las simulaciones necesitarás la distribución del vector de 
+coeficientes $\beta$, este es normal con media:
+
+
+```r
+coef(fit_score)
+```
+
+```
+##  (Intercept)          age    btystdave       female   nonenglish 
+##  4.244464824 -0.002585912  0.141031893 -0.210304324 -0.332233708
+```
+
+y matriz de varianzas y covarianzas $\sigma^2 V$, donde $V$ es: 
+
+
+```r
+summary(fit_score)$cov.unscaled
+```
+
+```
+##              (Intercept)           age     btystdave        female
+## (Intercept)  0.070758980 -1.331151e-03 -3.787757e-03 -1.049379e-02
+## age         -0.001331151  2.653270e-05  8.781697e-05  1.324028e-04
+## btystdave   -0.003787757  8.781697e-05  3.826989e-03 -2.709254e-04
+## female      -0.010493789  1.324028e-04 -2.709254e-04  9.662597e-03
+## nonenglish  -0.002199634 -1.791673e-06 -1.206447e-04 -5.576679e-05
+##                nonenglish
+## (Intercept) -2.199634e-03
+## age         -1.791673e-06
+## btystdave   -1.206447e-04
+## female      -5.576679e-05
+## nonenglish   3.801753e-02
+```
+
+y $\sigma$ se calcula como $\sigma=\hat{\sigma}\sqrt{(df)/X}$, donde X es una 
+generación de una distribución $\chi ^2$ con $df$ (458) grados de libertad
+$\hat{\sigma}$ es:
+
+
+```r
+summary(fit_score)$sigma
+```
+
+```
+## [1] 0.5320521
+```
+
+y $df$ (los grados de libertad) se obtienen:
+
+
+```r
+summary(fit_score)$df[2]
+```
+
+```
+## [1] 458
+```
+
+Una vez que obtengas una simulación del vector $\beta$ generas simulaciones 
+para los profesores usando el modelo de regresión lineal y las simulaciones
+de los parámetros.
+
+
++ Realiza un histograma de la diferencia entre la evaluación del curso
+para A y B. 
+
++ ¿Cuál es la probabilidad de que A obtenga una calificación mayor?
+
+2. En el inciso anterior obtienes simulaciones de la distribución conjunta
+$p(\tilde{y},\beta,\sigma^2)$ donde $\beta$ es el vector de coeficientes de 
+la regresión lineal. Para este ejercicio nos vamos a enfocar en el coeficiente
+de belleza ($\beta_3$), realiza 6000 simulaciones del modelo (como en el inciso 
+anterior) y guarda las realizaciones de $\beta_3$. 
+
++ Genera un histograma con las simulaciones de $\beta_3$.
+
++ Calcula la media y desviación estándar de las simulaciones y comparalas con la 
+estimación y desviación estándar del coeficiente obtenidas usando summary.
+
+
+```r
+summary(fit_score)
+```
+
+```
+## 
+## Call:
+## lm(formula = courseevaluation ~ age + btystdave + female + nonenglish, 
+##     data = beauty)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.87539 -0.35399  0.04531  0.38321  1.02355 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  4.244465   0.141529  29.990  < 2e-16 ***
+## age         -0.002586   0.002741  -0.944  0.34589    
+## btystdave    0.141032   0.032914   4.285 2.23e-05 ***
+## female      -0.210304   0.052300  -4.021 6.77e-05 ***
+## nonenglish  -0.332234   0.103740  -3.203  0.00146 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.5321 on 458 degrees of freedom
+## Multiple R-squared:  0.0885,	Adjusted R-squared:  0.08054 
+## F-statistic: 11.12 on 4 and 458 DF,  p-value: 1.294e-08
+```
 
 

@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.069"
+#> [1] "0.068"
 ```
 
 
@@ -1945,7 +1945,7 @@ Un intervalo que sub-cubre un lado y sobre-cubre el otro es **sesgado**.
 * Los intervalos estándar y de percentiles tienen exactitud de primer 
 orden: los errores de cobertura se van a cero a una tasa de $1/\sqrt{n}$.
 
-* Los intervalos $BC_a$normales y de percentiles tienen exactitud de segundo 
+* Los intervalos $BC_a$ tienen exactitud de segundo 
 orden: los errores de cobertura se van a cero a una tasa de $1/n$.
 
 ## Bootstrap en R

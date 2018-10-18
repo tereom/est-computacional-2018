@@ -1052,11 +1052,12 @@ head(pew_tidy_2)
 #> 4 Mainline Prot           <$10k         289  0.0471
 #> 5 Unaffiliated            <$10k         217  0.0698
 #> 6 Catholic                $10-20k       617  0.0940
-
+income_levels <- unique(pew_tidy$income)[1:9]
 ggplot(pew_tidy_2, aes(x = income, y = percent, group = religion)) +
   facet_wrap(~ religion, nrow = 1) +
   geom_bar(stat = "identity", fill = "darkgray") + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    scale_x_discrete(limits = income_levels)
 ```
 
 <img src="02-manipulacion_files/figure-html/unnamed-chunk-34-1.png" width="739.2" style="display: block; margin: auto;" />
