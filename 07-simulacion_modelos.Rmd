@@ -1092,9 +1092,7 @@ Las gráficas nos ayudan a descubrir patrones, a diferencia de los modelos las
 gráficas nos pueden sorprender y podemos entender relaciones en las variables
 que de otra manera sería difícil.
 
-```{r preparacion_defunciones, echo = FALSE, warning=FALSE,cache = TRUE, message = FALSE}
-library(sf)
-library(nullabor)
+```{r preparacion_defunciones, eval=FALSE, include=FALSE, echo=FALSE}
 # base de datos de defunciones, INEGI http://www3.inegi.org.mx/rnm/index.php/catalog/231
 defun15 <- read_csv("data/defun15.csv")
 
@@ -1149,9 +1147,16 @@ calcular_tasas <- function(causa){
     list(defun_mun = defun_mun, defun_entidad = defun_entidad)
 }
 tasas_diabetes <- calcular_tasas("diabetes")
-set.seed(74872)
-nulos <- lineup(null_permute("tasa_causa"), tasas_diabetes$defun_entidad, n = 6)
+write_csv(tasas_diabetes$defun_entidad, "data/tasas_diabetes.csv")
+```
 
+```{r echo = FALSE, warning=FALSE,cache = TRUE, message = FALSE}
+library(sf)
+library(nullabor)
+
+tasas_diabetes <- read.csv("data/tasas_diabetes.csv")
+set.seed(74872)
+nulos <- lineup(null_permute("tasa_causa"), tasas_diabetes, n = 6)
 edo_shp <- st_read("data/shapes/Mex_Edos.shp", stringsAsFactors = FALSE, 
     quiet = TRUE)
 nulos_map <- edo_shp %>% 
@@ -1170,6 +1175,7 @@ ggplot() +
     theme_minimal() + #fondo blanco
     scale_fill_distiller(palette="RdBu", type="seq", direction = 1)
 ```
+
 
 #### Apofenia {-}
 
