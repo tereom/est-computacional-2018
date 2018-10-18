@@ -136,7 +136,7 @@ $$p_{X\vert Y}(x\vert y) = \frac{p(x, y)}{p_Y(y).}$$
 <br/>
 
 **Ejemplo.** ¿Cuál es la distribución condicional de _renta_ dado tipo 
-_privado _? Para obtener toda la distribución condicional calculamos los dos casos 
+_privado_? Para obtener toda la distribución condicional calculamos los dos casos 
 restantes (renta media, media alta y alta).
 <br/>
 
@@ -154,10 +154,10 @@ $$P(E) = \sum_{i=1}^n P(E\vert F_i)P(F_i).$$
 </div>
 
 **Ejemplo.** Supongamos que una aseguradora clasifica a la gente en tres grupos 
-de acuerdo a su nivel de riesgo: bajo, medio y alto. De acuerdo a los registros, 
-las probabilidades de incurrir en un accidente en un laspo de un año son 0.05,
-0.15 y 0.30 respectivamente. Si el 20\% de la población se clasifica en riesgo 
-bajo, 50\% en medio y 30\% en alto, ¿qué proporción de la población tiene un
+de acuerdo a su nivel de riesgo: _bajo_, _medio_ y _alto_. De acuerdo a los registros, 
+las probabilidades de incurrir en un accidente en un laspo de un año son $0.05$,
+$0.15$ y $0.30$ respectivamente. Si el $20\%$ de la población se clasifica en riesgo 
+bajo, $50\%$ en medio y $30\%$ en alto, ¿qué proporción de la población tiene un
 accidente en un año dado?
 
 Para variables aleatorias tenemos:
@@ -173,7 +173,7 @@ $$p_X(x) = \sum_{y} p_{X \vert Y}(x\vert y)p_Y(y).$$
 par lanzo una moneda justa 
 (la probabilidad de observar águila es la misma que la de observar sol), si el 
 dado muestra un número impar lanzo una moneda sesgada en la que la probabilidad 
-de observar águila es 0.9. Si observo sol, ¿Cuál es la probabilidad de que haya 
+de observar águila es $0.9$. Si observo sol, ¿Cuál es la probabilidad de que haya 
 lanzado la moneda sesgada?
 
 El ejercicio anterior introduce la noción de probabilidad inversa: inicialmente 
@@ -186,7 +186,7 @@ La regla de Bayes es una consecuencia de la definición de probabilidad
 condicional.
 
 <div class="caja">
-Sean $F_i$ $i = 1,...,n$ eventos mutuamente excluyentes cuya unión es el espacio
+Sean $F_i$ y $i = 1,...,n$ eventos mutuamente excluyentes cuya unión es el espacio
 muestral, entonces
 $$P(F_j\vert E) = \frac{P(E\vert F_j)P(F_j)}{\sum_{i=1}^n P(E\vert F_i)P(F_i)}$$
 esta identidad se conoce como la **regla de Bayes**.
@@ -206,13 +206,13 @@ La nueva información implica que actualizemos de $P(B)= 0.20$ a $P(B\vert Accid
 ![](imagenes/manicule2.jpg) [La intuición es engañosa](http://www.amazon.com/The-Drunkards-Walk-Randomness-Rules/dp/0307275175): 
 En estudios en Alemania y EUA, investigadores
 le pidieron a médicos que estimaran la probabilidad de que una mujer 
-asintomática entre los 40 y 50 años tuviera cáncer de mama si su mamograma 
-era positivo. Se les explicó que el 7\% de los mamogramas indican cáncer cuando
+asintomática entre los $40$ y $50$ años tuviera cáncer de mama si su mamograma 
+era positivo. Se les explicó que el $7\%$ de los mamogramas indican cáncer cuando
 no lo hay (falsos positivos). Adicional mente, se le explicó a los médicos que 
-la incidencia de cáncer de mama en ese grupo de edad es 0.8\% y la tasa de 
-falsos negativos de 10\%. En Alemania, un tercio de los médicos determinaron
-que la probabilidad era cercana al 90\% y la mediana de las estimaciones fue
-70\%. En EUA 95 de 100 médicos estimaron que la probabilidad rondaba el 75\%.
+la incidencia de cáncer de mama en ese grupo de edad es $0.8\%$ y la tasa de 
+falsos negativos de $10\%$. En Alemania, un tercio de los médicos determinaron
+que la probabilidad era cercana al $90\%$ y la mediana de las estimaciones fue
+$70\%$. En EUA $95$ de $100$ médicos estimaron que la probabilidad rondaba el $75\%$.
 ¿Cómo determinas la probabilidad de que una mujer con mamograma positivo tenga
 cáncer?
 
