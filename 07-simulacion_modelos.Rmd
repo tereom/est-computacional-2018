@@ -82,15 +82,15 @@ $P((X,Y) \in A) = \int\int_A p(x,y)dxdy$.
 $$
 p(x,y) = \left\{
   \begin{array}{lr}
-    1   &  0\leq x \leq 1,0\leq y \leq 1\\
-    0 &  e.o.c.
+    1,   &  0\leq x \leq 1,0\leq y \leq 1\\
+    0, &  e.o.c.
   \end{array}
 \right.
 $$
 
-Para encontrar $P(X < 1/2, Y<1/2)$, esto es la probailidad del evento
+Para encontrar $P(X < \frac{1}{2}, Y<\frac{1}{2})$, esto es la probailidad del evento
 $A=\{X<1/2, Y<1/2\}$. La integral de $p$ sobre este subconjunto corresponde, 
-en este caso, a calcular el área del conjunto $A$ que es igual a 1/4.
+en este caso, a calcular el área del conjunto $A$ que es igual a $\frac{1}{4}$.
 
 De la distribución conjunta $p(x_1,...,x_n)$ podemos obtener la distribución de 
 únciamente una variable aleatoria $X_j$, donde $X_j \in \{X_1,...,X_n\}$, la 
