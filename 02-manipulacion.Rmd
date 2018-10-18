@@ -639,11 +639,12 @@ pew_tidy_2 <- pew_tidy %>%
   filter(sum(frequency) > 1000)
 
 head(pew_tidy_2)
-
+income_levels <- unique(pew_tidy$income)[1:9]
 ggplot(pew_tidy_2, aes(x = income, y = percent, group = religion)) +
   facet_wrap(~ religion, nrow = 1) +
   geom_bar(stat = "identity", fill = "darkgray") + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    scale_x_discrete(limits = income_levels)
 ```
 
 En el código de arriba utilizamos las funciones `group_by`, `filter` y `mutate`
