@@ -453,10 +453,10 @@ $$p(V) = \prod p(v|padres(v))$$
 
 
 Veamos como usar las gráficas para simular de modelos probabilísticos. Los 
-siguientes ejemplos están escritos con base en @gelman.
+siguientes ejemplos están escritos con base en [@gelman](https://library.gwu.edu/).
 
 #### Ejemplo de simulación discreta predictiva {-}
-La probabilidad de que un bebé sea niña o niño es 48.8\% y 51.2\% 
+La probabilidad de que un bebé sea niña o niño es $48.8\%$ y $51.2\%$
 respectivamente. Supongamos que hay 400 nacimientos en un hospital en un año 
 dado. ¿Cuántas niñas nacerán? 
 
@@ -471,9 +471,9 @@ La gráfica superior muestra todas las variables relevantes en el problema, y la
 dependencias entre ellas. En este caso $n$ es una constante que representa el 
 número de nacimientos, ($n=400$), $p=48.8$ es la probabilidad de que un nacimiento 
 resulte en niña y $k \sim Binomial(p, n)$. Debido a que el número de éxitos
-(nacimientos que resultan en niña) depende de la tasa p y el número de 
-experimentos n, los nodos que representan a éstas dos últimas variables están
-dirigidos al nodo que representa k.
+(nacimientos que resultan en niña) depende de la tasa $p$ y el número de 
+experimentos $n$, los nodos que representan a éstas dos últimas variables están
+dirigidos al nodo que representa $k$.
 
 Una vez que tenemos la gráfica es fácil simular del modelo:
 
@@ -488,8 +488,8 @@ set.seed(918739837)
 n_ninas <- rbinom(1, 400, 0.488)
 ```
 
-esto nos muestra algo que podría ocurrir en 400 nacimientos. Ahora, para tener 
-una noción de la distribución simulamos el proceso 1000 veces:
+esto nos muestra algo que podría ocurrir en $400$ nacimientos. Ahora, para tener 
+una noción de la distribución simulamos el proceso $1000$ veces:
 
 
 ```r
@@ -507,11 +507,11 @@ ggplot() + geom_histogram(aes(x = sims_ninas), binwidth = 3, alpha = 0.7)
 El histograma de arriba representa la distribución de probabilidad para el 
 número de niñas y refleja la incertidumbre en los nacimientos. 
 
-Podemos agregar complejidad al modelo, por ejemplo con probabilidad 1/125 un
+Podemos agregar complejidad al modelo, por ejemplo con probabilidad $1/125$ un
 nacimiento resulta en gemelos fraternales, y para cada uno de los bebés hay una
-posibilidad de aproximadamente 49.5\% de ser niña. Además la probabilidad de 
-gemelos idénticos es de 1/300 y estos a su vez resultan en niñas en 
-aproximadamente 40.5\% de los casos. 
+posibilidad de aproximadamente $49.5\%$ de ser niña. Además la probabilidad de 
+gemelos idénticos es de $1/300$ y estos a su vez resultan en niñas en 
+aproximadamente $40.5\%$ de los casos. 
 
 
 
@@ -637,14 +637,14 @@ de preparatoria y los que no.
 
 $$y_i= \beta_0 + \beta_1 X_{i1} + \epsilon_i$$
 
-* donde $y_i$ es el puntaje del i-ésimo niño,
+* donde $y_i$ es el puntaje del $i$-ésimo niño,
 * $X_{i1}$ es una variable binaria que indica si la madre se graduó de 
-preparatoria (codificado como 1) o no (codificado como 0), y 
+preparatoria (codificado como $1$) o no (codificado como $0$), y 
 * $\epsilon_i$ son los error aleatorios, estos son 
 independientes con distribución normal $\epsilon_i \sim N(0, \sigma^2)$. 
 
-Ahora consideremos el problema de simular el puntaje de 50 niños 30 con madres
-que terminaron la preparatoria y 20 cuyas madres no terminaron. Los coeficientes
+Ahora consideremos el problema de simular el puntaje de $50$ niños $30$ con madres
+que terminaron la preparatoria y $20$ cuyas madres no terminaron. Los coeficientes
 que usaremos son:
 
 $$\beta_0 = 78$$
@@ -681,8 +681,8 @@ Supongamos ahora que nos interesa incorporar que tenemos **incertidumbre en los
 coeficientes de regresión**, y expresamos nuestra incertidumbre a través de 
 distribuciones de probabilidad, ¿cómo sería el modelo gráfico asociado?
 
-Primero suponemos que $\sigma^2$ tiene una distribución centrada en 20^2^, 
-proporcional a una distribución $\chi^2$ con 432 grados de libertad.
+Primero suponemos que $\sigma^2$ tiene una distribución centrada en $20^2$, 
+proporcional a una distribución $\chi^2$ con $432$ grados de libertad.
 
 $$
 \begin{eqnarray*}
@@ -708,7 +708,7 @@ distribución $\chi^2$ con $432$ grados de libertad.
 2. Dado $\sigma$ (obtenido del paso anterior), simula $\beta$ de una distribución
 normal multivariada con media $(77,12)$ y matriz de covarianzas $\sigma^2 V$.
 
-3. Simula $y$ el vector de observaciones usando los parámetros de 1 y 2.
+3. Simula $y$ el vector de observaciones usando los parámetros de $1$ y $2$.
 
 
 ```r
@@ -785,7 +785,7 @@ sims_parametros %>% map_dbl(~(.$beta[2])) %>% sd()
 No parece que valga la pena el esfuerzo cuando podemos calcular los intervalos 
 analíticamente, sin embargo con simulación podemos responder fácilmente otras 
 preguntas, por ejemplo, la pregunta inicial: ¿cuál es la media esperada para un 
-conjunto de 50 niños, 30 con madres que hicieron preparatoria y 20 que no? es
+conjunto de $50$ niños, $30$ con madres que hicieron preparatoria y $20$ que no? es
 fácil de responder con simulación.
 
 Podríamos usar `predict()` para calcular el estimador puntual de la media en el
@@ -807,16 +807,16 @@ objetivo es más complicado que coeficientes o combinaciones lineales de estos.
 #### Simulación de predicciones no lineales
 
 Veamos un ejemplo de las elecciones en el congreso de EUA. Tenemos un modelo 
-que usaremos para predecir la elección de 1990 basados en la de 1988.
+que usaremos para predecir la elección de $1990$ basados en la de $1988$.
 
-**Explicación del problema**. EUA está dividido en 435 distritos congresionales,
+**Explicación del problema**. EUA está dividido en $435$ distritos congresionales,
 definimos la variable de interés $y_i$ con $i=1,...,n$, como la participación 
 del partido Demócrata en el distrito $i$ en $1988$. La participación se calcula
 como el porcentaje de los votos correspondientes a los demócratas del total de
 votos que recibieron los demócratas y republicanos, esto es, se excluyen los 
 votos a otros partidos. 
 
-El modelo del que simularemos se construyó usando datos de 1986 y 1988.
+El modelo del que simularemos se construyó usando datos de $1986$ y $1988$.
 
 
 ```r
@@ -922,7 +922,7 @@ ggplot(sims_congress, aes(x = reorder(id, dem_share), y = dem_share)) +
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-19-1.png" width="864" />
 
-Podemos preguntarnos cuántas elecciones ganaron los demócratas en 1990: 
+Podemos preguntarnos cuántas elecciones ganaron los demócratas en $1990$: 
 $\sum I(\grave{y} > 0.5)$
 
 

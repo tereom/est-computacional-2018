@@ -794,10 +794,10 @@ que la distribución conjunta de todas las cantidades V tiene una factorización
 en términos de la distribución condicional <span class="math inline">\(p(v|padres(v))\)</span> de tal manera que:
 <span class="math display">\[p(V) = \prod p(v|padres(v))\]</span></p>
 <p>Veamos como usar las gráficas para simular de modelos probabilísticos. Los
-siguientes ejemplos están escritos con base en <span class="citation">(<span class="citeproc-not-found" data-reference-id="gelman"><strong>???</strong></span>)</span>.</p>
+siguientes ejemplos están escritos con base en <span class="citation">(<span class="citeproc-not-found" data-reference-id="gelman"><strong>???</strong></span>)</span>(<a href="https://library.gwu.edu/" class="uri">https://library.gwu.edu/</a>).</p>
 <div id="ejemplo-de-simulacion-discreta-predictiva" class="section level4 unnumbered">
 <h4>Ejemplo de simulación discreta predictiva</h4>
-<p>La probabilidad de que un bebé sea niña o niño es 48.8% y 51.2%
+<p>La probabilidad de que un bebé sea niña o niño es <span class="math inline">\(48.8\%\)</span> y <span class="math inline">\(51.2\%\)</span>
 respectivamente. Supongamos que hay 400 nacimientos en un hospital en un año
 dado. ¿Cuántas niñas nacerán?</p>
 <p>Comencemos viendo el modelo gráfico asociado.</p>
@@ -806,9 +806,9 @@ dado. ¿Cuántas niñas nacerán?</p>
 dependencias entre ellas. En este caso <span class="math inline">\(n\)</span> es una constante que representa el
 número de nacimientos, (<span class="math inline">\(n=400\)</span>), <span class="math inline">\(p=48.8\)</span> es la probabilidad de que un nacimiento
 resulte en niña y <span class="math inline">\(k \sim Binomial(p, n)\)</span>. Debido a que el número de éxitos
-(nacimientos que resultan en niña) depende de la tasa p y el número de
-experimentos n, los nodos que representan a éstas dos últimas variables están
-dirigidos al nodo que representa k.</p>
+(nacimientos que resultan en niña) depende de la tasa <span class="math inline">\(p\)</span> y el número de
+experimentos <span class="math inline">\(n\)</span>, los nodos que representan a éstas dos últimas variables están
+dirigidos al nodo que representa <span class="math inline">\(k\)</span>.</p>
 <p>Una vez que tenemos la gráfica es fácil simular del modelo:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 <span class="kw">library</span>(dplyr)
@@ -817,8 +817,8 @@ dirigidos al nodo que representa k.</p>
 <span class="kw">library</span>(tidyr)
 <span class="kw">set.seed</span>(<span class="dv">918739837</span>)
 n_ninas &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">1</span>, <span class="dv">400</span>, <span class="fl">0.488</span>)</code></pre>
-<p>esto nos muestra algo que podría ocurrir en 400 nacimientos. Ahora, para tener
-una noción de la distribución simulamos el proceso 1000 veces:</p>
+<p>esto nos muestra algo que podría ocurrir en <span class="math inline">\(400\)</span> nacimientos. Ahora, para tener
+una noción de la distribución simulamos el proceso <span class="math inline">\(1000\)</span> veces:</p>
 <pre class="sourceCode r"><code class="sourceCode r">sims_ninas &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">rbinom</span>(<span class="dv">1</span>, <span class="dv">400</span>, <span class="fl">0.488</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
 <span class="kw">mean</span>(sims_ninas)
 <span class="co">#&gt; [1] 196</span>
@@ -829,11 +829,11 @@ una noción de la distribución simulamos el proceso 1000 veces:</p>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-3-1.png" width="350px" /></p>
 <p>El histograma de arriba representa la distribución de probabilidad para el
 número de niñas y refleja la incertidumbre en los nacimientos.</p>
-<p>Podemos agregar complejidad al modelo, por ejemplo con probabilidad 1/125 un
+<p>Podemos agregar complejidad al modelo, por ejemplo con probabilidad <span class="math inline">\(1/125\)</span> un
 nacimiento resulta en gemelos fraternales, y para cada uno de los bebés hay una
-posibilidad de aproximadamente 49.5% de ser niña. Además la probabilidad de
-gemelos idénticos es de 1/300 y estos a su vez resultan en niñas en
-aproximadamente 40.5% de los casos.</p>
+posibilidad de aproximadamente <span class="math inline">\(49.5\%\)</span> de ser niña. Además la probabilidad de
+gemelos idénticos es de <span class="math inline">\(1/300\)</span> y estos a su vez resultan en niñas en
+aproximadamente <span class="math inline">\(40.5\%\)</span> de los casos.</p>
 <p><img src="imagenes/ninas_2.png" /></p>
 <p>Podemos simular 400 nacimientos bajo este
 modelo como sigue:</p>
@@ -924,14 +924,14 @@ diferencia en los puntajes promedio de los niños cuyas madres se graduaron
 de preparatoria y los que no.</p>
 <p><span class="math display">\[y_i= \beta_0 + \beta_1 X_{i1} + \epsilon_i\]</span></p>
 <ul>
-<li>donde <span class="math inline">\(y_i\)</span> es el puntaje del i-ésimo niño,</li>
+<li>donde <span class="math inline">\(y_i\)</span> es el puntaje del <span class="math inline">\(i\)</span>-ésimo niño,</li>
 <li><span class="math inline">\(X_{i1}\)</span> es una variable binaria que indica si la madre se graduó de
-preparatoria (codificado como 1) o no (codificado como 0), y</li>
+preparatoria (codificado como <span class="math inline">\(1\)</span>) o no (codificado como <span class="math inline">\(0\)</span>), y</li>
 <li><span class="math inline">\(\epsilon_i\)</span> son los error aleatorios, estos son
 independientes con distribución normal <span class="math inline">\(\epsilon_i \sim N(0, \sigma^2)\)</span>.</li>
 </ul>
-<p>Ahora consideremos el problema de simular el puntaje de 50 niños 30 con madres
-que terminaron la preparatoria y 20 cuyas madres no terminaron. Los coeficientes
+<p>Ahora consideremos el problema de simular el puntaje de <span class="math inline">\(50\)</span> niños <span class="math inline">\(30\)</span> con madres
+que terminaron la preparatoria y <span class="math inline">\(20\)</span> cuyas madres no terminaron. Los coeficientes
 que usaremos son:</p>
 <p><span class="math display">\[\beta_0 = 78\]</span>
 <span class="math display">\[\beta_1 = 12\]</span>
@@ -952,8 +952,8 @@ sims_y &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="
 <p>Supongamos ahora que nos interesa incorporar que tenemos <strong>incertidumbre en los
 coeficientes de regresión</strong>, y expresamos nuestra incertidumbre a través de
 distribuciones de probabilidad, ¿cómo sería el modelo gráfico asociado?</p>
-<p>Primero suponemos que <span class="math inline">\(\sigma^2\)</span> tiene una distribución centrada en 20<sup>2</sup>,
-proporcional a una distribución <span class="math inline">\(\chi^2\)</span> con 432 grados de libertad.</p>
+<p>Primero suponemos que <span class="math inline">\(\sigma^2\)</span> tiene una distribución centrada en <span class="math inline">\(20^2\)</span>,
+proporcional a una distribución <span class="math inline">\(\chi^2\)</span> con <span class="math inline">\(432\)</span> grados de libertad.</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
 \begin{pmatrix}\beta_{0}\\
@@ -975,7 +975,7 @@ regresión.</p>
 distribución <span class="math inline">\(\chi^2\)</span> con <span class="math inline">\(432\)</span> grados de libertad.</p></li>
 <li><p>Dado <span class="math inline">\(\sigma\)</span> (obtenido del paso anterior), simula <span class="math inline">\(\beta\)</span> de una distribución
 normal multivariada con media <span class="math inline">\((77,12)\)</span> y matriz de covarianzas <span class="math inline">\(\sigma^2 V\)</span>.</p></li>
-<li><p>Simula <span class="math inline">\(y\)</span> el vector de observaciones usando los parámetros de 1 y 2.</p></li>
+<li><p>Simula <span class="math inline">\(y\)</span> el vector de observaciones usando los parámetros de <span class="math inline">\(1\)</span> y <span class="math inline">\(2\)</span>.</p></li>
 </ol>
 <pre class="sourceCode r"><code class="sourceCode r">simula_parametros &lt;-<span class="st"> </span><span class="cf">function</span>(){
     <span class="co"># empezamos simulando sigma</span>
@@ -1037,7 +1037,7 @@ sims_parametros <span class="op">%&gt;%</span><span class="st"> </span><span cla
 <p>No parece que valga la pena el esfuerzo cuando podemos calcular los intervalos
 analíticamente, sin embargo con simulación podemos responder fácilmente otras
 preguntas, por ejemplo, la pregunta inicial: ¿cuál es la media esperada para un
-conjunto de 50 niños, 30 con madres que hicieron preparatoria y 20 que no? es
+conjunto de <span class="math inline">\(50\)</span> niños, <span class="math inline">\(30\)</span> con madres que hicieron preparatoria y <span class="math inline">\(20\)</span> que no? es
 fácil de responder con simulación.</p>
 <p>Podríamos usar <code>predict()</code> para calcular el estimador puntual de la media en el
 examen para los niños:</p>
@@ -1052,14 +1052,14 @@ objetivo es más complicado que coeficientes o combinaciones lineales de estos.<
 <div id="simulacion-de-predicciones-no-lineales" class="section level4">
 <h4><span class="header-section-number">8.1.2.3</span> Simulación de predicciones no lineales</h4>
 <p>Veamos un ejemplo de las elecciones en el congreso de EUA. Tenemos un modelo
-que usaremos para predecir la elección de 1990 basados en la de 1988.</p>
-<p><strong>Explicación del problema</strong>. EUA está dividido en 435 distritos congresionales,
+que usaremos para predecir la elección de <span class="math inline">\(1990\)</span> basados en la de <span class="math inline">\(1988\)</span>.</p>
+<p><strong>Explicación del problema</strong>. EUA está dividido en <span class="math inline">\(435\)</span> distritos congresionales,
 definimos la variable de interés <span class="math inline">\(y_i\)</span> con <span class="math inline">\(i=1,...,n\)</span>, como la participación
 del partido Demócrata en el distrito <span class="math inline">\(i\)</span> en <span class="math inline">\(1988\)</span>. La participación se calcula
 como el porcentaje de los votos correspondientes a los demócratas del total de
 votos que recibieron los demócratas y republicanos, esto es, se excluyen los
 votos a otros partidos.</p>
-<p>El modelo del que simularemos se construyó usando datos de 1986 y 1988.</p>
+<p>El modelo del que simularemos se construyó usando datos de <span class="math inline">\(1986\)</span> y <span class="math inline">\(1988\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Los datos están almacenados en 3 archivos correspondientes al año</span>
 paths &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">&quot;data/congress&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)
 paths &lt;-<span class="st"> </span><span class="kw">set_names</span>(paths, <span class="kw">basename</span>(paths))
@@ -1149,7 +1149,7 @@ sims_congress &lt;-<span class="st"> </span>sims_congress <span class="op">%&gt;
 <span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">yintercept =</span> <span class="fl">0.5</span>)</code></pre>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-19-1.png" width="864" /></p>
-<p>Podemos preguntarnos cuántas elecciones ganaron los demócratas en 1990:
+<p>Podemos preguntarnos cuántas elecciones ganaron los demócratas en <span class="math inline">\(1990\)</span>:
 <span class="math inline">\(\sum I(\grave{y} &gt; 0.5)\)</span></p>
 <pre class="sourceCode r"><code class="sourceCode r">sims_congress <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">group_by</span>(sim) <span class="op">%&gt;%</span>
