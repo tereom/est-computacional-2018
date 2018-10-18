@@ -26,13 +26,15 @@ Notas: https://tereom.github.io/est-computacional-2018/
 Correo: teresa.ortiz.mancera@gmail.com   
 GitHub: https://github.com/tereom/est-computacional-2018 
 
+#### Agradecimientos {-}
+Se agradecen las contriubuciones a estas notas hechas por [\@felipegonzalez](https://github.com/felipegonzalez)
+y [\@mkokotchikova](https://github.com/mkokotchikova).
+
 </br>
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Este trabajo está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>.
 
 
- 
- 
 ## Temario {-}
 
 1. **Manipulación y visualización de datos**
