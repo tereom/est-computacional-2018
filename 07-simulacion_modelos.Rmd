@@ -733,7 +733,7 @@ $$
 \begin{pmatrix}\beta_{0}\\
 \beta_{1}
 \end{pmatrix} & \sim & N\left[\left(\begin{array}{c}
-77\\
+78\\
 12
 \end{array}\right), \sigma^2 \left(\begin{array}{cc}
 0.01 & -0.01\\
