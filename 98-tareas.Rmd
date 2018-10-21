@@ -479,7 +479,7 @@ Ajustamos el siguiente modelo de regresión lineal usando las variables
 _edad_ (age), _belleza_ (btystdave), _sexo_ (female) e _inglés no es primera 
 lengua_ (nonenglish) para predecir las evaluaciones del curso 
 (courseevaluation).
-.
+
 
 ```{r}
 beauty <- readr::read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv")
@@ -488,10 +488,10 @@ fit_score <- lm(courseevaluation ~ age + btystdave + female + nonenglish,
 ```
 
 
-1. La instructora A es una mujer de 50 años, el inglés es su primera lengua y 
-tiene un puntaje de belleza de -1. El instructor B es un hombre de 60 años, 
-su primera lengua es el inglés y tiene un puntaje de belleza de -0.5. Simula
-1000 generaciones de la evaluación del curso de estos dos instructores. En 
+1. La instructora A es una mujer de $50$ años, el inglés es su primera lengua y 
+tiene un puntaje de belleza de $-1$. El instructor B es un hombre de $60$ años, 
+su primera lengua es el inglés y tiene un puntaje de belleza de $-0.5$. Simula
+$1000$ generaciones de la evaluación del curso de estos dos instructores. En 
 tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
 predicción. 
 
@@ -509,7 +509,7 @@ summary(fit_score)$cov.unscaled
 ```
 
 y $\sigma$ se calcula como $\sigma=\hat{\sigma}\sqrt{(df)/X}$, donde X es una 
-generación de una distribución $\chi ^2$ con $df$ (458) grados de libertad
+generación de una distribución $\chi ^2$ con $df$ ($458$) grados de libertad
 $\hat{\sigma}$ es:
 
 ```{r}
@@ -535,7 +535,7 @@ para A y B.
 2. En el inciso anterior obtienes simulaciones de la distribución conjunta
 $p(\tilde{y},\beta,\sigma^2)$ donde $\beta$ es el vector de coeficientes de 
 la regresión lineal. Para este ejercicio nos vamos a enfocar en el coeficiente
-de belleza ($\beta_3$), realiza 6000 simulaciones del modelo (como en el inciso 
+de belleza ($\beta_3$), realiza $6000$ simulaciones del modelo (como en el inciso 
 anterior) y guarda las realizaciones de $\beta_3$. 
 
 + Genera un histograma con las simulaciones de $\beta_3$.
