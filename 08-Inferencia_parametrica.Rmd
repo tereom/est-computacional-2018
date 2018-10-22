@@ -278,13 +278,13 @@ es como construimos la distrinución de la que vamos a seleccionar muestras.
 $\theta = g(\mu,\sigma)=\sigma/\mu$, esta cantidad se conoce como el 
 coeficiente de variación. Estima $\theta$ y su error estándar.
  
-1. Calculamos $\hat{\mu}=1/n \sum{X_i}$ y $\hat{\sigma}=1/n \sum(X_i-\hat{\mu})^2$.
+1. Calculamos $\hat{\mu}=\frac{1}{n} \sum{X_i}$ y $\hat{\sigma}=\frac{1}{n} \sum(X_i-\hat{\mu})^2$.
 
       Repetimos 2 y 3 B veces:
 
 2. Simulamos $X_1^*,...,X_n^*$ con $X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)$.
 
-3. Calculamos $\hat{\mu}^*=1/n \sum{X_i^*}$ y $\hat{\sigma}^2=1/n \sum(X_i^*-\hat{\mu}^*)^2$ y $\hat{\theta}=\hat{\sigma}^*/\hat{\mu}^*$.
+3. Calculamos $\hat{\mu}^*=\frac{1}{n} \sum{X_i^*}$ y $\hat{\sigma}^2=\frac{1}{n} \sum(X_i^*-\hat{\mu}^*)^2$ y $\hat{\theta}=\hat{\sigma}^*/\hat{\mu}^*$.
 
 4. Estimamos el erro estándar como:
  a) $$\hat{se}_B=\sqrt{\frac{1}{B-1}\sum_{b=1}^B \big(\hat{\theta}^*(b) - \bar{\theta}\big)^2}$$
