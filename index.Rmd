@@ -27,7 +27,7 @@ Correo: teresa.ortiz.mancera@gmail.com
 GitHub: https://github.com/tereom/est-computacional-2018 
 
 #### Agradecimientos {-}
-Se agradecen las contriubuciones a estas notas hechas por [\@felipegonzalez](https://github.com/felipegonzalez)
+Se agradecen las contriubuciones a estas notas de [\@felipegonzalez](https://github.com/felipegonzalez)
 y [\@mkokotchikova](https://github.com/mkokotchikova).
 
 </br>
