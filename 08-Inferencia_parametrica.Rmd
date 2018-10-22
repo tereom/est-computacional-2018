@@ -59,7 +59,7 @@ denotemos $S=\sum x_i$, entonces
 $$\mathcal{l}(\theta)=S \log \theta + (n-S) \log (1-\theta)$$
 .
 
-Si n=20 y S=12 tenemos la función:
+Si $n=20$ y $S=12$ tenemos la función:
 
 ```{r, fig.width=7.5, fig.height=2.5}
 # Verosimilitud X_1,...,X_n ~ Bernoulli(theta)
@@ -107,7 +107,7 @@ optimize(l_bernoulli(n = 20, S = 12), interval = c(0, 1), maximum = TRUE)
 ![](imagenes/manicule2.jpg) Sean $X_1,...X_n \sim N(\mu, \sigma^2)$. 
 
 * Calcula el estimador de máxima verosimilitud para $\theta = (\mu, \sigma^2)$.
-Supongamos que observamos una muestra de tamaño 100 tal que: $\sum X_i = 40$ y 
+Supongamos que observamos una muestra de tamaño $100$ tal que: $\sum X_i = 40$ y 
 $\sum X_i^2 = 20$. 
 
 * Calcula $\hat{\theta}$ usando el método de máxima 
@@ -241,12 +241,12 @@ usar esto para construir intervalos de confianza.
 
 **Ejemplo: Bernoulli**. Supongamos $X_1,...X_n \sim Bernoulli(\theta)$. El 
 estimador de máxima verosimilitud es $\hat{\theta}=\sum X_i/n$ y un intervalo de 
-aproximadamante 95% de confianza es:
+aproximadamante $95\%$ de confianza es:
 $$\hat{\theta} \pm 1.96 \bigg\{\frac{\hat{\theta}(1- \hat{\theta})}{n} \bigg\}^{1/2}$$
 
 <div class="caja">
 **Método delta**. Si $\tau=g(\theta)$ donde $\theta$ consta de únicamente un 
-parámetro, g es diferenciable y $g´(\theta)\neq 0$ entonces
+parámetro, $g$ es diferenciable y $g´(\theta)\neq 0$ entonces
 $$\frac{\sqrt{n}(\hat{\tau}-\tau)}{\hat{se}(\hat{\tau})}\leadsto N(0, 1)$$
 donde $\hat{\tau}=g(\theta)$ y
 
@@ -280,7 +280,7 @@ coeficiente de variación. Estima $\theta$ y su error estándar.
  
 1. Calculamos $\hat{\mu}=1/n \sum{X_i}$ y $\hat{\sigma}=1/n \sum(X_i-\hat{\mu})^2$.
 
-      Repetimos 2 y 3 B veces:
+      Repetimos $2$ y $3$ B veces:
 
 2. Simulamos $X_1^*,...,X_n^*$ con $X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)$.
 
@@ -290,7 +290,7 @@ coeficiente de variación. Estima $\theta$ y su error estándar.
  a) $$\hat{se}_B=\sqrt{\frac{1}{B-1}\sum_{b=1}^B \big(\hat{\theta}^*(b) - \bar{\theta}\big)^2}$$
 
 
-Veamos un ejemplo donde tenemos 200 observaciones con una distribución 
+Veamos un ejemplo donde tenemos $200$ observaciones con una distribución 
 $Normal(10, 5^2)$ y nos interesa estimar $\theta=\sigma/\mu$.
 
 ```{r}
@@ -323,8 +323,8 @@ $$\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}
 1 / sqrt(n) * (1 / mu_hat ^ 4 + sigma_hat ^ 2 / (2 * mu_hat ^ 2)) ^ (1 / 2)
 ```
 
-![](../imagenes/manicule2.jpg) Supongamos que observamos 70 realizaciones de 
-una Bernoulli, de tal manera que observamos 20 éxitos, calcula un intervalo de
+![](../imagenes/manicule2.jpg) Supongamos que observamos $70$ realizaciones de 
+una Bernoulli, de tal manera que observamos $20$ éxitos, calcula un intervalo de
 confianza usando bootstrap y comparalo con el correspondiente usando la 
 información de Fisher.
 
@@ -385,11 +385,11 @@ las ventajas de usar modelos lineales. En lo que sigue supondremos que $X$ es
 unidimensional (como en el ejemplo). 
 
 Dentro de los métodos de expansión de bases estudiaremos los splines. Una 
-función spline está fromada por polinomios de grado k, cada uno definido 
+función spline está fromada por polinomios de grado $k$, cada uno definido 
 sobre un intervalo, y se unen entre sí en los límites de cada intervalo. Los
 lugares donde se unen se conocen como nudos (knots). Antes de proceder 
 entendamos los polinomios por pedazos: un polinomio por pedazos se obtiene 
-dividiendo el dominio de X en intervalos contiguos y representando a $f$ por 
+dividiendo el dominio de $X$ en intervalos contiguos y representando a $f$ por 
 medio de un polinomio en cada intervalo.  Por ejemplo una constante por pedazos:
 
 ```{r, fig.width = 4}
@@ -424,10 +424,10 @@ a restricciones es los parámetros o al uso de bases que incorporen las
 restricciones. Más aún, es conveniente restringir no solo a continuidad de la 
 función sino a continuidad de las derivadas.
 
-Supongamos que decidimos ajustar splines cúbicos a los datos, con 3 nudos 
+Supongamos que decidimos ajustar splines cúbicos a los datos, con $3$ nudos 
 ubicados en los cuartiles de $X$. Esto corresponde a un espacio lineal de 
-funciones, la dimensión del espacio es 7 (4 regiones $\times$ 4 parámetros por
-región - 3 nodos por 3 restricciones por nodo).
+funciones, la dimensión del espacio es $7$ ($4$ regiones $\times$ $4$ parámetros por
+región - $3$ nodos por $3$ restricciones por nodo).
 
 ```{r, fig.width = 4.5}
 library(fda) # paquete con funciones útiles de splines
@@ -445,7 +445,7 @@ base:
 
 $$\mu(x) = \sum_{j=1}^7 \beta_j h_j(x)$$
 
-donde $h_j(x)$ son las 7 funciones que graficamos en la figura superior. Podemos
+donde $h_j(x)$ son las $7$ funciones que graficamos en la figura superior. Podemos
 pensar en $\mu(x)$ como una representación de la media condicional $E(Y|X=x)$.
 
 ```{r}
@@ -453,7 +453,7 @@ H <- eval.basis(x, base)
 head(H)
 ```
 
-Sea H la  matriz de $n \times 7$, donde el elemento $ij$ corresponde a 
+Sea $H$ la  matriz de $n \times 7$, donde el elemento $ij$ corresponde a 
 $h_j(x_i)$. Entonces, el estimador usual de $\beta$ (obtenido minimizando el 
 error cuadrático) esta dado por:
 $$\hat{\beta} = (H^TH)^{-1}H^Ty$$
@@ -499,8 +499,8 @@ for(i in 1:100){
 splines_boot + geom_point(color = "red", alpha = 0.5)
 ```
 
-La gráfica superior muestra 100 replicaciones bootstrap del suavizamiento. 
-Construyamos los intervalos bootstrap, en cada $x$ encontramos el 2.5% más chico 
+La gráfica superior muestra $100$ replicaciones bootstrap del suavizamiento. 
+Construyamos los intervalos bootstrap, en cada $x$ encontramos el $2.5\%$ más chico 
 y más grande.
 
 ```{r, fig.width = 4}
@@ -634,8 +634,8 @@ cruzada. En este caso no hay fórmulas para el cálculo de errores estándar per
 $\theta = e^{\mu}$, crea una base de datos usando $\mu=5$ que consista de $n=100$ 
 observaciones.
 
-* Usa el método delta para estimar $\hat{se}$ y crea un intervalo del 95% de
-confianza. Usa boostrap paramétrico para crear un intervalo del 95%. Usa 
+* Usa el método delta para estimar $\hat{se}$ y crea un intervalo del $95\%$ de
+confianza. Usa boostrap paramétrico para crear un intervalo del $95\%$. Usa 
 bootstrap no paramétrico para crear un intervalo del 95%. Compara tus respuestas.
 
 * Realiza un histograma de replicaciones bootstrap para cada método, estas son
