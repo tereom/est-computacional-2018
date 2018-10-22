@@ -280,7 +280,7 @@ coeficiente de variación. Estima $\theta$ y su error estándar.
  
 1. Calculamos $\hat{\mu}=1/n \sum{X_i}$ y $\hat{\sigma}=1/n \sum(X_i-\hat{\mu})^2$.
 
-      Repetimos 2 y 3 B veces:
+      Repetimos $2$ y $3$, $\ldots$, $B$ veces:
 
 2. Simulamos $X_1^*,...,X_n^*$ con $X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)$.
 
