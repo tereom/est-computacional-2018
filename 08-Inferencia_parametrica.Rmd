@@ -241,12 +241,12 @@ usar esto para construir intervalos de confianza.
 
 **Ejemplo: Bernoulli**. Supongamos $X_1,...X_n \sim Bernoulli(\theta)$. El 
 estimador de máxima verosimilitud es $\hat{\theta}=\sum X_i/n$ y un intervalo de 
-aproximadamante 95% de confianza es:
+aproximadamante $95\%$ de confianza es:
 $$\hat{\theta} \pm 1.96 \bigg\{\frac{\hat{\theta}(1- \hat{\theta})}{n} \bigg\}^{1/2}$$
 
 <div class="caja">
 **Método delta**. Si $\tau=g(\theta)$ donde $\theta$ consta de únicamente un 
-parámetro, g es diferenciable y $g´(\theta)\neq 0$ entonces
+parámetro, $g$ es diferenciable y $g´(\theta)\neq 0$ entonces
 $$\frac{\sqrt{n}(\hat{\tau}-\tau)}{\hat{se}(\hat{\tau})}\leadsto N(0, 1)$$
 donde $\hat{\tau}=g(\theta)$ y
 
