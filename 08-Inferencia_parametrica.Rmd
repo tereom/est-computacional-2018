@@ -375,7 +375,7 @@ La idea básica atrás de **expansión de bases** es aumentar la dimensión del
 espacio de covariables (o predictores) creando variables adicionales que 
 consisten en transformaciones de las variables originales $X$, para luego usar 
 modelos lineales en el espacio aumentado. Si denotamos por $h_m(X)$ la 
-m-ésima transformación de $X$, con $m = 1,...,M$, podemos modelar:
+$m$-ésima transformación de $X$, con $m = 1,...,M$, podemos modelar:
 
 $$f(X)=\sum_{i=1}^M \beta_m h_m(X)$$
 
@@ -385,11 +385,11 @@ las ventajas de usar modelos lineales. En lo que sigue supondremos que $X$ es
 unidimensional (como en el ejemplo). 
 
 Dentro de los métodos de expansión de bases estudiaremos los splines. Una 
-función spline está fromada por polinomios de grado k, cada uno definido 
+función spline está fromada por polinomios de grado $k$, cada uno definido 
 sobre un intervalo, y se unen entre sí en los límites de cada intervalo. Los
 lugares donde se unen se conocen como nudos (knots). Antes de proceder 
 entendamos los polinomios por pedazos: un polinomio por pedazos se obtiene 
-dividiendo el dominio de X en intervalos contiguos y representando a $f$ por 
+dividiendo el dominio de $X$ en intervalos contiguos y representando a $f$ por 
 medio de un polinomio en cada intervalo.  Por ejemplo una constante por pedazos:
 
 ```{r, fig.width = 4}
@@ -409,7 +409,7 @@ ggplot(toy_k, aes(x, y)) +
 
 Debido a que dividimos el dominio en regiones disjuntas, el estimador de 
 mínimos cuadrados para el modelo $f(X)=\sum \beta_m h_m(X)$ es 
-$\hat{\beta_m} = \bar{Y}_m$ la media de $Y$ en cada región con $m=1,2,3,4$.
+$\hat{\beta_m} = \bar{Y}\_m$ la media de $Y$ en cada región con $m=1,2,3,4$.
 
 Ahora ajustamos un polinomio lineal por pedazos:
 
@@ -424,10 +424,10 @@ a restricciones es los parámetros o al uso de bases que incorporen las
 restricciones. Más aún, es conveniente restringir no solo a continuidad de la 
 función sino a continuidad de las derivadas.
 
-Supongamos que decidimos ajustar splines cúbicos a los datos, con 3 nudos 
+Supongamos que decidimos ajustar splines cúbicos a los datos, con $3$ nudos 
 ubicados en los cuartiles de $X$. Esto corresponde a un espacio lineal de 
-funciones, la dimensión del espacio es 7 (4 regiones $\times$ 4 parámetros por
-región - 3 nodos por 3 restricciones por nodo).
+funciones, la dimensión del espacio es $7$ ($4$ regiones $\times$ $4$ parámetros por
+región - $3$ nodos por $3$ restricciones por nodo).
 
 ```{r, fig.width = 4.5}
 library(fda) # paquete con funciones útiles de splines
@@ -445,7 +445,7 @@ base:
 
 $$\mu(x) = \sum_{j=1}^7 \beta_j h_j(x)$$
 
-donde $h_j(x)$ son las 7 funciones que graficamos en la figura superior. Podemos
+donde $h_j(x)$ son las $7$ funciones que graficamos en la figura superior. Podemos
 pensar en $\mu(x)$ como una representación de la media condicional $E(Y|X=x)$.
 
 ```{r}
