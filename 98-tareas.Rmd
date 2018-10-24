@@ -547,7 +547,7 @@ estimación y desviación estándar del coeficiente obtenidas usando summary.
 
 #### Inferencia gráfica {-}
 
-Los datos marg_diabetes incluyen información de marginación y diabetes en 
+Los datos [marg_diabetes](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/marg_diabetes.csv) incluyen información de marginación y diabetes en 
 México: 
 * `ent`, `id_ent`, `mun`, `id_mun`, `cvegeo`: corresponden al estado, municipio 
 y sus códigos de identificación.
@@ -562,6 +562,7 @@ variables, utiliza el protocolo *lineup* para hacer inferencia gráfica.
 
 
 #### Simulación para calcular tamaños de muestra {-}
+
 Supongamos que queremos hacer una encuesta para estimar la proporción de 
 hogares donde se consume refresco de manera regular, para ello se diseña un 
 muestreo por conglomerados donde los conglomerados están dados por conjuntos de
