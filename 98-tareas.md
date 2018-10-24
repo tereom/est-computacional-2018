@@ -702,3 +702,64 @@ anterior) y guarda las realizaciones de $\beta_3$.
 + Calcula la media y desviación estándar de las simulaciones y comparalas con la 
 estimación y desviación estándar del coeficiente obtenidas usando summary.
 
+### 9 - Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.
+
+#### Inferencia gráfica {-}
+
+Los datos marg_diabetes incluyen información de marginación y diabetes en 
+México: 
+* `ent`, `id_ent`, `mun`, `id_mun`, `cvegeo`: corresponden al estado, municipio 
+y sus códigos de identificación.
+* `n_causa` es el número de muertes de adultos mayores a 65 años a causa de
+diabetes en 2015, y `tasa_mun` la tasa correspondiente por cada 10,000 
+habitantes.
+* `tasa_alf` (porcentaje de población alfabeta), `ind_des_hum` (índice de 
+desarrollo humano), `conapo` (índice de marginación).
+
+Utiliza los datos para explorar gráficamente la relación entre algunas de las
+variables, utiliza el protocolo *lineup* para hacer inferencia gráfica.
+
+
+#### Simulación para calcular tamaños de muestra {-}
+Supongamos que queremos hacer una encuesta para estimar la proporción de 
+hogares donde se consume refresco de manera regular, para ello se diseña un 
+muestreo por conglomerados donde los conglomerados están dados por conjuntos de
+hoagres de tal manera que todos los conglomerados tienen el mismo número de 
+hogares. La selección de la muestra se hará en dos etapas:
+    
+1. Seleccionamos $J$ conglomerados de manera aleatoria.
+
+2. En cada conglomerado seleccionames $n/J$ hogares para entrevistar.
+
+El estimador será simplemente el porcentaje de hogares del total 
+de la muestra. Suponemos que la verdadera proporción es cercana a $0.50$ y que 
+la media de la proporción de interés a lo largo de los conglomerados tiene una 
+desviación estándar de $0.1$.
+
+1. Supongamos que la muestra total es de $n=1000$. ¿Cuál es la estimación del 
+error estándar para la proporción estimada si $J=1,10,100,1000$?
+    
+2. El obejtivo es estimar la propoción que consume refresco en la población con 
+un error estándar de a lo más 2%. ¿Que valores de $J$ y $n$ debemos elegir para
+cumplir el objetivo al menor costo?
+Los costos del levantamiento son: 
+    + 50 pesos por encuesta.
+    + 500 pesos por conglomerado
+   
+#### Bootstrap paramétrico {-}
+
+1. Sean $X_1,...,X_n \sim N(\mu, 1)$. Sea $\theta = e^{\mu}$, crea una base de 
+datos usando $\mu=5$ que consista de $n=100$ observaciones.
+
+* Usa el método delta para estimar $\hat{se}$ y crea un intervalo del 95% de
+confianza. Usa boostrap paramétrico para crear un intervalo del 95%. Usa 
+bootstrap no paramétrico para crear un intervalo del 95%. Compara tus respuestas.
+
+* Realiza un histograma de replicaciones bootstrap para cada método, estas son
+estimaciones de la distribución de $\hat{\theta}$. El método delta también nos
+da una aproximación a esta distribución: $Normal(\hat{\theta},\hat{se}^2)$. 
+Comparalos con la verdadera distribución de $\hat{\theta}$ (que puedes obtener 
+vía simulación). ¿Cuál es la aproximación más cercana a la verdadera 
+distribución?
+
+Pista: $se(\hat{\mu}) = 1/\sqrt{n}$
