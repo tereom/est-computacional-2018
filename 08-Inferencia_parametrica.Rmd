@@ -21,6 +21,11 @@ Sean $X_1,...,X_n \sim p(x| \theta)$. Queremos estimar
 $\theta=(\theta_1,...,\theta_k)$. Recordemos que un estimador 
 $$\hat{\theta} = w(X_1,...,X_n)$$ es una función de los datos.
 
+En esta sección recordaremos la estimación de $\theta$ por máxima verosimilitud 
+y algunas de sus propiedades, después introduciremos las ideas de bootstrap 
+paramétrico, y veremos relación con máxima verosimilitud y con bootstrap no 
+paramétrico.
+
 ## Máxima verosimilitud
 
 El método más común para estimar parámetros es el 
