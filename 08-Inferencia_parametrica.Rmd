@@ -147,7 +147,7 @@ sim_sigma_hat <- function(n = 50, mu_sim = 0, sigma_sim = 1){
     sigma_hat <- sqrt(sum((x - mean(x)) ^ 2) / n)
 }
 
-sigma_hats <- rerun(1000, sim_sigma_hat(n = 50, mu_sim = 10, sigma_sim = 5)) %>% 
+sigma_hats <- rerun(1000, sim_sigma_hat(n = 5, mu_sim = 10, sigma_sim = 5)) %>% 
     flatten_dbl()
 
 # aprox normal con media theta y error estándar 
