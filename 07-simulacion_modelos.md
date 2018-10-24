@@ -977,198 +977,18 @@ sim_fit_88@sigma[1:10]
 #>  [1] 0.0812 0.0799 0.0747 0.0751 0.0807 0.0815 0.0760 0.0766 0.0804 0.0790
 ```
 
-
-## Simulación para evaluar el ajuste del modelo
-La simulación de *datos falsos* (*fake data*) o datos replicados se puede usar 
-para explorar las implicaciones del modelo ajustado. En este ejemplo buscamos
-comparar datos simulados bajo el modelo ajustado con los datos observados.
-
-#### Ejemplo: modelo Poisson con sobreabundancia de ceros
-
-Se busca estudiar el efecto de pesticidas en el control de cucarachas en 
-departamentos urbanos. Se realiza un experimento deonde se dividen los 
-departamentos en:
-
-* grupo de tratamiento (160 deptos.) y
-* grupo de control (104 deptos.). 
-
-En cada departamento se mide el número de cucarachas atrapadas $y_i$ en un 
-conjunto de trampas. Distintos departamentos tuvieron trampas un 
-número distinto de días, y denotamos por $u_i$ el número de días-trampa en el 
-i-ésimo departamento. Se propone el siguiente modelo: 
-
-$$y_i \sim Poisson(u_iexp(X\beta))$$
-donde X reprersenta variables explicativas (predictores), en este caso, 
-consisten en el nivel de cucarachas antes del tratamiento (roach1), una variable
-binaria indicando si se aplica insecticida en el departamento (treatment) y una
-variable binaria indicando si el edificio es de personas mayor (senior). En R el
-modelo se ajusta como sigue:
-
-
-```r
-library(arm)
-roachdata <- read.csv("data/roachdata.csv", stringsAsFactors = FALSE)
-#> Warning in file(file, "rt"): cannot open file 'data/roachdata.csv': No such
-#> file or directory
-#> Error in file(file, "rt"): cannot open the connection
-glm_1 <- glm(y ~ roach1 + treatment + senior, family = poisson, 
-  offset = log(exposure2), data = roachdata)
-#> Error in is.data.frame(data): object 'roachdata' not found
-display(glm_1)
-#> Error in display(glm_1): object 'glm_1' not found
-```
-
-¿Qué tan bien se ajusta el modelo a los datos? Para responder esta pregunta
-simularemos del modelo.
-
-
-```r
-X <- model.matrix(~ roach1 + treatment + senior, family = poisson, 
-  data = roachdata)
-#> Error in terms.formula(object, data = data): object 'roachdata' not found
-n <- nrow(X)
-simula_modelo <- function(n_sims = 19, ajuste){
-    # simulamos los coeficientes del modelo
-    betas <- coef(sim(ajuste, n_sims))
-    # calculamos ui*exp(Xb)
-    y_hat <- roachdata$exposure2 * exp(X %*% t(betas))
-    # creamos una lista con las y_hat de cada simulación
-    y_hat_list <- split(y_hat, rep(1:ncol(y_hat), each = nrow(y_hat)))
-    # simulamos observaciones
-    y_sims <- map_df(y_hat_list, ~rpois(n, .))
-    y_sims_df <- bind_cols(X = 1:n, y_sims) %>% 
-        gather(sim, y, -X) 
-    # código para esconder los datos
-    codigo <- sample(1:(n_sims + 1), n_sims + 1)
-    sims_datos <- y_sims_df %>% 
-        bind_rows(dplyr::select(roachdata, X, y)) %>% 
-        mutate(sample = rep(codigo, each = n))
-    list(sims_datos = sims_datos, y_sims_df = y_sims_df,
-        codigo = codigo[n_sims + 1])
-}
-
-sim_1 <- simula_modelo(n_sims = 9, glm_1)
-#> Error in sim(ajuste, n_sims): object 'glm_1' not found
-ggplot(sim_1$sims_datos, aes(x = y)) +
-    geom_histogram(binwidth = 3) + 
-    xlim(0, 40) +
-    facet_wrap(~ sample, nrow = 2)
-#> Error in ggplot(sim_1$sims_datos, aes(x = y)): object 'sim_1' not found
-# los datos están en sim_1$codigo
-```
-
-
-* ¿En que se diferencían los datos observados de los simulados?
-
-Comparemos el número de ceros de los datos observados y el primer conjunto de
-datos simulados:
-
-
-```r
-mean(roachdata$y == 0)
-#> Error in mean(roachdata$y == 0): object 'roachdata' not found
-mean(sim_1$sims_datos$y == 0)
-#> Error in mean(sim_1$sims_datos$y == 0): object 'sim_1' not found
-```
-
-Vemos que el 36% de los datos observados hay ceros mientras que en los
-datos replicados el porcentaje de ceros es cercano a cero.
-
-Podemos pensar en la proporción de ceros como una estadística de prueba,
-simulamos 1000 conjuntos de datos y calculamos la proporción de ceros:
-
-
-```r
-sim_2 <- simula_modelo(1000, glm_1)
-#> Error in sim(ajuste, n_sims): object 'glm_1' not found
-# calculamos el porcentaje de ceros en cada conjunto simulado
-sims_p_ceros <- sim_2$y_sims_df %>% 
-    group_by(sim) %>% 
-    summarise(p_ceros = mean(y == 0))
-#> Error in eval(lhs, parent, parent): object 'sim_2' not found
-min(sims_p_ceros$p_ceros)
-#> Error in eval(expr, envir, enclos): object 'sims_p_ceros' not found
-max(sims_p_ceros$p_ceros)
-#> Error in eval(expr, envir, enclos): object 'sims_p_ceros' not found
-```
-
-Vemos que en el porcentaje de ceros varía entre 0 y 0.008, todos ellos
-mucho menores a la estadística de prueba $0.36$.
-
-Ahora veamos que ocurre si ajustamos un modelo Poisson con sobredispersión.
-
-
-```r
-glm_2 <- glm(y ~ roach1 + treatment + senior, family = quasipoisson, 
-  offset = log(exposure2), data = roachdata)
-#> Error in is.data.frame(data): object 'roachdata' not found
-display(glm_2)
-#> Error in display(glm_2): object 'glm_2' not found
-
-simula_modelo <- function(n_sims = 19, ajuste){
-    # simulamos los coeficientes del modelo
-    betas <- coef(sim(ajuste, n_sims))
-    # calculamos ui*exp(Xb)
-    y_hat <- roachdata$exposure2 * exp(X %*% t(betas))
-    # creamos una lista con las y_hat de cada simulación
-    y_hat_list <- split(y_hat, rep(1:ncol(y_hat), each = nrow(y_hat)))
-    # simulamos observaciones
-    y_sims <- map_df(y_hat_list, ~rnegbin(n, ., . / (65.4 - 1)))
-    y_sims_df <- bind_cols(X = 1:n, y_sims) %>% 
-        gather(sim, y, -X) 
-    # código para esconder los datos
-    codigo <- sample(1:(n_sims + 1), n_sims + 1)
-    sims_datos <- y_sims_df %>% 
-        bind_rows(dplyr::select(roachdata, X, y)) %>% 
-        mutate(sample = rep(codigo, each = n))
-    list(sims_datos = sims_datos, y_sims_df = y_sims_df, codigo = codigo[n_sims + 1])
-}
-
-sim_2 <- simula_modelo(n_sims = 9, glm_2)
-#> Error in sim(ajuste, n_sims): object 'glm_2' not found
-ggplot(sim_2$sims_datos, aes(x = y)) +
-    geom_histogram(binwidth = 3) + 
-    xlim(0, 40) +
-    facet_wrap(~ sample, nrow = 2)
-#> Error in ggplot(sim_2$sims_datos, aes(x = y)): object 'sim_2' not found
-```
-
-El panel que corresponde a los datos es: 
-
-
-```r
-sim_2$codigo
-#> Error in eval(expr, envir, enclos): object 'sim_2' not found
-```
-
-Podemos comparar el número de ceros.
-
-
-```r
-sim_1000 <- simula_modelo(1000, glm_2)
-#> Error in sim(ajuste, n_sims): object 'glm_2' not found
-# calculamos el porcentaje de ceros en cada conjunto simulado
-sims_p_ceros <- sim_1000$y_sims_df %>% 
-    group_by(sim) %>% 
-    summarise(p_ceros = mean(y == 0))
-#> Error in eval(lhs, parent, parent): object 'sim_1000' not found
-mean(sims_p_ceros$p_ceros >= 0.36)
-#> Error in mean(sims_p_ceros$p_ceros >= 0.36): object 'sims_p_ceros' not found
-```
-
-En este caso el 19% de los datos muestran una proporción de ceros al menos
-tan alta como la observada.
-
-La simulación de datos *falsos* no debe ser la única herramienta para evaluar 
-el ajuste de un modelo; sin embargo, es una herramienta útil que nos puede 
-ayudar a detectar desajustes y en caso de revelarlos nos da indicios de porque 
-falla el modelo.
-
 ## Inferencia visual
 
 Las gráficas nos ayudan a descubrir patrones, a diferencia de los modelos las
 gráficas nos pueden sorprender y podemos entender relaciones en las variables
 que de otra manera sería difícil.
+
+La siguiente gráfica muestra las tasas de mortalidad por diabetes para mayores
+de 75 años. Usamos las siguientes fuentes:
+
+* INEGI - [México estadísticas vitales, defunciones generales y fetales 2015](http://www3.inegi.org.mx/rnm/index.php/catalog/231).
+
+* CONAPO - [Estimaciones y proyecciones de la población, datos descargados de CONAPO](http://www.conapo.gob.mx/es/CONAPO/Proyecciones_Datos).
 
 
 
@@ -1180,7 +1000,9 @@ que de otra manera sería difícil.
 #### Apofenia {-}
 
 El _ímpetu por concluir_ (*rage-to-conclude bias*, Tufte) nos hace ver patrones 
-en datos donde no existen dichos patrones. 
+en datos donde no existen dichos patrones. Esto puede conllevar a inferencias 
+prematuras, el análisis estadístico busca alinear la realidad en la evidencia 
+con la inferencia que se realiza a partir de dicha evidencia.
 
 <img src="imagenes/apofenia.png" alt="drawing" width="500px" class="center-image"/>
 
@@ -1205,6 +1027,10 @@ de la media).
 
 En el caso de inferencia visual **las estadísticas son las gráficas**.
 
+Las referencias de esta sección son los artículos @infovis, @graphical-tests, 
+@buja, la discusión en el sitio de Tufte, E. [Making better inferences from statistical graphics](http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0003wa) y 
+la presentación de Cook, D. [To the tidyverse and beyond: Challenges to the future of data science](http://www.dicook.org/files/rstudio/#1).
+
 ### Protocolos de inferencia visual {-}
 
 * **Rorschach**. Antes de observar los datos, grafica una serie de datos nulos, 
@@ -1216,11 +1042,12 @@ y pregunta a un tercero si puede identificar los datos reales. Si eligen la
 gráfica con los datos *verdaderos* tenemos evidencia de que los datos tienen 
 estructura que es significativamente diferente a lo que esperaríamos por azar.
 
-![](imagenes/waldo.jpg)
 
 
 #### Datos nulos {-}
-Para generar datos nulos podemos usar un método no paramétrico o uno paramétrico.
+
+Para generar datos nulos podemos usar un método no paramétrico o uno 
+paramétrico.
 
 * **Permutación**: Seleccionamos una de las columnas de los datos de interés
 y permutamos los valores.
@@ -1229,6 +1056,7 @@ y permutamos los valores.
 de esta. 
 
 #### Calibración con Rorschach {-}
+
 La siguiente imagen proviene de un escrito de Edmond Murphy que en 1964 escribió
 sobre la dudosa inferencia de mecanismos causales a partir de la observación de 
 una distribución bimodal (Edward Tufte, *The Visual Display of Quantitative 
@@ -1238,9 +1066,9 @@ Information*, p. 169):
 
 
 #### Ejemplo: Estaturas {-}
+
 Estaturas de hombres y mujeres. Supongamos que nos interesa describir de manera 
 simple los datos, independientemente de si se trata de un hombre o una mujer.
-
 
 
 ```
@@ -1256,14 +1084,14 @@ glimpse(singer_g)
 #> $ height <dbl> 163, 157, 168, 165, 152, 155, 165, 168, 165, 160, 170, ...
 ```
 
-*Suponemos que la estatura es una medición que se distribuye aproximadamente 
+* Suponemos que la estatura es una medición que se distribuye aproximadamente 
 normal con media 171 cm y desviación estándar 10 cm. ¿Es razonable esta 
 descripción?*
 
-## Lineup
-
-Hacemos 19 simulaciones bajo el modelo $N(\mu, \sigma^2)$ ¿Captura este modelo 
-las características observadas?
+Una manera de probar que tan buena es esta descripción es considerando qué es 
+lo que veríamos si el modelo es el que acabamos de mencionar, para esto 
+hacemos 19 simulaciones bajo el modelo $N(\mu, \sigma^2)$ y las comparamos con 
+los datos observados. ¿Captura este modelo las características observadas?
 
 
 ```r
@@ -1284,7 +1112,7 @@ ggplot(sing_null, aes(x = gender, y = height)) +
 El poder distinguir los datos provee evidencia estadística rigurosa de que hay 
 diferencia.
 
-## Pruebas de hipótesis típicas
+### Pruebas de hipótesis típicas {-}
 Antes de proseguir recordemos los conceptos de prueba de hipótesis:
 
 1. Hipótesis nula ($H_0$): hipótesis que se desea contrastar, describe la 
@@ -1329,10 +1157,9 @@ Y rechazamos si $t$ es menor/mayor al valor crítico $t^*$.
 
 
 ```r
-t_star <- qt(0.025, n_h + n_m -2)
-#> Error in qt(0.025, n_h + n_m - 2): object 'n_h' not found
+t_star <- qt(0.025, n_f + n_m -2)
 t_star
-#> Error in eval(expr, envir, enclos): object 't_star' not found
+#> [1] -1.97
 ```
 
 **Datos nulos:** ¿Cómo se ven los *inocentes*?
@@ -1344,12 +1171,18 @@ ggplot(nulos, aes(x = t)) +
     geom_histogram(color = "darkgray", fill = "darkgray") +
     geom_vline(xintercept = c(t_star, -t_star), color = "red", 
         alpha = 0.5) 
-#> Error in data.frame(xintercept = xintercept): object 't_star' not found
+#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-¿Cómo calculamos el valor-p? 
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-29-1.png" width="250px" />
 
-#### Inferencia visual {-}
+Notamos que el valor obtenido con nuestros datos está en las colas de la 
+distribución, es decir, es muy poco plausible observar un valor tan bajo como 
+el que obtenemos bajo la hipótesis nula. ¿Cómo calculamos el valor-p con 
+simulación?
+
+
+### Inferencia visual {-}
 
 Los principios de pruebas de hipótesis son los mismos para pruebas visuales, 
 a excepción de dos aspectos: la estadística de prueba y el mecanismo para 
@@ -1377,15 +1210,6 @@ de manera aleatoria.
 verdadera (valor p = 1/n).
 </div>
 
-#### ¿Porqué pruebas visuales? {-}
-
-En el ejemplo de estaturas se pueden utilizar pruebas estadísticas tradicionales, 
-sin embargo, estas pruebas no cubren todas las complejidades que pueden surgir 
-en una exploración de datos.
-
-El siguiente es un *lineup* de nubes de palabras tomado de [Graphical Inference for Infovis](http://stat.wharton.upenn.edu/~buja/PAPERS/Wickham-Cook-Hofmann-Buja-IEEE-TransVizCompGraphics_2010-Graphical%20Inference%20for%20Infovis.pdf).
-
-![](imagenes/wordcloud.png)
 
 #### Regresando a estaturas {-}
 
@@ -1431,6 +1255,7 @@ ggplot(sing_null_c, aes(x = gender, y = height_c)) +
         size = 0.8, alpha = 0.5)
 #> Error in ggplot(sing_null_c, aes(x = gender, y = height_c)): object 'sing_null_c' not found
 ```
+
 #### El paquete nullabor {-}
 
 `null_dist`: Simula dada una distribución particular: Beta, Cauchy, Exponencial, 
@@ -1440,9 +1265,17 @@ Poisson,...
 
 `null_permute`: Utiliza permutación, la variable es independiente de las otras.
 
-Si se desea extender a otros modelos el artículo [Supplementary Material for “Statistical
-Inference for Exploratory Data Analysis
-and Model Diagnostics"](http://stat.wharton.upenn.edu/~buja/PAPERS/06-Buja-Cook-Hofmann-Lawrence-Lee-Swayne-Wickham-suppl.pdf) explica algunas consideraciones para generar datos nulos.
+
+#### ¿Porqué pruebas visuales? {-}
+
+En el ejemplo de estaturas se pueden utilizar pruebas estadísticas tradicionales, 
+sin embargo, estas pruebas no cubren todas las complejidades que pueden surgir 
+en una exploración de datos.
+
+El siguiente es un *lineup* de nubes de palabras tomado de [Graphical Inference for Infovis](http://stat.wharton.upenn.edu/~buja/PAPERS/Wickham-Cook-Hofmann-Buja-IEEE-TransVizCompGraphics_2010-Graphical%20Inference%20for%20Infovis.pdf).
+
+![](imagenes/wordcloud.png)
+
 
 
 #### Diagramas de dispersión {-}
@@ -1454,8 +1287,8 @@ queremos usar preubas visuales para esta hipótesis, la función _null\_permute_
 del paquete nullabor recibe el nombre de una variable de los datos y la salida
 de la funcción consiste en la variable permutada para obtener los datos nulos.
 
-![](../imagenes/manicule2.jpg) En este ejercicio usarás los datos diamonds, toma
-una muestra de tamaño 5000 (sin reemplazo) y procede como se indica:
+![](imagenes/manicule2.jpg) En este ejercicio usarás los datos `diamonds`, 
+toma una muestra de tamaño 5000 (sin reemplazo) y procede como se indica:
 
 * Usa la función null_permute para crear una nueva base de datos con la variable
 depth permutada en los datos nulos.
@@ -1468,6 +1301,7 @@ relación entre depth y carat.
 * Explora ahora precio y carat.
 
 ### Más allá que permutación {-}
+
 En muchos casos el supuesto de independencia es demasiado fuerte, es claro que
 las variables están relacionadas y queremos estudiar una relación particular.
 Por ejemplo, podemos pensar que los intentos de encestar a tres puntos en el 
@@ -1526,6 +1360,214 @@ la hipótesis de una relación cuadrática, los conjuntos nulos se crean ajustan
 el modelo, produciendo predicciones y residuales y sumando los residuales 
 rotados a las predicciones.
 
+En el siguiente ejemplo buscamos usar el protocolo *lineup* para evauar
+el ajuste de un modelo, en este caso no usaremos el paquete `nullabor` sino que
+simularemos directamente del modelo.
+
+#### Ejemplo: modelo Poisson con sobreabundancia de ceros {-}
+
+Las ideas detrás de inferencia visual para diagnósticos de modelos son comunes
+en estadística bayesiana, y se pueden extender a la estimación frecuentista 
+usando lo que aprendimos en la sección de simulación de modelos probabilísticos.
+
+En este contexto se conoce como simulación de *datos falsos* (*fake data*) o 
+datos replicados y buscamos comparar datos simulados bajo el 
+modelo ajustado con los datos observados.
+
+Problema: se busca estudiar el efecto de pesticidas en el control de cucarachas 
+en departamentos urbanos. Se realiza un experimento deonde se dividen los 
+departamentos en:
+
+* grupo de tratamiento (160 deptos.) y
+* grupo de control (104 deptos.). 
+
+En cada departamento se mide el número de cucarachas atrapadas $y_i$ en un 
+conjunto de trampas. Distintos departamentos tuvieron trampas un 
+número distinto de días, y denotamos por $u_i$ el número de días-trampa en el 
+i-ésimo departamento. Se propone el siguiente modelo: 
+
+$$y_i \sim Poisson(u_iexp(X\beta))$$
+
+donde X reprersenta variables explicativas (predictores), en este caso, 
+consisten en el nivel de cucarachas antes del tratamiento (roach1), una variable
+binaria indicando si se aplica insecticida en el departamento (treatment) y una
+variable binaria indicando si el edificio es de personas mayor (senior). En R el
+modelo se ajusta como sigue:
+
+
+```r
+library(arm)
+roachdata <- read.csv("data/roachdata.csv", stringsAsFactors = FALSE)
+glm_1 <- glm(y ~ roach1 + treatment + senior, family = poisson, 
+  offset = log(exposure2), data = roachdata)
+display(glm_1)
+#> glm(formula = y ~ roach1 + treatment + senior, family = poisson, 
+#>     data = roachdata, offset = log(exposure2))
+#>             coef.est coef.se
+#> (Intercept)  3.09     0.02  
+#> roach1       0.01     0.00  
+#> treatment   -0.52     0.02  
+#> senior      -0.38     0.03  
+#> ---
+#>   n = 262, k = 4
+#>   residual deviance = 11429.5, null deviance = 16953.7 (difference = 5524.2)
+```
+
+¿Qué tan bien se ajusta el modelo a los datos? Para responder esta pregunta
+simularemos del modelo.
+
+
+```r
+X <- model.matrix(~ roach1 + treatment + senior, family = poisson, 
+  data = roachdata)
+n <- nrow(X)
+simula_modelo <- function(n_sims = 19, ajuste){
+    # simulamos los coeficientes del modelo
+    betas <- coef(sim(ajuste, n_sims))
+    # calculamos ui*exp(Xb)
+    y_hat <- roachdata$exposure2 * exp(X %*% t(betas))
+    # creamos una lista con las y_hat de cada simulación
+    y_hat_list <- split(y_hat, rep(1:ncol(y_hat), each = nrow(y_hat)))
+    # simulamos observaciones
+    y_sims <- map_df(y_hat_list, ~rpois(n, .))
+    y_sims_df <- bind_cols(X = 1:n, y_sims) %>% 
+        gather(sim, y, -X) 
+    # código para esconder los datos
+    codigo <- sample(1:(n_sims + 1), n_sims + 1)
+    sims_datos <- y_sims_df %>% 
+        bind_rows(dplyr::select(roachdata, X, y)) %>% 
+        mutate(sample = rep(codigo, each = n))
+    list(sims_datos = sims_datos, y_sims_df = y_sims_df,
+        codigo = codigo[n_sims + 1])
+}
+
+sim_1 <- simula_modelo(n_sims = 9, glm_1)
+ggplot(sim_1$sims_datos, aes(x = y)) +
+    geom_histogram(binwidth = 3) + 
+    xlim(0, 40) +
+    facet_wrap(~ sample, nrow = 2)
+#> Warning: Removed 322 rows containing non-finite values (stat_bin).
+```
+
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-36-1.png" width="576" />
+
+```r
+# los datos están en sim_1$codigo
+```
+
+* ¿En que se diferencían los datos observados de los simulados?
+
+Comparemos el número de ceros de los datos observados y el primer conjunto de
+datos simulados:
+
+
+```r
+mean(roachdata$y == 0)
+#> [1] 0.359
+mean(sim_1$sims_datos$y == 0)
+#> [1] 0.0374
+```
+
+Vemos que el 36% de los datos observados hay ceros mientras que en los
+datos replicados el porcentaje de ceros es cercano a cero.
+
+Podemos pensar en la proporción de ceros como una estadística de prueba,
+simulamos 1000 conjuntos de datos y calculamos la proporción de ceros:
+
+
+```r
+sim_2 <- simula_modelo(1000, glm_1)
+# calculamos el porcentaje de ceros en cada conjunto simulado
+sims_p_ceros <- sim_2$y_sims_df %>% 
+    group_by(sim) %>% 
+    summarise(p_ceros = mean(y == 0))
+min(sims_p_ceros$p_ceros)
+#> [1] 0
+max(sims_p_ceros$p_ceros)
+#> [1] 0.00763
+```
+
+Vemos que en el porcentaje de ceros varía entre 0 y 0.008, todos ellos
+mucho menores a la estadística de prueba $0.36$.
+
+Ahora veamos que ocurre si ajustamos un modelo Poisson con sobredispersión.
+
+
+```r
+glm_2 <- glm(y ~ roach1 + treatment + senior, family = quasipoisson, 
+  offset = log(exposure2), data = roachdata)
+display(glm_2)
+#> glm(formula = y ~ roach1 + treatment + senior, family = quasipoisson, 
+#>     data = roachdata, offset = log(exposure2))
+#>             coef.est coef.se
+#> (Intercept)  3.09     0.17  
+#> roach1       0.01     0.00  
+#> treatment   -0.52     0.20  
+#> senior      -0.38     0.27  
+#> ---
+#>   n = 262, k = 4
+#>   residual deviance = 11429.5, null deviance = 16953.7 (difference = 5524.2)
+#>   overdispersion parameter = 65.4
+
+simula_modelo <- function(n_sims = 19, ajuste){
+    # simulamos los coeficientes del modelo
+    betas <- coef(sim(ajuste, n_sims))
+    # calculamos ui*exp(Xb)
+    y_hat <- roachdata$exposure2 * exp(X %*% t(betas))
+    # creamos una lista con las y_hat de cada simulación
+    y_hat_list <- split(y_hat, rep(1:ncol(y_hat), each = nrow(y_hat)))
+    # simulamos observaciones
+    y_sims <- map_df(y_hat_list, ~rnegbin(n, ., . / (65.4 - 1)))
+    y_sims_df <- bind_cols(X = 1:n, y_sims) %>% 
+        gather(sim, y, -X) 
+    # código para esconder los datos
+    codigo <- sample(1:(n_sims + 1), n_sims + 1)
+    sims_datos <- y_sims_df %>% 
+        bind_rows(dplyr::select(roachdata, X, y)) %>% 
+        mutate(sample = rep(codigo, each = n))
+    list(sims_datos = sims_datos, y_sims_df = y_sims_df, codigo = codigo[n_sims + 1])
+}
+
+sim_2 <- simula_modelo(n_sims = 9, glm_2)
+ggplot(sim_2$sims_datos, aes(x = y)) +
+    geom_histogram(binwidth = 3) + 
+    xlim(0, 40) +
+    facet_wrap(~ sample, nrow = 2)
+#> Warning: Removed 492 rows containing non-finite values (stat_bin).
+```
+
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-39-1.png" width="576" />
+
+El panel que corresponde a los datos es: 
+
+
+```r
+sim_2$codigo
+#> [1] 10
+```
+
+Podemos comparar el número de ceros.
+
+
+```r
+sim_1000 <- simula_modelo(1000, glm_2)
+# calculamos el porcentaje de ceros en cada conjunto simulado
+sims_p_ceros <- sim_1000$y_sims_df %>% 
+    group_by(sim) %>% 
+    summarise(p_ceros = mean(y == 0))
+mean(sims_p_ceros$p_ceros >= 0.36)
+#> [1] 0.163
+```
+
+En este caso el 19% de los datos muestran una proporción de ceros al menos
+tan alta como la observada.
+
+La simulación de datos *falsos* no debe ser la única herramienta para evaluar 
+el ajuste de un modelo; sin embargo, es una herramienta útil que nos puede 
+ayudar a detectar desajustes y en caso de revelarlos nos da indicios de porque 
+falla el modelo.
+
+
 ### Otras consideraciones {-}
 
 **Potencia**
@@ -1536,7 +1578,7 @@ hipótesis nula cuando esta es falsa.
 * En el caso de pruebas visuales la potencia depende de la calidad de la 
 gráfica.
 
-* Se ha estudiado la potencia de las pruebas [Validation of Visual Statistical Inference, Applied to Linear Models](http://www.tandfonline.com/doi/abs/10.1080/01621459.2013.808157).
+* Se ha estudiado la potencia de las pruebas, @majumder, y se ha visto .
 
 * El paquete `nullabor` incluye la función `visual_power()` para calcular 
 el poder de una prueba simulada.
@@ -1551,11 +1593,18 @@ $0.05^K$
 * El paquete `nullabor` tiene una función para calcular el valor p de una 
 prueba dada `pvisual()`.
 
-### Cálculos de poder estadístico
+Las pruebas de hipótesis visuales, no son la única herramienta que se debe usar 
+para evaluar un modelo, por lo que no debemos descartar un modelo basados 
+únicamente en una prueba visual. Sin embargo, las pruebas visuales y en general
+graficar los modelos ajustados, si son una herramienta útil que nos puede ayudar 
+a comprender las implicaciones de un modelo y las fallas del mismo.
+
+## Simulación para cálculo de tamaño de muestra/poder estadístico
 
 Cuando se esta diseñando un estudio se determina la precisión en las inferencias 
-que se desea, y esto determina el tamaño de muestra que se tomará. Usualmente se
-fija uno de los siguientes dos objetivos:
+que se desea, y esto (junto con algunos supuestos de la población) determina el 
+tamaño de muestra que se tomará. Usualmente se fija uno de los siguientes dos 
+objetivos:
 
 1. Se determina el error estándar de un parámetro o cantidad de interés. Por 
 ejemplo, en encuestas electorales es típico reportar *los resultados de esta 
@@ -1564,28 +1613,29 @@ cúantas personas se debe entrevistar para lograr esto?
 
 2. Se determina la probabilidad de que un estadístico determinado sea 
 *estadísticamente significativo*. Por ejemplo, cuando se hacen ensayos clínicos
-se determina un tamaño de muestra para que con probabilidad de x% se detecte
+se determina un tamaño de muestra para que con probabilidad de $x$% se detecte
 una diferencia clinicamente relevante con el nuevo tratamiento (si es que este 
 es efectivo).
 
 En cualquiera de estos dos escenarios se necesita hacer supuestos para poder 
 calcular el tamaño de muestra.
 
-#### Tamaño de muestra para un error estándar determinado
+#### Tamaño de muestra para un error estándar determinado {-}
+
 Supongamos que queremos estimar el porcentaje de la población que 
 apoya la pena de muerte. Sospechamos que la proporción es 60%, imaginemos
 que queremos una precisión (error estándar) de a lo más 0.05, o 5 puntos 
 porcentuales. Bajo muestreo aleatorio simple, para una muestra de tamaño $n$, 
 el error estándar de la proporción $p$ es 
 $$\sqrt{p(1-p)/n}$$
-Sustituyendo nuestra expectativa $p = 0.60$ llegamos a que el error estándar sería
-$0.49/\sqrt{n}$, de tal manera que si queremos $se(p) \le 0.05$ necesitamos $n>96$, 
-en el caso de proporciones es fácil determinar el tamaño de muestra de manera 
-conservadora pues basta con suponer $p = 0.5$.
+Sustituyendo nuestra expectativa $p = 0.60$ llegamos a que el error estándar 
+sería $0.49/\sqrt{n}$, de tal manera que si queremos $se(p) \le 0.05$ 
+necesitamos $n>96$, en el caso de proporciones es fácil determinar el tamaño de 
+muestra de manera conservadora pues basta con suponer $p = 0.5$.
 
 
 ```r
-se_fun_n <- function(n, p) sqrt(p * (1-p) / n)
+se_fun_n <- function(n, p) sqrt(p * (1 - p) / n)
 
 xy <- data.frame(x = 20:220, y = seq(0, 1, 0.005))
 ggplot(xy, aes(x = x, y = y)) +
@@ -1599,11 +1649,12 @@ ggplot(xy, aes(x = x, y = y)) +
         alpha = 0.3, linetype = "longdash")
 ```
 
-<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-42-1.png" width="432" />
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-42-1.png" width="350px" />
 
-Cómo calcularíamos el tamaño de muestra simulando? Este caso es trivial calcular
-pero conforme se aumenta complejidad en el diseño de la muestra o en el estadístico
-de interés también se complica encontrar una solución analítica.
+Cómo calcularíamos el tamaño de muestra simulando? En este caso es trivial 
+calcular de manera analítica pero conforme se aumenta complejidad en el diseño 
+de la muestra o en el estadístico de interés también se complica encontrar una 
+solución analítica.
 
 
 ```r
@@ -1613,9 +1664,9 @@ sim_p_hat <- function(n, p, n_sims = 1000){
     data_frame(n = n, se_p_hat = se_p_hat, p = p)
 }
 
-sims_.7 <- map_df(seq(20, 220, 10), ~sim_p_hat(n = ., p = 0.7))
-sims_.5 <- map_df(seq(20, 220, 10), ~sim_p_hat(n = ., p = 0.5))
-sims_.9 <- map_df(seq(20, 220, 10), ~sim_p_hat(n = ., p = 0.9))
+sims_.7 <- map_df(seq(20, 220, 5), ~sim_p_hat(n = ., p = 0.7))
+sims_.5 <- map_df(seq(20, 220, 5), ~sim_p_hat(n = ., p = 0.5))
+sims_.9 <- map_df(seq(20, 220, 5), ~sim_p_hat(n = ., p = 0.9))
 sims <- bind_rows(sims_.7, sims_.5, sims_.9)
 
 ggplot(sims, aes(x = n, y = se_p_hat, color = factor(p), group = p)) +
@@ -1628,20 +1679,21 @@ ggplot(sims, aes(x = n, y = se_p_hat, color = factor(p), group = p)) +
 #> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-43-1.png" width="432" />
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-43-1.png" width="350px" />
 
 
-#### Tamaño de muestra determinado para obtener significancia estadística con una probabilidad determinada
+#### Tamaño de muestra determinado para obtener significancia estadística con una probabilidad determinada {-}
 Supongamos que nuestro objetivo es demostrar que más de la mitad de la población 
 apoya la pena de muerte, esto es $p>0.5$, nuevamente tenemos la hipótesis que el 
 verdadero valor es $p=0.6$. 
 
-Un prueba de potencia típica tiene un poder de 80%, es decir nos gustaría seleccionar
-$n$ tal que 80% de los intervalos construidos con 95% de confianza no incluyan 0.5.
-Para encontrar la $n$ tal que el 80% de las estimaciones estén al menos, 1.96
-errores estándar por encima de 0.5 necesitamos que:
+Una prueba de potencia típica tiene un poder de $80$%, es decir nos gustaría 
+seleccionar $n$ tal que el $80$% de los intervalos construidos con $95$% de 
+confianza no incluyan $0.5$. Para encontrar la $n$ tal que el $80$% de las 
+estimaciones estén al menos, $1.96$ errores estándar por encima de $0.5$ 
+necesitamos que:
 
-$$0.5 + 1.96 se = 0.6 - 0.84 se$$
+$$0.5 + 1.96 se \le 0.6 - 0.84 se$$
 
 Sustituyendo $se = 0.5/\sqrt(n)$ obtenemos $n=196$
 
@@ -1655,22 +1707,24 @@ sim_potencia <- function(n, p, n_sims = 1000){
     acepta <- (sim_muestra / n - 1.96 * se_p_hat) > 0.5
     data_frame(n = n, potencia = mean(acepta))
 }
-sims <- map_df(c(2, 10, 50, 80, 100, 150, 200, 300, 500), ~sim_potencia(n = ., p = 0.6))
+sims <- map_df(c(2, 10, 50, 80, 100, 150, 200, 300, 500), 
+    ~sim_potencia(n = ., p = 0.6))
 
 ggplot(sims) +
     geom_line(aes(x = n, y = potencia)) +
     geom_hline(yintercept = 0.8, color = "red", alpha = 0.5)
 ```
 
-<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-44-1.png" width="384" />
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-44-1.png" width="350px" />
 
 
-Veamos un ejemplo más interesante, tenemos medidas del sistema inmune (porcentaje de CD4 en 
-transformado con raíz cuadrada) de niños VIH positivos a lo largo de un periodo 
-de 2 años. Las series de tiempo se ajustan de manera razonable con un modelo de
-intercepto y pendiente variable:
+Veamos un ejemplo más interesante, tenemos medidas del sistema inmune 
+(porcentaje de CD4 transformado con raíz cuadrada) de niños VIH positivos a lo 
+largo de un periodo de 2 años. Las series de tiempo se ajustan de manera 
+razonable con un modelo de intercepto y pendiente variable:
 
 $$y_i \sim N(\alpha_{j[i]} + \beta_{j[i]}t_i, \sigma^2_y)$$
+
 donde $i$ indexa las mediciones tomadas al tiempo $i$ en el individuo $j[i]$. 
 
 
@@ -1696,7 +1750,7 @@ ggplot(cd4, aes(x = time, y = y, group = person)) +
     geom_line(alpha = 0.5)
 ```
 
-<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-46-1.png" width="316.8" />
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-46-1.png" width="350px" />
 
 Veamos un ajuste usando la función `lmer()` del paquete `lme4`.
 
@@ -1720,24 +1774,22 @@ fit_cd4
 ```
 
 
-Notamos que las tendencias sobre el tiempo $\beta$ tienen un promedio estimado en 
--0.5 con desviación estándar de 0.7, es decir, estimamos que la mayoría de los 
-niños tienen niveles de CD4 decrecientes, pero no todos.
+Notamos que las tendencias sobre el tiempo $\beta$ tienen un promedio estimado 
+en $-0.5$ con desviación estándar de $0.7$, es decir, estimamos que la mayoría 
+de los niños tienen niveles de CD4 decrecientes, pero no todos.
 
 Usaremos estos resultados para hacer calculos de potencia para una nueva prueba
 que busca medir el efecto del consumo de zinc en la dieta. Quisiéramos que el 
-estudio fuera suficientemente grande para que con probabilidad de al menos 80%
+estudio fuera suficientemente grande para que con probabilidad de al menos $80$%
 la media del efecto del tratamiento sea significativo con un nivel de confianza 
-del 95%.
+del $95$%.
 
-Necesitamos hacer supuestos del efecto del tratamiento y del resto de los parámetros
-que caracterizan el estudio. El análisis de arriba muestra que en los niños 
-VIH positivos que no recibieron zinc los niveles de CD4 caían en promedio 0.5 al 
-año. Suponemos que con el zinc reduciremos la caída a cero.
+Necesitamos hacer supuestos del efecto del tratamiento y del resto de los 
+parámetros que caracterizan el estudio. El análisis de arriba muestra que en los 
+niños VIH positivos que no recibieron zinc los niveles de CD4 caían en promedio 
+$0.5$ al año. Suponemos que con el zinc reduciremos la caída a cero.
 
-$$
-y_i \sim N(\alpha_{j[i]} + \beta_{j[i]}t_i, \sigma^2_y)
-$$
+$$y_i \sim N(\alpha_{j[i]} + \beta_{j[i]}t_i, \sigma^2_y)$$
 
 $$
 \begin{eqnarray*}
@@ -1752,6 +1804,7 @@ $$
 \end{array}\right)\right]
 \end{eqnarray*}
 $$
+
 donde
 
 $$
@@ -1765,20 +1818,20 @@ $$
 
 El tratamiento $z_j$ afecta la pendiente $\beta_j$ más no el intercepto $\alpha_j$
 pues el tratamiento no puede afectar en el tiempo cero. Usando los datos del ajuste
-de arriba tenemos que para el grupo control la pendiente será
+de arriba tenemos que para el grupo control la pendiente será:
 
 $\gamma_0^{\beta} = -0.5$ y el efecto del tratamiento $\gamma_1^{\beta} = 0.5$, 
 el resto de los parámetros los especificamos de acuerdo al ajuste de arriba.
 Por simplicidad fijaremos la correlación $\rho$ en cero.
 
 El siguiente paso es determinar el diseño del modelo, suponemos que dividiremos 
-a $J$ niños VIH positivos en dos grupos del mismo tamaño, $J/2$ de ellos recibirán
-el cuidado usual y $J/2$ recibirán suplementos de zinc. Más aún suponemos que 
-se medirá el porcentaje de CD4 cada 2 meses durante un año.
+a $J$ niños VIH positivos en dos grupos del mismo tamaño, $J/2$ de ellos 
+recibirán el cuidado usual y $J/2$ recibirán suplementos de zinc. Más aún 
+suponemos que se medirá el porcentaje de CD4 cada 2 meses durante un año.
 
-Usaremos simulación para determinar el tamaño de muestra $J$ que se requiere para 
-tener una potencia
-de $80%$ si el verdadero efecto es 0.5, ¿cuál es el modelo gráfico asociado?
+Usaremos simulación para determinar el tamaño de muestra $J$ que se requiere 
+para tener una potencia de $80$% si el verdadero efecto es $0.5$, ¿cuál es el 
+modelo gráfico asociado?
 
 
 ```r
@@ -1830,26 +1883,31 @@ potencias <- map_df(c(8, 16, 60, 100, 150, 200, 225, 250, 300, 400),
 #> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
 #> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
 #> eigenvalues
+#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
+#> $checkConv, : unable to evaluate scaled gradient
+#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
+#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
+#> eigenvalues
 
 ggplot(potencias, aes(x = n, y = p)) +
     geom_hline(yintercept = 0.8, color = "red", alpha = 0.5) +
-    geom_line()
+    geom_line() + ylim(0, 1)
 ```
 
-<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-48-1.png" width="384" />
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-48-1.png" width="350px" />
 
 Notemos que la función `cd4_rep()` regresa la proporción de las simulaciones en 
 las que el resultado es estadísticamente significarivo, est es, la potencia
-calculada con simulaicón, para un estudio con $J$ niños medidos en $K$ intervalos 
-igualmente espaciados.
+calculada con simulaicón, para un estudio con $J$ niños medidos en $K$ i
+ntervalos igualmente espaciados.
 
 Notemos también que en el límite, cuando $J \to 0$ el poder es 0.025, esto es, 
 con una muestra suficientemente chica el efecto del estimador es básicamente 
-aleatorio y por tanto en 2.5% de los casos el estimador está 2 desviaciones por 
-encima de cero.
+aleatorio y por tanto en $2.5$% de los casos el estimador está $2$ desviaciones 
+por encima de cero.
 
-Una ventaja de usar simulación para calcular potencia es que nos permite flexibilidad, 
-por ejemplo, es fácil calcular para más escenarios:
+Una ventaja de usar simulación para calcular potencia es que nos permite 
+flexibilidad, por ejemplo, es fácil calcular para más escenarios:
 
 * ¿qué ocurriría si solo puedo medir 3 veces al año?
 
@@ -1857,17 +1915,18 @@ por ejemplo, es fácil calcular para más escenarios:
 asistan a todas las mediciones, con simulación es fácil incorporar faltantes.
 
 
-### ¿Para qué simular?
 
-* Alternativa para presentar inferencias: en lugar de presentar un estimador 
-puntual y/o intervalo de confianza podemos analizar simulaciones del modelo.
+<!--
+* Cook, D. [To the tidyverse and beyond: Challenges to the future of data science](http://www.dicook.org/files/rstudio/#1)
 
-* Inferencia predictiva: es fácil usar simulación para calcular errores estándar, 
-o intervalos de confianza, resulta particularmente útil cuando estamos estimando 
-cantidades que no son coeficientes de un modelo o transformaciones lineales de 
-coeficientes.
+* Wickham, H., Cook, D., Hofmann, H. and Buja, A. (2010) [Graphical Inference for Infovis](http://stat.wharton.upenn.edu/~buja/PAPERS/Wickham-Cook-Hofmann-Buja-IEEE-TransVizCompGraphics_2010-Graphical%20Inference%20for%20Infovis.pdf)
 
-* Simulación para revisar el ajuste de un modelo. Podemos simular datos del modelo
-ajustado y compararlos con los datos verdaderos.
+* Hofmann, H., Follett, L., Majumder, M. and Cook, D. (2012) Graphical Tests for Power Comparison of Competing Designs.
 
+* Tufte, E. [Making better inferences from statistical graphics](http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0003wa).
 
+* Cook, D. [To the tidyverse and beyond: Challenges to the future of data science](http://www.dicook.org/files/rstudio/#1)
+
+* [Supplementary Material for “Statistical Inference for Exploratory Data Analysis
+and Model Diagnostics"](http://stat.wharton.upenn.edu/~buja/PAPERS/06-Buja-Cook-Hofmann-Lawrence-Lee-Swayne-Wickham-suppl.pdf)
+-->

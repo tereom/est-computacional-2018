@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Estadística Computacional</title>
+  <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Estadística Computacional" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  <meta name="github-repo" content="tereom/est-computacional-2018" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Estadística Computacional" />
+  
+  <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
+  
+
+<meta name="author" content="María Teresa Ortiz">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="maxima-verosimilitud.html">
+<link rel="next" href="tareas.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.5/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.5/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.5/profvis.js"></script>
+<script src="libs/plotly-binding-4.8.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.39.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.39.2/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/toc.css" type="text/css" />
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="css/cajas.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Computacional</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Información del curso</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html"><i class="fa fa-check"></i>Temario</a><ul>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#calificacion"><i class="fa fa-check"></i>Calificación</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#software"><i class="fa fa-check"></i>Software</a></li>
+<li class="chapter" data-level="" data-path="temario.html"><a href="temario.html#otros-recursos"><i class="fa fa-check"></i>Otros recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduccion-a-visualizacion.html"><a href="introduccion-a-visualizacion.html"><i class="fa fa-check"></i><b>1</b> Introducción a visualización</a><ul>
+<li class="chapter" data-level="" data-path="introduccion-a-visualizacion.html"><a href="introduccion-a-visualizacion.html#el-cuarteto-de-ascombe"><i class="fa fa-check"></i>El cuarteto de Ascombe</a></li>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1.1</b> Introducción</a><ul>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-de-datos-en-la-estadistica"><i class="fa fa-check"></i>Visualización de datos en la estadística</a></li>
+<li class="chapter" data-level="" data-path="introduccion.html"><a href="introduccion.html#visualizacion-popular-de-datos"><i class="fa fa-check"></i>Visualización popular de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html"><i class="fa fa-check"></i><b>1.2</b> Teoría de visualización de datos</a><ul>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#principios-generales-del-diseno-analitico"><i class="fa fa-check"></i>Principios generales del diseño analítico</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#tecnicas-de-visualizacion"><i class="fa fa-check"></i>Técnicas de visualización</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#indicadores-de-calidad-grafica"><i class="fa fa-check"></i>Indicadores de calidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#factor-de-engano-chartjunk-y-pies"><i class="fa fa-check"></i>Factor de engaño, chartjunk y pies</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#series-de-tiempo-y-promedio-de-45"><i class="fa fa-check"></i>Series de tiempo y promedio de 45</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#pequenos-multiplos-y-densidad-grafica"><i class="fa fa-check"></i>Pequeños múltiplos y densidad gráfica</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#tinta-de-datos"><i class="fa fa-check"></i>Tinta de datos</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#percepcion-de-escala"><i class="fa fa-check"></i>Percepción de escala</a></li>
+<li class="chapter" data-level="" data-path="teoria-de-visualizacion-de-datos.html"><a href="teoria-de-visualizacion-de-datos.html#minard"><i class="fa fa-check"></i>Minard</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduccion-a-r-y-al-paquete-ggplot2.html"><a href="introduccion-a-r-y-al-paquete-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Introducción a R y al paquete ggplot2</a><ul>
+<li class="chapter" data-level="2.1" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html"><i class="fa fa-check"></i><b>2.1</b> R: primeros pasos</a><ul>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#r-en-analisis-de-datos"><i class="fa fa-check"></i>R en análisis de datos</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#paquetes-y-el-tidyverse"><i class="fa fa-check"></i>Paquetes y el Tidyverse</a></li>
+<li class="chapter" data-level="" data-path="r-primeros-pasos.html"><a href="r-primeros-pasos.html#recursos"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html"><i class="fa fa-check"></i><b>2.2</b> Visualización con ggplot2</a><ul>
+<li class="chapter" data-level="" data-path="visualizacion-con-ggplot2.html"><a href="visualizacion-con-ggplot2.html#recursos-1"><i class="fa fa-check"></i>Recursos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manipulacion-y-agrupacion-de-datos.html"><a href="manipulacion-y-agrupacion-de-datos.html"><i class="fa fa-check"></i><b>3</b> Manipulación y agrupación de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html"><i class="fa fa-check"></i><b>3.1</b> Transformación de datos</a><ul>
+<li><a href="transformacion-de-datos.html#separa-aplica-combina-split-apply-combine">Separa-aplica-combina (<em>split-apply-combine</em>)</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ejemplos-y-lectura-de-datos"><i class="fa fa-check"></i>Ejemplos y lectura de datos</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#filtrar"><i class="fa fa-check"></i>Filtrar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#seleccionar"><i class="fa fa-check"></i>Seleccionar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#ordenar"><i class="fa fa-check"></i>Ordenar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#mutar"><i class="fa fa-check"></i>Mutar</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#summarise-y-resumenes-por-grupo"><i class="fa fa-check"></i>Summarise y resúmenes por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#operador-pipeline"><i class="fa fa-check"></i>Operador pipeline</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#variables-por-grupo"><i class="fa fa-check"></i>Variables por grupo</a></li>
+<li class="chapter" data-level="" data-path="transformacion-de-datos.html"><a href="transformacion-de-datos.html#verbos-de-dos-tablas"><i class="fa fa-check"></i>Verbos de dos tablas</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="datos-limpios.html"><a href="datos-limpios.html"><i class="fa fa-check"></i><b>3.2</b> Datos limpios</a><ul>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#limpieza-bases-de-datos"><i class="fa fa-check"></i>Limpieza bases de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#los-encabezados-de-las-columanas-son-valores"><i class="fa fa-check"></i>Los encabezados de las columanas son valores</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-columna-asociada-a-mas-de-una-variable"><i class="fa fa-check"></i>Una columna asociada a más de una variable</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#variables-almacenadas-en-filas-y-columnas"><i class="fa fa-check"></i>Variables almacenadas en filas y columnas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#mas-de-un-tipo-de-observacion-en-una-misma-tabla"><i class="fa fa-check"></i>Mas de un tipo de observación en una misma tabla</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#una-misma-unidad-observacional-esta-almacenada-en-multiples-tablas"><i class="fa fa-check"></i>Una misma unidad observacional está almacenada en múltiples tablas</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#otras-consideraciones"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios.html"><a href="datos-limpios.html#recursos-adicionales"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="temas-selectos-de-r.html"><a href="temas-selectos-de-r.html"><i class="fa fa-check"></i><b>4</b> Temas selectos de R</a><ul>
+<li class="chapter" data-level="4.1" data-path="funciones.html"><a href="funciones.html"><i class="fa fa-check"></i><b>4.1</b> Funciones</a><ul>
+<li class="chapter" data-level="" data-path="funciones.html"><a href="funciones.html#estructura-de-una-funcion"><i class="fa fa-check"></i>Estructura de una función</a></li>
+<li class="chapter" data-level="" data-path="funciones.html"><a href="funciones.html#observaciones-del-uso-de-funciones"><i class="fa fa-check"></i>Observaciones del uso de funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>4.2</b> Vectores</a><ul>
+<li class="chapter" data-level="" data-path="vectores.html"><a href="vectores.html#propiedades"><i class="fa fa-check"></i>Propiedades</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="iteracion.html"><a href="iteracion.html"><i class="fa fa-check"></i><b>4.3</b> Iteración</a></li>
+<li class="chapter" data-level="4.4" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html"><i class="fa fa-check"></i><b>4.4</b> Rendimiento en R</a><ul>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#diagnosticar"><i class="fa fa-check"></i>Diagnosticar</a></li>
+<li class="chapter" data-level="" data-path="rendimiento-en-r.html"><a href="rendimiento-en-r.html#estrategias-para-mejorar-desempeno"><i class="fa fa-check"></i>Estrategias para mejorar desempeño</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduccion-a-probabilidad.html"><a href="introduccion-a-probabilidad.html"><i class="fa fa-check"></i><b>5</b> Introducción a probabilidad</a><ul>
+<li class="chapter" data-level="5.1" data-path="probabilidad-como-extension-a-proporcion.html"><a href="probabilidad-como-extension-a-proporcion.html"><i class="fa fa-check"></i><b>5.1</b> Probabilidad como extensión a proporción</a></li>
+<li class="chapter" data-level="5.2" data-path="interpretacion-frecuentista-de-probabilidad.html"><a href="interpretacion-frecuentista-de-probabilidad.html"><i class="fa fa-check"></i><b>5.2</b> Interpretación frecuentista de probabilidad</a></li>
+<li class="chapter" data-level="5.3" data-path="simulacion-para-el-calculo-de-probabilidades.html"><a href="simulacion-para-el-calculo-de-probabilidades.html"><i class="fa fa-check"></i><b>5.3</b> Simulación para el cálculo de probabilidades</a></li>
+<li class="chapter" data-level="5.4" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html"><i class="fa fa-check"></i><b>5.4</b> Probabilidad: definición matemática</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="probabilidad-definicion-matematica.html"><a href="probabilidad-definicion-matematica.html#propiedades-de-la-funcion-de-probabilidad"><i class="fa fa-check"></i><b>5.4.1</b> Propiedades de la función de probabilidad:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="variables-aleatorias.html"><a href="variables-aleatorias.html"><i class="fa fa-check"></i><b>5.5</b> Variables aleatorias</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="bootstrap-no-parametrico.html"><a href="bootstrap-no-parametrico.html"><i class="fa fa-check"></i><b>6</b> Bootstrap no paramétrico</a><ul>
+<li class="chapter" data-level="6.1" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html"><i class="fa fa-check"></i><b>6.1</b> El principio del plug-in</a><ul>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#muestras-aleatorias"><i class="fa fa-check"></i>Muestras aleatorias</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#funcion-de-distribucion-empirica"><i class="fa fa-check"></i>Función de distribución empírica</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#parametros-y-estadisticas"><i class="fa fa-check"></i>Parámetros y estadísticas</a></li>
+<li class="chapter" data-level="" data-path="el-principio-del-plug-in.html"><a href="el-principio-del-plug-in.html#distribuciones-muestrales-y-errores-estandar"><i class="fa fa-check"></i>Distribuciones muestrales y errores estándar</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html"><i class="fa fa-check"></i><b>6.2</b> El estimador bootstrap del error estándar</a><ul>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html#variacion-en-distribuciones-bootstrap"><i class="fa fa-check"></i>Variación en distribuciones bootstrap</a></li>
+<li class="chapter" data-level="" data-path="el-estimador-bootstrap-del-error-estandar.html"><a href="el-estimador-bootstrap-del-error-estandar.html#mas-alla-de-muestras-aleatorias-simples"><i class="fa fa-check"></i>Más alla de muestras aleatorias simples</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="intervalos-de-confianza.html"><a href="intervalos-de-confianza.html"><i class="fa fa-check"></i><b>6.3</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="6.4" data-path="bootstrap-en-r.html"><a href="bootstrap-en-r.html"><i class="fa fa-check"></i><b>6.4</b> Bootstrap en R</a></li>
+<li class="chapter" data-level="6.5" data-path="conclusiones-y-observaciones.html"><a href="conclusiones-y-observaciones.html"><i class="fa fa-check"></i><b>6.5</b> Conclusiones y observaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="teoria-basica-de-simulacion.html"><a href="teoria-basica-de-simulacion.html"><i class="fa fa-check"></i><b>7</b> Teoría básica de simulación</a><ul>
+<li class="chapter" data-level="7.1" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html"><i class="fa fa-check"></i><b>7.1</b> Números pseudoaleatorios</a><ul>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#generadores-congruenciales-y-mersenne-twister"><i class="fa fa-check"></i>Generadores congruenciales y Mersenne-Twister</a></li>
+<li class="chapter" data-level="" data-path="numeros-pseudoaleatorios.html"><a href="numeros-pseudoaleatorios.html#pruebas-de-aleatoriedad"><i class="fa fa-check"></i>Pruebas de aleatoriedad</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html"><i class="fa fa-check"></i><b>7.2</b> Variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-discretas-importantes"><i class="fa fa-check"></i>Familias discretas importantes</a></li>
+<li class="chapter" data-level="" data-path="variables-aleatorias-1.html"><a href="variables-aleatorias-1.html#familias-continuas-importantes"><i class="fa fa-check"></i>Familias Continuas importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+<li class="chapter" data-level="7.3.1" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-1"><i class="fa fa-check"></i><b>7.3.1</b> Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="simulacion-de-modelos.html"><a href="simulacion-de-modelos.html"><i class="fa fa-check"></i><b>8</b> Simulación de modelos</a><ul>
+<li class="chapter" data-level="" data-path="simulacion-de-modelos.html"><a href="simulacion-de-modelos.html#para-que-simular-de-un-modelo"><i class="fa fa-check"></i>¿Para qué simular de un modelo?</a></li>
+<li class="chapter" data-level="8.1" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html"><i class="fa fa-check"></i><b>8.1</b> Distribuciones multivariadas</a><ul>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#regla-de-bayes"><i class="fa fa-check"></i>Regla de Bayes</a></li>
+<li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i>Independencia</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="modelos-graficos-y-simulacion-predictiva.html"><a href="modelos-graficos-y-simulacion-predictiva.html"><i class="fa fa-check"></i><b>8.2</b> Modelos gráficos y simulación predictiva</a></li>
+<li class="chapter" data-level="8.3" data-path="inferencia-visual.html"><a href="inferencia-visual.html"><i class="fa fa-check"></i><b>8.3</b> Inferencia visual</a><ul>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia"><i class="fa fa-check"></i>Inferencia</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#protocolos-de-inferencia-visual"><i class="fa fa-check"></i>Protocolos de inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#pruebas-de-hipotesis-tipicas"><i class="fa fa-check"></i>Pruebas de hipótesis típicas</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia-visual-1"><i class="fa fa-check"></i>Inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#mas-alla-que-permutacion"><i class="fa fa-check"></i>Más allá que permutación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="simulacion-para-calculo-de-tamano-de-muestrapoder-estadistico.html"><a href="simulacion-para-calculo-de-tamano-de-muestrapoder-estadistico.html"><i class="fa fa-check"></i><b>8.4</b> Simulación para cálculo de tamaño de muestra/poder estadístico</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="inferencia-parametrica.html"><a href="inferencia-parametrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
+<li class="chapter" data-level="9.1" data-path="maxima-verosimilitud.html"><a href="maxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
+<li class="chapter" data-level="" data-path="maxima-verosimilitud.html"><a href="maxima-verosimilitud.html#propiedades-de-los-estimadores-de-maxima-verosimilitud"><i class="fa fa-check"></i>Propiedades de los estimadores de máxima verosimilitud</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="bootstrap-parametrico.html"><a href="bootstrap-parametrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
+<li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
+<li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
+<li class="chapter" data-level="" data-path="probabilidad.html"><a href="probabilidad.html"><i class="fa fa-check"></i>4-Probabilidad</a></li>
+<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i>5-Bootstrap</a><ul>
+<li class="chapter" data-level="" data-path="bootstrap.html"><a href="bootstrap.html#solucion"><i class="fa fa-check"></i>Solución</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="cobertura-de-intervalos-de-confianza.html"><a href="cobertura-de-intervalos-de-confianza.html"><i class="fa fa-check"></i>6-Cobertura de intervalos de confianza</a><ul>
+<li class="chapter" data-level="" data-path="cobertura-de-intervalos-de-confianza.html"><a href="cobertura-de-intervalos-de-confianza.html#solucion-1"><i class="fa fa-check"></i>Solución</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="simulacion-de-modelos-1.html"><a href="simulacion-de-modelos-1.html"><i class="fa fa-check"></i>7-Simulación de modelos</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-modelos-de-regresion.html"><a href="simulacion-de-modelos-de-regresion.html"><i class="fa fa-check"></i>8-Simulación de modelos de regresión</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Computacional</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="bootstrap-parametrico" class="section level2">
+<h2><span class="header-section-number">9.2</span> Bootstrap paramétrico</h2>
+<p>El método bootstrap se puede utilizar para el cálculo de errores
+estándar y de intervalos de confianza en un modelo paramétrico. Recordemos que
+en <em>bootstrap no paramétrico</em> obteníamos muestras <span class="math inline">\(X_1^*,...,X_n^*\)</span>
+de la distribución empírica <span class="math inline">\(P_n\)</span>. En el caso de <strong>bootstrap paramétrico</strong>
+las muestras se obtienen de <span class="math inline">\(p(x,\hat{\theta})\)</span> donde <span class="math inline">\(\hat{\theta}\)</span> es una
+estimación de <span class="math inline">\({\theta}\)</span> (esta se puede obtener por máxima verosimilitud).
+Es así, que la diferencia entre la versión no paramétrica y la paramétrica
+es como construimos la distrinución de la que vamos a seleccionar muestras.</p>
+<p><strong>Ejemplo</strong>. Sea <span class="math inline">\(X_1,...,X_n\)</span> i.i.d. con <span class="math inline">\(X_i \sim N(\mu, \sigma^2)\)</span>. Sea
+<span class="math inline">\(\theta = g(\mu,\sigma)=\sigma/\mu\)</span>, esta cantidad se conoce como el
+coeficiente de variación. Estima <span class="math inline">\(\theta\)</span> y su error estándar.</p>
+<ol style="list-style-type: decimal">
+<li><p>Calculamos <span class="math inline">\(\hat{\mu}=1/n \sum{X_i}\)</span> y <span class="math inline">\(\hat{\sigma}=1/n \sum(X_i-\hat{\mu})^2\)</span>.</p>
+<p>Repetimos 2 y 3 B veces:</p></li>
+<li><p>Simulamos <span class="math inline">\(X_1^*,...,X_n^*\)</span> con <span class="math inline">\(X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)\)</span>.</p></li>
+<li><p>Calculamos <span class="math inline">\(\hat{\mu}^*=1/n \sum{X_i^*}\)</span> y <span class="math inline">\(\hat{\sigma}^2=1/n \sum(X_i^*-\hat{\mu}^*)^2\)</span> y <span class="math inline">\(\hat{\theta}=\hat{\sigma}^*/\hat{\mu}^*\)</span>.</p></li>
+<li>Estimamos el erro estándar como:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math display">\[\hat{se}_B=\sqrt{\frac{1}{B-1}\sum_{b=1}^B \big(\hat{\theta}^*(b) - \bar{\theta}\big)^2}\]</span></li>
+</ol>
+<p>Veamos un ejemplo donde tenemos 200 observaciones con una distribución
+<span class="math inline">\(Normal(10, 5^2)\)</span> y nos interesa estimar <span class="math inline">\(\theta=\sigma/\mu\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">200</span>
+x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dt">mean =</span> <span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">5</span>)  <span class="co"># observaciones normales</span>
+
+<span class="co"># Paso 1: calcular mu_hat y sigma_hat</span>
+mu_hat &lt;-<span class="st"> </span><span class="kw">mean</span>(x)  
+sigma_hat &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((x <span class="op">-</span><span class="st"> </span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) 
+
+<span class="co"># Pasos 2 y 3</span>
+thetaBoot &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    <span class="co"># Simular X_1*,...X_N* con distribución N(mu_hat, sigma_hat^2) </span>
+    x_boot &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dt">mean =</span> mu_hat, <span class="dt">sd =</span> sigma_hat) 
+    <span class="co"># Calcular mu*, sigma* y theta*</span>
+    mu_boot &lt;-<span class="st"> </span><span class="kw">mean</span>(x_boot)
+    sigma_boot &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((x_boot <span class="op">-</span><span class="st"> </span>mu_boot) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) 
+    sigma_boot <span class="op">/</span><span class="st"> </span>mu_boot <span class="co"># theta*</span>
+}
+
+<span class="co"># Paso 4: Repetimos B = 2000 veces y estimamos el error estándar</span>
+sims_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">3000</span>, <span class="kw">thetaBoot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
+<span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2999</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((sims_boot <span class="op">-</span><span class="st"> </span>sigma_hat<span class="op">/</span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))
+<span class="co">#&gt; [1] 0.03</span></code></pre>
+<p>Comparamos con el método delta:
+<span class="math display">\[\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}{2\hat{\mu}^2}\bigg)^{1/2}\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">4</span> <span class="op">+</span><span class="st"> </span>sigma_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)
+<span class="co">#&gt; [1] 0.0244</span></code></pre>
+<p><img src="../imagenes/manicule2.jpg" /> Supongamos que observamos 70 realizaciones de
+una Bernoulli, de tal manera que observamos 20 éxitos, calcula un intervalo de
+confianza usando bootstrap y comparalo con el correspondiente usando la
+información de Fisher.</p>
+<div id="ejemplo-bsplines-bootstrap-no-parametrico-bootstrap-parametrico-y-maxima-verosimilitud" class="section level4">
+<h4><span class="header-section-number">9.2.0.1</span> Ejemplo Bsplines: Bootstrap no paramétrico, bootstrap paramétrico y máxima verosimilitud</h4>
+<p>Ilustraremos los métodos usando un ejemplo de suavizamiento tomado del libro
+<a href="https://web.stanford.edu/~hastie/Papers/ESLII.pdf">The Elements of Statistical Learning (Hastie, Tibshirani, Friedman)</a>
+para esto comenzamos creando una base de datos artificial:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">90984</span>)
+<span class="co"># simple harmonic motion</span>
+shm &lt;-<span class="st"> </span><span class="cf">function</span>(t, <span class="dt">A =</span> <span class="fl">1.5</span>, <span class="dt">omega =</span> <span class="dv">4</span>){ <span class="co"># Esta es una función sinusoidal</span>
+    t <span class="op">*</span><span class="st"> </span>A <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(omega <span class="op">*</span><span class="st"> </span>t)
+}
+n &lt;-<span class="st"> </span><span class="dv">90</span>
+x &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">3</span>, <span class="fl">0.02</span>), n) <span class="co"># creamos una base con n observaciones</span>
+y &lt;-<span class="st"> </span><span class="kw">shm</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(x), <span class="dt">sd =</span> <span class="dv">1</span>)
+outliers &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(y), <span class="dv">4</span>)  <span class="co"># elijo 4 puntos al azar a los que agrego ruido</span>
+y[outliers] &lt;-<span class="st"> </span>y[outliers] <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">4</span>, <span class="dt">sd =</span> <span class="dv">2</span>)
+toy &lt;-<span class="st"> </span><span class="kw">data.frame</span>(x, y)
+
+<span class="kw">ggplot</span>(toy, <span class="kw">aes</span>(x, y)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-8-1.png" width="384" /></p>
+<p>En nuestro ejemplo los datos consisten en pares <span class="math inline">\(z_i=(x_i, y_i)\)</span> donde <span class="math inline">\(y_i\)</span> se
+entiende como la <em>respuesta</em> o la <em>salida</em> correspondiente a <span class="math inline">\(x_i\)</span>. De la gráfica
+de los datos es claro que la relación entre <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span> no es lineal, por lo que
+usaremos un método de expansiones de base que permite mayor flexibilidad.</p>
+<p>La idea básica atrás de <strong>expansión de bases</strong> es aumentar la dimensión del
+espacio de covariables (o predictores) creando variables adicionales que
+consisten en transformaciones de las variables originales <span class="math inline">\(X\)</span>, para luego usar
+modelos lineales en el espacio aumentado. Si denotamos por <span class="math inline">\(h_m(X)\)</span> la
+m-ésima transformación de <span class="math inline">\(X\)</span>, con <span class="math inline">\(m = 1,...,M\)</span>, podemos modelar:</p>
+<p><span class="math display">\[f(X)=\sum_{i=1}^M \beta_m h_m(X)\]</span></p>
+<p>Lo conveniente de este enfoque es que una vez que determinamos las funciones
+base <span class="math inline">\(h_m\)</span> los modelos son lineales en estas nuevas variables y podemos explotar
+las ventajas de usar modelos lineales. En lo que sigue supondremos que <span class="math inline">\(X\)</span> es
+unidimensional (como en el ejemplo).</p>
+<p>Dentro de los métodos de expansión de bases estudiaremos los splines. Una
+función spline está fromada por polinomios de grado k, cada uno definido
+sobre un intervalo, y se unen entre sí en los límites de cada intervalo. Los
+lugares donde se unen se conocen como nudos (knots). Antes de proceder
+entendamos los polinomios por pedazos: un polinomio por pedazos se obtiene
+dividiendo el dominio de X en intervalos contiguos y representando a <span class="math inline">\(f\)</span> por
+medio de un polinomio en cada intervalo. Por ejemplo una constante por pedazos:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Hmisc)
+<span class="co">#&gt; Loading required package: lattice</span>
+<span class="co">#&gt; Loading required package: survival</span>
+<span class="co">#&gt; Loading required package: Formula</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: &#39;Hmisc&#39;</span>
+<span class="co">#&gt; The following objects are masked from &#39;package:dplyr&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     src, summarize</span>
+<span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     format.pval, units</span>
+
+toy_k &lt;-<span class="st"> </span>toy
+toy_k &lt;-<span class="st"> </span>toy <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">int =</span> <span class="kw">cut2</span>(x, <span class="dt">g =</span> <span class="dv">4</span>)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(int) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">media =</span> <span class="kw">mean</span>(y))
+
+<span class="kw">ggplot</span>(toy_k, <span class="kw">aes</span>(x, y)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(x, <span class="dt">y =</span> media, <span class="dt">group =</span> int), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-9-1.png" width="384" /></p>
+<p>Debido a que dividimos el dominio en regiones disjuntas, el estimador de
+mínimos cuadrados para el modelo <span class="math inline">\(f(X)=\sum \beta_m h_m(X)\)</span> es
+<span class="math inline">\(\hat{\beta_m} = \bar{Y}_m\)</span> la media de <span class="math inline">\(Y\)</span> en cada región con <span class="math inline">\(m=1,2,3,4\)</span>.</p>
+<p>Ahora ajustamos un polinomio lineal por pedazos:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(toy_k, <span class="kw">aes</span>(x, y)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="kw">aes</span>(x, <span class="dt">y =</span> y, <span class="dt">group =</span> int), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-10-1.png" width="384" /></p>
+<p>Normalmente preferimos que la función sea continua en los nudos, esto conlleva
+a restricciones es los parámetros o al uso de bases que incorporen las
+restricciones. Más aún, es conveniente restringir no solo a continuidad de la
+función sino a continuidad de las derivadas.</p>
+<p>Supongamos que decidimos ajustar splines cúbicos a los datos, con 3 nudos
+ubicados en los cuartiles de <span class="math inline">\(X\)</span>. Esto corresponde a un espacio lineal de
+funciones, la dimensión del espacio es 7 (4 regiones <span class="math inline">\(\times\)</span> 4 parámetros por
+región - 3 nodos por 3 restricciones por nodo).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fda) <span class="co"># paquete con funciones útiles de splines</span>
+<span class="co">#&gt; Loading required package: splines</span>
+<span class="co">#&gt; Loading required package: Matrix</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: &#39;Matrix&#39;</span>
+<span class="co">#&gt; The following object is masked from &#39;package:tidyr&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     expand</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: &#39;fda&#39;</span>
+<span class="co">#&gt; The following object is masked from &#39;package:graphics&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     matplot</span>
+knots &lt;-<span class="st"> </span><span class="kw">quantile</span>(x)
+<span class="co"># usamos la función create.bspline.basis para crear la base</span>
+base &lt;-<span class="st"> </span><span class="kw">create.bspline.basis</span>(
+    <span class="dt">norder =</span> <span class="dv">4</span>, <span class="co"># polinomios cúbicos</span>
+    <span class="dt">breaks =</span> knots <span class="co"># nodos en los cuartiles de x</span>
+    )
+<span class="kw">plot</span>(base, <span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>)</code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-11-1.png" width="432" /></p>
+<p>Podemos representar el espacio por medio de una expansión lineal en las funciones
+base:</p>
+<p><span class="math display">\[\mu(x) = \sum_{j=1}^7 \beta_j h_j(x)\]</span></p>
+<p>donde <span class="math inline">\(h_j(x)\)</span> son las 7 funciones que graficamos en la figura superior. Podemos
+pensar en <span class="math inline">\(\mu(x)\)</span> como una representación de la media condicional <span class="math inline">\(E(Y|X=x)\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">H &lt;-<span class="st"> </span><span class="kw">eval.basis</span>(x, base)
+<span class="kw">head</span>(H)
+<span class="co">#&gt;      bspl4.1  bspl4.2  bspl4.3 bspl4.4 bspl4.5 bspl4.6 bspl4.7</span>
+<span class="co">#&gt; [1,]  0.0409 4.49e-01 4.42e-01  0.0674  0.0000   0.000 0.00000</span>
+<span class="co">#&gt; [2,]  0.0000 0.00e+00 1.36e-06  0.1635  0.5606   0.276 0.00000</span>
+<span class="co">#&gt; [3,]  0.0000 0.00e+00 0.00e+00  0.0751  0.4533   0.462 0.00948</span>
+<span class="co">#&gt; [4,]  0.0000 2.27e-05 2.34e-01  0.6697  0.0963   0.000 0.00000</span>
+<span class="co">#&gt; [5,]  0.0000 1.02e-02 4.17e-01  0.5490  0.0236   0.000 0.00000</span>
+<span class="co">#&gt; [6,]  0.0000 0.00e+00 0.00e+00  0.0837  0.4714   0.439 0.00608</span></code></pre>
+<p>Sea H la matriz de <span class="math inline">\(n \times 7\)</span>, donde el elemento <span class="math inline">\(ij\)</span> corresponde a
+<span class="math inline">\(h_j(x_i)\)</span>. Entonces, el estimador usual de <span class="math inline">\(\beta\)</span> (obtenido minimizando el
+error cuadrático) esta dado por:
+<span class="math display">\[\hat{\beta} = (H^TH)^{-1}H^Ty\]</span></p>
+<p>y con esto obtenemos: <span class="math inline">\(\hat{\mu}(x) = \sum_{j=1}^7 \hat{\beta_j} h_j(x)\)</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">beta_hat &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">solve</span>(<span class="kw">t</span>(H) <span class="op">%*%</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(H) <span class="op">%*%</span><span class="st"> </span>toy<span class="op">$</span>y)
+beta_hat
+<span class="co">#&gt; [1] -0.571  0.526  0.937 -3.140  9.007 -8.912 -1.665</span>
+
+<span class="co"># creamos una función que calcula mu(x)</span>
+mu &lt;-<span class="st"> </span><span class="cf">function</span>(x, betas){
+    <span class="kw">as.numeric</span>(betas <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">eval.basis</span>(x, base)))
+}
+
+<span class="kw">ggplot</span>(toy, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> mu, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">betas =</span> beta_hat), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;B-splines&quot;</span>)</code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-13-1.png" width="384" /></p>
+<p><strong>Bootstrap no paramétrico</strong>. Usemos bootstrap para calcular errores estándar,
+para esto tomamos muestras con reemplazo de los pares <span class="math inline">\(z_i = (x_i,y_i)\)</span>, para
+cada muestra <em>bootstrap</em> <span class="math inline">\(Z^*\)</span> ajustamos un polinomio cúbico <span class="math inline">\(\hat{\mu}^*(x)\)</span> y
+construimos bandas de confianza usando los intervalos de cada punto.</p>
+<pre class="sourceCode r"><code class="sourceCode r">splinesBoot &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    toy_boot &lt;-<span class="st"> </span><span class="kw">sample_n</span>(toy, <span class="dt">size =</span> n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+    H &lt;-<span class="st"> </span><span class="kw">eval.basis</span>(toy_boot<span class="op">$</span>x, base)
+    <span class="kw">as.vector</span>(<span class="kw">solve</span>(<span class="kw">t</span>(H) <span class="op">%*%</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(H) <span class="op">%*%</span><span class="st"> </span>toy_boot<span class="op">$</span>y)
+}
+betas &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">4000</span>, <span class="kw">splinesBoot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">reduce</span>(rbind)
+
+splines_boot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(toy, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) 
+
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>){
+  splines_boot &lt;-<span class="st"> </span>splines_boot <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> mu, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">betas =</span> betas[i, ]), <span class="dt">alpha =</span> <span class="fl">0.1</span>) 
+}
+
+splines_boot <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-14-1.png" width="384" /></p>
+<p>La gráfica superior muestra 100 replicaciones bootstrap del suavizamiento.
+Construyamos los intervalos bootstrap, en cada <span class="math inline">\(x\)</span> encontramos el 2.5% más chico
+y más grande.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># construimos los intervalos</span>
+x_grid &lt;-<span class="st"> </span><span class="kw">seq</span>(knots[<span class="dv">1</span>], knots[<span class="dv">5</span>], <span class="fl">0.02</span>) <span class="co"># creamos un grid para evaluar mu(x)</span>
+H &lt;-<span class="st"> </span><span class="kw">eval.basis</span>(x_grid, base) <span class="co"># Evalúo la base en el rango</span>
+betas_list &lt;-<span class="st"> </span><span class="kw">split</span>(betas, <span class="kw">seq</span>(<span class="kw">nrow</span>(betas)))
+y &lt;-<span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_df</span>(betas_list, <span class="op">~</span><span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x =</span> x_grid, <span class="dt">mu =</span> <span class="kw">as.vector</span>(. <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(H))))
+limites &lt;-<span class="st"> </span>y <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(x) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(
+        <span class="dt">limite_inf =</span> <span class="kw">quantile</span>(mu, <span class="dt">probs =</span> <span class="fl">0.025</span>), 
+        <span class="dt">limite_sup =</span> <span class="kw">quantile</span>(mu, <span class="dt">probs =</span> <span class="fl">0.975</span>)
+    )
+  
+<span class="kw">ggplot</span>(limites) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> limite_inf), <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> limite_sup), <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> toy, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> mu, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">betas =</span> beta_hat), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-15-1.png" width="384" /></p>
+<p>Supongamos ahora que los errores se distribuyen normal:
+<span class="math display">\[y = \mu(x) + \epsilon; \epsilon \sim N(0, \sigma^2)\]</span>
+<span class="math display">\[\mu(x) = \sum_{j=1}^7 \beta_j h_j(x)\]</span></p>
+<p>utilicemos <strong>bootstrap paramétrico</strong>, simularemos
+<span class="math display">\[y_i^* = \hat{\mu}(x_i) + \epsilon_i^*; \epsilon_i^* \sim N(0,\hat{\sigma}^2)\]</span></p>
+<p>Para implementar bootstrap paramétrico comencemos calculando los estimadores de
+máxima verosimilitud:
+<span class="math display">\[\hat{\beta} = (H^TH)^{-1}H^Ty\]</span>
+y
+<span class="math display">\[\hat{\sigma}^2=1/n \sum_{i=1}^n(y_i-\hat{\mu}(x_i))^2\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">mu_hat &lt;-<span class="st"> </span><span class="kw">mu</span>(toy<span class="op">$</span>x, beta_hat)
+sigma_hat &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((toy<span class="op">$</span>y <span class="op">-</span><span class="st"> </span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))
+
+<span class="co"># creamos las muestras bootstrap (paramétrico)</span>
+splinesBootP &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    toy_boot &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> toy<span class="op">$</span>x, <span class="dt">y =</span> mu_hat <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv">0</span>, sigma_hat))
+    H &lt;-<span class="st"> </span><span class="kw">eval.basis</span>(toy_boot<span class="op">$</span>x, base)
+    <span class="kw">as.vector</span>(<span class="kw">solve</span>(<span class="kw">t</span>(H) <span class="op">%*%</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(H) <span class="op">%*%</span><span class="st"> </span>toy_boot<span class="op">$</span>y)
+}
+
+betas_p &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">4000</span>, <span class="kw">splinesBootP</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">reduce</span>(rbind)
+
+splines_boot_p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(toy, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) 
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>){
+    splines_boot_p &lt;-<span class="st"> </span>splines_boot_p <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> mu, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">betas =</span> betas_p[i, ]), <span class="dt">alpha =</span> <span class="fl">0.1</span>) 
+}
+
+splines_boot <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) </code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-16-1.png" width="384" /></p>
+<p>y construímos intervalos</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># construimos los intervalos</span>
+x_grid &lt;-<span class="st"> </span><span class="kw">seq</span>(knots[<span class="dv">1</span>], knots[<span class="dv">5</span>], <span class="fl">0.02</span>) <span class="co"># creamos un grid para evaluar mu(x)</span>
+H &lt;-<span class="st"> </span><span class="kw">eval.basis</span>(x_grid, base) <span class="co"># Evalúo la base en el rango</span>
+y &lt;-<span class="st"> </span>betas_p <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(H) <span class="co"># calculo mu(x*)</span>
+
+betas_list &lt;-<span class="st"> </span><span class="kw">split</span>(betas_p, <span class="kw">seq</span>(<span class="kw">nrow</span>(betas)))
+y &lt;-<span class="st"> </span>purrr<span class="op">::</span><span class="kw">map_df</span>(betas_list, <span class="op">~</span><span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x =</span> x_grid, <span class="dt">mu =</span> <span class="kw">as.vector</span>(. <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(H))))
+limites &lt;-<span class="st"> </span>y <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(x) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(
+    <span class="dt">limite_inf =</span> <span class="kw">quantile</span>(mu, <span class="dt">probs =</span> <span class="fl">0.025</span>), 
+    <span class="dt">limite_sup =</span> <span class="kw">quantile</span>(mu, <span class="dt">probs =</span> <span class="fl">0.975</span>)
+    )
+  
+<span class="kw">ggplot</span>(limites) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> limite_inf), <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> limite_sup), <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> toy, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> mu, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">betas =</span> beta_hat), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>)</code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-17-1.png" width="384" /></p>
+<p>Máxima verosimilitud:
+<span class="math display">\[\hat{Var}(\hat{\beta})=(H^T H) ^{-1}\hat{\sigma}^2\]</span>
+donde
+<span class="math display">\[\hat{\sigma}^2=1/n \sum_{i=1}^n(y_i-\hat{\mu}(x_i))^2\]</span>,</p>
+<p>ahora, la matriz de información de <span class="math inline">\(\theta=(\beta,\sigma^2)\)</span> es una diagonal
+con bloques y el bloque correspondiente a <span class="math inline">\(\beta\)</span> es:
+<span class="math display">\[I(\beta)=(H^TH)/\sigma^2\]</span>
+de tal manera que la varianza estimada es <span class="math inline">\(I(\beta)=(H^TH)/\hat{\sigma}^2\)</span>.
+Podemos usar esto para construir las bandas en de errores estándar
+<span class="math inline">\(\hat{\mu}(x) = h(x)^T\hat{\beta}\)</span>
+es:</p>
+<p><span class="math display">\[\hat{se}=[h(x)^T(H^TH)^{-1}h(x)]^{1/2}\hat{\sigma}\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">seMu &lt;-<span class="st"> </span><span class="cf">function</span>(x){ 
+  <span class="co"># calculo h(x)</span>
+  h &lt;-<span class="st"> </span><span class="kw">eval.basis</span>(x, base)
+  <span class="co"># calcilo se_hat(x)</span>
+  se_hat &lt;-<span class="st"> </span><span class="kw">as.numeric</span>((h <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(H) <span class="op">%*%</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(h)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>sigma_hat)
+  se_hat
+}
+max_ver_errores &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> x_grid, 
+  <span class="dt">y_min =</span> <span class="kw">mu</span>(x_grid, beta_hat) <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sapply</span>(x_grid, seMu), 
+  <span class="dt">y_max =</span> <span class="kw">mu</span>(x_grid, beta_hat) <span class="op">+</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sapply</span>(x_grid, seMu)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(cuantil, valor, y_min, y_max)
+
+<span class="kw">ggplot</span>(toy) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y), <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> mu, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">betas =</span> beta_hat), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data =</span> max_ver_errores, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> valor, <span class="dt">group =</span> cuantil), 
+    <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> mu, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">betas =</span> beta_hat), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>) </code></pre>
+<p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-18-1.png" width="384" /></p>
+<p>En general el bootstrap paramétrico coinicide con máxima verosimilitud, la
+ventaja de <em>bootstrap</em> sobre máxima verosimilitud es que permite calcular
+estimaciones de máxima verosimilitud de errores estándar en escenarios donde
+no hay fórmulas disponibles. Por ejemplo, podríamos seleccionar el número
+y la ubicación de los nudos de manera adaptativa, usando validación
+cruzada. En este caso no hay fórmulas para el cálculo de errores estándar pero
+<em>bootstrap</em> sigue funcionando.</p>
+<p><img src="imagenes/manicule2.jpg" /> Sean <span class="math inline">\(X_1,...,X_n \sim N(\mu, 1)\)</span>. Sea
+<span class="math inline">\(\theta = e^{\mu}\)</span>, crea una base de datos usando <span class="math inline">\(\mu=5\)</span> que consista de <span class="math inline">\(n=100\)</span>
+observaciones.</p>
+<ul>
+<li><p>Usa el método delta para estimar <span class="math inline">\(\hat{se}\)</span> y crea un intervalo del 95% de
+confianza. Usa boostrap paramétrico para crear un intervalo del 95%. Usa
+bootstrap no paramétrico para crear un intervalo del 95%. Compara tus respuestas.</p></li>
+<li><p>Realiza un histograma de replicaciones bootstrap para cada método, estas son
+estimaciones de la distribución de <span class="math inline">\(\hat{\theta}\)</span>. El método delta también nos
+da una aproximación a esta distribución: <span class="math inline">\(Normal(\hat{\theta},\hat{se}^2)\)</span>.
+Comparalos con la verdadera distribución de <span class="math inline">\(\hat{\theta}\)</span> (que puedes obtener
+vía simulación). ¿Cuál es la aproximación más cercana a la verdadera
+distribución?</p></li>
+</ul>
+<p>Pista: <span class="math inline">\(se(\hat{\mu}) = 1/\sqrt{n}\)</span></p>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="maxima-verosimilitud.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/08-Inferencia_parametrica.Rmd",
+"text": "Edit"
+},
+"download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

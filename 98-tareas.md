@@ -702,34 +702,3 @@ anterior) y guarda las realizaciones de $\beta_3$.
 + Calcula la media y desviación estándar de las simulaciones y comparalas con la 
 estimación y desviación estándar del coeficiente obtenidas usando summary.
 
-
-```r
-summary(fit_score)
-```
-
-```
-## 
-## Call:
-## lm(formula = courseevaluation ~ age + btystdave + female + nonenglish, 
-##     data = beauty)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.87539 -0.35399  0.04531  0.38321  1.02355 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  4.244465   0.141529  29.990  < 2e-16 ***
-## age         -0.002586   0.002741  -0.944  0.34589    
-## btystdave    0.141032   0.032914   4.285 2.23e-05 ***
-## female      -0.210304   0.052300  -4.021 6.77e-05 ***
-## nonenglish  -0.332234   0.103740  -3.203  0.00146 ** 
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.5321 on 458 degrees of freedom
-## Multiple R-squared:  0.0885,	Adjusted R-squared:  0.08054 
-## F-statistic: 11.12 on 4 and 458 DF,  p-value: 1.294e-08
-```
-
-

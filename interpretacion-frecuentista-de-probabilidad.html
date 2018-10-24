@@ -267,18 +267,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i>Independencia</a></li>
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="modelos-graficos-y-simulacion-predictiva.html"><a href="modelos-graficos-y-simulacion-predictiva.html"><i class="fa fa-check"></i><b>8.2</b> Modelos gráficos y simulación predictiva</a></li>
-<li class="chapter" data-level="8.3" data-path="simulacion-para-evaluar-el-ajuste-del-modelo.html"><a href="simulacion-para-evaluar-el-ajuste-del-modelo.html"><i class="fa fa-check"></i><b>8.3</b> Simulación para evaluar el ajuste del modelo</a></li>
-<li class="chapter" data-level="8.4" data-path="inferencia-visual.html"><a href="inferencia-visual.html"><i class="fa fa-check"></i><b>8.4</b> Inferencia visual</a><ul>
+<li class="chapter" data-level="8.3" data-path="inferencia-visual.html"><a href="inferencia-visual.html"><i class="fa fa-check"></i><b>8.3</b> Inferencia visual</a><ul>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia"><i class="fa fa-check"></i>Inferencia</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#protocolos-de-inferencia-visual"><i class="fa fa-check"></i>Protocolos de inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#pruebas-de-hipotesis-tipicas"><i class="fa fa-check"></i>Pruebas de hipótesis típicas</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia-visual-1"><i class="fa fa-check"></i>Inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#mas-alla-que-permutacion"><i class="fa fa-check"></i>Más allá que permutación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="lineup.html"><a href="lineup.html"><i class="fa fa-check"></i><b>8.5</b> Lineup</a></li>
-<li class="chapter" data-level="8.6" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html"><i class="fa fa-check"></i><b>8.6</b> Pruebas de hipótesis típicas</a><ul>
-<li class="chapter" data-level="" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html#mas-alla-que-permutacion"><i class="fa fa-check"></i>Más allá que permutación</a></li>
-<li class="chapter" data-level="" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
-<li class="chapter" data-level="8.6.1" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html#calculos-de-poder-estadistico"><i class="fa fa-check"></i><b>8.6.1</b> Cálculos de poder estadístico</a></li>
-<li class="chapter" data-level="8.6.2" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html#para-que-simular"><i class="fa fa-check"></i><b>8.6.2</b> ¿Para qué simular?</a></li>
+<li class="chapter" data-level="8.4" data-path="simulacion-para-calculo-de-tamano-de-muestrapoder-estadistico.html"><a href="simulacion-para-calculo-de-tamano-de-muestrapoder-estadistico.html"><i class="fa fa-check"></i><b>8.4</b> Simulación para cálculo de tamaño de muestra/poder estadístico</a></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="inferencia-parametrica.html"><a href="inferencia-parametrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
+<li class="chapter" data-level="9.1" data-path="maxima-verosimilitud.html"><a href="maxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
+<li class="chapter" data-level="" data-path="maxima-verosimilitud.html"><a href="maxima-verosimilitud.html#propiedades-de-los-estimadores-de-maxima-verosimilitud"><i class="fa fa-check"></i>Propiedades de los estimadores de máxima verosimilitud</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="bootstrap-parametrico.html"><a href="bootstrap-parametrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -331,12 +334,12 @@ experimento. Ahora, sea A un posible resultado del evento
 <p>Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultados:</p>
 <pre class="sourceCode r"><code class="sourceCode r">lanzamientos_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
 lanzamientos_<span class="dv">10</span>
-<span class="co">#&gt;  [1] &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;A&quot;</span></code></pre>
+<span class="co">#&gt;  [1] &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot;</span></code></pre>
 <p>Podemos calcular las secuencia de frecuencias relativas de águila:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="co"># suma acumulada de águilas</span>
-<span class="co">#&gt;  [1] 0 0 0 0 1 2 2 2 2 3</span>
+<span class="co">#&gt;  [1] 1 1 2 2 2 2 2 2 3 4</span>
 <span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-<span class="co">#&gt;  [1] 0.000 0.000 0.000 0.000 0.200 0.333 0.286 0.250 0.222 0.300</span></code></pre>
+<span class="co">#&gt;  [1] 1.000 0.500 0.667 0.500 0.400 0.333 0.286 0.250 0.333 0.400</span></code></pre>
 <p>Una regla general, es que las frecuencias relativas basadas en un número
 mayor de observaciones son menos fluctuantes comparado con las frecuencias
 relativas basadas en pocas observaciones. Este fenómeno se conoce como la <strong>ley
@@ -361,11 +364,11 @@ números):</p>
 <span class="co">#&gt;   num_lanzamiento lanzamiento frec_rel</span>
 <span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1               1 A              1    </span>
-<span class="co">#&gt; 2               2 S              0.5  </span>
-<span class="co">#&gt; 3               3 A              0.667</span>
-<span class="co">#&gt; 4               4 A              0.75 </span>
-<span class="co">#&gt; 5               5 S              0.6  </span>
-<span class="co">#&gt; 6               6 S              0.5</span>
+<span class="co">#&gt; 2               2 A              1    </span>
+<span class="co">#&gt; 3               3 S              0.667</span>
+<span class="co">#&gt; 4               4 S              0.5  </span>
+<span class="co">#&gt; 5               5 S              0.4  </span>
+<span class="co">#&gt; 6               6 A              0.5</span>
 
 <span class="kw">set.seed</span>(<span class="dv">31287931</span>)
 <span class="co"># usamos la función map_df del paquete purrr</span>

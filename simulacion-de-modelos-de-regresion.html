@@ -267,18 +267,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="distribuciones-multivariadas.html"><a href="distribuciones-multivariadas.html#independencia"><i class="fa fa-check"></i>Independencia</a></li>
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="modelos-graficos-y-simulacion-predictiva.html"><a href="modelos-graficos-y-simulacion-predictiva.html"><i class="fa fa-check"></i><b>8.2</b> Modelos gráficos y simulación predictiva</a></li>
-<li class="chapter" data-level="8.3" data-path="simulacion-para-evaluar-el-ajuste-del-modelo.html"><a href="simulacion-para-evaluar-el-ajuste-del-modelo.html"><i class="fa fa-check"></i><b>8.3</b> Simulación para evaluar el ajuste del modelo</a></li>
-<li class="chapter" data-level="8.4" data-path="inferencia-visual.html"><a href="inferencia-visual.html"><i class="fa fa-check"></i><b>8.4</b> Inferencia visual</a><ul>
+<li class="chapter" data-level="8.3" data-path="inferencia-visual.html"><a href="inferencia-visual.html"><i class="fa fa-check"></i><b>8.3</b> Inferencia visual</a><ul>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia"><i class="fa fa-check"></i>Inferencia</a></li>
 <li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#protocolos-de-inferencia-visual"><i class="fa fa-check"></i>Protocolos de inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#pruebas-de-hipotesis-tipicas"><i class="fa fa-check"></i>Pruebas de hipótesis típicas</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#inferencia-visual-1"><i class="fa fa-check"></i>Inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#mas-alla-que-permutacion"><i class="fa fa-check"></i>Más allá que permutación</a></li>
+<li class="chapter" data-level="" data-path="inferencia-visual.html"><a href="inferencia-visual.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="lineup.html"><a href="lineup.html"><i class="fa fa-check"></i><b>8.5</b> Lineup</a></li>
-<li class="chapter" data-level="8.6" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html"><i class="fa fa-check"></i><b>8.6</b> Pruebas de hipótesis típicas</a><ul>
-<li class="chapter" data-level="" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html#mas-alla-que-permutacion"><i class="fa fa-check"></i>Más allá que permutación</a></li>
-<li class="chapter" data-level="" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html#otras-consideraciones-1"><i class="fa fa-check"></i>Otras consideraciones</a></li>
-<li class="chapter" data-level="8.6.1" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html#calculos-de-poder-estadistico"><i class="fa fa-check"></i><b>8.6.1</b> Cálculos de poder estadístico</a></li>
-<li class="chapter" data-level="8.6.2" data-path="pruebas-de-hipotesis-tipicas.html"><a href="pruebas-de-hipotesis-tipicas.html#para-que-simular"><i class="fa fa-check"></i><b>8.6.2</b> ¿Para qué simular?</a></li>
+<li class="chapter" data-level="8.4" data-path="simulacion-para-calculo-de-tamano-de-muestrapoder-estadistico.html"><a href="simulacion-para-calculo-de-tamano-de-muestrapoder-estadistico.html"><i class="fa fa-check"></i><b>8.4</b> Simulación para cálculo de tamaño de muestra/poder estadístico</a></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="inferencia-parametrica.html"><a href="inferencia-parametrica.html"><i class="fa fa-check"></i><b>9</b> Inferencia paramétrica</a><ul>
+<li class="chapter" data-level="9.1" data-path="maxima-verosimilitud.html"><a href="maxima-verosimilitud.html"><i class="fa fa-check"></i><b>9.1</b> Máxima verosimilitud</a><ul>
+<li class="chapter" data-level="" data-path="maxima-verosimilitud.html"><a href="maxima-verosimilitud.html#propiedades-de-los-estimadores-de-maxima-verosimilitud"><i class="fa fa-check"></i>Propiedades de los estimadores de máxima verosimilitud</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="bootstrap-parametrico.html"><a href="bootstrap-parametrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -402,29 +405,6 @@ anterior) y guarda las realizaciones de <span class="math inline">\(\beta_3\)</s
 <li><p>Calcula la media y desviación estándar de las simulaciones y comparalas con la
 estimación y desviación estándar del coeficiente obtenidas usando summary.</p></li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(fit_score)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = courseevaluation ~ age + btystdave + female + nonenglish, 
-##     data = beauty)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.87539 -0.35399  0.04531  0.38321  1.02355 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  4.244465   0.141529  29.990  &lt; 2e-16 ***
-## age         -0.002586   0.002741  -0.944  0.34589    
-## btystdave    0.141032   0.032914   4.285 2.23e-05 ***
-## female      -0.210304   0.052300  -4.021 6.77e-05 ***
-## nonenglish  -0.332234   0.103740  -3.203  0.00146 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.5321 on 458 degrees of freedom
-## Multiple R-squared:  0.0885, Adjusted R-squared:  0.08054 
-## F-statistic: 11.12 on 4 and 458 DF,  p-value: 1.294e-08</code></pre>
 
 </div>
 <!-- </div> -->
