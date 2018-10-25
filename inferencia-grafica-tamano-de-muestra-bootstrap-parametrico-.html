@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="vectores.html">
-<link rel="next" href="rendimiento-en-r.html">
+<link rel="prev" href="simulacion-de-modelos-de-regresion.html">
+<link rel="next" href="referencias.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -318,69 +318,79 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="iteracion" class="section level2">
-<h2><span class="header-section-number">4.3</span> Iteración</h2>
-<p>En análisis de datos es común implementar rutinas iterativas, esto es, cuando
-debemos aplicar los mismos pasos a distintas entradas.</p>
-<pre class="sourceCode r"><code class="sourceCode r">medias &lt;-<span class="st"> </span><span class="kw">numeric</span>()
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>){
-    medias[i] &lt;-<span class="st"> </span><span class="kw">wtd_mean</span>(df[, i])
-}
-medias
-<span class="co">#&gt; [1]  5.50000000  0.26869794  0.10389153 -0.02510718 -0.22948832</span></code></pre>
-<p><img src="imagenes/manicule2.jpg" /> Recordando la limpieza de datos de la clase pasada el
-vector <code>paths</code> contenía la ruta a distintos archivos csv. Crea la tabla de datos
-final usando un ciclo <code>for</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">paths &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="st">&quot;data/specdata&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.csv$&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>) </code></pre>
-<p>Es muy común tener que iterar sobre un vector, modificando cada entrada y
-guardando los resultados en una nueva estructura, es por ello que hay funciones
-para realizar esto en R de manera más clara. Por ejemplo, R base existen
-<code>lapply()</code>, <code>apply()</code>, <code>sapply()</code>.</p>
-<p>Por su parte, el paquete <code>purrr</code> del tidyverse provee una familia de funciones
-para esta misma función.</p>
-<ul>
-<li><code>map()</code> devuelve una lista.</li>
-<li><code>map_lgl()</code> devuelve un vector lógico.</li>
-<li><code>map_int()</code> devuelve un vector entero.</li>
-<li><code>map_dbl()</code> devuelve un vector double.</li>
-<li><code>map_chr()</code> devuelve un vector caracter.</li>
-</ul>
-<p>Todas las funciones reciben un vector, aplican una función a cada parte y
-regresan un nuevo vector de la misma longitud que el vector entrada.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(purrr)
-<span class="kw">names</span>(paths) &lt;-<span class="st"> </span><span class="kw">basename</span>(paths)
-specdata_us_vec &lt;-<span class="st"> </span><span class="kw">map</span>(paths, <span class="op">~</span>readr<span class="op">::</span><span class="kw">read_csv</span>(., <span class="dt">col_types =</span> <span class="st">&quot;Tddi&quot;</span>), 
-    <span class="dt">.id =</span> <span class="st">&quot;filename&quot;</span>)
-specdata_us_vec[[<span class="dv">10</span>]]
-<span class="co">#&gt; # A tibble: 1,096 x 4</span>
-<span class="co">#&gt;    Date                sulfate nitrate    ID</span>
-<span class="co">#&gt;    &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;</span>
-<span class="co">#&gt;  1 2002-01-01 00:00:00      NA      NA    10</span>
-<span class="co">#&gt;  2 2002-01-02 00:00:00      NA      NA    10</span>
-<span class="co">#&gt;  3 2002-01-03 00:00:00      NA      NA    10</span>
-<span class="co">#&gt;  4 2002-01-04 00:00:00      NA      NA    10</span>
-<span class="co">#&gt;  5 2002-01-05 00:00:00      NA      NA    10</span>
-<span class="co">#&gt;  6 2002-01-06 00:00:00      NA      NA    10</span>
-<span class="co">#&gt;  7 2002-01-07 00:00:00      NA      NA    10</span>
-<span class="co">#&gt;  8 2002-01-08 00:00:00      NA      NA    10</span>
-<span class="co">#&gt;  9 2002-01-09 00:00:00      NA      NA    10</span>
-<span class="co">#&gt; 10 2002-01-10 00:00:00      NA      NA    10</span>
-<span class="co">#&gt; # ... with 1,086 more rows</span>
-<span class="kw">class</span>(specdata_us_vec)
-<span class="co">#&gt; [1] &quot;list&quot;</span></code></pre>
-<p>En este caso es más apropiado usar map_df</p>
-<pre class="sourceCode r"><code class="sourceCode r">specdata_us &lt;-<span class="st"> </span><span class="kw">map_df</span>(paths, <span class="op">~</span>readr<span class="op">::</span><span class="kw">read_csv</span>(., <span class="dt">col_types =</span> <span class="st">&quot;Tddi&quot;</span>), 
-    <span class="dt">.id =</span> <span class="st">&quot;filename&quot;</span>)</code></pre>
-<p><img src="imagenes/manicule2.jpg" /> Utiliza map_*** para crear un vector con la media de
-nitrato de cada estación de monitoreo, itera sobre el vector <code>specdata_us_vec</code>.</p>
+<div id="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico." class="section level2 unnumbered">
+<h2>9 - Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.</h2>
+<div id="inferencia-grafica" class="section level4 unnumbered">
+<h4>Inferencia gráfica</h4>
+<p>Los datos <a href="https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/marg_diabetes.csv">marg_diabetes</a> incluyen información de marginación y diabetes en
+México:
+* <code>ent</code>, <code>id_ent</code>, <code>mun</code>, <code>id_mun</code>, <code>cvegeo</code>: corresponden al estado, municipio
+y sus códigos de identificación.
+* <code>n_causa</code> es el número de muertes de adultos mayores a 65 años a causa de
+diabetes en 2015, y <code>tasa_mun</code> la tasa correspondiente por cada 10,000
+habitantes.
+* <code>tasa_alf</code> (porcentaje de población alfabeta), <code>ind_des_hum</code> (índice de
+desarrollo humano), <code>conapo</code> (índice de marginación).</p>
+<p>Utiliza los datos para explorar gráficamente la relación entre algunas de las
+variables, utiliza el protocolo <em>lineup</em> para hacer inferencia gráfica.</p>
 </div>
+<div id="simulacion-para-calcular-tamanos-de-muestra" class="section level4 unnumbered">
+<h4>Simulación para calcular tamaños de muestra</h4>
+<p>Supongamos que queremos hacer una encuesta para estimar la proporción de
+hogares donde se consume refresco de manera regular, para ello se diseña un
+muestreo por conglomerados donde los conglomerados están dados por conjuntos de
+hoagres de tal manera que todos los conglomerados tienen el mismo número de
+hogares. La selección de la muestra se hará en dos etapas:</p>
+<ol style="list-style-type: decimal">
+<li><p>Seleccionamos <span class="math inline">\(J\)</span> conglomerados de manera aleatoria.</p></li>
+<li><p>En cada conglomerado seleccionames <span class="math inline">\(n/J\)</span> hogares para entrevistar.</p></li>
+</ol>
+<p>El estimador será simplemente el porcentaje de hogares del total
+de la muestra. Suponemos que la verdadera proporción es cercana a <span class="math inline">\(0.50\)</span> y que
+la media de la proporción de interés a lo largo de los conglomerados tiene una
+desviación estándar de <span class="math inline">\(0.1\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Supongamos que la muestra total es de <span class="math inline">\(n=1000\)</span>. ¿Cuál es la estimación del
+error estándar para la proporción estimada si <span class="math inline">\(J=1,10,100,1000\)</span>?</p></li>
+<li>El obejtivo es estimar la propoción que consume refresco en la población con
+un error estándar de a lo más 2%. ¿Que valores de <span class="math inline">\(J\)</span> y <span class="math inline">\(n\)</span> debemos elegir para
+cumplir el objetivo al menor costo?
+Los costos del levantamiento son:
+<ul>
+<li>50 pesos por encuesta.</li>
+<li>500 pesos por conglomerado</li>
+</ul></li>
+</ol>
+</div>
+<div id="bootstrap-parametrico-1" class="section level4 unnumbered">
+<h4>Bootstrap paramétrico</h4>
+<ol style="list-style-type: decimal">
+<li>Sean <span class="math inline">\(X_1,...,X_n \sim N(\mu, 1)\)</span>. Sea <span class="math inline">\(\theta = e^{\mu}\)</span>, crea una base de
+datos usando <span class="math inline">\(\mu=5\)</span> que consista de <span class="math inline">\(n=100\)</span> observaciones.</li>
+</ol>
+<ul>
+<li><p>Usa el método delta para estimar <span class="math inline">\(\hat{se}\)</span> y crea un intervalo del 95% de
+confianza. Usa boostrap paramétrico para crear un intervalo del 95%. Usa
+bootstrap no paramétrico para crear un intervalo del 95%. Compara tus respuestas.</p></li>
+<li><p>Realiza un histograma de replicaciones bootstrap para cada método, estas son
+estimaciones de la distribución de <span class="math inline">\(\hat{\theta}\)</span>. El método delta también nos
+da una aproximación a esta distribución: <span class="math inline">\(Normal(\hat{\theta},\hat{se}^2)\)</span>.
+Comparalos con la verdadera distribución de <span class="math inline">\(\hat{\theta}\)</span> (que puedes obtener
+vía simulación). ¿Cuál es la aproximación más cercana a la verdadera
+distribución?</p></li>
+</ul>
+<p>Pista: <span class="math inline">\(se(\hat{\mu}) = 1/\sqrt{n}\)</span></p>
+
+</div>
+</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="vectores.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="rendimiento-en-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="simulacion-de-modelos-de-regresion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -410,7 +420,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/03-temas_selectos_r.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/98-tareas.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

@@ -1447,6 +1447,7 @@ ggplot(sim_1$sims_datos, aes(x = y)) +
     xlim(0, 40) +
     facet_wrap(~ sample, nrow = 2)
 #> Warning: Removed 322 rows containing non-finite values (stat_bin).
+#> Warning: Removed 20 rows containing missing values (geom_bar).
 ```
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-36-1.png" width="576" />
@@ -1534,6 +1535,7 @@ ggplot(sim_2$sims_datos, aes(x = y)) +
     xlim(0, 40) +
     facet_wrap(~ sample, nrow = 2)
 #> Warning: Removed 492 rows containing non-finite values (stat_bin).
+#> Warning: Removed 20 rows containing missing values (geom_bar).
 ```
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-39-1.png" width="576" />

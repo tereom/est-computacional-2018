@@ -294,9 +294,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="cobertura-de-intervalos-de-confianza.html"><a href="cobertura-de-intervalos-de-confianza.html#solucion-1"><i class="fa fa-check"></i>Solución</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="simulacion-de-modelos-1.html"><a href="simulacion-de-modelos-1.html"><i class="fa fa-check"></i>7-Simulación de modelos</a></li>
-<li class="chapter" data-level="" data-path="simulacion-de-modelos-de-regresion.html"><a href="simulacion-de-modelos-de-regresion.html"><i class="fa fa-check"></i>8-Simulación de modelos de regresión</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="simulacion-de-modelos-de-regresion.html"><a href="simulacion-de-modelos-de-regresion.html#inferencia-grafica-tamano-de-muestra-bootstrap-parametrico."><i class="fa fa-check"></i><b>9.2.1</b> 9 - Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="simulacion-de-modelos-de-regresion.html"><a href="simulacion-de-modelos-de-regresion.html"><i class="fa fa-check"></i>8-Simulación de modelos de regresión</a></li>
+<li class="chapter" data-level="" data-path="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><a href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><i class="fa fa-check"></i>9 - Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -336,12 +335,12 @@ experimento. Ahora, sea A un posible resultado del evento
 <p>Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultados:</p>
 <pre class="sourceCode r"><code class="sourceCode r">lanzamientos_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
 lanzamientos_<span class="dv">10</span>
-<span class="co">#&gt;  [1] &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot;</span></code></pre>
+<span class="co">#&gt;  [1] &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot;</span></code></pre>
 <p>Podemos calcular las secuencia de frecuencias relativas de águila:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="co"># suma acumulada de águilas</span>
-<span class="co">#&gt;  [1] 1 2 3 4 5 6 6 7 8 8</span>
+<span class="co">#&gt;  [1] 1 2 2 3 4 5 6 7 7 8</span>
 <span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-<span class="co">#&gt;  [1] 1.000 1.000 1.000 1.000 1.000 1.000 0.857 0.875 0.889 0.800</span></code></pre>
+<span class="co">#&gt;  [1] 1.000 1.000 0.667 0.750 0.800 0.833 0.857 0.875 0.778 0.800</span></code></pre>
 <p>Una regla general, es que las frecuencias relativas basadas en un número
 mayor de observaciones son menos fluctuantes comparado con las frecuencias
 relativas basadas en pocas observaciones. Este fenómeno se conoce como la <strong>ley
@@ -365,12 +364,12 @@ números):</p>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
 <span class="co">#&gt;   num_lanzamiento lanzamiento frec_rel</span>
 <span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class="co">#&gt; 1               1 S              0    </span>
-<span class="co">#&gt; 2               2 A              0.5  </span>
-<span class="co">#&gt; 3               3 S              0.333</span>
-<span class="co">#&gt; 4               4 A              0.5  </span>
-<span class="co">#&gt; 5               5 A              0.6  </span>
-<span class="co">#&gt; 6               6 S              0.5</span>
+<span class="co">#&gt; 1               1 A              1    </span>
+<span class="co">#&gt; 2               2 A              1    </span>
+<span class="co">#&gt; 3               3 A              1    </span>
+<span class="co">#&gt; 4               4 S              0.75 </span>
+<span class="co">#&gt; 5               5 A              0.8  </span>
+<span class="co">#&gt; 6               6 A              0.833</span>
 
 <span class="kw">set.seed</span>(<span class="dv">31287931</span>)
 <span class="co"># usamos la función map_df del paquete purrr</span>

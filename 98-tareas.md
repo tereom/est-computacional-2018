@@ -702,7 +702,7 @@ anterior) y guarda las realizaciones de $\beta_3$.
 + Calcula la media y desviación estándar de las simulaciones y comparalas con la 
 estimación y desviación estándar del coeficiente obtenidas usando summary.
 
-### 9 - Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.
+## 9 - Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.{-}
 
 #### Inferencia gráfica {-}
 
