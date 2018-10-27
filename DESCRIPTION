@@ -2,5 +2,5 @@ Package: placeholder
 Type: Book
 Title: Does not matter.
 Version: 0.0.1
-Imports: tidyverse, bookdown, knitr, plotly, gapminder, Hmisc, babynames, datasauRus, microbenchmark, parallel, profvis, rsample, srvyr, survey, gridExtra, pryr, bootstrap, boot, tourr, randtoolbox, arm, foreign, lattice, fda
+Imports: tidyverse, bookdown, knitr, plotly, gapminder, Hmisc, babynames, datasauRus, microbenchmark, parallel, profvis, rsample, srvyr, survey, gridExtra, pryr, bootstrap, boot, tourr, randtoolbox, arm, foreign, lattice, fda, nullabor
 Remotes: rstudio/bookdown
