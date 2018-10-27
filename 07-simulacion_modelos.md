@@ -1071,9 +1071,6 @@ Estaturas de hombres y mujeres. Supongamos que nos interesa describir de manera
 simple los datos, independientemente de si se trata de un hombre o una mujer.
 
 
-```
-#> Error in library(nullabor): there is no package called 'nullabor'
-```
 
 
 ```r
@@ -1096,18 +1093,18 @@ los datos observados. ¿Captura este modelo las características observadas?
 
 ```r
 library(nullabor)
-#> Error in library(nullabor): there is no package called 'nullabor'
 
 sing_null <- lineup(null_dist('height', dist = 'normal', 
     params = list(mean = 171, sd = 10)), n = 20, singer_g)
-#> Error in lineup(null_dist("height", dist = "normal", params = list(mean = 171, : could not find function "lineup"
+#> decrypt("A3tW nwmw RI hOGRmROI 00")
 
 ggplot(sing_null, aes(x = gender, y = height)) +
     facet_wrap(~ .sample) +
     geom_jitter(position = position_jitter(width = 0.1, height = 1), 
         size = 0.8, alpha = 0.5)
-#> Error in ggplot(sing_null, aes(x = gender, y = height)): object 'sing_null' not found
 ```
+
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-26-1.png" width="672" />
 
 El poder distinguir los datos provee evidencia estadística rigurosa de que hay 
 diferencia.
@@ -1233,16 +1230,21 @@ singer_g %>%
 
 ```r
 library(nullabor)
-#> Error in library(nullabor): there is no package called 'nullabor'
 singer_c <- singer_g %>%
     group_by(gender) %>%
     mutate(height_c = height - mean(height))
 set.seed(26832)
 sing_null_c <- lineup(null_dist('height_c', dist = 'normal', 
     params = list(mean = 0, sd = sd(singer_c$height_c))), n = 20, singer_c)
-#> Error in lineup(null_dist("height_c", dist = "normal", params = list(mean = 0, : could not find function "lineup"
+#> decrypt("A3tW nwmw RI hOGRmROI 0Y")
 head(sing_null_c)
-#> Error in head(sing_null_c): object 'sing_null_c' not found
+#>   gender height height_c .sample
+#> 1      F    163   -2.579       1
+#> 2      F    157    1.151       1
+#> 3      F    168    3.589       1
+#> 4      F    165    0.496       1
+#> 5      F    152    8.716       1
+#> 6      F    155  -16.618       1
 ```
 
 Prueba:
@@ -1253,8 +1255,9 @@ ggplot(sing_null_c, aes(x = gender, y = height_c)) +
     facet_wrap(~ .sample) +
     geom_jitter(position = position_jitter(width = 0.1, height = 1), 
         size = 0.8, alpha = 0.5)
-#> Error in ggplot(sing_null_c, aes(x = gender, y = height_c)): object 'sing_null_c' not found
 ```
+
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-32-1.png" width="672" />
 
 #### El paquete nullabor {-}
 
@@ -1336,15 +1339,15 @@ write.table(basket_LA, file = "data/basket_LA.csv", sep = ",")
 
 ```r
 glimpse(basket_LA)
-#> Observations: 1,411
+#> Observations: 1,410
 #> Variables: 4
-#> $ x     <dbl> 0.848, 41.391, 46.069, 36.613, 43.207, 7.706, 16.030, 1....
-#> $ y     <dbl> 6.30, 26.07, 17.44, 29.61, 24.41, 27.99, 29.21, 4.84, 29...
-#> $ r     <dbl> 25.0, 30.8, 27.4, 31.8, 30.5, 32.9, 30.6, 24.3, 33.6, 32...
-#> $ angle <dbl> 2.887, 1.010, 0.691, 1.197, 0.930, 2.124, 1.869, 2.941, ...
+#> $ x     <dbl> 1.137, 41.175, 45.635, 37.477, 43.171, 7.752, 15.801, 0....
+#> $ y     <dbl> 5.96, 26.14, 17.24, 30.15, 24.28, 27.82, 28.73, 5.39, 29...
+#> $ r     <dbl> 24.6, 30.7, 26.9, 32.6, 30.3, 32.7, 30.2, 24.6, 33.6, 32...
+#> $ angle <dbl> 2.897, 1.017, 0.696, 1.178, 0.928, 2.126, 1.881, 2.921, ...
 
 basket_null <- lineup(null_lm(r ~ poly(angle, 2)), basket_LA, n = 10)
-#> Error in lineup(null_lm(r ~ poly(angle, 2)), basket_LA, n = 10): could not find function "lineup"
+#> decrypt("A3tW nwmw RI hOGRmROI 01")
 
 ggplot(basket_null, aes(x = angle * 180 / pi, y = r)) +
     geom_point(alpha = 0.5, size = 0.8) +
@@ -1352,8 +1355,9 @@ ggplot(basket_null, aes(x = angle * 180 / pi, y = r)) +
         breaks = c(0, 45, 90, 135, 180), 
     limits = c(0, 180)) +
     facet_wrap(~ .sample, nrow = 2)
-#> Error in ggplot(basket_null, aes(x = angle * 180/pi, y = r)): object 'basket_null' not found
 ```
+
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-34-1.png" width="768" />
 
 Los datos reales están _escondidos_ entre un conjunto de datos nulos que siguen
 la hipótesis de una relación cuadrática, los conjuntos nulos se crean ajustando
@@ -1446,7 +1450,7 @@ ggplot(sim_1$sims_datos, aes(x = y)) +
     geom_histogram(binwidth = 3) + 
     xlim(0, 40) +
     facet_wrap(~ sample, nrow = 2)
-#> Warning: Removed 322 rows containing non-finite values (stat_bin).
+#> Warning: Removed 311 rows containing non-finite values (stat_bin).
 #> Warning: Removed 20 rows containing missing values (geom_bar).
 ```
 
@@ -1466,7 +1470,7 @@ datos simulados:
 mean(roachdata$y == 0)
 #> [1] 0.359
 mean(sim_1$sims_datos$y == 0)
-#> [1] 0.0374
+#> [1] 0.037
 ```
 
 Vemos que el 36% de los datos observados hay ceros mientras que en los
@@ -1534,7 +1538,7 @@ ggplot(sim_2$sims_datos, aes(x = y)) +
     geom_histogram(binwidth = 3) + 
     xlim(0, 40) +
     facet_wrap(~ sample, nrow = 2)
-#> Warning: Removed 492 rows containing non-finite values (stat_bin).
+#> Warning: Removed 450 rows containing non-finite values (stat_bin).
 #> Warning: Removed 20 rows containing missing values (geom_bar).
 ```
 
@@ -1545,7 +1549,7 @@ El panel que corresponde a los datos es:
 
 ```r
 sim_2$codigo
-#> [1] 10
+#> [1] 1
 ```
 
 Podemos comparar el número de ceros.
@@ -1558,7 +1562,7 @@ sims_p_ceros <- sim_1000$y_sims_df %>%
     group_by(sim) %>% 
     summarise(p_ceros = mean(y == 0))
 mean(sims_p_ceros$p_ceros >= 0.36)
-#> [1] 0.163
+#> [1] 0.18
 ```
 
 En este caso el 19% de los datos muestran una proporción de ceros al menos
@@ -1870,6 +1874,21 @@ cd4_power <- function(n_sims, J, K){
 # calculamos el poder para distintos tamaños de muestra, con 7 mediciones al año
 potencias <- map_df(c(8, 16, 60, 100, 150, 200, 225, 250, 300, 400), 
     ~data_frame(n = ., p = cd4_power(n_sims = 500, J = ., K = 7)))
+#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
+#> $checkConv, : unable to evaluate scaled gradient
+#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
+#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
+#> eigenvalues
+#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
+#> $checkConv, : unable to evaluate scaled gradient
+#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
+#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
+#> eigenvalues
+#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
+#> $checkConv, : unable to evaluate scaled gradient
+#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
+#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
+#> eigenvalues
 #> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
 #> $checkConv, : unable to evaluate scaled gradient
 #> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control

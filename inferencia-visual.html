@@ -389,7 +389,6 @@ Information</em>, p. 169):</p>
 <h4>Ejemplo: Estaturas</h4>
 <p>Estaturas de hombres y mujeres. Supongamos que nos interesa describir de manera
 simple los datos, independientemente de si se trata de un hombre o una mujer.</p>
-<pre><code>#&gt; Error in library(nullabor): there is no package called &#39;nullabor&#39;</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(singer_g)
 <span class="co">#&gt; Observations: 235</span>
 <span class="co">#&gt; Variables: 2</span>
@@ -405,17 +404,16 @@ lo que veríamos si el modelo es el que acabamos de mencionar, para esto
 hacemos 19 simulaciones bajo el modelo <span class="math inline">\(N(\mu, \sigma^2)\)</span> y las comparamos con
 los datos observados. ¿Captura este modelo las características observadas?</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nullabor)
-<span class="co">#&gt; Error in library(nullabor): there is no package called &#39;nullabor&#39;</span>
 
 sing_null &lt;-<span class="st"> </span><span class="kw">lineup</span>(<span class="kw">null_dist</span>(<span class="st">&#39;height&#39;</span>, <span class="dt">dist =</span> <span class="st">&#39;normal&#39;</span>, 
     <span class="dt">params =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="dv">171</span>, <span class="dt">sd =</span> <span class="dv">10</span>)), <span class="dt">n =</span> <span class="dv">20</span>, singer_g)
-<span class="co">#&gt; Error in lineup(null_dist(&quot;height&quot;, dist = &quot;normal&quot;, params = list(mean = 171, : could not find function &quot;lineup&quot;</span>
+<span class="co">#&gt; decrypt(&quot;A3tW nwmw RI hOGRmROI 00&quot;)</span>
 
 <span class="kw">ggplot</span>(sing_null, <span class="kw">aes</span>(<span class="dt">x =</span> gender, <span class="dt">y =</span> height)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.sample) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">width =</span> <span class="fl">0.1</span>, <span class="dt">height =</span> <span class="dv">1</span>), 
-        <span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)
-<span class="co">#&gt; Error in ggplot(sing_null, aes(x = gender, y = height)): object &#39;sing_null&#39; not found</span></code></pre>
+        <span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <p>El poder distinguir los datos provee evidencia estadística rigurosa de que hay
 diferencia.</p>
 </div>
@@ -526,22 +524,27 @@ la desviación estándar es de 6.5 en ambos casos.</p>
 <span class="co">#&gt; 1 F                164.         6.33</span>
 <span class="co">#&gt; 2 M                179.         6.92</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nullabor)
-<span class="co">#&gt; Error in library(nullabor): there is no package called &#39;nullabor&#39;</span>
 singer_c &lt;-<span class="st"> </span>singer_g <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">group_by</span>(gender) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">mutate</span>(<span class="dt">height_c =</span> height <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(height))
 <span class="kw">set.seed</span>(<span class="dv">26832</span>)
 sing_null_c &lt;-<span class="st"> </span><span class="kw">lineup</span>(<span class="kw">null_dist</span>(<span class="st">&#39;height_c&#39;</span>, <span class="dt">dist =</span> <span class="st">&#39;normal&#39;</span>, 
     <span class="dt">params =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="kw">sd</span>(singer_c<span class="op">$</span>height_c))), <span class="dt">n =</span> <span class="dv">20</span>, singer_c)
-<span class="co">#&gt; Error in lineup(null_dist(&quot;height_c&quot;, dist = &quot;normal&quot;, params = list(mean = 0, : could not find function &quot;lineup&quot;</span>
+<span class="co">#&gt; decrypt(&quot;A3tW nwmw RI hOGRmROI 0Y&quot;)</span>
 <span class="kw">head</span>(sing_null_c)
-<span class="co">#&gt; Error in head(sing_null_c): object &#39;sing_null_c&#39; not found</span></code></pre>
+<span class="co">#&gt;   gender height height_c .sample</span>
+<span class="co">#&gt; 1      F    163   -2.579       1</span>
+<span class="co">#&gt; 2      F    157    1.151       1</span>
+<span class="co">#&gt; 3      F    168    3.589       1</span>
+<span class="co">#&gt; 4      F    165    0.496       1</span>
+<span class="co">#&gt; 5      F    152    8.716       1</span>
+<span class="co">#&gt; 6      F    155  -16.618       1</span></code></pre>
 <p>Prueba:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sing_null_c, <span class="kw">aes</span>(<span class="dt">x =</span> gender, <span class="dt">y =</span> height_c)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.sample) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">width =</span> <span class="fl">0.1</span>, <span class="dt">height =</span> <span class="dv">1</span>), 
-        <span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)
-<span class="co">#&gt; Error in ggplot(sing_null_c, aes(x = gender, y = height_c)): object &#39;sing_null_c&#39; not found</span></code></pre>
+        <span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 </div>
 <div id="el-paquete-nullabor" class="section level4 unnumbered">
 <h4>El paquete nullabor</h4>
@@ -607,23 +610,23 @@ basket_LA &lt;-<span class="st"> </span>basket <span class="op">%&gt;%</span>
 <span class="co"># guardar datos</span>
 <span class="kw">write.table</span>(basket_LA, <span class="dt">file =</span> <span class="st">&quot;data/basket_LA.csv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(basket_LA)
-<span class="co">#&gt; Observations: 1,411</span>
+<span class="co">#&gt; Observations: 1,410</span>
 <span class="co">#&gt; Variables: 4</span>
-<span class="co">#&gt; $ x     &lt;dbl&gt; 0.848, 41.391, 46.069, 36.613, 43.207, 7.706, 16.030, 1....</span>
-<span class="co">#&gt; $ y     &lt;dbl&gt; 6.30, 26.07, 17.44, 29.61, 24.41, 27.99, 29.21, 4.84, 29...</span>
-<span class="co">#&gt; $ r     &lt;dbl&gt; 25.0, 30.8, 27.4, 31.8, 30.5, 32.9, 30.6, 24.3, 33.6, 32...</span>
-<span class="co">#&gt; $ angle &lt;dbl&gt; 2.887, 1.010, 0.691, 1.197, 0.930, 2.124, 1.869, 2.941, ...</span>
+<span class="co">#&gt; $ x     &lt;dbl&gt; 1.137, 41.175, 45.635, 37.477, 43.171, 7.752, 15.801, 0....</span>
+<span class="co">#&gt; $ y     &lt;dbl&gt; 5.96, 26.14, 17.24, 30.15, 24.28, 27.82, 28.73, 5.39, 29...</span>
+<span class="co">#&gt; $ r     &lt;dbl&gt; 24.6, 30.7, 26.9, 32.6, 30.3, 32.7, 30.2, 24.6, 33.6, 32...</span>
+<span class="co">#&gt; $ angle &lt;dbl&gt; 2.897, 1.017, 0.696, 1.178, 0.928, 2.126, 1.881, 2.921, ...</span>
 
 basket_null &lt;-<span class="st"> </span><span class="kw">lineup</span>(<span class="kw">null_lm</span>(r <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(angle, <span class="dv">2</span>)), basket_LA, <span class="dt">n =</span> <span class="dv">10</span>)
-<span class="co">#&gt; Error in lineup(null_lm(r ~ poly(angle, 2)), basket_LA, n = 10): could not find function &quot;lineup&quot;</span>
+<span class="co">#&gt; decrypt(&quot;A3tW nwmw RI hOGRmROI 01&quot;)</span>
 
 <span class="kw">ggplot</span>(basket_null, <span class="kw">aes</span>(<span class="dt">x =</span> angle <span class="op">*</span><span class="st"> </span><span class="dv">180</span> <span class="op">/</span><span class="st"> </span>pi, <span class="dt">y =</span> r)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Angle (degrees)&quot;</span>, 
         <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">90</span>, <span class="dv">135</span>, <span class="dv">180</span>), 
     <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.sample, <span class="dt">nrow =</span> <span class="dv">2</span>)
-<span class="co">#&gt; Error in ggplot(basket_null, aes(x = angle * 180/pi, y = r)): object &#39;basket_null&#39; not found</span></code></pre>
+<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.sample, <span class="dt">nrow =</span> <span class="dv">2</span>)</code></pre>
+<p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-34-1.png" width="768" /></p>
 <p>Los datos reales están <em>escondidos</em> entre un conjunto de datos nulos que siguen
 la hipótesis de una relación cuadrática, los conjuntos nulos se crean ajustando
 el modelo, produciendo predicciones y residuales y sumando los residuales
@@ -701,7 +704,7 @@ sim_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">sim
 <span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>sample, <span class="dt">nrow =</span> <span class="dv">2</span>)
-<span class="co">#&gt; Warning: Removed 322 rows containing non-finite values (stat_bin).</span>
+<span class="co">#&gt; Warning: Removed 311 rows containing non-finite values (stat_bin).</span>
 <span class="co">#&gt; Warning: Removed 20 rows containing missing values (geom_bar).</span></code></pre>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-36-1.png" width="576" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># los datos están en sim_1$codigo</span></code></pre>
@@ -713,7 +716,7 @@ datos simulados:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(roachdata<span class="op">$</span>y <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)
 <span class="co">#&gt; [1] 0.359</span>
 <span class="kw">mean</span>(sim_<span class="dv">1</span><span class="op">$</span>sims_datos<span class="op">$</span>y <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)
-<span class="co">#&gt; [1] 0.0374</span></code></pre>
+<span class="co">#&gt; [1] 0.037</span></code></pre>
 <p>Vemos que el 36% de los datos observados hay ceros mientras que en los
 datos replicados el porcentaje de ceros es cercano a cero.</p>
 <p>Podemos pensar en la proporción de ceros como una estadística de prueba,
@@ -769,12 +772,12 @@ sim_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">sim
 <span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="dv">40</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>sample, <span class="dt">nrow =</span> <span class="dv">2</span>)
-<span class="co">#&gt; Warning: Removed 492 rows containing non-finite values (stat_bin).</span>
+<span class="co">#&gt; Warning: Removed 450 rows containing non-finite values (stat_bin).</span>
 <span class="co">#&gt; Warning: Removed 20 rows containing missing values (geom_bar).</span></code></pre>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-39-1.png" width="576" /></p>
 <p>El panel que corresponde a los datos es:</p>
 <pre class="sourceCode r"><code class="sourceCode r">sim_<span class="dv">2</span><span class="op">$</span>codigo
-<span class="co">#&gt; [1] 10</span></code></pre>
+<span class="co">#&gt; [1] 1</span></code></pre>
 <p>Podemos comparar el número de ceros.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sim_<span class="dv">1000</span> &lt;-<span class="st"> </span><span class="kw">simula_modelo</span>(<span class="dv">1000</span>, glm_<span class="dv">2</span>)
 <span class="co"># calculamos el porcentaje de ceros en cada conjunto simulado</span>
@@ -782,7 +785,7 @@ sims_p_ceros &lt;-<span class="st"> </span>sim_<span class="dv">1000</span><span
 <span class="st">    </span><span class="kw">group_by</span>(sim) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">p_ceros =</span> <span class="kw">mean</span>(y <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))
 <span class="kw">mean</span>(sims_p_ceros<span class="op">$</span>p_ceros <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.36</span>)
-<span class="co">#&gt; [1] 0.163</span></code></pre>
+<span class="co">#&gt; [1] 0.18</span></code></pre>
 <p>En este caso el 19% de los datos muestran una proporción de ceros al menos
 tan alta como la observada.</p>
 <p>La simulación de datos <em>falsos</em> no debe ser la única herramienta para evaluar
