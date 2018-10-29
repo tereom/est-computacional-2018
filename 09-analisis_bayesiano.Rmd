@@ -1,5 +1,18 @@
 # Análisis bayesiano
 
+```{r options, echo = FALSE, message=FALSE, error=TRUE}
+knitr::opts_chunk$set(
+    comment = "#>",
+    collapse = TRUE, error=TRUE
+)
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+options(digits = 3)
+
+library(tidyverse)
+library(gridExtra)
+theme_set(theme_minimal())
+```
+
 Para esta sección seguiremos, principalmente, @kruschke.
 
 Hasta ahora hemos estudiado métodos estadísticos frecuentistas (o clásicos), 
@@ -40,7 +53,7 @@ posbilidades. _How often have I said to you that when you have eliminated the im
 
 * Las posibilidades son valores de los parámetros en modelos descriptivos.
 
-### Probabilidad subjetiva
+## Probabilidad subjetiva {-}
 
 ¿Qué tanta certeza tienes de que una moneda acuñada por la casa de moneda 
 mexicana es justa? Si, en cambio, consideramos una moneda antigua y asimétrica, 
@@ -53,7 +66,7 @@ que es cada posible resultado. Describir con presición nuestras creencias puede
 ser una tarea difícil, por lo que exploraremos como _calibrar_ las creencias
 subjetivas.
 
-#### Calibración
+#### Calibración {-}
 Considera una pregunta sencilla que puede afectar a un viajero: ¿Qué tanto 
 crees que habrá una tormenta que ocasionará el cierre de la autopista
 México-Acapulco en el puente del 20 de noviembre? Como respuesta debes dar
@@ -91,7 +104,9 @@ comparaciones tenemos que tu probabilidad subjetiva se ubica entre 0.1 y 0.5.
 2015? Da un intervalo del 90% de confianza para esta cantidad.
 
 Más de calibración:
+
 * Prueba de calibración de [Messy Matters](http://messymatters.com/calibration/).
+
 * Más pruebas en [An Educated Guess](http://sethrylan.org/bayesian/index.html).
 
 #### Descripción matemática de creencias subjetivas {-}
@@ -114,7 +129,7 @@ la varianza de $\theta$, que mide que tan dispersa esta la distribución, se
 puede pensar como la incertidumbre entre los posibles valores.
 
 
-### Regla de Bayes {-}
+## Regla de Bayes {-}
 
 Thomas Bayes (1702-1761) fue un matemático y ministro de la iglesia 
 presbiteriana, en 1764 se publicó su famoso teorema. 
@@ -156,24 +171,29 @@ de creencias iniciales (marginal) acerca de $X$ a creecnias posteriores
 (condicional).
 
 ### Regla de Bayes en modelos y datos {-}
+
 Una de las aplicaciones más importantes de la regla de Bayes es cuando las 
 variables fila y columna son datos y parámetros del modelo respectivamente.
+
 Un modelo especifica la probabilidad de valores particulares dado la estructura
 del modelo y valores de los parámetros. Por ejemplo en un modelo de lanzamientos
-de monedas tenemos $p(x = A|\theta)=\theta$ y $p(x = S|\theta)= 1- \theta$. 
+de monedas tenemos 
+$$p(x = A|\theta)=\theta$$,
+
+$$p(x = S|\theta)= 1- \theta$$ 
 
 De manera general, el modelo especifica:
-$$p(datos|\text{valores de parámetros y estructura del modelo})$$
+
+$$p(\text{datos}|\text{valores de parámetros y estructura del modelo})$$
 
 y usamos la regla de Bayes para convertir la expresión anterior a lo que 
 nos interesa de verdad, que es, que tanta certidumbre tenemos del modelo
 condicional a los datos:
 
-$$p(\text{valores de parámetros y estructura del modelo} | datos)$$
+$$p(\text{valores de parámetros y estructura del modelo} | \text{datos})$$
 
 Una vez que observamos los datos, usamos la regla de Bayes para determinar
 o actualizar nuestras creencias de posibles parámetros y modelos.
-
 
 Entonces:
 
@@ -183,20 +203,26 @@ Entonces:
 desconocido $\theta$ mediante distribuciones de probabilidad.  
 
 * Antes de observar datos $x$, cuantificamos la información de $\theta$ externa 
-a $x$ en una __distribución a priori__ $p(\theta)$, esto es, la distribución a
-priori resume nuestras creencias acerca del parámetro ajenas a los datos. Por
+a $x$ en una __distribución a priori__:
+
+$$p(\theta),$$ 
+esto es, la distribución a priori resume nuestras creencias acerca del parámetro 
+ajenas a los datos. Por
 otra parte, cuantificamos la información de $\theta$ asociada a $x$ mediante la 
-__distribución de verosimilitud__ $p(x|\theta)$.
+__distribución de verosimilitud__ 
+
+$$p(x|\theta)$$
 
 * Combinamos la información a priori y la información que provee $x$ mediante el 
 __teorema de Bayes__ obteniendo así la __distribución posterior__ 
-$p(\theta|x) \propto p(x|\theta)p(\theta)$.
+
+$$p(\theta|x) \propto p(x|\theta)p(\theta).$$
 
 * Las inferencias se obtienen de resúmenes de la distribución posterior.
 </div>
 
 #### Ejemplo: Ingesta calórica en estudiantes {-}
-Supongamos que nos interesa aprender los hábitos alimenticos de los estudiantes
+Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
 universitarios en México, y escuchamos que de acuerdo a investigaciones se
 recomienda que un adulto promedio ingiera 2500 kcal. Es así que buscamos conocer
 que proporción de los estudiantes siguen esta recomendación, para ello 
@@ -246,7 +272,7 @@ $$\propto  p(\theta)\mathcal{L}(\theta)$$
 
 Vemos que la distribución posterior es proporcional al producto de la 
 verosimilitud y la distribución inicial, el denominador $p(x)$ no depende de 
-$\theta$ por lo que es constante (como función de $\theta$) y esta ahí? para
+$\theta$ por lo que es constante (como función de $\theta$) y esta ahí para
 normalizar la distribución posterior asegurando que tengamos una distribución 
 de probabilidad.
 
@@ -280,7 +306,8 @@ pdisc(p = theta, prior = prior, data = c(z, N - z)) %>% round(3)
 
 # Alargamos los datos para graficar
 dists_l <- dists %>% 
-  gather(dist, val, prior:post)
+  gather(dist, val, prior:post) %>% 
+  mutate(dist = factor(dist, levels = c("prior", "post")))
 
 ggplot(dists_l, aes(x = theta, y = val)) +
   geom_bar(stat = "identity", fill = "darkgray") + 
@@ -298,7 +325,7 @@ artículos y expertos?
 
 #### Evidencia {-}
 Ahora, en el teorema de Bayes también encontramos el término $p(x)$ que 
-denominamos la __evidencia__, esta última también se conoce como verosimilitud
+denominamos la __evidencia__, también se conoce como verosimilitud
 marginal o inicial predictiva. 
 $$p(\theta|x)=\frac{p(x|\theta)p(\theta)}{p(x)}$$
 
@@ -1884,7 +1911,7 @@ observados.
 Repitamos el caso del sesgo de la modela usando JAGS. Vale la pena realizar un 
 diagrama.
 
-```{r, fig.height=2.5, echo=FALSE}
+```{r, eval=FALSE, echo=FALSE, fig.width=3.5, fig.width=3.5, message=FALSE, out.width="150px", out.height="150px"}
 library(DiagrammeR)
 grViz("
 digraph betabinom {
@@ -1907,6 +1934,8 @@ digraph betabinom {
 }
 ")
 ```
+
+![](imagenes/sesgos_diag.png)
 
 El diagrama captura las dependencias entre los datos y los parámetros y 
 veremos que puede facilitar la implementación en JAGS pues cada flecha en
