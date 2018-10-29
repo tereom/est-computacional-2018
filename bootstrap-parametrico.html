@@ -363,11 +363,11 @@ thetaBoot &lt;-<span class="st"> </span><span class="cf">function</span>(){
 <span class="co"># Paso 4: Repetimos B = 2000 veces y estimamos el error estándar</span>
 sims_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">3000</span>, <span class="kw">thetaBoot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
 <span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2999</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((sims_boot <span class="op">-</span><span class="st"> </span>sigma_hat<span class="op">/</span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))
-<span class="co">#&gt; [1] 0.0294</span></code></pre>
+<span class="co">#&gt; [1] 0.0309</span></code></pre>
 <p>Comparamos con el método delta:
 <span class="math display">\[\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}{2\hat{\mu}^2}\bigg)^{1/2}\]</span></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">4</span> <span class="op">+</span><span class="st"> </span>sigma_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)
-<span class="co">#&gt; [1] 0.0242</span></code></pre>
+<span class="co">#&gt; [1] 0.0254</span></code></pre>
 <p><img src="../imagenes/manicule2.jpg" /> Supongamos que observamos 70 realizaciones de
 una Bernoulli, de tal manera que observamos 20 éxitos, calcula un intervalo de
 confianza usando bootstrap y comparalo con el correspondiente usando la
@@ -400,18 +400,18 @@ usaremos un método de expansiones de base que permite mayor flexibilidad.</p>
 espacio de covariables (o predictores) creando variables adicionales que
 consisten en transformaciones de las variables originales <span class="math inline">\(X\)</span>, para luego usar
 modelos lineales en el espacio aumentado. Si denotamos por <span class="math inline">\(h_m(X)\)</span> la
-m-ésima transformación de <span class="math inline">\(X\)</span>, con <span class="math inline">\(m = 1,...,M\)</span>, podemos modelar:</p>
+<span class="math inline">\(m\)</span>-ésima transformación de <span class="math inline">\(X\)</span>, con <span class="math inline">\(m = 1,...,M\)</span>, podemos modelar:</p>
 <p><span class="math display">\[f(X)=\sum_{i=1}^M \beta_m h_m(X)\]</span></p>
 <p>Lo conveniente de este enfoque es que una vez que determinamos las funciones
 base <span class="math inline">\(h_m\)</span> los modelos son lineales en estas nuevas variables y podemos explotar
 las ventajas de usar modelos lineales. En lo que sigue supondremos que <span class="math inline">\(X\)</span> es
 unidimensional (como en el ejemplo).</p>
 <p>Dentro de los métodos de expansión de bases estudiaremos los splines. Una
-función spline está fromada por polinomios de grado k, cada uno definido
+función spline está fromada por polinomios de grado <span class="math inline">\(k\)</span>, cada uno definido
 sobre un intervalo, y se unen entre sí en los límites de cada intervalo. Los
 lugares donde se unen se conocen como nudos (knots). Antes de proceder
 entendamos los polinomios por pedazos: un polinomio por pedazos se obtiene
-dividiendo el dominio de X en intervalos contiguos y representando a <span class="math inline">\(f\)</span> por
+dividiendo el dominio de <span class="math inline">\(X\)</span> en intervalos contiguos y representando a <span class="math inline">\(f\)</span> por
 medio de un polinomio en cada intervalo. Por ejemplo una constante por pedazos:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Hmisc)
 <span class="co">#&gt; Loading required package: lattice</span>
@@ -438,7 +438,7 @@ toy_k &lt;-<span class="st"> </span>toy <span class="op">%&gt;%</span>
 <p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-9-1.png" width="384" /></p>
 <p>Debido a que dividimos el dominio en regiones disjuntas, el estimador de
 mínimos cuadrados para el modelo <span class="math inline">\(f(X)=\sum \beta_m h_m(X)\)</span> es
-<span class="math inline">\(\hat{\beta_m} = \bar{Y}_m\)</span> la media de <span class="math inline">\(Y\)</span> en cada región con <span class="math inline">\(m=1,2,3,4\)</span>.</p>
+<span class="math inline">\(\hat{\beta_m} = \bar{Y}\_m\)</span> la media de <span class="math inline">\(Y\)</span> en cada región con <span class="math inline">\(m=1,2,3,4\)</span>.</p>
 <p>Ahora ajustamos un polinomio lineal por pedazos:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(toy_k, <span class="kw">aes</span>(x, y)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
@@ -448,10 +448,10 @@ mínimos cuadrados para el modelo <span class="math inline">\(f(X)=\sum \beta_m 
 a restricciones es los parámetros o al uso de bases que incorporen las
 restricciones. Más aún, es conveniente restringir no solo a continuidad de la
 función sino a continuidad de las derivadas.</p>
-<p>Supongamos que decidimos ajustar splines cúbicos a los datos, con 3 nudos
+<p>Supongamos que decidimos ajustar splines cúbicos a los datos, con <span class="math inline">\(3\)</span> nudos
 ubicados en los cuartiles de <span class="math inline">\(X\)</span>. Esto corresponde a un espacio lineal de
-funciones, la dimensión del espacio es 7 (4 regiones <span class="math inline">\(\times\)</span> 4 parámetros por
-región - 3 nodos por 3 restricciones por nodo).</p>
+funciones, la dimensión del espacio es <span class="math inline">\(7\)</span> (<span class="math inline">\(4\)</span> regiones <span class="math inline">\(\times\)</span> <span class="math inline">\(4\)</span> parámetros por
+región - <span class="math inline">\(3\)</span> nodos por <span class="math inline">\(3\)</span> restricciones por nodo).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fda) <span class="co"># paquete con funciones útiles de splines</span>
 <span class="co">#&gt; Loading required package: splines</span>
 <span class="co">#&gt; Loading required package: Matrix</span>
@@ -476,7 +476,7 @@ base &lt;-<span class="st"> </span><span class="kw">create.bspline.basis</span>(
 <p>Podemos representar el espacio por medio de una expansión lineal en las funciones
 base:</p>
 <p><span class="math display">\[\mu(x) = \sum_{j=1}^7 \beta_j h_j(x)\]</span></p>
-<p>donde <span class="math inline">\(h_j(x)\)</span> son las 7 funciones que graficamos en la figura superior. Podemos
+<p>donde <span class="math inline">\(h_j(x)\)</span> son las <span class="math inline">\(7\)</span> funciones que graficamos en la figura superior. Podemos
 pensar en <span class="math inline">\(\mu(x)\)</span> como una representación de la media condicional <span class="math inline">\(E(Y|X=x)\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">H &lt;-<span class="st"> </span><span class="kw">eval.basis</span>(x, base)
 <span class="kw">head</span>(H)

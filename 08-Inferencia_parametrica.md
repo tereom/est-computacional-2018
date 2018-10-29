@@ -160,7 +160,7 @@ sigma_hats <- rerun(1000, sim_sigma_hat(n = 5, mu_sim = 10, sigma_sim = 5)) %>%
 
 # aprox normal con media theta y error estándar 
 mean(sigma_hats)
-#> [1] 4.23
+#> [1] 4.28
 sd(sigma_hats)
 #> [1] 1.57
 
@@ -330,7 +330,7 @@ thetaBoot <- function(){
 # Paso 4: Repetimos B = 2000 veces y estimamos el error estándar
 sims_boot <- rerun(3000, thetaBoot()) %>% flatten_dbl()
 sqrt(1 / 2999 * sum((sims_boot - sigma_hat/mu_hat) ^ 2))
-#> [1] 0.0294
+#> [1] 0.0309
 ```
 
 Comparamos con el método delta: 
@@ -339,7 +339,7 @@ $$\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}
 
 ```r
 1 / sqrt(n) * (1 / mu_hat ^ 4 + sigma_hat ^ 2 / (2 * mu_hat ^ 2)) ^ (1 / 2)
-#> [1] 0.0242
+#> [1] 0.0254
 ```
 
 ![](../imagenes/manicule2.jpg) Supongamos que observamos 70 realizaciones de 
@@ -386,7 +386,7 @@ La idea básica atrás de **expansión de bases** es aumentar la dimensión del
 espacio de covariables (o predictores) creando variables adicionales que 
 consisten en transformaciones de las variables originales $X$, para luego usar 
 modelos lineales en el espacio aumentado. Si denotamos por $h_m(X)$ la 
-m-ésima transformación de $X$, con $m = 1,...,M$, podemos modelar:
+$m$-ésima transformación de $X$, con $m = 1,...,M$, podemos modelar:
 
 $$f(X)=\sum_{i=1}^M \beta_m h_m(X)$$
 
@@ -396,11 +396,11 @@ las ventajas de usar modelos lineales. En lo que sigue supondremos que $X$ es
 unidimensional (como en el ejemplo). 
 
 Dentro de los métodos de expansión de bases estudiaremos los splines. Una 
-función spline está fromada por polinomios de grado k, cada uno definido 
+función spline está fromada por polinomios de grado $k$, cada uno definido 
 sobre un intervalo, y se unen entre sí en los límites de cada intervalo. Los
 lugares donde se unen se conocen como nudos (knots). Antes de proceder 
 entendamos los polinomios por pedazos: un polinomio por pedazos se obtiene 
-dividiendo el dominio de X en intervalos contiguos y representando a $f$ por 
+dividiendo el dominio de $X$ en intervalos contiguos y representando a $f$ por 
 medio de un polinomio en cada intervalo.  Por ejemplo una constante por pedazos:
 
 
@@ -433,7 +433,7 @@ ggplot(toy_k, aes(x, y)) +
 
 Debido a que dividimos el dominio en regiones disjuntas, el estimador de 
 mínimos cuadrados para el modelo $f(X)=\sum \beta_m h_m(X)$ es 
-$\hat{\beta_m} = \bar{Y}_m$ la media de $Y$ en cada región con $m=1,2,3,4$.
+$\hat{\beta_m} = \bar{Y}\_m$ la media de $Y$ en cada región con $m=1,2,3,4$.
 
 Ahora ajustamos un polinomio lineal por pedazos:
 
@@ -451,10 +451,10 @@ a restricciones es los parámetros o al uso de bases que incorporen las
 restricciones. Más aún, es conveniente restringir no solo a continuidad de la 
 función sino a continuidad de las derivadas.
 
-Supongamos que decidimos ajustar splines cúbicos a los datos, con 3 nudos 
+Supongamos que decidimos ajustar splines cúbicos a los datos, con $3$ nudos 
 ubicados en los cuartiles de $X$. Esto corresponde a un espacio lineal de 
-funciones, la dimensión del espacio es 7 (4 regiones $\times$ 4 parámetros por
-región - 3 nodos por 3 restricciones por nodo).
+funciones, la dimensión del espacio es $7$ ($4$ regiones $\times$ $4$ parámetros por
+región - $3$ nodos por $3$ restricciones por nodo).
 
 
 ```r
@@ -487,7 +487,7 @@ base:
 
 $$\mu(x) = \sum_{j=1}^7 \beta_j h_j(x)$$
 
-donde $h_j(x)$ son las 7 funciones que graficamos en la figura superior. Podemos
+donde $h_j(x)$ son las $7$ funciones que graficamos en la figura superior. Podemos
 pensar en $\mu(x)$ como una representación de la media condicional $E(Y|X=x)$.
 
 

@@ -542,7 +542,7 @@ print(read_csv)
 ##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
 ##         guess_max = guess_max, progress = progress)
 ## }
-## <bytecode: 0x6de7fc8>
+## <bytecode: 0x88134d0>
 ## <environment: namespace:readr>
 ```
 

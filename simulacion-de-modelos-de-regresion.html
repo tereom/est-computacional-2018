@@ -328,8 +328,7 @@ juicios de belleza.</p>
 <p>Ajustamos el siguiente modelo de regresión lineal usando las variables
 <em>edad</em> (age), <em>belleza</em> (btystdave), <em>sexo</em> (female) e <em>inglés no es primera
 lengua</em> (nonenglish) para predecir las evaluaciones del curso
-(courseevaluation).
-.</p>
+(courseevaluation).</p>
 <pre class="sourceCode r"><code class="sourceCode r">beauty &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv&quot;</span>)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -352,10 +351,10 @@ lengua</em> (nonenglish) para predecir las evaluaciones del curso
 <pre class="sourceCode r"><code class="sourceCode r">fit_score &lt;-<span class="st"> </span><span class="kw">lm</span>(courseevaluation <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>btystdave <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>nonenglish, 
                 <span class="dt">data =</span> beauty)</code></pre>
 <ol style="list-style-type: decimal">
-<li>La instructora A es una mujer de 50 años, el inglés es su primera lengua y
-tiene un puntaje de belleza de -1. El instructor B es un hombre de 60 años,
-su primera lengua es el inglés y tiene un puntaje de belleza de -0.5. Simula
-1000 generaciones de la evaluación del curso de estos dos instructores. En
+<li>La instructora A es una mujer de <span class="math inline">\(50\)</span> años, el inglés es su primera lengua y
+tiene un puntaje de belleza de <span class="math inline">\(-1\)</span>. El instructor B es un hombre de <span class="math inline">\(60\)</span> años,
+su primera lengua es el inglés y tiene un puntaje de belleza de <span class="math inline">\(-0.5\)</span>. Simula
+<span class="math inline">\(1000\)</span> generaciones de la evaluación del curso de estos dos instructores. En
 tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
 predicción.</li>
 </ol>
@@ -379,7 +378,7 @@ coeficientes <span class="math inline">\(\beta\)</span>, este es normal con medi
 ## female      -5.576679e-05
 ## nonenglish   3.801753e-02</code></pre>
 <p>y <span class="math inline">\(\sigma\)</span> se calcula como <span class="math inline">\(\sigma=\hat{\sigma}\sqrt{(df)/X}\)</span>, donde X es una
-generación de una distribución <span class="math inline">\(\chi ^2\)</span> con <span class="math inline">\(df\)</span> (458) grados de libertad
+generación de una distribución <span class="math inline">\(\chi ^2\)</span> con <span class="math inline">\(df\)</span> (<span class="math inline">\(458\)</span>) grados de libertad
 <span class="math inline">\(\hat{\sigma}\)</span> es:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(fit_score)<span class="op">$</span>sigma</code></pre>
 <pre><code>## [1] 0.5320521</code></pre>
@@ -398,7 +397,7 @@ para A y B.</p></li>
 <li>En el inciso anterior obtienes simulaciones de la distribución conjunta
 <span class="math inline">\(p(\tilde{y},\beta,\sigma^2)\)</span> donde <span class="math inline">\(\beta\)</span> es el vector de coeficientes de
 la regresión lineal. Para este ejercicio nos vamos a enfocar en el coeficiente
-de belleza (<span class="math inline">\(\beta_3\)</span>), realiza 6000 simulaciones del modelo (como en el inciso
+de belleza (<span class="math inline">\(\beta_3\)</span>), realiza <span class="math inline">\(6000\)</span> simulaciones del modelo (como en el inciso
 anterior) y guarda las realizaciones de <span class="math inline">\(\beta_3\)</span>.</li>
 </ol>
 <ul>
