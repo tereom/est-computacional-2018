@@ -144,7 +144,7 @@ de $g(\theta)$.
   $\hat{\eta}=log(\hat{p}/(1-\hat{p}))$
 
 3. **Asintóticamente normal**: $\hat{\theta} \leadsto N(\theta, I(\theta)^{-1})$, 
-veremos a que nos referimos con $ I(\theta)^{-1}$ en la siguiente sección.
+veremos a que nos referimos con $I(\theta)^{-1}$ en la siguiente sección.
 
 ```{r, fig.width=3, fig.height=3}
 sim_sigma_hat <- function(n = 50, mu_sim = 0, sigma_sim = 1){
