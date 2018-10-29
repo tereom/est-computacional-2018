@@ -146,7 +146,7 @@ de $g(\theta)$.
   $\hat{\eta}=log(\hat{p}/(1-\hat{p}))$
 
 3. **Asintóticamente normal**: $\hat{\theta} \leadsto N(\theta, I(\theta)^{-1})$, 
-veremos a que nos referimos con $ I(\theta)^{-1}$ en la siguiente sección.
+veremos a que nos referimos con $I(\theta)^{-1}$ en la siguiente sección.
 
 
 ```r
@@ -160,9 +160,9 @@ sigma_hats <- rerun(1000, sim_sigma_hat(n = 5, mu_sim = 10, sigma_sim = 5)) %>%
 
 # aprox normal con media theta y error estándar 
 mean(sigma_hats)
-#> [1] 4.09
+#> [1] 4.22
 sd(sigma_hats)
-#> [1] 1.46
+#> [1] 1.57
 
 ggplot(data_frame(sigma_hats), aes(sample = sigma_hats)) +
     stat_qq() +
@@ -256,12 +256,12 @@ usar esto para construir intervalos de confianza.
 
 **Ejemplo: Bernoulli**. Supongamos $X_1,...X_n \sim Bernoulli(\theta)$. El 
 estimador de máxima verosimilitud es $\hat{\theta}=\sum X_i/n$ y un intervalo de 
-aproximadamante 95% de confianza es:
+aproximadamante $95\%$ de confianza es:
 $$\hat{\theta} \pm 1.96 \bigg\{\frac{\hat{\theta}(1- \hat{\theta})}{n} \bigg\}^{1/2}$$
 
 <div class="caja">
 **Método delta**. Si $\tau=g(\theta)$ donde $\theta$ consta de únicamente un 
-parámetro, g es diferenciable y $g´(\theta)\neq 0$ entonces
+parámetro, $g$ es diferenciable y $g´(\theta)\neq 0$ entonces
 $$\frac{\sqrt{n}(\hat{\tau}-\tau)}{\hat{se}(\hat{\tau})}\leadsto N(0, 1)$$
 donde $\hat{\tau}=g(\theta)$ y
 
@@ -293,13 +293,13 @@ es como construimos la distrinución de la que vamos a seleccionar muestras.
 $\theta = g(\mu,\sigma)=\sigma/\mu$, esta cantidad se conoce como el 
 coeficiente de variación. Estima $\theta$ y su error estándar.
  
-1. Calculamos $\hat{\mu}=1/n \sum{X_i}$ y $\hat{\sigma}=1/n \sum(X_i-\hat{\mu})^2$.
+1. Calculamos $\hat{\mu}=\frac{1}{n} \sum{X_i}$ y $\hat{\sigma}=\frac{1}{n} \sum(X_i-\hat{\mu})^2$.
 
       Repetimos $2$ y $3$, $\ldots$, $B$ veces:
 
 2. Simulamos $X_1^*,...,X_n^*$ con $X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)$.
 
-3. Calculamos $\hat{\mu}^*=1/n \sum{X_i^*}$ y $\hat{\sigma}^2=1/n \sum(X_i^*-\hat{\mu}^*)^2$ y $\hat{\theta}=\hat{\sigma}^*/\hat{\mu}^*$.
+3. Calculamos $\hat{\mu}^*=\frac{1}{n} \sum{X_i^*}$ y $\hat{\sigma}^2=\frac{1}{n} \sum(X_i^*-\hat{\mu}^*)^2$ y $\hat{\theta}=\hat{\sigma}^*/\hat{\mu}^*$.
 
 4. Estimamos el erro estándar como:
  a) $$\hat{se}_B=\sqrt{\frac{1}{B-1}\sum_{b=1}^B \big(\hat{\theta}^*(b) - \bar{\theta}\big)^2}$$
@@ -330,7 +330,7 @@ thetaBoot <- function(){
 # Paso 4: Repetimos B = 2000 veces y estimamos el error estándar
 sims_boot <- rerun(3000, thetaBoot()) %>% flatten_dbl()
 sqrt(1 / 2999 * sum((sims_boot - sigma_hat/mu_hat) ^ 2))
-#> [1] 0.0293
+#> [1] 0.0337
 ```
 
 Comparamos con el método delta: 
@@ -339,7 +339,7 @@ $$\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}
 
 ```r
 1 / sqrt(n) * (1 / mu_hat ^ 4 + sigma_hat ^ 2 / (2 * mu_hat ^ 2)) ^ (1 / 2)
-#> [1] 0.0242
+#> [1] 0.0264
 ```
 
 ![](../imagenes/manicule2.jpg) Supongamos que observamos 70 realizaciones de 

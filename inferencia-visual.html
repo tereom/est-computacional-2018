@@ -646,8 +646,8 @@ modelo ajustado con los datos observados.</p>
 en departamentos urbanos. Se realiza un experimento deonde se dividen los
 departamentos en:</p>
 <ul>
-<li>grupo de tratamiento (160 deptos.) y</li>
-<li>grupo de control (104 deptos.).</li>
+<li>grupo de tratamiento (<span class="math inline">\(160\)</span> deptos.) y</li>
+<li>grupo de control (<span class="math inline">\(104\)</span> deptos.).</li>
 </ul>
 <p>En cada departamento se mide el número de cucarachas atrapadas <span class="math inline">\(y_i\)</span> en un
 conjunto de trampas. Distintos departamentos tuvieron trampas un
@@ -717,10 +717,10 @@ datos simulados:</p>
 <span class="co">#&gt; [1] 0.359</span>
 <span class="kw">mean</span>(sim_<span class="dv">1</span><span class="op">$</span>sims_datos<span class="op">$</span>y <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)
 <span class="co">#&gt; [1] 0.037</span></code></pre>
-<p>Vemos que el 36% de los datos observados hay ceros mientras que en los
+<p>Vemos que el <span class="math inline">\(36\%\)</span> de los datos observados hay ceros mientras que en los
 datos replicados el porcentaje de ceros es cercano a cero.</p>
 <p>Podemos pensar en la proporción de ceros como una estadística de prueba,
-simulamos 1000 conjuntos de datos y calculamos la proporción de ceros:</p>
+simulamos <span class="math inline">\(1000\)</span> conjuntos de datos y calculamos la proporción de ceros:</p>
 <pre class="sourceCode r"><code class="sourceCode r">sim_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">simula_modelo</span>(<span class="dv">1000</span>, glm_<span class="dv">1</span>)
 <span class="co"># calculamos el porcentaje de ceros en cada conjunto simulado</span>
 sims_p_ceros &lt;-<span class="st"> </span>sim_<span class="dv">2</span><span class="op">$</span>y_sims_df <span class="op">%&gt;%</span><span class="st"> </span>
@@ -730,7 +730,7 @@ sims_p_ceros &lt;-<span class="st"> </span>sim_<span class="dv">2</span><span cl
 <span class="co">#&gt; [1] 0</span>
 <span class="kw">max</span>(sims_p_ceros<span class="op">$</span>p_ceros)
 <span class="co">#&gt; [1] 0.00763</span></code></pre>
-<p>Vemos que en el porcentaje de ceros varía entre 0 y 0.008, todos ellos
+<p>Vemos que en el porcentaje de ceros varía entre <span class="math inline">\(0\)</span> y <span class="math inline">\(0.008\)</span>, todos ellos
 mucho menores a la estadística de prueba <span class="math inline">\(0.36\)</span>.</p>
 <p>Ahora veamos que ocurre si ajustamos un modelo Poisson con sobredispersión.</p>
 <pre class="sourceCode r"><code class="sourceCode r">glm_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>roach1 <span class="op">+</span><span class="st"> </span>treatment <span class="op">+</span><span class="st"> </span>senior, <span class="dt">family =</span> quasipoisson, 
@@ -786,7 +786,7 @@ sims_p_ceros &lt;-<span class="st"> </span>sim_<span class="dv">1000</span><span
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">p_ceros =</span> <span class="kw">mean</span>(y <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))
 <span class="kw">mean</span>(sims_p_ceros<span class="op">$</span>p_ceros <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.36</span>)
 <span class="co">#&gt; [1] 0.18</span></code></pre>
-<p>En este caso el 19% de los datos muestran una proporción de ceros al menos
+<p>En este caso el <span class="math inline">\(19\%\)</span> de los datos muestran una proporción de ceros al menos
 tan alta como la observada.</p>
 <p>La simulación de datos <em>falsos</em> no debe ser la única herramienta para evaluar
 el ajuste de un modelo; sin embargo, es una herramienta útil que nos puede

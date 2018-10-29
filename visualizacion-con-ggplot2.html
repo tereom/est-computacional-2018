@@ -347,13 +347,13 @@ información de esta base de datos tecleando <code>?mpg</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) </code></pre>
 <p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
-<p>En ggplot2 se inicia una gráfica con la instrucción <code>ggplot()</code>, debemos
+<p>En <code>ggplot2</code> se inicia una gráfica con la instrucción <code>ggplot()</code>, debemos
 especificar explicitamente que base de datos usamos, este es el primer argumento
-en la función ggplot. Una vez que creamos la base añadimos
+en la función <code>ggplot()</code>. Una vez que creamos la base añadimos
 <em>capas</em>, y dentro de <em>aes()</em> escribimos las variables que queremos
 graficar y el atributo de la gráfica al que queremos mapearlas.</p>
 <p>La función <code>geom_point()</code> añade una capa de puntos, hay muchas funciones
-<em>geometrías</em> incluídas en ggplot2: <code>geom_line()</code>, <code>geom_boxplot()</code>,
+<em>geometrías</em> incluídas en <code>ggplot2</code>: <code>geom_line()</code>, <code>geom_boxplot()</code>,
 <code>geom_histogram</code>,… Cada una acepta distintos argumentos para mapear las
 variables en los datos a características estéticas de la gráfica. En el ejemplo
 de arriba mapeamos <code>displ</code> al eje x, <code>hwy</code> al eje y, pero <code>geom_point()</code> nos
@@ -454,7 +454,7 @@ de acuerdo a las categorías de una sola variable</p>
 <span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>cyl)</code></pre>
 <p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
-<p>También podemos hacer una cuadrícula de 2 dimensiones usando
+<p>También podemos hacer una cuadrícula de <span class="math inline">\(2\)</span> dimensiones usando
 <em>facet_grid(filas~columnas)</em></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
@@ -533,7 +533,7 @@ gapminder</code></pre>
 ## 10 Afghanistan Asia       1997    41.8 22227415      635.
 ## # ... with 1,694 more rows</code></pre>
 <p>            realiza al
-menos 3 gráficas y explica las relaciones que encuentres. Debes usar lo que
+menos <span class="math inline">\(3\)</span> gráficas y explica las relaciones que encuentres. Debes usar lo que
 revisamos en estas notas: al menos una de las gráficas debe ser de páneles,
 realiza una gráfica con datos de México, y (opcional)si lo consideras
 interesante, puedes crear una variable categórica utilizando la función <code>cut2</code>
