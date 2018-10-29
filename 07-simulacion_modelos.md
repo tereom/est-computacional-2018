@@ -1014,6 +1014,9 @@ apofenia.
 
 
 ![](imagenes/tasas_cancer_2.png)
+Si podemos distinguir los datos hay evidencia estadística rigurosa de
+un patrón espacial en las tasas de mortalidad que se puede detectar en la 
+gráfica.
 
 ### Inferencia {-}
 
@@ -1059,10 +1062,9 @@ de esta.
 
 La siguiente imagen proviene de un escrito de Edmond Murphy que en 1964 escribió
 sobre la dudosa inferencia de mecanismos causales a partir de la observación de 
-una distribución bimodal (Edward Tufte, *The Visual Display of Quantitative 
-Information*, p. 169):
+una distribución bimodal (@tufte86, p. 169):
 
-![@tufte86](imagenes/tufte.png)
+![](imagenes/tufte.png)
 
 
 #### Ejemplo: Estaturas {-}
@@ -1106,8 +1108,8 @@ ggplot(sing_null, aes(x = gender, y = height)) +
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-26-1.png" width="672" />
 
-El poder distinguir los datos provee evidencia estadística rigurosa de que hay 
-diferencia.
+Veremos como estas pruebas visuales se comparan con las pruebas de hipótesis 
+típicas de estadística.
 
 ### Pruebas de hipótesis típicas {-}
 Antes de proseguir recordemos los conceptos de prueba de hipótesis:
@@ -1171,7 +1173,7 @@ ggplot(nulos, aes(x = t)) +
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-29-1.png" width="250px" />
+<img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-29-1.png" width="300px" />
 
 Notamos que el valor obtenido con nuestros datos está en las colas de la 
 distribución, es decir, es muy poco plausible observar un valor tan bajo como 
@@ -1259,15 +1261,7 @@ ggplot(sing_null_c, aes(x = gender, y = height_c)) +
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-32-1.png" width="672" />
 
-#### El paquete nullabor {-}
-
-`null_dist`: Simula dada una distribución particular: Beta, Cauchy, Exponencial, 
-Poisson,...
-
-`null_lm`: Simula cuando la variable es una combinación lineal de predictores.
-
-`null_permute`: Utiliza permutación, la variable es independiente de las otras.
-
+En esta segunda prueba gráfica no rechazamos la hipótesis nula. 
 
 #### ¿Porqué pruebas visuales? {-}
 
@@ -1279,9 +1273,30 @@ El siguiente es un *lineup* de nubes de palabras tomado de [Graphical Inference 
 
 ![](imagenes/wordcloud.png)
 
+Además, las pruebas visuales nos pueden enseñar no solo si rechazamos la 
+hipótesis nula, sino que en ocasiones revelan el por qué rechazar.
+
+#### El paquete nullabor {-}
+El paquete `nullabor` tiene funciones para implementar los protocolos 
+*Rorschach* y *Lineup*, en cualquiera de los dos protocolos el primer paso es 
+poder generar datos nulos, y para ello `nullabor` incluye las siguientes 
+opciones:
+
+`null_permute`: Utiliza permutación, la variable es independiente de las otras.
+
+`null_dist`: Simula dada una distribución particular: Beta, Cauchy, Exponencial, 
+Poisson,...
+
+`null_lm`: Simula cuando la variable es una combinación lineal de predictores.
+
+Hay ocasiones que queremos simular datos nulos más allá de las funciones 
+incluídas en `nullabor`, más adelante veremos un ejemplo de @gelman-hill donde
+utilizamos lo aprendido en la sección de simulación de modelos para implementar
+nuestra prueba visual. Adicionalmente, el [material suplemental](http://stat.wharton.upenn.edu/~buja/PAPERS/06-Buja-Cook-Hofmann-Lawrence-Lee-Swayne-Wickham-suppl.pdf) de @buja explica 
+algunas consideraciones para generar datos nulos.
 
 
-#### Diagramas de dispersión {-}
+#### Ejemplo: diagramas de dispersión {-}
 
 Un diagrama de dispersión muestra la relación entre dos variables continuas
 y responde a la pregunta: ¿existe una relación entre $x$ y $y$? Una posible 
@@ -1361,7 +1376,7 @@ ggplot(basket_null, aes(x = angle * 180 / pi, y = r)) +
 
 Los datos reales están _escondidos_ entre un conjunto de datos nulos que siguen
 la hipótesis de una relación cuadrática, los conjuntos nulos se crean ajustando
-el modelo, produciendo predicciones y residuales y sumando los residuales 
+el modelo, produciendo predicciones y residuales, y sumando los residuales 
 rotados a las predicciones.
 
 En el siguiente ejemplo buscamos usar el protocolo *lineup* para evauar
@@ -1374,12 +1389,13 @@ Las ideas detrás de inferencia visual para diagnósticos de modelos son comunes
 en estadística bayesiana, y se pueden extender a la estimación frecuentista 
 usando lo que aprendimos en la sección de simulación de modelos probabilísticos.
 
-En este contexto se conoce como simulación de *datos falsos* (*fake data*) o 
-datos replicados y buscamos comparar datos simulados bajo el 
-modelo ajustado con los datos observados.
+Cuando simulamos datos usando el modelo se conoce como simulación de 
+*datos falsos* (*fake data*) o datos replicados y lo que buscamos es comparar 
+datos simulados bajo el modelo ajustado con los datos observados. El siguiente
+ejemplo se tomó de @gelman-hill.
 
 Problema: se busca estudiar el efecto de pesticidas en el control de cucarachas 
-en departamentos urbanos. Se realiza un experimento deonde se dividen los 
+en departamentos urbanos. Se realiza un experimento donde se dividen los 
 departamentos en:
 
 * grupo de tratamiento ($160$ deptos.) y
@@ -1476,8 +1492,9 @@ mean(sim_1$sims_datos$y == 0)
 Vemos que el $36\%$ de los datos observados hay ceros mientras que en los
 datos replicados el porcentaje de ceros es cercano a cero.
 
-Podemos pensar en la proporción de ceros como una estadística de prueba,
-simulamos $1000$ conjuntos de datos y calculamos la proporción de ceros:
+Además de la prueba visual podemos pensar en la proporción de ceros como una 
+estadística de prueba, simulamos $1000$ conjuntos de datos y calculamos la 
+proporción de ceros:
 
 
 ```r
@@ -1495,7 +1512,9 @@ max(sims_p_ceros$p_ceros)
 Vemos que en el porcentaje de ceros varía entre $0$ y $0.008$, todos ellos
 mucho menores a la estadística de prueba $0.36$.
 
-Ahora veamos que ocurre si ajustamos un modelo Poisson con sobredispersión.
+Ahora veamos que ocurre si ajustamos un modelo Poisson con sobredispersión, este 
+modelo busca acomodar la sobreabundancia de ceros observada en los datos y que
+no es congruente con el modelo Poisson que ajustamos.
 
 
 ```r
@@ -1535,11 +1554,9 @@ simula_modelo <- function(n_sims = 19, ajuste){
 
 sim_2 <- simula_modelo(n_sims = 9, glm_2)
 ggplot(sim_2$sims_datos, aes(x = y)) +
-    geom_histogram(binwidth = 3) + 
-    xlim(0, 40) +
+    geom_histogram(binwidth = 4) + 
+    xlim(0, 100) +
     facet_wrap(~ sample, nrow = 2)
-#> Warning: Removed 450 rows containing non-finite values (stat_bin).
-#> Warning: Removed 20 rows containing missing values (geom_bar).
 ```
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-39-1.png" width="576" />
@@ -1584,7 +1601,9 @@ hipótesis nula cuando esta es falsa.
 * En el caso de pruebas visuales la potencia depende de la calidad de la 
 gráfica.
 
-* Se ha estudiado la potencia de las pruebas, @majumder, y se ha visto .
+* Se ha estudiado la potencia de las pruebas visuales, @majumder y se ha visto
+con simulación que las pruebas visuales pueden tener potencia comparable a las
+pruebas de hipótesis tradicionales, a veces incluso superándolas.
 
 * El paquete `nullabor` incluye la función `visual_power()` para calcular 
 el poder de una prueba simulada.
@@ -1600,9 +1619,9 @@ $0.05^K$
 prueba dada `pvisual()`.
 
 Las pruebas de hipótesis visuales, no son la única herramienta que se debe usar 
-para evaluar un modelo, por lo que no debemos descartar un modelo basados 
-únicamente en una prueba visual. Sin embargo, las pruebas visuales y en general
-graficar los modelos ajustados, si son una herramienta útil que nos puede ayudar 
+en el análisis exploratorio o para evaluar un modelo. Sin embargo, las pruebas 
+visuales nos ayudan a explorar relaciones observadas en gráficas controlando por 
+la apofenia, y en general graficar modelos ajustados nos puede ayudar 
 a comprender las implicaciones de un modelo y las fallas del mismo.
 
 ## Simulación para cálculo de tamaño de muestra/poder estadístico
@@ -1612,10 +1631,13 @@ que se desea, y esto (junto con algunos supuestos de la población) determina el
 tamaño de muestra que se tomará. Usualmente se fija uno de los siguientes dos 
 objetivos:
 
-1. Se determina el error estándar de un parámetro o cantidad de interés. Por 
-ejemplo, en encuestas electorales es típico reportar *los resultados de esta 
-encuesta más menos $3$ puntos porcentuales tienen un nivel del $95\%$ de confianza*, 
-cúantas personas se debe entrevistar para lograr esto?
+1. Se determina el error estándar de un parámetro o cantidad de interés (o de 
+manera equivalente se fija la longitud máxima aceptable del intervalo de 
+confianza que resultará). Por ejemplo, en encuestas electorales es típico 
+reportar *los resultados de esta encuesta más menos $3$ puntos porcentuales tienen 
+un nivel del $95\%$ de confianza*, ¿cúantas personas se debe entrevistar para 
+lograr esto?
+
 
 2. Se determina la probabilidad de que un estadístico determinado sea 
 *estadísticamente significativo*. Por ejemplo, cuando se hacen ensayos clínicos
@@ -1623,14 +1645,22 @@ se determina un tamaño de muestra para que con probabilidad de $x$% se detecte
 una diferencia clinicamente relevante con el nuevo tratamiento (si es que este 
 es efectivo).
 
-En cualquiera de estos dos escenarios se necesita hacer supuestos para poder 
-calcular el tamaño de muestra.
+En muchos casos existen fórmulas para calcular tamaños de muestra de tal manera
+que se cumplan los objetivos planteados, sin embargo, conforme se agrega 
+complejidad al levantamiento de los datos (faltantes, levantamientos en 
+varias etapas, ...) o si nos alejamos de las estadísticas típicas, las fórmulas
+dejan de aplicar o se vuelven muy complejas, de manera que suele ser conveniente
+recurrir a simulación. Veremos dos ejemplos que se tomaron de @gelman-hill.
 
 #### Tamaño de muestra para un error estándar determinado {-}
-
 Supongamos que queremos estimar el porcentaje de la población que 
+<<<<<<< HEAD
+apoya la pena de muerte. Sospechamos que la proporción es 60%, imaginemos
+que queremos un error estándar de a lo más 0.05, o 5 puntos 
+=======
 apoya la pena de muerte. Sospechamos que la proporción es $60\%$, imaginemos
 que queremos una precisión (error estándar) de a lo más $0.05$, o $5$ puntos 
+>>>>>>> 1515a1256d14479ab9c3379e463a2bb4618be6ea
 porcentuales. Bajo muestreo aleatorio simple, para una muestra de tamaño $n$, 
 el error estándar de la proporción $p$ es 
 $$\sqrt{p(1-p)/n}$$
@@ -1658,9 +1688,8 @@ ggplot(xy, aes(x = x, y = y)) +
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-42-1.png" width="350px" />
 
 Cómo calcularíamos el tamaño de muestra simulando? En este caso es trivial 
-calcular de manera analítica pero conforme se aumenta complejidad en el diseño 
-de la muestra o en el estadístico de interés también se complica encontrar una 
-solución analítica.
+calcular de manera analítica, pero nos sirve para comparar los resultados que 
+obtendríamos con simulación.
 
 
 ```r
@@ -1689,6 +1718,7 @@ ggplot(sims, aes(x = n, y = se_p_hat, color = factor(p), group = p)) +
 
 
 #### Tamaño de muestra determinado para obtener significancia estadística con una probabilidad determinada {-}
+
 Supongamos que nuestro objetivo es demostrar que más de la mitad de la población 
 apoya la pena de muerte, esto es $p>0.5$, nuevamente tenemos la hipótesis que el 
 verdadero valor es $p=0.6$. 
@@ -1724,7 +1754,8 @@ ggplot(sims) +
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-44-1.png" width="350px" />
 
 
-Veamos un ejemplo más interesante, tenemos medidas del sistema inmune 
+Veamos un ejemplo más interesante, en donde usamos simulación de un modelo 
+probabilístico. Tenemos medidas del sistema inmune 
 (porcentaje de CD4 transformado con raíz cuadrada) de niños VIH positivos a lo 
 largo de un periodo de $2$ años. Las series de tiempo se ajustan de manera 
 razonable con un modelo de intercepto y pendiente variable:
@@ -1874,41 +1905,6 @@ cd4_power <- function(n_sims, J, K){
 # calculamos el poder para distintos tamaños de muestra, con 7 mediciones al año
 potencias <- map_df(c(8, 16, 60, 100, 150, 200, 225, 250, 300, 400), 
     ~data_frame(n = ., p = cd4_power(n_sims = 500, J = ., K = 7)))
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : unable to evaluate scaled gradient
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
-#> eigenvalues
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : unable to evaluate scaled gradient
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
-#> eigenvalues
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : unable to evaluate scaled gradient
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
-#> eigenvalues
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : unable to evaluate scaled gradient
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
-#> eigenvalues
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : unable to evaluate scaled gradient
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
-#> eigenvalues
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : unable to evaluate scaled gradient
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
-#> eigenvalues
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : unable to evaluate scaled gradient
-#> Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control
-#> $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
-#> eigenvalues
 
 ggplot(potencias, aes(x = n, y = p)) +
     geom_hline(yintercept = 0.8, color = "red", alpha = 0.5) +
@@ -1918,9 +1914,9 @@ ggplot(potencias, aes(x = n, y = p)) +
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-48-1.png" width="350px" />
 
 Notemos que la función `cd4_rep()` regresa la proporción de las simulaciones en 
-las que el resultado es estadísticamente significarivo, est es, la potencia
-calculada con simulaicón, para un estudio con $J$ niños medidos en $K$ i
-ntervalos igualmente espaciados.
+las que el resultado es estadísticamente significativo, est es, la potencia
+calculada con simulaicón, para un estudio con $J$ niños medidos en $K$ 
+intervalos igualmente espaciados.
 
 Notemos también que en el límite, cuando $J \to 0$ el poder es $0.025$, esto es, 
 con una muestra suficientemente chica el efecto del estimador es básicamente 
@@ -1930,7 +1926,8 @@ por encima de cero.
 Una ventaja de usar simulación para calcular potencia es que nos permite 
 flexibilidad, por ejemplo, es fácil calcular para más escenarios:
 
-* ¿qué ocurriría si solo puedo medir $3$ veces al año?
+![](imagenes/mainucule2.png) ¿qué ocurriría si solo puedo medir $3$ veces al año?
+
 
 * Se sabe que es común que algunos participantes abandonen el estudio, o no 
 asistan a todas las mediciones, con simulación es fácil incorporar faltantes.

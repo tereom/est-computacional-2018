@@ -702,17 +702,20 @@ anterior) y guarda las realizaciones de $\beta_3$.
 + Calcula la media y desviación estándar de las simulaciones y comparalas con la 
 estimación y desviación estándar del coeficiente obtenidas usando summary.
 
-## 9 - Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.{-}
+## 9-Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.{-}
 
 #### Inferencia gráfica {-}
 
 Los datos [marg_diabetes](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/marg_diabetes.csv) incluyen información de marginación y diabetes en 
 México: 
+
 * `ent`, `id_ent`, `mun`, `id_mun`, `cvegeo`: corresponden al estado, municipio 
-y sus códigos de identificación.
+y sus códigos de identificación.  
+
 * `n_causa` es el número de muertes de adultos mayores a 65 años a causa de
 diabetes en 2015, y `tasa_mun` la tasa correspondiente por cada 10,000 
-habitantes.
+habitantes.  
+
 * `tasa_alf` (porcentaje de población alfabeta), `ind_des_hum` (índice de 
 desarrollo humano), `conapo` (índice de marginación).
 
@@ -739,10 +742,11 @@ desviación estándar de $0.1$.
 
 1. Supongamos que la muestra total es de $n=1000$. ¿Cuál es la estimación del 
 error estándar para la proporción estimada si $J=1,10,100,1000$?
-    
+
 2. El obejtivo es estimar la propoción que consume refresco en la población con 
 un error estándar de a lo más $2\%$. ¿Que valores de $J$ y $n$ debemos elegir para
 cumplir el objetivo al menor costo?
+
 Los costos del levantamiento son: 
     + $50$ pesos por encuesta.
     + $500$ pesos por conglomerado

@@ -283,6 +283,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="bootstrap-parametrico.html"><a href="bootstrap-parametrico.html"><i class="fa fa-check"></i><b>9.2</b> Bootstrap paramétrico</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="analisis-bayesiano.html"><a href="analisis-bayesiano.html"><i class="fa fa-check"></i><b>10</b> Análisis bayesiano</a><ul>
+<li class="chapter" data-level="" data-path="probabilidad-subjetiva.html"><a href="probabilidad-subjetiva.html"><i class="fa fa-check"></i>Probabilidad subjetiva</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-1.html"><a href="regla-de-bayes-1.html"><i class="fa fa-check"></i>Regla de Bayes</a><ul>
+<li class="chapter" data-level="" data-path="regla-de-bayes-1.html"><a href="regla-de-bayes-1.html#regla-de-bayes-en-modelos-y-datos"><i class="fa fa-check"></i>Regla de Bayes en modelos y datos</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-1.html"><a href="regla-de-bayes-1.html#objetivos-de-la-inferencia"><i class="fa fa-check"></i>Objetivos de la inferencia</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-1.html"><a href="regla-de-bayes-1.html#calculo-de-la-distribucion-posterior"><i class="fa fa-check"></i>Cálculo de la distribución posterior</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-1.html"><a href="regla-de-bayes-1.html#ejemplo-bernoulli"><i class="fa fa-check"></i>Ejemplo: Bernoulli</a></li>
+<li class="chapter" data-level="" data-path="regla-de-bayes-1.html"><a href="regla-de-bayes-1.html#inferencia-de-dos-proporciones-binomiales"><i class="fa fa-check"></i>Inferencia de dos proporciones binomiales</a></li>
+</ul></li>
+<li class="chapter" data-level="10.1" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html"><i class="fa fa-check"></i><b>10.1</b> Muestreador de Gibbs</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#jags"><i class="fa fa-check"></i><b>10.1.1</b> JAGS</a></li>
+<li class="chapter" data-level="10.1.2" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#ejemplo-normal-1"><i class="fa fa-check"></i><b>10.1.2</b> Ejemplo normal</a></li>
+<li class="chapter" data-level="10.1.3" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#diagnosticos"><i class="fa fa-check"></i><b>10.1.3</b> Diagnósticos</a></li>
+<li class="chapter" data-level="10.1.4" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#recomendaciones-generales"><i class="fa fa-check"></i><b>10.1.4</b> Recomendaciones generales</a></li>
+<li class="chapter" data-level="10.1.5" data-path="muestreador-de-gibbs.html"><a href="muestreador-de-gibbs.html#referencias"><i class="fa fa-check"></i><b>10.1.5</b> Referencias</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
 <li class="chapter" data-level="" data-path="datos-limpios-1.html"><a href="datos-limpios-1.html"><i class="fa fa-check"></i>3-Datos Limpios</a></li>
@@ -295,9 +312,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="simulacion-de-modelos-1.html"><a href="simulacion-de-modelos-1.html"><i class="fa fa-check"></i>7-Simulación de modelos</a></li>
 <li class="chapter" data-level="" data-path="simulacion-de-modelos-de-regresion.html"><a href="simulacion-de-modelos-de-regresion.html"><i class="fa fa-check"></i>8-Simulación de modelos de regresión</a></li>
-<li class="chapter" data-level="" data-path="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><a href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><i class="fa fa-check"></i>9 - Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.</a></li>
+<li class="chapter" data-level="" data-path="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><a href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><i class="fa fa-check"></i>9-Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="chapter" data-level="" data-path="referencias-1.html"><a href="referencias-1.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
 
@@ -325,23 +342,34 @@ que se desea, y esto (junto con algunos supuestos de la población) determina el
 tamaño de muestra que se tomará. Usualmente se fija uno de los siguientes dos
 objetivos:</p>
 <ol style="list-style-type: decimal">
-<li><p>Se determina el error estándar de un parámetro o cantidad de interés. Por
-ejemplo, en encuestas electorales es típico reportar <em>los resultados de esta
-encuesta más menos <span class="math inline">\(3\)</span> puntos porcentuales tienen un nivel del <span class="math inline">\(95\%\)</span> de confianza</em>,
-cúantas personas se debe entrevistar para lograr esto?</p></li>
+<li><p>Se determina el error estándar de un parámetro o cantidad de interés (o de
+manera equivalente se fija la longitud máxima aceptable del intervalo de
+confianza que resultará). Por ejemplo, en encuestas electorales es típico
+reportar <em>los resultados de esta encuesta más menos <span class="math inline">\(3\)</span> puntos porcentuales tienen
+un nivel del <span class="math inline">\(95\%\)</span> de confianza</em>, ¿cúantas personas se debe entrevistar para
+lograr esto?</p></li>
 <li><p>Se determina la probabilidad de que un estadístico determinado sea
 <em>estadísticamente significativo</em>. Por ejemplo, cuando se hacen ensayos clínicos
 se determina un tamaño de muestra para que con probabilidad de <span class="math inline">\(x\)</span>% se detecte
 una diferencia clinicamente relevante con el nuevo tratamiento (si es que este
 es efectivo).</p></li>
 </ol>
-<p>En cualquiera de estos dos escenarios se necesita hacer supuestos para poder
-calcular el tamaño de muestra.</p>
+<p>En muchos casos existen fórmulas para calcular tamaños de muestra de tal manera
+que se cumplan los objetivos planteados, sin embargo, conforme se agrega
+complejidad al levantamiento de los datos (faltantes, levantamientos en
+varias etapas, …) o si nos alejamos de las estadísticas típicas, las fórmulas
+dejan de aplicar o se vuelven muy complejas, de manera que suele ser conveniente
+recurrir a simulación. Veremos dos ejemplos que se tomaron de <span class="citation">Gelman and Hill (<a href="#ref-gelman-hill">2007</a>)</span>.</p>
 <div id="tamano-de-muestra-para-un-error-estandar-determinado" class="section level4 unnumbered">
 <h4>Tamaño de muestra para un error estándar determinado</h4>
 <p>Supongamos que queremos estimar el porcentaje de la población que
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+apoya la pena de muerte. Sospechamos que la proporción es 60%, imaginemos
+que queremos un error estándar de a lo más 0.05, o 5 puntos
+=======
 apoya la pena de muerte. Sospechamos que la proporción es <span class="math inline">\(60\%\)</span>, imaginemos
 que queremos una precisión (error estándar) de a lo más <span class="math inline">\(0.05\)</span>, o <span class="math inline">\(5\)</span> puntos
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 1515a1256d14479ab9c3379e463a2bb4618be6ea
 porcentuales. Bajo muestreo aleatorio simple, para una muestra de tamaño <span class="math inline">\(n\)</span>,
 el error estándar de la proporción <span class="math inline">\(p\)</span> es
 <span class="math display">\[\sqrt{p(1-p)/n}\]</span>
@@ -363,9 +391,8 @@ xy &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class=
         <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">linetype =</span> <span class="st">&quot;longdash&quot;</span>)</code></pre>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-42-1.png" width="350px" /></p>
 <p>Cómo calcularíamos el tamaño de muestra simulando? En este caso es trivial
-calcular de manera analítica pero conforme se aumenta complejidad en el diseño
-de la muestra o en el estadístico de interés también se complica encontrar una
-solución analítica.</p>
+calcular de manera analítica, pero nos sirve para comparar los resultados que
+obtendríamos con simulación.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sim_p_hat &lt;-<span class="st"> </span><span class="cf">function</span>(n, p, <span class="dt">n_sims =</span> <span class="dv">1000</span>){
     sim_muestra &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n_sims, <span class="dt">size =</span> n, <span class="dt">prob =</span> p)
     se_p_hat &lt;-<span class="st"> </span><span class="kw">sd</span>(sim_muestra <span class="op">/</span><span class="st"> </span>n)
@@ -413,7 +440,8 @@ sims &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="k
 <span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> potencia)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.8</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-44-1.png" width="350px" /></p>
-<p>Veamos un ejemplo más interesante, tenemos medidas del sistema inmune
+<p>Veamos un ejemplo más interesante, en donde usamos simulación de un modelo
+probabilístico. Tenemos medidas del sistema inmune
 (porcentaje de CD4 transformado con raíz cuadrada) de niños VIH positivos a lo
 largo de un periodo de <span class="math inline">\(2\)</span> años. Las series de tiempo se ajustan de manera
 razonable con un modelo de intercepto y pendiente variable:</p>
@@ -531,60 +559,25 @@ cd4_power &lt;-<span class="st"> </span><span class="cf">function</span>(n_sims,
 <span class="co"># calculamos el poder para distintos tamaños de muestra, con 7 mediciones al año</span>
 potencias &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">c</span>(<span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">60</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">225</span>, <span class="dv">250</span>, <span class="dv">300</span>, <span class="dv">400</span>), 
     <span class="op">~</span><span class="kw">data_frame</span>(<span class="dt">n =</span> ., <span class="dt">p =</span> <span class="kw">cd4_power</span>(<span class="dt">n_sims =</span> <span class="dv">500</span>, <span class="dt">J =</span> ., <span class="dt">K =</span> <span class="dv">7</span>)))
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : unable to evaluate scaled gradient</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : Model failed to converge: degenerate Hessian with 1 negative</span>
-<span class="co">#&gt; eigenvalues</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : unable to evaluate scaled gradient</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : Model failed to converge: degenerate Hessian with 1 negative</span>
-<span class="co">#&gt; eigenvalues</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : unable to evaluate scaled gradient</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : Model failed to converge: degenerate Hessian with 1 negative</span>
-<span class="co">#&gt; eigenvalues</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : unable to evaluate scaled gradient</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : Model failed to converge: degenerate Hessian with 1 negative</span>
-<span class="co">#&gt; eigenvalues</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : unable to evaluate scaled gradient</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : Model failed to converge: degenerate Hessian with 1 negative</span>
-<span class="co">#&gt; eigenvalues</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : unable to evaluate scaled gradient</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : Model failed to converge: degenerate Hessian with 1 negative</span>
-<span class="co">#&gt; eigenvalues</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : unable to evaluate scaled gradient</span>
-<span class="co">#&gt; Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control</span>
-<span class="co">#&gt; $checkConv, : Model failed to converge: degenerate Hessian with 1 negative</span>
-<span class="co">#&gt; eigenvalues</span>
 
 <span class="kw">ggplot</span>(potencias, <span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> p)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">0.8</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>)</code></pre>
 <p><img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-48-1.png" width="350px" /></p>
 <p>Notemos que la función <code>cd4_rep()</code> regresa la proporción de las simulaciones en
-las que el resultado es estadísticamente significarivo, est es, la potencia
-calculada con simulaicón, para un estudio con <span class="math inline">\(J\)</span> niños medidos en <span class="math inline">\(K\)</span> i
-ntervalos igualmente espaciados.</p>
+las que el resultado es estadísticamente significativo, est es, la potencia
+calculada con simulaicón, para un estudio con <span class="math inline">\(J\)</span> niños medidos en <span class="math inline">\(K\)</span>
+intervalos igualmente espaciados.</p>
 <p>Notemos también que en el límite, cuando <span class="math inline">\(J \to 0\)</span> el poder es <span class="math inline">\(0.025\)</span>, esto es,
 con una muestra suficientemente chica el efecto del estimador es básicamente
 aleatorio y por tanto en <span class="math inline">\(2.5\%\)</span> de los casos el estimador está <span class="math inline">\(2\)</span> desviaciones
 por encima de cero.</p>
 <p>Una ventaja de usar simulación para calcular potencia es que nos permite
 flexibilidad, por ejemplo, es fácil calcular para más escenarios:</p>
+<p><img src="imagenes/mainucule2.png" /> ¿qué ocurriría si solo puedo medir <span class="math inline">\(3\)</span> veces al año?</p>
 <ul>
-<li><p>¿qué ocurriría si solo puedo medir <span class="math inline">\(3\)</span> veces al año?</p></li>
-<li><p>Se sabe que es común que algunos participantes abandonen el estudio, o no
-asistan a todas las mediciones, con simulación es fácil incorporar faltantes.</p></li>
+<li>Se sabe que es común que algunos participantes abandonen el estudio, o no
+asistan a todas las mediciones, con simulación es fácil incorporar faltantes.</li>
 </ul>
 <!--
 * Cook, D. [To the tidyverse and beyond: Challenges to the future of data science](http://www.dicook.org/files/rstudio/#1)
@@ -604,6 +597,12 @@ and Model Diagnostics"](http://stat.wharton.upenn.edu/~buja/PAPERS/06-Buja-Cook-
 </div>
 </div>
 <!-- </div> -->
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-gelman-hill">
+<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
+</div>
+</div>
             </section>
 
           </div>
