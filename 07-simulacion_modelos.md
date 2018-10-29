@@ -1699,7 +1699,7 @@ confianza no incluyan $0.5$. Para encontrar la $n$ tal que el $80\%$ de las
 estimaciones estén al menos, $1.96$ errores estándar por encima de $0.5$ 
 necesitamos que:
 
-$$0.5 + 1.96 se \le 0.6 - 0.84 se$$
+$$0.5 + 1.96 se \geq 0.6 - 0.84 se$$
 
 Sustituyendo $se = 0.5/\sqrt(n)$ obtenemos $n=196$
 

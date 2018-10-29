@@ -52,7 +52,7 @@ denotemos $S=\sum x_i$, entonces
 $$\mathcal{l}(\theta)=S \log \theta + (n-S) \log (1-\theta)$$
 .
 
-Si n=20 y S=12 tenemos la función:
+Si $n=20$ y $S=12$ tenemos la función:
 
 
 ```r
@@ -114,7 +114,7 @@ optimize(l_bernoulli(n = 20, S = 12), interval = c(0, 1), maximum = TRUE)
 ![](imagenes/manicule2.jpg) Sean $X_1,...X_n \sim N(\mu, \sigma^2)$. 
 
 * Calcula el estimador de máxima verosimilitud para $\theta = (\mu, \sigma^2)$.
-Supongamos que observamos una muestra de tamaño 100 tal que: $\sum X_i = 40$ y 
+Supongamos que observamos una muestra de tamaño $100$ tal que: $\sum X_i = 40$ y 
 $\sum X_i^2 = 20$. 
 
 * Calcula $\hat{\theta}$ usando el método de máxima 
@@ -160,9 +160,9 @@ sigma_hats <- rerun(1000, sim_sigma_hat(n = 5, mu_sim = 10, sigma_sim = 5)) %>%
 
 # aprox normal con media theta y error estándar 
 mean(sigma_hats)
-#> [1] 4.22
+#> [1] 4.24
 sd(sigma_hats)
-#> [1] 1.57
+#> [1] 1.61
 
 ggplot(data_frame(sigma_hats), aes(sample = sigma_hats)) +
     stat_qq() +
@@ -295,7 +295,7 @@ coeficiente de variación. Estima $\theta$ y su error estándar.
  
 1. Calculamos $\hat{\mu}=\frac{1}{n} \sum{X_i}$ y $\hat{\sigma}=\frac{1}{n} \sum(X_i-\hat{\mu})^2$.
 
-      Repetimos $2$ y $3$, $\ldots$, $B$ veces:
+Repetimos $2$ y $3$ B veces:
 
 2. Simulamos $X_1^*,...,X_n^*$ con $X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)$.
 
@@ -305,7 +305,7 @@ coeficiente de variación. Estima $\theta$ y su error estándar.
  a) $$\hat{se}_B=\sqrt{\frac{1}{B-1}\sum_{b=1}^B \big(\hat{\theta}^*(b) - \bar{\theta}\big)^2}$$
 
 
-Veamos un ejemplo donde tenemos 200 observaciones con una distribución 
+Veamos un ejemplo donde tenemos $200$ observaciones con una distribución 
 $Normal(10, 5^2)$ y nos interesa estimar $\theta=\sigma/\mu$.
 
 
@@ -330,7 +330,7 @@ thetaBoot <- function(){
 # Paso 4: Repetimos B = 2000 veces y estimamos el error estándar
 sims_boot <- rerun(3000, thetaBoot()) %>% flatten_dbl()
 sqrt(1 / 2999 * sum((sims_boot - sigma_hat/mu_hat) ^ 2))
-#> [1] 0.0337
+#> [1] 0.0336
 ```
 
 Comparamos con el método delta: 
@@ -339,11 +339,11 @@ $$\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}
 
 ```r
 1 / sqrt(n) * (1 / mu_hat ^ 4 + sigma_hat ^ 2 / (2 * mu_hat ^ 2)) ^ (1 / 2)
-#> [1] 0.0264
+#> [1] 0.0266
 ```
 
-![](../imagenes/manicule2.jpg) Supongamos que observamos 70 realizaciones de 
-una Bernoulli, de tal manera que observamos 20 éxitos, calcula un intervalo de
+![](../imagenes/manicule2.jpg) Supongamos que observamos $70$ realizaciones de 
+una Bernoulli, de tal manera que observamos $20$ éxitos, calcula un intervalo de
 confianza usando bootstrap y comparalo con el correspondiente usando la 
 información de Fisher.
 
@@ -503,7 +503,7 @@ head(H)
 #> [6,]  0.0000 0.00e+00 0.00e+00  0.0837  0.4714   0.439 0.00608
 ```
 
-Sea H la  matriz de $n \times 7$, donde el elemento $ij$ corresponde a 
+Sea $H$ la  matriz de $n \times 7$, donde el elemento $ij$ corresponde a 
 $h_j(x_i)$. Entonces, el estimador usual de $\beta$ (obtenido minimizando el 
 error cuadrático) esta dado por:
 $$\hat{\beta} = (H^TH)^{-1}H^Ty$$
@@ -556,8 +556,8 @@ splines_boot + geom_point(color = "red", alpha = 0.5)
 
 <img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-14-1.png" width="384" />
 
-La gráfica superior muestra 100 replicaciones bootstrap del suavizamiento. 
-Construyamos los intervalos bootstrap, en cada $x$ encontramos el 2.5% más chico 
+La gráfica superior muestra $100$ replicaciones bootstrap del suavizamiento. 
+Construyamos los intervalos bootstrap, en cada $x$ encontramos el $2.5\%$ más chico 
 y más grande.
 
 
@@ -703,8 +703,8 @@ cruzada. En este caso no hay fórmulas para el cálculo de errores estándar per
 $\theta = e^{\mu}$, crea una base de datos usando $\mu=5$ que consista de $n=100$ 
 observaciones.
 
-* Usa el método delta para estimar $\hat{se}$ y crea un intervalo del 95% de
-confianza. Usa boostrap paramétrico para crear un intervalo del 95%. Usa 
+* Usa el método delta para estimar $\hat{se}$ y crea un intervalo del $95\%$ de
+confianza. Usa boostrap paramétrico para crear un intervalo del $95\%$. Usa 
 bootstrap no paramétrico para crear un intervalo del 95%. Compara tus respuestas.
 
 * Realiza un histograma de replicaciones bootstrap para cada método, estas son

@@ -397,7 +397,7 @@ seleccionar <span class="math inline">\(n\)</span> tal que el <span class="math 
 confianza no incluyan <span class="math inline">\(0.5\)</span>. Para encontrar la <span class="math inline">\(n\)</span> tal que el <span class="math inline">\(80\%\)</span> de las
 estimaciones estén al menos, <span class="math inline">\(1.96\)</span> errores estándar por encima de <span class="math inline">\(0.5\)</span>
 necesitamos que:</p>
-<p><span class="math display">\[0.5 + 1.96 se \le 0.6 - 0.84 se\]</span></p>
+<p><span class="math display">\[0.5 + 1.96 se \geq 0.6 - 0.84 se\]</span></p>
 <p>Sustituyendo <span class="math inline">\(se = 0.5/\sqrt(n)\)</span> obtenemos <span class="math inline">\(n=196\)</span></p>
 <p>Y simulando sería</p>
 <pre class="sourceCode r"><code class="sourceCode r">sim_potencia &lt;-<span class="st"> </span><span class="cf">function</span>(n, p, <span class="dt">n_sims =</span> <span class="dv">1000</span>){

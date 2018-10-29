@@ -332,8 +332,10 @@ es como construimos la distrinución de la que vamos a seleccionar muestras.</p>
 <span class="math inline">\(\theta = g(\mu,\sigma)=\sigma/\mu\)</span>, esta cantidad se conoce como el
 coeficiente de variación. Estima <span class="math inline">\(\theta\)</span> y su error estándar.</p>
 <ol style="list-style-type: decimal">
-<li><p>Calculamos <span class="math inline">\(\hat{\mu}=\frac{1}{n} \sum{X_i}\)</span> y <span class="math inline">\(\hat{\sigma}=\frac{1}{n} \sum(X_i-\hat{\mu})^2\)</span>.</p>
-<p>Repetimos <span class="math inline">\(2\)</span> y <span class="math inline">\(3\)</span>, <span class="math inline">\(\ldots\)</span>, <span class="math inline">\(B\)</span> veces:</p></li>
+<li>Calculamos <span class="math inline">\(\hat{\mu}=\frac{1}{n} \sum{X_i}\)</span> y <span class="math inline">\(\hat{\sigma}=\frac{1}{n} \sum(X_i-\hat{\mu})^2\)</span>.</li>
+</ol>
+<p>Repetimos <span class="math inline">\(2\)</span> y <span class="math inline">\(3\)</span> B veces:</p>
+<ol start="2" style="list-style-type: decimal">
 <li><p>Simulamos <span class="math inline">\(X_1^*,...,X_n^*\)</span> con <span class="math inline">\(X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)\)</span>.</p></li>
 <li><p>Calculamos <span class="math inline">\(\hat{\mu}^*=\frac{1}{n} \sum{X_i^*}\)</span> y <span class="math inline">\(\hat{\sigma}^2=\frac{1}{n} \sum(X_i^*-\hat{\mu}^*)^2\)</span> y <span class="math inline">\(\hat{\theta}=\hat{\sigma}^*/\hat{\mu}^*\)</span>.</p></li>
 <li>Estimamos el erro estándar como:</li>
@@ -341,7 +343,7 @@ coeficiente de variación. Estima <span class="math inline">\(\theta\)</span> y 
 <ol style="list-style-type: lower-alpha">
 <li><span class="math display">\[\hat{se}_B=\sqrt{\frac{1}{B-1}\sum_{b=1}^B \big(\hat{\theta}^*(b) - \bar{\theta}\big)^2}\]</span></li>
 </ol>
-<p>Veamos un ejemplo donde tenemos 200 observaciones con una distribución
+<p>Veamos un ejemplo donde tenemos <span class="math inline">\(200\)</span> observaciones con una distribución
 <span class="math inline">\(Normal(10, 5^2)\)</span> y nos interesa estimar <span class="math inline">\(\theta=\sigma/\mu\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">200</span>
 x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dt">mean =</span> <span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">5</span>)  <span class="co"># observaciones normales</span>
@@ -363,13 +365,13 @@ thetaBoot &lt;-<span class="st"> </span><span class="cf">function</span>(){
 <span class="co"># Paso 4: Repetimos B = 2000 veces y estimamos el error estándar</span>
 sims_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">3000</span>, <span class="kw">thetaBoot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
 <span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2999</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((sims_boot <span class="op">-</span><span class="st"> </span>sigma_hat<span class="op">/</span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))
-<span class="co">#&gt; [1] 0.0337</span></code></pre>
+<span class="co">#&gt; [1] 0.0336</span></code></pre>
 <p>Comparamos con el método delta:
 <span class="math display">\[\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}{2\hat{\mu}^2}\bigg)^{1/2}\]</span></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">4</span> <span class="op">+</span><span class="st"> </span>sigma_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)
-<span class="co">#&gt; [1] 0.0264</span></code></pre>
-<p><img src="../imagenes/manicule2.jpg" /> Supongamos que observamos 70 realizaciones de
-una Bernoulli, de tal manera que observamos 20 éxitos, calcula un intervalo de
+<span class="co">#&gt; [1] 0.0266</span></code></pre>
+<p><img src="../imagenes/manicule2.jpg" /> Supongamos que observamos <span class="math inline">\(70\)</span> realizaciones de
+una Bernoulli, de tal manera que observamos <span class="math inline">\(20\)</span> éxitos, calcula un intervalo de
 confianza usando bootstrap y comparalo con el correspondiente usando la
 información de Fisher.</p>
 <div id="ejemplo-bsplines-bootstrap-no-parametrico-bootstrap-parametrico-y-maxima-verosimilitud" class="section level4">
@@ -487,7 +489,7 @@ pensar en <span class="math inline">\(\mu(x)\)</span> como una representación d
 <span class="co">#&gt; [4,]  0.0000 2.27e-05 2.34e-01  0.6697  0.0963   0.000 0.00000</span>
 <span class="co">#&gt; [5,]  0.0000 1.02e-02 4.17e-01  0.5490  0.0236   0.000 0.00000</span>
 <span class="co">#&gt; [6,]  0.0000 0.00e+00 0.00e+00  0.0837  0.4714   0.439 0.00608</span></code></pre>
-<p>Sea H la matriz de <span class="math inline">\(n \times 7\)</span>, donde el elemento <span class="math inline">\(ij\)</span> corresponde a
+<p>Sea <span class="math inline">\(H\)</span> la matriz de <span class="math inline">\(n \times 7\)</span>, donde el elemento <span class="math inline">\(ij\)</span> corresponde a
 <span class="math inline">\(h_j(x_i)\)</span>. Entonces, el estimador usual de <span class="math inline">\(\beta\)</span> (obtenido minimizando el
 error cuadrático) esta dado por:
 <span class="math display">\[\hat{\beta} = (H^TH)^{-1}H^Ty\]</span></p>
@@ -526,8 +528,8 @@ splines_boot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(toy, <
 
 splines_boot <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre>
 <p><img src="08-Inferencia_parametrica_files/figure-html/unnamed-chunk-14-1.png" width="384" /></p>
-<p>La gráfica superior muestra 100 replicaciones bootstrap del suavizamiento.
-Construyamos los intervalos bootstrap, en cada <span class="math inline">\(x\)</span> encontramos el 2.5% más chico
+<p>La gráfica superior muestra <span class="math inline">\(100\)</span> replicaciones bootstrap del suavizamiento.
+Construyamos los intervalos bootstrap, en cada <span class="math inline">\(x\)</span> encontramos el <span class="math inline">\(2.5\%\)</span> más chico
 y más grande.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># construimos los intervalos</span>
 x_grid &lt;-<span class="st"> </span><span class="kw">seq</span>(knots[<span class="dv">1</span>], knots[<span class="dv">5</span>], <span class="fl">0.02</span>) <span class="co"># creamos un grid para evaluar mu(x)</span>
@@ -643,8 +645,8 @@ cruzada. En este caso no hay fórmulas para el cálculo de errores estándar per
 <span class="math inline">\(\theta = e^{\mu}\)</span>, crea una base de datos usando <span class="math inline">\(\mu=5\)</span> que consista de <span class="math inline">\(n=100\)</span>
 observaciones.</p>
 <ul>
-<li><p>Usa el método delta para estimar <span class="math inline">\(\hat{se}\)</span> y crea un intervalo del 95% de
-confianza. Usa boostrap paramétrico para crear un intervalo del 95%. Usa
+<li><p>Usa el método delta para estimar <span class="math inline">\(\hat{se}\)</span> y crea un intervalo del <span class="math inline">\(95\%\)</span> de
+confianza. Usa boostrap paramétrico para crear un intervalo del <span class="math inline">\(95\%\)</span>. Usa
 bootstrap no paramétrico para crear un intervalo del 95%. Compara tus respuestas.</p></li>
 <li><p>Realiza un histograma de replicaciones bootstrap para cada método, estas son
 estimaciones de la distribución de <span class="math inline">\(\hat{\theta}\)</span>. El método delta también nos
