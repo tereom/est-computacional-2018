@@ -733,7 +733,7 @@ $$
 \begin{pmatrix}\beta_{0}\\
 \beta_{1}
 \end{pmatrix} & \sim & N\left[\left(\begin{array}{c}
-77\\
+78\\
 12
 \end{array}\right), \sigma^2 \left(\begin{array}{cc}
 0.01 & -0.01\\
@@ -1410,8 +1410,8 @@ Problema: se busca estudiar el efecto de pesticidas en el control de cucarachas
 en departamentos urbanos. Se realiza un experimento donde se dividen los 
 departamentos en:
 
-* grupo de tratamiento (160 deptos.) y
-* grupo de control (104 deptos.). 
+* grupo de tratamiento ($160$ deptos.) y
+* grupo de control ($104$ deptos.). 
 
 En cada departamento se mide el número de cucarachas atrapadas $y_i$ en un 
 conjunto de trampas. Distintos departamentos tuvieron trampas un 
@@ -1479,11 +1479,11 @@ mean(roachdata$y == 0)
 mean(sim_1$sims_datos$y == 0)
 ```
 
-Vemos que el 36% de los datos observados hay ceros mientras que en los
+Vemos que el $36\%$ de los datos observados hay ceros mientras que en los
 datos replicados el porcentaje de ceros es cercano a cero.
 
 Además de la prueba visual podemos pensar en la proporción de ceros como una 
-estadística de prueba, simulamos 1000 conjuntos de datos y calculamos la 
+estadística de prueba, simulamos $1000$ conjuntos de datos y calculamos la 
 proporción de ceros:
 
 ```{r}
@@ -1496,7 +1496,7 @@ min(sims_p_ceros$p_ceros)
 max(sims_p_ceros$p_ceros)
 ```
 
-Vemos que en el porcentaje de ceros varía entre 0 y 0.008, todos ellos
+Vemos que en el porcentaje de ceros varía entre $0$ y $0.008$, todos ellos
 mucho menores a la estadística de prueba $0.36$.
 
 Ahora veamos que ocurre si ajustamos un modelo Poisson con sobredispersión, este 
@@ -1551,7 +1551,7 @@ sims_p_ceros <- sim_1000$y_sims_df %>%
 mean(sims_p_ceros$p_ceros >= 0.36)
 ```
 
-En este caso el 19% de los datos muestran una proporción de ceros al menos
+En este caso el $19\%$ de los datos muestran una proporción de ceros al menos
 tan alta como la observada.
 
 La simulación de datos *falsos* no debe ser la única herramienta para evaluar 
@@ -1603,9 +1603,10 @@ objetivos:
 1. Se determina el error estándar de un parámetro o cantidad de interés (o de 
 manera equivalente se fija la longitud máxima aceptable del intervalo de 
 confianza que resultará). Por ejemplo, en encuestas electorales es típico 
-reportar *los resultados de esta encuesta más menos 3 puntos porcentuales tienen 
-un nivel del 95% de confianza*, ¿cúantas personas se debe entrevistar para 
+reportar *los resultados de esta encuesta más menos $3$ puntos porcentuales tienen 
+un nivel del $95\%$ de confianza*, ¿cúantas personas se debe entrevistar para 
 lograr esto?
+
 
 2. Se determina la probabilidad de que un estadístico determinado sea 
 *estadísticamente significativo*. Por ejemplo, cuando se hacen ensayos clínicos
@@ -1622,8 +1623,13 @@ recurrir a simulación. Veremos dos ejemplos que se tomaron de @gelman-hill.
 
 #### Tamaño de muestra para un error estándar determinado {-}
 Supongamos que queremos estimar el porcentaje de la población que 
+<<<<<<< HEAD
 apoya la pena de muerte. Sospechamos que la proporción es 60%, imaginemos
 que queremos un error estándar de a lo más 0.05, o 5 puntos 
+=======
+apoya la pena de muerte. Sospechamos que la proporción es $60\%$, imaginemos
+que queremos una precisión (error estándar) de a lo más $0.05$, o $5$ puntos 
+>>>>>>> 1515a1256d14479ab9c3379e463a2bb4618be6ea
 porcentuales. Bajo muestreo aleatorio simple, para una muestra de tamaño $n$, 
 el error estándar de la proporción $p$ es 
 $$\sqrt{p(1-p)/n}$$
@@ -1680,12 +1686,12 @@ apoya la pena de muerte, esto es $p>0.5$, nuevamente tenemos la hipótesis que e
 verdadero valor es $p=0.6$. 
 
 Una prueba de potencia típica tiene un poder de $80$%, es decir nos gustaría 
-seleccionar $n$ tal que el $80$% de los intervalos construidos con $95$% de 
-confianza no incluyan $0.5$. Para encontrar la $n$ tal que el $80$% de las 
+seleccionar $n$ tal que el $80\%$ de los intervalos construidos con $95\%$ de 
+confianza no incluyan $0.5$. Para encontrar la $n$ tal que el $80\%$ de las 
 estimaciones estén al menos, $1.96$ errores estándar por encima de $0.5$ 
 necesitamos que:
 
-$$0.5 + 1.96 se \le 0.6 - 0.84 se$$
+$$0.5 + 1.96 se \geq 0.6 - 0.84 se$$
 
 Sustituyendo $se = 0.5/\sqrt(n)$ obtenemos $n=196$
 
@@ -1710,7 +1716,7 @@ ggplot(sims) +
 Veamos un ejemplo más interesante, en donde usamos simulación de un modelo 
 probabilístico. Tenemos medidas del sistema inmune 
 (porcentaje de CD4 transformado con raíz cuadrada) de niños VIH positivos a lo 
-largo de un periodo de 2 años. Las series de tiempo se ajustan de manera 
+largo de un periodo de $2$ años. Las series de tiempo se ajustan de manera 
 razonable con un modelo de intercepto y pendiente variable:
 
 $$y_i \sim N(\alpha_{j[i]} + \beta_{j[i]}t_i, \sigma^2_y)$$
@@ -1754,7 +1760,7 @@ Usaremos estos resultados para hacer calculos de potencia para una nueva prueba
 que busca medir el efecto del consumo de zinc en la dieta. Quisiéramos que el 
 estudio fuera suficientemente grande para que con probabilidad de al menos $80$%
 la media del efecto del tratamiento sea significativo con un nivel de confianza 
-del $95$%.
+del $95\%$.
 
 Necesitamos hacer supuestos del efecto del tratamiento y del resto de los 
 parámetros que caracterizan el estudio. El análisis de arriba muestra que en los 
@@ -1799,10 +1805,10 @@ Por simplicidad fijaremos la correlación $\rho$ en cero.
 El siguiente paso es determinar el diseño del modelo, suponemos que dividiremos 
 a $J$ niños VIH positivos en dos grupos del mismo tamaño, $J/2$ de ellos 
 recibirán el cuidado usual y $J/2$ recibirán suplementos de zinc. Más aún 
-suponemos que se medirá el porcentaje de CD4 cada 2 meses durante un año.
+suponemos que se medirá el porcentaje de CD4 cada $2$ meses durante un año.
 
 Usaremos simulación para determinar el tamaño de muestra $J$ que se requiere 
-para tener una potencia de $80$% si el verdadero efecto es $0.5$, ¿cuál es el 
+para tener una potencia de $80\%$ si el verdadero efecto es $0.5$, ¿cuál es el 
 modelo gráfico asociado?
 
 ```{r, fig.height=3, fig.width=3.3, out.width="350px",warning=FALSE}
@@ -1851,15 +1857,16 @@ las que el resultado es estadísticamente significativo, est es, la potencia
 calculada con simulaicón, para un estudio con $J$ niños medidos en $K$ 
 intervalos igualmente espaciados.
 
-Notemos también que en el límite, cuando $J \to 0$ el poder es 0.025, esto es, 
+Notemos también que en el límite, cuando $J \to 0$ el poder es $0.025$, esto es, 
 con una muestra suficientemente chica el efecto del estimador es básicamente 
-aleatorio y por tanto en $2.5$% de los casos el estimador está $2$ desviaciones 
+aleatorio y por tanto en $2.5\%$ de los casos el estimador está $2$ desviaciones 
 por encima de cero.
 
 Una ventaja de usar simulación para calcular potencia es que nos permite 
 flexibilidad, por ejemplo, es fácil calcular para más escenarios:
 
-![](imagenes/mainucule2.png) ¿qué ocurriría si solo puedo medir 3 veces al año?
+![](imagenes/mainucule2.png) ¿qué ocurriría si solo puedo medir $3$ veces al año?
+
 
 * Se sabe que es común que algunos participantes abandonen el estudio, o no 
 asistan a todas las mediciones, con simulación es fácil incorporar faltantes.
