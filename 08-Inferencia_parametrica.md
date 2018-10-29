@@ -160,9 +160,9 @@ sigma_hats <- rerun(1000, sim_sigma_hat(n = 5, mu_sim = 10, sigma_sim = 5)) %>%
 
 # aprox normal con media theta y error estándar 
 mean(sigma_hats)
-#> [1] 4.28
+#> [1] 4.09
 sd(sigma_hats)
-#> [1] 1.57
+#> [1] 1.46
 
 ggplot(data_frame(sigma_hats), aes(sample = sigma_hats)) +
     stat_qq() +
@@ -295,7 +295,7 @@ coeficiente de variación. Estima $\theta$ y su error estándar.
  
 1. Calculamos $\hat{\mu}=1/n \sum{X_i}$ y $\hat{\sigma}=1/n \sum(X_i-\hat{\mu})^2$.
 
-      Repetimos 2 y 3 B veces:
+      Repetimos $2$ y $3$, $\ldots$, $B$ veces:
 
 2. Simulamos $X_1^*,...,X_n^*$ con $X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)$.
 
@@ -330,7 +330,7 @@ thetaBoot <- function(){
 # Paso 4: Repetimos B = 2000 veces y estimamos el error estándar
 sims_boot <- rerun(3000, thetaBoot()) %>% flatten_dbl()
 sqrt(1 / 2999 * sum((sims_boot - sigma_hat/mu_hat) ^ 2))
-#> [1] 0.0309
+#> [1] 0.0293
 ```
 
 Comparamos con el método delta: 
@@ -339,7 +339,7 @@ $$\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}
 
 ```r
 1 / sqrt(n) * (1 / mu_hat ^ 4 + sigma_hat ^ 2 / (2 * mu_hat ^ 2)) ^ (1 / 2)
-#> [1] 0.0254
+#> [1] 0.0242
 ```
 
 ![](../imagenes/manicule2.jpg) Supongamos que observamos 70 realizaciones de 
