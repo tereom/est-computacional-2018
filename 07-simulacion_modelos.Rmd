@@ -1087,7 +1087,6 @@ y pregunta a un tercero si puede identificar los datos reales. Si eligen la
 gráfica con los datos *verdaderos* tenemos evidencia de que los datos tienen 
 estructura que es significativamente diferente a lo que esperaríamos por azar.
 
-![](imagenes/waldo.jpg)
 
 
 #### Datos nulos {-}
@@ -1201,7 +1200,7 @@ t
 Y rechazamos si $t$ es menor/mayor al valor crítico $t^*$.
 
 ```{r}
-t_star <- qt(0.025, n_h + n_m -2)
+t_star <- qt(0.025, n_f + n_m -2)
 t_star
 ```
 
@@ -1215,7 +1214,11 @@ ggplot(nulos, aes(x = t)) +
         alpha = 0.5) 
 ```
 
-¿Cómo calculamos el valor-p? 
+Notamos que el valor obtenido con nuestros datos está en las colas de la 
+distribución, es decir, es muy poco plausible observar un valor tan bajo como 
+el que obtenemos bajo la hipótesis nula. ¿Cómo calculamos el valor-p con 
+simulación?
+
 
 ### Inferencia visual {-}
 
@@ -1548,7 +1551,7 @@ hipótesis nula cuando esta es falsa.
 * En el caso de pruebas visuales la potencia depende de la calidad de la 
 gráfica.
 
-* Se ha estudiado la potencia de las pruebas [Validation of Visual Statistical Inference, Applied to Linear Models](http://www.tandfonline.com/doi/abs/10.1080/01621459.2013.808157).
+* Se ha estudiado la potencia de las pruebas, @majumder, y se ha visto .
 
 * El paquete `nullabor` incluye la función `visual_power()` para calcular 
 el poder de una prueba simulada.
@@ -1569,7 +1572,7 @@ para evaluar un modelo, por lo que no debemos descartar un modelo basados
 graficar los modelos ajustados, si son una herramienta útil que nos puede ayudar 
 a comprender las implicaciones de un modelo y las fallas del mismo.
 
-## Simulación para cálculo de poder estadístico
+## Simulación para cálculo de tamaño de muestra/poder estadístico
 
 Cuando se esta diseñando un estudio se determina la precisión en las inferencias 
 que se desea, y esto (junto con algunos supuestos de la población) determina el 
@@ -1603,8 +1606,8 @@ sería $0.49/\sqrt{n}$, de tal manera que si queremos $se(p) \le 0.05$
 necesitamos $n>96$, en el caso de proporciones es fácil determinar el tamaño de 
 muestra de manera conservadora pues basta con suponer $p = 0.5$.
 
-```{r, fig.width=4.5}
-se_fun_n <- function(n, p) sqrt(p * (1-p) / n)
+```{r, fig.width=4.5, fig.height=3.8, out.width="350px", cache = TRUE}
+se_fun_n <- function(n, p) sqrt(p * (1 - p) / n)
 
 xy <- data.frame(x = 20:220, y = seq(0, 1, 0.005))
 ggplot(xy, aes(x = x, y = y)) +
@@ -1776,7 +1779,7 @@ Usaremos simulación para determinar el tamaño de muestra $J$ que se requiere
 para tener una potencia de $80$% si el verdadero efecto es $0.5$, ¿cuál es el 
 modelo gráfico asociado?
 
-```{r, cache=TRUE, fig.width = 4}
+```{r, fig.height=3, fig.width=3.3, out.width="350px"}
 # cd4_sim simula del modelo con los supuestos que fijamos arriba
 #   podemos variar los valores de los parámetros para cambiar el escenario
 cd4_sim <- function (J, K, mu.a.true = 4.8, g.0.true = -0.5, g.1.true = 0.5, 
@@ -1813,7 +1816,7 @@ potencias <- map_df(c(8, 16, 60, 100, 150, 200, 225, 250, 300, 400),
 
 ggplot(potencias, aes(x = n, y = p)) +
     geom_hline(yintercept = 0.8, color = "red", alpha = 0.5) +
-    geom_line()
+    geom_line() + ylim(0, 1)
 
 ```
 

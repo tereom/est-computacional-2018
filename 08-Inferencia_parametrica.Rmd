@@ -21,6 +21,11 @@ Sean $X_1,...,X_n \sim p(x| \theta)$. Queremos estimar
 $\theta=(\theta_1,...,\theta_k)$. Recordemos que un estimador 
 $$\hat{\theta} = w(X_1,...,X_n)$$ es una función de los datos.
 
+En esta sección recordaremos la estimación de $\theta$ por máxima verosimilitud 
+y algunas de sus propiedades, después introduciremos las ideas de bootstrap 
+paramétrico, y veremos relación con máxima verosimilitud y con bootstrap no 
+paramétrico.
+
 ## Máxima verosimilitud
 
 El método más común para estimar parámetros es el 
@@ -139,7 +144,7 @@ de $g(\theta)$.
   $\hat{\eta}=log(\hat{p}/(1-\hat{p}))$
 
 3. **Asintóticamente normal**: $\hat{\theta} \leadsto N(\theta, I(\theta)^{-1})$, 
-veremos a que nos referimos con $ I(\theta)^{-1}$ en la siguiente sección.
+veremos a que nos referimos con $I(\theta)^{-1}$ en la siguiente sección.
 
 ```{r, fig.width=3, fig.height=3}
 sim_sigma_hat <- function(n = 50, mu_sim = 0, sigma_sim = 1){
@@ -147,7 +152,7 @@ sim_sigma_hat <- function(n = 50, mu_sim = 0, sigma_sim = 1){
     sigma_hat <- sqrt(sum((x - mean(x)) ^ 2) / n)
 }
 
-sigma_hats <- rerun(1000, sim_sigma_hat(n = 50, mu_sim = 10, sigma_sim = 5)) %>% 
+sigma_hats <- rerun(1000, sim_sigma_hat(n = 5, mu_sim = 10, sigma_sim = 5)) %>% 
     flatten_dbl()
 
 # aprox normal con media theta y error estándar 
@@ -241,12 +246,12 @@ usar esto para construir intervalos de confianza.
 
 **Ejemplo: Bernoulli**. Supongamos $X_1,...X_n \sim Bernoulli(\theta)$. El 
 estimador de máxima verosimilitud es $\hat{\theta}=\sum X_i/n$ y un intervalo de 
-aproximadamante 95% de confianza es:
+aproximadamante $95\%$ de confianza es:
 $$\hat{\theta} \pm 1.96 \bigg\{\frac{\hat{\theta}(1- \hat{\theta})}{n} \bigg\}^{1/2}$$
 
 <div class="caja">
 **Método delta**. Si $\tau=g(\theta)$ donde $\theta$ consta de únicamente un 
-parámetro, g es diferenciable y $g´(\theta)\neq 0$ entonces
+parámetro, $g$ es diferenciable y $g´(\theta)\neq 0$ entonces
 $$\frac{\sqrt{n}(\hat{\tau}-\tau)}{\hat{se}(\hat{\tau})}\leadsto N(0, 1)$$
 donde $\hat{\tau}=g(\theta)$ y
 
@@ -278,13 +283,13 @@ es como construimos la distrinución de la que vamos a seleccionar muestras.
 $\theta = g(\mu,\sigma)=\sigma/\mu$, esta cantidad se conoce como el 
 coeficiente de variación. Estima $\theta$ y su error estándar.
  
-1. Calculamos $\hat{\mu}=1/n \sum{X_i}$ y $\hat{\sigma}=1/n \sum(X_i-\hat{\mu})^2$.
+1. Calculamos $\hat{\mu}=\frac{1}{n} \sum{X_i}$ y $\hat{\sigma}=\frac{1}{n} \sum(X_i-\hat{\mu})^2$.
 
-      Repetimos 2 y 3 B veces:
+      Repetimos $2$ y $3$, $\ldots$, $B$ veces:
 
 2. Simulamos $X_1^*,...,X_n^*$ con $X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)$.
 
-3. Calculamos $\hat{\mu}^*=1/n \sum{X_i^*}$ y $\hat{\sigma}^2=1/n \sum(X_i^*-\hat{\mu}^*)^2$ y $\hat{\theta}=\hat{\sigma}^*/\hat{\mu}^*$.
+3. Calculamos $\hat{\mu}^*=\frac{1}{n} \sum{X_i^*}$ y $\hat{\sigma}^2=\frac{1}{n} \sum(X_i^*-\hat{\mu}^*)^2$ y $\hat{\theta}=\hat{\sigma}^*/\hat{\mu}^*$.
 
 4. Estimamos el erro estándar como:
  a) $$\hat{se}_B=\sqrt{\frac{1}{B-1}\sum_{b=1}^B \big(\hat{\theta}^*(b) - \bar{\theta}\big)^2}$$
@@ -375,7 +380,7 @@ La idea básica atrás de **expansión de bases** es aumentar la dimensión del
 espacio de covariables (o predictores) creando variables adicionales que 
 consisten en transformaciones de las variables originales $X$, para luego usar 
 modelos lineales en el espacio aumentado. Si denotamos por $h_m(X)$ la 
-m-ésima transformación de $X$, con $m = 1,...,M$, podemos modelar:
+$m$-ésima transformación de $X$, con $m = 1,...,M$, podemos modelar:
 
 $$f(X)=\sum_{i=1}^M \beta_m h_m(X)$$
 
@@ -385,11 +390,11 @@ las ventajas de usar modelos lineales. En lo que sigue supondremos que $X$ es
 unidimensional (como en el ejemplo). 
 
 Dentro de los métodos de expansión de bases estudiaremos los splines. Una 
-función spline está fromada por polinomios de grado k, cada uno definido 
+función spline está fromada por polinomios de grado $k$, cada uno definido 
 sobre un intervalo, y se unen entre sí en los límites de cada intervalo. Los
 lugares donde se unen se conocen como nudos (knots). Antes de proceder 
 entendamos los polinomios por pedazos: un polinomio por pedazos se obtiene 
-dividiendo el dominio de X en intervalos contiguos y representando a $f$ por 
+dividiendo el dominio de $X$ en intervalos contiguos y representando a $f$ por 
 medio de un polinomio en cada intervalo.  Por ejemplo una constante por pedazos:
 
 ```{r, fig.width = 4}
@@ -409,7 +414,7 @@ ggplot(toy_k, aes(x, y)) +
 
 Debido a que dividimos el dominio en regiones disjuntas, el estimador de 
 mínimos cuadrados para el modelo $f(X)=\sum \beta_m h_m(X)$ es 
-$\hat{\beta_m} = \bar{Y}_m$ la media de $Y$ en cada región con $m=1,2,3,4$.
+$\hat{\beta_m} = \bar{Y}\_m$ la media de $Y$ en cada región con $m=1,2,3,4$.
 
 Ahora ajustamos un polinomio lineal por pedazos:
 
@@ -424,10 +429,10 @@ a restricciones es los parámetros o al uso de bases que incorporen las
 restricciones. Más aún, es conveniente restringir no solo a continuidad de la 
 función sino a continuidad de las derivadas.
 
-Supongamos que decidimos ajustar splines cúbicos a los datos, con 3 nudos 
+Supongamos que decidimos ajustar splines cúbicos a los datos, con $3$ nudos 
 ubicados en los cuartiles de $X$. Esto corresponde a un espacio lineal de 
-funciones, la dimensión del espacio es 7 (4 regiones $\times$ 4 parámetros por
-región - 3 nodos por 3 restricciones por nodo).
+funciones, la dimensión del espacio es $7$ ($4$ regiones $\times$ $4$ parámetros por
+región - $3$ nodos por $3$ restricciones por nodo).
 
 ```{r, fig.width = 4.5}
 library(fda) # paquete con funciones útiles de splines
@@ -445,7 +450,7 @@ base:
 
 $$\mu(x) = \sum_{j=1}^7 \beta_j h_j(x)$$
 
-donde $h_j(x)$ son las 7 funciones que graficamos en la figura superior. Podemos
+donde $h_j(x)$ son las $7$ funciones que graficamos en la figura superior. Podemos
 pensar en $\mu(x)$ como una representación de la media condicional $E(Y|X=x)$.
 
 ```{r}
