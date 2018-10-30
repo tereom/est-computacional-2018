@@ -425,8 +425,12 @@ Los tres objetivos de la inferencia son: estimación de parámetros, predicción
 de valores y comparación de modelos.
 
 1. La **estimación de parámetros** implica determinar hasta que punto creemos en 
-cada posible valor del parámetro. La distribución posterior sobre los valores 
-de los parámetros $\theta$ es nuestra estimación para dichos valores.
+cada posible valor del parámetro. En estadística bayesiana la estimación se 
+realiza con la distribución posterior sobre los valores 
+de los parámetros $\theta$.  
+La siguiente gráfica ejemplifica un experimento Bernoulli, con dos posibles 
+iniciales, los datos observados son $N=20$ lanzamientos de moneda que resultan
+en $12$ éxitos o águilas.
 
 ```{r, fig.height=2.8, fig.width=7.3, results="hold", echo = FALSE}
 # Modelo 1, 3 posibles valores
@@ -471,14 +475,14 @@ ggplot(filter(dists, modelo == "M2"), aes(x = theta, y = valor)) +
 predecir la probabilidad de datos futuros. La probabilidad predictiva de un 
 dato $y$ (no observado) se determina promediando las probabilidades predictivas 
 de los datos a lo largo de todos los posibles valores de los parámetros y 
-ponderados por la creencia en los valores de los parámetros:
-
+ponderados por la creencia en los valores de los parámetros. Cuando solo 
+contamos con nuestro conocimiento incial tendríamos:
 $$p(y) =\int p(y|\theta)p(\theta)d\theta$$
-
 Notese que la ecuación anterior coincide con la correspondiente a la evidencia, 
 con la diferencia de que la evidencia se refiere a un valor observado y en 
-esta ecuación estamos calculando la probabilidad de cualquier valor $y$.
-
+esta ecuación estamos calculando la probabilidad de cualquier valor $y$.  
+Una vez que obserbamos datos tenemos la distribución predictiva posterior:
+$$p(y|x) =\int p(y|\theta)p(\theta|x)d\theta$$
 Por ejemplo podemos usar las creencias iniciales del modelo 1, que propusimos 
 arriba para calcular la probabilidad predictiva de observar águila:
 
@@ -486,11 +490,11 @@ $$p(y=S) = \sum_{\theta}p(y=A|\theta)p(\theta) = 0.5$$
 
 Vale la pena destacar que las prediciones son probabilidades de cada posible
 valor condicional a nuestro modelo de creencias actuales. Si nos interesa 
-predecir un valor particular en lugar de de una distribución a lo largo de todos
+predecir un valor particular en lugar de una distribución a lo largo de todos
 los posibles valores podemos usar la media de la distribución predictiva. Por 
 tanto el valor a predecir sería:
 
-$$p(y)=\int yp(y) dy$$
+$$p(y)=\int y p(y) dy$$
 
 La integral anterior únicamente tiene sentido si $y$ es una variable continua. 
 Si $y$ es nominal, como el resultado de un volado, entonces podemos usar el 
@@ -544,7 +548,7 @@ factorBayes(100, 10)
 factorBayes(40, 38)
 ```
 
-¿Cómo explicarías los resultados anteriores? En el modelo complejo 
+¿Cómo explicarías los resultados anteriores?
 
 
 <!-- $\theta$ 
@@ -558,7 +562,7 @@ creeríamos en el modelo simple más que en el modelo más complicado.
 -->
 
 La evidencia de un modelo $p(x|M)$ no dice mucho por si misma, si no que es mas
-relevante en el contexto del factor de Bayes (la evidencia relativa de dos 
+relevante en el contexto del **factor de Bayes** (la evidencia relativa de dos 
 modelos). Es importante recordar que la comparación de modelos nos habla 
 únicamente de la evidencia relativa de un modelo; sin embargo, puede que
 ninguno de los modelos que estamos considerando sean adecuados para nuestros
@@ -597,13 +601,6 @@ con dos posibles resultados, X se distribuye Bernoulli y la función de
 probabilidad esta definida por:
 
 $$p(x|\theta)=\theta^x(1-\theta)^{1-x}$$
-
-usualmente pensamos en la fórmula anterior como una función 
-de $x$, donde $x$ toma uno de dos valores 0 o 1. También podemos pensar que $x$
-esta fija (observada) y la expresión es una función de $\theta$, en este caso, la 
-ecuación especifica la probabilidad de un valor fijo $x$ para un valor de 
-$\theta$ y la llamamos la verosimilitud de $\theta$. En inferencia Bayesiana la 
-función $p(x|\theta)$, usualmente se considera como función de $\theta$.
 
 Ahora, si lanzamos una moneda $N$ veces tenemos un conjunto de datos 
 $\{x_1,...,x_N\}$, suponemos que los lanzamientos son independientes por lo 
@@ -685,9 +682,9 @@ es decir, podemos escribir la media posterior como un promedio ponderado entre
 la media inicial $a/(a+b)$ y la proporción observada $z/N$.
 
 Ahora podemos pasar a la inferencia, comencemos con estimación de la proporción
-$\theta$. La distribución posterior resume todo 
-nuestro conocimiento del parámetro $\theta$, en este caso podemos graficar la 
-distribución y extraer valores numéricos como la media.
+$\theta$. La distribución posterior resume todo nuestro conocimiento del 
+parámetro $\theta$, en este caso podemos graficar la distribución y extraer 
+valores numéricos como la media.
 
 ```{r, fig.height=3, fig.width=6}
 library(gridExtra)
@@ -718,8 +715,9 @@ grid.arrange(p1, p2, nrow = 1, widths = c(0.38, 0.62))
 ```
 
 
-```{r shiny_clt}
-knitr::include_app("https://tereom.shinyapps.io/app_bernoulli/", height = "400px")
+```{r shiny_bernoulli}
+knitr::include_app("https://tereom.shinyapps.io/app_bernoulli/", 
+    height = "1000px")
 ```
 
 
@@ -1936,6 +1934,8 @@ digraph betabinom {
 ```
 
 ![](imagenes/sesgos_diag.png)
+
+
 
 El diagrama captura las dependencias entre los datos y los parámetros y 
 veremos que puede facilitar la implementación en JAGS pues cada flecha en
