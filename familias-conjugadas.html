@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="simulacion-para-el-calculo-de-probabilidades.html">
-<link rel="next" href="variables-aleatorias.html">
+<link rel="prev" href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html">
+<link rel="next" href="referencias-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -338,120 +338,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="probabilidad-definicion-matematica" class="section level2">
-<h2><span class="header-section-number">5.4</span> Probabilidad: definición matemática</h2>
-<p>Desde un punto de vista puramente matemático, la probabilidad se define como
-una función de eventos. Los eventos se representan como conjuntos, y suponemos
-que la función de probabilidad satisface las reglas básicas de proporción. Antes
-de definir estas reglas consideremos la representación de los eventos como
-subconjuntos de un espacio de resultados.</p>
-<p>Supongamos que tenemos un espacio de resultados <span class="math inline">\(\Omega\)</span>, y que todos los
-eventos de interés están representados como subconjuntos de <span class="math inline">\(\Omega\)</span>. Podemos
-pensar en <span class="math inline">\(\Omega\)</span> como una representación de todas las situaciones que pueden
-ocurrir, no suponemos que es finito, ni que los eventos son igualmente
-probables.</p>
-<p>Las reglas de la probabilidad involucran relaciones lógicas entre eventos; estas
-se traducen a relaciones de conjuntos. Por ejemplo, si C es el evento que ocurre
-si sucede A o si sucede B, entonces el conjunto de maneras en las que ocurre C
-es la unión del conjunto de maneras en que ocurre A y el conjunto de maneras en
-que ocurre B. Veamos como se traduce de eventos a conjuntos</p>
-<table>
-<thead>
-<tr class="header">
-<th>Lenguaje de eventos</th>
-<th>Lenguaje de conjuntos</th>
-<th>Notación de conjuntos</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Espacio de resultados</td>
-<td>conjunto universal</td>
-<td><span class="math inline">\(\Omega\)</span></td>
-</tr>
-<tr class="even">
-<td>evento</td>
-<td>subconjunto de <span class="math inline">\(\Omega\)</span></td>
-<td><span class="math inline">\(A,B,C,...\)</span></td>
-</tr>
-<tr class="odd">
-<td>evento imposible</td>
-<td>conjunto vacío</td>
-<td><span class="math inline">\(\emptyset\)</span></td>
-</tr>
-<tr class="even">
-<td>no A, opuesto de A</td>
-<td>complemento de A</td>
-<td><span class="math inline">\(A^c\)</span></td>
-</tr>
-<tr class="odd">
-<td>A o B</td>
-<td>unión de A y B</td>
-<td><span class="math inline">\(A\cup B\)</span></td>
-</tr>
-<tr class="even">
-<td>tanto A como B</td>
-<td>intersección de A y B</td>
-<td><span class="math inline">\(AB,A\cap B\)</span></td>
-</tr>
-<tr class="odd">
-<td>A y B mutuamente excluyentes</td>
-<td>A y B disjuntos</td>
-<td><span class="math inline">\(AB=\emptyset\)</span></td>
-</tr>
-<tr class="even">
-<td>si A entonces B</td>
-<td>A es subconjunto de B</td>
-<td><span class="math inline">\(A\subset B\)</span></td>
-</tr>
-</tbody>
-</table>
-<div id="particiones-y-axiomas-de-probabilidad" class="section level4 unnumbered">
-<h4>Particiones y axiomas de probabilidad</h4>
-<div class="caja">
-<p>Decimos que un conjunto de <span class="math inline">\(n\)</span> eventos <span class="math inline">\(B_1,...,B_n\)</span> es una <strong>partición</strong> del evento
-<span class="math inline">\(B\)</span> si <span class="math inline">\(B=B_1 \cup B_2 \cup \cdot\cdot\cdot \cup B_n\)</span> y los eventos
-<span class="math inline">\(B_1,...,B_n\)</span> son mutuamente excluyentes.</p>
-</div>
-<p>Ahora podemos definir probabilidad:</p>
-<div class="caja">
-<p>Una función <span class="math inline">\(P\)</span> es una <strong>función de probabilidad</strong> si satisface las siguientes
-condiciones:</p>
+<div id="familias-conjugadas" class="section level2 unnumbered">
+<h2>10-Familias conjugadas</h2>
 <ol style="list-style-type: decimal">
-<li>Un valor de probabilidad debe ser no-negativo:
-<span class="math display">\[P(B) \geq 0\]</span> para cualquier evento <span class="math inline">\(B\)</span><br />
-</li>
-<li>La suma de las probabilidades a través de todos los posibles eventos en el
-espacio de resultados debe ser 1 (i.e. uno de los eventos en el espacio de
-resultados debe ocurrir).
-<span class="math display">\[P(\Omega) = 1\]</span></li>
-<li>Si <span class="math inline">\(B_1,...,B_n\)</span> es una partición del evento <span class="math inline">\(B\)</span> entonces, la probabilidad
-de que ocurra B es la suma de las probabilidades individuales:
-<span class="math display">\[P(B)=P(B_1)+P(B_2) + \cdot\cdot\cdot +P(B_n)\]</span></li>
+<li><strong>Modelo Beta-Binomial</strong>
+Una compañía farmacéutica afirma que su nueva medicina incrementa la
+probabilidad de concebir un niño (sexo masculino), pero aún no publican
+estudios. Supón que conduces un experimento en el cual 50 parejas se
+seleccionan de manera aleatoria de la población, toman la medicina y conciben
+un bebé, nacen 30 niños y 20 niñas.</li>
 </ol>
+<ol style="list-style-type: lower-alpha">
+<li><p>Quieres estimar la probabilidad de concebir un niño para parejas que
+toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
+en 0.5 pues
+esta corresponde a personas que no toman la medicina, y la inicial debe reflejar
+tu incertidumbre sobre el efecto de la droga.</p></li>
+<li><p>Usando tu inicial de a) grafica la posterior y decide si es creíble que las
+parejas que toman la medicina tienen una probabilidad de 0.5 de concebir un
+niño.</p></li>
+<li><p>Supón que la farmacéutica asevera que la probabilidad de concebir un niño
+cuando se toma la medicina es cercana al 60% con alta certeza. Representa esta
+postura con una distribución inicial Beta(60,40). Comparala con la inicial de
+un escéptico que afirma que la medicina no hace diferencia, representa esta
+creencia con una inicial Beta(50,50). Recuerda que
+<span class="math display">\[p(x)=Beta(z+a,N-z+b)/Beta(a,b)\]</span>
+Calcula el valor de <span class="math inline">\(p(x)\)</span> para cada modelo y el factor de Bayes (asume
+<span class="math inline">\(p(M_1)=p(M_2)=0.5\)</span>).</p></li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Otra familia conjugada</strong>
+Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del
+ITAM y suponemos que el IQ de un estudiante tiene una distribución normal
+<span class="math inline">\(x \sim N(\theta, \sigma^2)\)</span> con <span class="math inline">\(\sigma ^ 2\)</span> conocida.</li>
+</ol>
+<p>Considera que observamos el IQ de un estudiante <span class="math inline">\(x\)</span>.
+La verosimilitud del modelo es:
+<span class="math display">\[p(x|\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}exp\left(-\frac{1}{2\sigma^2}(x-\theta)^2\right)\]</span></p>
+<p>Realizaremos un análisis bayesiano por lo que hace falta establer una
+distribución inicial, elegimos <span class="math inline">\(p(\theta)\)</span> que se distribuya <span class="math inline">\(N(\mu, \tau^2)\)</span>
+donde elegimos los parámetros <span class="math inline">\(\mu, \tau\)</span> que mejor describan nuestras creencias
+iniciales, por ejemplo si tengo mucha certeza de que el <span class="math inline">\(IQ\)</span> promedio se ubica
+en 150, elegiría <span class="math inline">\(\mu=150\)</span> y una desviación estándar chica por ejemplo
+<span class="math inline">\(\tau = 5\)</span>. Entonces la distribución inicial es:</p>
+<p><span class="math display">\[p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)\]</span></p>
+<ol style="list-style-type: lower-alpha">
+<li>Calcula la distribución posterior <span class="math inline">\(p(\theta|x) \propto p(x|\theta)p(\theta)\)</span>,
+usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
+multiplicación debes identificar el núcleo de una distribución Normal,
+¿cuáles son sus parámetros (media y varianza)?</li>
+</ol>
+
 </div>
-</div>
-<div id="propiedades-de-la-funcion-de-probabilidad" class="section level3">
-<h3><span class="header-section-number">5.4.1</span> Propiedades de la función de probabilidad:</h3>
-<ul>
-<li><span class="math inline">\(P(A^c) = 1 - P(A)\)</span><br />
-</li>
-<li><span class="math inline">\(P(\emptyset)=0\)</span><br />
-</li>
-<li>Si <span class="math inline">\(A \subset B\)</span> entonces <span class="math inline">\(P(A) \le P(B)\)</span><br />
-</li>
-<li><span class="math inline">\(0\le P(A) \le 1\)</span></li>
-<li>La regla general de la suma: <span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span></li>
-</ul>
-</div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="simulacion-para-el-calculo-de-probabilidades.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="variables-aleatorias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -481,7 +427,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/04_probabilidad.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/98-tareas.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

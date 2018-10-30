@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="simulacion-de-modelos-de-regresion.html">
-<link rel="next" href="referencias-1.html">
+<link rel="next" href="familias-conjugadas.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -312,7 +312,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="simulacion-de-modelos-1.html"><a href="simulacion-de-modelos-1.html"><i class="fa fa-check"></i>7-Simulación de modelos</a></li>
 <li class="chapter" data-level="" data-path="simulacion-de-modelos-de-regresion.html"><a href="simulacion-de-modelos-de-regresion.html"><i class="fa fa-check"></i>8-Simulación de modelos de regresión</a></li>
-<li class="chapter" data-level="" data-path="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><a href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><i class="fa fa-check"></i>9-Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.</a></li>
+<li class="chapter" data-level="" data-path="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><a href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><i class="fa fa-check"></i>9-Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.</a><ul>
+<li class="chapter" data-level="" data-path="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><a href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html#solucion-2"><i class="fa fa-check"></i>Solución</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>10-Familias conjugadas</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias-1.html"><a href="referencias-1.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -397,17 +400,71 @@ vía simulación). ¿Cuál es la aproximación más cercana a la verdadera
 distribución?</p></li>
 </ul>
 <p>Pista: <span class="math inline">\(se(\hat{\mu}) = 1/\sqrt{n}\)</span></p>
+</div>
+<div id="solucion-2" class="section level3 unnumbered">
+<h3>Solución</h3>
+<div id="simulacion-para-calcular-tamanos-de-muestra-1" class="section level4 unnumbered">
+<h4>Simulación para calcular tamaños de muestra</h4>
+<pre class="sourceCode r"><code class="sourceCode r">muestreo &lt;-<span class="st"> </span><span class="cf">function</span>(J, <span class="dt">n_total =</span> <span class="dv">1000</span>) {
+  n_cong &lt;-<span class="st"> </span><span class="kw">floor</span>(n_total <span class="op">/</span><span class="st"> </span>J)
+  medias &lt;-<span class="st"> </span><span class="kw">rnorm</span>(J, <span class="fl">0.5</span>, <span class="fl">0.1</span>)
+  medias &lt;-<span class="st"> </span><span class="kw">ifelse</span>(medias <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">0</span>, 
+      <span class="kw">ifelse</span>(medias <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, medias))
+  resp &lt;-<span class="st"> </span><span class="kw">rbinom</span>(J, n_cong, medias)
+  <span class="kw">sum</span>(resp) <span class="op">/</span><span class="st"> </span>n_total
+}
 
+errores &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">J =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">sims =</span> <span class="kw">map</span>(J, <span class="op">~</span>(<span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">muestreo</span>(.)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>())), 
+        <span class="dt">error_est =</span> <span class="kw">map_dbl</span>(sims, sd) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>)
+            )
+errores</code></pre>
+<pre><code>## # A tibble: 4 x 3
+##       J sims          error_est
+##   &lt;dbl&gt; &lt;list&gt;            &lt;dbl&gt;
+## 1     1 &lt;dbl [1,000]&gt;     0.102
+## 2    10 &lt;dbl [1,000]&gt;     0.036
+## 3   100 &lt;dbl [1,000]&gt;     0.018
+## 4  1000 &lt;dbl [1,000]&gt;     0.015</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">tamano_muestra &lt;-<span class="st"> </span><span class="cf">function</span>(J) {
+  n_total &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="dv">100</span>, J)
+  ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">1000</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()
+  <span class="cf">while</span>(ee <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.02</span>){
+      n_total =<span class="st"> </span>n_total <span class="op">+</span><span class="st"> </span><span class="dv">20</span>
+      ee &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">500</span>, <span class="kw">muestreo</span>(<span class="dt">J =</span> J, <span class="dt">n_total =</span> n_total)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">          </span><span class="kw">flatten_dbl</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>)
+  }
+  <span class="kw">list</span>(<span class="dt">ee =</span> ee, <span class="dt">n_total =</span> n_total, <span class="dt">costo =</span> <span class="dv">500</span> <span class="op">*</span><span class="st"> </span>J <span class="op">+</span><span class="st"> </span><span class="dv">50</span> <span class="op">*</span><span class="st"> </span>n_total)
+}
+tamanos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>)
+costos &lt;-<span class="st"> </span><span class="kw">map_df</span>(tamanos, tamano_muestra)
+costos<span class="op">$</span>J &lt;-<span class="st"> </span>tamanos
+costos</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##      ee n_total   costo     J
+##   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.02    28700 1445000    20
+## 2 0.02     2200  125000    30
+## 3 0.019    1060   73000    40
+## 4 0.02      980   74000    50
+## 5 0.019     660   83000   100
+## 6 0.019     430   96500   150</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(costos, <span class="kw">aes</span>(<span class="dt">x =</span> J, <span class="dt">y =</span> costo <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;miles de pesos&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Costos&quot;</span>)</code></pre>
+<p><img src="98-tareas_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 </div>
 </div>
-<!-- </div> -->
+</div>
             </section>
 
           </div>
         </div>
       </div>
 <a href="simulacion-de-modelos-de-regresion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="referencias-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="familias-conjugadas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
