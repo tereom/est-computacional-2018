@@ -9,7 +9,7 @@ es muy conveniente para este propósito).
 
 ## 2-Transformación de datos {-}
 
-Entrega: Lunes 27 de agosto.
+Entrega: Lunes $27$ de agosto.
 
 Utiliza los datos de vuelos (`flights`) para responder la siguientes preguntas.
 
@@ -34,24 +34,24 @@ retrasaron más en el aire?
 
 ## 3-Datos Limpios {-}
 
-Entrega: Lunes 3 de septiembre.
+Entrega: Lunes $3$ de septiembre.
 
 Descarga los datos [aquí](https://www.dropbox.com/s/e8wjbwpwa37ceqg/03-limpios.zip?dl=0).
 
 En la carpeta de arriba encontrarás un archivo de excel (m_013.xls), este 
-archivo contiene información de causas de mortalidad en México entre 2000 y 
-2008. Contesta las siguientes preguntas:
+archivo contiene información de causas de mortalidad en México entre $2000$ y 
+$2008$. Contesta las siguientes preguntas:
 
 1. ¿Cuáles son las variables en esta base de datos?  
 2. ¿La tabla de datos cumple con los principios de datos limpios? 
 ¿Qué problemas presenta?  
 3. La información del archivo de excel se ha guardado también en archivos de 
-texto (csv) 2001-2008, lee y limpia los datos para que cumplan los principios de 
+texto (csv) $2001-2008$, lee y limpia los datos para que cumplan los principios de 
 datos limpios. Recuerda que las modificaciones deben de ser reproducibles, para 
 esto guarda tu trabajo en un script.  
 4. El archivo de excel indice_marginacion.xlsx contiene el índice por entidad 
-para los años 2000 y 2010. Realiza una gráfica donde compares la marginación por 
-entidad con las tasas de mortalidad correspondientes al 2000. Deberás unir las 
+para los años $2000$ y $2010$. Realiza una gráfica donde compares la marginación por 
+entidad con las tasas de mortalidad correspondientes al $2000$. Deberás unir las 
 dos fuentes de información.
 
 Observaciones:  
@@ -93,7 +93,7 @@ calcula media y el error estándar de la media usando el principio del *plug-in*
 $\hat{\mu}=\bar{x}$, y $\hat{se}(\bar{x})=\hat{\sigma}_{P_n}/\sqrt{n}$.
 
 - Ahora aproximareos la distribución muestral, para cada tamaño de muestra $n$: 
-i) simula 10,000 muestras aleatorias, ii) calcula la media en cada muestra, iii)
+i) simula $10,000$ muestras aleatorias, ii) calcula la media en cada muestra, iii)
 Realiza un histograma de la distribución muestral de las medias (las medias del
 paso anterior) iv) aproxima el error estándar calculando la desviación estándar
 de las medias del paso ii.
@@ -106,9 +106,9 @@ $se_P(\bar{x}) = \sigma_P/ \sqrt{n}$.
 tamaños de muestra? 
 
 2. **Bootstrap correlación.** Nuevamente trabaja con los datos `primaria`, 
-selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del 
-_plug-in_ para estimar la correlación entre la calificación de $y=$español 3 y 
-la de $z=$español 6: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
+selecciona una muestra aleatoria de tamaño $100$ y utiliza el principio del 
+_plug-in_ para estimar la correlación entre la calificación de $y=$español $3$ y 
+la de $z=$español $6$: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
 estándar de la estimación.
 
 ### Solución {-}
@@ -117,9 +117,9 @@ estándar de la estimación.
 Suponemos que me interesa hacer inferencia del promedio de las 
 calificaciones de los estudiantes de tercero de primaria en Ciudad de México.
 
-En este ejercicio planteamos 3 escenarios (que simulamos): 1) que tengo una 
-muestra de tamaño 10, 2) que tengo una muestra de tamaño 100, y 3) que tengo una 
-muestra de tamaño 1000 
+En este ejercicio planteamos $3$ escenarios (que simulamos): 1) que tengo una 
+muestra de tamaño $10$, 2) que tengo una muestra de tamaño $100$, y 3) que tengo una 
+muestra de tamaño $1000$. 
 
 - Selección de muestras:
 
@@ -211,8 +211,8 @@ muestras_sims_est %>%
     select(tamanos, e_estandar_plug_in, e_estandar_aprox, e_estandar_pob)
 ```
 
-En la tabla de arriba podemos comparar los 3 errores estándar que calculamos, 
-recordemos que de estos 3 el *plug-in* es el único que podríamos obtener en 
+En la tabla de arriba podemos comparar los $3$ errores estándar que calculamos, 
+recordemos que de estos $3$ el *plug-in* es el único que podríamos obtener en 
 un escenario real pues los otros dos los calculamos usando la población. 
 
 Una alternativa al estimador *plug-in* del error estándar es usar *bootstrap* 
@@ -264,9 +264,9 @@ incrementamos el número de muestras *bootstrap*.
 
 #### 2. Correlación {-}
 2. **Bootstrap correlación.** Nuevamente trabaja con los datos `primaria`, 
-selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del 
-_plug-in_ para estimar la correlación entre la calificación de $y=$español 3 y 
-la de $z=$español 6: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
+selecciona una muestra aleatoria de tamaño $100$ y utiliza el principio del 
+_plug-in_ para estimar la correlación entre la calificación de $y=$español $3$ y 
+la de $z=$español $6$: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
 estándar de la estimación.
 
 - Selección de la muestra
@@ -328,7 +328,7 @@ es la longitud promedio de los intervalos de confianza bajo cada método.
 b) Realiza una gráfica de páneles, en cada panel mostrarás los resultados de 
 uno de los métodos (normal, percentiles y BC_a), el eje x corresponderá al 
 número de intervalo de confianza ($1,...,1000$) y en el vertical 
-graficarás los límites de los intervalos, es decir graficarás 2 líneas (usa 
+graficarás los límites de los intervalos, es decir graficarás $2$ líneas (usa 
 `geom_line()`) una corresponderá a los límites inferiores de los intervalos, y 
 otra a los superiores.
 
@@ -338,7 +338,7 @@ Nota: Un ejemplo en donde la cantidad $P(X=0)^2 = e^{-\lambda}$ es de interés
 es como sigue: las llamadas telefónicas a un conmutador se modelan con 
 un proceso Poisson y $\lambda$ es el número promedio de llamadas por minuto, 
 entonce $e^{- \lambda}$ es la probabilidad de que no se reciban llamadas en 
-1 minuto.
+$1$ minuto.
 
 ### Solución {-}
 
@@ -488,8 +488,8 @@ fit_score <- lm(courseevaluation ~ age + btystdave + female + nonenglish,
 ```
 
 
-1. La instructora A es una mujer de $50$ años, el inglés es su primera lengua y 
-tiene un puntaje de belleza de $-1$. El instructor B es un hombre de $60$ años, 
+1. La instructora $A$ es una mujer de $50$ años, el inglés es su primera lengua y 
+tiene un puntaje de belleza de $-1$. El instructor $B$ es un hombre de $60$ años, 
 su primera lengua es el inglés y tiene un puntaje de belleza de $-0.5$. Simula
 $1000$ generaciones de la evaluación del curso de estos dos instructores. En 
 tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
@@ -528,9 +528,9 @@ de los parámetros.
 
 
 + Realiza un histograma de la diferencia entre la evaluación del curso
-para A y B. 
+para $A$ y $B$. 
 
-+ ¿Cuál es la probabilidad de que A obtenga una calificación mayor?
++ ¿Cuál es la probabilidad de que $A$ obtenga una calificación mayor?
 
 2. En el inciso anterior obtienes simulaciones de la distribución conjunta
 $p(\tilde{y},\beta,\sigma^2)$ donde $\beta$ es el vector de coeficientes de 
@@ -553,8 +553,8 @@ México:
 * `ent`, `id_ent`, `mun`, `id_mun`, `cvegeo`: corresponden al estado, municipio 
 y sus códigos de identificación.  
 
-* `n_causa` es el número de muertes de adultos mayores a 65 años a causa de
-diabetes en 2015, y `tasa_mun` la tasa correspondiente por cada 10,000 
+* `n_causa` es el número de muertes de adultos mayores a $65$ años a causa de
+diabetes en $2015$, y `tasa_mun` la tasa correspondiente por cada $10,000$ 
 habitantes.  
 
 * `tasa_alf` (porcentaje de población alfabeta), `ind_des_hum` (índice de 
@@ -656,25 +656,25 @@ ggplot(costos, aes(x = J, y = costo / 1000)) +
 1. **Modelo Beta-Binomial**
 Una compañía farmacéutica afirma que su nueva medicina incrementa la 
 probabilidad de concebir un niño (sexo masculino), pero aún no publican 
-estudios. Supón que conduces un experimento en el cual 50 parejas se 
+estudios. Supón que conduces un experimento en el cual $50$ parejas se 
 seleccionan de manera aleatoria de la población, toman la medicina y conciben
-un bebé, nacen 30 niños y 20 niñas.
+un bebé, nacen $30$ niños y $20$ niñas.
 
 a) Quieres estimar la probabilidad de concebir un niño para parejas que 
 toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
-en 0.5 pues
+en $0.5$ pues
 esta corresponde a personas que no toman la medicina, y la inicial debe reflejar 
 tu incertidumbre sobre el efecto de la droga. 
 
 b) Usando tu inicial de a) grafica la posterior y decide si es creíble que las
-parejas que toman la medicina tienen una probabilidad de 0.5 de concebir un
+parejas que toman la medicina tienen una probabilidad de $0.5$ de concebir un
 niño.
 
 c) Supón que la farmacéutica asevera que la probabilidad de concebir un niño
-cuando se toma la medicina es cercana al 60% con alta certeza. Representa esta
-postura con una distribución inicial Beta(60,40). Comparala con la inicial de 
+cuando se toma la medicina es cercana al $60\%$ con alta certeza. Representa esta
+postura con una distribución inicial $Beta(60,40)$. Comparala con la inicial de 
 un escéptico que afirma que la medicina no hace diferencia, representa esta
-creencia con una inicial Beta(50,50). Recuerda que 
+creencia con una inicial $Beta(50,50)$. Recuerda que 
 $$p(x)=Beta(z+a,N-z+b)/Beta(a,b)$$
 Calcula el valor de $p(x)$ para cada modelo y el factor de Bayes (asume 
 $p(M_1)=p(M_2)=0.5$).
@@ -693,7 +693,7 @@ Realizaremos un análisis bayesiano por lo que hace falta establer una
 distribución inicial, elegimos $p(\theta)$ que se distribuya $N(\mu, \tau^2)$ 
 donde elegimos los parámetros $\mu, \tau$ que mejor describan nuestras creencias
 iniciales, por ejemplo si tengo mucha certeza de que el $IQ$ promedio se ubica
-en 150, elegiría $\mu=150$ y una desviación estándar chica por ejemplo 
+en $150$, elegiría $\mu=150$ y una desviación estándar chica por ejemplo 
 $\tau = 5$. Entonces la distribución inicial es:
 
 $$p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)$$
