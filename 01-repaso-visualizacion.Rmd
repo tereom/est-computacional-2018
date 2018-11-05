@@ -166,8 +166,8 @@ un caso grave y real (no simulado) de este análisis estadístico rutinario
 (tomado de @cleveland94).
 
 A la derecha mostramos los resultados de un experimento de agricultura. Se 
-cultivaron diez variedades de cebada en seis sitios de Minnesota, en 1921 y 
-1932. Este es uno de los primeros ejemplos en el que se aplicaron las ideas de 
+cultivaron diez variedades de cebada en seis sitios de Minnesota, en $1921$ y 
+$1932$. Este es uno de los primeros ejemplos en el que se aplicaron las ideas de 
 Fisher en cuanto a diseño de experimentos.
 
 Estos datos fueron reanalizados desde esa época por muchos agrónomos. Hasta muy 
@@ -286,20 +286,23 @@ agregar las etiquetas como se muestra en la serie de la derecha, pero entonces:
 ¿por qué no mostrar simplemente la tabla de datos? ¿qué agrega el pie a la 
 interpretación?
 
+<div style="clear:both"></div>
+
 La deficiencias en el pie se pueden ver claramente al intentar graficar más 
-categorías (13) . En el primer pie no podemos distinguir realmente cuáles son 
+categorías ($13$) . En el primer pie no podemos distinguir realmente cuáles son 
 las categorías grandes y cuáles las chicas, y es muy difícil tener una imagen 
 mental clara de estos datos. Agregar los porcentajes ayuda, pero entonces, otra 
 vez, preguntamos cuál es el propósito del pie. La tabla de la izquierda hace 
 todo el trabajo (una vez que ordenamos las categrías de la más grande a la más 
 chica). Es posible hacer una gráfica de barras como la de abajo a la izquierda.
 
-<div style="clear:both"></div>
 
-<div style= "float:left;top: -10px;width:110px">
+
+<div style= "float:left;top: -10px;width:120px">
 ![](imagenes/barras_pie.jpg)
 </div>
 
+<div style="clear:both"></div>
 
 Hay otros tipos de chartjunk comunes: uno es la textura de barras, por ejemplo. 
 El efecto es la producción de un efecto moiré que es desagradable y quita la 
@@ -315,9 +318,9 @@ patrones en los datos.
 Las series de tiempo son una especie particular de las gráficas de dispersión, 
 en donde la dimensión horizontal es el tiempo. Buscamos entender cómo varía una 
 medición dada en el tiempo. Estas gráficas son mas útiles cuando se construyen 
-usando el principio del promedio de 45 grados: los patrones de variación en el 
+usando el principio del promedio de $45$ grados: los patrones de variación en el 
 tiempo se distinguen mejor (aproximadamente) cuando el promedio de pendiente (en 
-valor absoluto) en las gráficas está cercano a 45 grados. El siguiente ejempo, 
+valor absoluto) en las gráficas está cercano a $45$ grados. El siguiente ejempo, 
 que muestra la actividad de manchas solares del sol, muestra claramente este 
 principio:
 
@@ -329,7 +332,7 @@ principio de que “las escalas deben comenzar en cero”. En realidad este
 último principio cuida contra dos errores en la graficación: no poner atención a
 la escala e intentar  comparar gráficas que no están dibujadas en la misma 
 escala. Poniendo atención a estos dos aspectos (incluso llamado a veces la 
-atención a estos puntos, Stephen Few) no hay necesidad de seguir la regla del 0.
+atención a estos puntos, Stephen Few) no hay necesidad de seguir la regla del $0$.
 
 <div style= "width:400px">
 ![](imagenes/principio_cero.jpg)
@@ -344,7 +347,7 @@ La densidad de una gráfica es el tamaño del conjunto de datos que se grafica
 comparado con el área total de la gráfica. En el siguiente ejemplo, graficamos 
 en logaritmo-10 de cabezas de ganado en Francia (cerdos, res, ovejas y 
 caballos). La gráfica de la izquierda es pobre en densidad pues sólo representa 
-4 datos. La manera más fácil de mejorar la densidad es hacer más chica la 
+$4$ datos. La manera más fácil de mejorar la densidad es hacer más chica la 
 gráfica:
 
 <div style= "width=450px">
@@ -407,7 +410,7 @@ una gráfica de pie.
 ![](imagenes/cleveland_tasks.png)
 
 Los resultados de Cleveland y McGill fueron replicados por Heer y Bostock en
-2010 y los resultados se muestran en las gráficas de la derecha:
+$2010$ y los resultados se muestran en las gráficas de la derecha:
 
 <div style= "float:left;top:-10px;width:400px">
 ![](imagenes/heer-bostock_results.png)
@@ -444,29 +447,29 @@ Hoy en día Minard es reconocido como uno de los principales contribuyentes a la
 teoría de análisis de datos y creación de **infografías** con un fundamento 
 estadístico.
 
-Se grafican 6 variables: el número de tropas de Napoleón, la distancia, la 
+Se grafican $6$ variables: el número de tropas de Napoleón, la distancia, la 
 temperatura, la latitud y la longitud, la dirección en que viajaban las tropas
 y la localización relativa a fechas específicas.
 
 La 
 gráfica de Minard, como la describe E.J. Marey, parece "desafiar la pluma del 
 historiador con su brutal elocuencia", la combinación de datos del mapa, y la 
-serie de tiempo, dibujados en 1869, "retratan una secuencia de pérdidas 
-devastadoras que sufrieron las tropas de Napoleón en 1812". Comienza en la 
+serie de tiempo, dibujados en $1869$, "retratan una secuencia de pérdidas 
+devastadoras que sufrieron las tropas de Napoleón en $1812$". Comienza en la 
 izquierda, en la frontera de Polonia y Rusia, cerca del río Niemen. La línea 
-gruesa dorada muestra el tamaño de la Gran Armada (422,000) en el momento en que 
-invadía Rusia en junio de 1812. 
+gruesa dorada muestra el tamaño de la Gran Armada ($422,000$) en el momento en que 
+invadía Rusia en junio de $1812$. 
 
 El ancho de esta banda indica el tamaño de la armada en cada punto del mapa. En 
 septiembre, la armada llegó a Moscú, que ya había sido saqueada y dejada 
-desértica, con sólo 100,000 hombres. 
+desértica, con sólo $100,000$ hombres. 
 
 El camino del retiro de Napoleón desde Moscú está representado por la línea 
 oscuara (gris) que está en la parte inferior, que está relacionada a su vez con 
 la temperatura y las fechas en el diagrama de abajo. Fue un invierno muy frío, 
 y muchos se congelaron en su salida de Rusia. Como se muestra en el mapa, cruzar 
 el río Berezina fue un desastre, y el ejército de Napoleón logró regresar a 
-Polonia con tan sólo 10,000 hombres. 
+Polonia con tan sólo $10,000$ hombres. 
 
 También se muestran los movimientos de las tropas auxiliaries, que buscaban 
 proteger por atrás y por la delantera mientras la armada avanzaba hacia Moscú. 
@@ -499,7 +502,7 @@ entre R y nosotros.
 * R es un lenguaje de programación completo, permite desarrollo de DSLs.
 * R promueve la investigación reproducible.
 * R está actualizado gracias a que tiene una activa comunidad. Solo en CRAN hay 
-cerca de 10,000 paquetes (funcionalidad adicional de R creadas creada por la 
+cerca de $10,000$ paquetes (funcionalidad adicional de R creadas creada por la 
 comunidad).
 * R se puede combinar con otras herramientas.
 * R tiene capacidades gráficas muy sofisticadas.
@@ -640,14 +643,14 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) 
 ```
 
-En ggplot2 se inicia una gráfica con la instrucción `ggplot()`, debemos 
+En `ggplot2` se inicia una gráfica con la instrucción `ggplot()`, debemos 
 especificar explicitamente que base de datos usamos, este es el primer argumento 
-en la función ggplot. Una vez que creamos la base añadimos 
+en la función `ggplot()`. Una vez que creamos la base añadimos 
 *capas*, y dentro de *aes()* escribimos las variables que queremos
 graficar y el atributo de la gráfica al que queremos mapearlas. 
 
 La función `geom_point()` añade una capa de puntos, hay muchas funciones
-*geometrías* incluídas en ggplot2: `geom_line()`, `geom_boxplot()`, 
+*geometrías* incluídas en `ggplot2`: `geom_line()`, `geom_boxplot()`, 
 `geom_histogram`,... Cada una acepta distintos argumentos para mapear las 
 variables en los datos a características estéticas de la gráfica. En el ejemplo 
 de arriba mapeamos `displ` al eje x, `hwy` al eje y, pero `geom_point()` nos 
@@ -747,7 +750,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
   facet_wrap(~ cyl)
 ```
 
-También podemos hacer una cuadrícula de 2 dimensiones usando 
+También podemos hacer una cuadrícula de $2$ dimensiones usando 
 _facet\_grid(filas~columnas)_ 
 
 ```{r, fig.width = 8, fig.height = 2.5}
@@ -833,7 +836,7 @@ gapminder
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; realiza al 
-menos 3 gráficas y explica las relaciones que encuentres. Debes usar lo que 
+menos $3$ gráficas y explica las relaciones que encuentres. Debes usar lo que 
 revisamos en estas notas: al menos una de las gráficas debe ser de páneles, 
 realiza una gráfica con datos de México, y (opcional)si lo consideras 
 interesante, puedes crear una variable categórica utilizando la función `cut2` 

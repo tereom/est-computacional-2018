@@ -1,0 +1,653 @@
+# Inferencia paramétrica
+
+```{r options, echo = FALSE, message=FALSE, error=TRUE, warning=FALSE}
+knitr::opts_chunk$set(
+    comment = "#>",
+    collapse = TRUE, 
+    fig.width=3, fig.height=3
+)
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+options(digits=3)
+
+library(tidyverse)
+library(gridExtra)
+theme_set(theme_minimal())
+```
+
+En esta sección estudiaremos bootstrap paramétrico, comenzamos recordando 
+conceptos de inferencia paramétrica.
+
+Sean $X_1,...,X_n \sim p(x| \theta)$. Queremos estimar 
+$\theta=(\theta_1,...,\theta_k)$. Recordemos que un estimador 
+$$\hat{\theta} = w(X_1,...,X_n)$$ es una función de los datos.
+
+En esta sección recordaremos la estimación de $\theta$ por máxima verosimilitud 
+y algunas de sus propiedades, después introduciremos las ideas de bootstrap 
+paramétrico, y veremos como se relacionacon máxima verosimilitud y con bootstrap 
+no paramétrico.
+
+## Máxima verosimilitud
+
+El método más común para estimar parámetros es el 
+**método de máxima verosimilitud**. Sea $X_1,...,X_n$ independientes e 
+idénticamente distribuidas con función de densidad de probabilidad $p(x;\theta)$
+entonces:
+
+<div class="caja">
+La **función de verosimilitud** se define como:
+$$\mathcal{L}(\theta) = \prod_{í=1}^n p(x_i;\theta).$$
+y la **log-verosimilitud** se define como 
+$$\mathcal{l}(\theta)=\log \mathcal{L}(\theta)=\sum_{i=1}^n \log p(x_i; \theta)$$
+</div>
+<br/>
+La función de verosimilitud no es mas que la densidad conjunta de los datos, con 
+la diferencia de que la __tratamos como función del parámetro__ $\theta$. Por 
+tanto $\mathcal{L}:\Theta \to [0, \infty)$, en general $\mathcal{L}(\theta)$ no 
+integra uno respecto a $\theta$.
+<br/>
+<div class="caja">
+El **estimador de máxima verosimilitud** es el valor de $\theta$ que maximiza
+$\mathcal{L}(\theta)$.
+</div>
+<br/>
+El máximo de $\mathcal{l}(\theta)$ se alcanza en el mismo lugar que el 
+máximo de $\mathcal{L}(\theta)$, por lo que maximizar la log-verosimilitud es
+equivalente a maximizar la verosimilitud.
+
+**Ejemplo: Bernoulli**. Supongamos $X_1,...X_n \sim Bernoulli(\theta)$. La 
+función de densidad correspondiente es $p(x;\theta)=\theta^x(1-\theta)^{1-x}$, 
+por lo que:
+
+$$\mathcal{L}(p)=\prod_{i=1}^n p(x_i;\theta)=\prod_{i=1}^n \theta^{x_i}(1-\theta)^{1-x_i}=\theta^{\sum x_i}(1-\theta)^{n-\sum x_i}$$
+
+denotemos $S=\sum x_i$, entonces
+$$\mathcal{l}(\theta)=S \log \theta + (n-S) \log (1-\theta)$$
+.
+
+Si $n=20$ y $S=12$ tenemos la función:
+
+```{r, fig.width=7.5, fig.height=2.5}
+# Verosimilitud X_1,...,X_n ~ Bernoulli(theta)
+L_bernoulli <- function(n, S){
+    function(theta){
+        theta ^ S * (1 - theta) ^ (n - S)
+    }  
+}
+# log-verosimilitud
+l_bernoulli <- function(n, S){
+    function(theta){
+        S * log(theta) + (n - S) * log(1 - theta)
+    }  
+}
+xy <- data.frame(x = 0:1, y = 0:1)
+verosimilitud <- ggplot(xy, aes(x = x, y = y)) +
+    stat_function(fun = L_bernoulli(n = 20, S = 12)) +
+    xlab(expression(theta)) +
+    ylab(expression(L(theta))) +
+    ggtitle("Verosimilitud (n=20, S = 12)")
+
+log_verosimilitud <- ggplot(xy, aes(x = x, y = y)) +
+    stat_function(fun = l_bernoulli(n = 20, S = 12))+
+    xlab(expression(theta)) +
+    ylab(expression(l(theta))) +
+    ggtitle("log-verosimilitud (n=20, S = 12)")
+
+grid.arrange(verosimilitud, log_verosimilitud, nrow = 1)  
+```
+
+En ocasiones podemos calcular el estimador de máxima verosimilitud 
+analíticamente, esto es derivando respecto al vector de parámetros de interés, 
+igualando a cero el sistema de ecuaciones resultante, y revisando la segunda 
+derivada para asegurar que se encontró un máximo. En el ejemplo este proceso 
+lleva a $\hat{\theta}=S/n$, y con $S=12, n = 20$ obtenemos $\hat{\theta}=0.6$.
+
+Es muy común recurrir a métodos numéricos (por ejemplo Newton Raphson, BHHH, 
+DFP) en el caso de R podemos usar las funciones `optim` u `optimize`.
+
+```{r}
+optimize(L_bernoulli(n = 20, S = 12), interval = c(0, 1), maximum = TRUE)
+optimize(l_bernoulli(n = 20, S = 12), interval = c(0, 1), maximum = TRUE)
+```
+
+![](imagenes/manicule2.jpg) Sean $X_1,...X_n \sim N(\mu, \sigma^2)$. 
+
+* Calcula el estimador de máxima verosimilitud para $\theta = (\mu, \sigma^2)$.
+Supongamos que observamos una muestra de tamaño $100$ tal que: $\sum X_i = 40$ y 
+$\sum X_i^2 = 20$. 
+
+* Calcula $\hat{\theta}$ usando el método de máxima 
+verosimilitud.
+
+* ¿Cómo graficarías la verosimilitud o log-verosimilitud?
+
+### Propiedades de los estimadores de máxima verosimilitud {-}
+
+Bajo ciertas condiciones del modelo, el estimador de máxima verosimilitud 
+$\hat{\theta}$ tiene propiedades deseables, las principales son:
+
+1. **Consistencia**: $\hat{\theta} \xrightarrow{P} \theta$ (converge en 
+probabilidad), donde $\theta$ es el verdadero valor del parámetro.
+
+2. **Equivariante**: Si $\hat{\theta}$ es el estimador de máxima verosimilitud 
+de $\theta$, entonces $g(\hat{\theta})$ es el estimador de máxima verosimilitud
+de $g(\theta)$.  
+
+  Supongamos $g$ invertible, entonces $\hat{\theta} = g^{-1}(\hat{\eta})$.
+  Para cualquier $\eta$, 
+  $$\mathcal{L}(\eta)=\prod_{i=1}^n p(x_i;g^{-1}(\eta)) = \prod_{i=1}^n p(x_i;\theta)=\mathcal{L}(\theta)$$
+  Por lo tanto, para cualquier $\eta$, 
+  $$\mathcal{L}(\eta)=\mathcal{L}(\theta) \leq \mathcal{L}(\hat{\theta})=\mathcal{L}(\hat{\eta})$$
+  y concluimos que $\hat{\eta}=g(\hat{\theta})$ maximiza $\mathcal{L}(\eta)$.  
+
+  Ejemplo: Binomial. El estimador de máxima verosimilitud es $\hat{p}=\bar{X}$. 
+  Si $\eta=log(p/(1-p)$, entonces el estimador de máxima verosimilitud es 
+  $\hat{\eta}=log(\hat{p}/(1-\hat{p}))$
+
+3. **Asintóticamente normal**: $\hat{\theta} \leadsto N(\theta, I(\theta)^{-1})$, 
+veremos a que nos referimos con $I(\theta)^{-1}$ en la siguiente sección.
+
+```{r, fig.width=3, fig.height=3}
+sim_sigma_hat <- function(n = 50, mu_sim = 0, sigma_sim = 1){
+    x <- rnorm(n, mu_sim, sigma_sim)
+    sigma_hat <- sqrt(sum((x - mean(x)) ^ 2) / n)
+}
+
+sigma_hats <- rerun(1000, sim_sigma_hat(n = 5, mu_sim = 10, sigma_sim = 5)) %>% 
+    flatten_dbl()
+
+# aprox normal con media theta y error estándar 
+mean(sigma_hats)
+sd(sigma_hats)
+
+ggplot(data_frame(sigma_hats), aes(sample = sigma_hats)) +
+    stat_qq() +
+    stat_qq_line()
+```
+
+
+4. **Asintóticamente eficiente**: A grandes razgos, esto quiere decir que del
+conjunto de estimadores con comportamiento estable, el estimador de máxima 
+verosimilitud tiene la menor varianza al menos para muestras grandes (alcanza
+la cota de Cramer-Rao).
+
+
+Ahora que tenemos estimadores de maxima verosimilitud resta calcular errores
+estándar. 
+
+#### Matriz de información y errores estándar
+La varianza de un estimador de máxima verosimilitud se calcula mediante la
+inversa de la matriz de información:
+
+$$var(\theta)=[I_n(\theta)]^{-1}$$
+
+La **matriz de información** es el negativo del valor esperado de la matriz
+Hessiana:
+
+$$[I_n(\theta)] = - E[H(\theta)]$$
+
+Y la Hessiana es la matriz de segundas derivadas de la log-verosimilitud 
+respecto a los parámetros:
+
+$$H(\theta)=\frac{d^2 \mathcal{l}(\theta)}{d\theta d\theta^´}$$
+
+Entonces, la matriz de varianzas y covarianzas de $\hat{\theta}$ es:
+$$var(\theta) = [I_n(\theta)]^{-1} = \big(-E[H(\theta)\big)^{-1}=\bigg(-E\bigg[\frac{d^2 \mathcal{l}(\theta)}{d\theta d\theta^´}\bigg]\bigg)^{-1}$$
+
+En el caso Bernoulli obtenemos $I_n(\theta) = \frac{n}{\theta(1-\theta)}$.
+
+¿Porqué se calculan de esta manera los errores estándar? Idea intuitiva: 
+Podemos pensar que la curvatura de la función de verosimilitud nos dice que 
+tanta certeza tenemos de la estimación de nuestros parámetros. Entre más curva 
+es la función de verosimilitud mayor es la certeza de que hemos estimado el 
+parámetro adecuado. La segunda derivada de la verosimilitud es una medida de la 
+curvatura local de la misma, es por esto que se utiliza para estimar la 
+incertidumbre con la que hemos estimado los parámetros.
+
+```{r, fig.width=8, fig.height=2.8}
+l_b1 <- ggplot(xy, aes(x = x, y = y)) +
+    stat_function(fun = L_bernoulli(n = 20, S = 10)) +
+    xlab(expression(theta)) +
+    ylab(expression(L(theta))) +
+    labs(title = "Verosimilitud", subtitle = "n=20, S = 10")
+l_b2 <- ggplot(xy, aes(x = x, y = y)) +
+    stat_function(fun = L_bernoulli(n = 20, S = 14)) +
+    xlab(expression(theta)) +
+    ylab(expression(L(theta))) +
+    labs(title = "Verosimilitud", subtitle = "n=20, S = 14")
+l_b3 <- ggplot(xy, aes(x = x, y = y)) +
+    stat_function(fun = L_bernoulli(n = 20, S = 19)) +
+    xlab(expression(theta)) +
+    ylab(expression(L(theta))) +
+    labs(title = "Verosimilitud", subtitle = "n=20, S = 19")
+
+grid.arrange(l_b1, l_b2, l_b3, nrow = 1)
+```
+
+Adicionalmente, resulta que el estimador de máxima verosimilitud $\hat{\theta}$
+es aproximadamente Normal por lo que obtenemos el siguiente resultado
+
+<div class="caja">
+Bajo condiciones de regularidad apropiadas, se cumple:
+
+1. Definimos $se=\sqrt{1/I_n(\theta)}$, entonces
+$$\frac{(\hat{\theta} - \theta)}{se} \leadsto N(0, 1)$$
+
+2. Definimos $\hat{se}=\sqrt{1/I_n(\hat{\theta})}$, entonces
+$$\frac{(\hat{\theta} - \theta)}{\hat{se}} \leadsto N(0, 1)$$
+</div>
+
+<br/>
+
+El primer enunciado dice que $\hat{\theta} \approx N(\theta,se)$, donde el
+error estándar de $\hat{\theta}$ es $se=\sqrt{1/I_n(\theta)}$. Por su parte el
+segundo enunciado dice que esto es cierto incluso si reemplazamos el error 
+estándar por su aproximación $\hat{se}=\sqrt{1/I_n(\hat{\theta})}$. Y podemos 
+usar esto para construir intervalos de confianza.
+
+**Ejemplo: Bernoulli**. Supongamos $X_1,...X_n \sim Bernoulli(\theta)$. El 
+estimador de máxima verosimilitud es $\hat{\theta}=\sum X_i/n$ y un intervalo de 
+aproximadamante $95\%$ de confianza es:
+$$\hat{\theta} \pm 1.96 \bigg\{\frac{\hat{\theta}(1- \hat{\theta})}{n} \bigg\}^{1/2}$$
+
+<div class="caja">
+**Método delta**. Si $\tau=g(\theta)$ donde $\theta$ consta de únicamente un 
+parámetro, $g$ es diferenciable y $g´(\theta)\neq 0$ entonces
+$$\frac{\sqrt{n}(\hat{\tau}-\tau)}{\hat{se}(\hat{\tau})}\leadsto N(0, 1)$$
+donde $\hat{\tau}=g(\theta)$ y
+
+$$\hat{se}(\hat{\tau})=|g´(\hat{\theta})|\hat{se}(\hat{\theta})$$
+</div>
+
+Por tanto, el método delta nos da una método para aproximar el error estándar
+y crear intervalos de confianza aproximados. Existe también una extensión del 
+método delta para el caso en que $\theta$ es un vector de dimensión mayor a 
+uno, es decir cuando el modelo tiene más de un parámetro.
+
+Notemos que los errores estándar de máxima verosimilutud son asintóticos, en el 
+caso de tener muestras chicas podemos utilizar *bootstrap* para calcular errores
+estándar. Incluso con muestras grandes puede ser más conveniente usar Bootstrap 
+pues nos permite calcular errores estándar cuando no hay fórmulas analíticas.
+
+## Bootstrap paramétrico
+
+El método bootstrap se puede utilizar para el cálculo de errores 
+estándar y de intervalos de confianza en un modelo paramétrico. Recordemos que
+en _bootstrap no paramétrico_ obteníamos muestras $X_1^*,...,X_n^*$
+de la distribución empírica $P_n$. En el caso de **bootstrap paramétrico** 
+las muestras se obtienen de $p(x,\hat{\theta})$ donde $\hat{\theta}$ es una
+estimación de ${\theta}$ (esta se puede obtener por máxima verosimilitud).
+Es así, que la diferencia entre la versión no paramétrica y la paramétrica
+es como construimos la distribución de la que vamos a seleccionar muestras.
+
+**Ejemplo**. Sea $X_1,...,X_n$ i.i.d. con $X_i \sim N(\mu, \sigma^2)$. Sea 
+$\theta = g(\mu,\sigma)=\sigma/\mu$, esta cantidad se conoce como el 
+coeficiente de variación. Estima $\theta$ y su error estándar.
+ 
+1. Calculamos $\hat{\mu}=\frac{1}{n} \sum{X_i}$ y $\hat{\sigma}=\frac{1}{n} \sum(X_i-\hat{\mu})^2$.
+
+Repetimos $2$ y $3$ B veces:
+
+2. Simulamos $X_1^*,...,X_n^*$ con $X_i^*\sim N(\hat{\mu},\hat{\sigma}^2)$.
+
+3. Calculamos $\hat{\mu}^*=\frac{1}{n} \sum{X_i^*}$ y $\hat{\sigma}^2=\frac{1}{n} \sum(X_i^*-\hat{\mu}^*)^2$ y $\hat{\theta}=\hat{\sigma}^*/\hat{\mu}^*$.
+
+4. Estimamos el error estándar como:
+ a) $$\hat{se}_B=\sqrt{\frac{1}{B-1}\sum_{b=1}^B \big(\hat{\theta}^*(b) - \bar{\theta}\big)^2}$$
+
+
+Veamos un ejemplo donde tenemos $200$ observaciones con una distribución 
+$Normal(10, 5^2)$ y nos interesa estimar $\theta=\sigma/\mu$.
+
+```{r}
+n <- 200
+x <- rnorm(n, mean = 10, sd = 5)  # observaciones normales
+
+# Paso 1: calcular mu_hat y sigma_hat
+mu_hat <- mean(x)  
+sigma_hat <- sqrt(1 / n * sum((x - mu_hat) ^ 2)) 
+
+# Pasos 2 y 3
+thetaBoot <- function(){
+    # Simular X_1*,...X_N* con distribución N(mu_hat, sigma_hat^2) 
+    x_boot <- rnorm(n, mean = mu_hat, sd = sigma_hat) 
+    # Calcular mu*, sigma* y theta*
+    mu_boot <- mean(x_boot)
+    sigma_boot <- sqrt(1 / n * sum((x_boot - mu_boot) ^ 2)) 
+    sigma_boot / mu_boot # theta*
+}
+
+# Paso 4: Repetimos B = 2000 veces y estimamos el error estándar
+sims_boot <- rerun(3000, thetaBoot()) %>% flatten_dbl()
+sqrt(1 / 2999 * sum((sims_boot - sigma_hat/mu_hat) ^ 2))
+```
+
+Comparamos con el método delta: 
+$$\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}{2\hat{\mu}^2}\bigg)^{1/2}$$
+
+```{r}
+1 / sqrt(n) * (1 / mu_hat ^ 4 + sigma_hat ^ 2 / (2 * mu_hat ^ 2)) ^ (1 / 2)
+```
+
+![](imagenes/manicule2.jpg) Supongamos que observamos $70$ realizaciones de 
+una Bernoulli, de tal manera que observamos $20$ éxitos, calcula un intervalo de
+confianza usando bootstrap y comparalo con el correspondiente usando la 
+información de Fisher.
+
+```{r, eval=FALSE, echo = FALSE}
+p_hat <- 20/70
+
+simBern <- function(){
+  x_boot <- sample(0:1, size = 70, replace = TRUE, prob = c(1-p_hat, p_hat))
+  mean(x_boot)
+}
+sims_boot <- rerun(2000, simBern()) %>% flatten_dbl()
+sd(sims_boot)
+## Fisher
+sqrt(p_hat * (1 - p_hat) / 70)
+```
+
+
+
+#### Ejemplo Bsplines: Bootstrap no paramétrico, bootstrap paramétrico y máxima verosimilitud{-}
+
+Ilustraremos los métodos usando un ejemplo de suavizamiento tomado de @hastie
+para esto comenzamos creando una base de datos artificial:
+
+```{r, fig.width = 4}
+set.seed(90984)
+# simple harmonic motion
+shm <- function(t, A = 1.5, omega = 4){ # Esta es una función sinusoidal
+    t * A * sin(omega * t)
+}
+n <- 90
+x <- sample(seq(0, 3, 0.02), n) # creamos una base con n observaciones
+y <- shm(x) + rnorm(length(x), sd = 1)
+outliers <- sample(1:length(y), 4)  # elijo 4 puntos al azar a los que agrego ruido
+y[outliers] <- y[outliers] + rnorm(4, sd = 2)
+toy <- data.frame(x, y)
+
+ggplot(toy, aes(x, y)) +
+  geom_point()
+```
+
+En nuestro ejemplo los datos consisten en pares $z_i=(x_i, y_i)$ donde $y_i$ se
+entiende como la _respuesta_ o la _salida_ correspondiente a $x_i$. De la gráfica 
+de los datos es claro que la relación entre $x$ y $y$ no es lineal, por lo que 
+usaremos un método de expansiones de base que permite mayor flexibilidad.
+
+La idea básica detrás de **expansión de bases** es aumentar la dimensión del 
+espacio de covariables (o predictores) creando variables adicionales que 
+consisten en transformaciones de las variables originales $X$, para luego usar 
+modelos lineales en el espacio aumentado. Si denotamos por $h_m(X)$ la 
+$m$-ésima transformación de $X$, con $m = 1,...,M$, podemos modelar:
+
+$$f(X)=\sum_{i=1}^M \beta_m h_m(X)$$
+
+Lo conveniente de este enfoque es que una vez que determinamos las funciones 
+base $h_m$ los modelos son lineales en estas nuevas variables y podemos explotar
+las ventajas de usar modelos lineales. En lo que sigue supondremos que $X$ es 
+unidimensional (como en el ejemplo). 
+
+Dentro de los métodos de expansión de bases estudiaremos los splines. Una 
+función spline está fromada por polinomios de grado $k$, cada uno definido 
+sobre un intervalo, y se unen entre sí en los límites de cada intervalo. Los
+lugares donde se unen se conocen como nudos (knots). Antes de proceder 
+entendamos los polinomios por pedazos: un polinomio por pedazos se obtiene 
+dividiendo el dominio de $X$ en intervalos contiguos y representando a $f$ por 
+medio de un polinomio en cada intervalo.  Por ejemplo una constante por pedazos:
+
+```{r, fig.width = 4}
+library(Hmisc)
+
+toy_k <- toy
+toy_k <- toy %>%
+    mutate(int = cut2(x, g = 4)) %>%
+    group_by(int) %>%
+    mutate(media = mean(y))
+
+ggplot(toy_k, aes(x, y)) +
+  geom_point() +
+  geom_line(aes(x, y = media, group = int), color = "red")
+
+```
+
+Debido a que dividimos el dominio en regiones disjuntas, el estimador de 
+mínimos cuadrados para el modelo $f(X)=\sum \beta_m h_m(X)$ es 
+$\hat{\beta_m} = \bar{Y}\_m$ la media de $Y$ en cada región con $m=1,2,3,4$.
+
+Ahora ajustamos un polinomio lineal por pedazos:
+
+```{r, fig.width = 4}
+ggplot(toy_k, aes(x, y)) +
+  geom_point() +
+  geom_smooth(method = "lm", aes(x, y = y, group = int), color = "red", se = FALSE)
+```
+
+Normalmente preferimos que la función sea continua en los nudos, esto conlleva
+a restricciones es los parámetros o al uso de bases que incorporen las 
+restricciones. Más aún, es conveniente restringir no solo a continuidad de la 
+función sino a continuidad de las derivadas.
+
+Supongamos que decidimos ajustar splines cúbicos a los datos, con $3$ nudos 
+ubicados en los cuartiles de $X$. Esto corresponde a un espacio lineal de 
+funciones, la dimensión del espacio es $7$ ($4$ regiones $\times$ $4$ parámetros por
+región - $3$ nodos por $3$ restricciones por nodo).
+
+```{r, fig.width = 4.5}
+library(fda) # paquete con funciones útiles de splines
+knots <- quantile(x)
+# usamos la función create.bspline.basis para crear la base
+base <- create.bspline.basis(
+    norder = 4, # polinomios cúbicos
+    breaks = knots # nodos en los cuartiles de x
+    )
+plot(base, lty = "solid")
+```
+
+Podemos representar el espacio por medio de una expansión lineal en las funciones
+base:
+
+$$\mu(x) = \sum_{j=1}^7 \beta_j h_j(x)$$
+
+donde $h_j(x)$ son las $7$ funciones que graficamos en la figura superior. Podemos
+pensar en $\mu(x)$ como una representación de la media condicional $E(Y|X=x)$.
+
+```{r}
+H <- eval.basis(x, base)
+head(H)
+```
+
+Sea $H$ la  matriz de $n \times 7$, donde el elemento $ij$ corresponde a 
+$h_j(x_i)$. Entonces, el estimador usual de $\beta$ (obtenido minimizando el 
+error cuadrático) esta dado por:
+$$\hat{\beta} = (H^TH)^{-1}H^Ty$$
+
+y con esto obtenemos: $\hat{\mu}(x) = \sum_{j=1}^7 \hat{\beta_j} h_j(x)$
+
+```{r, fig.width = 4}
+beta_hat <- as.vector(solve(t(H) %*% H) %*% t(H) %*% toy$y)
+beta_hat
+
+# creamos una función que calcula mu(x)
+mu <- function(x, betas){
+    as.numeric(betas %*% t(eval.basis(x, base)))
+}
+
+ggplot(toy, aes(x = x, y = y)) +
+    geom_point(alpha = 0.8) + 
+    stat_function(fun = mu, args = list(betas = beta_hat), color = "blue") +
+    labs(title = "B-splines")
+```
+
+**Bootstrap no paramétrico**. Usemos bootstrap para calcular errores estándar, 
+para esto tomamos muestras con reemplazo de los pares $z_i = (x_i,y_i)$, para 
+cada muestra _bootstrap_ $Z^*$ ajustamos un polinomio cúbico $\hat{\mu}^*(x)$ y 
+construimos bandas de confianza usando los intervalos de cada punto.
+
+
+```{r, fig.width = 4}
+splinesBoot <- function(){
+    toy_boot <- sample_n(toy, size = n, replace = TRUE)
+    H <- eval.basis(toy_boot$x, base)
+    as.vector(solve(t(H) %*% H) %*% t(H) %*% toy_boot$y)
+}
+betas <- rerun(4000, splinesBoot()) %>% reduce(rbind)
+
+splines_boot <- ggplot(toy, aes(x = x, y = y)) 
+
+for(i in 1:100){
+  splines_boot <- splines_boot + 
+    stat_function(fun = mu, args = list(betas = betas[i, ]), alpha = 0.1) 
+}
+
+splines_boot + geom_point(color = "red", alpha = 0.5)
+```
+
+La gráfica superior muestra $100$ replicaciones bootstrap del suavizamiento. 
+Construyamos los intervalos bootstrap, en cada $x$ encontramos el $2.5\%$ más chico 
+y más grande.
+
+```{r, fig.width = 4}
+# construimos los intervalos
+x_grid <- seq(knots[1], knots[5], 0.02) # creamos un grid para evaluar mu(x)
+H <- eval.basis(x_grid, base) # Evalúo la base en el rango
+betas_list <- split(betas, seq(nrow(betas)))
+y <- purrr::map_df(betas_list, ~ data_frame(x = x_grid, mu = as.vector(. %*% t(H))))
+limites <- y %>% 
+    group_by(x) %>% 
+    summarise(
+        limite_inf = quantile(mu, probs = 0.025), 
+        limite_sup = quantile(mu, probs = 0.975)
+    )
+  
+ggplot(limites) + 
+    geom_line(aes(x = x, y = limite_inf), color = "darkgray") +
+    geom_line(aes(x = x, y = limite_sup), color = "darkgray") +
+    geom_point(data = toy, aes(x = x, y = y), color = "red", alpha = 0.5) + 
+    stat_function(fun = mu, args = list(betas = beta_hat), color = "blue") +
+    labs(x = "", y = "")
+```
+
+Supongamos ahora que los errores se distribuyen normal:
+$$y = \mu(x) + \epsilon; \epsilon \sim N(0, \sigma^2)$$
+$$\mu(x) = \sum_{j=1}^7 \beta_j h_j(x)$$
+
+utilicemos **bootstrap paramétrico**, simularemos 
+$$y_i^* = \hat{\mu}(x_i) + \epsilon_i^*; \epsilon_i^* \sim N(0,\hat{\sigma}^2)$$ 
+
+Para implementar bootstrap paramétrico comencemos calculando los estimadores de
+máxima verosimilitud:
+$$\hat{\beta} = (H^TH)^{-1}H^Ty$$
+y
+$$\hat{\sigma}^2=1/n \sum_{i=1}^n(y_i-\hat{\mu}(x_i))^2$$
+
+```{r, fig.width = 4}
+mu_hat <- mu(toy$x, beta_hat)
+sigma_hat <- sqrt(1 / n * sum((toy$y - mu_hat) ^ 2))
+
+# creamos las muestras bootstrap (paramétrico)
+splinesBootP <- function(){
+    toy_boot <- data.frame(x = toy$x, y = mu_hat + rnorm(n, 0, sigma_hat))
+    H <- eval.basis(toy_boot$x, base)
+    as.vector(solve(t(H) %*% H) %*% t(H) %*% toy_boot$y)
+}
+
+betas_p <- rerun(4000, splinesBootP()) %>% reduce(rbind)
+
+splines_boot_p <- ggplot(toy, aes(x = x, y = y)) 
+for(i in 1:100){
+    splines_boot_p <- splines_boot_p + 
+        stat_function(fun = mu, args = list(betas = betas_p[i, ]), alpha = 0.1) 
+}
+
+splines_boot + geom_point(color = "red", alpha = 0.5) 
+```
+
+y construímos intervalos
+
+```{r, fig.width = 4}
+# construimos los intervalos
+x_grid <- seq(knots[1], knots[5], 0.02) # creamos un grid para evaluar mu(x)
+H <- eval.basis(x_grid, base) # Evalúo la base en el rango
+y <- betas_p %*% t(H) # calculo mu(x*)
+
+betas_list <- split(betas_p, seq(nrow(betas)))
+y <- purrr::map_df(betas_list, ~ data_frame(x = x_grid, mu = as.vector(. %*% t(H))))
+limites <- y %>% 
+  group_by(x) %>% 
+  summarise(
+    limite_inf = quantile(mu, probs = 0.025), 
+    limite_sup = quantile(mu, probs = 0.975)
+    )
+  
+ggplot(limites) + 
+    geom_line(aes(x = x, y = limite_inf), color = "darkgray") +
+    geom_line(aes(x = x, y = limite_sup), color = "darkgray") +
+    geom_point(data = toy, aes(x = x, y = y), color = "red", alpha = 0.5) + 
+    stat_function(fun = mu, args = list(betas = beta_hat), color = "blue") +
+    labs(x = "", y = "")
+```
+
+Máxima verosimilitud:
+$$\hat{Var}(\hat{\beta})=(H^T H) ^{-1}\hat{\sigma}^2$$
+donde
+$$\hat{\sigma}^2=1/n \sum_{i=1}^n(y_i-\hat{\mu}(x_i))^2$$, 
+
+ahora, la matriz de información de $\theta=(\beta,\sigma^2)$ es una diagonal 
+con bloques y el bloque correspondiente a $\beta$ es:
+$$I(\beta)=(H^TH)/\sigma^2$$
+de tal manera que la varianza estimada es $I(\beta)=(H^TH)/\hat{\sigma}^2$. 
+Podemos usar esto para construir las bandas en de errores estándar
+$\hat{\mu}(x) = h(x)^T\hat{\beta}$
+es:
+
+$$\hat{se}=[h(x)^T(H^TH)^{-1}h(x)]^{1/2}\hat{\sigma}$$
+
+```{r, fig.width = 4}
+seMu <- function(x){ 
+  # calculo h(x)
+  h <- eval.basis(x, base)
+  # calcilo se_hat(x)
+  se_hat <- as.numeric((h %*% solve(t(H) %*% H) %*% t(h)) ^ (1 / 2) * sigma_hat)
+  se_hat
+}
+max_ver_errores <- data.frame(x = x_grid, 
+  y_min = mu(x_grid, beta_hat) - 2 * sapply(x_grid, seMu), 
+  y_max = mu(x_grid, beta_hat) + 2 * sapply(x_grid, seMu)) %>%
+  gather(cuantil, valor, y_min, y_max)
+
+ggplot(toy) +
+  geom_point(color = "red", aes(x = x, y = y), alpha = 0.5) + 
+  stat_function(fun = mu, args = list(betas = beta_hat), color = "blue") +
+  geom_line(data = max_ver_errores, aes(x = x, y = valor, group = cuantil), 
+    color = "darkgray") + 
+    stat_function(fun = mu, args = list(betas = beta_hat), color = "blue") +
+    labs(x = "", y = "") 
+```
+
+
+En general el bootstrap paramétrico coinicide con máxima verosimilitud, la 
+ventaja de _bootstrap_ sobre máxima verosimilitud es que permite calcular 
+estimaciones de máxima verosimilitud de errores estándar en escenarios donde
+no hay fórmulas disponibles. Por ejemplo, podríamos seleccionar el número 
+y la ubicación de los nudos de manera adaptativa, usando validación 
+cruzada. En este caso no hay fórmulas para el cálculo de errores estándar pero 
+*bootstrap* sigue funcionando.
+
+![](imagenes/manicule2.jpg) Sean $X_1,...,X_n \sim N(\mu, 1)$. Sea 
+$\theta = e^{\mu}$, crea una base de datos usando $\mu=5$ que consista de 
+$n=100$ observaciones.
+
+* Usa el método delta para estimar $\hat{se}$ y crea un intervalo del $95\%$ de
+confianza. Usa boostrap paramétrico para crear un intervalo del $95\%$. Usa 
+bootstrap no paramétrico para crear un intervalo del 95%. Compara tus respuestas.
+
+* Realiza un histograma de replicaciones bootstrap para cada método, estas son
+estimaciones de la distribución de $\hat{\theta}$. El método delta también nos
+da una aproximación a esta distribución: $Normal(\hat{\theta},\hat{se}^2)$. 
+Comparalos con la verdadera distribución de $\hat{\theta}$ (que puedes obtener 
+vía simulación). ¿Cuál es la aproximación más cercana a la verdadera 
+distribución?
+
+Pista: $se(\hat{\mu}) = 1/\sqrt{n}$
+

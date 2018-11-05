@@ -458,276 +458,243 @@ ggplot(intervalos_muestra) +
     facet_wrap(~ metodo, ncol = 1)
 ```
 
-## Examen parcial a casa {-}
+## 7-Simulación de modelos {-}
+Supongamos que una compañía cambia la tecnología usada para producir una cámara, 
+un estudio estima que el ahorro en la producción es de $\$5$ por unidad con un 
+error estándar de $\$4$. Más aún, una proyección estima que el tamaño del mercado 
+(esto es, el número de cámaras que se venderá) es de $40,000$ con un error 
+estándar de $10,000$. Suponiendo que las dos fuentes de incertidumbre son 
+independientes, usa simulación de variables aleatorias normales para estimar el 
+total de dinero que ahorrará la compañía, calcula un intervalo de confianza. 
 
-**Entrega:** 8 de octubre antes de las 16:00 horas
+## 8-Simulación de modelos de regresión {-}
 
-**Instrucciones:**
+Los datos [beauty](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv) consisten en evaluaciones de estudiantes a profesores, los 
+estudiantes calificaron belleza y calidad de enseñanza para distintos cursos en 
+la Universidad de Texas. Las evaluaciones de curso se realizaron al final del 
+semestre y tiempo después 6 estudiantes que no llevaron el curso realizaron los 
+juicios de belleza. 
 
-* Resuelve todas las preguntas, tus respuestas deben ser claras y debes explicar 
-los resultados, incluye también tus procedimientos/código de manera ordenada, 
-el código comentado.
+Ajustamos el siguiente modelo de regresión lineal usando las variables 
+_edad_ (age), _belleza_ (btystdave), _sexo_ (female) e _inglés no es primera 
+lengua_ (nonenglish) para predecir las evaluaciones del curso 
+(courseevaluation).
 
-* Se evaluará la presentación de resultados (calidad de las gráficas, tablas, 
-...), revisa la sección de teoría de visualización en las notas.
-
-* Se puede realizar individual o en parejas, en el caso de parejas envíen una 
-sola respuesta con el nombre de ambos.
-
-* Si tienes preguntas puedes escribirlas en [este documento](https://docs.google.com/document/d/1z-CJ9HXQkS9REI5ofkvT2ZzGzJdAGJUNrEWO3uhLgqA/edit?usp=sharing), será el único medio para resolver dudas del examen (**no 
-correos**).
-
-* El examen se puede entregar después de la fecha establecida, sin embargo habrá 
-una penalización de un punto (sobre 10) por cada día tarde.
-
-
-</br>
-
-#### 1. Probabilidad {-}
-Puedes usar simulación o encontrar la respuesta de manera analítica (incluye 
-procedimiento).
-
-a) Revolvemos una baraja de cartas (52) y la partimos en dos mitades (26 cartas 
-en cada parte). Extraemos una carta de la primera mitad y resulta en As. 
-Colocamos el As en la segunda mitad de la baraja, revolvemos las 27 cartas 
-correspondientes y seleccionamos una carta.
-
-+ ¿Cuál es el epacio de resultados? 
-
-+ ¿Cuál es la probabilidad de que hayamos seleccionado un As?
-
-b) A y B juegan una serie de juegos. En cada juego A gana con probabilidad 0.35 
-y B con probabilidad 0.65 (independiente de lo ocurrido en los otros juegos). 
-Paran de jugar cuando el número total de juegos ganados de un jugador es dos 
-juegos más que el total de juegos ganados por el otro jugador:
-
-+ Cuál es el espacio de resultados?
-
-+ Encuentra la probabilidad de que se jueguen 4 juegos en total.
-
-+ Encuentra la probabilidad de que A gane la serie.
-
-***
-
-#### 2. Manipulación de datos y Bootstrap  {-}
-La bioequivalencia es un término utilizado en farmacocinética para evaluar la 
-equivalencia terapéutica entre dos formulaciones de un medicamento que contiene 
-el mismo principio activo o fármaco. Cuando una farmacéutica cambia una fórmula 
-o desarrolla una nueva presentación de un medicamento ya disponible al público, 
-requiere aprobación de la FDA para poder distribuirlo, para lograr esta 
-aprobación debe demostrar que el nuevo medicamento es bioequivalente al 
-medicamento ya aprobado, es así que se diseñan ensayos clínicos donde se compara 
-la respuesta de los participantes al recibir las distintas formulaciones del 
-medicamento. 
-
-En este ejercicio analizarás la bioequivalencia de una nueva tableta de 
-Cimetidine de 800 mg en relación a tabletas aprobadas de 400 mg:
-
-* En el ensayo clínico participaron 24 voluntarios saludables, cada uno se 
-asignó de manera aleatoria para recibir la formulación de 800 mg (formulación a 
-prueba) o dos tabletas de 400 mg (formulación referencia).
-
-* Se recolectaron muestras de sangre antes de la dosis y durante las siguientes 
-24 horas. 
-
-Realiza lo siguiente:
-
-1. Lee los datos [cimetidine_raw](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/cimeditine_raw.txt), las variables son: 
-    + `formulation` indica si la observación corresponde a formulación de 
-    refernecia o de prueba, 
-    + `subj` identifica al sujeto, 
-    + `seq` toma dos valores 1 indica que el sujeto se eavluó tomando la 
-    formulación de tratamiento primero y después la de referencia, 2 indica el 
-    caso contrario,
-    + `prd` indica el periodo (1 o 2), 
-    + las variables `HRXX` indican la medición (concentración de Cimeditine en 
-    mCG/ml) para la hora XX (HR00 corresponde a la hora cero, HR05 a media hora, 
-    HR10 a una hora,..., HR240 a 24 horas). 
-    Desafortunadamente estos datos crudos están truncados y para algunos sujetos
-(1, 3, 5, 8, 9, 12, 16, 17, 19, 22, 23) no tenemos las mediciones del tratamiento 
-de referencia, sin embargo, podemos usar la información disponible para entender
-como se calculan las métricas.
-
-2. ¿cumplen los principios de los datos limpios?, En caso de que no los cumplan 
-limpialos y explica que fallaba. Imprime las primeras líneas de los datos 
-limpios (si ya estaban limpios entonces los datos originales).
-
-3. Grafica la concentración del medicamento por hora. Debes graficar en el eje 
-horizontal la hora, en el eje vertical la concentración para cada persona, bajo 
-cada tratamiento. Un ejemplo de lo que debes hacer  es [esta gráfica](https://en.wikipedia.org/wiki/Bioequivalence#/media/File:Bupropion_bioequivalency_comparison.svg),
-con la diferencia que la curva de Wikipedia es el promedio sobre todos los individuos y 
-tu graficarás una para cada uno. ¿Qué puedes ver en las gráficas?
-
-Para comprobar bioequivalencia la FDA solicita que el medicamento de prueba 
-tenga un comportamiento similar al del medicamento de referencia. Para ello se
-compara la máxima concentración de medicamento (CMAX), el tiempo que tarda el 
-individuo en alcanzar las concentración máxima en sangre (TMAX), y el área bajo 
-la curva de concentración contra tiempo (AUC, que acabas de graficar). En 
-particular para que la FDA concluya bioequivalencia se requiere que para cada 
-medición (CMAX, TMAX y AUC) un intervalo de 90% de confianza para el cociente 
-$\mu_T/\mu_R$ de la media del tratamiento de prueba $\mu_T$ y la media de la 
-referencia $\mu_R$ esté contenido en el intervalo $(80\%, 125\%)$. En este 
-ejercicio usarás bootstrap para calcular un intervalo de confianza para el 
-cociente de las medias de AUC. 
-
-4. Calcula el AUC para cada individuo en cada tratamiento disponible, usa la 
-fórmula de área trapezoidal:
-$$AUC = \sum_{\tau=1}^k(c_\tau + c_{\tau−1}) × (t_\tau − t_{\tau-1}) / 2$$ donde 
-$c$ es la concentración y $t$ son las horas. Tip: Si usas las funciones de dplyr 
-puede resultar útil usar `lag()`. Presenta una tabla con tus resultados.
-
-5. En estos últimos dos incisos usa los datos [cimeditine_boot.csv](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/cimeditine_boot.csv), 
-para el $i$-ésimo individuo `subj` tienes mediciones de AUC bajo tratamiento y 
-referencia, denotemos a este par $x_i=(auc_{Ti}, auc_{Ri})$, suponiendo que las 
-$x_i$ se obuvieron de manera aleatoria de una distribución bivariada $P$, 
-entonces la cantidad poblacional de interés es el parámetro 
-$\theta = \mu_T/\mu_R$. Calcula el estimador *plug-in* de $\theta$.
-
-6. Usa bootstrap para generar un intervalo del 90% de confianza para $\theta$, 
-¿la nueva tableta cumple el criterio de bioequivalencia de la FDA?
-
-***
-
-
-#### 3. Bootstrap {-}
-
-En México, las elecciones tienen lugar un domingo, los resultados oficiales 
-del proceso se presentan a la población una semana después. A fin de evitar 
-proclamaciones de victoria injustificadas durante ese periodo el INE organiza un 
-conteo rápido.El conteo rápido es un procedimiento para estimar, a partir de una 
-muestra aleatoria de casillas, el porcentaje de votos a favor de los candidatos 
-en la elección. 
-
-En este ejercicio deberás crear intervalos de confianza para la proporción de
-votos que recibió cada candidato en las elecciones de 2006. La inferencia se 
-hará a partir de una muestra de las casillas similar a la que se utilizó para el 
-conteo rápido de 2006.
-
-El diseño utilizado es *muestreo estratificado simple*, lo que quiere decir que:
-
-i) se particionan las casillas de la pablación en estratos (cada casilla
-pertenece a exactamente un estrato), y 
-
-ii) dentro de cada estrato se usa *muestreo aleatorio* para seleccionar las 
-casillas que estarán en la muestra. 
-
-En este ejercicio (similar al conteo rápido de 2006):
-
-* Se seleccionó una muestra de $7,200$ casillas
-
-* La muestra se repartió a lo largo de 300 estratos. 
-
-* La tabla `muestra_estratos` contiene en la columna $N$ el número total de 
-casillas en el estrato y en $n$ el número de casillas que se seleccionaron en la 
-muestra, para cada estrato:
-
-
-```{r, message=FALSE}
-library(tidyverse)
-muestra_estratos <- read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/muestra_estratos.csv")
-```
-
-* La tabla `muestra_2006` contiene para cada casilla:
-    + el estrato al que pertenece: `estrato`
-    + el número de votos que recibió cada partido/coalición: `pan`, `pri_pvem`, 
-    `panal`, `prd_pt_convergencia`, `psd` y la columna `otros` indica el 
-    número de votos nulos o por candidatos no registrados.
-    + el total de votos registrado en la casilla: `total`.
 
 ```{r}
-muestra_2006 <- read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/muestra_2006.csv")
+beauty <- readr::read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv")
+fit_score <- lm(courseevaluation ~ age + btystdave + female + nonenglish, 
+                data = beauty)
 ```
 
 
-Una de las metodolgías de estimación, que se usa en el conteo rápido, es 
-*estimador de razón* y se contruyen intervalos de 95% de confianza usando el 
-método normal con error estándar bootstrap. En este ejercicio debes construir 
-intervalos usando este procedimiento.
+1. La instructora A es una mujer de $50$ años, el inglés es su primera lengua y 
+tiene un puntaje de belleza de $-1$. El instructor B es un hombre de $60$ años, 
+su primera lengua es el inglés y tiene un puntaje de belleza de $-0.5$. Simula
+$1000$ generaciones de la evaluación del curso de estos dos instructores. En 
+tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
+predicción. 
 
-Para cada candidato:
+Para hacer las simulaciones necesitarás la distribución del vector de 
+coeficientes $\beta$, este es normal con media:
 
-1. Calcula el estimador de razón combinado, para muestreo estratificado la 
-fórmula es:
+```{r}
+coef(fit_score)
+```
 
-$$\hat{p}=\frac{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}{\sum_h \frac{N_h}{n_h} \sum_i X_{hi}}$$
-donde:
+y matriz de varianzas y covarianzas $\sigma^2 V$, donde $V$ es: 
 
-* $\hat{p}$ es la estimación de la proporción de votos que recibió el candidato
-en la elección.
+```{r}
+summary(fit_score)$cov.unscaled
+```
 
-* $Y_{hi}$ es el número total de votos que recibió el candidato
-en la $i$-ésima casillas, que pertence al $h$-ésimo estrato.
+y $\sigma$ se calcula como $\sigma=\hat{\sigma}\sqrt{(df)/X}$, donde X es una 
+generación de una distribución $\chi ^2$ con $df$ ($458$) grados de libertad
+$\hat{\sigma}$ es:
 
-* $X_{hi}$ es el número total de votos en la $i$-ésima casilla, que pertence al 
-$h$-ésimo estrato. 
+```{r}
+summary(fit_score)$sigma
+```
 
-* $N_h$ es el número total de casillas en el $h$-ésimo estrato.
+y $df$ (los grados de libertad) se obtienen:
 
-* $n_h$ es el número de casillas del $h$-ésimo estrato que se seleccionaron en 
-la muestra.
+```{r}
+summary(fit_score)$df[2]
+```
 
-2. Utiliza **bootstrap** para calcular el error estándar, y reporta tu 
-estimación del error.
-    + Genera 1000 muestras bootstrap.
-    + Recuerda que las muestras bootstrap tienen que tomar en cuenta la 
-    metodología que se utilizó en la selección de la muestra original.
-
-3. Construye un intervalo del 95% de confianza utilizando el método normal.
-
-Repite para todos los partidos (y la categoría otros). Reporta tus intervalos
-en una tabla. 
-
-
-#### 4. Simulación de variables aleatorias  {-}
-Recuerda que una variable aleatoria $X$ tiene una distribución geométrica
-con parámetro $p$ si
-$$p_X(i) = P(X=i)=pq^{i-1}$$
-para $i=1,2,...$  y donde $q=1-p$. 
-
-Notemos que
-$$\sum_{i=1}^{j-1}P(X=i)=1-P(X\geq j-1)$$
-$$=1 - q^{j-1}$$
-para $j\geq 1$.
-por lo que podemos generar un valor de $X$ generando un número aleatorio
-$U$ y seleccionando $j$ tal que
-$$1-q^{j-1} \leq U \leq 1-q^j$$
-
-Esto es, podemos definir $X$ como:
-$$X=min\{j : (1-p)^j < 1-U\}$$
-usando que el logaritmo es una función monótona (i.e. $a<b$ implica $log(a)<log(b)$) obtenemos que podemos expresar $X$ como 
-$$X=min\big\{j : j \cdot log(q) < log(1-U)\big\}$$
-$$=min\big\{j : j > log(U)/log(q)\big\}$$
-entonces
-$$X= int\bigg(\frac{log(U)}{log(q)}\bigg)+1$$
-
-es geométrica con parámetro $p$.
-
-Ahora, sea $X$ el número de lanzamientos de una moneda que se requieren
-para alcanzar $r$ éxitos (soles) cuando cada lanzamiento es independiente,  $X$ tiene una distribución binomial negativa.
-
-Una variable aleatoria $X$ tiene distribución binomial negativa con parámetros $(r,p)$ donde $r$ es un entero positivo y $0<p<r$ si
-$$P(X=j)=\frac{(j-1)!}{(j-r)!(r-1)!}p^r(1-p)^{j-r}.$$
-
-a) Recuerda la distribución geométrica ¿cuál es a relación entre la variable 
-aleatoria binomial negativa y la geométrica?
-
-b) Utiliza el procedimiento descrito para generar observaciones de una variable aleatoria con distribución geométrica y la relación entre la geométrica y la 
-binomial negativa para generar simulaciones de una variable aleatoria con
-distribución binomial negativa (parámetro p = 0.4, r = 20). Utiliza la semilla 
-221285 (en R usa set.seed) y reporta las primeras 10 simulaciones obtenidas.
-
-c) Verifica la relación
-$$p_{j+1}=\frac{j(1-p)}{j+1-r}p_j$$
-y úsala para generar un nuevo algoritmo de simulación, vuelve a definir la
-semilla y reporta las primeras 10 simulaciones.
-
-d) Realiza 10,000 simulaciones usando cada uno de los algoritmos y compara el 
-tiempo de ejecución.
-
-e) Genera un histogrma para cada algoritmo (usa 1000 simulaciones) y comparalo 
-con la distribución construida usando la función de R _dnbinom_.
-
-***
+Una vez que obtengas una simulación del vector $\beta$ generas simulaciones 
+para los profesores usando el modelo de regresión lineal y las simulaciones
+de los parámetros.
 
 
++ Realiza un histograma de la diferencia entre la evaluación del curso
+para A y B. 
 
++ ¿Cuál es la probabilidad de que A obtenga una calificación mayor?
+
+2. En el inciso anterior obtienes simulaciones de la distribución conjunta
+$p(\tilde{y},\beta,\sigma^2)$ donde $\beta$ es el vector de coeficientes de 
+la regresión lineal. Para este ejercicio nos vamos a enfocar en el coeficiente
+de belleza ($\beta_3$), realiza $6000$ simulaciones del modelo (como en el inciso 
+anterior) y guarda las realizaciones de $\beta_3$. 
+
++ Genera un histograma con las simulaciones de $\beta_3$.
+
++ Calcula la media y desviación estándar de las simulaciones y comparalas con la 
+estimación y desviación estándar del coeficiente obtenidas usando summary.
+
+## 9-Inferencia gráfica, tamaño de muestra, bootstrap paramétrico.{-}
+
+#### Inferencia gráfica {-}
+
+Los datos [marg_diabetes](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/marg_diabetes.csv) incluyen información de marginación y diabetes en 
+México: 
+
+* `ent`, `id_ent`, `mun`, `id_mun`, `cvegeo`: corresponden al estado, municipio 
+y sus códigos de identificación.  
+
+* `n_causa` es el número de muertes de adultos mayores a 65 años a causa de
+diabetes en 2015, y `tasa_mun` la tasa correspondiente por cada 10,000 
+habitantes.  
+
+* `tasa_alf` (porcentaje de población alfabeta), `ind_des_hum` (índice de 
+desarrollo humano), `conapo` (índice de marginación).
+
+Utiliza los datos para explorar gráficamente la relación entre algunas de las
+variables, utiliza el protocolo *lineup* para hacer inferencia gráfica.
+
+
+#### Simulación para calcular tamaños de muestra {-}
+
+Supongamos que queremos hacer una encuesta para estimar la proporción de 
+hogares donde se consume refresco de manera regular, para ello se diseña un 
+muestreo por conglomerados donde los conglomerados están dados por conjuntos de
+hoagres de tal manera que todos los conglomerados tienen el mismo número de 
+hogares. La selección de la muestra se hará en dos etapas:
+    
+1. Seleccionamos $J$ conglomerados de manera aleatoria.
+
+2. En cada conglomerado seleccionames $n/J$ hogares para entrevistar.
+
+El estimador será simplemente el porcentaje de hogares del total 
+de la muestra. Suponemos que la verdadera proporción es cercana a $0.50$ y que 
+la media de la proporción de interés a lo largo de los conglomerados tiene una 
+desviación estándar de $0.1$.
+
+1. Supongamos que la muestra total es de $n=1000$. ¿Cuál es la estimación del 
+error estándar para la proporción estimada si $J=1,10,100,1000$?
+
+2. El obejtivo es estimar la propoción que consume refresco en la población con 
+un error estándar de a lo más $2\%$. ¿Que valores de $J$ y $n$ debemos elegir para
+cumplir el objetivo al menor costo?
+
+Los costos del levantamiento son: 
+    + $50$ pesos por encuesta.
+    + $500$ pesos por conglomerado
+   
+#### Bootstrap paramétrico {-}
+
+1. Sean $X_1,...,X_n \sim N(\mu, 1)$. Sea $\theta = e^{\mu}$, crea una base de 
+datos usando $\mu=5$ que consista de $n=100$ observaciones.
+
+* Usa el método delta para estimar $\hat{se}$ y crea un intervalo del $95\%$ de
+confianza. Usa boostrap paramétrico para crear un intervalo del $95\%$. Usa 
+bootstrap no paramétrico para crear un intervalo del $95\%$. Compara tus respuestas.
+
+* Realiza un histograma de replicaciones bootstrap para cada método, estas son
+estimaciones de la distribución de $\hat{\theta}$. El método delta también nos
+da una aproximación a esta distribución: $Normal(\hat{\theta},\hat{se}^2)$. 
+Comparalos con la verdadera distribución de $\hat{\theta}$ (que puedes obtener 
+vía simulación). ¿Cuál es la aproximación más cercana a la verdadera 
+distribución?
+
+Pista: $se(\hat{\mu}) = 1/\sqrt{n}$
+
+### Solución {-}
+
+#### Simulación para calcular tamaños de muestra {-}
+
+```{r, cache = TRUE}
+muestreo <- function(J, n_total = 1000) {
+  n_cong <- floor(n_total / J)
+  medias <- rnorm(J, 0.5, 0.1)
+  medias <- ifelse(medias < 0, 0, 
+      ifelse(medias > 1, 1, medias))
+  resp <- rbinom(J, n_cong, medias)
+  sum(resp) / n_total
+}
+
+errores <- data_frame(J = c(1, 10, 100, 1000)) %>% 
+    mutate(
+        sims = map(J, ~(rerun(1000, muestreo(.)) %>% flatten_dbl())), 
+        error_est = map_dbl(sims, sd) %>% round(3)
+            )
+errores
+
+tamano_muestra <- function(J) {
+  n_total <- max(100, J)
+  ee <- rerun(1000, muestreo(J = J, n_total = n_total)) %>% 
+      flatten_dbl() %>% sd()
+  while(ee > 0.02){
+      n_total = n_total + 20
+      ee <- rerun(500, muestreo(J = J, n_total = n_total)) %>% 
+          flatten_dbl() %>% sd() %>% round(3)
+  }
+  list(ee = ee, n_total = n_total, costo = 500 * J + 50 * n_total)
+}
+tamanos <- c(20, 30, 40, 50, 100, 150)
+costos <- map_df(tamanos, tamano_muestra)
+costos$J <- tamanos
+costos
+ggplot(costos, aes(x = J, y = costo / 1000)) +
+    geom_line() + scale_y_log10() + theme_minimal() +
+    labs(y = "miles de pesos", title = "Costos")
+```
+
+## 10-Familias conjugadas {-}
+
+#### 1. Modelo Beta-Binomial {-}
+
+Una compañía farmacéutica afirma que su nueva medicina incrementa la 
+probabilidad de concebir un niño (sexo masculino), pero aún no publican 
+estudios. Supón que conduces un experimento en el cual 50 parejas se 
+seleccionan de manera aleatoria de la población, toman la medicina y conciben
+un bebé, nacen 30 niños y 20 niñas.
+    a) Quieres estimar la probabilidad de concebir un niño para parejas que 
+toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
+en 0.5 pues
+esta corresponde a personas que no toman la medicina, y la inicial debe reflejar 
+tu incertidumbre sobre el efecto de la droga. 
+    b) Usando tu inicial de a) grafica la posterior y decide si es creíble que las
+parejas que toman la medicina tienen una probabilidad de 0.5 de concebir un
+niño.
+    c) Supón que la farmacéutica asevera que la probabilidad de concebir un niño
+cuando se toma la medicina es cercana al 60% con alta certeza. Representa esta
+postura con una distribución inicial Beta(60,40). Comparala con la inicial de 
+un escéptico que afirma que la medicina no hace diferencia, representa esta
+creencia con una inicial Beta(50,50). Recuerda que 
+$$p(x)=Beta(z+a,N-z+b)/Beta(a,b)$$
+Calcula el valor de $p(x)$ para cada modelo y el factor de Bayes (asume 
+$p(M_1)=p(M_2)=0.5$).
+
+
+#### 2. Otra familia conjugada {-}
+
+Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del 
+ITAM y suponemos que el IQ de un estudiante tiene una distribución normal 
+$x \sim N(\theta, \sigma^2)$ con $\sigma ^ 2$ conocida.
+Considera que observamos el IQ de un estudiante $x$. 
+La verosimilitud del modelo es:
+$$p(x|\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}exp\left(-\frac{1}{2\sigma^2}(x-\theta)^2\right)$$
+Realizaremos un análisis bayesiano por lo que hace falta establer una 
+distribución inicial, elegimos $p(\theta)$ que se distribuya $N(\mu, \tau^2)$ 
+donde elegimos los parámetros $\mu, \tau$ que mejor describan nuestras creencias
+iniciales, por ejemplo si tengo mucha certeza de que el $IQ$ promedio se ubica
+en 150, elegiría $\mu=150$ y una desviación estándar chica por ejemplo 
+$\tau = 5$. Entonces la distribución inicial es:
+
+$$p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)$$
+Calcula la distribución posterior $p(\theta|x) \propto p(x|\theta)p(\theta)$, 
+usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
+multiplicación debes identificar el núcleo de una distribución Normal, 
+¿cuáles son sus parámetros (media y varianza)?

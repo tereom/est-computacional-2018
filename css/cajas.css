@@ -8,26 +8,25 @@
 .clicker {
     padding:8px;
     margin: 20px 0;
-    border: 0px solid whitesmoke;
+    border: 0 solid whitesmoke;
     border-left-width: 5px;
     border-radius: 3px;
-    font-size: 90%
-    font-color:dimgrey;
+    font-size: 90%;
 }
 
-.table {
+.mi-tabla {
     width: 70%;
     text-align: left;
     font-size: 1.2rem;
     margin-top: 1.4rem;
     margin-bottom: 1.4rem;
     margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     border-collapse: separate;
-    border-spacing: 0px;
+    border-spacing: 0;
 }
 
-th td { 
+.mi-tabla th td { 
    width:70%;
    text-align: left; 
    border-bottom: none;

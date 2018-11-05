@@ -100,7 +100,7 @@ Por ejemplo, la probabilidad de obtener $AA$ si lanzamos una moneda dos veces
 es $1/4 = 0.25$, y la probabilidad del evento que la primer lanzamiento resulte 
 águila es $2/4 = 0.5$.
 
-![](../imagenes/manicule2.jpg) Lanzamos un dado y anotamos el número de la cara
+![](imagenes/manicule2.jpg) Lanzamos un dado y anotamos el número de la cara
 superior, después lanzamos otro dado y anotamos el número de la cara superior.
 
 * ¿Cuál es el espacio de resultados?
@@ -372,7 +372,7 @@ p = 0.47
 
 
 
-![](../imagenes/manicule2.jpg) Cumpleaños. ¿Cuántas personas debe haber en un 
+![](imagenes/manicule2.jpg) Cumpleaños. ¿Cuántas personas debe haber en un 
 salón para que la probabilidad de encontrar 2 con el mismo cumpleaños sea 0.5?
 Supuestos:
 
@@ -400,7 +400,7 @@ ggplot(probs_sim, aes(x = n_personas, y = p_sim)) +
     geom_hline(yintercept = 0.5, color = "red")
 ```
 
-![](../imagenes/manicule2.jpg)  Chabelo (Monty Hall) Supongamos que estamos 
+![](imagenes/manicule2.jpg)  Chabelo (Monty Hall) Supongamos que estamos 
 jugando las catafixias de Chabelo, en este juego hay 3 catafixias: 2 de ellas 
 están vacías y una tiene un premio:
 
@@ -412,7 +412,7 @@ cerrada. Chabelo abre tu segunda elección de catafixia y se revela si ganaste.
 
     ¿Cuál es la probabilidad de que ganes si cambias de catafixia?
 
-![](../imagenes/manicule2.jpg) **Urna**: 10 personas (con nombres distintos) 
+![](imagenes/manicule2.jpg) **Urna**: 10 personas (con nombres distintos) 
 escriben sus nombres y los ponen en una urna, después seleccionan un nombre (al 
 azar). 
 
