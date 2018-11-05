@@ -928,7 +928,7 @@ nuestras creencias iniciales. Por su parte, la aproximación por cuadrícula no 
 factible cuando tenemos varios parámetros. Es por ello que surge la necesidad de
 utilizar métodos de Monte Carlo vía Cadenas de Markov (MCMC).
 
-### Metrópolis {-}
+### Introducción Metrópolis {-}
 
 Para usar Metrópolis debemos poder calcular $p(\theta)$ para un valor
 particular de $\theta$ y el valor de la verosimilitud $p(x|\theta)$ para 
@@ -1146,7 +1146,7 @@ ggplot(expT, aes(x = as.numeric(theta), y = P)) +
 
 ```
 
-## Metrópolis: caso general {-}
+## Metrópolis
 
 En la sección anterior implementamos el algoritmo de Metrópolis en un caso
 sencillo: las posiciones eran discretas, en una dimensión y la propuesta era
@@ -1789,7 +1789,8 @@ $$= \frac{1}{(\sigma^2)^{N/2}}
   exp\bigg(-\frac{\beta}{\sigma^2}\bigg)$$
 
 en esta última distribución no reconocemos el núcleo de niguna distribución 
-conocida pero si nos concenteramos únicamente en los términos que involucran
+conocida (existe una distribución [normal-gamma inversa](https://en.wikipedia.org/wiki/Normal-inverse-gamma_distribution))
+pero si nos concenteramos únicamente en los términos que involucran
 a $\mu$ tenemos: 
 
 $$exp\left(-\frac{1}{2}\left( \mu^2 \left( \frac{N}{\sigma^2} + 
