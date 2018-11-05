@@ -842,7 +842,7 @@ ggplot(costos, aes(x = J, y = costo / 1000)) +
 
 ## 10-Familias conjugadas {-}
 
-#### 1. Modelo Beta-Binomial
+#### 1. Modelo Beta-Binomial {-}
 
 Una compañía farmacéutica afirma que su nueva medicina incrementa la 
 probabilidad de concebir un niño (sexo masculino), pero aún no publican 
@@ -867,7 +867,8 @@ Calcula el valor de $p(x)$ para cada modelo y el factor de Bayes (asume
 $p(M_1)=p(M_2)=0.5$).
 
 
-#### 2. Otra familia conjugada
+#### 2. Otra familia conjugada {-}
+
 Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del 
 ITAM y suponemos que el IQ de un estudiante tiene una distribución normal 
 $x \sim N(\theta, \sigma^2)$ con $\sigma ^ 2$ conocida.
