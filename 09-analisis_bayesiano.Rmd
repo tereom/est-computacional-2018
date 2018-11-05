@@ -940,14 +940,15 @@ muestra de valores $\theta$ obtenido de dicha distribución.
 
 **Caminata aleatoria**. Con el fin de entender el algoritmo comenzaremos 
 estudiando el concepto de caminata aleatoria. Supongamos que un vendedor de 
-yakult trabaja a lo largo de una cadena de islas:
+*yakult* trabaja a lo largo de una cadena de islas:
 
 * constantemente viaja entre las islas ofreciendo sus productos,
 
 * al final de un día de trabajo decide si permanece en la misma isla o se 
 transporta a una de las 2 islas vecinas.
 
-* El vendedor ignora la distribución de la población en las islas; sin embargo, 
+* El vendedor ignora la distribución de la población en las islas y el número 
+total de islasx; sin embargo, 
 una vez que se encuentra en una isla puede investigar la población de la misma y 
 también  de la isla a la que se propone viajar después. 
 
