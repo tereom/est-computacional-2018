@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="r-primeros-pasos.html">
-<link rel="next" href="manipulacion-y-agrupacion-de-datos.html">
+<link rel="prev" href="probabilidad-subjetiva.html">
+<link rel="next" href="distribuciones-conjugadas.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -352,255 +352,428 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="visualizacion-con-ggplot2" class="section level2">
-<h2><span class="header-section-number">2.2</span> Visualización con ggplot2</h2>
-<p>Utilizaremos el paquete <code>ggplot2</code>, fue desarrollado por Hadley Wickham y es
-una implementación de la gramática de las gráficas <span class="citation">(Wilkinson et al. <a href="#ref-wilkinson2005">2005</a>)</span>.</p>
-<div id="graficas-de-dispersion" class="section level4 unnumbered">
-<h4>Gráficas de dispersión</h4>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) <span class="co"># Cargamos el paquete en nuestra sesión</span></code></pre>
-<p>Usaremos el conjunto de datos <em>mpg</em> que se incluye en R, puedes encontrar
-información de esta base de datos tecleando <code>?mpg</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(mpg)
-?mpg
-<span class="kw">glimpse</span>(mpg)</code></pre>
-<pre><code>## Observations: 234
-## Variables: 11
-## $ manufacturer &lt;chr&gt; &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;...
-## $ model        &lt;chr&gt; &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4 qua...
-## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0,...
-## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 1...
-## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6...
-## $ trans        &lt;chr&gt; &quot;auto(l5)&quot;, &quot;manual(m5)&quot;, &quot;manual(m6)&quot;, &quot;auto(av)...
-## $ drv          &lt;chr&gt; &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;,...
-## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 1...
-## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 2...
-## $ fl           &lt;chr&gt; &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;,...
-## $ class        &lt;chr&gt; &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;comp...</code></pre>
-<p>Comencemos con nuestra primera gráfica:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
-<p>En <code>ggplot2</code> se inicia una gráfica con la instrucción <code>ggplot()</code>, debemos
-especificar explicitamente que base de datos usamos, este es el primer argumento
-en la función <code>ggplot()</code>. Una vez que creamos la base añadimos
-<em>capas</em>, y dentro de <em>aes()</em> escribimos las variables que queremos
-graficar y el atributo de la gráfica al que queremos mapearlas.</p>
-<p>La función <code>geom_point()</code> añade una capa de puntos, hay muchas funciones
-<em>geometrías</em> incluídas en <code>ggplot2</code>: <code>geom_line()</code>, <code>geom_boxplot()</code>,
-<code>geom_histogram</code>,… Cada una acepta distintos argumentos para mapear las
-variables en los datos a características estéticas de la gráfica. En el ejemplo
-de arriba mapeamos <code>displ</code> al eje x, <code>hwy</code> al eje y, pero <code>geom_point()</code> nos
-permite representar más variables usando la forma, color y/o tamaño del punto.
-Esta flexibilidad nos permite entender o descubrir patrones más interesantes en
+<div id="regla-de-bayes-e-inferencia-bayesiana" class="section level2">
+<h2><span class="header-section-number">10.2</span> Regla de Bayes e inferencia bayesiana</h2>
+<p>Thomas Bayes (1702-1761) fue un matemático y ministro de la iglesia
+presbiteriana, en 1764 se publicó su famoso teorema.</p>
+<p>Una aplicación crucial de la regla de Bayes es determinar la probabilidad de un
+modelo dado un conjunto de datos. Lo que el modelo determina es la probabilidad
+de los datos condicional a valores particulares de los parámetros y a la
+estructura del modelo. Por su parte usamos la regla de Bayes para ir de la
+probabilidad de los datos, dado el modelo, a la probabilidad del modelo, dados
 los datos.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> class))</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-7-1.png" width="528" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Experimenta con los <em>aesthetics</em> color (color),
-tamaño (size) y forma (shape).</p>
-<p>            ¿Qué diferencia hay entre las variables categóricas y las continuas?</p>
-<p>            ¿Qué ocurre cuando combinas varios <em>aesthetics</em>?</p>
-<p>El mapeo de las propiedades estéticas se denomina escalamiento y depende del
-tipo de variable, las variables discretas (por ejemplo, genero, escolaridad,
-país) se mapean a distintas escalas que las variables continuas (variables
-numéricas como edad, estatura, etc.), los <em>defaults</em> para algunos atributos son
-(los escalamientos se pueden modificar):</p>
-<table>
-<colgroup>
-<col width="30%" />
-<col width="42%" />
-<col width="27%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>aes</th>
-<th>Discreta</th>
-<th>Continua</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Color (<code>color</code>)</td>
-<td>Arcoiris de colores</td>
-<td>Gradiente de colores</td>
-</tr>
-<tr class="even">
-<td>Tamaño (<code>size</code>)</td>
-<td>Escala discreta de tamaños</td>
-<td>Mapeo lineal entre el área y el valor</td>
-</tr>
-<tr class="odd">
-<td>Forma (<code>shape</code>)</td>
-<td>Distintas formas</td>
-<td>No aplica</td>
-</tr>
-<tr class="even">
-<td>Transparencia (<code>alpha</code>)</td>
-<td>No aplica</td>
-<td>Mapeo lineal a la transparencia</td>
-</tr>
-</tbody>
-</table>
-<p>Los <em><em>geoms</em></em> controlan el tipo de gráfica</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="co"># en este caso no es una buena gráfica</span></code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
-<p>¿Qué problema tiene la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-2.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> ¿Cómo podemos mejorar la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
-<p>Intentemos reodenar los niveles de la variable clase</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
-<p>Podemos probar otros geoms.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-2.png" width="480" /></p>
-<p>También podemos usar más de un geom!</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Lee la ayuda de <em>reorder</em> y repite las gráficas
-anteriores ordenando por la mediana de <em>hwy</em>.</p>
-<p>            ¿Cómo harías
-para graficar los puntos encima de las cajas de boxplot?</p>
-</div>
-<div id="paneles" class="section level4 unnumbered">
-<h4>Paneles</h4>
-<p>Veamos ahora como hacer páneles de gráficas, la idea es hacer varios múltiplos
-de una gráfica donde cada múltiplo representa un subconjunto de los datos, es
-una práctica muy útil para explorar relaciones condicionales.</p>
-<p>En ggplot podemos usar <em>facet_wrap()</em> para hacer paneles dividiendo los datos
-de acuerdo a las categorías de una sola variable</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>cyl)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
-<p>También podemos hacer una cuadrícula de <span class="math inline">\(2\)</span> dimensiones usando
-<em>facet_grid(filas~columnas)</em></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(.<span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(drv <span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En
-la siguiente gráfica es difícil entender si existe una relación entre radiación
-solar y ozono.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(airquality)
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<pre><code>## Warning: Removed 42 rows containing missing values (geom_point).</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-17-1.png" width="384" /></p>
-<p>Veamos que ocurre si realizamos páneles separando por velocidad del viento.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Hmisc)
-airquality<span class="op">$</span>Wind.cat &lt;-<span class="st"> </span><span class="kw">cut2</span>(airquality<span class="op">$</span>Wind, <span class="dt">g =</span> <span class="dv">3</span>) 
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>Podemos agregar un suavizador (loess) para ver mejor la relación de las
-variables en cada panel.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Escribe algunas preguntas que puedan contestar con
-estos datos.</p>
-<p>En ocasiones es necesario realizar transformaciones u obtener subconjuntos de
-los datos para poder responder preguntas de nuestro interés.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(babynames)
-<span class="kw">glimpse</span>(babynames)</code></pre>
-<pre><code>## Observations: 1,858,689
-## Variables: 5
-## $ year &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 188...
-## $ sex  &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F...
-## $ name &lt;chr&gt; &quot;Mary&quot;, &quot;Anna&quot;, &quot;Emma&quot;, &quot;Elizabeth&quot;, &quot;Minnie&quot;, &quot;Margaret&quot;...
-## $ n    &lt;int&gt; 7065, 2604, 2003, 1939, 1746, 1578, 1472, 1414, 1320, 128...
-## $ prop &lt;dbl&gt; 0.072384329, 0.026679234, 0.020521700, 0.019865989, 0.017...</code></pre>
-<p>Supongamos que queremos ver la tendencia del nombre “John”, para ello debemos
-generar un subconjunto de la base de datos. ¿Qué ocurre en la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">babynames_John &lt;-<span class="st"> </span><span class="kw">filter</span>(babynames, name <span class="op">==</span><span class="st"> &quot;John&quot;</span>)
-<span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop, <span class="dt">color =</span> sex)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-22-1.png" width="480" /></p>
-<p>La preparación de los datos es un aspecto muy importante del análisis y suele
-ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará
-en herramientas para hacer transformaciones de manera eficiente.</p>
-<p><img src="imagenes/manicule.jpg" /> Tarea. Explora la base de datos gapminder, estos
-datos están incluidos en el paquete del mismo nombre, para acceder a ellos basta
-con cargar el paquete:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;gapminder&quot;)</span>
-<span class="kw">library</span>(gapminder)
-gapminder</code></pre>
-<pre><code>## # A tibble: 1,704 x 6
-##    country     continent  year lifeExp      pop gdpPercap
-##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
-##  1 Afghanistan Asia       1952    28.8  8425333      779.
-##  2 Afghanistan Asia       1957    30.3  9240934      821.
-##  3 Afghanistan Asia       1962    32.0 10267083      853.
-##  4 Afghanistan Asia       1967    34.0 11537966      836.
-##  5 Afghanistan Asia       1972    36.1 13079460      740.
-##  6 Afghanistan Asia       1977    38.4 14880372      786.
-##  7 Afghanistan Asia       1982    39.9 12881816      978.
-##  8 Afghanistan Asia       1987    40.8 13867957      852.
-##  9 Afghanistan Asia       1992    41.7 16317921      649.
-## 10 Afghanistan Asia       1997    41.8 22227415      635.
-## # ... with 1,694 more rows</code></pre>
-<p>            realiza al
-menos <span class="math inline">\(3\)</span> gráficas y explica las relaciones que encuentres. Debes usar lo que
-revisamos en estas notas: al menos una de las gráficas debe ser de páneles,
-realiza una gráfica con datos de México, y (opcional)si lo consideras
-interesante, puedes crear una variable categórica utilizando la función <code>cut2</code>
-del paquete Hmisc.</p>
-</div>
-<div id="recursos-1" class="section level3 unnumbered">
-<h3>Recursos</h3>
+<div id="ejemplo-lanzamientos-de-monedas" class="section level4 unnumbered">
+<h4>Ejemplo: Lanzamientos de monedas</h4>
+<p>Comencemos recordando la regla de Bayes usando dos variables aleatorias
+discretas. Lanzamos una moneda 3 veces, sea <span class="math inline">\(X\)</span> la variable aleatoria
+correspondiente al número de Águilas observadas y <span class="math inline">\(Y\)</span> registra el número de
+cambios entre águilas y soles.</p>
 <ul>
-<li>El libro <em>R for Data Science</em> <span class="citation">(Wickham and Grolemund <a href="#ref-r4ds">2017</a>)</span> tiene un capítulo de visualización.</li>
-<li>Google, <a href="https://stackoverflow.com/questions/tagged/ggplot2">stackoverflow</a>
-tiene un <em>tag</em> para ggplot2.<br />
-</li>
-<li>Documentación con ejemplos en la página de
-<a href="http://ggplot2.tidyverse.org/">ggplot2</a>.</li>
-<li>Otro recurso muy útil es el
-<a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">acordeón de ggplot</a>.<br />
-</li>
-<li>La teoría detrás de ggplot2 se explica en el libro de ggplot2 <span class="citation">(Wickham <a href="#ref-wickham2009">2009</a>)</span>,</li>
+<li><p>Escribe la distribución conjunta de las variables, y las distribuciones
+marginales.</p></li>
+<li><p>Considera la probabilidad de observar un cambio condicional a que observamos
+un águila y compara con la probabilidad de observar un águila condicional a
+que observamos un cambio.</p></li>
 </ul>
+<p>Para entender probabilidad condicional podemos pensar en restringir nuestra
+atención a una única fila o columna de la tabla. Supongamos que alguien lanza
+una moneda 3 veces y nos informa que
+la secuencia contiene exactamente un cambio. Dada esta información podemos
+restringir nuestra atención a la fila correspondiente a un solo cambio. Sabemos
+que ocurrió uno de los eventos de esa fila. Las probabilidades relativas
+de los eventos de esa fila no han cambiado pero sabemos que la probabilidad
+total debe sumar uno, por lo que simplemente normalizamos dividiendo entre
+<span class="math inline">\(p(C=1)\)</span>. En este ejemplo vemos que cuando no sabemos nada acerca del número de
+cambios, todo lo que sabemos de número de águilas está contenido en la
+distribución marginal de <span class="math inline">\(X\)</span>, por otro lado, si sabemos que hubo un cambio
+entonces sabemos que estamos en los escenarios de la fila correspondiente a un
+cambio, y calculamos estas probabilidades condicionales. Es así que nos movemos
+de creencias iniciales (marginal) acerca de <span class="math inline">\(X\)</span> a creecnias posteriores
+(condicional).</p>
+</div>
+<div id="regla-de-bayes-en-modelos-y-datos" class="section level3 unnumbered">
+<h3>Regla de Bayes en modelos y datos</h3>
+<p>Una de las aplicaciones más importantes de la regla de Bayes es cuando las
+variables fila y columna son datos y parámetros del modelo respectivamente.</p>
+<p>Un modelo especifica la probabilidad de valores particulares dado la estructura
+del modelo y valores de los parámetros. Por ejemplo en un modelo de lanzamientos
+de monedas tenemos
+<span class="math display">\[p(x = A|\theta)=\theta\]</span>,</p>
+<p><span class="math display">\[p(x = S|\theta)= 1- \theta\]</span></p>
+<p>De manera general, el modelo especifica:</p>
+<p><span class="math display">\[p(\text{datos}|\text{valores de parámetros y estructura del modelo})\]</span></p>
+<p>y usamos la regla de Bayes para convertir la expresión anterior a lo que
+nos interesa de verdad, que es, que tanta certidumbre tenemos del modelo
+condicional a los datos:</p>
+<p><span class="math display">\[p(\text{valores de parámetros y estructura del modelo} | \text{datos})\]</span></p>
+<p>Una vez que observamos los datos, usamos la regla de Bayes para determinar
+o actualizar nuestras creencias de posibles parámetros y modelos.</p>
+<p>Entonces:</p>
+<div class="caja">
+<ul>
+<li><p>Cuantificamos la información (o incertidumbre) acerca del parámetro
+desconocido <span class="math inline">\(\theta\)</span> mediante distribuciones de probabilidad.</p></li>
+<li><p>Antes de observar datos <span class="math inline">\(x\)</span>, cuantificamos la información de <span class="math inline">\(\theta\)</span> externa
+a <span class="math inline">\(x\)</span> en una <strong>distribución a priori</strong>:</p></li>
+</ul>
+<p><span class="math display">\[p(\theta),\]</span>
+esto es, la distribución a priori resume nuestras creencias acerca del parámetro
+ajenas a los datos. Por
+otra parte, cuantificamos la información de <span class="math inline">\(\theta\)</span> asociada a <span class="math inline">\(x\)</span> mediante la
+<strong>distribución de verosimilitud</strong></p>
+<p><span class="math display">\[p(x|\theta)\]</span></p>
+<ul>
+<li>Combinamos la información a priori y la información que provee <span class="math inline">\(x\)</span> mediante el
+<strong>teorema de Bayes</strong> obteniendo así la <strong>distribución posterior</strong></li>
+</ul>
+<p><span class="math display">\[p(\theta|x) \propto p(x|\theta)p(\theta).\]</span></p>
+<ul>
+<li>Las inferencias se obtienen de resúmenes de la distribución posterior.</li>
+</ul>
+</div>
+<div id="ejemplo-ingesta-calorica-en-estudiantes" class="section level4 unnumbered">
+<h4>Ejemplo: Ingesta calórica en estudiantes</h4>
+<p>Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
+universitarios en México, y escuchamos que de acuerdo a investigaciones se
+recomienda que un adulto promedio ingiera 2500 kcal. Es así que buscamos conocer
+que proporción de los estudiantes siguen esta recomendación, para ello
+tomaremos una muestra aleatoria de estudiantes del ITAM. Denotemos por <span class="math inline">\(\theta\)</span>
+la proporción de estudiantes que ingieren en un día 2500 kcal o más. El valor
+de <span class="math inline">\(\theta\)</span> es desconocido, y desde el punto de vista bayesiano cuando tenemos
+incertidumbre de algo (puede ser un parámetro o una predicción) lo vemos como
+una variable aleatoria y por tanto tiene asociada una distribución de
+probabilidad que actualizaremos conforme obtenemos información (observamos
+datos).</p>
+<p>Recordemos que la distribución <span class="math inline">\(p(\theta)\)</span> se conoce como la distribución
+<em>a priori</em> y representa nuestras creencias de los posibles valores que puede
+tomar el parámetro. Supongamos que tras leer artículos y entrevistar
+especialistas consideramos los posibles valores de <span class="math inline">\(\theta\)</span> y les asigmanos
+pesos:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>, <span class="fl">0.1</span>)
+pesos.prior &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">5.2</span>, <span class="dv">8</span>, <span class="fl">7.2</span>, <span class="fl">4.6</span>, <span class="fl">2.1</span>, <span class="fl">0.7</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)
+prior &lt;-<span class="st"> </span>pesos.prior<span class="op">/</span><span class="kw">sum</span>(pesos.prior) 
+prior_df &lt;-<span class="st"> </span><span class="kw">data_frame</span>(theta, <span class="dt">prior =</span> <span class="kw">round</span>(prior, <span class="dv">3</span>))
+prior_df
+<span class="co">#&gt; # A tibble: 10 x 2</span>
+<span class="co">#&gt;    theta prior</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  0.05 0.035</span>
+<span class="co">#&gt;  2  0.15 0.18 </span>
+<span class="co">#&gt;  3  0.25 0.277</span>
+<span class="co">#&gt;  4  0.35 0.249</span>
+<span class="co">#&gt;  5  0.45 0.159</span>
+<span class="co">#&gt;  6  0.55 0.073</span>
+<span class="co">#&gt;  7  0.65 0.024</span>
+<span class="co">#&gt;  8  0.75 0.003</span>
+<span class="co">#&gt;  9  0.85 0    </span>
+<span class="co">#&gt; 10  0.95 0</span></code></pre>
+<p>Una vez que cuantificamos nuestro conocimiento (o la falta de este) sobre los
+posibles valores que puede tomar <span class="math inline">\(\theta\)</span> especificamos la verosimilitud y la
+distribución conjunta <span class="math inline">\(p(x, \theta)\)</span>, donde <span class="math inline">\(x = (x_1,...,x_N)\)</span> veamos
+la distribución de un estudiante en particular:
+<span class="math display">\[p(x_i|\theta) \sim Bernoulli(\theta),\]</span>
+para <span class="math inline">\(i=1,...,N\)</span>, es decir, condicional a <span class="math inline">\(\theta\)</span> la probabilidad de que un
+estudiante ingiera más de 2500 calorías es <span class="math inline">\(\theta\)</span> y la función de
+verosimilitud <span class="math inline">\(p(x_1,...,x_N|\theta) = \mathcal{L}(\theta)\)</span>:</p>
+<p><span class="math display">\[p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)\]</span>
+<span class="math display">\[= \theta^z(1 - \theta)^{N-z}\]</span></p>
+<p>donde <span class="math inline">\(z\)</span> denota el número de estudiantes que ingirió al menos 2500 kcal y <span class="math inline">\(N-z\)</span>
+el número de estudiantes que ingirió menos de 2500 kcal.</p>
+<p>Ahora calculamos la distribución posterior de <span class="math inline">\(\theta\)</span>
+usando la regla de Bayes:</p>
+<p><span class="math display">\[p(\theta|x) = \frac{p(x_1,...,x_N,\theta)}{p(x)}\]</span>
+<span class="math display">\[\propto  p(\theta)\mathcal{L}(\theta)\]</span></p>
+<p>Vemos que la distribución posterior es proporcional al producto de la
+verosimilitud y la distribución inicial, el denominador <span class="math inline">\(p(x)\)</span> no depende de
+<span class="math inline">\(\theta\)</span> por lo que es constante (como función de <span class="math inline">\(\theta\)</span>) y esta ahí para
+normalizar la distribución posterior asegurando que tengamos una distribución
+de probabilidad.</p>
+</div>
+<div id="inicial-discreta" class="section level4 unnumbered">
+<h4>Inicial discreta</h4>
+<p>Volviendo a nuestro ejemplo, usamos la inicial discreta que discutimos (tabla
+de pesos normalizados) y supongamos que tomamos una muestra de 30 alumnos de
+los cuales <span class="math inline">\(z=11\)</span> ingieren al menos 2500 kcal, calculemos la distribución
+posterior de <span class="math inline">\(\theta\)</span>, usando que</p>
+<p><span class="math display">\[\mathcal{L}(\theta) = \theta^{z}(1-\theta)^{N-z}\]</span>
+con <span class="math inline">\(0&lt;\theta&lt;1\)</span></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(LearnBayes)
 
+N &lt;-<span class="st"> </span><span class="dv">30</span> <span class="co"># estudiantes</span>
+z &lt;-<span class="st"> </span><span class="dv">11</span> <span class="co"># éxitos</span>
+
+<span class="co"># Verosimilitud</span>
+Like &lt;-<span class="st"> </span>theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z)
+product &lt;-<span class="st"> </span>Like <span class="op">*</span><span class="st"> </span>prior
+
+<span class="co"># Distribución posterior (normalizamos)</span>
+post &lt;-<span class="st"> </span>product <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(product)
+
+dists &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(prior_df, <span class="dt">post =</span> post)
+<span class="kw">round</span>(dists, <span class="dv">3</span>)
+<span class="co">#&gt; # A tibble: 10 x 3</span>
+<span class="co">#&gt;    theta prior  post</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  0.05 0.035 0    </span>
+<span class="co">#&gt;  2  0.15 0.18  0.006</span>
+<span class="co">#&gt;  3  0.25 0.277 0.22 </span>
+<span class="co">#&gt;  4  0.35 0.249 0.529</span>
+<span class="co">#&gt;  5  0.45 0.159 0.224</span>
+<span class="co">#&gt;  6  0.55 0.073 0.021</span>
+<span class="co">#&gt;  7  0.65 0.024 0    </span>
+<span class="co">#&gt;  8  0.75 0.003 0    </span>
+<span class="co">#&gt;  9  0.85 0     0    </span>
+<span class="co">#&gt; 10  0.95 0     0</span>
+
+<span class="co"># También podemos usar la función pdisc</span>
+<span class="kw">pdisc</span>(<span class="dt">p =</span> theta, <span class="dt">prior =</span> prior, <span class="dt">data =</span> <span class="kw">c</span>(z, N <span class="op">-</span><span class="st"> </span>z)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>)
+<span class="co">#&gt;  [1] 0.000 0.006 0.220 0.529 0.224 0.021 0.000 0.000 0.000 0.000</span>
+
+<span class="co"># Alargamos los datos para graficar</span>
+dists_l &lt;-<span class="st"> </span>dists <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(dist, val, prior<span class="op">:</span>post) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dist =</span> <span class="kw">factor</span>(dist, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;prior&quot;</span>, <span class="st">&quot;post&quot;</span>)))
+
+<span class="kw">ggplot</span>(dists_l, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> val)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>dist) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(theta), <span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(theta))) </code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-2-1.png" width="480" /></p>
+<p><img src="imagenes/manicule2.jpg" /> ¿Cómo se ve la distribución posterior si tomamos
+una muestra de tamaño 90 donde observamos la misma proporción de éxitos.
+Realiza los cálculos y graficala como un panel adicional de la gráfica
+anterior.</p>
+<ul>
+<li>¿Cómo definirías la distribución inicial si no tuvieras conocimiento de los
+artículos y expertos?</li>
+</ul>
+</div>
+<div id="evidencia" class="section level4 unnumbered">
+<h4>Evidencia</h4>
+<p>Ahora, en el teorema de Bayes también encontramos el término <span class="math inline">\(p(x)\)</span> que
+denominamos la <strong>evidencia</strong>, también se conoce como verosimilitud
+marginal o inicial predictiva.
+<span class="math display">\[p(\theta|x)=\frac{p(x|\theta)p(\theta)}{p(x)}\]</span></p>
+<p>La evidencia es la probabilidad de los datos de acuerdo al modelo y se calcula
+sumando a lo largo de todos los posibles valores de los parámetros y ponderando
+por nuestra certidumbre en esos valores de los parámetros.</p>
+<p>Es importante notar que hablamos de valores de los parámetros <span class="math inline">\(\theta\)</span>
+únicamente en el contexto de un modelo particular pues este el que da sentido a
+los parámetros. Podemos hacer evidente el modelo en la notación,</p>
+<p><span class="math display">\[p(\theta|x,M)=\frac{p(x|\theta,M)p(\theta|M)}{p(x|M)}\]</span></p>
+<p>en este contexto la evidencia se define como:</p>
+<p><span class="math display">\[p(x|M)=\int p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
+<p>La notación anterior es conveniente sobre todo cuando estamos considerando
+más de un modelo y queremos usar los datos para determinar la certeza que
+tenemos en cada modelo. Supongamos que tenemos dos modelos <span class="math inline">\(M_1\)</span> y <span class="math inline">\(M_2\)</span>,
+entonces podemos calcular el cociente de <span class="math inline">\(p(M_1|x)\)</span> y <span class="math inline">\(p(M_2|x)\)</span> obteniendo:</p>
+<p><span class="math display">\[\frac{p(M_1|x)}{p(M_2|x)} = \frac{p(x|M_1) \cdot p(M_1)}{p(x|M_2)\cdot p(M_2)}\]</span></p>
+<p>El cociente de evidencia <span class="math inline">\(\frac{p(x|M_1)}{p(x|M_2)}\)</span> se conoce como <strong>factor de
+Bayes</strong>.</p>
+</div>
+<div id="invarianza-en-el-orden-de-los-datos" class="section level4 unnumbered">
+<h4>Invarianza en el orden de los datos</h4>
+<p>Vimos que la regla de Bayes nos permite pasar del conocimiento inicial
+<span class="math inline">\(p(\theta)\)</span> al posterior <span class="math inline">\(p(\theta|x)\)</span> conforme recopilamos datos. Supongamos
+ahora que observamos
+más datos, los denotamos <span class="math inline">\(x&#39;\)</span>, podemos volver a actualizar nuestras creencias
+pasando de <span class="math inline">\(p(\theta|x)\)</span> a <span class="math inline">\(p(\theta|x,x&#39;)\)</span>. Entonces podemos preguntarnos si
+nuestro conocimiento posterior cambia si actualizamos de acuerdo a <span class="math inline">\(x\)</span> primero
+y después <span class="math inline">\(x&#39;\)</span> o vice-versa. La respuesta es que si <span class="math inline">\(p(x|\theta)\)</span> y
+<span class="math inline">\(p(x&#39;|\theta)\)</span> son <em>iid</em> entonces el orden en que actualizamos nuestro
+conocimiento no afecta la distribución posterior.</p>
+<p>La <strong>invarianza al orden</strong> tiene sentido intuitivamente: Si la función de
+verosimilitud no depende del tiempo o del ordenamineto de los datos, entonces
+la posterior tampoco tiene porque depender del ordenamiento de los datos.</p>
+<!--
+#### Pasos de un análisis de datos bayesiano
+
+Como vimos en los ejemplos, en general un análisis de datos bayesiano sigue los
+siguientes pasos:
+
+1. Identificar los datos releventes a nuestra pregunta de investigación, el tipo 
+de datos que vamos a describir, que variables se van a predecir, que variables 
+
+2. Definir el modelo descriptivo para los datos. La forma matemática y los 
+parámetros deben ser apropiados para los objetivos del análisis.
+
+3. Especificar la distribución inicial de los parámetros.
+
+4. Utilizar inferencia bayesiana para reubicar la credibilidad a lo largo de 
+los posibles valores de los parámetros.
+
+5. Verificar que la distribución posterior replique los datos de manera 
+razonable, de no ser el caso considerar otros modelos descriptivos para los datos.
+
+En el caso de un volado, los datos consisten en águilas y soles, y para el 
+modelo descriptivo necesitamos una expresión del función de verosimilitud:
+
+$p(x|\theta)=\theta^x(1-\theta)^{1-x}$
+
+esto es, $x$ tiene una distribución $Bernoulli(\theta)$.
+
+El siguiente paso es determinar la distribución inicial sobre el espacio de
+parámetros, como ejemplo, supongamos que solo hay 3 valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
+$p(\theta = 0.25) = 0.25$, $p(\theta = 0.5) = 0.5$ y $p(\theta = 0.75) = 0.25$
+
+
+```r
+theta <- c(0.25, 0.5, 0.75)
+prior <- data_frame(theta, p = c(0.25, 0.5, 0.25))
+```
+
+El siguiente paso es recolectar los datos y utilizar la regla de Bayes para 
+reubicar nuestras creencias a lo largo de los posibles valores. Supongamos 
+que observamos un único volado y resulta en águila.
+
+-->
+<pre class="sourceCode r"><code class="sourceCode r">Like &lt;-<span class="st"> </span>theta <span class="op">^</span><span class="st"> </span><span class="dv">1</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)
+product &lt;-<span class="st"> </span>Like <span class="op">*</span><span class="st"> </span>prior<span class="op">$</span>p
+post &lt;-<span class="st"> </span>product <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(product)
+post
+<span class="co">#&gt; [1] 0.125 0.500 0.375</span></code></pre>
 </div>
 </div>
-<!-- </div> -->
-<h3>Referencias</h3>
-<div id="refs" class="references">
-<div id="ref-wilkinson2005">
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
+<div id="objetivos-de-la-inferencia" class="section level3 unnumbered">
+<h3>Objetivos de la inferencia</h3>
+<p>Los tres objetivos de la inferencia son: estimación de parámetros, predicción
+de valores y comparación de modelos.</p>
+<ol style="list-style-type: decimal">
+<li>La <strong>estimación de parámetros</strong> implica determinar hasta que punto creemos en
+cada posible valor del parámetro. En estadística bayesiana la estimación se
+realiza con la distribución posterior sobre los valores
+de los parámetros <span class="math inline">\(\theta\)</span>.<br />
+La siguiente gráfica ejemplifica un experimento Bernoulli, con dos posibles
+iniciales, los datos observados son <span class="math inline">\(N=20\)</span> lanzamientos de moneda que resultan
+en <span class="math inline">\(12\)</span> éxitos o águilas.</li>
+</ol>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-5-1.png" width="700.8" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-5-2.png" width="700.8" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Predicción</strong> de valores. Usando nuestro conocimiento actual nos interesa
+predecir la probabilidad de datos futuros. La probabilidad predictiva de un
+dato <span class="math inline">\(y\)</span> (no observado) se determina promediando las probabilidades predictivas
+de los datos a lo largo de todos los posibles valores de los parámetros y
+ponderados por la creencia en los valores de los parámetros. Cuando solo
+contamos con nuestro conocimiento incial tendríamos:
+<span class="math display">\[p(y) =\int p(y|\theta)p(\theta)d\theta\]</span>
+Notese que la ecuación anterior coincide con la correspondiente a la evidencia,
+con la diferencia de que la evidencia se refiere a un valor observado y en
+esta ecuación estamos calculando la probabilidad de cualquier valor <span class="math inline">\(y\)</span>.<br />
+Una vez que obserbamos datos tenemos la distribución predictiva posterior:
+<span class="math display">\[p(y|x) =\int p(y|\theta)p(\theta|x)d\theta\]</span>
+Por ejemplo podemos usar las creencias iniciales del modelo 1, que propusimos
+arriba para calcular la probabilidad predictiva de observar águila:</li>
+</ol>
+<p><span class="math display">\[p(y=S) = \sum_{\theta}p(y=A|\theta)p(\theta) = 0.5\]</span></p>
+<p>Vale la pena destacar que las prediciones son probabilidades de cada posible
+valor condicional a nuestro modelo de creencias actuales. Si nos interesa
+predecir un valor particular en lugar de una distribución a lo largo de todos
+los posibles valores podemos usar la media de la distribución predictiva. Por
+tanto el valor a predecir sería:</p>
+<p><span class="math display">\[p(y)=\int y p(y) dy\]</span></p>
+<p>La integral anterior únicamente tiene sentido si <span class="math inline">\(y\)</span> es una variable continua.
+Si <span class="math inline">\(y\)</span> es nominal, como el resultado de un volado, entonces podemos usar el
+valor más probable.</p>
+<!--
+![](imagenes/manicule2.jpg) Calcula las probabilidades predictivas usando 
+la distribución posterior de cada modelo. ¿Cuál sería tu predicción?
+-->
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Comparación de modelos</strong>, una caracterítica conveniente de la comparación
+de modelos en estadística bayesiana es que la complejidad del modelo se toma
+en cuenta de manera automática.</li>
+</ol>
+<p>Recordemos los dos modelos discretos, en el primero supusimos que el parámetro
+<span class="math inline">\(\theta\)</span> únicamente puede tomar uno de 3 valores (0.25, 0.5, 0.75), esta
+restricción dió lugar a un modelo simple. Por su parte, el modelo 2 es más
+complejo y permite muchos más valores de <span class="math inline">\(\theta\)</span> (51). La forma de la
+distribución inicial es triangular en ambos casos y el valor de mayor
+probabilidad inicial es <span class="math inline">\(\theta = 0.50\)</span> y reflejamos que creemos que es menos
+factible que el valor se encuentre en los extremos.</p>
+<p>Podemos calcular el factor de Bayes para distintos datos observados:</p>
+<pre class="sourceCode r"><code class="sourceCode r">factorBayes &lt;-<span class="st"> </span><span class="cf">function</span>(N, z){
+  evidencia &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(p_M1, p_M2) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># base de datos horizontal</span>
+<span class="st">    </span><span class="kw">group_by</span>(modelo) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(
+      <span class="dt">Like =</span> theta <span class="op">^</span><span class="st"> </span>z <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>theta) <span class="op">^</span><span class="st"> </span>(N <span class="op">-</span><span class="st"> </span>z), <span class="co"># verosimilitud </span>
+      <span class="dt">posterior =</span> (Like <span class="op">*</span><span class="st"> </span>prior) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(Like <span class="op">*</span><span class="st"> </span>prior)
+    ) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">evidencia =</span> <span class="kw">sum</span>(prior <span class="op">*</span><span class="st"> </span>Like))
+  <span class="kw">print</span>(evidencia)
+  <span class="kw">return</span>(evidencia[<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">/</span><span class="st"> </span>evidencia[<span class="dv">2</span>, <span class="dv">2</span>])
+}
+
+<span class="kw">factorBayes</span>(<span class="dv">50</span>, <span class="dv">25</span>)
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;   modelo evidencia</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 M1      4.44e-16</span>
+<span class="co">#&gt; 2 M2      2.75e-16</span>
+<span class="co">#&gt;   evidencia</span>
+<span class="co">#&gt; 1      1.61</span>
+<span class="kw">factorBayes</span>(<span class="dv">100</span>, <span class="dv">75</span>)
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;   modelo evidencia</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 M1      9.46e-26</span>
+<span class="co">#&gt; 2 M2      4.17e-26</span>
+<span class="co">#&gt;   evidencia</span>
+<span class="co">#&gt; 1      2.27</span>
+<span class="kw">factorBayes</span>(<span class="dv">100</span>, <span class="dv">10</span>)
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;   modelo evidencia</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 M1      1.36e-18</span>
+<span class="co">#&gt; 2 M2      2.47e-16</span>
+<span class="co">#&gt;   evidencia</span>
+<span class="co">#&gt; 1   0.00549</span>
+<span class="kw">factorBayes</span>(<span class="dv">40</span>, <span class="dv">38</span>)
+<span class="co">#&gt; # A tibble: 2 x 2</span>
+<span class="co">#&gt;   modelo   evidencia</span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 M1     0.000000279</span>
+<span class="co">#&gt; 2 M2     0.00000895</span>
+<span class="co">#&gt;   evidencia</span>
+<span class="co">#&gt; 1    0.0312</span></code></pre>
+<p>¿Cómo explicarías los resultados anteriores?</p>
+<!-- $\theta$ 
+puede tomar más valores, entonces si en una sucesión de volados observamos 
+10% de águilas, el modelo simple no cuenta con un valor de $\theta$ cercano al 
+resultado observado, pero el modelo complejo si. Por otra parte, para valores
+de $\theta$ que se encuentran en ambos modelos la probabilidad inicial de esos 
+valores es mayor en el caso del modelo simple. Por lo tanto si los datos 
+observados resultan en valores de $\theta$ congruentes con el modelo simple, 
+creeríamos en el modelo simple más que en el modelo más complicado.
+-->
+<p>La evidencia de un modelo <span class="math inline">\(p(x|M)\)</span> no dice mucho por si misma, si no que es mas
+relevante en el contexto del <strong>factor de Bayes</strong> (la evidencia relativa de dos
+modelos). Es importante recordar que la comparación de modelos nos habla
+únicamente de la evidencia relativa de un modelo; sin embargo, puede que
+ninguno de los modelos que estamos considerando sean adecuados para nuestros
+datos, por lo que más adelante estudiaremos maneras de evaluar un modelo.</p>
 </div>
-<div id="ref-r4ds">
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div id="ref-wickham2009">
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
+<div id="calculo-de-la-distribucion-posterior" class="section level3 unnumbered">
+<h3>Cálculo de la distribución posterior</h3>
+<p>En la inferencia Bayesiana se requiere calcular el denominador de la fórmula
+de Bayes <span class="math inline">\(p(x)\)</span>, es común que esto requiera que se calcule una integral
+complicada; sin embargo, hay algunas maneras de evitar esto,</p>
+<ol style="list-style-type: decimal">
+<li><p>El camino tradicional consiste en usar funciones de verosimilitud con
+dsitribuciones iniciales conjugadas. Cuando una distribución inicial es
+conjugada de la verosimilitud resulta en una distribución posterior con la
+misma forma funcional que la distribución inicial.</p></li>
+<li><p>Otra alternativa es aproximar la integral numericamente. Cuando el espacio de
+parámetros es de dimensión chica, se puede cubrir con una cuadrícula de
+puntos y la integral se puede calcular sumando a través de dicha cuadrícula.
+Sin embargo cuando el espacio de parámetros aumenta de dimensión el número de
+puntos necesarios para la aproximación crece demasiado y hay que recurrir a otas
+técnicas.</p></li>
+<li><p>Se ha desarrollado una clase de métodos de simulación para poder calcular
+la distribución posterior, estos se conocen como cadenas de Markov via Monte
+Carlo (MCMC por sus siglas en inglés). El desarrollo de los métodos MCMC es lo
+que ha propiciado el desarrollo de la estadística bayesiana en años recientes.</p></li>
+</ol>
 </div>
 </div>
             </section>
@@ -608,8 +781,8 @@ tiene un <em>tag</em> para ggplot2.<br />
           </div>
         </div>
       </div>
-<a href="r-primeros-pasos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="manipulacion-y-agrupacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="probabilidad-subjetiva.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="distribuciones-conjugadas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -639,7 +812,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/09-analisis_bayesiano.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

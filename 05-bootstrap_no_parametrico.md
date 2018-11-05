@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.065"
+#> [1] "0.067"
 ```
 
 
@@ -602,7 +602,7 @@ error estándar $se_P(\bar{x})$.
 ![](imagenes/manicule2.jpg) Consideramos la base de datos `primaria`, y la 
 columna de calificaciones de español 3^o^ de primaria (`esp_3`). 
 
-- Seleccina una muestra de tamaño $n = 10, 100, 1000$. Para cada muestra 
+- Selecciona una muestra de tamaño $n = 10, 100, 1000$. Para cada muestra 
 calcula media y el error estándar de la media usando el principio del *plug-in*:
 $\hat{\mu}=\bar{x}$, y $\hat{se}(\bar{x})=\hat{\sigma}_{P_n}/\sqrt{n}$.
 
@@ -1073,7 +1073,7 @@ segunda combinación lineal debería ser:
 
 $$z_i = \sum_{k = 1}^5 \hat{v}_{2k}x_{ik}$$
 
-![](../imagenes/manicule2.jpg) Las componentes principales $\hat{v}_1$ y 
+![](imagenes/manicule2.jpg) Las componentes principales $\hat{v}_1$ y 
 $\hat{v}_2$ son estadísticos, usa bootstrap para dar una medición de su 
 variabilidad calculando el error estándar de cada una.
 
@@ -1466,10 +1466,10 @@ muestra demasiado grande ($n = 60$ ya es razonable).
 
 
 ```r
-knitr::include_app("https://tereom.shinyapps.io/15-TLC/", height = "1000px")
+knitr::include_app("https://tereom.shinyapps.io/15-TLC/", height = "900px")
 ```
 
-<iframe src="https://tereom.shinyapps.io/15-TLC/?showcase=0" width="672" height="1000px"></iframe>
+<iframe src="https://tereom.shinyapps.io/15-TLC/?showcase=0" width="672" height="900px"></iframe>
 
 En lo que sigue veremos distintas maneras de construir intervalos de confianza 
 usando bootstrap.
@@ -1496,7 +1496,7 @@ distribución $N(0,1)$.
 este intervalo está soportado por el Teorema Central del Límite, sin embargo,
 no es adecuado cuando $\hat{\theta}$ no se distribuye aproximadamente Normal.
 
-#### Ejemplo: kurtosis
+#### Ejemplo: kurtosis {-}
 
 Supongamos que queremos estimar la kurtosis de una base de datos que consta de
 799 tiempos de espera entre pulsasiones de un nervio (Cox, Lewis 1976).
@@ -2105,7 +2105,7 @@ replicaciones bootstrap y para construir intervalos de confianza usando bootstra
     + intevalos ABC con la función `abc.ci().
     
 
-3. El paquete `bootsrtap` contiene datos usados en @efron, y la implementación 
+3. El paquete `bootstrap` contiene datos usados en @efron, y la implementación 
 de funciones para calcular replicaciones y construir intervalos de confianza:
     + calculo de replicaciones bootstrap con la función `bootstrap()`,
     + intervalos $BC_a$ con la función `bcanon()`, 

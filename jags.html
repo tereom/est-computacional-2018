@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="r-primeros-pasos.html">
-<link rel="next" href="manipulacion-y-agrupacion-de-datos.html">
+<link rel="prev" href="muestreador-de-gibbs.html">
+<link rel="next" href="hmc-y-stan.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -352,255 +352,259 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="visualizacion-con-ggplot2" class="section level2">
-<h2><span class="header-section-number">2.2</span> Visualización con ggplot2</h2>
-<p>Utilizaremos el paquete <code>ggplot2</code>, fue desarrollado por Hadley Wickham y es
-una implementación de la gramática de las gráficas <span class="citation">(Wilkinson et al. <a href="#ref-wilkinson2005">2005</a>)</span>.</p>
-<div id="graficas-de-dispersion" class="section level4 unnumbered">
-<h4>Gráficas de dispersión</h4>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) <span class="co"># Cargamos el paquete en nuestra sesión</span></code></pre>
-<p>Usaremos el conjunto de datos <em>mpg</em> que se incluye en R, puedes encontrar
-información de esta base de datos tecleando <code>?mpg</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(mpg)
-?mpg
-<span class="kw">glimpse</span>(mpg)</code></pre>
-<pre><code>## Observations: 234
-## Variables: 11
-## $ manufacturer &lt;chr&gt; &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;...
-## $ model        &lt;chr&gt; &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4 qua...
-## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0,...
-## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 1...
-## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6...
-## $ trans        &lt;chr&gt; &quot;auto(l5)&quot;, &quot;manual(m5)&quot;, &quot;manual(m6)&quot;, &quot;auto(av)...
-## $ drv          &lt;chr&gt; &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;,...
-## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 1...
-## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 2...
-## $ fl           &lt;chr&gt; &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;,...
-## $ class        &lt;chr&gt; &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;comp...</code></pre>
-<p>Comencemos con nuestra primera gráfica:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
-<p>En <code>ggplot2</code> se inicia una gráfica con la instrucción <code>ggplot()</code>, debemos
-especificar explicitamente que base de datos usamos, este es el primer argumento
-en la función <code>ggplot()</code>. Una vez que creamos la base añadimos
-<em>capas</em>, y dentro de <em>aes()</em> escribimos las variables que queremos
-graficar y el atributo de la gráfica al que queremos mapearlas.</p>
-<p>La función <code>geom_point()</code> añade una capa de puntos, hay muchas funciones
-<em>geometrías</em> incluídas en <code>ggplot2</code>: <code>geom_line()</code>, <code>geom_boxplot()</code>,
-<code>geom_histogram</code>,… Cada una acepta distintos argumentos para mapear las
-variables en los datos a características estéticas de la gráfica. En el ejemplo
-de arriba mapeamos <code>displ</code> al eje x, <code>hwy</code> al eje y, pero <code>geom_point()</code> nos
-permite representar más variables usando la forma, color y/o tamaño del punto.
-Esta flexibilidad nos permite entender o descubrir patrones más interesantes en
-los datos.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> class))</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-7-1.png" width="528" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Experimenta con los <em>aesthetics</em> color (color),
-tamaño (size) y forma (shape).</p>
-<p>            ¿Qué diferencia hay entre las variables categóricas y las continuas?</p>
-<p>            ¿Qué ocurre cuando combinas varios <em>aesthetics</em>?</p>
-<p>El mapeo de las propiedades estéticas se denomina escalamiento y depende del
-tipo de variable, las variables discretas (por ejemplo, genero, escolaridad,
-país) se mapean a distintas escalas que las variables continuas (variables
-numéricas como edad, estatura, etc.), los <em>defaults</em> para algunos atributos son
-(los escalamientos se pueden modificar):</p>
-<table>
-<colgroup>
-<col width="30%" />
-<col width="42%" />
-<col width="27%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>aes</th>
-<th>Discreta</th>
-<th>Continua</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Color (<code>color</code>)</td>
-<td>Arcoiris de colores</td>
-<td>Gradiente de colores</td>
-</tr>
-<tr class="even">
-<td>Tamaño (<code>size</code>)</td>
-<td>Escala discreta de tamaños</td>
-<td>Mapeo lineal entre el área y el valor</td>
-</tr>
-<tr class="odd">
-<td>Forma (<code>shape</code>)</td>
-<td>Distintas formas</td>
-<td>No aplica</td>
-</tr>
-<tr class="even">
-<td>Transparencia (<code>alpha</code>)</td>
-<td>No aplica</td>
-<td>Mapeo lineal a la transparencia</td>
-</tr>
-</tbody>
-</table>
-<p>Los <em><em>geoms</em></em> controlan el tipo de gráfica</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="co"># en este caso no es una buena gráfica</span></code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
-<p>¿Qué problema tiene la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-2.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> ¿Cómo podemos mejorar la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
-<p>Intentemos reodenar los niveles de la variable clase</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
-<p>Podemos probar otros geoms.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-2.png" width="480" /></p>
-<p>También podemos usar más de un geom!</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Lee la ayuda de <em>reorder</em> y repite las gráficas
-anteriores ordenando por la mediana de <em>hwy</em>.</p>
-<p>            ¿Cómo harías
-para graficar los puntos encima de las cajas de boxplot?</p>
-</div>
-<div id="paneles" class="section level4 unnumbered">
-<h4>Paneles</h4>
-<p>Veamos ahora como hacer páneles de gráficas, la idea es hacer varios múltiplos
-de una gráfica donde cada múltiplo representa un subconjunto de los datos, es
-una práctica muy útil para explorar relaciones condicionales.</p>
-<p>En ggplot podemos usar <em>facet_wrap()</em> para hacer paneles dividiendo los datos
-de acuerdo a las categorías de una sola variable</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>cyl)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
-<p>También podemos hacer una cuadrícula de <span class="math inline">\(2\)</span> dimensiones usando
-<em>facet_grid(filas~columnas)</em></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(.<span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(drv <span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En
-la siguiente gráfica es difícil entender si existe una relación entre radiación
-solar y ozono.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(airquality)
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<pre><code>## Warning: Removed 42 rows containing missing values (geom_point).</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-17-1.png" width="384" /></p>
-<p>Veamos que ocurre si realizamos páneles separando por velocidad del viento.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Hmisc)
-airquality<span class="op">$</span>Wind.cat &lt;-<span class="st"> </span><span class="kw">cut2</span>(airquality<span class="op">$</span>Wind, <span class="dt">g =</span> <span class="dv">3</span>) 
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>Podemos agregar un suavizador (loess) para ver mejor la relación de las
-variables en cada panel.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Escribe algunas preguntas que puedan contestar con
-estos datos.</p>
-<p>En ocasiones es necesario realizar transformaciones u obtener subconjuntos de
-los datos para poder responder preguntas de nuestro interés.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(babynames)
-<span class="kw">glimpse</span>(babynames)</code></pre>
-<pre><code>## Observations: 1,858,689
-## Variables: 5
-## $ year &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 188...
-## $ sex  &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F...
-## $ name &lt;chr&gt; &quot;Mary&quot;, &quot;Anna&quot;, &quot;Emma&quot;, &quot;Elizabeth&quot;, &quot;Minnie&quot;, &quot;Margaret&quot;...
-## $ n    &lt;int&gt; 7065, 2604, 2003, 1939, 1746, 1578, 1472, 1414, 1320, 128...
-## $ prop &lt;dbl&gt; 0.072384329, 0.026679234, 0.020521700, 0.019865989, 0.017...</code></pre>
-<p>Supongamos que queremos ver la tendencia del nombre “John”, para ello debemos
-generar un subconjunto de la base de datos. ¿Qué ocurre en la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">babynames_John &lt;-<span class="st"> </span><span class="kw">filter</span>(babynames, name <span class="op">==</span><span class="st"> &quot;John&quot;</span>)
-<span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop, <span class="dt">color =</span> sex)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-22-1.png" width="480" /></p>
-<p>La preparación de los datos es un aspecto muy importante del análisis y suele
-ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará
-en herramientas para hacer transformaciones de manera eficiente.</p>
-<p><img src="imagenes/manicule.jpg" /> Tarea. Explora la base de datos gapminder, estos
-datos están incluidos en el paquete del mismo nombre, para acceder a ellos basta
-con cargar el paquete:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;gapminder&quot;)</span>
-<span class="kw">library</span>(gapminder)
-gapminder</code></pre>
-<pre><code>## # A tibble: 1,704 x 6
-##    country     continent  year lifeExp      pop gdpPercap
-##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
-##  1 Afghanistan Asia       1952    28.8  8425333      779.
-##  2 Afghanistan Asia       1957    30.3  9240934      821.
-##  3 Afghanistan Asia       1962    32.0 10267083      853.
-##  4 Afghanistan Asia       1967    34.0 11537966      836.
-##  5 Afghanistan Asia       1972    36.1 13079460      740.
-##  6 Afghanistan Asia       1977    38.4 14880372      786.
-##  7 Afghanistan Asia       1982    39.9 12881816      978.
-##  8 Afghanistan Asia       1987    40.8 13867957      852.
-##  9 Afghanistan Asia       1992    41.7 16317921      649.
-## 10 Afghanistan Asia       1997    41.8 22227415      635.
-## # ... with 1,694 more rows</code></pre>
-<p>            realiza al
-menos <span class="math inline">\(3\)</span> gráficas y explica las relaciones que encuentres. Debes usar lo que
-revisamos en estas notas: al menos una de las gráficas debe ser de páneles,
-realiza una gráfica con datos de México, y (opcional)si lo consideras
-interesante, puedes crear una variable categórica utilizando la función <code>cut2</code>
-del paquete Hmisc.</p>
-</div>
-<div id="recursos-1" class="section level3 unnumbered">
-<h3>Recursos</h3>
+<div id="jags" class="section level2">
+<h2><span class="header-section-number">10.7</span> JAGS</h2>
 <ul>
-<li>El libro <em>R for Data Science</em> <span class="citation">(Wickham and Grolemund <a href="#ref-r4ds">2017</a>)</span> tiene un capítulo de visualización.</li>
-<li>Google, <a href="https://stackoverflow.com/questions/tagged/ggplot2">stackoverflow</a>
-tiene un <em>tag</em> para ggplot2.<br />
-</li>
-<li>Documentación con ejemplos en la página de
-<a href="http://ggplot2.tidyverse.org/">ggplot2</a>.</li>
-<li>Otro recurso muy útil es el
-<a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">acordeón de ggplot</a>.<br />
-</li>
-<li>La teoría detrás de ggplot2 se explica en el libro de ggplot2 <span class="citation">(Wickham <a href="#ref-wickham2009">2009</a>)</span>,</li>
+<li><p>Instalar <a href="http://mcmc-jags.sourceforge.net">JAGS</a>.</p></li>
+<li><p>Instalar los paquetes R2jags y rjags de R.</p></li>
 </ul>
+<p>JAGS (Just Another Gibbs Sampler), WinBUGS y OpenBUGS son programas que
+implementan métodos MCMC para generar simulaciones de distribuciones
+posteriores. Los paquetes rjags y R2jags permiten ajustar modelos en JAGS
+desde R. Es muy fácil utilizar estos programas pues uno simplemente debe
+especificar las distribuciones iniciales, la verosimilitud y los datos
+observados.</p>
+<div id="especificacion-del-modelo" class="section level4 unnumbered">
+<h4>Especificación del modelo</h4>
+<p>Repitamos el caso del sesgo de la modela usando JAGS. Vale la pena realizar un
+diagrama.</p>
+<p><img src="imagenes/sesgos_diag.png" /></p>
+<p>El diagrama captura las dependencias entre los datos y los parámetros y
+veremos que puede facilitar la implementación en JAGS pues cada flecha en
+el diagrama corresponde a una línea de código en la especificación del modelo.</p>
+<pre class="sourceCode r"><code class="sourceCode r">modelo_bb.bugs &lt;-
+<span class="st">    &#39;</span>
+<span class="st">    model{</span>
+<span class="st">        for(i in 1:N){</span>
+<span class="st">            x[i] ~ dbern(theta)</span>
+<span class="st">        }</span>
+<span class="st">        # inicial</span>
+<span class="st">        theta ~ dbeta(1, 1)</span>
+<span class="st">    }</span>
+<span class="st">    &#39;</span></code></pre>
+<p>el ciclo for indica que cada dato observado <span class="math inline">\(x_i\)</span> proviene de una distribución Bernoulli con parámetro <span class="math inline">\(\theta\)</span>. Afuera del ciclo
+escribimos las distribución inicial, <span class="math inline">\(\theta \sim Beta(1, 1)\)</span>.</p>
+</div>
+<div id="inicializar-cadenas" class="section level4 unnumbered">
+<h4>Inicializar cadenas</h4>
+<p>El modelo ya esta especificado, aun debemos indicar los valores de las
+variables en el modelo, para esto definimos los valores en R y después los mandamos a JAGS.</p>
+<p>Falta especificar el valor inicial de <span class="math inline">\(\theta\)</span>, JAGS tiene una manera de hacerlo automaticamente, pero muchas veces vale la pena tener control de los valores iniciales. En ocasiones la eficiencia del proceso puede incrementar si seleccionamos valores iniciales razonables. Kruschke sugiere utilizar como puntos iniciales los estimadores de máxima verosimilitud, esto es porque usualmente la distribución posterior no esta muy lejana de la función de verosimilitud. En este caso el estimador de máxima verosimilitud para <span class="math inline">\(\theta\)</span> es <span class="math inline">\(\hat{\theta}=z/N\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">theta_init &lt;-<span class="st"> </span><span class="kw">sum</span>(x) <span class="op">/</span><span class="st"> </span>N</code></pre>
+<p>Esta manera de especificar los valores iniciales no siempre se recomienda pues cuando queremos evaluar la convergencia de la cadena muchas veces se sugiere correr varias cadenas con puntos iniciales muy dispersos a lo largo del espacio de parámetros, de tal manera que cuando las cadenas convergen se pueda determinar que la etapa de calentamiento a terminado. Un punto medio es iniciar las cadenas en un
+punto aleatorio cercano al estimador de máxima verosimilitud.</p>
+<pre class="sourceCode r"><code class="sourceCode r">init_theta &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    x_s &lt;-<span class="st"> </span><span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+    <span class="kw">return</span>(<span class="kw">list</span>(<span class="dt">theta =</span> <span class="kw">sum</span>(x_s) <span class="op">/</span><span class="st"> </span>N))
+}</code></pre>
+</div>
+<div id="generar-las-cadenas" class="section level4 unnumbered">
+<h4>Generar las cadenas</h4>
+<p>Ahora llamamos a JAGS y generamos las cadenas. Para esto usaremos el paquete
+<code>R2jags</code>, otro paquete para llamar JAGS desde R es <code>rjags</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(R2jags)
+<span class="co">#&gt; Error in library(R2jags): there is no package called &#39;R2jags&#39;</span>
 
+<span class="kw">cat</span>(modelo_bb.bugs, <span class="dt">file =</span> <span class="st">&#39;modelo_bb.bugs&#39;</span>)
+
+jags_fit &lt;-<span class="st"> </span><span class="kw">jags</span>(
+    <span class="dt">model.file =</span> <span class="st">&quot;modelo_bb.bugs&quot;</span>,    <span class="co"># modelo de JAGS</span>
+    <span class="dt">inits =</span> init_theta,   <span class="co"># valores iniciales</span>
+    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">x =</span> x, <span class="dt">N =</span> N),    <span class="co"># lista con los datos</span>
+    <span class="dt">parameters.to.save =</span> <span class="kw">c</span>(<span class="st">&quot;theta&quot;</span>),  <span class="co"># parámetros por guardar</span>
+    <span class="dt">n.chains =</span> <span class="dv">1</span>,   <span class="co"># número de cadenas</span>
+    <span class="dt">n.iter =</span> <span class="dv">1000</span>,    <span class="co"># número de pasos</span>
+    <span class="dt">n.burnin =</span> <span class="dv">500</span>   <span class="co"># calentamiento de la cadena</span>
+    )
+<span class="co">#&gt; Error in jags(model.file = &quot;modelo_bb.bugs&quot;, inits = init_theta, data = list(x = x, : could not find function &quot;jags&quot;</span>
+
+<span class="co"># plot(jags_fit)</span></code></pre>
+<p>Podemos ver un resumen del ajuste:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(jags_fit<span class="op">$</span>BUGSoutput<span class="op">$</span>summary)
+<span class="co">#&gt; Error in head(jags_fit$BUGSoutput$summary): object &#39;jags_fit&#39; not found</span></code></pre>
+<p>Y graficar la cadena:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">traceplot</span>(jags_fit, <span class="dt">varname =</span> <span class="st">&quot;theta&quot;</span>)
+<span class="co">#&gt; Error in mcmc.list(x): object &#39;jags_fit&#39; not found</span></code></pre>
+<!--
+Para generar la muestra MCMC seguimos 3 pasos: primero JAGS recibe la información y deja que este determine los muestreadores apropiados para el modelo, en el segundo paso corremos las cadenas por un periodo de 
+calentamiento y por último corremos las cadenas y registramos la muestra.
+
+-->
+</div>
+<div id="ejemplo-normal-1" class="section level3 unnumbered">
+<h3>Ejemplo normal</h3>
+<p>Recordemos el ejemplo normal con media y varianza desconocidas. ¿Cuál es el modelo
+gráfico asociado?</p>
+<p>el ciclo for indica que cada dato observado <span class="math inline">\(x_i\)</span> proviene de una distribución
+Normal con media <span class="math inline">\(\mu\)</span> y varinza <span class="math inline">\(1 / \nu\)</span> (precisión <span class="math inline">\(\nu\)</span>). Afuera del ciclo
+escribimos las distribuciones iniciales, <span class="math inline">\(\nu \sim Gamma(3, 3)\)</span>, esto es
+<span class="math inline">\(\sigma^2 \sim GI(3, 3)\)</span> y <span class="math inline">\(\mu\)</span> se distribuye Normal con media <span class="math inline">\(\mu = 1.5\)</span> y
+varianza <span class="math inline">\(\tau^2 = 16\)</span>.</p>
+<p>El modelo ya esta especificado, pero aun falta indicar los valores de las variables
+en el modelo, para esto definimos los valores en R y después los mandamos a
+JAGS.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(R2jags)
+<span class="co">#&gt; Error in library(R2jags): there is no package called &#39;R2jags&#39;</span>
+
+<span class="kw">cat</span>(modelo_normal.bugs, <span class="dt">file =</span> <span class="st">&#39;modelo_normal.bugs&#39;</span>)
+
+<span class="co"># valores iniciales para los parámetros, si no se especifican la función jags</span>
+<span class="co"># generará valores iniciales</span>
+jags_inits &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    <span class="kw">list</span>(<span class="dt">mu =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>, <span class="kw">mean</span>(x), <span class="dv">5</span>), <span class="dt">nu =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>))
+}
+
+jags_fit &lt;-<span class="st"> </span><span class="kw">jags</span>(
+    <span class="dt">model.file =</span> <span class="st">&quot;modelo_normal.bugs&quot;</span>,    <span class="co"># modelo de JAGS</span>
+    <span class="dt">inits =</span> jags_inits,   <span class="co"># valores iniciales</span>
+    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">x =</span> x, <span class="dt">N =</span> N),    <span class="co"># lista con los datos</span>
+    <span class="dt">parameters.to.save =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>),  <span class="co"># parámetros por guardar</span>
+    <span class="dt">n.chains =</span> <span class="dv">1</span>,   <span class="co"># número de cadenas</span>
+    <span class="dt">n.iter =</span> <span class="dv">10000</span>,    <span class="co"># número de pasos</span>
+    <span class="dt">n.burnin =</span> <span class="dv">1000</span>,   <span class="co"># calentamiento de la cadena</span>
+    <span class="dt">n.thin =</span> <span class="dv">1</span>
+    )
+<span class="co">#&gt; Error in jags(model.file = &quot;modelo_normal.bugs&quot;, inits = jags_inits, data = list(x = x, : could not find function &quot;jags&quot;</span>
+
+jags_fit
+<span class="co">#&gt; Error in eval(expr, envir, enclos): object &#39;jags_fit&#39; not found</span>
+
+<span class="co"># podemos ver las cadenas</span>
+<span class="kw">traceplot</span>(jags_fit, <span class="dt">varname =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>))
+<span class="co">#&gt; Error in mcmc.list(x): object &#39;jags_fit&#39; not found</span></code></pre>
+<p><img src="imagenes/manicule2.jpg" /> Realiza un histograma de la distribución
+predictiva. Construye un intervalo de 95% de probabilidad para la predicción.
+Pista: utiliza <code>jags_fit$BUGSoutput$sims.matrix</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">jags_fit &lt;-<span class="st"> </span><span class="kw">jags</span>(
+    <span class="dt">model.file =</span> <span class="st">&quot;modelo_normal.bugs&quot;</span>,    <span class="co"># modelo de JAGS</span>
+    <span class="dt">inits =</span> <span class="kw">list</span>(<span class="kw">jags_inits</span>()),   <span class="co"># valores iniciales</span>
+    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="ot">NA</span>, x), <span class="dt">N =</span> N <span class="op">+</span><span class="st"> </span><span class="dv">1</span>),    <span class="co"># lista con los datos</span>
+    <span class="dt">parameters.to.save =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;x&quot;</span>),  <span class="co"># parámetros por guardar</span>
+    <span class="dt">n.chains =</span> <span class="dv">1</span>,   <span class="co"># número de cadenas</span>
+    <span class="dt">n.iter =</span> <span class="dv">10000</span>,    <span class="co"># número de pasos</span>
+    <span class="dt">n.burnin =</span> <span class="dv">1000</span>,   <span class="co"># calentamiento de la cadena</span>
+    <span class="dt">n.thin =</span> <span class="dv">1</span>
+    )
+<span class="co">#&gt; Error in jags(model.file = &quot;modelo_normal.bugs&quot;, inits = list(jags_inits()), : could not find function &quot;jags&quot;</span>
+<span class="kw">head</span>(jags_fit<span class="op">$</span>BUGSoutput<span class="op">$</span>summary)
+<span class="co">#&gt; Error in head(jags_fit$BUGSoutput$summary): object &#39;jags_fit&#39; not found</span>
+
+mus &lt;-<span class="st"> </span>jags_fit<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.matrix[, <span class="st">&quot;mu&quot;</span>]
+<span class="co">#&gt; Error in eval(expr, envir, enclos): object &#39;jags_fit&#39; not found</span>
+sigmas &lt;-<span class="st"> </span><span class="kw">sqrt</span>(jags_fit<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.matrix[, <span class="st">&quot;sigma2&quot;</span>])
+<span class="co">#&gt; Error in eval(expr, envir, enclos): object &#39;jags_fit&#39; not found</span>
+y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(mus), mus, sigmas)
+<span class="co">#&gt; Error in rnorm(length(mus), mus, sigmas): object &#39;mus&#39; not found</span>
+
+<span class="kw">mean</span>(y)
+<span class="co">#&gt; Error in mean(y): object &#39;y&#39; not found</span>
+<span class="kw">sd</span>(y)
+<span class="co">#&gt; Error in is.data.frame(x): object &#39;y&#39; not found</span></code></pre>
+</div>
+<div id="diagnosticos" class="section level3 unnumbered">
+<h3>Diagnósticos</h3>
+<p>Cuando generamos una muestra de la distribución posterior usando MCMC, buscamos que:</p>
+<ol style="list-style-type: decimal">
+<li><p>Los valores simulados sean representativos de la distribución posterior, esto
+implica que no deben estar influenciados por el valor inicial (arbitrario) y
+deben explorar todo el rango de la posterior.</p></li>
+<li><p>Debemos tener suficientes simulaciones de tal manera que las estimaciones
+sean precisas y estables.</p></li>
+<li><p>Queremos tener un método eficiente para generar las simulaciones.</p></li>
+</ol>
+<p>En la práctica intentamos cumplir lo más posible estos objetivos, pues aunque en
+principio los métodos MCMC garantizan que cadena infinitamente largas lograran
+una representación perfecta, siempre debemos tener un criterio para cortar la
+cadena y evaluar la calidad de las simulaciones.</p>
+<div id="representatividad" class="section level4 unnumbered">
+<h4>Representatividad</h4>
+<p>Para determinar la convergencia de la cadena es conveniente realizar más de una
+cadenas, buscamos ver si realmente se ha olvidado el estado inicial y revisar
+que algunas cadenas no hayan quedado <em>atoradas</em> en regiones inusuales del espacio
+de parámetros.</p>
+<pre class="sourceCode r"><code class="sourceCode r">jags_fit &lt;-<span class="st"> </span><span class="kw">jags</span>(
+    <span class="dt">model.file =</span> <span class="st">&quot;modelo_normal.bugs&quot;</span>,    <span class="co"># modelo de JAGS</span>
+    <span class="dt">inits =</span> <span class="kw">rerun</span>(<span class="dv">3</span>, <span class="kw">jags_inits</span>()),   <span class="co"># valores iniciales</span>
+    <span class="dt">data =</span> <span class="kw">list</span>(<span class="dt">x =</span> x, <span class="dt">N =</span> N),    <span class="co"># lista con los datos</span>
+    <span class="dt">parameters.to.save =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;nu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>),  <span class="co"># parámetros por guardar</span>
+    <span class="dt">n.chains =</span> <span class="dv">3</span>,   <span class="co"># número de cadenas</span>
+    <span class="dt">n.iter =</span> <span class="dv">50</span>,    <span class="co"># número de pasos</span>
+    <span class="dt">n.burnin =</span> <span class="dv">0</span>,   <span class="co"># calentamiento de la cadena</span>
+    <span class="dt">n.thin =</span> <span class="dv">1</span>
+    )
+<span class="co">#&gt; Error in jags(model.file = &quot;modelo_normal.bugs&quot;, inits = rerun(3, jags_inits()), : could not find function &quot;jags&quot;</span>
+
+<span class="co"># podemos ver las cadenas</span>
+<span class="kw">traceplot</span>(jags_fit, <span class="dt">varname =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>))
+<span class="co">#&gt; Error in mcmc.list(x): object &#39;jags_fit&#39; not found</span></code></pre>
+<p>La gráfica anterior nos puede ayudar a determinar si elegimos un periodo de calentamiento adecuado o si alguna cadena está alejada del resto.</p>
+<p>Además de realizar gráficas podemos usar la medida de convergencia <span class="math inline">\(\hat{R}\)</span>
+que la función_jags_ calcula por omisión:</p>
+<pre class="sourceCode r"><code class="sourceCode r">jags_fit<span class="op">$</span>BUGSoutput<span class="op">$</span>summary
+<span class="co">#&gt; Error in eval(expr, envir, enclos): object &#39;jags_fit&#39; not found</span></code></pre>
+<p>La medida <span class="math inline">\(\hat{R}\)</span> se conoce como el <strong>factor de reducción potencial de
+escala</strong> o <em>diagnóstico de convergencia de Gelman-Rubin</em>, este es la posible reducción en la longitud de un intervalo de
+confianza si las simulaciones continuaran infinitamente. <span class="math inline">\(\hat{R}\)</span> es
+aproximadamente la raíz cuadrada de la varianza de todas las
+cadenas juntas dividida entre la varianza dentro de cada cadena. Si <span class="math inline">\(\hat{R}\)</span> es mucho mayor a 1 esto indica que las cadenas no se han mezclado bien. Una regla
+usual es iterar hasta alcanzar un valor <span class="math inline">\(\hat{R} \leq 1.1\)</span> para todos los
+parámetros.</p>
+<p><span class="math display">\[\hat{R} = \sqrt{\frac{\hat{d}+3}{\hat{d}+1}\frac{\hat{V}}{W}}\]</span></p>
+<p>donde <span class="math inline">\(B\)</span> es la varianza entre las cadenas, <span class="math inline">\(W\)</span> es la varianza dentro de las cadenas</p>
+<p><span class="math display">\[B = \frac{N}{M-1}\sum_m (\hat{\theta_m} - \hat{\theta})^2\]</span>
+<span class="math display">\[W = \frac{1}{M}\sum_m \hat{\sigma_m}^2\]</span>
+Y <span class="math inline">\(\hat{V}\)</span> es una estimación del varianza de posteriro de <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[\hat{V} = \frac{N-1}{N}W + \frac{M+1}{MN}B\]</span></p>
+</div>
+<div id="precision" class="section level4">
+<h4><span class="header-section-number">10.7.0.1</span> Precisión</h4>
+<p>Una vez que tenemos una muestra representativa de la distribución posterior,
+nuestro objetivo es asegurarnos de que la muestra es lo suficientemente grande
+para producir estimaciones estables y precisas de la distribución.</p>
+<p>Para ello usaremos otra salida de la función jags: <span class="math inline">\(n.eff\)</span> que es el
+<strong>tamaño efectivo de muestra</strong>, si las simulaciones fueran independientes
+n.eff` sería el número total de simulaciones; sin embargo, las simulaciones de
+MCMC suelen estar correlacionadas, el tamaño efectivo nos dice que tamaño de
+muestra de observaciones independientes nos daría la misma información que las
+simulaciones de la cadena.</p>
+<p><span class="math display">\[NEM = \frac{N}{1+2\sum_{k=1}^\infty ACF(k)} \]</span></p>
+<p>Usualmente nos gustaría obtener un tamaño efectivo de al menos <span class="math inline">\(100\)</span>.</p>
+</div>
+<div id="eficiencia" class="section level4">
+<h4><span class="header-section-number">10.7.0.2</span> Eficiencia</h4>
+<p>Hay varias maneras para mejorar la eficiencia de un proceso MCMC:</p>
+<ul>
+<li><p>Paralelizar, no disminuimos el número de pasos en las simulaciones pero
+podemos disminuir el tiempo que tarda en correr.</p></li>
+<li><p>Cambiar la parametrización del modelo o transformar los datos. En el caso
+de variables continuas suele ser conveniente centrar los datos, otra opción es
+utilizar parametrizaciones redundantes.</p></li>
+<li><p>Adelgazar la muestra: esto nos puede ayudar a disminuir el uso de memoria,
+consiste en guardar únicamente los <span class="math inline">\(k\)</span>-ésimos pasos de la cadena. Esto resulta
+en cadenas con menos autocorrelación.</p></li>
+</ul>
 </div>
 </div>
-<!-- </div> -->
-<h3>Referencias</h3>
-<div id="refs" class="references">
-<div id="ref-wilkinson2005">
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
-</div>
-<div id="ref-r4ds">
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div id="ref-wickham2009">
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
+<div id="recomendaciones-generales" class="section level3">
+<h3><span class="header-section-number">10.7.1</span> Recomendaciones generales</h3>
+<p>Gelman recomienda los siguientes pasos cuando uno esta simulando de la posterior:</p>
+<ol style="list-style-type: decimal">
+<li><p>Cuando definimos un modelo por primera vez establecemos un valor bajo para
+<em>n.iter</em> por ejemplo 10 ó 50. La razón es que la mayor parte de las veces los
+modelos no funcionan a la primera por lo que sería pérdida de tiempo dejarlo
+correr mucho tiempo antes de descubrir el problema.</p></li>
+<li><p>Si las simulaciones no han alcanzado convergencia aumentamos las iteraciones
+a 500 ó 1000 de tal forma que las corridas tarden segundos o unos cuantos
+minutos.</p></li>
+<li><p>Si JAGS tarda más que unos cuantos minutos (para problemas del tamaño que
+veremos en la clase) y aún así no alcanza convergencia entonces <em>juega</em> un poco
+con el modelo (por ejemplo intenta transformaciones lineales), Gelman sugiere
+más técnicas para acelerar la convergencia en el capitulo 19 del libro
+<em>Data Analysis Using Regression and Multilevel/Hierarchical models</em>.</p></li>
+<li><p>Otra técnica conveniente cuando se trabaja con bases de datos grandes
+(sobretodo para la parte exploratoria) es trabajar con un subconjunto de los
+datos, quizá la mitad o una quinta parte.</p></li>
+</ol>
 </div>
 </div>
             </section>
@@ -608,8 +612,8 @@ tiene un <em>tag</em> para ggplot2.<br />
           </div>
         </div>
       </div>
-<a href="r-primeros-pasos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="manipulacion-y-agrupacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="muestreador-de-gibbs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="hmc-y-stan.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -639,7 +643,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/09-analisis_bayesiano.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

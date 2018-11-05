@@ -842,24 +842,22 @@ ggplot(costos, aes(x = J, y = costo / 1000)) +
 
 ## 10-Familias conjugadas {-}
 
-1. **Modelo Beta-Binomial**
+#### 1. Modelo Beta-Binomial
+
 Una compañía farmacéutica afirma que su nueva medicina incrementa la 
 probabilidad de concebir un niño (sexo masculino), pero aún no publican 
 estudios. Supón que conduces un experimento en el cual 50 parejas se 
 seleccionan de manera aleatoria de la población, toman la medicina y conciben
 un bebé, nacen 30 niños y 20 niñas.
-
-a) Quieres estimar la probabilidad de concebir un niño para parejas que 
+    a) Quieres estimar la probabilidad de concebir un niño para parejas que 
 toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
 en 0.5 pues
 esta corresponde a personas que no toman la medicina, y la inicial debe reflejar 
 tu incertidumbre sobre el efecto de la droga. 
-
-b) Usando tu inicial de a) grafica la posterior y decide si es creíble que las
+    b) Usando tu inicial de a) grafica la posterior y decide si es creíble que las
 parejas que toman la medicina tienen una probabilidad de 0.5 de concebir un
 niño.
-
-c) Supón que la farmacéutica asevera que la probabilidad de concebir un niño
+    c) Supón que la farmacéutica asevera que la probabilidad de concebir un niño
 cuando se toma la medicina es cercana al 60% con alta certeza. Representa esta
 postura con una distribución inicial Beta(60,40). Comparala con la inicial de 
 un escéptico que afirma que la medicina no hace diferencia, representa esta
@@ -869,15 +867,13 @@ Calcula el valor de $p(x)$ para cada modelo y el factor de Bayes (asume
 $p(M_1)=p(M_2)=0.5$).
 
 
-2. **Otra familia conjugada**
+#### 2. Otra familia conjugada
 Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del 
 ITAM y suponemos que el IQ de un estudiante tiene una distribución normal 
 $x \sim N(\theta, \sigma^2)$ con $\sigma ^ 2$ conocida.
-
 Considera que observamos el IQ de un estudiante $x$. 
 La verosimilitud del modelo es:
 $$p(x|\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}exp\left(-\frac{1}{2\sigma^2}(x-\theta)^2\right)$$
-
 Realizaremos un análisis bayesiano por lo que hace falta establer una 
 distribución inicial, elegimos $p(\theta)$ que se distribuya $N(\mu, \tau^2)$ 
 donde elegimos los parámetros $\mu, \tau$ que mejor describan nuestras creencias
@@ -886,9 +882,7 @@ en 150, elegiría $\mu=150$ y una desviación estándar chica por ejemplo
 $\tau = 5$. Entonces la distribución inicial es:
 
 $$p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)$$
-
-a) Calcula la distribución posterior $p(\theta|x) \propto p(x|\theta)p(\theta)$, 
+Calcula la distribución posterior $p(\theta|x) \propto p(x|\theta)p(\theta)$, 
 usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
 multiplicación debes identificar el núcleo de una distribución Normal, 
 ¿cuáles son sus parámetros (media y varianza)?
-

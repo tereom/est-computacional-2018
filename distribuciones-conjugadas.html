@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="r-primeros-pasos.html">
-<link rel="next" href="manipulacion-y-agrupacion-de-datos.html">
+<link rel="prev" href="regla-de-bayes-e-inferencia-bayesiana.html">
+<link rel="next" href="aproximacion-por-cuadricula.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -352,255 +352,161 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="visualizacion-con-ggplot2" class="section level2">
-<h2><span class="header-section-number">2.2</span> Visualización con ggplot2</h2>
-<p>Utilizaremos el paquete <code>ggplot2</code>, fue desarrollado por Hadley Wickham y es
-una implementación de la gramática de las gráficas <span class="citation">(Wilkinson et al. <a href="#ref-wilkinson2005">2005</a>)</span>.</p>
-<div id="graficas-de-dispersion" class="section level4 unnumbered">
-<h4>Gráficas de dispersión</h4>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) <span class="co"># Cargamos el paquete en nuestra sesión</span></code></pre>
-<p>Usaremos el conjunto de datos <em>mpg</em> que se incluye en R, puedes encontrar
-información de esta base de datos tecleando <code>?mpg</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(mpg)
-?mpg
-<span class="kw">glimpse</span>(mpg)</code></pre>
-<pre><code>## Observations: 234
-## Variables: 11
-## $ manufacturer &lt;chr&gt; &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;...
-## $ model        &lt;chr&gt; &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4 qua...
-## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0,...
-## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 1...
-## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6...
-## $ trans        &lt;chr&gt; &quot;auto(l5)&quot;, &quot;manual(m5)&quot;, &quot;manual(m6)&quot;, &quot;auto(av)...
-## $ drv          &lt;chr&gt; &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;,...
-## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 1...
-## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 2...
-## $ fl           &lt;chr&gt; &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;,...
-## $ class        &lt;chr&gt; &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;comp...</code></pre>
-<p>Comencemos con nuestra primera gráfica:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
-<p>En <code>ggplot2</code> se inicia una gráfica con la instrucción <code>ggplot()</code>, debemos
-especificar explicitamente que base de datos usamos, este es el primer argumento
-en la función <code>ggplot()</code>. Una vez que creamos la base añadimos
-<em>capas</em>, y dentro de <em>aes()</em> escribimos las variables que queremos
-graficar y el atributo de la gráfica al que queremos mapearlas.</p>
-<p>La función <code>geom_point()</code> añade una capa de puntos, hay muchas funciones
-<em>geometrías</em> incluídas en <code>ggplot2</code>: <code>geom_line()</code>, <code>geom_boxplot()</code>,
-<code>geom_histogram</code>,… Cada una acepta distintos argumentos para mapear las
-variables en los datos a características estéticas de la gráfica. En el ejemplo
-de arriba mapeamos <code>displ</code> al eje x, <code>hwy</code> al eje y, pero <code>geom_point()</code> nos
-permite representar más variables usando la forma, color y/o tamaño del punto.
-Esta flexibilidad nos permite entender o descubrir patrones más interesantes en
-los datos.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> class))</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-7-1.png" width="528" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Experimenta con los <em>aesthetics</em> color (color),
-tamaño (size) y forma (shape).</p>
-<p>            ¿Qué diferencia hay entre las variables categóricas y las continuas?</p>
-<p>            ¿Qué ocurre cuando combinas varios <em>aesthetics</em>?</p>
-<p>El mapeo de las propiedades estéticas se denomina escalamiento y depende del
-tipo de variable, las variables discretas (por ejemplo, genero, escolaridad,
-país) se mapean a distintas escalas que las variables continuas (variables
-numéricas como edad, estatura, etc.), los <em>defaults</em> para algunos atributos son
-(los escalamientos se pueden modificar):</p>
-<table>
-<colgroup>
-<col width="30%" />
-<col width="42%" />
-<col width="27%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>aes</th>
-<th>Discreta</th>
-<th>Continua</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Color (<code>color</code>)</td>
-<td>Arcoiris de colores</td>
-<td>Gradiente de colores</td>
-</tr>
-<tr class="even">
-<td>Tamaño (<code>size</code>)</td>
-<td>Escala discreta de tamaños</td>
-<td>Mapeo lineal entre el área y el valor</td>
-</tr>
-<tr class="odd">
-<td>Forma (<code>shape</code>)</td>
-<td>Distintas formas</td>
-<td>No aplica</td>
-</tr>
-<tr class="even">
-<td>Transparencia (<code>alpha</code>)</td>
-<td>No aplica</td>
-<td>Mapeo lineal a la transparencia</td>
-</tr>
-</tbody>
-</table>
-<p>Los <em><em>geoms</em></em> controlan el tipo de gráfica</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="co"># en este caso no es una buena gráfica</span></code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
-<p>¿Qué problema tiene la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-2.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> ¿Cómo podemos mejorar la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
-<p>Intentemos reodenar los niveles de la variable clase</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
-<p>Podemos probar otros geoms.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-2.png" width="480" /></p>
-<p>También podemos usar más de un geom!</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Lee la ayuda de <em>reorder</em> y repite las gráficas
-anteriores ordenando por la mediana de <em>hwy</em>.</p>
-<p>            ¿Cómo harías
-para graficar los puntos encima de las cajas de boxplot?</p>
+<div id="distribuciones-conjugadas" class="section level2">
+<h2><span class="header-section-number">10.3</span> Distribuciones conjugadas</h2>
+<div id="ejemplo-bernoulli" class="section level3 unnumbered">
+<h3>Ejemplo: Bernoulli</h3>
+<p>Comenzaremos con el modelo Beta-Binomial. Recordemos que si X en un experimento
+con dos posibles resultados, X se distribuye Bernoulli y la función de
+probabilidad esta definida por:</p>
+<p><span class="math display">\[p(x|\theta)=\theta^x(1-\theta)^{1-x}\]</span></p>
+<p>Ahora, si lanzamos una moneda <span class="math inline">\(N\)</span> veces tenemos un conjunto de datos
+<span class="math inline">\(\{x_1,...,x_N\}\)</span>, suponemos que los lanzamientos son independientes por lo
+que la probabilidad de observar el conjunto de <span class="math inline">\(N\)</span> lanzamientos es el
+producto de las probabilidades para cada observación:</p>
+<p><span class="math display">\[p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)\]</span>
+<span class="math display">\[= \theta^z(1 - \theta)^{N-z}\]</span></p>
+<p>donde <span class="math inline">\(z\)</span> denota el número de éxitos (águilas).</p>
+<p>Ahora, en principio para describir nuestras creencias iniciales podríamos usar
+cualquier función de densidad con soporte en <span class="math inline">\([0, 1]\)</span>, sin embargo, sería
+conveniente que el producto <span class="math inline">\(p(x|\theta)p(\theta)\)</span> (el numerador de la fórmula
+de Bayes)
+resulte en una función con la misma forma que <span class="math inline">\(p(\theta)\)</span>. Cuando este es el
+caso, las creencias inicial y posterior se describen con la misma distribución.
+Esto es conveninte pues si obtenemos nueva información podemos actualizar
+nuestro conocimiento de manera inmediata, conservando la forma de las
+distribuciones.</p>
+<div class="caja">
+<p>Cuando las funciones <span class="math inline">\(p(x|\theta)\)</span> y <span class="math inline">\(p(\theta)\)</span> se combinan de tal manera
+que la distribución posterior pertenece a la misma familia (tiene la misma
+forma) que la distribución inicial, entonces decimos que <span class="math inline">\(p(\theta)\)</span> es
+<strong>conjugada</strong> para <span class="math inline">\(p(x|\theta)\)</span>.</p>
 </div>
-<div id="paneles" class="section level4 unnumbered">
-<h4>Paneles</h4>
-<p>Veamos ahora como hacer páneles de gráficas, la idea es hacer varios múltiplos
-de una gráfica donde cada múltiplo representa un subconjunto de los datos, es
-una práctica muy útil para explorar relaciones condicionales.</p>
-<p>En ggplot podemos usar <em>facet_wrap()</em> para hacer paneles dividiendo los datos
-de acuerdo a las categorías de una sola variable</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>cyl)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
-<p>También podemos hacer una cuadrícula de <span class="math inline">\(2\)</span> dimensiones usando
-<em>facet_grid(filas~columnas)</em></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(.<span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(drv <span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En
-la siguiente gráfica es difícil entender si existe una relación entre radiación
-solar y ozono.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(airquality)
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<pre><code>## Warning: Removed 42 rows containing missing values (geom_point).</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-17-1.png" width="384" /></p>
-<p>Veamos que ocurre si realizamos páneles separando por velocidad del viento.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Hmisc)
-airquality<span class="op">$</span>Wind.cat &lt;-<span class="st"> </span><span class="kw">cut2</span>(airquality<span class="op">$</span>Wind, <span class="dt">g =</span> <span class="dv">3</span>) 
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>Podemos agregar un suavizador (loess) para ver mejor la relación de las
-variables en cada panel.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Escribe algunas preguntas que puedan contestar con
-estos datos.</p>
-<p>En ocasiones es necesario realizar transformaciones u obtener subconjuntos de
-los datos para poder responder preguntas de nuestro interés.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(babynames)
-<span class="kw">glimpse</span>(babynames)</code></pre>
-<pre><code>## Observations: 1,858,689
-## Variables: 5
-## $ year &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 188...
-## $ sex  &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F...
-## $ name &lt;chr&gt; &quot;Mary&quot;, &quot;Anna&quot;, &quot;Emma&quot;, &quot;Elizabeth&quot;, &quot;Minnie&quot;, &quot;Margaret&quot;...
-## $ n    &lt;int&gt; 7065, 2604, 2003, 1939, 1746, 1578, 1472, 1414, 1320, 128...
-## $ prop &lt;dbl&gt; 0.072384329, 0.026679234, 0.020521700, 0.019865989, 0.017...</code></pre>
-<p>Supongamos que queremos ver la tendencia del nombre “John”, para ello debemos
-generar un subconjunto de la base de datos. ¿Qué ocurre en la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">babynames_John &lt;-<span class="st"> </span><span class="kw">filter</span>(babynames, name <span class="op">==</span><span class="st"> &quot;John&quot;</span>)
-<span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop, <span class="dt">color =</span> sex)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-22-1.png" width="480" /></p>
-<p>La preparación de los datos es un aspecto muy importante del análisis y suele
-ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará
-en herramientas para hacer transformaciones de manera eficiente.</p>
-<p><img src="imagenes/manicule.jpg" /> Tarea. Explora la base de datos gapminder, estos
-datos están incluidos en el paquete del mismo nombre, para acceder a ellos basta
-con cargar el paquete:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;gapminder&quot;)</span>
-<span class="kw">library</span>(gapminder)
-gapminder</code></pre>
-<pre><code>## # A tibble: 1,704 x 6
-##    country     continent  year lifeExp      pop gdpPercap
-##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
-##  1 Afghanistan Asia       1952    28.8  8425333      779.
-##  2 Afghanistan Asia       1957    30.3  9240934      821.
-##  3 Afghanistan Asia       1962    32.0 10267083      853.
-##  4 Afghanistan Asia       1967    34.0 11537966      836.
-##  5 Afghanistan Asia       1972    36.1 13079460      740.
-##  6 Afghanistan Asia       1977    38.4 14880372      786.
-##  7 Afghanistan Asia       1982    39.9 12881816      978.
-##  8 Afghanistan Asia       1987    40.8 13867957      852.
-##  9 Afghanistan Asia       1992    41.7 16317921      649.
-## 10 Afghanistan Asia       1997    41.8 22227415      635.
-## # ... with 1,694 more rows</code></pre>
-<p>            realiza al
-menos <span class="math inline">\(3\)</span> gráficas y explica las relaciones que encuentres. Debes usar lo que
-revisamos en estas notas: al menos una de las gráficas debe ser de páneles,
-realiza una gráfica con datos de México, y (opcional)si lo consideras
-interesante, puedes crear una variable categórica utilizando la función <code>cut2</code>
-del paquete Hmisc.</p>
-</div>
-<div id="recursos-1" class="section level3 unnumbered">
-<h3>Recursos</h3>
-<ul>
-<li>El libro <em>R for Data Science</em> <span class="citation">(Wickham and Grolemund <a href="#ref-r4ds">2017</a>)</span> tiene un capítulo de visualización.</li>
-<li>Google, <a href="https://stackoverflow.com/questions/tagged/ggplot2">stackoverflow</a>
-tiene un <em>tag</em> para ggplot2.<br />
-</li>
-<li>Documentación con ejemplos en la página de
-<a href="http://ggplot2.tidyverse.org/">ggplot2</a>.</li>
-<li>Otro recurso muy útil es el
-<a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">acordeón de ggplot</a>.<br />
-</li>
-<li>La teoría detrás de ggplot2 se explica en el libro de ggplot2 <span class="citation">(Wickham <a href="#ref-wickham2009">2009</a>)</span>,</li>
-</ul>
+<p><br/>
+Vale la pena notar que la inicial es conjugada únicamente respecto a una
+función de verosimilitud particular.</p>
+<p>Una distribución conjugada para <span class="math inline">\(p(x|\theta) = \theta^z(1 - \theta)^{N-z}\)</span> es
+una Beta(a, b)
+<span class="math display">\[p(\theta) = \frac {\theta^{a-1}(1-\theta)^{b-1}}{B(a,b)}\]</span></p>
+<p>Para describir nuestro conocimiento inicial podemos explorar la media y
+desviación estándar de la distribución beta, la media es
+<span class="math display">\[\bar{\theta} = a/(a+b)\]</span>
+por lo que si <span class="math inline">\(a=b\)</span> la media es 0.5 y conforme
+aumenta <span class="math inline">\(a\)</span> en relación a <span class="math inline">\(b\)</span> aumenta la media. La desviación estándar es</p>
+<p><span class="math display">\[\sqrt{\bar{\theta}(1-\bar{\theta})/(a+b+1)}\]</span></p>
+<p>Una manera de seleccionar los parámetros <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span> es pensar en la
+proporción media de águilas (m) y el tamaño de muestra (n). Ahora, <span class="math inline">\(m=a/(a+b)\)</span>
+y <span class="math inline">\(n = a+b\)</span>, obteniendo.</p>
+<p><span class="math display">\[a=mn, b=(1-m)n\]</span></p>
+<p>Otra manera es comenzar con la media y la desviación estándar. Al usar este
+enfoque debemos recordar que la desviación estándar debe tener sentido en el
+contexto de la densidad beta. En particular la desviación estándar típicamente
+es menor a 0.289 que corresponde a la desviación estándar de una uniforme.
+Entonces, para una densidad beta con media <span class="math inline">\(m\)</span> y desviación estándar <span class="math inline">\(s\)</span>, los
+parámetros son:
+<span class="math display">\[a=m\bigg(\frac{m(1-m)}{s^2}- 1\bigg), b=(1-m)\bigg(\frac{m(1-m)}{s^2}- 1\bigg)\]</span></p>
+<p>Una vez que hemos determinado una inicial conveniente para la verosimilitud
+Bernoulli, veamos la posterior. Supongamos que observamos <span class="math inline">\(N\)</span> lanzamientos de
+los cuales <span class="math inline">\(z\)</span> son águilas, entonces podemos ver que la posterior es nuevamente
+una densidad Beta.</p>
+<p><span class="math display">\[p(\theta|z)\propto \theta^{a+z-1}(1 -\theta)^{(N-z+b)-1}\]</span></p>
+<p>Concluímos entonces que si la distribución inicial es Beta(a,b), la posterior
+es Beta(z+a,N-z+b).</p>
+<p>Vale la pena explorar la relación entre la distribución inicial y posterior en
+las medias. La media incial es
+<span class="math display">\[a/(a+b)\]</span>
+y la media posterior es
+<span class="math display">\[(z+a)/[(z+a) + (N-z+b)]=(z+a)/(N+a+b)\]</span>
+podemos hacer algunas manipulaciones algebráicas para escribirla como:</p>
+<p><span class="math display">\[\frac{z+a}{N+a+b}=\frac{z}{N}\frac{N}{N+a+b} + \frac{a}{a+b}\frac{a+b}{N+a+b}\]</span></p>
+<p>es decir, podemos escribir la media posterior como un promedio ponderado entre
+la media inicial <span class="math inline">\(a/(a+b)\)</span> y la proporción observada <span class="math inline">\(z/N\)</span>.</p>
+<p>Ahora podemos pasar a la inferencia, comencemos con estimación de la proporción
+<span class="math inline">\(\theta\)</span>. La distribución posterior resume todo nuestro conocimiento del
+parámetro <span class="math inline">\(\theta\)</span>, en este caso podemos graficar la distribución y extraer
+valores numéricos como la media.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gridExtra)
 
-</div>
-</div>
-<!-- </div> -->
-<h3>Referencias</h3>
-<div id="refs" class="references">
-<div id="ref-wilkinson2005">
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
-</div>
-<div id="ref-r4ds">
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div id="ref-wickham2009">
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
+N =<span class="st"> </span><span class="dv">14</span>; z =<span class="st"> </span><span class="dv">11</span>; a =<span class="st"> </span><span class="dv">1</span>; b =<span class="st"> </span><span class="dv">1</span>
+base &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)), <span class="kw">aes</span>(x)) 
+
+p1 &lt;-<span class="st"> </span>base <span class="op">+</span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbeta, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape1 =</span> a, <span class="dt">shape2 =</span> b), 
+        <span class="kw">aes</span>(<span class="dt">colour =</span> <span class="st">&quot;inicial&quot;</span>), <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbeta, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape1 =</span> z <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">shape2 =</span> N <span class="op">-</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), 
+        <span class="kw">aes</span>(<span class="dt">colour =</span> <span class="st">&quot;verosimilitud&quot;</span>), <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbeta, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape1 =</span> a <span class="op">+</span><span class="st"> </span>z, <span class="dt">shape2 =</span> N <span class="op">-</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span>b), 
+        <span class="kw">aes</span>(<span class="dt">colour =</span> <span class="st">&quot;posterior&quot;</span>), <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
+<span class="st">      </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;&quot;</span>, <span class="dt">x =</span> <span class="kw">expression</span>(theta))
+
+N =<span class="st"> </span><span class="dv">14</span>; z =<span class="st"> </span><span class="dv">11</span>; a =<span class="st"> </span><span class="dv">100</span>; b =<span class="st"> </span><span class="dv">100</span>
+p2 &lt;-<span class="st"> </span>base <span class="op">+</span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbeta, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape1 =</span> a, <span class="dt">shape2 =</span> b), 
+        <span class="kw">aes</span>(<span class="dt">colour =</span> <span class="st">&quot;inicial&quot;</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbeta, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape1 =</span> z <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">shape2 =</span> N <span class="op">-</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), 
+        <span class="kw">aes</span>(<span class="dt">colour =</span> <span class="st">&quot;verosimilitud&quot;</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dbeta, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">shape1 =</span> a <span class="op">+</span><span class="st"> </span>z, <span class="dt">shape2 =</span> N <span class="op">-</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span>b), 
+        <span class="kw">aes</span>(<span class="dt">colour =</span> <span class="st">&quot;posterior&quot;</span>)) <span class="op">+</span>
+<span class="st">      </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;&quot;</span>, <span class="dt">x =</span> <span class="kw">expression</span>(theta))
+
+<span class="kw">grid.arrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>, <span class="dt">widths =</span> <span class="kw">c</span>(<span class="fl">0.38</span>, <span class="fl">0.62</span>))</code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-8-1.png" width="576" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_app</span>(<span class="st">&quot;https://tereom.shinyapps.io/app_bernoulli/&quot;</span>, 
+    <span class="dt">height =</span> <span class="st">&quot;1000px&quot;</span>)</code></pre>
+<iframe src="https://tereom.shinyapps.io/app_bernoulli/?showcase=0" width="672" height="1000px">
+</iframe>
+<p>Una manera de resumir la distribución posterior es a través de intervalos de
+probabilidad, otro uso de los intervalos es establecer que valores del parámetro
+son creíbles.</p>
+<p><img src="imagenes/manicule2.jpg" /> Calcula un intervalo del 95% de probabilidad para
+cada una de las distribuciones posteriores del ejemplo.</p>
+<p>Ahora pasemos a predicción, calculamos la probabilidad de <span class="math inline">\(y =1\)</span>:</p>
+<p><span class="math display">\[p(y = 1) = \int p(y=1|\theta)p(\theta|z)d\theta\]</span>
+<span class="math display">\[=\int \theta p(\theta|z,N) d\theta\]</span>
+<span class="math display">\[=(z+a)/(N+a+b)\]</span>
+Esto es, la probabilidad predictiva de águila es la media de la distribución
+posterior sobre <span class="math inline">\(\theta\)</span>.</p>
+<p>Finalmente, comparemos modelos. Para esto calculamos la evidencia <span class="math inline">\(p(x|M)\)</span>
+para cada modelo:</p>
+<p><span class="math display">\[p(x|M)=\int p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
+<p>en este caso los datos están dados por <span class="math inline">\(z\)</span> y N, en el caso de la incial beta
+es fácil calcular la evidencia:</p>
+<p><span class="math display">\[p(z)=B(z+a,N-z+b)/B(a,b)\]</span></p>
+<p>En nuestro ejemplo, una inicial tuiene un pico en 0.5 mientras que la otra es
+uniforme. Por otra parte, la proporción de 1 observados en la muestra no es
+cercana a 0.5 por lo que la inicial picuda no captura los datos muy bien.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># N = 14, z = 11, a = 1, b = 1</span>
+<span class="kw">beta</span>(<span class="dv">12</span>, <span class="dv">4</span>) <span class="op">/</span><span class="st"> </span><span class="kw">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>)
+<span class="co">#&gt; [1] 0.000183</span>
+<span class="co"># N = 14, z = 12, a = 100, b = 100 </span>
+<span class="kw">beta</span>(<span class="dv">126</span>, <span class="dv">126</span>) <span class="op">/</span><span class="st"> </span><span class="kw">beta</span>(<span class="dv">100</span>, <span class="dv">100</span>)
+<span class="co">#&gt; [1] 1.98e-16</span></code></pre>
+<p>Supongamos que observamos una secuencia en la que la mitad de los volados
+resultan en águila:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># N = 14, z = 7, a = 1, b = 1</span>
+<span class="kw">beta</span>(<span class="dv">8</span>, <span class="dv">8</span>) <span class="op">/</span><span class="st"> </span><span class="kw">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>)
+<span class="co">#&gt; [1] 1.94e-05</span>
+<span class="co"># N = 14, z = 7, a = 100, b = 100 </span>
+<span class="kw">beta</span>(<span class="dv">107</span>, <span class="dv">107</span>) <span class="op">/</span><span class="st"> </span><span class="kw">beta</span>(<span class="dv">100</span>, <span class="dv">100</span>)
+<span class="co">#&gt; [1] 5.9e-05</span></code></pre>
+<p>En general, preferimos un modelo con un valor mayor de <span class="math inline">\(p(x|\theta)\)</span> pero la
+preferencia no es absoluta, una diferencia chica no nos dice mucho. Debemos
+considerar que los datos no son mas que una muestra aleatoria.</p>
+<p><img src="imagenes/manicule2.jpg" /> Supongamos que nos interesa analizar el IQ de una
+muestra de estudiantes del
+ITAM y suponemos que el IQ de un estudiante tiene una distribución normal
+<span class="math inline">\(x \sim N(\theta, \sigma^2)\)</span> con <span class="math inline">\(\sigma ^ 2\)</span> conocida.</p>
+<p>Considera que observamos el IQ de un estudiante <span class="math inline">\(x\)</span>.
+La verosimilitud del modelo es:
+<span class="math display">\[p(x|\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}exp\left(-\frac{1}{2\sigma^2}(x-\theta)^2\right)\]</span></p>
+<p>Realizaremos un análisis bayesiano por lo que hace falta establer una
+distribución inicial, elegimos <span class="math inline">\(p(\theta)\)</span> que se distribuya <span class="math inline">\(N(\mu, \tau^2)\)</span>
+donde elegimos los parámetros <span class="math inline">\(\mu, \tau\)</span> que mejor describan nuestras creencias
+iniciales.</p>
+<p>Calcula la distribución posterior <span class="math inline">\(p(\theta|x) \propto p(x|\theta)p(\theta)\)</span>,
+usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
+multiplicación debes identificar el núcleo de una distribución Normal,
+¿cuáles son sus parámetros (media y varianza)?</p>
 </div>
 </div>
             </section>
@@ -608,8 +514,8 @@ tiene un <em>tag</em> para ggplot2.<br />
           </div>
         </div>
       </div>
-<a href="r-primeros-pasos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="manipulacion-y-agrupacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="regla-de-bayes-e-inferencia-bayesiana.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="aproximacion-por-cuadricula.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -639,7 +545,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/09-analisis_bayesiano.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

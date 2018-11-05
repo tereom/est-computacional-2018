@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="r-primeros-pasos.html">
-<link rel="next" href="manipulacion-y-agrupacion-de-datos.html">
+<link rel="prev" href="aproximacion-por-cuadricula.html">
+<link rel="next" href="metropolis-caso-general.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -352,255 +352,208 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="visualizacion-con-ggplot2" class="section level2">
-<h2><span class="header-section-number">2.2</span> Visualización con ggplot2</h2>
-<p>Utilizaremos el paquete <code>ggplot2</code>, fue desarrollado por Hadley Wickham y es
-una implementación de la gramática de las gráficas <span class="citation">(Wilkinson et al. <a href="#ref-wilkinson2005">2005</a>)</span>.</p>
-<div id="graficas-de-dispersion" class="section level4 unnumbered">
-<h4>Gráficas de dispersión</h4>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) <span class="co"># Cargamos el paquete en nuestra sesión</span></code></pre>
-<p>Usaremos el conjunto de datos <em>mpg</em> que se incluye en R, puedes encontrar
-información de esta base de datos tecleando <code>?mpg</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(mpg)
-?mpg
-<span class="kw">glimpse</span>(mpg)</code></pre>
-<pre><code>## Observations: 234
-## Variables: 11
-## $ manufacturer &lt;chr&gt; &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;...
-## $ model        &lt;chr&gt; &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4 qua...
-## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0,...
-## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 1...
-## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6...
-## $ trans        &lt;chr&gt; &quot;auto(l5)&quot;, &quot;manual(m5)&quot;, &quot;manual(m6)&quot;, &quot;auto(av)...
-## $ drv          &lt;chr&gt; &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;,...
-## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 1...
-## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 2...
-## $ fl           &lt;chr&gt; &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;,...
-## $ class        &lt;chr&gt; &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;comp...</code></pre>
-<p>Comencemos con nuestra primera gráfica:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
-<p>En <code>ggplot2</code> se inicia una gráfica con la instrucción <code>ggplot()</code>, debemos
-especificar explicitamente que base de datos usamos, este es el primer argumento
-en la función <code>ggplot()</code>. Una vez que creamos la base añadimos
-<em>capas</em>, y dentro de <em>aes()</em> escribimos las variables que queremos
-graficar y el atributo de la gráfica al que queremos mapearlas.</p>
-<p>La función <code>geom_point()</code> añade una capa de puntos, hay muchas funciones
-<em>geometrías</em> incluídas en <code>ggplot2</code>: <code>geom_line()</code>, <code>geom_boxplot()</code>,
-<code>geom_histogram</code>,… Cada una acepta distintos argumentos para mapear las
-variables en los datos a características estéticas de la gráfica. En el ejemplo
-de arriba mapeamos <code>displ</code> al eje x, <code>hwy</code> al eje y, pero <code>geom_point()</code> nos
-permite representar más variables usando la forma, color y/o tamaño del punto.
-Esta flexibilidad nos permite entender o descubrir patrones más interesantes en
-los datos.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> class))</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-7-1.png" width="528" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Experimenta con los <em>aesthetics</em> color (color),
-tamaño (size) y forma (shape).</p>
-<p>            ¿Qué diferencia hay entre las variables categóricas y las continuas?</p>
-<p>            ¿Qué ocurre cuando combinas varios <em>aesthetics</em>?</p>
-<p>El mapeo de las propiedades estéticas se denomina escalamiento y depende del
-tipo de variable, las variables discretas (por ejemplo, genero, escolaridad,
-país) se mapean a distintas escalas que las variables continuas (variables
-numéricas como edad, estatura, etc.), los <em>defaults</em> para algunos atributos son
-(los escalamientos se pueden modificar):</p>
-<table>
-<colgroup>
-<col width="30%" />
-<col width="42%" />
-<col width="27%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>aes</th>
-<th>Discreta</th>
-<th>Continua</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Color (<code>color</code>)</td>
-<td>Arcoiris de colores</td>
-<td>Gradiente de colores</td>
-</tr>
-<tr class="even">
-<td>Tamaño (<code>size</code>)</td>
-<td>Escala discreta de tamaños</td>
-<td>Mapeo lineal entre el área y el valor</td>
-</tr>
-<tr class="odd">
-<td>Forma (<code>shape</code>)</td>
-<td>Distintas formas</td>
-<td>No aplica</td>
-</tr>
-<tr class="even">
-<td>Transparencia (<code>alpha</code>)</td>
-<td>No aplica</td>
-<td>Mapeo lineal a la transparencia</td>
-</tr>
-</tbody>
-</table>
-<p>Los <em><em>geoms</em></em> controlan el tipo de gráfica</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="co"># en este caso no es una buena gráfica</span></code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
-<p>¿Qué problema tiene la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-2.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> ¿Cómo podemos mejorar la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
-<p>Intentemos reodenar los niveles de la variable clase</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
-<p>Podemos probar otros geoms.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-2.png" width="480" /></p>
-<p>También podemos usar más de un geom!</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Lee la ayuda de <em>reorder</em> y repite las gráficas
-anteriores ordenando por la mediana de <em>hwy</em>.</p>
-<p>            ¿Cómo harías
-para graficar los puntos encima de las cajas de boxplot?</p>
-</div>
-<div id="paneles" class="section level4 unnumbered">
-<h4>Paneles</h4>
-<p>Veamos ahora como hacer páneles de gráficas, la idea es hacer varios múltiplos
-de una gráfica donde cada múltiplo representa un subconjunto de los datos, es
-una práctica muy útil para explorar relaciones condicionales.</p>
-<p>En ggplot podemos usar <em>facet_wrap()</em> para hacer paneles dividiendo los datos
-de acuerdo a las categorías de una sola variable</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>cyl)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
-<p>También podemos hacer una cuadrícula de <span class="math inline">\(2\)</span> dimensiones usando
-<em>facet_grid(filas~columnas)</em></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(.<span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(drv <span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En
-la siguiente gráfica es difícil entender si existe una relación entre radiación
-solar y ozono.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(airquality)
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<pre><code>## Warning: Removed 42 rows containing missing values (geom_point).</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-17-1.png" width="384" /></p>
-<p>Veamos que ocurre si realizamos páneles separando por velocidad del viento.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Hmisc)
-airquality<span class="op">$</span>Wind.cat &lt;-<span class="st"> </span><span class="kw">cut2</span>(airquality<span class="op">$</span>Wind, <span class="dt">g =</span> <span class="dv">3</span>) 
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>Podemos agregar un suavizador (loess) para ver mejor la relación de las
-variables en cada panel.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Escribe algunas preguntas que puedan contestar con
-estos datos.</p>
-<p>En ocasiones es necesario realizar transformaciones u obtener subconjuntos de
-los datos para poder responder preguntas de nuestro interés.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(babynames)
-<span class="kw">glimpse</span>(babynames)</code></pre>
-<pre><code>## Observations: 1,858,689
-## Variables: 5
-## $ year &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 188...
-## $ sex  &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F...
-## $ name &lt;chr&gt; &quot;Mary&quot;, &quot;Anna&quot;, &quot;Emma&quot;, &quot;Elizabeth&quot;, &quot;Minnie&quot;, &quot;Margaret&quot;...
-## $ n    &lt;int&gt; 7065, 2604, 2003, 1939, 1746, 1578, 1472, 1414, 1320, 128...
-## $ prop &lt;dbl&gt; 0.072384329, 0.026679234, 0.020521700, 0.019865989, 0.017...</code></pre>
-<p>Supongamos que queremos ver la tendencia del nombre “John”, para ello debemos
-generar un subconjunto de la base de datos. ¿Qué ocurre en la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">babynames_John &lt;-<span class="st"> </span><span class="kw">filter</span>(babynames, name <span class="op">==</span><span class="st"> &quot;John&quot;</span>)
-<span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop, <span class="dt">color =</span> sex)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-22-1.png" width="480" /></p>
-<p>La preparación de los datos es un aspecto muy importante del análisis y suele
-ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará
-en herramientas para hacer transformaciones de manera eficiente.</p>
-<p><img src="imagenes/manicule.jpg" /> Tarea. Explora la base de datos gapminder, estos
-datos están incluidos en el paquete del mismo nombre, para acceder a ellos basta
-con cargar el paquete:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;gapminder&quot;)</span>
-<span class="kw">library</span>(gapminder)
-gapminder</code></pre>
-<pre><code>## # A tibble: 1,704 x 6
-##    country     continent  year lifeExp      pop gdpPercap
-##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
-##  1 Afghanistan Asia       1952    28.8  8425333      779.
-##  2 Afghanistan Asia       1957    30.3  9240934      821.
-##  3 Afghanistan Asia       1962    32.0 10267083      853.
-##  4 Afghanistan Asia       1967    34.0 11537966      836.
-##  5 Afghanistan Asia       1972    36.1 13079460      740.
-##  6 Afghanistan Asia       1977    38.4 14880372      786.
-##  7 Afghanistan Asia       1982    39.9 12881816      978.
-##  8 Afghanistan Asia       1987    40.8 13867957      852.
-##  9 Afghanistan Asia       1992    41.7 16317921      649.
-## 10 Afghanistan Asia       1997    41.8 22227415      635.
-## # ... with 1,694 more rows</code></pre>
-<p>            realiza al
-menos <span class="math inline">\(3\)</span> gráficas y explica las relaciones que encuentres. Debes usar lo que
-revisamos en estas notas: al menos una de las gráficas debe ser de páneles,
-realiza una gráfica con datos de México, y (opcional)si lo consideras
-interesante, puedes crear una variable categórica utilizando la función <code>cut2</code>
-del paquete Hmisc.</p>
-</div>
-<div id="recursos-1" class="section level3 unnumbered">
-<h3>Recursos</h3>
+<div id="mcmc" class="section level2">
+<h2><span class="header-section-number">10.5</span> MCMC</h2>
+<p>Hay ocasiones en las que los métodos de inicial conjugada y aproximación por
+cuadrícula no funcionan, hay casos en los que la distribución beta no describe
+nuestras creencias iniciales. Por su parte, la aproximación por cuadrícula no es
+factible cuando tenemos varios parámetros. Es por ello que surge la necesidad de
+utilizar métodos de Monte Carlo vía Cadenas de Markov (MCMC).</p>
+<div id="metropolis" class="section level3 unnumbered">
+<h3>Metrópolis</h3>
+<p>Para usar Metrópolis debemos poder calcular <span class="math inline">\(p(\theta)\)</span> para un valor
+particular de <span class="math inline">\(\theta\)</span> y el valor de la verosimilitud <span class="math inline">\(p(x|\theta)\)</span> para
+cualquier <span class="math inline">\(x\)</span>, <span class="math inline">\(\theta\)</span> dados. En realidad, el método únicamente requiere que
+se pueda calcular el producto de la inicial y la verosimilitud, y sólo
+hasta una constante de proporcionalidad. Lo que el método produce es una
+aproximación de la distribución posterior <span class="math inline">\(p(\theta|x)\)</span> mediante una
+muestra de valores <span class="math inline">\(\theta\)</span> obtenido de dicha distribución.</p>
+<p><strong>Caminata aleatoria</strong>. Con el fin de entender el algoritmo comenzaremos
+estudiando el concepto de caminata aleatoria. Supongamos que un vendedor de
+yakult trabaja a lo largo de una cadena de islas:</p>
 <ul>
-<li>El libro <em>R for Data Science</em> <span class="citation">(Wickham and Grolemund <a href="#ref-r4ds">2017</a>)</span> tiene un capítulo de visualización.</li>
-<li>Google, <a href="https://stackoverflow.com/questions/tagged/ggplot2">stackoverflow</a>
-tiene un <em>tag</em> para ggplot2.<br />
-</li>
-<li>Documentación con ejemplos en la página de
-<a href="http://ggplot2.tidyverse.org/">ggplot2</a>.</li>
-<li>Otro recurso muy útil es el
-<a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">acordeón de ggplot</a>.<br />
-</li>
-<li>La teoría detrás de ggplot2 se explica en el libro de ggplot2 <span class="citation">(Wickham <a href="#ref-wickham2009">2009</a>)</span>,</li>
+<li><p>constantemente viaja entre las islas ofreciendo sus productos,</p></li>
+<li><p>al final de un día de trabajo decide si permanece en la misma isla o se
+transporta a una de las 2 islas vecinas.</p></li>
+<li><p>El vendedor ignora la distribución de la población en las islas; sin embargo,
+una vez que se encuentra en una isla puede investigar la población de la misma y
+también de la isla a la que se propone viajar después.</p></li>
+<li>El objetivo del vendedor es visitar las islas de manera proporcional a la
+población de cada una. Con esto en mente el vendedor utiliza el siguiente
+proceso:
+<ol style="list-style-type: decimal">
+<li>Lanza un volado, si el resultado es águila se propone ir a la isla
+del lado izquierdo de su ubicación actual y si es sol a la del lado derecho.</li>
+<li>Si la isla propuesta en el paso anterior tiene población mayor a la
+población de la isla actual, el vendedor decide viajar a ella. Si la isla vecina
+tiene población menor, entonces visita la isla propuesta con una probabilidad que
+depende de la población de las islas. Sea <span class="math inline">\(P_{prop}\)</span> la población de la isla
+propuesta y <span class="math inline">\(P_{actual}\)</span> la población de la isla actual. Entonces el vendedor
+cambia de isla con probabilidad
+<span class="math display">\[p_{mover}=P_{prop}/P_{actual}\]</span></li>
+</ol></li>
 </ul>
+<p>A la larga, si el vendedor sigue la heurística anterior la probabilidad de que
+el vendedor este en alguna de las islas coincide con la población relativa de
+la isla.</p>
+<pre class="sourceCode r"><code class="sourceCode r">islas &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">islas =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">pob =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)
 
-</div>
-</div>
-<!-- </div> -->
-<h3>Referencias</h3>
-<div id="refs" class="references">
-<div id="ref-wilkinson2005">
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
-</div>
-<div id="ref-r4ds">
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div id="ref-wickham2009">
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
+caminaIsla &lt;-<span class="st"> </span><span class="cf">function</span>(i){ <span class="co"># i: isla actual</span>
+  u &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="co"># volado</span>
+  v &lt;-<span class="st"> </span><span class="kw">ifelse</span>(u <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.5</span>, i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)  <span class="co"># isla vecina (índice)</span>
+  <span class="cf">if</span>(v <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>v <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>){ <span class="co"># si estas en los extremos y el volado indica salir</span>
+    <span class="kw">return</span>(i)
+  }
+  u2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)
+  p_move =<span class="st"> </span><span class="kw">min</span>(islas<span class="op">$</span>pob[v] <span class="op">/</span><span class="st"> </span>islas<span class="op">$</span>pob[i], <span class="dv">1</span>)
+  <span class="cf">if</span>(p_move  <span class="op">&gt;</span><span class="st"> </span>u2){
+    <span class="kw">return</span>(v) <span class="co"># isla destino</span>
+  }
+  <span class="cf">else</span>{
+    <span class="kw">return</span>(i) <span class="co"># me quedo en la misma isla</span>
+  }
+}
+
+pasos &lt;-<span class="st"> </span><span class="dv">100000</span>
+camino &lt;-<span class="st"> </span><span class="kw">numeric</span>(pasos)
+camino[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">1</span>) <span class="co"># isla inicial</span>
+<span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>pasos){
+  camino[j] &lt;-<span class="st"> </span><span class="kw">caminaIsla</span>(camino[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>])
+}
+
+caminata &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">pasos =</span> <span class="dv">1</span><span class="op">:</span>pasos, <span class="dt">isla =</span> camino)
+
+plot_caminata &lt;-<span class="st"> </span><span class="kw">ggplot</span>(caminata[<span class="dv">1</span><span class="op">:</span><span class="st"> </span><span class="dv">1000</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> pasos, <span class="dt">y =</span> isla)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Caminata aleatoria&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Tiempo&quot;</span>)
+
+plot_dist &lt;-<span class="st"> </span><span class="kw">ggplot</span>(caminata, <span class="kw">aes</span>(<span class="dt">x =</span> isla)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Distribución objetivo&quot;</span>, 
+       <span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">P</span>(theta)))
+
+<span class="kw">grid.arrange</span>(plot_caminata, plot_dist, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">2</span>))
+<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-17-1.png" width="336" />
+Entonces:</p>
+<ul>
+<li><p>Para aproximar la distribución objetivo debemos permitir que el vendedor
+recorra las islas durante una sucesión larga de pasos y registramos sus visitas.</p></li>
+<li><p>Nuestra aproximación de la distribución es justamente el registro de sus
+visitas.</p></li>
+<li><p>Más aún, debemos tener cuidado y excluir la porción de las visitas que se
+encuentran bajo la influencia de la posición inicial. Esto es, debemos excluir
+el <strong>periodo de calentamiento</strong>.</p></li>
+<li><p>Una vez que tenemos un registro <em>largo</em> de los viajes del vendedor (excluyendo
+el calentamiento) podemos aproximar la distribución objetivo de cada valor de
+<span class="math inline">\(\theta\)</span> simplemente contando el número relativo de veces que el vendedor visitó
+dicha isla.</p></li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">t &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">1000</span>, <span class="dv">5000</span>)
+
+plots_list &lt;-<span class="st"> </span><span class="kw">lapply</span>(t, <span class="cf">function</span>(i){
+  <span class="kw">ggplot</span>(caminata[<span class="dv">1</span><span class="op">:</span>i, ], <span class="kw">aes</span>(<span class="dt">x =</span> isla)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">&quot;t = &quot;</span>, i, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">11</span>))
+})
+
+args.list &lt;-<span class="st"> </span><span class="kw">c</span>(plots_list,<span class="kw">list</span>(<span class="dt">nrow=</span><span class="dv">4</span>,<span class="dt">ncol=</span><span class="dv">4</span>))
+<span class="kw">invoke</span>(grid.arrange, args.list)</code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-18-1.png" width="768" /></p>
+<p>Escribamos el algoritmo, para esto indexamos las islas por el valor
+<span class="math inline">\(\theta\)</span>, es así que la isla del extremo oeste corresponde a <span class="math inline">\(\theta=1\)</span> y la
+población relativa de cada isla es <span class="math inline">\(P(\theta)\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li><p>El vendedor se ubica en <span class="math inline">\(\theta_{actual}\)</span> y propone moverse a la izquierda
+o derecha con probabilidad 0.5.<br />
+El rango de los posibles valores para moverse, y la probabilidad de proponer
+cada uno se conoce como <strong>distribución propuesta</strong>, en nuestro ejemplo sólo
+toma dos valores cada uno con probabilidad 0.5.</p></li>
+<li><p>Una vez que se propone un movimiento, decidimos si aceptarlo. La decisión de
+aceptar se basa en el valor de la distribución <strong>objetivo</strong> en la posición
+propuesta, relativo al valor de la distribución objetivo en la posición actual:
+<span class="math display">\[p_{mover}=min\bigg( \frac{P(\theta_{propuesta})}{P(\theta_{actual})},1\bigg)\]</span>
+Notemos que la distribución objetivo <span class="math inline">\(P(\theta)\)</span> no necesita estar normalizada,
+esto es porque lo que nos interesa es el cociente <span class="math inline">\(P(\theta_{propuesta})/P(\theta_{actual})\)</span>.</p></li>
+<li><p>Una vez que propusimos un movimiento y calculamos la probabilidad de aceptar
+el movimiento aceptamos o rechazamos el movimiento generando un valor de una
+distribución uniforme, si dicho valor es menor a <span class="math inline">\(p_{mover}\)</span> entonces hacemos
+el movimiento.</p></li>
+</ol>
+<p>Entonces, para utilizar el algoritmo necesitamos ser capaces de:</p>
+<ul>
+<li><p>Generar un valor de la distribución propuesta (para crear <span class="math inline">\(\theta_{propuesta}\)</span>).</p></li>
+<li><p>Evaluar la distribución objetivo en cualquier valor propuesto (para calcular
+<span class="math inline">\(P(\theta_{propuesta})/P(\theta_{actual})\)</span>).</p></li>
+<li><p>Generar un valor uniforme (para movernos con probabilidad <span class="math inline">\(p_{mover}\)</span>)</p></li>
+</ul>
+<p>Las 3 puntos anteriores nos permiten generar muestras aleatorias de la
+distribución objetivo, sin importar si esta está normalizada. Esta técnica es
+particularmente útil cuando cuando la distribución objetivo es una posterior
+proporcional a <span class="math inline">\(p(x|\theta)p(\theta)\)</span>.</p>
+<p>Para entender porque funciona el algoritmo de Metrópolis hace falta entender 2
+puntos, primero que la distribución objetivo es <strong>estable</strong>: si la probabilidad
+<em>actual</em> de ubicarse en una posición coincide con la probabilidad en la
+distribución objetivo, entonces el algoritmo preserva las probabilidades.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(expm)
+
+transMat &lt;-<span class="st"> </span><span class="cf">function</span>(P){ <span class="co"># recibe vector de probabilidades (o población)</span>
+  T &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">10</span>)
+  n &lt;-<span class="st"> </span><span class="kw">length</span>(P <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="co"># número de estados</span>
+  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>){ <span class="co"># llenamos por fila</span>
+    T[j, j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span><span class="kw">min</span>(P[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>P[j], <span class="dv">1</span>)
+    T[j, j] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(P[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>P[j], <span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">               </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(P[j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>P[j], <span class="dv">1</span>))
+    T[j, j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span><span class="kw">min</span>(P[j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>P[j], <span class="dv">1</span>)
+  }
+  <span class="co"># faltan los casos j = 1 y j = n</span>
+  T[<span class="dv">1</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(P[<span class="dv">2</span>] <span class="op">/</span><span class="st"> </span>P[<span class="dv">1</span>], <span class="dv">1</span>))
+  T[<span class="dv">1</span>, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span><span class="kw">min</span>(P[<span class="dv">2</span>] <span class="op">/</span><span class="st"> </span>P[<span class="dv">1</span>], <span class="dv">1</span>)
+  T[n, n] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(P[n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>P[n], <span class="dv">1</span>))
+  T[n, n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span><span class="kw">min</span>(P[n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>P[n], <span class="dv">1</span>)
+  T
+}
+
+T &lt;-<span class="st"> </span><span class="kw">transMat</span>(islas<span class="op">$</span>pob)
+
+w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>))
+
+t &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">1000</span>, <span class="dv">5000</span>)
+expT &lt;-<span class="st"> </span><span class="kw">map_df</span>(t, <span class="op">~</span><span class="kw">data.frame</span>(<span class="dt">t =</span> ., w <span class="op">%*%</span><span class="st"> </span>(T <span class="op">%^%</span><span class="st"> </span>.)))
+expT_long &lt;-<span class="st"> </span>expT <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">gather</span>(theta, P, <span class="op">-</span>t) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">theta =</span> <span class="kw">parse_number</span>(theta))
+
+<span class="kw">ggplot</span>(expT_long, <span class="kw">aes</span>(<span class="dt">x =</span> theta, <span class="dt">y =</span> P)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>t) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">11</span>))</code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-19-1.png" width="768" /></p>
+<p>El segundo punto es que el proceso converge a la distribución objetivo.
+Podemos ver, (en nuestro ejemplo sencillo) que sin importar el punto de inicio
+se alcanza la distribución objetivo.</p>
+<pre class="sourceCode r"><code class="sourceCode r">inicioP &lt;-<span class="st"> </span><span class="cf">function</span>(i){
+  w &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>)
+  w[i] &lt;-<span class="st"> </span><span class="dv">1</span>
+  t &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>)
+  expT &lt;-<span class="st"> </span><span class="kw">map_df</span>(t, <span class="op">~</span><span class="kw">data.frame</span>(<span class="dt">t =</span> ., <span class="dt">inicio =</span> i, w <span class="op">%*%</span><span class="st"> </span>(T <span class="op">%^%</span><span class="st"> </span>.))) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">gather</span>(theta, P, <span class="op">-</span>t, <span class="op">-</span>inicio) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">theta =</span> <span class="kw">parse_number</span>(theta))
+  expT
+}
+
+expT &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">9</span>), inicioP)
+<span class="kw">ggplot</span>(expT, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">as.numeric</span>(theta), <span class="dt">y =</span> P)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">facet_grid</span>(inicio <span class="op">~</span><span class="st"> </span>t) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="kw">expression</span>(theta), <span class="dt">breaks =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">11</span>))</code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-20-1.png" width="768" /></p>
 </div>
 </div>
             </section>
@@ -608,8 +561,8 @@ tiene un <em>tag</em> para ggplot2.<br />
           </div>
         </div>
       </div>
-<a href="r-primeros-pasos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="manipulacion-y-agrupacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="aproximacion-por-cuadricula.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="metropolis-caso-general.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -639,7 +592,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/09-analisis_bayesiano.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

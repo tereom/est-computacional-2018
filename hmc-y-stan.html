@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="r-primeros-pasos.html">
-<link rel="next" href="manipulacion-y-agrupacion-de-datos.html">
+<link rel="prev" href="jags.html">
+<link rel="next" href="tareas.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -352,240 +352,223 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="visualizacion-con-ggplot2" class="section level2">
-<h2><span class="header-section-number">2.2</span> Visualización con ggplot2</h2>
-<p>Utilizaremos el paquete <code>ggplot2</code>, fue desarrollado por Hadley Wickham y es
-una implementación de la gramática de las gráficas <span class="citation">(Wilkinson et al. <a href="#ref-wilkinson2005">2005</a>)</span>.</p>
-<div id="graficas-de-dispersion" class="section level4 unnumbered">
-<h4>Gráficas de dispersión</h4>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) <span class="co"># Cargamos el paquete en nuestra sesión</span></code></pre>
-<p>Usaremos el conjunto de datos <em>mpg</em> que se incluye en R, puedes encontrar
-información de esta base de datos tecleando <code>?mpg</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(mpg)
-?mpg
-<span class="kw">glimpse</span>(mpg)</code></pre>
-<pre><code>## Observations: 234
-## Variables: 11
-## $ manufacturer &lt;chr&gt; &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;audi&quot;, &quot;...
-## $ model        &lt;chr&gt; &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4&quot;, &quot;a4 qua...
-## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0,...
-## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 1...
-## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6...
-## $ trans        &lt;chr&gt; &quot;auto(l5)&quot;, &quot;manual(m5)&quot;, &quot;manual(m6)&quot;, &quot;auto(av)...
-## $ drv          &lt;chr&gt; &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;f&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;,...
-## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 1...
-## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 2...
-## $ fl           &lt;chr&gt; &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;,...
-## $ class        &lt;chr&gt; &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;comp...</code></pre>
-<p>Comencemos con nuestra primera gráfica:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
-<p>En <code>ggplot2</code> se inicia una gráfica con la instrucción <code>ggplot()</code>, debemos
-especificar explicitamente que base de datos usamos, este es el primer argumento
-en la función <code>ggplot()</code>. Una vez que creamos la base añadimos
-<em>capas</em>, y dentro de <em>aes()</em> escribimos las variables que queremos
-graficar y el atributo de la gráfica al que queremos mapearlas.</p>
-<p>La función <code>geom_point()</code> añade una capa de puntos, hay muchas funciones
-<em>geometrías</em> incluídas en <code>ggplot2</code>: <code>geom_line()</code>, <code>geom_boxplot()</code>,
-<code>geom_histogram</code>,… Cada una acepta distintos argumentos para mapear las
-variables en los datos a características estéticas de la gráfica. En el ejemplo
-de arriba mapeamos <code>displ</code> al eje x, <code>hwy</code> al eje y, pero <code>geom_point()</code> nos
-permite representar más variables usando la forma, color y/o tamaño del punto.
-Esta flexibilidad nos permite entender o descubrir patrones más interesantes en
-los datos.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy, <span class="dt">color =</span> class))</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-7-1.png" width="528" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Experimenta con los <em>aesthetics</em> color (color),
-tamaño (size) y forma (shape).</p>
-<p>            ¿Qué diferencia hay entre las variables categóricas y las continuas?</p>
-<p>            ¿Qué ocurre cuando combinas varios <em>aesthetics</em>?</p>
-<p>El mapeo de las propiedades estéticas se denomina escalamiento y depende del
-tipo de variable, las variables discretas (por ejemplo, genero, escolaridad,
-país) se mapean a distintas escalas que las variables continuas (variables
-numéricas como edad, estatura, etc.), los <em>defaults</em> para algunos atributos son
-(los escalamientos se pueden modificar):</p>
-<table>
-<colgroup>
-<col width="30%" />
-<col width="42%" />
-<col width="27%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>aes</th>
-<th>Discreta</th>
-<th>Continua</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Color (<code>color</code>)</td>
-<td>Arcoiris de colores</td>
-<td>Gradiente de colores</td>
-</tr>
-<tr class="even">
-<td>Tamaño (<code>size</code>)</td>
-<td>Escala discreta de tamaños</td>
-<td>Mapeo lineal entre el área y el valor</td>
-</tr>
-<tr class="odd">
-<td>Forma (<code>shape</code>)</td>
-<td>Distintas formas</td>
-<td>No aplica</td>
-</tr>
-<tr class="even">
-<td>Transparencia (<code>alpha</code>)</td>
-<td>No aplica</td>
-<td>Mapeo lineal a la transparencia</td>
-</tr>
-</tbody>
-</table>
-<p>Los <em><em>geoms</em></em> controlan el tipo de gráfica</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="co"># en este caso no es una buena gráfica</span></code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
-<p>¿Qué problema tiene la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> cty, <span class="dt">y =</span> hwy))
-p <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-9-2.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> ¿Cómo podemos mejorar la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
-<p>Intentemos reodenar los niveles de la variable clase</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_point</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
-<p>Podemos probar otros geoms.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>() </code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-12-2.png" width="480" /></p>
-<p>También podemos usar más de un geom!</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(class, hwy), <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_boxplot</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Lee la ayuda de <em>reorder</em> y repite las gráficas
-anteriores ordenando por la mediana de <em>hwy</em>.</p>
-<p>            ¿Cómo harías
-para graficar los puntos encima de las cajas de boxplot?</p>
+<div id="hmc-y-stan" class="section level2">
+<h2><span class="header-section-number">10.8</span> HMC y Stan</h2>
+<p>Stan es un programa para generar muestras de una distribución posterior de los
+parámetros de un modelo, el nombre del programa hace referencia a <a href="https://en.wikipedia.org/wiki/Stanislaw_Ulam">Stanislaw Ulam (1904-1984)</a> que fue pionero en
+los métodos de Monte Carlo. A diferencia de JAGS y BUGS, los pasos de la cadena
+de Markov se generan con un método llamado <em>Monte Carlo Hamiltoniano</em> (HMC). HMC
+puede ser más eficiente que otros muestreadores en JAGS y BUGS, en particular
+cuando se ajustan modelo grandes y complejos (por ejemplo, con variables con
+correlación alta).</p>
+<div id="muestreo-hmc" class="section level3">
+<h3><span class="header-section-number">10.8.1</span> Muestreo HMC</h3>
+<p>El uso de HMC en estadística es reciente, sin embargo, gracias a Stan se ha
+expandido rápidamente tanto en academia como industria. Desafortunadamente, la
+teoría de HMC está desarrollada en términos de geometría diferencial, lo que
+hace que su construcción formal requiera de matemáticas avanzadas. En estas notas
+se presentan las ideas detrás de HMC siguiendo <span class="citation">Kruschke (<a href="#ref-kruschke">2015</a>)</span>.</p>
+<p>Stan genera muestras de la posterior usando una variación del algoritmo de
+Metrópolis. Recordemos como funciona el algoritmo de Metrópolis que vimos en
+clase:</p>
+<ol style="list-style-type: decimal">
+<li><p>Tenemos una distribución objetivo <span class="math inline">\(p(\theta)\)</span> de la cual buscamos generar
+muestras. Debemos ser capaces de calcular el valor de <span class="math inline">\(p(\theta)\)</span> para cualquier
+valor candidato <span class="math inline">\(\theta\)</span>. La distribución objetivo <span class="math inline">\(p(\theta)\)</span> no tiene que
+estar normalizada, típicamente <span class="math inline">\(p(\theta)\)</span> es la distribución posterior de
+<span class="math inline">\(\theta\)</span> no normalizada, es decir, es el producto de la verosimilitud y la
+inicial.</p></li>
+<li><p>La muestra de la distribución objetivo se genera mediante una caminata
+aleatoria a través del espacio de parámetros. La caminata inicia en un lugar
+arbitrario (definido por el usuario). El punto inicial debe ser tal que
+<span class="math inline">\(p(\theta)&gt;0\)</span>. La caminata avanza en cada tiempo proponiendo un movimiento a una
+nueva posición y después decidiendo si se acepta o no el valor propuesto. Las
+distribuciones propuesta pueden tener muchas formas, el objetivo es que la
+distribución propuesta explore el espacio de parámetros de manera eficiente.</p></li>
+<li><p>Una vez que tenemos un valor propuesto decidimos si aceptar calculando:</p></li>
+</ol>
+<p><span class="math display">\[p_{mover}=min\bigg( \frac{P(\theta_{propuesta})}{P(\theta_{actual})},1\bigg)\]</span></p>
+<p>Y al final obtenemos valores representativos de la distribución objetivo
+<span class="math inline">\(\{\theta_1,...,\theta_n\}\)</span>.</p>
+<p>Notemos que en la versión de Metrópolis que estudiamos, la forma de la
+distribución propuesta está centrada de manera simétrica en la posición actual.
+Es decir, en un espacio paramétrico multidimensional, la distribución propuesta
+podría ser una Normal multivariada, con la matriz de varianzas y covarianzas
+seleccionada para mejorar la eficiencia en la aplicación particular.
+La normal multivariada siempre esta centrada en la posición actual y siempre
+tiene la misma forma, sin importar en que sección del espacio paramétrico
+estemos ubicados. Esto puede llevar a ineficiencias, por ejemplo, si nos
+ubicamos en las colas de la distribución posterior el paso propuesto con la
+misma probabilidad nos aleja o acerca de la moda de la posterior. Otro ejemplo
+es si la distriución posterior se curva a lo largo del espacio paramétrico, una
+distribución propuesta (de forma fija) puede ser eficiente para una parte de la
+posterior y poco eficiente para otra parte de la misma.</p>
+<p>Por su parte HMC, usa una distribución propuesta que cambia dependiendo de la
+posición actual. HMC utiliza el gradiente de la posterior y <em>envuelve</em> la
+distribución propuesta hacia el gradiente, como se ve en la siguiente figura.</p>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imagenes/hmc_proposals.png&quot;</span>)</code></pre>
+<p><img src="imagenes/hmc_proposals.png" width="500px" /></p>
+<p>HMC genera un movimiento propuesta de manera análoga a rodar una canica en la
+distribución posterior volteada (también conocida como potencial). El potencial
+es el negativo del logaritmo de la densidad posterior, en las regiones donde la
+posterior es alta el potencial es bajo, y en las la regiones donde la posterior
+es plana el potencial es alto.</p>
+<p>La propuesta se genera dando un golpecito la canica en una dirección aleatoria y
+dejándola rodar cierto tiempo. En el caso del ejemplo de un solo parámetro la
+dirección del golpecito inicial es hacia la izquierda o derecha, y la magnitud
+se genera de manera aleatoria muestreando de una distrubución Gaussiana de media
+cero. El golpecito impone un momento inicial a la canica, y al terminar el
+tiempo se propone al algoritmo de Metrópilis la posición final de la canica. Es
+fácil imaginar que la posición propuesta tenderá a estar en regiones de mayor
+probabilidad posterior.</p>
+<p>La última fila de la figura de arriba nos muestra un histograma de los pasos
+propuestos, notemos que no está centrado en la posición actual sino que hay una
+inclinación hacia la moda de la posterior.</p>
+<p>Para distribuciones posteriores de dimensión alta con valles diagonales o
+curveados, la dinámica de HMC generará valores propuesta mucho más prometedores
+que una distribución propuesta simétrica (como la versión de Metrópolis que
+implementamos) y mejores que un muestreador de Gibbs que puede <em>atorarse</em> en
+paredes diagonales.</p>
+<p>Es así que para pasar del algoritmo de Metrópolis que estudiamos a HMC se
+modifica la probabilidad de aceptación para tener en cuenta no sola la denisdad
+posterior relativa, sino también el <em>momento</em> (denotado por <span class="math inline">\(\phi\)</span>) en las
+posiciones actual y propuesta.</p>
+<p><span class="math display">\[p_{aceptar}=\bigg(\frac{p(\theta_{propuesta}|x)p(\phi_{propuesta})}{p(\theta_{actual}|x)p(\phi_{actual})}, 1 \bigg)\]</span></p>
+<p>En un sistema continuo ideal la suma de la energía potencial y cinética (que
+corresponden a <span class="math inline">\(-log(p(\theta|x))\)</span> y <span class="math inline">\(-log(p(\phi))\)</span>) es constante y por tanto
+aceptaríamos todas las propuestas. Sin embargo, en la práctica las dinámicas
+continuas se dicretizan a intervalos en el tiempo y los cálculos son solo
+aproximados conllevando a que se rechacen algunas propuestas.</p>
+<p>Si los pasos discretizados son pequeños entonces la aproximación será buena pero
+se necesitarán más pasos para alejarse de una posición dada, y lo contrario si
+los pasos son muy grandes. Por tanto se debe ajustar el tamaño del paso
+(epsilon) y el número de pasos. La duración de la trayectoria es el producto del
+tamaño del paso y el número de pasos. Es usual buscar una tasa de aceptación
+alrededor del 65%, moviendo el tamaño de epsilon y compensando con el número de
+pasos.</p>
+<p>Es así que el tamaño del paso controla la suavidad de la trayectoria. También es
+importante ajustar el número de pasos (es decir la duración del movimiento) pues
+no queremos alejarnos demasiado o rodar de regreso a la posición actual. La
+siguiente figura muestra varias trayectorias y notamos que muchas rebotan al
+lugar inicial.</p>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imagenes/hmc_proposals_2.png&quot;</span>)</code></pre>
+<p><img src="imagenes/hmc_proposals_2.png" width="500px" /></p>
+<p>Para evitar las ineficiencias de dar vueltas en U, Stan incorpora un algoritmo
+que generaliza la nación de vueltas en U a espacios de dimensión alta, y así
+estima cuando parar las trayectorias antes de que reboten hacia la posición
+inical. El algoritmo se llama <em>No U-turn Sampler</em> (NUTS).</p>
+<p>Adicional a ajustar el tamaño del paso y número de pasos debemos ajustar la
+desviación estándar del momento inicial. Si la desviación estandar del momento
+es grande también lo será la desviación estándar de las propuestas. Nuevamente,
+lo más eficiente será una desviación estándar ni muy grande ni muy chica. En
+Stan la desviación estándar del momento se establece de manera adaptativa para
+que coincida con la desviación estándar de la posterior.</p>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imagenes/hmc_proposals_3.png&quot;</span>)</code></pre>
+<p><img src="imagenes/hmc_proposals_3.png" width="500px" /></p>
+<p>Por último, para calcular la trayectoria propuesta debemos ser capaces de
+calcular el gradiente de la densidad posterior en cualquier valor de los
+parámetros. Para realizar esto de manera eficiente en espacios de dimensión alta
+se debe derivar analíticamente, en el caso de modelos complejos las fórmulas se
+derivan usando algoritmos avanzados.</p>
+<p>El paper <a href="https://arxiv.org/pdf/1701.02434.pdf">A Conceptual Introduction to Hamiltonian Monte Carlo</a> de Michael Betancourt explica
+conceptos e intuición detrás de HMC, y el porqué es apropiado en problemas de
+alta dimensión.</p>
 </div>
-<div id="paneles" class="section level4 unnumbered">
-<h4>Paneles</h4>
-<p>Veamos ahora como hacer páneles de gráficas, la idea es hacer varios múltiplos
-de una gráfica donde cada múltiplo representa un subconjunto de los datos, es
-una práctica muy útil para explorar relaciones condicionales.</p>
-<p>En ggplot podemos usar <em>facet_wrap()</em> para hacer paneles dividiendo los datos
-de acuerdo a las categorías de una sola variable</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>cyl)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
-<p>También podemos hacer una cuadrícula de <span class="math inline">\(2\)</span> dimensiones usando
-<em>facet_grid(filas~columnas)</em></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(.<span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mpg, <span class="kw">aes</span>(<span class="dt">x =</span> displ, <span class="dt">y =</span> hwy)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(drv <span class="op">~</span><span class="st"> </span>class)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Los páneles pueden ser muy útiles para entender relaciones en nuestros datos. En
-la siguiente gráfica es difícil entender si existe una relación entre radiación
-solar y ozono.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(airquality)
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() </code></pre>
-<pre><code>## Warning: Removed 42 rows containing missing values (geom_point).</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-17-1.png" width="384" /></p>
-<p>Veamos que ocurre si realizamos páneles separando por velocidad del viento.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Hmisc)
-airquality<span class="op">$</span>Wind.cat &lt;-<span class="st"> </span><span class="kw">cut2</span>(airquality<span class="op">$</span>Wind, <span class="dt">g =</span> <span class="dv">3</span>) 
-<span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>Podemos agregar un suavizador (loess) para ver mejor la relación de las
-variables en cada panel.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(airquality, <span class="kw">aes</span>(<span class="dt">x =</span> Solar.R, <span class="dt">y =</span> Ozone)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Wind.cat) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Escribe algunas preguntas que puedan contestar con
-estos datos.</p>
-<p>En ocasiones es necesario realizar transformaciones u obtener subconjuntos de
-los datos para poder responder preguntas de nuestro interés.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(babynames)
-<span class="kw">glimpse</span>(babynames)</code></pre>
-<pre><code>## Observations: 1,858,689
-## Variables: 5
-## $ year &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 188...
-## $ sex  &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F...
-## $ name &lt;chr&gt; &quot;Mary&quot;, &quot;Anna&quot;, &quot;Emma&quot;, &quot;Elizabeth&quot;, &quot;Minnie&quot;, &quot;Margaret&quot;...
-## $ n    &lt;int&gt; 7065, 2604, 2003, 1939, 1746, 1578, 1472, 1414, 1320, 128...
-## $ prop &lt;dbl&gt; 0.072384329, 0.026679234, 0.020521700, 0.019865989, 0.017...</code></pre>
-<p>Supongamos que queremos ver la tendencia del nombre “John”, para ello debemos
-generar un subconjunto de la base de datos. ¿Qué ocurre en la siguiente gráfica?</p>
-<pre class="sourceCode r"><code class="sourceCode r">babynames_John &lt;-<span class="st"> </span><span class="kw">filter</span>(babynames, name <span class="op">==</span><span class="st"> &quot;John&quot;</span>)
-<span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(babynames_John, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> prop, <span class="dt">color =</span> sex)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
-<p><img src="01-repaso-visualizacion_files/figure-html/unnamed-chunk-22-1.png" width="480" /></p>
-<p>La preparación de los datos es un aspecto muy importante del análisis y suele
-ser la fase que lleva más tiempo. Es por ello que el siguiente tema se enfocará
-en herramientas para hacer transformaciones de manera eficiente.</p>
-<p><img src="imagenes/manicule.jpg" /> Tarea. Explora la base de datos gapminder, estos
-datos están incluidos en el paquete del mismo nombre, para acceder a ellos basta
-con cargar el paquete:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;gapminder&quot;)</span>
-<span class="kw">library</span>(gapminder)
-gapminder</code></pre>
-<pre><code>## # A tibble: 1,704 x 6
-##    country     continent  year lifeExp      pop gdpPercap
-##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
-##  1 Afghanistan Asia       1952    28.8  8425333      779.
-##  2 Afghanistan Asia       1957    30.3  9240934      821.
-##  3 Afghanistan Asia       1962    32.0 10267083      853.
-##  4 Afghanistan Asia       1967    34.0 11537966      836.
-##  5 Afghanistan Asia       1972    36.1 13079460      740.
-##  6 Afghanistan Asia       1977    38.4 14880372      786.
-##  7 Afghanistan Asia       1982    39.9 12881816      978.
-##  8 Afghanistan Asia       1987    40.8 13867957      852.
-##  9 Afghanistan Asia       1992    41.7 16317921      649.
-## 10 Afghanistan Asia       1997    41.8 22227415      635.
-## # ... with 1,694 more rows</code></pre>
-<p>            realiza al
-menos <span class="math inline">\(3\)</span> gráficas y explica las relaciones que encuentres. Debes usar lo que
-revisamos en estas notas: al menos una de las gráficas debe ser de páneles,
-realiza una gráfica con datos de México, y (opcional)si lo consideras
-interesante, puedes crear una variable categórica utilizando la función <code>cut2</code>
-del paquete Hmisc.</p>
+<div id="ejemplo" class="section level3">
+<h3><span class="header-section-number">10.8.2</span> Ejemplo</h3>
+<p>Para instalar Stan sigue las instrucciones de aquí.</p>
+<p>Nosotros usaremos el paquete <code>rstan</code> y comenzamos con el ejemplo sencillo de
+estimar el sesgo de una moneda.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rstan)
+<span class="co">#&gt; Error in library(rstan): there is no package called &#39;rstan&#39;</span>
+
+<span class="co"># opcional para correr en paralelo</span>
+<span class="kw">rstan_options</span>(<span class="dt">auto_write =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; Error in rstan_options(auto_write = TRUE): could not find function &quot;rstan_options&quot;</span>
+<span class="kw">options</span>(<span class="dt">mc.cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>())</code></pre>
+<p>Al igual que en JAGS comenzamos especificando el modelo en el lenguaje de Stan.
+Lo podemos guardar en un archivo de texto o simplemente asignarlo a una variable
+en R.</p>
+<pre class="sourceCode r"><code class="sourceCode r">modelo.stan &lt;-<span class="st"> &#39;</span>
+<span class="st">data {</span>
+<span class="st">    int&lt;lower=0&gt; N;</span>
+<span class="st">    int y[N]; </span>
+<span class="st">}</span>
+<span class="st">parameters {</span>
+<span class="st">    real&lt;lower=0,upper=1&gt; theta;</span>
+<span class="st">} </span>
+<span class="st">model {</span>
+<span class="st">    theta ~ beta(1,1) ;</span>
+<span class="st">    y ~ bernoulli(theta) ;</span>
+<span class="st">}</span>
+
+<span class="st">&#39;</span>
+
+<span class="kw">cat</span>(<span class="dt">file =</span> <span class="st">&quot;modelo.stan&quot;</span>, modelo.stan)</code></pre>
+<p>A diferencia de JAGS, Stan permite operaciones vectorizadas, por lo que podemos
+poner:</p>
+<pre><code>y ~ bernoulli(theta) ;</code></pre>
+<p>sin necesidad de hacer el ciclo <code>for</code>:</p>
+<pre><code>for ( i in 1:N ) {
+    y[i] ~ dbern(theta)
+}</code></pre>
+<p>Ya que especificamos el modelo lo siguiente es traducir el modelo a código de
+C++ y compilarlo.</p>
+<pre class="sourceCode r"><code class="sourceCode r">stan_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="st">&quot;modelo.stan&quot;</span>)
+<span class="co">#&gt; Error in stan_model(&quot;modelo.stan&quot;): could not find function &quot;stan_model&quot;</span>
+stan_cpp &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="dt">model_code =</span> modelo.stan)
+<span class="co">#&gt; Error in stan_model(model_code = modelo.stan): could not find function &quot;stan_model&quot;</span></code></pre>
+<p>En el paso de compilación Stan está calculando los gradientes para las dinámicas
+Hamiltonianas.</p>
+<p>Cramos los datos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">N =<span class="st"> </span><span class="dv">50</span> ; z =<span class="st"> </span><span class="dv">10</span> ; y =<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, z), <span class="kw">rep</span>(<span class="dv">0</span>, N <span class="op">-</span><span class="st"> </span>z))
+
+data_list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">N =</span> N )
+stan_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span class="dt">object=</span> stan_cpp, <span class="dt">data =</span> data_list,
+                    <span class="dt">chains =</span> <span class="dv">3</span> , <span class="dt">iter =</span> <span class="dv">1000</span> , <span class="dt">warmup =</span> <span class="dv">200</span>, <span class="dt">thin =</span> <span class="dv">1</span> )
+<span class="co">#&gt; Error in sampling(object = stan_cpp, data = data_list, chains = 3, iter = 1000, : could not find function &quot;sampling&quot;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(stan_fit)
+<span class="co">#&gt; Error in summary(stan_fit): object &#39;stan_fit&#39; not found</span></code></pre>
+<p>Otro camino es compilar y correr las cadenas de manera simultanea con la función
+<code>stan()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">stan_fit_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">stan</span>(<span class="dt">file =</span> <span class="st">&#39;modelo.stan&#39;</span>, <span class="dt">data =</span> data_list, 
+    <span class="dt">iter =</span> <span class="dv">1000</span>, <span class="dt">chains =</span> <span class="dv">4</span>)
+<span class="co">#&gt; Error in stan(file = &quot;modelo.stan&quot;, data = data_list, iter = 1000, chains = 4): could not find function &quot;stan&quot;</span></code></pre>
 </div>
-<div id="recursos-1" class="section level3 unnumbered">
-<h3>Recursos</h3>
+<div id="iniciales" class="section level3">
+<h3><span class="header-section-number">10.8.3</span> Iniciales</h3>
+<p>Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan,
+puedes leer más en <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>:</p>
 <ul>
-<li>El libro <em>R for Data Science</em> <span class="citation">(Wickham and Grolemund <a href="#ref-r4ds">2017</a>)</span> tiene un capítulo de visualización.</li>
-<li>Google, <a href="https://stackoverflow.com/questions/tagged/ggplot2">stackoverflow</a>
-tiene un <em>tag</em> para ggplot2.<br />
-</li>
-<li>Documentación con ejemplos en la página de
-<a href="http://ggplot2.tidyverse.org/">ggplot2</a>.</li>
-<li>Otro recurso muy útil es el
-<a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">acordeón de ggplot</a>.<br />
-</li>
-<li>La teoría detrás de ggplot2 se explica en el libro de ggplot2 <span class="citation">(Wickham <a href="#ref-wickham2009">2009</a>)</span>,</li>
+<li><p>En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs puede
+ser conveniente usar conjugadas, aquí no).</p></li>
+<li><p>Las iniciales debilmente informativas deben contener suficiente información para regularizar: las iniciales deben dejar fuera valores de los parámetros que no sean razonables, pero no dejar fuera valores que podrían tener sentido.</p></li>
+<li><p>Cuando se usen distribuciones iniciales informativas se debe ser explícito en porque se tomaron las decisiones.</p></li>
+</ul>
+</div>
+<div id="recursos-adicionales-1" class="section level3">
+<h3><span class="header-section-number">10.8.4</span> Recursos adicionales</h3>
+<ul>
+<li><p>El paquete <a href="https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html">rstanarm</a> facilita el uso de Stan desde R, cuenta con funciones para
+llevar a cabo estimación Bayesiana sin necesidad de escribir código en el
+<em>lenguaje de Stan</em>, de acuerdo a los autores buscan que la estimación bayesiana
+sea rutina para los modelos de regresión más comunes.</p></li>
+<li><p>El paquete <a href="bayesplot" class="uri">bayesplot</a> cuenta con funciones para graficar estimaciones
+de los parámetros, realizar diagnósticos visuales de las cadenas (convergencia),
+y analizar el ajuste del modelo (graficando de la predictiva posterior).</p></li>
+<li><p>El paquete <a href="http://mc-stan.org/users/interfaces/shinystan">shinystan</a> contiene
+resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
+convergencia.</p></li>
+</ul>
+</div>
+<div id="referencias" class="section level3">
+<h3><span class="header-section-number">10.8.5</span> Referencias</h3>
+<ul>
+<li><p><a href="https://sites.google.com/site/doingbayesiandataanalysis/">Doing Bayesian Data Analysis</a>, John K. Kruschke.</p></li>
+<li><p><a href="https://arxiv.org/pdf/1701.02434.pdf">A Conceptual Introduction to Hamiltonian Monte Carlo</a>, Michael Betancourt.</p></li>
+<li><p><a href="http://www.stat.columbia.edu/~gelman/arm/">Data Analysis Using Regression and Multilevel/Hierarchical models</a>, Andrew Gelman,
+Jennifer Hill.</p></li>
+<li><p><a href="https://www.amazon.com/Understanding-Computational-Bayesian-Statistics-William/dp/0470046090">Understanding Computational Bayesian Statistics</a>, William M. Bolstad.</p></li>
 </ul>
 
 </div>
@@ -593,14 +576,8 @@ tiene un <em>tag</em> para ggplot2.<br />
 <!-- </div> -->
 <h3>Referencias</h3>
 <div id="refs" class="references">
-<div id="ref-wilkinson2005">
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
-</div>
-<div id="ref-r4ds">
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div id="ref-wickham2009">
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
+<div id="ref-kruschke">
+<p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
 </div>
 </div>
             </section>
@@ -608,8 +585,8 @@ tiene un <em>tag</em> para ggplot2.<br />
           </div>
         </div>
       </div>
-<a href="r-primeros-pasos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="manipulacion-y-agrupacion-de-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="jags.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -639,7 +616,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/01-repaso-visualizacion.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/09-analisis_bayesiano.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],
