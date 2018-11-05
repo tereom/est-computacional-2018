@@ -679,6 +679,7 @@ $p(M_1)=p(M_2)=0.5$).
 
 
 #### 2. Otra familia conjugada {-}
+
 Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del 
 ITAM y suponemos que el IQ de un estudiante tiene una distribución normal 
 $x \sim N(\theta, \sigma^2)$ con $\sigma ^ 2$ conocida.
