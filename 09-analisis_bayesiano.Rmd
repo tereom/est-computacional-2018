@@ -53,7 +53,7 @@ posbilidades. _How often have I said to you that when you have eliminated the im
 
 * Las posibilidades son valores de los parámetros en modelos descriptivos.
 
-## Probabilidad subjetiva {-}
+## Probabilidad subjetiva
 
 ¿Qué tanta certeza tienes de que una moneda acuñada por la casa de moneda 
 mexicana es justa? Si, en cambio, consideramos una moneda antigua y asimétrica, 
@@ -129,7 +129,7 @@ la varianza de $\theta$, que mide que tan dispersa esta la distribución, se
 puede pensar como la incertidumbre entre los posibles valores.
 
 
-## Regla de Bayes {-}
+## Regla de Bayes e inferencia bayesiana
 
 Thomas Bayes (1702-1761) fue un matemático y ministro de la iglesia 
 presbiteriana, en 1764 se publicó su famoso teorema. 
@@ -222,6 +222,7 @@ $$p(\theta|x) \propto p(x|\theta)p(\theta).$$
 </div>
 
 #### Ejemplo: Ingesta calórica en estudiantes {-}
+
 Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
 universitarios en México, y escuchamos que de acuerdo a investigaciones se
 recomienda que un adulto promedio ingiera 2500 kcal. Es así que buscamos conocer
@@ -592,9 +593,10 @@ la distribución posterior, estos se conocen como cadenas de Markov via Monte
 Carlo (MCMC por sus siglas en inglés). El desarrollo de los métodos MCMC es lo
 que ha propiciado el desarrollo de la estadística bayesiana en años recientes.
 
-### Ejemplo: Bernoulli {-}
 
-#### Distribuciones conjugadas {-}
+## Distribuciones conjugadas
+
+### Ejemplo: Bernoulli {-}
 
 Comenzaremos con el modelo Beta-Binomial. Recordemos que si X en un experimento 
 con dos posibles resultados, X se distribuye Bernoulli y la función de 
@@ -797,7 +799,7 @@ multiplicación debes identificar el núcleo de una distribución Normal,
 
 
 
-#### Aproximación por cuadrícula {-}
+## Aproximación por cuadrícula
 
 Supongamos que la distribución beta no describe nuestras creencias de manera
 adecuada. Por ejemplo, mis creencias podrían estar mejor representadas por una
@@ -869,7 +871,7 @@ head(dists_h)
 sum(dists_h$posterior * dists_h$theta)
 ```
 
-En cuanto a los intervalos de probabilidad, debido a que estamos usando masas 
+Ahora para intervalos de probabilidad, debido a que estamos usando masas 
 discretas, la suma de las masas en un intervalo usualmente no será igual 
 a 95% y por tanto elegimos los puntos tales que la masa sea mayor a igual 
 a 95% y la masa total sea lo menor posible, en nuestro ejemplo podemos usar
@@ -918,14 +920,17 @@ factorBayes <- function(M, s){
 factorBayes(50, 25)
 ```
 
-#### Metrópolis {-}
+## MCMC
+
 Hay ocasiones en las que los métodos de inicial conjugada y aproximación por
 cuadrícula no funcionan, hay casos en los que la distribución beta no describe
 nuestras creencias iniciales. Por su parte, la aproximación por cuadrícula no es
 factible cuando tenemos varios parámetros. Es por ello que surge la necesidad de
 utilizar métodos de Monte Carlo vía Cadenas de Markov (MCMC).
 
-En Metropolis se asume que podemos calcular $p(\theta)$ para un valor
+### Metrópolis {-}
+
+Para usar Metrópolis debemos poder calcular $p(\theta)$ para un valor
 particular de $\theta$ y el valor de la verosimilitud $p(x|\theta)$ para 
 cualquier $x$, $\theta$ dados. En realidad, el método únicamente requiere que
 se pueda calcular el producto de la inicial y la verosimilitud, y sólo 
@@ -935,22 +940,29 @@ muestra de valores $\theta$ obtenido de dicha distribución.
 
 **Caminata aleatoria**. Con el fin de entender el algoritmo comenzaremos 
 estudiando el concepto de caminata aleatoria. Supongamos que un vendedor de 
-enciclopedias trabaja a lo largo de una cadena de islas. Constantemente viaja
-entre las islas ofreciendo sus productos. Al final de un día de trabajo decide 
-si permanece en la misma isla o se transporta a una de las 2 islas vecinas. El 
-vendedor ignora la distribución de la población en las islas; sin embargo, una 
-vez que se encuentra en una isla puede investigar la población de la misma y 
-también  de la isla a la que se propone viajar después. El
-objetivo del vendedor es visitar las islas de manera proporcional a la 
+yakult trabaja a lo largo de una cadena de islas:
+
+* constantemente viaja entre las islas ofreciendo sus productos,
+
+* al final de un día de trabajo decide si permanece en la misma isla o se 
+transporta a una de las 2 islas vecinas.
+
+* El vendedor ignora la distribución de la población en las islas; sin embargo, 
+una vez que se encuentra en una isla puede investigar la población de la misma y 
+también  de la isla a la que se propone viajar después. 
+
+* El objetivo del vendedor es visitar las islas de manera proporcional a la 
 población de cada una. Con esto en mente el vendedor utiliza el siguiente 
-proceso: 1) Lanza un volado, si el resultado es águila se propone ir a la isla 
+proceso: 
+    1) Lanza un volado, si el resultado es águila se propone ir a la isla 
 del lado izquierdo de su ubicación actual y si es sol a la del lado derecho.
-2) Si la isla propuesta en el paso anterior tiene población mayor a la población
-de la isla actual, el vendedor decide viajar a ella. Si la isla vecina tiene
-población menor, entonces visita la isla propuesta con una probabilidad que 
+    2) Si la isla propuesta en el paso anterior tiene población mayor a la 
+población de la isla actual, el vendedor decide viajar a ella. Si la isla vecina 
+tiene población menor, entonces visita la isla propuesta con una probabilidad que 
 depende de la población de las islas. Sea $P_{prop}$ la población de la isla 
 propuesta y $P_{actual}$ la población de la isla actual. Entonces el vendedor
-cambia de isla con probabilidad $p_{mover}=P_{prop}/P_{actual}$.
+cambia de isla con probabilidad 
+$$p_{mover}=P_{prop}/P_{actual}$$
 
 A la larga, si el vendedor sigue la heurística anterior la probabilidad de que
 el vendedor este en alguna de las islas coincide con la población relativa de
@@ -982,7 +994,7 @@ for(j in 2:pasos){
   camino[j] <- caminaIsla(camino[j - 1])
 }
 
-caminata <- data.frame(pasos = 1:pasos, isla = camino)
+caminata <- data_frame(pasos = 1:pasos, isla = camino)
 
 plot_caminata <- ggplot(caminata[1: 1000, ], aes(x = pasos, y = isla)) +
   geom_point(size = 0.8) +
@@ -1000,15 +1012,20 @@ plot_dist <- ggplot(caminata, aes(x = isla)) +
 
 grid.arrange(plot_caminata, plot_dist, ncol = 1, heights = c(4, 2))
 ```
+Entonces:
 
-Para aproximar la distribución objetivo debemos permitir que el vendedor recorra 
-las islas durante una sucesión larga de pasos y 
-registramos sus visitas. Nuestra aproximación de la distribución es justamente 
-el registro de sus visitas. Más aún, debemos tener cuidado y excluir la 
-porción de las visitas que se encuentran bajo la influencia de la posición 
-inicial. Esto es, debemos excluir el periodo de calentamiento. Una vez que
-tenemos un registro _largo_ de los viajes del vendedor (excluyendo el 
-calentamiento) podemos aproximar la distribución objetivo de cada valor de 
+* Para aproximar la distribución objetivo debemos permitir que el vendedor 
+recorra las islas durante una sucesión larga de pasos y registramos sus visitas. 
+
+* Nuestra aproximación de la distribución es justamente el registro de sus 
+visitas. 
+
+* Más aún, debemos tener cuidado y excluir la porción de las visitas que se 
+encuentran bajo la influencia de la posición inicial. Esto es, debemos excluir 
+el **periodo de calentamiento**. 
+
+* Una vez que tenemos un registro _largo_ de los viajes del vendedor (excluyendo 
+el calentamiento) podemos aproximar la distribución objetivo de cada valor de 
 $\theta$ simplemente contando el número relativo de veces que el vendedor visitó
 dicha isla.
 
@@ -1023,7 +1040,7 @@ plots_list <- lapply(t, function(i){
 })
 
 args.list <- c(plots_list,list(nrow=4,ncol=4))
-do.call(grid.arrange, args.list)
+invoke(grid.arrange, args.list)
 ```
 
 
@@ -1031,9 +1048,8 @@ Escribamos el algoritmo, para esto indexamos las islas por el valor
 $\theta$, es así que la isla del extremo oeste corresponde a $\theta=1$ y la 
 población relativa de cada isla es $P(\theta)$:
 
-1. El vendedor de ubica en $\theta_{actual}$ y propone moverse a la izquierda
-o derecha con probabilidad 0.5. 
-
+1. El vendedor se ubica en $\theta_{actual}$ y propone moverse a la izquierda
+o derecha con probabilidad 0.5.  
 El rango de los posibles valores para moverse, y la probabilidad de proponer 
 cada uno se conoce como **distribución propuesta**, en nuestro ejemplo sólo 
 toma dos valores cada uno con probabilidad 0.5. 
@@ -1041,9 +1057,7 @@ toma dos valores cada uno con probabilidad 0.5.
 2. Una vez que se propone un movimiento, decidimos si aceptarlo. La decisión de
 aceptar se basa en el valor de la distribución **objetivo** en la posición
 propuesta, relativo al valor de la distribución objetivo en la posición actual:
-
 $$p_{mover}=min\bigg( \frac{P(\theta_{propuesta})}{P(\theta_{actual})},1\bigg)$$
-
 Notemos que la distribución objetivo $P(\theta)$ no necesita estar normalizada, 
 esto es porque lo que nos interesa es el cociente $P(\theta_{propuesta})/P(\theta_{actual})$.
 
@@ -1131,7 +1145,7 @@ ggplot(expT, aes(x = as.numeric(theta), y = P)) +
 
 ```
 
-#### Caso general {-}
+## Metrópolis: caso general {-}
 
 En la sección anterior implementamos el algoritmo de Metrópolis en un caso
 sencillo: las posiciones eran discretas, en una dimensión y la propuesta era
@@ -1171,8 +1185,8 @@ de Metrópolis cuando la distribución objetivo es la distribución posterior.
 #### Ejemplo: Bernoulli
 
 Retomemos el ejemplo del experimento Bernoulli, iniciamos con una función de 
-distribución que describa nuestro conocimiento inicial y tal que 
-podamos calcular $p(\theta)$ con facilidad. En este caso elegimos una densidad 
+distribución que describa nuestro conocimiento inicial y tal que podamos 
+calcular $p(\theta)$ con facilidad. En este caso elegimos una densidad 
 beta y podemos usar función dbeta de R:
 
 ```{r, eval}
@@ -1312,6 +1326,7 @@ sd(sims_y)
 
 
 ### Inferencia de dos proporciones binomiales {-}
+
 Consideramos la situación en la que nos interesa estudiar dos proporciones 
 $\theta_1$ y $\theta_2$ correspondientes a dos grupos. Queremos determinar
 que debemos creer de estas proporciones tras observar datos provenientes de 
@@ -1356,7 +1371,8 @@ Usamos la regla de Bayes para calcular la distribución posterior:
 $$p(\theta_1,\theta_2|x)=p(x|\theta_1,\theta_2)p(\theta_1, \theta_2) / p(x)$$
 $$= \frac{p(x|\theta_1,\theta_2)p(\theta_1, \theta_2)} { \int\int p(x|\theta_1,\theta_2)p(\theta_1, \theta_2)d\theta_1d\theta_2}$$
 
-##### Distribuciones conjugadas
+#### Distribuciones conjugadas {-}
+
 Siguiendo el caso de la familia Beta-Bernoulli que estudiamos en el caso de 
 una proporción y suponiendo independencia en las creencias, 
 $p(\theta_1, \theta_2) = p(\theta_1)p(\theta_2)$. Escribimos la densidad inicial 
@@ -1381,7 +1397,7 @@ Veamos las gráficas.
 ```{r, fig.width=9.5, fig.height=4.5}
 grid <- expand.grid(x = seq(0.01, 1, 0.01), y = seq(0.01, 1, 0.01))
 grid_inicial <- grid %>% 
-  mutate(z = dbeta(x, 3, 3) * dbeta(y, 3, 3))
+  mutate(z = round(dbeta(x, 3, 3) * dbeta(y, 3, 3), 1))
 
 binom_2_inicial <- ggplot(grid_inicial, aes(x = x, y = y, z = z)) + 
   # geom_tile(aes(fill = z)) +
@@ -1397,7 +1413,7 @@ binom_2_inicial <- ggplot(grid_inicial, aes(x = x, y = y, z = z)) +
 
 # z_1=5, N_1=7, z_2=2, N_2=7, a_1=a_2=b_1=b_2=3
 grid_v <- grid %>% 
-  mutate(z = dbeta(x, 6, 3) * dbeta(y, 3, 6))
+  mutate(z = round(dbeta(x, 6, 3) * dbeta(y, 3, 6), 1))
 
 binom_2_verosimilitud <- ggplot(grid_v, aes(x = x, y = y, z = z)) + 
     geom_raster(aes(fill = z), show.legend = FALSE) +
@@ -1412,7 +1428,7 @@ binom_2_verosimilitud <- ggplot(grid_v, aes(x = x, y = y, z = z)) +
 
 # z_1=5, N_1=7, z_2=2, N_2=7
 grid_post <- grid %>% 
-  mutate(z = dbeta(x, 8, 5) * dbeta(y, 5, 8))
+  mutate(z = round(dbeta(x, 8, 5) * dbeta(y, 5, 8), 1))
   
 binom_2_posterior <- ggplot(grid_post, aes(x = x, y = y, z = z)) + 
     geom_raster(aes(fill = z)) +
@@ -1443,7 +1459,7 @@ pl_verosimilitud
 pl_post
 ```
 
-#### Metrópolis
+#### Metrópolis {-}
 Al igual que en el caso univariado escribimos la verosimilitud y la distribución
 inicial:
 
@@ -1466,7 +1482,7 @@ postRelProb2 <- function(theta){
 }
 ```
 
-Implementemos el algoritmo con una iniciales Beta(3,3) y observaciones
+Implementemos el algoritmo con una inicial Beta(3,3) y observaciones
 $z_1=5$, $N = 7$, $z_1=2$ y $N = 7$, es decir lanzamos 14 volados 7 de cada 
 moneda.
 
@@ -1483,7 +1499,7 @@ mi_like <- likeBern2(z_1 = z_1, N_1 = N_1, z_2 = z_2, N_2 = N_2) # verosimilitud
 
 Para proponer saltos usaremos una distribución normal bivariada. El movimiento
 se acepta de manera definitiva si la posterior es más densa que la posición 
-actual y se acepta de manera probabilista si la posición actual es más
+actual y se acepta de manera probabilística si la posición actual es más
 densa.
 
 ```{r}
@@ -1546,9 +1562,9 @@ de problemas. Sin embargo, afinar los parámetros de la distribución propuesta
 para que el algoritmo funcione correctamente puede ser complicado. Por otra
 parte, el muestredor de Gibbs no necesita de una distribución propuesta.
 
-Para implementar un muestreador de Gibbs se necesita ser capaz de generar
+**Para implementar un muestreador de Gibbs se necesita ser capaz de generar
 muestras de la distribución posterior condicional a cada uno de los 
-parámetros individuales. Esto es, el muestreador de Gibbs permite generar 
+parámetros individuales.** Esto es, el muestreador de Gibbs permite generar 
 muestras de la posterior:
 $$p(\theta_1,...,\theta_p|x)$$
 siempre y cuando podamos generar valores de todas las distribuciones 
@@ -1562,16 +1578,18 @@ el muestredor de Gibbs es un proceso cadena de Markov vía Monte Carlo. La
 diferencia entre Gibbs y Metrópolis radica en como se deciden los pasos. 
 
 En el caso de Gibbs, en cada punto de la caminata se selecciona uno de los
-componentes del vector de parámetros (típicamente se cicla en orden). Supongamos 
-que se selecciona el parámetro $\theta_k$, entonces obtenemos un nuevo valor
-para este parámetro generando una simulación de la distribución condicional
+componentes del vector de parámetros (típicamente se cicla en orden):
+
+1. Supongamos que se selecciona el parámetro $\theta_k$, entonces obtenemos un 
+nuevo valor para este parámetro generando una simulación de la distribución 
+condicional
 $$p(\theta_k,|\theta_1,...,\theta_{k-1},\theta_{k+1},...,\theta_p,x)$$
 
-El nuevo valor $\theta_k$ junto con los valores que aun no cambian 
+2. El nuevo valor $\theta_k$ junto con los valores que aun no cambian 
 $\theta_1,...,\theta_{k-1},\theta_{k+1},...,\theta_p$ constituyen la nueva 
 posición en la caminata aleatoria. 
 
-Seleccionamos una nueva componente y repetimos el proceso.
+3. Seleccionamos una nueva componente ($\theta_{k+1}$) y repetimos el proceso.
 
 El muestreador de Gibbs es útil cuando no podemos determinar de manera analítica
 la distribución conjunta y no se puede simular directamente de ella, pero si 
@@ -1679,14 +1697,14 @@ ggplot(caminata, aes(x = dif)) +
   geom_vline(xintercept = 0, alpha = 0.8, color = "red")
 ```
 
-
 La principal ventaja del muestreador de Gibbs sobre el algoritmo de Metrópolis
 es que no hay necesidad de seleccionar una distribución propuesta y no hay que
 lidiar con lo ineficiente de rechazar valores. A cambio, debemos ser capaces
 de derivar las probabilidades condicionales de cada parámetro y de generar 
 muestras de estas. 
 
-#### Ejemplo: Normal
+#### Ejemplo: Normal {-}
+
 Retomemos el caso de observaciones normales, supongamos que tengo una muestra 
 $x_1,...,x_N$ de observacionesindependientes e identicamente distribuidas, 
 con $x_i \sim N(\mu, \sigma^2)$, veremos el caso de media desconocida, varianza
@@ -1724,7 +1742,7 @@ Debido a la relación entre las distribuciones Gamma y Gamma Inversa, podemos
 utilizar la función rgamma de R para generar valores con distribución gamma 
 inversa.
 
-```{r, fig.align='center',fig.width=4,fig.height=4, warning=FALSE}
+```{r, fig.align='center',fig.width=4,fig.height=4, warning=FALSE, message=FALSE}
 # 1. simulamos valores porvenientes de una distribución gamma
 x_gamma <- rgamma(2000, shape = 5, rate = 1)
 # 2. invertimos los valores simulados
@@ -1756,7 +1774,9 @@ obtenemos que $\sigma^2|x \sim GI(N/2+\alpha, \beta + 1/2 \sum(x_i - \mu)^2)$.
 Por tanto tenemos que la inicial Gamma con verosimilitud Normal es una familia
 conjugada.
 
-**Normal con media y varianza desconocidas**. Sea $\theta=(\mu, \sigma^2)$  especificamos la siguiente inicial para $\theta$:
+#### Ejemplo: Normal con media y varianza desconocidas 
+
+Sea $\theta=(\mu, \sigma^2)$  especificamos la siguiente inicial para $\theta$:
 $$p(\theta) = N(\mu|m, \tau^2)\cdot IG(\sigma^2|\alpha, \beta)$$
 suponemos hiperparámetros $m,\tau^2, \alpha, \beta$ conocidos. Entonces, la
 distribución posterior es:
@@ -1873,7 +1893,7 @@ $$p(y) =\int p(y|\theta)p(\theta|x)d\theta$$
 
 Por tanto podemos aproximar la distribución predictiva posterior como:
 
-```{r, fig.height=3.5, fig.width=3.5}
+```{r, fig.height=3.5, fig.width=4}
 caminata_f <- filter(caminata, pasos > 5000)
 
 caminata_f$y_sims <- rnorm(1:nrow(caminata_f), caminata_f$mu, caminata_f$sigma2)
@@ -1891,7 +1911,7 @@ términos de precisión (el inverso de la varianza). Si parametrizamos de esta
 manera $\nu = 1/\sigma^2$ podemos repetir el proceso anterior con la
 diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.
 
-### JAGS
+## JAGS
 
 * Instalar [JAGS](http://mcmc-jags.sourceforge.net).
 
@@ -1904,7 +1924,7 @@ desde R. Es muy fácil utilizar estos programas pues uno simplemente debe
 especificar las distribuciones iniciales, la verosimilitud y los datos 
 observados. 
 
-#### Especificación del modelo
+#### Especificación del modelo {-}
 
 Repitamos el caso del sesgo de la modela usando JAGS. Vale la pena realizar un 
 diagrama.
@@ -1957,7 +1977,7 @@ modelo_bb.bugs <-
 el ciclo for indica que cada dato observado $x_i$ proviene de una distribución Bernoulli con parámetro $\theta$. Afuera del ciclo
 escribimos las distribución inicial, $\theta \sim Beta(1, 1)$.
 
-#### Inicializar cadenas
+#### Inicializar cadenas {-}
 
 El modelo ya esta especificado, aun debemos indicar los valores de las
 variables en el modelo, para esto definimos los valores en R y después los mandamos a JAGS.
@@ -1984,7 +2004,7 @@ init_theta <- function(){
 }
 ```
 
-#### Generar las cadenas
+#### Generar las cadenas {-}
 
 Ahora llamamos a JAGS y generamos las cadenas. Para esto usaremos el paquete 
 `R2jags`, otro paquete para llamar JAGS desde R es `rjags`.
@@ -2052,7 +2072,7 @@ jags_bb_samples <-  coda.samples(jags_bb_model,
 plot(jags_bb_samples)
 ```
 
-### Ejemplo normal
+### Ejemplo normal {-}
 Recordemos el ejemplo normal con media y varianza desconocidas. ¿Cuál es el modelo
 gráfico asociado?
 
@@ -2139,7 +2159,7 @@ mean(y)
 sd(y)
 ```
 
-### Diagnósticos
+### Diagnósticos {-}
 Cuando generamos una muestra de la distribución posterior usando MCMC, buscamos que:
 
 1. Los valores simulados sean representativos de la distribución posterior, esto 
@@ -2156,7 +2176,7 @@ principio los métodos MCMC garantizan que cadena infinitamente largas lograran
 una representación perfecta, siempre debemos tener un criterio para cortar la 
 cadena y evaluar la calidad de las simulaciones.
 
-#### Representatividad
+#### Representatividad {-}
 Para determinar la convergencia de la cadena es conveniente realizar más de una 
 cadenas, buscamos ver si realmente se ha olvidado el estado inicial y revisar 
 que algunas cadenas no hayan quedado *atoradas* en regiones inusuales del espacio
@@ -2262,10 +2282,273 @@ más técnicas para acelerar la convergencia en el capitulo 19 del libro
 (sobretodo para la parte exploratoria) es trabajar con un subconjunto de los 
 datos, quizá la mitad o una quinta parte.
 
+## HMC y Stan
+
+Stan es un programa para generar muestras de una distribución posterior de los 
+parámetros de un modelo, el nombre del programa hace referencia a [Stanislaw Ulam (1904-1984)](https://en.wikipedia.org/wiki/Stanislaw_Ulam) que fue pionero en 
+los métodos de Monte Carlo. A diferencia de JAGS y BUGS, los pasos de la cadena 
+de Markov se generan con un método llamado *Monte Carlo Hamiltoniano* (HMC). HMC 
+puede ser más eficiente que otros muestreadores en JAGS y BUGS, en particular 
+cuando se ajustan modelo grandes y complejos (por ejemplo, con variables con
+correlación alta).
+
+### Muestreo HMC
+
+El uso de HMC en estadística es reciente, sin embargo, gracias a Stan se ha 
+expandido rápidamente tanto en academia como industria. Desafortunadamente, la
+teoría de HMC está desarrollada en términos de geometría diferencial, lo que 
+hace que su construcción formal requiera de matemáticas avanzadas. En estas notas 
+se presentan las ideas detrás de HMC siguiendo @kruschke.
+
+Stan genera muestras de la posterior usando una variación del algoritmo de 
+Metrópolis. Recordemos como funciona el algoritmo de Metrópolis que vimos en 
+clase:
+
+1. Tenemos una distribución objetivo $p(\theta)$ de la cual buscamos generar
+muestras. Debemos ser capaces de calcular el valor de $p(\theta)$ para cualquier
+valor candidato $\theta$. La distribución objetivo $p(\theta)$ no tiene que 
+estar normalizada, típicamente $p(\theta)$ es la distribución posterior de 
+$\theta$ no normalizada, es decir, es el producto de la verosimilitud y la 
+inicial.
+
+2. La muestra de la distribución objetivo se genera mediante una caminata
+aleatoria a través del espacio de parámetros. La caminata inicia en un lugar 
+arbitrario (definido por el usuario). El punto inicial debe ser tal que 
+$p(\theta)>0$. La caminata avanza en cada tiempo proponiendo un movimiento a una
+nueva posición y después decidiendo si se acepta o no el valor propuesto. Las
+distribuciones propuesta pueden tener muchas formas, el objetivo es que la 
+distribución propuesta explore el espacio de parámetros de manera eficiente.
+
+3. Una vez que tenemos un valor propuesto decidimos si aceptar calculando:
+
+$$p_{mover}=min\bigg( \frac{P(\theta_{propuesta})}{P(\theta_{actual})},1\bigg)$$
+
+Y al final obtenemos valores representativos de la distribución objetivo 
+$\{\theta_1,...,\theta_n\}$.
+
+Notemos que en la versión de Metrópolis que estudiamos, la forma de la 
+distribución propuesta está centrada de manera simétrica en la posición actual. 
+Es decir, en un espacio paramétrico multidimensional, la distribución propuesta 
+podría ser una Normal multivariada, con la matriz de varianzas y covarianzas 
+seleccionada para mejorar la eficiencia en la aplicación particular.
+La normal multivariada siempre esta centrada en la posición actual y siempre 
+tiene la misma forma, sin importar en que sección del espacio paramétrico 
+estemos ubicados. Esto puede llevar a ineficiencias, por ejemplo, si nos 
+ubicamos en las colas de la distribución posterior el paso propuesto con la 
+misma probabilidad nos aleja o acerca de la moda de la posterior. Otro ejemplo 
+es si la distriución posterior se curva a lo largo del espacio paramétrico, una 
+distribución propuesta (de forma fija) puede ser eficiente para una parte de la 
+posterior y poco eficiente para otra parte de la misma.
+
+Por su parte HMC, usa una distribución propuesta que cambia dependiendo de la 
+posición actual. HMC utiliza el gradiente de la posterior y *envuelve* la 
+distribución propuesta hacia el gradiente, como se ve en la siguiente figura.
+
+```{r, out.width = "500px"}
+knitr::include_graphics("imagenes/hmc_proposals.png")
+```
+
+HMC genera un movimiento propuesta de manera análoga a rodar una canica en la 
+distribución posterior volteada (también conocida como potencial). El potencial 
+es el negativo del logaritmo de la densidad posterior, en las regiones donde la 
+posterior es alta el potencial es bajo, y en las la regiones donde la posterior 
+es plana el potencial es alto.
+
+La propuesta se genera dando un golpecito la canica en una dirección aleatoria y 
+dejándola rodar cierto tiempo. En el caso del ejemplo de un solo parámetro la 
+dirección del golpecito inicial es hacia la izquierda o derecha, y la magnitud 
+se genera de manera aleatoria muestreando de una distrubución Gaussiana de media 
+cero. El golpecito impone un momento inicial a la canica, y al terminar el 
+tiempo se propone al algoritmo de Metrópilis la posición final de la canica. Es 
+fácil imaginar que la posición propuesta tenderá a estar en regiones de mayor 
+probabilidad posterior.
+
+La última fila de la figura de arriba nos muestra un histograma de los pasos 
+propuestos, notemos que no está centrado en la posición actual sino que hay una 
+inclinación hacia la moda de la posterior.
+
+Para distribuciones posteriores de dimensión alta con valles diagonales o 
+curveados, la dinámica de HMC generará valores propuesta mucho más prometedores 
+que una distribución propuesta simétrica (como la versión de Metrópolis que 
+implementamos) y mejores que un muestreador de Gibbs que puede *atorarse* en 
+paredes diagonales.
+
+Es así que para pasar del algoritmo de Metrópolis que estudiamos a HMC se 
+modifica la probabilidad de aceptación para tener en cuenta no sola la denisdad 
+posterior relativa, sino también el *momento* (denotado por $\phi$) en las 
+posiciones actual y propuesta. 
+
+$$p_{aceptar}=\bigg(\frac{p(\theta_{propuesta}|x)p(\phi_{propuesta})}{p(\theta_{actual}|x)p(\phi_{actual})}, 1 \bigg)$$
+
+En un sistema continuo ideal la suma de la energía potencial y cinética (que 
+corresponden a $-log(p(\theta|x))$ y $-log(p(\phi))$) es constante y por tanto 
+aceptaríamos todas las propuestas. Sin embargo, en la práctica las dinámicas 
+continuas se dicretizan a intervalos en el tiempo y los cálculos son solo 
+aproximados conllevando a que se rechacen algunas propuestas.
+
+Si los pasos discretizados son pequeños entonces la aproximación será buena pero 
+se necesitarán más pasos para alejarse de una posición dada, y lo contrario si 
+los pasos son muy grandes. Por tanto se debe ajustar el tamaño del paso 
+(epsilon) y el número de pasos. La duración de la trayectoria es el producto del 
+tamaño del paso y el número de pasos. Es usual buscar una tasa de aceptación 
+alrededor del 65%, moviendo el tamaño de epsilon y compensando con el número de 
+pasos.
+
+Es así que el tamaño del paso controla la suavidad de la trayectoria. También es 
+importante ajustar el número de pasos (es decir la duración del movimiento) pues 
+no queremos alejarnos demasiado o rodar de regreso a la posición actual. La 
+siguiente figura muestra varias trayectorias y notamos que muchas rebotan al 
+lugar inicial. 
+
+
+```{r, out.width = "500px"}
+knitr::include_graphics("imagenes/hmc_proposals_2.png")
+```
+
+Para evitar las ineficiencias de dar vueltas en U, Stan incorpora un algoritmo 
+que generaliza la nación de vueltas en U a espacios de dimensión alta, y así 
+estima cuando parar las trayectorias antes de que reboten hacia la posición 
+inical. El algoritmo se llama *No U-turn Sampler* (NUTS).
+
+Adicional a ajustar el tamaño del paso y número de pasos debemos ajustar la 
+desviación estándar del momento inicial. Si la desviación estandar del momento 
+es grande también lo será la desviación estándar de las propuestas. Nuevamente, 
+lo más eficiente será una desviación estándar ni muy grande ni muy chica. En 
+Stan la desviación estándar del momento se establece de manera adaptativa para 
+que coincida con la desviación estándar de la posterior.
+
+
+```{r, out.width = "500px"}
+knitr::include_graphics("imagenes/hmc_proposals_3.png")
+```
+
+Por último, para calcular la trayectoria propuesta debemos ser capaces de 
+calcular el gradiente de la densidad posterior en cualquier valor de los 
+parámetros. Para realizar esto de manera eficiente en espacios de dimensión alta 
+se debe derivar analíticamente, en el caso de modelos complejos las fórmulas se 
+derivan usando algoritmos avanzados.
+
+El paper [A Conceptual Introduction to Hamiltonian Monte Carlo](https://arxiv.org/pdf/1701.02434.pdf) de Michael Betancourt explica 
+conceptos e intuición detrás de HMC, y el porqué es apropiado en problemas de
+alta dimensión. 
+
+### Ejemplo
+
+Para instalar Stan sigue las instrucciones de aquí. 
+
+Nosotros usaremos el paquete `rstan` y comenzamos con el ejemplo sencillo de 
+estimar el sesgo de una moneda.
+
+```{r, message=FALSE}
+library(rstan)
+
+# opcional para correr en paralelo
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+```
+
+Al igual que en JAGS comenzamos especificando el modelo en el lenguaje de Stan. 
+Lo podemos guardar en un archivo de texto o simplemente asignarlo a una variable 
+en R.
+
+```{r}
+modelo.stan <- '
+data {
+    int<lower=0> N;
+    int y[N]; 
+}
+parameters {
+    real<lower=0,upper=1> theta;
+} 
+model {
+    theta ~ beta(1,1) ;
+    y ~ bernoulli(theta) ;
+}
+
+'
+
+cat(file = "modelo.stan", modelo.stan)
+```
+
+A diferencia de JAGS, Stan permite operaciones vectorizadas, por lo que podemos 
+poner:
+  
+    y ~ bernoulli(theta) ;
+    
+sin necesidad de hacer el ciclo `for`:
+
+    for ( i in 1:N ) {
+        y[i] ~ dbern(theta)
+    }
+    
+Ya que especificamos el modelo lo siguiente es traducir el modelo a código de 
+C++ y compilarlo.
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+stan_cpp <- stan_model("modelo.stan")
+stan_cpp <- stan_model(model_code = modelo.stan)
+```
+
+En el paso de compilación Stan está calculando los gradientes para las dinámicas 
+Hamiltonianas.
+
+Cramos los datos.
+
+```{r}
+N = 50 ; z = 10 ; y = c(rep(1, z), rep(0, N - z))
+
+data_list <- list(y = y, N = N )
+stan_fit <- sampling(object= stan_cpp, data = data_list,
+                    chains = 3 , iter = 1000 , warmup = 200, thin = 1 )
+```
+
+
+```{r}
+summary(stan_fit)
+```
+
+Otro camino es compilar y correr las cadenas de manera simultanea con la función
+`stan()`.
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+stan_fit_2 <- stan(file = 'modelo.stan', data = data_list, 
+    iter = 1000, chains = 4)
+```
+
+### Iniciales
+
+Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan, 
+puedes leer más en https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations:
+
+* En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs puede
+ser conveniente usar conjugadas, aquí no).
+
+* Las iniciales debilmente informativas deben contener suficiente información para regularizar: las iniciales deben dejar fuera valores de los parámetros que no sean razonables, pero no dejar fuera valores que podrían tener sentido.
+
+* Cuando se usen distribuciones iniciales informativas se debe ser explícito en porque se tomaron las decisiones.
+
+
+### Recursos adicionales
+
+* El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html) facilita el uso de Stan desde R, cuenta con funciones para 
+llevar a cabo estimación Bayesiana sin necesidad de escribir código en el 
+*lenguaje de Stan*, de acuerdo a los autores buscan que la estimación bayesiana 
+sea rutina para los modelos de regresión más comunes.
+
+* El paquete [bayesplot](bayesplot) cuenta con funciones para graficar estimaciones
+de los parámetros, realizar diagnósticos visuales de las cadenas (convergencia), 
+y analizar el ajuste del modelo (graficando de la predictiva posterior).
+
+* El paquete [shinystan](http://mc-stan.org/users/interfaces/shinystan) contiene
+resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
+convergencia.
+
 
 ### Referencias
 
 * [Doing Bayesian Data Analysis](https://sites.google.com/site/doingbayesiandataanalysis/), John K. Kruschke.
+
+* [A Conceptual Introduction to Hamiltonian Monte Carlo](https://arxiv.org/pdf/1701.02434.pdf), Michael Betancourt.
 
 * [Data Analysis Using Regression and Multilevel/Hierarchical models](http://www.stat.columbia.edu/~gelman/arm/), Andrew Gelman,
 Jennifer Hill.
