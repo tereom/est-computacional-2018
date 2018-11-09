@@ -13,7 +13,9 @@ library(gridExtra)
 theme_set(theme_minimal())
 ```
 
-Para esta sección seguiremos, principalmente, @kruschke.
+Para esta sección seguiremos principalmente @kruschke, sin embargo, para el 
+desarrollo de las notas también se utilizó @gelman-hill, @gelman-bayesian y 
+@bolstad.
 
 Hasta ahora hemos estudiado métodos estadísticos frecuentistas (o clásicos), 
 el punto de vista frecuentista se basa en los siguientes puntos (@wasserman):
@@ -352,7 +354,7 @@ entonces podemos calcular el cociente de $p(M_1|x)$ y $p(M_2|x)$ obteniendo:
 $$\frac{p(M_1|x)}{p(M_2|x)} = \frac{p(x|M_1) \cdot p(M_1)}{p(x|M_2)\cdot p(M_2)}$$
 
 El cociente de evidencia $\frac{p(x|M_1)}{p(x|M_2)}$ se conoce como __factor de
-Bayes__.
+Bayes__, y $p(M_i)$ describe nuestras creencias iniciales en cada modelo.
 
 
 #### Invarianza en el orden de los datos {-}
@@ -531,6 +533,30 @@ factible que el valor se encuentre en los extremos.
 Podemos calcular el factor de Bayes para distintos datos observados:
 
 ```{r}
+# Modelo 1, 3 posibles valores
+p_M1 <- data_frame(theta = c(0.25, 0.5, 0.75), prior = c(0.25, 0.5, 0.25), 
+  modelo ="M1")
+
+# Modelo 2, Creamos una inicial que puede tomar más valores
+p <- seq(0, 24, 1)
+p2 <- c(p, 24, sort(p, decreasing = TRUE))
+p_M2 <- data_frame(theta = seq(0, 1, 0.02), prior = p2 / sum(p2), 
+  modelo = "M2")
+
+N <- 20 # estudiantes
+z <- 12 # éxitos
+
+dists_h <- bind_rows(p_M1, p_M2) %>% # base de datos horizontal
+    group_by(modelo) %>%
+    mutate(
+        Like = theta ^ z * (1 - theta) ^ (N - z), # verosimilitud 
+        posterior = (Like * prior) / sum(Like * prior)
+      ) 
+
+dists <- dists_h %>% # base de datos larga
+    gather(dist, valor, prior, Like, posterior) %>% 
+    mutate(dist = factor(dist, levels = c("prior", "Like", "posterior")))
+
 factorBayes <- function(N, z){
   evidencia <- bind_rows(p_M1, p_M2) %>% # base de datos horizontal
     group_by(modelo) %>%
@@ -1013,6 +1039,7 @@ plot_dist <- ggplot(caminata, aes(x = isla)) +
 
 grid.arrange(plot_caminata, plot_dist, ncol = 1, heights = c(4, 2))
 ```
+
 Entonces:
 
 * Para aproximar la distribución objetivo debemos permitir que el vendedor 
@@ -1152,8 +1179,11 @@ En la sección anterior implementamos el algoritmo de Metrópolis en un caso
 sencillo: las posiciones eran discretas, en una dimensión y la propuesta era
 únicamente mover a la izquierda o a la derecha. El algoritmo general aplica 
 para valores continuos, en cualquier número de dimensiones y con distribuciones
-propuesta más generales. Lo esencial del método no cambia para el caso general, 
-esto es:
+propuesta más generales. Lo esencial del método no cambia para el caso general: 
+
+<div class="caja">
+
+#### Metropolis {-}
 
 1. Tenemos una distribución objetivo $p(\theta)$ de la cual buscamos generar
 muestras. Debemos ser capaces de calcular el valor de $p(\theta)$ para cualquier
@@ -1179,6 +1209,8 @@ $\{\theta_1,...,\theta_n\}$
 
 Es importante recordar que debemos excluir las primeras observaciones pues 
 estas siguen bajo la influencia del valor inicial.
+
+</div>
 
 Retomemos el problema de inferencia Bayesiana y veamos como usar el algoritmo
 de Metrópolis cuando la distribución objetivo es la distribución posterior.
@@ -1232,8 +1264,8 @@ resultan en águila.
 
 ```{r, fig.height=4, fig.width=8}
 # Datos observados
-N = 14
-z = 11
+N <-  14
+z <- 11
 
 # Defino mi inicial y la verosimilitud
 mi_prior <- prior() # inicial uniforme
@@ -1507,7 +1539,7 @@ densa.
 # para cada paso decidimos el movimiento de acuerdo a la siguiente función
 caminaAleat2 <- function(theta){ # theta: valor actual
 	salto_prop <- MASS::mvrnorm(n = 1 , mu = rep(0, 2), 
-    Sigma = matrix(c(0.1, 0, 0, 0.1), byrow = TRUE, nrow = 2)) # salto propuesto
+    Sigma = matrix(c(0.08, 0, 0, 0.08), byrow = TRUE, nrow = 2)) # salto propuesto
   theta_prop <- theta + salto_prop # theta propuesta
   if(all(theta_prop < 0) | all(theta_prop > 1)){ # salir del dominio
     return(theta)
@@ -1775,7 +1807,7 @@ obtenemos que $\sigma^2|x \sim GI(N/2+\alpha, \beta + 1/2 \sum(x_i - \mu)^2)$.
 Por tanto tenemos que la inicial Gamma con verosimilitud Normal es una familia
 conjugada.
 
-#### Ejemplo: Normal con media y varianza desconocidas 
+#### Ejemplo: Normal con media y varianza desconocidas {-}
 
 Sea $\theta=(\mu, \sigma^2)$  especificamos la siguiente inicial para $\theta$:
 $$p(\theta) = N(\mu|m, \tau^2)\cdot IG(\sigma^2|\alpha, \beta)$$
@@ -1915,11 +1947,8 @@ diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.
 
 ## JAGS
 
-* Instalar [JAGS](http://mcmc-jags.sourceforge.net).
-
-* Instalar los paquetes R2jags y rjags de R.
-
-JAGS (Just Another Gibbs Sampler), WinBUGS y OpenBUGS son programas que 
+[JAGS](http://mcmc-jags.sourceforge.net) (Just Another Gibbs Sampler), WinBUGS y 
+OpenBUGS son programas que 
 implementan métodos MCMC para generar simulaciones de distribuciones 
 posteriores. Los paquetes rjags y R2jags permiten ajustar modelos en JAGS 
 desde R. Es muy fácil utilizar estos programas pues uno simplemente debe
@@ -2517,20 +2546,43 @@ stan_fit_2 <- stan(file = 'modelo.stan', data = data_list,
     iter = 1000, chains = 4)
 ```
 
-### Iniciales
+### Iniciales {-}
 
 Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan, 
-puedes leer más en https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations:
+puedes leer más en https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations.
 
-* En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs puede
-ser conveniente usar conjugadas, aquí no).
+Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas 
+son:
 
-* Las iniciales debilmente informativas deben contener suficiente información para regularizar: las iniciales deben dejar fuera valores de los parámetros que no sean razonables, pero no dejar fuera valores que podrían tener sentido.
+1. Iniciales planas: usualmente impropias.
+2. Muy vagas pero propias: $N(0, (1e6) ^ 2)$.
+3. Iniciales genéricas muy debilmente informativas: $Normal(0, 10^2)$.
+4. Iniciales genéricas debilmente informativas: $Normal(0, 1)$.
+5. Iniciales específicas e informativas: $Normal(0.4, 0.2^2)$
 
-* Cuando se usen distribuciones iniciales informativas se debe ser explícito en porque se tomaron las decisiones.
+Cuando se usa Stan tenemos los siguientes principios generales:
+
+* En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs 
+puede ser conveniente usar conjugadas, aquí no).
+
+* No interesan: invarianza, Jeffreys o entropía.
+
+* Las iniciales debilmente informativas deben contener suficiente información 
+para regularizar: las iniciales deben dejar fuera valores de los parámetros que 
+no sean razonables, pero no dejar fuera valores que podrían tener sentido.
+
+* Se prefieren las iniciales debilmente informativas sobre las informativas, 
+esto es porque las consecuencias de *perder precisión* por elegir una inicial 
+muy débil (comparado con la verdadera distribución poblacional de los parámetros
+o comparado con conocimiento experto) es menos importante que la ganancia en 
+robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
+relevante.
+
+* Cuando se usen distribuciones iniciales informativas se debe ser explícito en 
+porque se tomaron las decisiones.
 
 
-### Recursos adicionales
+### Recursos adicionales {-}
 
 * El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html) facilita el uso de Stan desde R, cuenta con funciones para 
 llevar a cabo estimación Bayesiana sin necesidad de escribir código en el 
