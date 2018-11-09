@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="intervalos-de-confianza.html">
-<link rel="next" href="conclusiones-y-observaciones.html">
+<link rel="prev" href="familias-conjugadas.html">
+<link rel="next" href="referencias-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -353,165 +353,87 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bootstrap-en-r" class="section level2">
-<h2><span class="header-section-number">6.4</span> Bootstrap en R</h2>
-<p>Es común crear nuestras porpias funciones cuando usamos bootstrap, sin embargo,
-en R también hay alternativas que pueden resultar convenientes, mencionamos 3:</p>
-<ol style="list-style-type: decimal">
-<li>El paquete <code>rsample</code> (forma parte de la colección <a href="https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/">tidymodels</a>)
-y tiene una función <code>bootsrtraps()</code> que regresa un arreglo cuadrangular
-(<code>tibble</code>, <code>data.frame</code>) que incluye una columna con las muestras bootstrap y un
-identificador del número y tipo de muestra.</li>
+<div id="metropolis-2" class="section level2 unnumbered">
+<h2>11-Metropolis</h2>
+<p>Regresamos al ejercicio de IQ de la tarea anterior, en ésta hiciste cálculos
+para el caso de una sola observación. En este ejercicio consideramos el caso en
+que observamos una muestra <span class="math inline">\(x=\{x_1,...,x_N\}\)</span>, y utilizaremos Metrópolis
+para obtener una muestra de la distribución posterior.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Crea una función <span class="math inline">\(prior\)</span> que reciba los parámetros <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\tau\)</span> que definen
+tus creencias del parámetro desconocido <span class="math inline">\(\theta\)</span> y devuelva <span class="math inline">\(p(\theta)\)</span>, donde
+<span class="math inline">\(p(\theta)\)</span> tiene distriución <span class="math inline">\(N(\mu, \sigma^2)\)</span></li>
 </ol>
-<p>Veamos un ejemplo donde seleccionamos muestras del conjunto de datos
-<code>muestra_computos</code> que contiene 10,000 observaciones.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)
-<span class="co">#&gt; Loading required package: broom</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: &#39;broom&#39;</span>
-<span class="co">#&gt; The following object is masked from &#39;package:bootstrap&#39;:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     bootstrap</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: &#39;rsample&#39;</span>
-<span class="co">#&gt; The following object is masked from &#39;package:tidyr&#39;:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     fill</span>
-muestra_computos &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/muestra_computos_2012.csv&quot;</span>)
-<span class="co">#&gt; Parsed with column specification:</span>
-<span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   .default = col_integer(),</span>
-<span class="co">#&gt;   TIPO_CASILLA = col_character()</span>
-<span class="co">#&gt; )</span>
-<span class="co">#&gt; See spec(...) for full column specifications.</span>
-muestra_computos
-<span class="co">#&gt; # A tibble: 10,000 x 36</span>
-<span class="co">#&gt;    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA</span>
-<span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;   &lt;int&gt;      &lt;int&gt; &lt;chr&gt;               &lt;int&gt;</span>
-<span class="co">#&gt;  1        15         14     324          1 C                       0</span>
-<span class="co">#&gt;  2        20          3     207          3 C                       0</span>
-<span class="co">#&gt;  3        19          9     275          1 B                       0</span>
-<span class="co">#&gt;  4         8          7    2422          1 B                       0</span>
-<span class="co">#&gt;  5        30         11    4665          1 C                       0</span>
-<span class="co">#&gt;  6        13          3     199          1 E                       0</span>
-<span class="co">#&gt;  7        20         11    2014          1 B                       0</span>
-<span class="co">#&gt;  8         2          6     739          1 C                       0</span>
-<span class="co">#&gt;  9        30         12    4348          1 C                       0</span>
-<span class="co">#&gt; 10        21         11    1121          1 B                       0</span>
-<span class="co">#&gt; # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA &lt;int&gt;,</span>
-<span class="co">#&gt; #   CASILLA &lt;int&gt;, ESTATUS_ACTA &lt;int&gt;, ORDEN &lt;int&gt;,</span>
-<span class="co">#&gt; #   LISTA_NOMINAL_CASILLA &lt;int&gt;, ID_GRUPO &lt;int&gt;, TIPO_RECUENTO &lt;int&gt;,</span>
-<span class="co">#&gt; #   NUM_VOTOS_NULOS &lt;int&gt;, NUM_VOTOS_CAN_NREG &lt;int&gt;,</span>
-<span class="co">#&gt; #   NUMERO_VOTOS_VALIDOS &lt;int&gt;, TOTAL_VOTOS &lt;int&gt;,</span>
-<span class="co">#&gt; #   BOLETAS_INUTILIZADAS &lt;int&gt;, PAN &lt;int&gt;, PRI &lt;int&gt;, PRD &lt;int&gt;,</span>
-<span class="co">#&gt; #   PVEM &lt;int&gt;, PT &lt;int&gt;, MC &lt;int&gt;, PANAL &lt;int&gt;, PRI_PVEM &lt;int&gt;,</span>
-<span class="co">#&gt; #   PRD_PT_MC &lt;int&gt;, PRD_PT &lt;int&gt;, PRD_MC &lt;int&gt;, PT_MC &lt;int&gt;,</span>
-<span class="co">#&gt; #   ID_MUNICIPIO &lt;int&gt;, LISTA_NOMINAL &lt;int&gt;, VOTOS_RESERVADOS &lt;int&gt;,</span>
-<span class="co">#&gt; #   pan &lt;int&gt;, pri &lt;int&gt;, prd &lt;int&gt;</span></code></pre>
-<p>Generamos 100 muestras bootstrap, y la función nos regresa un arreglo con 100
-renglones, cada uno corresponde a una muestra bootstrap.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">839287482</span>)
-computos_boot &lt;-<span class="st"> </span><span class="kw">bootstraps</span>(muestra_computos, <span class="dt">times =</span> <span class="dv">100</span>)
-computos_boot
-<span class="co">#&gt; # Bootstrap sampling </span>
-<span class="co">#&gt; # A tibble: 100 x 2</span>
-<span class="co">#&gt;    splits       id          </span>
-<span class="co">#&gt;    &lt;list&gt;       &lt;chr&gt;       </span>
-<span class="co">#&gt;  1 &lt;S3: rsplit&gt; Bootstrap001</span>
-<span class="co">#&gt;  2 &lt;S3: rsplit&gt; Bootstrap002</span>
-<span class="co">#&gt;  3 &lt;S3: rsplit&gt; Bootstrap003</span>
-<span class="co">#&gt;  4 &lt;S3: rsplit&gt; Bootstrap004</span>
-<span class="co">#&gt;  5 &lt;S3: rsplit&gt; Bootstrap005</span>
-<span class="co">#&gt;  6 &lt;S3: rsplit&gt; Bootstrap006</span>
-<span class="co">#&gt;  7 &lt;S3: rsplit&gt; Bootstrap007</span>
-<span class="co">#&gt;  8 &lt;S3: rsplit&gt; Bootstrap008</span>
-<span class="co">#&gt;  9 &lt;S3: rsplit&gt; Bootstrap009</span>
-<span class="co">#&gt; 10 &lt;S3: rsplit&gt; Bootstrap010</span>
-<span class="co">#&gt; # ... with 90 more rows</span></code></pre>
-<p>La columna <code>splits</code> tiene información de las muestras seleccionadas, para la
-primera vemos que de 10,000 observaciones en la muestra original la primera
-muestra bootstrap contiene 10000-3709=6291.</p>
-<pre class="sourceCode r"><code class="sourceCode r">first_computos_boot &lt;-<span class="st"> </span>computos_boot<span class="op">$</span>splits[[<span class="dv">1</span>]]
-first_computos_boot 
-<span class="co">#&gt; &lt;10000/3709/10000&gt;</span></code></pre>
-<p>Y podemos obtener los datos de la muestra bootstrap con la función
-<code>as.data.frame()</code></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.data.frame</span>(first_computos_boot)
-<span class="co">#&gt; # A tibble: 10,000 x 36</span>
-<span class="co">#&gt;    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA</span>
-<span class="co">#&gt;        &lt;int&gt;      &lt;int&gt;   &lt;int&gt;      &lt;int&gt; &lt;chr&gt;               &lt;int&gt;</span>
-<span class="co">#&gt;  1        20          3    1246          3 C                       0</span>
-<span class="co">#&gt;  2        21          7       9          1 B                       0</span>
-<span class="co">#&gt;  3        30          2    3609          1 B                       0</span>
-<span class="co">#&gt;  4        15          3     433          2 C                       0</span>
-<span class="co">#&gt;  5         7          3     861          1 B                       0</span>
-<span class="co">#&gt;  6        32          2     565          1 B                       0</span>
-<span class="co">#&gt;  7        15         36    4402          1 B                       0</span>
-<span class="co">#&gt;  8         5          5     542          2 C                       0</span>
-<span class="co">#&gt;  9        16          9    2213          1 C                       0</span>
-<span class="co">#&gt; 10         5          4    1006          1 E                       2</span>
-<span class="co">#&gt; # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA &lt;int&gt;,</span>
-<span class="co">#&gt; #   CASILLA &lt;int&gt;, ESTATUS_ACTA &lt;int&gt;, ORDEN &lt;int&gt;,</span>
-<span class="co">#&gt; #   LISTA_NOMINAL_CASILLA &lt;int&gt;, ID_GRUPO &lt;int&gt;, TIPO_RECUENTO &lt;int&gt;,</span>
-<span class="co">#&gt; #   NUM_VOTOS_NULOS &lt;int&gt;, NUM_VOTOS_CAN_NREG &lt;int&gt;,</span>
-<span class="co">#&gt; #   NUMERO_VOTOS_VALIDOS &lt;int&gt;, TOTAL_VOTOS &lt;int&gt;,</span>
-<span class="co">#&gt; #   BOLETAS_INUTILIZADAS &lt;int&gt;, PAN &lt;int&gt;, PRI &lt;int&gt;, PRD &lt;int&gt;,</span>
-<span class="co">#&gt; #   PVEM &lt;int&gt;, PT &lt;int&gt;, MC &lt;int&gt;, PANAL &lt;int&gt;, PRI_PVEM &lt;int&gt;,</span>
-<span class="co">#&gt; #   PRD_PT_MC &lt;int&gt;, PRD_PT &lt;int&gt;, PRD_MC &lt;int&gt;, PT_MC &lt;int&gt;,</span>
-<span class="co">#&gt; #   ID_MUNICIPIO &lt;int&gt;, LISTA_NOMINAL &lt;int&gt;, VOTOS_RESERVADOS &lt;int&gt;,</span>
-<span class="co">#&gt; #   pan &lt;int&gt;, pri &lt;int&gt;, prd &lt;int&gt;</span></code></pre>
-<p>Una de las principales ventajas de usar este paquete es que es eficiente en
-el uso de memoria.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pryr)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: &#39;pryr&#39;</span>
-<span class="co">#&gt; The following objects are masked from &#39;package:purrr&#39;:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     compose, partial</span>
-<span class="kw">object_size</span>(muestra_computos)
-<span class="co">#&gt; 1.49 MB</span>
-<span class="kw">object_size</span>(computos_boot)
-<span class="co">#&gt; 5.58 MB</span>
-<span class="co"># tamaño por muestra</span>
-<span class="kw">object_size</span>(computos_boot)<span class="op">/</span><span class="kw">nrow</span>(computos_boot)
-<span class="co">#&gt; 55.8 kB</span>
-<span class="co"># el incremento en tamaño es &lt;&lt; 100</span>
-<span class="kw">as.numeric</span>(<span class="kw">object_size</span>(computos_boot)<span class="op">/</span><span class="kw">object_size</span>(muestra_computos))
-<span class="co">#&gt; [1] 3.7385</span></code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>El paquete <code>boot</code> está asociado al libro <em>Bootstrap Methods and Their
-Applications</em> (<span class="citation">Davison and Hinkley (<a href="#ref-davison">1997</a>)</span>) y tiene, entre otras, funciones para calcular
-replicaciones bootstrap y para construir intervalos de confianza usando bootstrap:
-<ul>
-<li>calculo de replicaciones bootstrap con la función <code>boot()</code>,</li>
-<li>intervalos normales, de percentiles y <span class="math inline">\(BC_a\)</span> con la función <code>boot.ci()</code>,</li>
-<li>intevalos ABC con la función `abc.ci().</li>
-</ul></li>
-<li>El paquete <code>bootstrap</code> contiene datos usados en <span class="citation">Efron and Tibshirani (<a href="#ref-efron">1993</a>)</span>, y la implementación
-de funciones para calcular replicaciones y construir intervalos de confianza:
-<ul>
-<li>calculo de replicaciones bootstrap con la función <code>bootstrap()</code>,</li>
-<li>intervalos <span class="math inline">\(BC_a\)</span> con la función <code>bcanon()</code>,</li>
-<li>intevalos ABC con la función `abcnon().</li>
-</ul></li>
+<pre class="sourceCode r"><code class="sourceCode r">prior &lt;-<span class="st"> </span><span class="cf">function</span>(mu, tau{
+  <span class="cf">function</span>(theta){
+    ... <span class="co"># llena esta parte</span>
+  }
+}</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Utiliza la función que acabas de escribir para definir una distribución
+inicial con parámetros <span class="math inline">\(\mu = 150\)</span> y <span class="math inline">\(\tau = 15\)</span>, llámala <em>mi_prior</em>.</li>
 </ol>
+<p>Ya que tenemos la distribución inicial debemos escribir la verosimilitud, en
+este caso la verosimilitud es:</p>
+<p><span class="math display">\[p(x|\theta, \sigma^2)=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{N}(x_j-\theta)^2\right)\]</span>
+<span class="math display">\[=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)\]</span></p>
+<p>Recuerda que estamos suponiendo varianza conocida, supongamos que la
+desviación estándar es <span class="math inline">\(\sigma=20\)</span>.</p>
+<p><span class="math display">\[p(x|\theta)=\frac{1}{(2\pi (20^2))^{N/2}}exp\left(-\frac{1}{2 (20^2)}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)\]</span></p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Crea una función <span class="math inline">\(likeNorm\)</span> en R que reciba la desviación estándar, la suma
+de los valores observados <span class="math inline">\(\sum x_i\)</span>, la suma de los valores al cuadrado
+<span class="math inline">\(\sum x_i^2\)</span> y el número de observaciones <span class="math inline">\(N\)</span> la función devolverá la
+función de verosimilitud (es decir va a regresar una función que depende
+únicamente de <span class="math inline">\(\theta\)</span>).</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># S: sum x_i, S2: sum x_i^2, N: número obs.</span>
+likeNorm &lt;-<span class="st"> </span><span class="cf">function</span>(S, S2, N){
+  <span class="cf">function</span>(theta){
+    ...  <span class="co"># llena esta parte</span>
+  }
+}</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li><p>Supongamos que aplicamos un test de IQ a 100 alumnos y observamos que la suma
+de los puntajes es 13300, es decir <span class="math inline">\(\sum x_i=13,000\)</span> y <span class="math inline">\(\sum x_i^2=1,700,000\)</span>.
+Utiliza la función que acabas de escribir para definir la función de
+verosimilitud condicional a los datos observados, llámala <em>mi_like</em>.</p></li>
+<li><p>La distribución posterior no normalizada es simplemente el producto de
+la inicial y la posterior:</p></li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">postRelProb &lt;-<span class="st"> </span><span class="cf">function</span>(theta){
+  <span class="kw">mi_like</span>(theta) <span class="op">*</span><span class="st"> </span><span class="kw">mi_prior</span>(theta)
+}</code></pre>
+<p>Utiliza Metropolis para obtener una muestra de valores representativos de la
+distribución posterior de <span class="math inline">\(\theta\)</span>. Para proponer los saltos utiliza una
+Normal(0, 5).</p>
+<ol start="6" style="list-style-type: lower-alpha">
+<li><p>Grafica los valores de la cadena para cada paso.</p></li>
+<li><p>Elimina los valores correspondientes a la etapa de calentamiento y realiza
+un histograma de la distribución posterior.</p></li>
+<li><p>Si calcularas la posterior de manera analítica obtendrías que <span class="math inline">\(p(x|\theta)\)</span>
+es normal con media:
+<span class="math display">\[\frac{\sigma^2}{\sigma^2 + N\tau^2}\mu + \frac{N\tau^2}{\sigma^2 + N \tau^2}\bar{x}\]</span>
+y varianza
+<span class="math display">\[\frac{\sigma^2 \tau^2}{\sigma^2 + N\tau^2}\]</span></p></li>
+</ol>
+<p>donde <span class="math inline">\(\bar{x}=1/N\sum_{i=1}^N x_i\)</span> es la media de los valores observados.
+Realiza simulaciones de la distribución posterior calculada de manera analítica
+y comparalas con el histograma de los valores generados con Metropolis.</p>
+<ol style="list-style-type: lower-roman">
+<li>¿Cómo utilizarías los parámetros <span class="math inline">\(\mu, \tau^2\)</span> para describir un escenario
+donde sabes poco del verdadero valor de la media <span class="math inline">\(\theta\)</span>?</li>
+</ol>
+
 </div>
-<h3>Referencias</h3>
-<div id="refs" class="references">
-<div id="ref-davison">
-<p>Davison, A. C., and D. V. Hinkley. 1997. <em>Bootstrap Methods and Their Applications</em>. Cambridge: Cambridge University Press. <a href="http://statwww.epfl.ch/davison/BMA/" class="uri">http://statwww.epfl.ch/davison/BMA/</a>.</p>
-</div>
-<div id="ref-efron">
-<p>Efron, Bradley, and Robert J. Tibshirani. 1993. <em>An Introduction to the Bootstrap</em>. Monographs on Statistics and Applied Probability 57. Boca Raton, Florida, USA: Chapman &amp; Hall/CRC.</p>
-</div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="intervalos-de-confianza.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="conclusiones-y-observaciones.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="familias-conjugadas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -541,7 +463,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/05-bootstrap_no_parametrico.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/98-tareas.Rmd",
 "text": "Edit"
 },
 "download": ["est-computacional-2018.pdf", "est-computacional-2018.epub"],

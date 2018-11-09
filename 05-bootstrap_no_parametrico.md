@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.069"
+#> [1] "0.067"
 ```
 
 
@@ -1418,8 +1418,7 @@ map_dbl(boot_rep,
 Resumiendo:
 
 * El bootstrap de Rao y Wu genera un estimador consistente y aproximadamente 
-insesgado de la varianza de estadísticos no lineales y para la varianza de un 
-cuantil. 
+insesgado de la varianza de estadísticos no lineales. 
 
 * Este método supone que la seleccion de UPMs es con reemplazo; hay variaciones 
 del estimador bootstrap de Rao y Wu que extienden el método que acabamos de 

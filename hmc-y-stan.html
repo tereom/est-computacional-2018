@@ -256,7 +256,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
 <li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
 <li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
-<li class="chapter" data-level="7.3.1" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-1"><i class="fa fa-check"></i><b>7.3.1</b> Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-1"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
 <li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
 </ul></li>
 </ul></li>
@@ -309,9 +309,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.9" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.9</b> HMC y Stan</a><ul>
 <li class="chapter" data-level="10.9.1" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i><b>10.9.1</b> Muestreo HMC</a></li>
 <li class="chapter" data-level="10.9.2" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#ejemplo"><i class="fa fa-check"></i><b>10.9.2</b> Ejemplo</a></li>
-<li class="chapter" data-level="10.9.3" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#iniciales"><i class="fa fa-check"></i><b>10.9.3</b> Iniciales</a></li>
-<li class="chapter" data-level="10.9.4" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#recursos-adicionales-1"><i class="fa fa-check"></i><b>10.9.4</b> Recursos adicionales</a></li>
-<li class="chapter" data-level="10.9.5" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#referencias"><i class="fa fa-check"></i><b>10.9.5</b> Referencias</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#iniciales"><i class="fa fa-check"></i>Iniciales</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#recursos-adicionales-1"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+<li class="chapter" data-level="10.9.3" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#referencias"><i class="fa fa-check"></i><b>10.9.3</b> Referencias</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -330,6 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><a href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html#solucion-2"><i class="fa fa-check"></i>Solución</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>10-Familias conjugadas</a></li>
+<li class="chapter" data-level="" data-path="metropolis-2.html"><a href="metropolis-2.html"><i class="fa fa-check"></i>11-Metropolis</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias-1.html"><a href="referencias-1.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -535,19 +536,39 @@ stan_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(<span cl
     <span class="dt">iter =</span> <span class="dv">1000</span>, <span class="dt">chains =</span> <span class="dv">4</span>)
 <span class="co">#&gt; Error in stan(file = &quot;modelo.stan&quot;, data = data_list, iter = 1000, chains = 4): could not find function &quot;stan&quot;</span></code></pre>
 </div>
-<div id="iniciales" class="section level3">
-<h3><span class="header-section-number">10.9.3</span> Iniciales</h3>
+<div id="iniciales" class="section level3 unnumbered">
+<h3>Iniciales</h3>
 <p>Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan,
-puedes leer más en <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>:</p>
+puedes leer más en <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>.</p>
+<p>Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas
+son:</p>
+<ol style="list-style-type: decimal">
+<li>Iniciales planas: usualmente impropias.</li>
+<li>Muy vagas pero propias: <span class="math inline">\(N(0, (1e6) ^ 2)\)</span>.</li>
+<li>Iniciales genéricas muy debilmente informativas: <span class="math inline">\(Normal(0, 10^2)\)</span>.</li>
+<li>Iniciales genéricas debilmente informativas: <span class="math inline">\(Normal(0, 1)\)</span>.</li>
+<li>Iniciales específicas e informativas: <span class="math inline">\(Normal(0.4, 0.2^2)\)</span></li>
+</ol>
+<p>Cuando se usa Stan tenemos los siguientes principios generales:</p>
 <ul>
-<li><p>En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs puede
-ser conveniente usar conjugadas, aquí no).</p></li>
-<li><p>Las iniciales debilmente informativas deben contener suficiente información para regularizar: las iniciales deben dejar fuera valores de los parámetros que no sean razonables, pero no dejar fuera valores que podrían tener sentido.</p></li>
-<li><p>Cuando se usen distribuciones iniciales informativas se debe ser explícito en porque se tomaron las decisiones.</p></li>
+<li><p>En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs
+puede ser conveniente usar conjugadas, aquí no).</p></li>
+<li><p>No interesan: invarianza, Jeffreys o entropía.</p></li>
+<li><p>Las iniciales debilmente informativas deben contener suficiente información
+para regularizar: las iniciales deben dejar fuera valores de los parámetros que
+no sean razonables, pero no dejar fuera valores que podrían tener sentido.</p></li>
+<li><p>Se prefieren las iniciales debilmente informativas sobre las informativas,
+esto es porque las consecuencias de <em>perder precisión</em> por elegir una inicial
+muy débil (comparado con la verdadera distribución poblacional de los parámetros
+o comparado con conocimiento experto) es menos importante que la ganancia en
+robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
+relevante.</p></li>
+<li><p>Cuando se usen distribuciones iniciales informativas se debe ser explícito en
+porque se tomaron las decisiones.</p></li>
 </ul>
 </div>
-<div id="recursos-adicionales-1" class="section level3">
-<h3><span class="header-section-number">10.9.4</span> Recursos adicionales</h3>
+<div id="recursos-adicionales-1" class="section level3 unnumbered">
+<h3>Recursos adicionales</h3>
 <ul>
 <li><p>El paquete <a href="https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html">rstanarm</a> facilita el uso de Stan desde R, cuenta con funciones para
 llevar a cabo estimación Bayesiana sin necesidad de escribir código en el
@@ -562,7 +583,7 @@ convergencia.</p></li>
 </ul>
 </div>
 <div id="referencias" class="section level3">
-<h3><span class="header-section-number">10.9.5</span> Referencias</h3>
+<h3><span class="header-section-number">10.9.3</span> Referencias</h3>
 <ul>
 <li><p><a href="https://sites.google.com/site/doingbayesiandataanalysis/">Doing Bayesian Data Analysis</a>, John K. Kruschke.</p></li>
 <li><p><a href="https://arxiv.org/pdf/1701.02434.pdf">A Conceptual Introduction to Hamiltonian Monte Carlo</a>, Michael Betancourt.</p></li>

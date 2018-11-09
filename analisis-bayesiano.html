@@ -256,7 +256,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html"><i class="fa fa-check"></i><b>7.3</b> Simulación de variables aleatorias</a><ul>
 <li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aletaorias-discretas"><i class="fa fa-check"></i>Variables aletaorias discretas</a></li>
 <li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
-<li class="chapter" data-level="7.3.1" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-1"><i class="fa fa-check"></i><b>7.3.1</b> Variables aleatorias continuas</a></li>
+<li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#variables-aleatorias-continuas-1"><i class="fa fa-check"></i>Variables aleatorias continuas</a></li>
 <li class="chapter" data-level="" data-path="simulacion-de-variables-aleatorias.html"><a href="simulacion-de-variables-aleatorias.html#aceptacion-y-rechazo-1"><i class="fa fa-check"></i>Aceptación y rechazo</a></li>
 </ul></li>
 </ul></li>
@@ -309,9 +309,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.9" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html"><i class="fa fa-check"></i><b>10.9</b> HMC y Stan</a><ul>
 <li class="chapter" data-level="10.9.1" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#muestreo-hmc"><i class="fa fa-check"></i><b>10.9.1</b> Muestreo HMC</a></li>
 <li class="chapter" data-level="10.9.2" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#ejemplo"><i class="fa fa-check"></i><b>10.9.2</b> Ejemplo</a></li>
-<li class="chapter" data-level="10.9.3" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#iniciales"><i class="fa fa-check"></i><b>10.9.3</b> Iniciales</a></li>
-<li class="chapter" data-level="10.9.4" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#recursos-adicionales-1"><i class="fa fa-check"></i><b>10.9.4</b> Recursos adicionales</a></li>
-<li class="chapter" data-level="10.9.5" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#referencias"><i class="fa fa-check"></i><b>10.9.5</b> Referencias</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#iniciales"><i class="fa fa-check"></i>Iniciales</a></li>
+<li class="chapter" data-level="" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#recursos-adicionales-1"><i class="fa fa-check"></i>Recursos adicionales</a></li>
+<li class="chapter" data-level="10.9.3" data-path="hmc-y-stan.html"><a href="hmc-y-stan.html#referencias"><i class="fa fa-check"></i><b>10.9.3</b> Referencias</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
@@ -330,6 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html"><a href="inferencia-grafica-tamano-de-muestra-bootstrap-parametrico-.html#solucion-2"><i class="fa fa-check"></i>Solución</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="familias-conjugadas.html"><a href="familias-conjugadas.html"><i class="fa fa-check"></i>10-Familias conjugadas</a></li>
+<li class="chapter" data-level="" data-path="metropolis-2.html"><a href="metropolis-2.html"><i class="fa fa-check"></i>11-Metropolis</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias-1.html"><a href="referencias-1.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -354,7 +355,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="analisis-bayesiano" class="section level1">
 <h1><span class="header-section-number">Sección 10</span> Análisis bayesiano</h1>
-<p>Para esta sección seguiremos, principalmente, <span class="citation">Kruschke (<a href="#ref-kruschke">2015</a>)</span>.</p>
+<p>Para esta sección seguiremos principalmente <span class="citation">Kruschke (<a href="#ref-kruschke">2015</a>)</span>, sin embargo, para el
+desarrollo de las notas también se utilizó <span class="citation">Gelman and Hill (<a href="#ref-gelman-hill">2007</a>)</span>, <span class="citation">Gelman et al. (<a href="#ref-gelman-bayesian">2013</a>)</span> y
+<span class="citation">Bolstad (<a href="#ref-bolstad">2010</a>)</span>.</p>
 <p>Hasta ahora hemos estudiado métodos estadísticos frecuentistas (o clásicos),
 el punto de vista frecuentista se basa en los siguientes puntos (<span class="citation">Wasserman (<a href="#ref-wasserman">2010</a>)</span>):</p>
 <ol style="list-style-type: decimal">
@@ -393,6 +396,15 @@ posbilidades. <em>How often have I said to you that when you have eliminated the
 <div id="refs" class="references">
 <div id="ref-kruschke">
 <p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
+</div>
+<div id="ref-gelman-hill">
+<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
+</div>
+<div id="ref-gelman-bayesian">
+<p>Gelman, A., J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/Crc Texts in Statistical Science. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=ZXL6AQAAQBAJ" class="uri">https://books.google.com.mx/books?id=ZXL6AQAAQBAJ</a>.</p>
+</div>
+<div id="ref-bolstad">
+<p>Bolstad, W.M. 2010. <em>Understanding Computational Bayesian Statistics</em>. Cram101 Textbook Key Facts. Wiley. <a href="https://books.google.com.mx/books?id=igbrBgAAQBAJ" class="uri">https://books.google.com.mx/books?id=igbrBgAAQBAJ</a>.</p>
 </div>
 <div id="ref-wasserman">
 <p>Wasserman, Larry. 2010. <em>All of Statistics: A Concise Course in Statistical Inference</em>. Springer Publishing Company, Incorporated.</p>
