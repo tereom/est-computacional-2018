@@ -698,3 +698,87 @@ Calcula la distribución posterior $p(\theta|x) \propto p(x|\theta)p(\theta)$,
 usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
 multiplicación debes identificar el núcleo de una distribución Normal, 
 ¿cuáles son sus parámetros (media y varianza)?
+
+## 11-Metropolis {-}
+
+Regresamos al ejercicio de IQ de la tarea anterior, en ésta hiciste cálculos 
+para el caso de una sola observación. En este ejercicio consideramos el caso en 
+que observamos una muestra $x=\{x_1,...,x_N\}$, y utilizaremos Metrópolis 
+para obtener una muestra de la distribución posterior.
+
+a) Crea una función $prior$ que reciba los parámetros $\mu$ y $\tau$ que definen 
+tus creencias del parámetro desconocido $\theta$ y devuelva $p(\theta)$, donde 
+$p(\theta)$ tiene distriución $N(\mu, \sigma^2)$
+
+```{r, eval=FALSE}
+prior <- function(mu, tau{
+  function(theta){
+    ... # llena esta parte
+  }
+}
+```
+
+b) Utiliza la función que acabas de escribir para definir una distribución 
+inicial con parámetros $\mu = 150$ y $\tau = 15$, llámala _mi\_prior_.
+
+  Ya que tenemos la distribución inicial debemos escribir la verosimilitud, en 
+  este caso la verosimilitud es:
+
+$$p(x|\theta, \sigma^2)=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{N}(x_j-\theta)^2\right)$$
+$$=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)$$
+
+Recuerda que estamos suponiendo varianza conocida, supongamos que la 
+desviación estándar es $\sigma=20$.
+
+$$p(x|\theta)=\frac{1}{(2\pi (20^2))^{N/2}}exp\left(-\frac{1}{2 (20^2)}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)$$
+
+c) Crea una función $likeNorm$ en R que reciba la desviación estándar, la suma 
+de los valores observados $\sum x_i$,  la suma de los valores al cuadrado 
+$\sum x_i^2$ y el número de observaciones $N$ la función devolverá la 
+función de verosimilitud  (es decir va a regresar una función que depende 
+únicamente de $\theta$).
+
+```{r, eval = FALSE}
+# S: sum x_i, S2: sum x_i^2, N: número obs.
+likeNorm <- function(S, S2, N){
+  function(theta){
+    ...  # llena esta parte
+  }
+}
+```
+
+d) Supongamos que aplicamos un test de IQ a 100 alumnos y observamos que la suma
+de los puntajes es 13300, es decir $\sum x_i=13,000$ y $\sum x_i^2=1,700,000$.
+Utiliza la función que acabas de escribir para definir la función de 
+verosimilitud condicional a los datos observados, llámala _mi\_like_.
+
+e) La distribución posterior no normalizada es simplemente el producto de 
+la inicial y la posterior:
+
+```{r}
+postRelProb <- function(theta){
+  mi_like(theta) * mi_prior(theta)
+}
+```
+
+Utiliza Metropolis para obtener una muestra de valores representativos de la
+distribución posterior de $\theta$. Para proponer los saltos utiliza una 
+Normal(0, 5).
+
+f) Grafica los valores de la cadena para cada paso.
+
+g)  Elimina los valores correspondientes a la etapa de calentamiento y realiza
+un histograma de la distribución posterior.
+
+h)  Si calcularas la posterior de manera analítica obtendrías que $p(x|\theta)$
+es normal con media:
+$$\frac{\sigma^2}{\sigma^2 + N\tau^2}\mu + \frac{N\tau^2}{\sigma^2 + N \tau^2}\bar{x}$$
+y varianza
+$$\frac{\sigma^2 \tau^2}{\sigma^2 + N\tau^2}$$
+
+donde $\bar{x}=1/N\sum_{i=1}^N x_i$ es la media de los valores observados.
+Realiza simulaciones de la distribución posterior calculada de manera analítica
+y comparalas con el histograma de los valores generados con Metropolis.
+
+i) ¿Cómo utilizarías los parámetros $\mu, \tau^2$ para describir un escenario 
+donde sabes poco del verdadero valor de la media $\theta$?
