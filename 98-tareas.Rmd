@@ -782,3 +782,108 @@ y comparalas con el histograma de los valores generados con Metropolis.
 
 i) ¿Cómo utilizarías los parámetros $\mu, \tau^2$ para describir un escenario 
 donde sabes poco del verdadero valor de la media $\theta$?
+
+### Solución {-}
+
+```{r}
+prior <- function(mu = 100, tau = 10){
+  function(theta){
+    dnorm(theta, mu, tau)
+  }
+}
+mu <- 150
+tau <- 15
+mi_prior <- prior(mu, tau)
+```
+
+c) 
+```{r}
+# S: sum x_i, S2: sum x_i^2, N: número obs., sigma: desviación estándar (conocida)
+S <- 13000
+S2 <- 1700000
+N <- 100
+
+# sigma2 <- S2 / N - (S / N) ^ 2
+sigma <- 20
+  
+likeNorm <- function(S, S2, N, sigma = 20){
+  # quitamos constantes
+  sigma2 <-  sigma ^ 2
+  function(theta){
+    exp(-1 / (2 * sigma2) * (S2 - 2 * theta * S + 
+        N * theta ^ 2))
+  }
+}
+```
+
+d)
+```{r}
+mi_like <- likeNorm(S = S, S2 = S2, N = N, sigma = sigma)
+mi_like(130)
+```
+
+e)
+```{r}
+postRelProb <- function(theta){
+  mi_like(theta) * mi_prior(theta)
+}
+
+# para cada paso decidimos el movimiento de acuerdo a la siguiente función
+caminaAleat <- function(theta, sd_prop = 5){ # theta: valor actual
+  salto_prop <- rnorm(n = 1, sd = sd_prop) # salto propuesto
+  theta_prop <- theta + salto_prop # theta propuesta
+  u <- runif(1) 
+  p_move = min(postRelProb(theta_prop) / postRelProb(theta), 1) # prob mover
+  if(p_move  > u){
+    return(theta_prop) # aceptar valor propuesto
+  }
+  else{
+    return(theta) # rechazar
+  }
+}
+
+
+pasos <- 10000
+camino <- numeric(pasos) # vector que guardará las simulaciones
+camino[1] <- 90 # valor inicial
+
+rechazo = 0
+# Generamos la caminata aleatoria
+for (j in 2:pasos){
+  camino[j] <- caminaAleat(camino[j - 1])
+  rechazo <- rechazo + 1 * (camino[j] == camino[j - 1]) 
+}
+
+rechazo / pasos
+caminata <- data.frame(pasos = 1:pasos, theta = camino)
+
+
+```
+
+f)
+
+```{r, out.height="300px"}
+ggplot(caminata[1:2000, ], aes(x = pasos, y = theta)) +
+  geom_point(size = 0.8) +
+  geom_path(alpha = 0.3) 
+```
+
+g)
+
+```{r, out.height="300px"}
+ggplot(filter(caminata, pasos > 2000), aes(x = theta)) +
+  geom_histogram(aes(y = ..density..), binwidth = 0.8) 
+```
+
+h)
+
+```{r, out.height="200px"}
+ggplot(filter(caminata, pasos > 2000), aes(x = theta)) +
+  geom_histogram(aes(y = ..density..), binwidth = 0.7) + 
+  stat_function(fun = dnorm, args = list(mean = 130.3, sd = 1.98), color = "red")
+  
+sigma ^ 2 * mu / (sigma ^ 2 + N * tau ^ 2) + tau ^ 2 * S / (sigma^2  + N * tau^2) # media
+sigma ^ 2 * tau ^ 2 / (sigma ^ 2 + N * tau ^ 2)
+```
+
+i) Elegir varianza grande nos daría una inicial poco informativa.
