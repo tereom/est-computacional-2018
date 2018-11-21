@@ -2756,7 +2756,7 @@ El siguiente modelo gráfico resume las independencias condicionales
 de la última ecuación:
 
 
-```{r, include = FALSE}
+```{r, include = FALSE, eval=FALSE}
 library(DiagrammeR)
 grViz("
 digraph betabinom {
