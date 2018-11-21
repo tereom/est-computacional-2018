@@ -1631,6 +1631,8 @@ posición en la caminata aleatoria.
 
 3. Seleccionamos una nueva componente ($\theta_{k+1}$) y repetimos el proceso.
 
+</div>
+
 El muestreador de Gibbs es útil cuando no podemos determinar de manera analítica
 la distribución conjunta y no se puede simular directamente de ella, pero si 
 podemos determinar todas las distribuciones condicionales y simular de ellas.

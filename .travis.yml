@@ -7,6 +7,11 @@ addons:
         packages:
             - libopenblas-base
 
+before_install:
+  - sudo add-apt-repository ppa:marutter/rrutter -y
+  - sudo apt-get update
+  - sudo apt-get install jags
+  
 before_script:
     - chmod +x ./_build.sh
     - chmod +x ./_deploy.sh
