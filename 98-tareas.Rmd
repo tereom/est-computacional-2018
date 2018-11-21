@@ -310,7 +310,7 @@ ii) Genera $10,000$ muestras bootstrap y calcula intervalos de confianza del
 iii) Revisa si el intervalo de confianza contiene el verdadero valor del 
 parámetro ($\theta=exp(-2\cdot2.5)$), en caso de que no lo contenga registra si 
 falló por la izquierda (el límite inferior $exp(-2.5*\lambda)$) o falló por la 
-derecha (el límite superior <$exp(-2.5*\lambda)$).
+derecha (el límite superior $exp(-2.5*\lambda)$).
 
 a) Repite el proceso descrito 1000 veces y llena la siguiente tabla:
 
@@ -945,4 +945,3 @@ Asegurate de alcanzar convergencia y describe los diagnósticos que utilizaste
 para concluir que se convergió a la distribución posterior.
 
 Instalar Stan y rstan, instrucciones [aquí](http://mc-stan.org/users/interfaces/rstan.html).
-
