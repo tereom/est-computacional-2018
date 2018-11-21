@@ -1152,7 +1152,7 @@ sims <- rerun(1000, sim_acept_rechazo()) %>% flatten_dbl()
 
 
 
-### Variables aleatorias continuas
+### Variables aleatorias continuas {-}
 
 #### Método de inversión {-}
 ```{r, include=FALSE}

@@ -310,7 +310,7 @@ ii) Genera $10,000$ muestras bootstrap y calcula intervalos de confianza del
 iii) Revisa si el intervalo de confianza contiene el verdadero valor del 
 parámetro ($\theta=exp(-2\cdot2.5)$), en caso de que no lo contenga registra si 
 falló por la izquierda (el límite inferior $exp(-2.5*\lambda)$) o falló por la 
-derecha (el límite superior <$exp(-2.5*\lambda)$).
+derecha (el límite superior $exp(-2.5*\lambda)$).
 
 a) Repite el proceso descrito 1000 veces y llena la siguiente tabla:
 
@@ -653,18 +653,17 @@ ggplot(costos, aes(x = J, y = costo / 1000)) +
 
 ## 10-Familias conjugadas {-}
 
-1. **Modelo Beta-Binomial**
+#### 1. Modelo Beta-Binomial {-}
+
 Una compañía farmacéutica afirma que su nueva medicina incrementa la 
 probabilidad de concebir un niño (sexo masculino), pero aún no publican 
 estudios. Supón que conduces un experimento en el cual $50$ parejas se 
 seleccionan de manera aleatoria de la población, toman la medicina y conciben
-un bebé, nacen $30$ niños y $20$ niñas.
 
 a) Quieres estimar la probabilidad de concebir un niño para parejas que 
 toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
-en $0.5$ pues
-esta corresponde a personas que no toman la medicina, y la inicial debe reflejar 
-tu incertidumbre sobre el efecto de la droga. 
+en $0.5$ pues esta corresponde a personas que no toman la medicina, y la inicial 
+debe reflejar tu incertidumbre sobre el efecto de la droga. 
 
 b) Usando tu inicial de a) grafica la posterior y decide si es creíble que las
 parejas que toman la medicina tienen una probabilidad de $0.5$ de concebir un
@@ -680,15 +679,14 @@ Calcula el valor de $p(x)$ para cada modelo y el factor de Bayes (asume
 $p(M_1)=p(M_2)=0.5$).
 
 
-2. **Otra familia conjugada**
+#### 2. Otra familia conjugada {-}
+
 Supongamos que nos interesa analizar el IQ de una muestra de estudiantes del 
 ITAM y suponemos que el IQ de un estudiante tiene una distribución normal 
 $x \sim N(\theta, \sigma^2)$ con $\sigma ^ 2$ conocida.
-
 Considera que observamos el IQ de un estudiante $x$. 
 La verosimilitud del modelo es:
 $$p(x|\theta)=\frac{1}{\sqrt{2\pi\sigma^2}}exp\left(-\frac{1}{2\sigma^2}(x-\theta)^2\right)$$
-
 Realizaremos un análisis bayesiano por lo que hace falta establer una 
 distribución inicial, elegimos $p(\theta)$ que se distribuya $N(\mu, \tau^2)$ 
 donde elegimos los parámetros $\mu, \tau$ que mejor describan nuestras creencias
@@ -697,9 +695,253 @@ en $150$, elegiría $\mu=150$ y una desviación estándar chica por ejemplo
 $\tau = 5$. Entonces la distribución inicial es:
 
 $$p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)$$
-
-a) Calcula la distribución posterior $p(\theta|x) \propto p(x|\theta)p(\theta)$, 
+Calcula la distribución posterior $p(\theta|x) \propto p(x|\theta)p(\theta)$, 
 usando la inicial y verosimilitud que definimos arriba. Una vez que realices la
 multiplicación debes identificar el núcleo de una distribución Normal, 
 ¿cuáles son sus parámetros (media y varianza)?
+
+## 11-Metropolis {-}
+
+Regresamos al ejercicio de IQ de la tarea anterior, en ésta hiciste cálculos 
+para el caso de una sola observación. En este ejercicio consideramos el caso en 
+que observamos una muestra $x=\{x_1,...,x_N\}$, y utilizaremos Metrópolis 
+para obtener una muestra de la distribución posterior.
+
+a) Crea una función $prior$ que reciba los parámetros $\mu$ y $\tau$ que definen 
+tus creencias del parámetro desconocido $\theta$ y devuelva $p(\theta)$, donde 
+$p(\theta)$ tiene distriución $N(\mu, \sigma^2)$
+
+```{r, eval=FALSE}
+prior <- function(mu, tau{
+  function(theta){
+    ... # llena esta parte
+  }
+}
+```
+
+b) Utiliza la función que acabas de escribir para definir una distribución 
+inicial con parámetros $\mu = 150$ y $\tau = 15$, llámala _mi\_prior_.
+
+  Ya que tenemos la distribución inicial debemos escribir la verosimilitud, en 
+  este caso la verosimilitud es:
+
+$$p(x|\theta, \sigma^2)=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{N}(x_j-\theta)^2\right)$$
+$$=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)$$
+
+Recuerda que estamos suponiendo varianza conocida, supongamos que la 
+desviación estándar es $\sigma=20$.
+
+$$p(x|\theta)=\frac{1}{(2\pi (20^2))^{N/2}}exp\left(-\frac{1}{2 (20^2)}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)$$
+
+c) Crea una función $likeNorm$ en R que reciba la desviación estándar, la suma 
+de los valores observados $\sum x_i$,  la suma de los valores al cuadrado 
+$\sum x_i^2$ y el número de observaciones $N$ la función devolverá la 
+función de verosimilitud  (es decir va a regresar una función que depende 
+únicamente de $\theta$).
+
+```{r, eval = FALSE}
+# S: sum x_i, S2: sum x_i^2, N: número obs.
+likeNorm <- function(S, S2, N){
+  function(theta){
+    ...  # llena esta parte
+  }
+}
+```
+
+d) Supongamos que aplicamos un test de IQ a 100 alumnos y observamos que la suma
+de los puntajes es 13300, es decir $\sum x_i=13,000$ y $\sum x_i^2=1,700,000$.
+Utiliza la función que acabas de escribir para definir la función de 
+verosimilitud condicional a los datos observados, llámala _mi\_like_.
+
+e) La distribución posterior no normalizada es simplemente el producto de 
+la inicial y la posterior:
+
+```{r}
+postRelProb <- function(theta){
+  mi_like(theta) * mi_prior(theta)
+}
+```
+
+Utiliza Metropolis para obtener una muestra de valores representativos de la
+distribución posterior de $\theta$. Para proponer los saltos utiliza una 
+Normal(0, 5).
+
+f) Grafica los valores de la cadena para cada paso.
+
+g)  Elimina los valores correspondientes a la etapa de calentamiento y realiza
+un histograma de la distribución posterior.
+
+h)  Si calcularas la posterior de manera analítica obtendrías que $p(x|\theta)$
+es normal con media:
+$$\frac{\sigma^2}{\sigma^2 + N\tau^2}\mu + \frac{N\tau^2}{\sigma^2 + N \tau^2}\bar{x}$$
+y varianza
+$$\frac{\sigma^2 \tau^2}{\sigma^2 + N\tau^2}$$
+
+donde $\bar{x}=1/N\sum_{i=1}^N x_i$ es la media de los valores observados.
+Realiza simulaciones de la distribución posterior calculada de manera analítica
+y comparalas con el histograma de los valores generados con Metropolis.
+
+i) ¿Cómo utilizarías los parámetros $\mu, \tau^2$ para describir un escenario 
+donde sabes poco del verdadero valor de la media $\theta$?
+
+### Solución {-}
+
+```{r}
+prior <- function(mu = 100, tau = 10){
+  function(theta){
+    dnorm(theta, mu, tau)
+  }
+}
+mu <- 150
+tau <- 15
+mi_prior <- prior(mu, tau)
+```
+
+c) 
+```{r}
+# S: sum x_i, S2: sum x_i^2, N: número obs., sigma: desviación estándar (conocida)
+S <- 13000
+S2 <- 1700000
+N <- 100
+
+# sigma2 <- S2 / N - (S / N) ^ 2
+sigma <- 20
+  
+likeNorm <- function(S, S2, N, sigma = 20){
+  # quitamos constantes
+  sigma2 <-  sigma ^ 2
+  function(theta){
+    exp(-1 / (2 * sigma2) * (S2 - 2 * theta * S + 
+        N * theta ^ 2))
+  }
+}
+```
+
+d)
+```{r}
+mi_like <- likeNorm(S = S, S2 = S2, N = N, sigma = sigma)
+mi_like(130)
+```
+
+e)
+```{r}
+postRelProb <- function(theta){
+  mi_like(theta) * mi_prior(theta)
+}
+
+# para cada paso decidimos el movimiento de acuerdo a la siguiente función
+caminaAleat <- function(theta, sd_prop = 5){ # theta: valor actual
+  salto_prop <- rnorm(n = 1, sd = sd_prop) # salto propuesto
+  theta_prop <- theta + salto_prop # theta propuesta
+  u <- runif(1) 
+  p_move = min(postRelProb(theta_prop) / postRelProb(theta), 1) # prob mover
+  if(p_move  > u){
+    return(theta_prop) # aceptar valor propuesto
+  }
+  else{
+    return(theta) # rechazar
+  }
+}
+
+
+pasos <- 10000
+camino <- numeric(pasos) # vector que guardará las simulaciones
+camino[1] <- 90 # valor inicial
+
+rechazo = 0
+# Generamos la caminata aleatoria
+for (j in 2:pasos){
+  camino[j] <- caminaAleat(camino[j - 1])
+  rechazo <- rechazo + 1 * (camino[j] == camino[j - 1]) 
+}
+
+rechazo / pasos
+caminata <- data.frame(pasos = 1:pasos, theta = camino)
+
+
+```
+
+f)
+
+```{r, out.height="300px"}
+ggplot(caminata[1:2000, ], aes(x = pasos, y = theta)) +
+  geom_point(size = 0.8) +
+  geom_path(alpha = 0.3) 
+```
+
+g)
+
+```{r, out.height="300px"}
+ggplot(filter(caminata, pasos > 2000), aes(x = theta)) +
+  geom_histogram(aes(y = ..density..), binwidth = 0.8) 
+```
+
+h)
+
+```{r, out.height="200px"}
+ggplot(filter(caminata, pasos > 2000), aes(x = theta)) +
+  geom_histogram(aes(y = ..density..), binwidth = 0.7) + 
+  stat_function(fun = dnorm, args = list(mean = 130.3, sd = 1.98), color = "red")
+  
+sigma ^ 2 * mu / (sigma ^ 2 + N * tau ^ 2) + tau ^ 2 * S / (sigma^2  + N * tau^2) # media
+sigma ^ 2 * tau ^ 2 / (sigma ^ 2 + N * tau ^ 2)
+```
+
+i) Elegir varianza grande nos daría una inicial poco informativa.
+
+## 12-MCMC convergencia {-}
+
+Implementaremos un modelo de regresión en JAGS, la base de datos que
+usaremos contiene información de mediciones de radón (activity)
+y del suelo en el que se hicieron las mediciones (floor = 0 casas con
+sótano, floor = 1 casas sin sótano), las mediciones corresponden a 919
+hogares muestreados de 85 condados de Minnesota. El objetivo es
+construir un modelo de regresión en el que la medición de radón es la
+variable dependiente y el tipo de suelo es la covariable.
+
+El modelo es como sigue:
+
+$$x_i \sim N(\alpha + \beta x_i, \sigma^2)$$
+
+La distribuciones iniciales que usaremos son:
+$$\beta \sim N(0, 1000)$$
+$$\sigma^2 \sim U(0, 1000)$$
+
+```{r, message=FALSE, warning=FALSE}
+library(R2jags)
+
+modelo_regresion.txt <-
+    '
+    model{
+      for(i in 1 : n) {
+        y[i] ~ dnorm(y.hat[i], tau.y) 
+        y.hat[i] <- a + b * x[i]
+      }
+      a ~ dnorm(0, 0.001)
+      b ~ dnorm(0, 0.001)
+      tau.y <- pow(sigma.y, -2)
+      sigma.y ~ dunif(0, 100)
+    }
+    '
+cat(modelo_regresion.txt, file = 'modelo_regresion.bugs')
+
+# cargamos los datos con load radon
+radon <- readr::read_csv("data/radon.csv")
+
+# Iniciamos preparando los datos para el análisis, trabajaremos en
+# escala logarítmica, hay algunos casos con medición cero, para éstos
+# hacemos una pequeña correción redondeándolos a 0.1.
+y <- log(ifelse (radon$activity == 0, 0.1, radon$activity))
+n <- nrow(radon)
+x <- radon$floor
+
+# jags
+radon1_data <- list("n", "y", "x")
+radon1_parameters <- c("a", "b", "sigma.y")
+```
+
+El ejercicio consiste en que utilces la función `jags()` definiendo valores 
+inciales, número de cadenas, número de iteraciones y etapa de calentamiento. 
+Asegurate de alcanzar convergencia y describe los diagnósticos que utilizaste 
+para concluir que se convergió a la distribución posterior.
 

@@ -13,7 +13,9 @@ library(gridExtra)
 theme_set(theme_minimal())
 ```
 
-Para esta sección seguiremos, principalmente, @kruschke.
+Para esta sección seguiremos principalmente @kruschke, sin embargo, para el 
+desarrollo de las notas también se utilizó @gelman-hill, @gelman-bayesian y 
+@bolstad.
 
 Hasta ahora hemos estudiado métodos estadísticos frecuentistas (o clásicos), 
 el punto de vista frecuentista se basa en los siguientes puntos (@wasserman):
@@ -53,7 +55,7 @@ posbilidades. _How often have I said to you that when you have eliminated the im
 
 * Las posibilidades son valores de los parámetros en modelos descriptivos.
 
-## Probabilidad subjetiva {-}
+## Probabilidad subjetiva
 
 ¿Qué tanta certeza tienes de que una moneda acuñada por la casa de moneda 
 mexicana es justa? Si, en cambio, consideramos una moneda antigua y asimétrica, 
@@ -129,7 +131,7 @@ la varianza de $\theta$, que mide que tan dispersa esta la distribución, se
 puede pensar como la incertidumbre entre los posibles valores.
 
 
-## Regla de Bayes {-}
+## Regla de Bayes e inferencia bayesiana
 
 Thomas Bayes (1702-1761) fue un matemático y ministro de la iglesia 
 presbiteriana, en 1764 se publicó su famoso teorema. 
@@ -222,6 +224,7 @@ $$p(\theta|x) \propto p(x|\theta)p(\theta).$$
 </div>
 
 #### Ejemplo: Ingesta calórica en estudiantes {-}
+
 Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
 universitarios en México, y escuchamos que de acuerdo a investigaciones se
 recomienda que un adulto promedio ingiera 2500 kcal. Es así que buscamos conocer
@@ -351,7 +354,7 @@ entonces podemos calcular el cociente de $p(M_1|x)$ y $p(M_2|x)$ obteniendo:
 $$\frac{p(M_1|x)}{p(M_2|x)} = \frac{p(x|M_1) \cdot p(M_1)}{p(x|M_2)\cdot p(M_2)}$$
 
 El cociente de evidencia $\frac{p(x|M_1)}{p(x|M_2)}$ se conoce como __factor de
-Bayes__.
+Bayes__, y $p(M_i)$ describe nuestras creencias iniciales en cada modelo.
 
 
 #### Invarianza en el orden de los datos {-}
@@ -530,6 +533,30 @@ factible que el valor se encuentre en los extremos.
 Podemos calcular el factor de Bayes para distintos datos observados:
 
 ```{r}
+# Modelo 1, 3 posibles valores
+p_M1 <- data_frame(theta = c(0.25, 0.5, 0.75), prior = c(0.25, 0.5, 0.25), 
+  modelo ="M1")
+
+# Modelo 2, Creamos una inicial que puede tomar más valores
+p <- seq(0, 24, 1)
+p2 <- c(p, 24, sort(p, decreasing = TRUE))
+p_M2 <- data_frame(theta = seq(0, 1, 0.02), prior = p2 / sum(p2), 
+  modelo = "M2")
+
+N <- 20 # estudiantes
+z <- 12 # éxitos
+
+dists_h <- bind_rows(p_M1, p_M2) %>% # base de datos horizontal
+    group_by(modelo) %>%
+    mutate(
+        Like = theta ^ z * (1 - theta) ^ (N - z), # verosimilitud 
+        posterior = (Like * prior) / sum(Like * prior)
+      ) 
+
+dists <- dists_h %>% # base de datos larga
+    gather(dist, valor, prior, Like, posterior) %>% 
+    mutate(dist = factor(dist, levels = c("prior", "Like", "posterior")))
+
 factorBayes <- function(N, z){
   evidencia <- bind_rows(p_M1, p_M2) %>% # base de datos horizontal
     group_by(modelo) %>%
@@ -592,9 +619,10 @@ la distribución posterior, estos se conocen como cadenas de Markov via Monte
 Carlo (MCMC por sus siglas en inglés). El desarrollo de los métodos MCMC es lo
 que ha propiciado el desarrollo de la estadística bayesiana en años recientes.
 
-### Ejemplo: Bernoulli {-}
 
-#### Distribuciones conjugadas {-}
+## Distribuciones conjugadas
+
+### Ejemplo: Bernoulli {-}
 
 Comenzaremos con el modelo Beta-Binomial. Recordemos que si X en un experimento 
 con dos posibles resultados, X se distribuye Bernoulli y la función de 
@@ -797,7 +825,7 @@ multiplicación debes identificar el núcleo de una distribución Normal,
 
 
 
-#### Aproximación por cuadrícula {-}
+## Aproximación por cuadrícula
 
 Supongamos que la distribución beta no describe nuestras creencias de manera
 adecuada. Por ejemplo, mis creencias podrían estar mejor representadas por una
@@ -869,7 +897,7 @@ head(dists_h)
 sum(dists_h$posterior * dists_h$theta)
 ```
 
-En cuanto a los intervalos de probabilidad, debido a que estamos usando masas 
+Ahora para intervalos de probabilidad, debido a que estamos usando masas 
 discretas, la suma de las masas en un intervalo usualmente no será igual 
 a 95% y por tanto elegimos los puntos tales que la masa sea mayor a igual 
 a 95% y la masa total sea lo menor posible, en nuestro ejemplo podemos usar
@@ -918,14 +946,17 @@ factorBayes <- function(M, s){
 factorBayes(50, 25)
 ```
 
-#### Metrópolis {-}
+## MCMC
+
 Hay ocasiones en las que los métodos de inicial conjugada y aproximación por
 cuadrícula no funcionan, hay casos en los que la distribución beta no describe
 nuestras creencias iniciales. Por su parte, la aproximación por cuadrícula no es
 factible cuando tenemos varios parámetros. Es por ello que surge la necesidad de
 utilizar métodos de Monte Carlo vía Cadenas de Markov (MCMC).
 
-En Metropolis se asume que podemos calcular $p(\theta)$ para un valor
+### Introducción Metrópolis {-}
+
+Para usar Metrópolis debemos poder calcular $p(\theta)$ para un valor
 particular de $\theta$ y el valor de la verosimilitud $p(x|\theta)$ para 
 cualquier $x$, $\theta$ dados. En realidad, el método únicamente requiere que
 se pueda calcular el producto de la inicial y la verosimilitud, y sólo 
@@ -935,22 +966,30 @@ muestra de valores $\theta$ obtenido de dicha distribución.
 
 **Caminata aleatoria**. Con el fin de entender el algoritmo comenzaremos 
 estudiando el concepto de caminata aleatoria. Supongamos que un vendedor de 
-enciclopedias trabaja a lo largo de una cadena de islas. Constantemente viaja
-entre las islas ofreciendo sus productos. Al final de un día de trabajo decide 
-si permanece en la misma isla o se transporta a una de las 2 islas vecinas. El 
-vendedor ignora la distribución de la población en las islas; sin embargo, una 
-vez que se encuentra en una isla puede investigar la población de la misma y 
-también  de la isla a la que se propone viajar después. El
-objetivo del vendedor es visitar las islas de manera proporcional a la 
+*yakult* trabaja a lo largo de una cadena de islas:
+
+* constantemente viaja entre las islas ofreciendo sus productos,
+
+* al final de un día de trabajo decide si permanece en la misma isla o se 
+transporta a una de las 2 islas vecinas.
+
+* El vendedor ignora la distribución de la población en las islas y el número 
+total de islasx; sin embargo, 
+una vez que se encuentra en una isla puede investigar la población de la misma y 
+también  de la isla a la que se propone viajar después. 
+
+* El objetivo del vendedor es visitar las islas de manera proporcional a la 
 población de cada una. Con esto en mente el vendedor utiliza el siguiente 
-proceso: 1) Lanza un volado, si el resultado es águila se propone ir a la isla 
+proceso: 
+    1) Lanza un volado, si el resultado es águila se propone ir a la isla 
 del lado izquierdo de su ubicación actual y si es sol a la del lado derecho.
-2) Si la isla propuesta en el paso anterior tiene población mayor a la población
-de la isla actual, el vendedor decide viajar a ella. Si la isla vecina tiene
-población menor, entonces visita la isla propuesta con una probabilidad que 
+    2) Si la isla propuesta en el paso anterior tiene población mayor a la 
+población de la isla actual, el vendedor decide viajar a ella. Si la isla vecina 
+tiene población menor, entonces visita la isla propuesta con una probabilidad que 
 depende de la población de las islas. Sea $P_{prop}$ la población de la isla 
 propuesta y $P_{actual}$ la población de la isla actual. Entonces el vendedor
-cambia de isla con probabilidad $p_{mover}=P_{prop}/P_{actual}$.
+cambia de isla con probabilidad 
+$$p_{mover}=P_{prop}/P_{actual}$$
 
 A la larga, si el vendedor sigue la heurística anterior la probabilidad de que
 el vendedor este en alguna de las islas coincide con la población relativa de
@@ -982,7 +1021,7 @@ for(j in 2:pasos){
   camino[j] <- caminaIsla(camino[j - 1])
 }
 
-caminata <- data.frame(pasos = 1:pasos, isla = camino)
+caminata <- data_frame(pasos = 1:pasos, isla = camino)
 
 plot_caminata <- ggplot(caminata[1: 1000, ], aes(x = pasos, y = isla)) +
   geom_point(size = 0.8) +
@@ -1001,14 +1040,20 @@ plot_dist <- ggplot(caminata, aes(x = isla)) +
 grid.arrange(plot_caminata, plot_dist, ncol = 1, heights = c(4, 2))
 ```
 
-Para aproximar la distribución objetivo debemos permitir que el vendedor recorra 
-las islas durante una sucesión larga de pasos y 
-registramos sus visitas. Nuestra aproximación de la distribución es justamente 
-el registro de sus visitas. Más aún, debemos tener cuidado y excluir la 
-porción de las visitas que se encuentran bajo la influencia de la posición 
-inicial. Esto es, debemos excluir el periodo de calentamiento. Una vez que
-tenemos un registro _largo_ de los viajes del vendedor (excluyendo el 
-calentamiento) podemos aproximar la distribución objetivo de cada valor de 
+Entonces:
+
+* Para aproximar la distribución objetivo debemos permitir que el vendedor 
+recorra las islas durante una sucesión larga de pasos y registramos sus visitas. 
+
+* Nuestra aproximación de la distribución es justamente el registro de sus 
+visitas. 
+
+* Más aún, debemos tener cuidado y excluir la porción de las visitas que se 
+encuentran bajo la influencia de la posición inicial. Esto es, debemos excluir 
+el **periodo de calentamiento**. 
+
+* Una vez que tenemos un registro _largo_ de los viajes del vendedor (excluyendo 
+el calentamiento) podemos aproximar la distribución objetivo de cada valor de 
 $\theta$ simplemente contando el número relativo de veces que el vendedor visitó
 dicha isla.
 
@@ -1023,7 +1068,7 @@ plots_list <- lapply(t, function(i){
 })
 
 args.list <- c(plots_list,list(nrow=4,ncol=4))
-do.call(grid.arrange, args.list)
+invoke(grid.arrange, args.list)
 ```
 
 
@@ -1031,9 +1076,8 @@ Escribamos el algoritmo, para esto indexamos las islas por el valor
 $\theta$, es así que la isla del extremo oeste corresponde a $\theta=1$ y la 
 población relativa de cada isla es $P(\theta)$:
 
-1. El vendedor de ubica en $\theta_{actual}$ y propone moverse a la izquierda
-o derecha con probabilidad 0.5. 
-
+1. El vendedor se ubica en $\theta_{actual}$ y propone moverse a la izquierda
+o derecha con probabilidad 0.5.  
 El rango de los posibles valores para moverse, y la probabilidad de proponer 
 cada uno se conoce como **distribución propuesta**, en nuestro ejemplo sólo 
 toma dos valores cada uno con probabilidad 0.5. 
@@ -1041,9 +1085,7 @@ toma dos valores cada uno con probabilidad 0.5.
 2. Una vez que se propone un movimiento, decidimos si aceptarlo. La decisión de
 aceptar se basa en el valor de la distribución **objetivo** en la posición
 propuesta, relativo al valor de la distribución objetivo en la posición actual:
-
 $$p_{mover}=min\bigg( \frac{P(\theta_{propuesta})}{P(\theta_{actual})},1\bigg)$$
-
 Notemos que la distribución objetivo $P(\theta)$ no necesita estar normalizada, 
 esto es porque lo que nos interesa es el cociente $P(\theta_{propuesta})/P(\theta_{actual})$.
 
@@ -1131,14 +1173,17 @@ ggplot(expT, aes(x = as.numeric(theta), y = P)) +
 
 ```
 
-#### Caso general {-}
+## Metrópolis
 
 En la sección anterior implementamos el algoritmo de Metrópolis en un caso
 sencillo: las posiciones eran discretas, en una dimensión y la propuesta era
 únicamente mover a la izquierda o a la derecha. El algoritmo general aplica 
 para valores continuos, en cualquier número de dimensiones y con distribuciones
-propuesta más generales. Lo esencial del método no cambia para el caso general, 
-esto es:
+propuesta más generales. Lo esencial del método no cambia para el caso general: 
+
+<div class="caja">
+
+#### Metropolis {-}
 
 1. Tenemos una distribución objetivo $p(\theta)$ de la cual buscamos generar
 muestras. Debemos ser capaces de calcular el valor de $p(\theta)$ para cualquier
@@ -1155,9 +1200,9 @@ nueva posición y después decidiendo si se acepta o no el valor propuesto. Las
 distribuciones propuesta pueden tener muchas formas, el objetivo es que la 
 distribución propuesta explore el espacio de parámetros de manera eficiente.
 
-3. Una vez que tenemos un valor propuesto decidimos si aceptar calculando:
-
+3. Una vez que tenemos un valor propuesto calculamos:
 $$p_{mover}=min\bigg( \frac{P(\theta_{propuesta})}{P(\theta_{actual})},1\bigg)$$
+y aceptamos el valor propuesto con probabilidad $p_{mover}$
 
 Y al final obtenemos valores representativos de la distribución objetivo 
 $\{\theta_1,...,\theta_n\}$
@@ -1165,14 +1210,16 @@ $\{\theta_1,...,\theta_n\}$
 Es importante recordar que debemos excluir las primeras observaciones pues 
 estas siguen bajo la influencia del valor inicial.
 
+</div>
+
 Retomemos el problema de inferencia Bayesiana y veamos como usar el algoritmo
 de Metrópolis cuando la distribución objetivo es la distribución posterior.
 
 #### Ejemplo: Bernoulli
 
 Retomemos el ejemplo del experimento Bernoulli, iniciamos con una función de 
-distribución que describa nuestro conocimiento inicial y tal que 
-podamos calcular $p(\theta)$ con facilidad. En este caso elegimos una densidad 
+distribución que describa nuestro conocimiento inicial y tal que podamos 
+calcular $p(\theta)$ con facilidad. En este caso elegimos una densidad 
 beta y podemos usar función dbeta de R:
 
 ```{r, eval}
@@ -1217,8 +1264,8 @@ resultan en águila.
 
 ```{r, fig.height=4, fig.width=8}
 # Datos observados
-N = 14
-z = 11
+N <-  14
+z <- 11
 
 # Defino mi inicial y la verosimilitud
 mi_prior <- prior() # inicial uniforme
@@ -1312,18 +1359,21 @@ sd(sims_y)
 
 
 ### Inferencia de dos proporciones binomiales {-}
+
 Consideramos la situación en la que nos interesa estudiar dos proporciones 
 $\theta_1$ y $\theta_2$ correspondientes a dos grupos. Queremos determinar
 que debemos creer de estas proporciones tras observar datos provenientes de 
-ambos grupos.
+ambos grupos. Esto es relevante en muchos casos, por ejemplo, en un análisis
+clínico nos podría interesar evaluar el efecto de una nueva medicina y queremos
+comoparar la tasa de éxito en el grupo control contra el grupo de tratamiento.
 
 En el marco Bayesiano comenzamos definiendo nuestras creencias iniciales. En 
 este caso nuestras creencias describen combinaciones de parámetros, es decir
 debemos especificar $p(\theta_1, \theta_2)$ para todas las combinaciones 
 $\theta_1, \theta_2$. 
 
-Un caso sencillo es asumir que nuestras creencias de $\theta_1$ son independientes
-de nuestras creencias de $\theta_2$. Esto implica:
+Un caso sencillo es asumir que nuestras creencias de $\theta_1$ son 
+independientes de nuestras creencias de $\theta_2$. Esto implica:
 
 $$p(\theta_1, \theta_2) = p(\theta_1)p(\theta_2)$$ 
 para todo valor de $\theta_1$
@@ -1356,7 +1406,8 @@ Usamos la regla de Bayes para calcular la distribución posterior:
 $$p(\theta_1,\theta_2|x)=p(x|\theta_1,\theta_2)p(\theta_1, \theta_2) / p(x)$$
 $$= \frac{p(x|\theta_1,\theta_2)p(\theta_1, \theta_2)} { \int\int p(x|\theta_1,\theta_2)p(\theta_1, \theta_2)d\theta_1d\theta_2}$$
 
-##### Distribuciones conjugadas
+#### Distribuciones conjugadas {-}
+
 Siguiendo el caso de la familia Beta-Bernoulli que estudiamos en el caso de 
 una proporción y suponiendo independencia en las creencias, 
 $p(\theta_1, \theta_2) = p(\theta_1)p(\theta_2)$. Escribimos la densidad inicial 
@@ -1381,7 +1432,7 @@ Veamos las gráficas.
 ```{r, fig.width=9.5, fig.height=4.5}
 grid <- expand.grid(x = seq(0.01, 1, 0.01), y = seq(0.01, 1, 0.01))
 grid_inicial <- grid %>% 
-  mutate(z = dbeta(x, 3, 3) * dbeta(y, 3, 3))
+  mutate(z = round(dbeta(x, 3, 3) * dbeta(y, 3, 3), 1))
 
 binom_2_inicial <- ggplot(grid_inicial, aes(x = x, y = y, z = z)) + 
   # geom_tile(aes(fill = z)) +
@@ -1397,7 +1448,7 @@ binom_2_inicial <- ggplot(grid_inicial, aes(x = x, y = y, z = z)) +
 
 # z_1=5, N_1=7, z_2=2, N_2=7, a_1=a_2=b_1=b_2=3
 grid_v <- grid %>% 
-  mutate(z = dbeta(x, 6, 3) * dbeta(y, 3, 6))
+  mutate(z = round(dbeta(x, 6, 3) * dbeta(y, 3, 6), 1))
 
 binom_2_verosimilitud <- ggplot(grid_v, aes(x = x, y = y, z = z)) + 
     geom_raster(aes(fill = z), show.legend = FALSE) +
@@ -1412,7 +1463,7 @@ binom_2_verosimilitud <- ggplot(grid_v, aes(x = x, y = y, z = z)) +
 
 # z_1=5, N_1=7, z_2=2, N_2=7
 grid_post <- grid %>% 
-  mutate(z = dbeta(x, 8, 5) * dbeta(y, 5, 8))
+  mutate(z = round(dbeta(x, 8, 5) * dbeta(y, 5, 8), 1))
   
 binom_2_posterior <- ggplot(grid_post, aes(x = x, y = y, z = z)) + 
     geom_raster(aes(fill = z)) +
@@ -1443,7 +1494,7 @@ pl_verosimilitud
 pl_post
 ```
 
-#### Metrópolis
+#### Metrópolis {-}
 Al igual que en el caso univariado escribimos la verosimilitud y la distribución
 inicial:
 
@@ -1466,7 +1517,7 @@ postRelProb2 <- function(theta){
 }
 ```
 
-Implementemos el algoritmo con una iniciales Beta(3,3) y observaciones
+Implementemos el algoritmo con una inicial Beta(3,3) y observaciones
 $z_1=5$, $N = 7$, $z_1=2$ y $N = 7$, es decir lanzamos 14 volados 7 de cada 
 moneda.
 
@@ -1483,14 +1534,14 @@ mi_like <- likeBern2(z_1 = z_1, N_1 = N_1, z_2 = z_2, N_2 = N_2) # verosimilitud
 
 Para proponer saltos usaremos una distribución normal bivariada. El movimiento
 se acepta de manera definitiva si la posterior es más densa que la posición 
-actual y se acepta de manera probabilista si la posición actual es más
+actual y se acepta de manera probabilística si la posición actual es más
 densa.
 
 ```{r}
 # para cada paso decidimos el movimiento de acuerdo a la siguiente función
 caminaAleat2 <- function(theta){ # theta: valor actual
 	salto_prop <- MASS::mvrnorm(n = 1 , mu = rep(0, 2), 
-    Sigma = matrix(c(0.1, 0, 0, 0.1), byrow = TRUE, nrow = 2)) # salto propuesto
+    Sigma = matrix(c(0.08, 0, 0, 0.08), byrow = TRUE, nrow = 2)) # salto propuesto
   theta_prop <- theta + salto_prop # theta propuesta
   if(all(theta_prop < 0) | all(theta_prop > 1)){ # salir del dominio
     return(theta)
@@ -1546,9 +1597,9 @@ de problemas. Sin embargo, afinar los parámetros de la distribución propuesta
 para que el algoritmo funcione correctamente puede ser complicado. Por otra
 parte, el muestredor de Gibbs no necesita de una distribución propuesta.
 
-Para implementar un muestreador de Gibbs se necesita ser capaz de generar
+**Para implementar un muestreador de Gibbs se necesita ser capaz de generar
 muestras de la distribución posterior condicional a cada uno de los 
-parámetros individuales. Esto es, el muestreador de Gibbs permite generar 
+parámetros individuales.** Esto es, el muestreador de Gibbs permite generar 
 muestras de la posterior:
 $$p(\theta_1,...,\theta_p|x)$$
 siempre y cuando podamos generar valores de todas las distribuciones 
@@ -1561,17 +1612,24 @@ tiempo el siguiente paso depende únicamente de la posición actual. Por tanto
 el muestredor de Gibbs es un proceso cadena de Markov vía Monte Carlo. La 
 diferencia entre Gibbs y Metrópolis radica en como se deciden los pasos. 
 
-En el caso de Gibbs, en cada punto de la caminata se selecciona uno de los
-componentes del vector de parámetros (típicamente se cicla en orden). Supongamos 
-que se selecciona el parámetro $\theta_k$, entonces obtenemos un nuevo valor
-para este parámetro generando una simulación de la distribución condicional
+
+
+<div class="caja">
+**Muestreador Gibbs** 
+
+En cada punto de la caminata se selecciona uno de los
+componentes del vector de parámetros (típicamente se cicla en orden):
+
+1. Supongamos que se selecciona el parámetro $\theta_k$, entonces obtenemos un 
+nuevo valor para este parámetro generando una simulación de la distribución 
+condicional
 $$p(\theta_k,|\theta_1,...,\theta_{k-1},\theta_{k+1},...,\theta_p,x)$$
 
-El nuevo valor $\theta_k$ junto con los valores que aun no cambian 
+2. El nuevo valor $\theta_k$ junto con los valores que aun no cambian 
 $\theta_1,...,\theta_{k-1},\theta_{k+1},...,\theta_p$ constituyen la nueva 
 posición en la caminata aleatoria. 
 
-Seleccionamos una nueva componente y repetimos el proceso.
+3. Seleccionamos una nueva componente ($\theta_{k+1}$) y repetimos el proceso.
 
 El muestreador de Gibbs es útil cuando no podemos determinar de manera analítica
 la distribución conjunta y no se puede simular directamente de ella, pero si 
@@ -1679,16 +1737,16 @@ ggplot(caminata, aes(x = dif)) +
   geom_vline(xintercept = 0, alpha = 0.8, color = "red")
 ```
 
-
 La principal ventaja del muestreador de Gibbs sobre el algoritmo de Metrópolis
 es que no hay necesidad de seleccionar una distribución propuesta y no hay que
 lidiar con lo ineficiente de rechazar valores. A cambio, debemos ser capaces
 de derivar las probabilidades condicionales de cada parámetro y de generar 
 muestras de estas. 
 
-#### Ejemplo: Normal
+#### Ejemplo: Normal {-}
+
 Retomemos el caso de observaciones normales, supongamos que tengo una muestra 
-$x_1,...,x_N$ de observacionesindependientes e identicamente distribuidas, 
+$x_1,...,x_N$ de observaciones independientes e identicamente distribuidas, 
 con $x_i \sim N(\mu, \sigma^2)$, veremos el caso de media desconocida, varianza
 desconocida y de ambas desconocidas.
 
@@ -1724,7 +1782,7 @@ Debido a la relación entre las distribuciones Gamma y Gamma Inversa, podemos
 utilizar la función rgamma de R para generar valores con distribución gamma 
 inversa.
 
-```{r, fig.align='center',fig.width=4,fig.height=4, warning=FALSE}
+```{r, fig.align='center',fig.width=4,fig.height=4, warning=FALSE, message=FALSE}
 # 1. simulamos valores porvenientes de una distribución gamma
 x_gamma <- rgamma(2000, shape = 5, rate = 1)
 # 2. invertimos los valores simulados
@@ -1756,7 +1814,9 @@ obtenemos que $\sigma^2|x \sim GI(N/2+\alpha, \beta + 1/2 \sum(x_i - \mu)^2)$.
 Por tanto tenemos que la inicial Gamma con verosimilitud Normal es una familia
 conjugada.
 
-**Normal con media y varianza desconocidas**. Sea $\theta=(\mu, \sigma^2)$  especificamos la siguiente inicial para $\theta$:
+#### Ejemplo: Normal con media y varianza desconocidas {-}
+
+Sea $\theta=(\mu, \sigma^2)$  especificamos la siguiente inicial para $\theta$:
 $$p(\theta) = N(\mu|m, \tau^2)\cdot IG(\sigma^2|\alpha, \beta)$$
 suponemos hiperparámetros $m,\tau^2, \alpha, \beta$ conocidos. Entonces, la
 distribución posterior es:
@@ -1768,7 +1828,8 @@ $$= \frac{1}{(\sigma^2)^{N/2}}
   exp\bigg(-\frac{\beta}{\sigma^2}\bigg)$$
 
 en esta última distribución no reconocemos el núcleo de niguna distribución 
-conocida pero si nos concenteramos únicamente en los términos que involucran
+conocida (existe una distribución [normal-gamma inversa](https://en.wikipedia.org/wiki/Normal-inverse-gamma_distribution))
+pero si nos concenteramos únicamente en los términos que involucran
 a $\mu$ tenemos: 
 
 $$exp\left(-\frac{1}{2}\left( \mu^2 \left( \frac{N}{\sigma^2} + 
@@ -1873,7 +1934,7 @@ $$p(y) =\int p(y|\theta)p(\theta|x)d\theta$$
 
 Por tanto podemos aproximar la distribución predictiva posterior como:
 
-```{r, fig.height=3.5, fig.width=3.5}
+```{r, fig.height=3.5, fig.width=4}
 caminata_f <- filter(caminata, pasos > 5000)
 
 caminata_f$y_sims <- rnorm(1:nrow(caminata_f), caminata_f$mu, caminata_f$sigma2)
@@ -1891,20 +1952,63 @@ términos de precisión (el inverso de la varianza). Si parametrizamos de esta
 manera $\nu = 1/\sigma^2$ podemos repetir el proceso anterior con la
 diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.
 
-### JAGS
+### Conclusiones y observaciones MCMC {-}
 
-* Instalar [JAGS](http://mcmc-jags.sourceforge.net).
+* Una generalización del algoritmo de Metrópolis es Metrópolis-Hastings. 
 
-* Instalar los paquetes R2jags y rjags de R.
+El algoritmo de Metropolis es como sigue:
+    1. Generamos un punto inicial tal que $p(\theta)>0$.
+    
+    2. Para $t = 1,2,...$
+        + Se propone un nuevo valor $\theta_{propuesto}$ con una distribución
+        propuesta $g(\theta_{propuesta}|\theta_{actual})$ es común  que $g(\theta_{propuesta}|\theta_{actual})$ sea una normal centrada en 
+        $\theta_{actual}$.
+        
+    3. Calculamos 
+$$p_{mover}=min\bigg( \frac{p(\theta_{propuesta})}{p(\theta_{actual})},1\bigg)$$
+y aceptamos $$\theta_{propuesta}$$ con probabilidad $p_{mover}$
+Es así que el algorito requiere que podamos calcular el cociente en $p_{mover}$
+para todo $\theta_{actual}$ y $\theta_{propuesta}$, así como simular de la 
+distribución propuesta $g(\theta_{propuesta}|\theta_{actual})$, adicionalmente
+debemos poder generar valores uniformes para decidir si aceptar/rechazar.
+En el caso de **Metropolis** un requerimiento adicional es que la distribución
+propuesta $g(\theta_{a}|\theta_b)$ debe ser simétrica, es decir $g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)$ para todo $\theta_{a}$, 
+$\theta_{b}$.
 
-JAGS (Just Another Gibbs Sampler), WinBUGS y OpenBUGS son programas que 
+En el caso de **Metropolis-Hastings** no se requiere que la distribución 
+propuesta $g(\theta_{a}|\theta_b)$ sea simétrica, sin embargo para corregir por
+esta asimetría debemos calcular $p_{mover}$ como sigue:
+$$p_{mover}=min\bigg( \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{actual})}{p(\theta_{actual})/g(\theta_{actual}|\theta_{propuesta})},1\bigg)$$
+La generalización de Metrópolis-Hastings puede resultar en algoritmos más 
+veloces.
+
+* Se puede ver Gibbs como una generalización de Metropolis, cuando estamos 
+actualizando un componente de los parámetros, la distribución propuesta es
+la distribución posterior para ese parámetro, por tanto siempre es aceptado.
+
+* En el caso de modelos complicados se utilizan combinaciones de Gibbs y 
+Metropolis. Cuando se consideran estos dos algoritmos Gibbs es un método más 
+simple y es la primera opción para modelos condicionalmente conjugados. Sí solo
+podemos simular de un subconjunto de las distribuciones condicionales 
+posteriores, entonces podemos usar Gibbs siempre que se pueda y Metropolis 
+unidimensional para el resto, o de manera más general separamos en bloques, un 
+bloque se actualiza con Gibbs y otro con Metrópolis.
+
+* El algoritmo de Gibbs puede *atorarse* cuando hay correlación alta entre los 
+parámetros, reparametrizar puede ayudar, o se pueden usar otros algoritmos que 
+veremos más adelante.
+
+## JAGS
+
+[JAGS](http://mcmc-jags.sourceforge.net) (Just Another Gibbs Sampler), WinBUGS y 
+OpenBUGS son programas que 
 implementan métodos MCMC para generar simulaciones de distribuciones 
 posteriores. Los paquetes rjags y R2jags permiten ajustar modelos en JAGS 
 desde R. Es muy fácil utilizar estos programas pues uno simplemente debe
 especificar las distribuciones iniciales, la verosimilitud y los datos 
 observados. 
 
-#### Especificación del modelo
+#### Especificación del modelo {-}
 
 Repitamos el caso del sesgo de la modela usando JAGS. Vale la pena realizar un 
 diagrama.
@@ -1935,8 +2039,6 @@ digraph betabinom {
 
 ![](imagenes/sesgos_diag.png)
 
-
-
 El diagrama captura las dependencias entre los datos y los parámetros y 
 veremos que puede facilitar la implementación en JAGS pues cada flecha en
 el diagrama corresponde a una línea de código en la especificación del modelo.
@@ -1957,10 +2059,11 @@ modelo_bb.bugs <-
 el ciclo for indica que cada dato observado $x_i$ proviene de una distribución Bernoulli con parámetro $\theta$. Afuera del ciclo
 escribimos las distribución inicial, $\theta \sim Beta(1, 1)$.
 
-#### Inicializar cadenas
+#### Inicializar cadenas {-}
 
-El modelo ya esta especificado, aun debemos indicar los valores de las
-variables en el modelo, para esto definimos los valores en R y después los mandamos a JAGS.
+El modelo ya esta especificado, pero aún debemos indicar los valores de las
+variables en el modelo, para esto definimos los valores en R y después los 
+mandamos a JAGS.
 
 ```{r, echo=FALSE}
 # N = 14; z = 11
@@ -1968,14 +2071,22 @@ N <- 14
 x <- c(rep(0, 3), rep(1, 11))
 ```
 
-Falta especificar el valor inicial de $\theta$, JAGS tiene una manera de hacerlo automaticamente, pero muchas veces vale la pena tener control de los valores iniciales. En ocasiones la eficiencia del proceso puede incrementar si seleccionamos valores iniciales razonables. Kruschke sugiere utilizar como puntos iniciales los estimadores de máxima verosimilitud, esto es porque usualmente la distribución posterior no esta muy lejana de la función de verosimilitud. En este caso el estimador de máxima verosimilitud para $\theta$ es $\hat{\theta}=z/N$.
+Falta especificar el valor inicial de $\theta$, JAGS tiene una manera de hacerlo automaticamente, pero muchas veces vale la pena tener control de los valores iniciales. En ocasiones la eficiencia del proceso puede incrementar si 
+seleccionamos valores iniciales razonables. Kruschke sugiere utilizar como 
+puntos iniciales los estimadores de máxima verosimilitud, esto es porque 
+usualmente la distribución posterior no esta muy lejana de la función de verosimilitud. En este caso el estimador de máxima verosimilitud para $\theta$ 
+es $\hat{\theta}=z/N$.
 
 ```{r}
 theta_init <- sum(x) / N
 ```
 
-Esta manera de especificar los valores iniciales no siempre se recomienda pues cuando queremos evaluar la convergencia de la cadena muchas veces se sugiere correr varias cadenas con puntos iniciales muy dispersos a lo largo del espacio de parámetros, de tal manera que cuando las cadenas convergen se pueda determinar que la etapa de calentamiento a terminado. Un punto medio es iniciar las cadenas en un 
-punto aleatorio cercano al estimador de máxima verosimilitud.
+Esta manera de especificar los valores iniciales no siempre se recomienda pues 
+cuando queremos evaluar la convergencia de la cadena muchas veces se sugiere 
+correr varias cadenas con puntos iniciales muy dispersos a lo largo del espacio 
+de parámetros, de tal manera que cuando las cadenas convergen se pueda 
+determinar que la etapa de calentamiento a terminado. Un punto medio es iniciar 
+las cadenas en un punto aleatorio cercano al estimador de máxima verosimilitud.
 
 ```{r}
 init_theta <- function(){
@@ -1984,7 +2095,7 @@ init_theta <- function(){
 }
 ```
 
-#### Generar las cadenas
+#### Generar las cadenas {-}
 
 Ahora llamamos a JAGS y generamos las cadenas. Para esto usaremos el paquete 
 `R2jags`, otro paquete para llamar JAGS desde R es `rjags`.
@@ -2052,11 +2163,11 @@ jags_bb_samples <-  coda.samples(jags_bb_model,
 plot(jags_bb_samples)
 ```
 
-### Ejemplo normal
+### Ejemplo normal {-}
 Recordemos el ejemplo normal con media y varianza desconocidas. ¿Cuál es el modelo
 gráfico asociado?
 
-```{r, echo=FALSE}
+```{r}
 N <- 50 # Observamos 20 realizaciones
 set.seed(122)
 x <- rnorm(N, 2, 2) 
@@ -2075,7 +2186,7 @@ modelo_normal.bugs <-
     '
 ```
 
-el ciclo for indica que cada dato observado $x_i$ proviene de una distribución
+el ciclo `for` indica que cada dato observado $x_i$ proviene de una distribución
 Normal con media $\mu$ y varinza $1 / \nu$ (precisión $\nu$). Afuera del ciclo
 escribimos las distribuciones iniciales, $\nu \sim Gamma(3, 3)$, esto es 
 $\sigma^2 \sim GI(3, 3)$ y $\mu$ se distribuye Normal con media $\mu = 1.5$ y 
@@ -2116,7 +2227,7 @@ traceplot(jags_fit, varname = c("mu", "sigma2"))
 
 ![](imagenes/manicule2.jpg) Realiza un histograma de la distribución 
 predictiva. Construye un intervalo de 95% de probabilidad para la predicción. 
-Pista: utiliza `jags_fit$BUGSoutput$sims.matrix`.
+    Pista: utiliza `jags_fit$BUGSoutput$sims.matrix`.
 
 ```{r, fig.width=7, fig.height=4}
 jags_fit <- jags(
@@ -2139,7 +2250,7 @@ mean(y)
 sd(y)
 ```
 
-### Diagnósticos
+## Diagnósticos
 Cuando generamos una muestra de la distribución posterior usando MCMC, buscamos que:
 
 1. Los valores simulados sean representativos de la distribución posterior, esto 
@@ -2156,7 +2267,7 @@ principio los métodos MCMC garantizan que cadena infinitamente largas lograran
 una representación perfecta, siempre debemos tener un criterio para cortar la 
 cadena y evaluar la calidad de las simulaciones.
 
-#### Representatividad
+#### Representatividad {-}
 Para determinar la convergencia de la cadena es conveniente realizar más de una 
 cadenas, buscamos ver si realmente se ha olvidado el estado inicial y revisar 
 que algunas cadenas no hayan quedado *atoradas* en regiones inusuales del espacio
@@ -2187,11 +2298,10 @@ que la función_jags_ calcula por omisión:
 jags_fit$BUGSoutput$summary
 ```
 
-
-
 La medida $\hat{R}$ se conoce como el **factor de reducción potencial de 
-escala** o *diagnóstico de convergencia de Gelman-Rubin*, este es la posible reducción en la longitud de un intervalo de 
-confianza si las simulaciones continuaran infinitamente. $\hat{R}$ es 
+escala** o *diagnóstico de convergencia de Gelman-Rubin*, este es la posible 
+reducción en la longitud de un intervalo de confianza si las simulaciones 
+continuaran infinitamente. $\hat{R}$ es 
 aproximadamente la raíz cuadrada de la varianza de todas las 
 cadenas juntas dividida entre la varianza dentro de cada cadena. Si $\hat{R}$ es mucho mayor a 1 esto indica que las cadenas no se han mezclado bien. Una regla
 usual es iterar hasta alcanzar un valor $\hat{R} \leq 1.1$ para todos los 
@@ -2207,7 +2317,7 @@ Y $\hat{V}$ es una estimación del varianza de posteriro de $\theta$:
 
 $$\hat{V} = \frac{N-1}{N}W + \frac{M+1}{MN}B$$
 
-#### Precisión
+#### Precisión {-}
 
 Una vez que tenemos una muestra representativa de la distribución posterior, 
 nuestro objetivo es asegurarnos de que la muestra es lo suficientemente grande 
@@ -2225,7 +2335,7 @@ $$NEM = \frac{N}{1+2\sum_{k=1}^\infty ACF(k)} $$
 
 Usualmente nos gustaría obtener un tamaño efectivo de al menos $100$.
 
-#### Eficiencia
+#### Eficiencia {-}
 Hay varias maneras para mejorar la eficiencia de un proceso MCMC:
 
 * Paralelizar, no disminuimos el número de pasos en las simulaciones pero 
@@ -2239,9 +2349,10 @@ utilizar parametrizaciones redundantes.
 consiste en guardar únicamente los $k$-ésimos pasos de la cadena. Esto resulta
 en cadenas con menos autocorrelación.
 
-### Recomendaciones generales
+### Recomendaciones generales {-}
 
-Gelman recomienda los siguientes pasos cuando uno esta simulando de la posterior:
+@gelman-hill recomienda los siguientes pasos cuando uno esta simulando de la
+posterior:
 
 1. Cuando definimos un modelo por primera vez establecemos un valor bajo para 
 _n.iter_ por ejemplo 10 ó 50. La razón es que la mayor parte de las veces los 
@@ -2262,10 +2373,1960 @@ más técnicas para acelerar la convergencia en el capitulo 19 del libro
 (sobretodo para la parte exploratoria) es trabajar con un subconjunto de los 
 datos, quizá la mitad o una quinta parte.
 
+## HMC y Stan
+
+Stan es un programa para generar muestras de una distribución posterior de los 
+parámetros de un modelo, el nombre del programa hace referencia a [Stanislaw Ulam (1904-1984)](https://en.wikipedia.org/wiki/Stanislaw_Ulam) que fue pionero en 
+los métodos de Monte Carlo. A diferencia de JAGS y BUGS, los pasos de la cadena 
+de Markov se generan con un método llamado *Monte Carlo Hamiltoniano* (HMC). HMC 
+puede ser más eficiente que otros muestreadores en JAGS y BUGS, en particular 
+cuando se ajustan modelo grandes y complejos (por ejemplo, con variables con
+correlación alta).
+
+### Muestreo HMC
+
+El uso de HMC en estadística es reciente, sin embargo, gracias a Stan se ha 
+expandido rápidamente tanto en academia como industria. Desafortunadamente, la
+teoría de HMC está desarrollada en términos de geometría diferencial, lo que 
+hace que su construcción formal requiera de matemáticas avanzadas. En estas notas 
+se presentan las ideas detrás de HMC siguiendo @kruschke.
+
+Stan genera muestras de la posterior usando una variación del algoritmo de 
+Metrópolis. Recordemos como funciona el algoritmo de Metrópolis que vimos en 
+clase:
+
+1. Tenemos una distribución objetivo $p(\theta)$ de la cual buscamos generar
+muestras. Debemos ser capaces de calcular el valor de $p(\theta)$ para cualquier
+valor candidato $\theta$. La distribución objetivo $p(\theta)$ no tiene que 
+estar normalizada, típicamente $p(\theta)$ es la distribución posterior de 
+$\theta$ no normalizada, es decir, es el producto de la verosimilitud y la 
+inicial.
+
+2. La muestra de la distribución objetivo se genera mediante una caminata
+aleatoria a través del espacio de parámetros. 
+    + La caminata inicia en un lugar arbitrario (definido por el usuario). El 
+    punto inicial debe ser tal que $p(\theta)>0$. 
+    + La caminata avanza en cada tiempo proponiendo un movimiento a una
+    nueva posición y después decidiendo si se acepta o no el valor propuesto. Las
+distribuciones propuesta pueden tener muchas formas, el objetivo es que la 
+distribución propuesta explore el espacio de parámetros de manera eficiente.
+
+3. Una vez que tenemos un valor propuesto decidimos si aceptar calculando:
+
+$$p_{mover}=min\bigg( \frac{p(\theta_{propuesta})}{p(\theta_{actual})},1\bigg)$$
+
+Y al final obtenemos valores representativos de la distribución objetivo 
+$\{\theta_1,...,\theta_n\}$.
+
+Notemos que en la versión de Metrópolis que estudiamos, la forma de la 
+distribución propuesta está centrada de manera simétrica en la posición actual. 
+Es decir, en un espacio paramétrico multidimensional, la distribución propuesta 
+podría ser una Normal multivariada, con la matriz de varianzas y covarianzas 
+seleccionada para mejorar la eficiencia en la aplicación particular.
+La normal multivariada siempre esta centrada en la posición actual y siempre 
+tiene la misma forma, sin importar en que sección del espacio paramétrico 
+estemos ubicados. Esto puede llevar a ineficiencias, por ejemplo, si nos 
+ubicamos en las colas de la distribución posterior el paso propuesto con la 
+misma probabilidad nos aleja o acerca de la moda de la posterior. Otro ejemplo 
+es si la distriución posterior se curva a lo largo del espacio paramétrico, una 
+distribución propuesta (de forma fija) puede ser eficiente para una parte de la 
+posterior y poco eficiente para otra parte de la misma.
+
+Por su parte HMC, usa una distribución propuesta que cambia dependiendo de la 
+posición actual. HMC utiliza el gradiente de la posterior y *envuelve* la 
+distribución propuesta hacia el gradiente, como se ve en la siguiente figura.
+
+```{r, out.width = "500px"}
+knitr::include_graphics("imagenes/hmc_proposals.png")
+```
+
+HMC genera un movimiento propuesta de manera análoga a rodar una canica en la 
+distribución posterior volteada (también conocida como potencial). El potencial 
+es el negativo del logaritmo de la densidad posterior, en las regiones donde la 
+posterior es alta el potencial es bajo, y en las la regiones donde la posterior 
+es plana el potencial es alto.
+
+La propuesta se genera dando un golpecito la canica en una dirección aleatoria y 
+dejándola rodar cierto tiempo. En el caso del ejemplo de un solo parámetro la 
+dirección del golpecito inicial es hacia la izquierda o derecha, y la magnitud 
+se genera de manera aleatoria muestreando de una distrubución Gaussiana de media 
+cero. El golpecito impone un momento inicial a la canica, y al terminar el 
+tiempo se propone al algoritmo de Metrópilis la posición final de la canica. Es 
+fácil imaginar que la posición propuesta tenderá a estar en regiones de mayor 
+probabilidad posterior.
+
+La última fila de la figura de arriba nos muestra un histograma de los pasos 
+propuestos, notemos que no está centrado en la posición actual sino que hay una 
+inclinación hacia la moda de la posterior.
+
+Para distribuciones posteriores de dimensión alta con valles diagonales o 
+curveados, la dinámica de HMC generará valores propuesta mucho más prometedores 
+que una distribución propuesta simétrica (como la versión de Metrópolis que 
+implementamos) y mejores que un muestreador de Gibbs que puede *atorarse* en 
+paredes diagonales.
+
+Es así que para pasar del algoritmo de Metrópolis que estudiamos a HMC se 
+modifica la probabilidad de aceptación para tener en cuenta no sola la denisdad 
+posterior relativa, sino también el *momento* (denotado por $\phi$) en las 
+posiciones actual y propuesta. 
+
+$$p_{aceptar}=\bigg(\frac{p(\theta_{propuesta}|x)p(\phi_{propuesta})}{p(\theta_{actual}|x)p(\phi_{actual})}, 1 \bigg)$$
+
+En un sistema continuo ideal la suma de la energía potencial y cinética (que 
+corresponden a $-log(p(\theta|x))$ y $-log(p(\phi))$) es constante y por tanto 
+aceptaríamos todas las propuestas. Sin embargo, en la práctica las dinámicas 
+continuas se dicretizan a intervalos en el tiempo y los cálculos son solo 
+aproximados conllevando a que se rechacen algunas propuestas.
+
+Si los pasos discretizados son pequeños entonces la aproximación será buena pero 
+se necesitarán más pasos para alejarse de una posición dada, y lo contrario si 
+los pasos son muy grandes. Por tanto se debe ajustar el tamaño del paso 
+(epsilon) y el número de pasos. La duración de la trayectoria es el producto del 
+tamaño del paso y el número de pasos. Es usual buscar una tasa de aceptación 
+alrededor del 65%, moviendo el tamaño de epsilon y compensando con el número de 
+pasos.
+
+Es así que el tamaño del paso controla la suavidad de la trayectoria. También es 
+importante ajustar el número de pasos (es decir la duración del movimiento) pues 
+no queremos alejarnos demasiado o rodar de regreso a la posición actual. La 
+siguiente figura muestra varias trayectorias y notamos que muchas rebotan al 
+lugar inicial. 
+
+
+```{r, out.width = "500px"}
+knitr::include_graphics("imagenes/hmc_proposals_2.png")
+```
+
+Para evitar las ineficiencias de dar vueltas en U, Stan incorpora un algoritmo 
+que generaliza la nación de vueltas en U a espacios de dimensión alta, y así 
+estima cuando parar las trayectorias antes de que reboten hacia la posición 
+inical. El algoritmo se llama *No U-turn Sampler* (NUTS).
+
+Adicional a ajustar el tamaño del paso y número de pasos debemos ajustar la 
+desviación estándar del momento inicial. Si la desviación estandar del momento 
+es grande también lo será la desviación estándar de las propuestas. Nuevamente, 
+lo más eficiente será una desviación estándar ni muy grande ni muy chica. En 
+Stan la desviación estándar del momento se establece de manera adaptativa para 
+que coincida con la desviación estándar de la posterior.
+
+
+```{r, out.width = "500px"}
+knitr::include_graphics("imagenes/hmc_proposals_3.png")
+```
+
+Por último, para calcular la trayectoria propuesta debemos ser capaces de 
+calcular el gradiente de la densidad posterior en cualquier valor de los 
+parámetros. Para realizar esto de manera eficiente en espacios de dimensión alta 
+se debe derivar analíticamente, en el caso de modelos complejos las fórmulas se 
+derivan usando algoritmos avanzados.
+
+El paper [A Conceptual Introduction to Hamiltonian Monte Carlo](https://arxiv.org/pdf/1701.02434.pdf) de Michael Betancourt explica 
+conceptos e intuición detrás de HMC, y el porqué es apropiado en problemas de
+alta dimensión. 
+
+#### Ejemplo {-}
+
+Para instalar Stan sigue las instrucciones de aquí. 
+
+Nosotros usaremos el paquete `rstan` y comenzamos con el ejemplo sencillo de 
+estimar el sesgo de una moneda.
+
+```{r, message=FALSE}
+library(rstan)
+
+# opcional para correr en paralelo
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+```
+
+Al igual que en JAGS comenzamos especificando el modelo en el lenguaje de Stan. 
+Lo podemos guardar en un archivo de texto o simplemente asignarlo a una variable 
+en R.
+
+```{r}
+modelo.stan <- '
+data {
+    int<lower=0> N;
+    int y[N]; 
+}
+parameters {
+    real<lower=0,upper=1> theta;
+} 
+model {
+    theta ~ beta(1,1) ;
+    y ~ bernoulli(theta) ;
+}
+
+'
+
+cat(file = "modelo.stan", modelo.stan)
+```
+
+A diferencia de JAGS, Stan permite operaciones vectorizadas, por lo que podemos 
+poner:
+  
+    y ~ bernoulli(theta) ;
+    
+sin necesidad de hacer el ciclo `for`:
+
+    for ( i in 1:N ) {
+        y[i] ~ dbern(theta)
+    }
+    
+Ya que especificamos el modelo lo siguiente es traducir el modelo a código de 
+C++ y compilarlo.
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+stan_cpp <- stan_model("modelo.stan")
+stan_cpp <- stan_model(model_code = modelo.stan)
+```
+
+En el paso de compilación Stan está calculando los gradientes para las dinámicas 
+Hamiltonianas.
+
+Cramos los datos.
+
+```{r}
+N = 50 ; z = 10 ; y = c(rep(1, z), rep(0, N - z))
+
+data_list <- list(y = y, N = N )
+stan_fit <- sampling(object= stan_cpp, data = data_list,
+                    chains = 3 , iter = 1000 , warmup = 200, thin = 1 )
+```
+
+
+```{r}
+summary(stan_fit)
+```
+
+Otro camino es compilar y correr las cadenas de manera simultanea con la función
+`stan()`.
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+stan_fit_2 <- stan(file = 'modelo.stan', data = data_list, 
+    iter = 1000, chains = 4)
+```
+
+### Iniciales {-}
+
+Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan, 
+puedes leer más en https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations.
+
+Podemos clasificar las iniciales en 5 niveles de acuerdo a que tan informativas 
+son:
+
+1. Iniciales planas: usualmente impropias.
+2. Muy vagas pero propias: $N(0, (1e6) ^ 2)$.
+3. Iniciales genéricas muy debilmente informativas: $Normal(0, 10^2)$.
+4. Iniciales genéricas debilmente informativas: $Normal(0, 1)$.
+5. Iniciales específicas e informativas: $Normal(0.4, 0.2^2)$
+
+Cuando se usa Stan tenemos los siguientes principios generales:
+
+* En Stan no importa usar conjugadas (cuando se usan muestreadores de Gibbs 
+puede ser conveniente usar conjugadas, aquí no).
+
+* No interesan: invarianza, Jeffreys o entropía.
+
+* Las iniciales debilmente informativas deben contener suficiente información 
+para regularizar: las iniciales deben dejar fuera valores de los parámetros que 
+no sean razonables, pero no dejar fuera valores que podrían tener sentido.
+
+* Se prefieren las iniciales debilmente informativas sobre las informativas, 
+esto es porque las consecuencias de *perder precisión* por elegir una inicial 
+muy débil (comparado con la verdadera distribución poblacional de los parámetros
+o comparado con conocimiento experto) es menos importante que la ganancia en 
+robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
+relevante.
+
+* Cuando se usen distribuciones iniciales informativas se debe ser explícito en 
+porque se tomaron las decisiones.
+
+
+### Recursos adicionales de Stan {-}
+
+* El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html) facilita el uso de Stan desde R, cuenta con funciones para 
+llevar a cabo estimación Bayesiana sin necesidad de escribir código en el 
+*lenguaje de Stan*, de acuerdo a los autores buscan que la estimación bayesiana 
+sea rutina para los modelos de regresión más comunes.
+
+* El paquete [bayesplot](bayesplot) cuenta con funciones para graficar estimaciones
+de los parámetros, realizar diagnósticos visuales de las cadenas (convergencia), 
+y analizar el ajuste del modelo (graficando de la predictiva posterior).
+
+* El paquete [shinystan](http://mc-stan.org/users/interfaces/shinystan) contiene
+resumenes gráficos y numéricos de parámetros de un modelo y de diagnósticos de
+convergencia.
+
+## Modelos jerárquicos
+
+Los modelos jerárquicos involucran varios parámetros de tal manera que las 
+creencias de unos de los parámetros dependen de manera significativa de los 
+valores de otros parámetros. Por ejemplo, consideremos el caso en el que tenemos 
+varias monedas acuñadas en la misma casa de monedas, es razonable pensar que una
+fábrica sesgada a águilas tenderá a producir monedas con sesgo hacia águilas. 
+La estimación del sesgo de una moneda depende de la estimación del sesgo de la 
+fábrica que a su vez está influido por los datos de todas las monedas. Veremos
+que la estructura de dependenica a lo largo de los parámetros generan estimaciones
+mejor informadas para todos los parámetros.
+
+Si pensamos únicamente en dos monedas que provienen de la misma casa de moneda 
+tenemos:
+
+1. Conocimientos iniciales de los posibles valores de los parámetros (sesgos 
+de las monedas).
+
+2. Tenemos conocimiento inicial de la dependencia de los parámetros por provenir
+de la misma fábrica. 
+
+Cuando observamos lanzamientos de las monedas actualizamos nuestras creencias 
+relativas a los sesgos de las monedas y también actualizamos nuestras 
+creencias acerca de la dependencia de los sesgos.
+
+Recordemos el caso de lanzamientos de una moneda, le asignamos una inicial beta, recordemos que la distribución beta tienen dos parámetors $a$ y $b$:
+
+$$p(\theta)=\frac{1}{B(a,b)}\theta^{a-1}(1-\theta)^{b-1}$$
+
+Con el fin de hacer los parámetros más intuitivos los podemos expresar en 
+términos de la media $\mu$ y el tamaño de muestra $K$, donde $\mu$ es la media 
+de nuestro conocimiento inicial y la confianza está reflejada en el tamaño de 
+muestra $K$. Entonces los parámetros correspondientes en la distribución 
+beta son:
+
+$$a=\mu K, b = (1-\mu)K$$
+
+Ahora introducimos el modelo jerárquico. En lugar de especificar un valor 
+particular para $\mu$, consideramos que $\mu$ puede tomar distintos valores
+(entre 0 y 1), y definimos una distribución de probabilidad sobre esos valores.
+Podemos pensar que esta distribución describe nuestra incertidumbre acerca de la
+construcción de la máquina que manufactura las monedas. 
+
+Veamos que en el caso de más de una moneda el modelo permite que cada moneda 
+tenga un sesgo distinto pero ambas
+tenderán a tener un sesgo cercano a $\mu$, algunas aleatoriamente tendrán un
+valor de $\theta$ mayor a $\mu$ y otras menor. Entre más grande $K$ mayor será 
+la consistencia de la acuñadora y los valores $\theta$ serán más cercanos a $\mu$.
+Si observamos varios lanzamientos de una moneda tendremos información tanto de 
+$\theta$ como de $\mu$.
+
+Para hacer un análisis bayesiano aún nos hace falta definir la distribución 
+inicial sobre los parámetros $\mu$, usemos una distribución Beta:
+
+$$p(\mu)=beta(\mu|A_{\mu}, B_{\mu})$$
+
+donde $A_{\mu}$ y $B_{\mu}$ se conocen como hiperparámetros y son constantes. En 
+este caso, consideramos que $\mu$ se ubica típicamente cerca de 
+$A_{\mu}/(A_{\mu} + B_{\mu})$ y $K$ se considera constante.
+
+### Modelo jerárquico una moneda {-}
+
+Recordemos que en el ejemplo de una moneda teníamos que la verosimilitud era
+Bernoulli:
+
+$$p(x|theta) = \theta^x(1-\theta)^{1-x}$$
+
+Y si utilizamos las iniciales Beta para $\mu$ y $\theta$ como discutimos arriba, 
+solo nos resta aplicar la regla de Bayes con nuestros dos parámetros
+desconocidos $\mu$ y $\theta$:
+
+$$p(\theta, \mu|x)=\frac{p(x|\theta,\mu)p(\theta,\mu)}{p(x)}$$
+
+Hay dos aspectos a considerar en el problema:
+
+1. La verosimilitud no depende de $\mu$ por lo que 
+$$p(x|\theta, \mu)=p(x|\theta)$$
+
+2. La distribución inicial en el espacio de parámetros bivariado se puede
+factorizar:
+
+$$p(\theta,\mu)=p(\theta|\mu)p(\mu)$$
+
+Por lo tanto
+$$p(\theta,\mu|x)=\frac{p(x|\theta,\mu)p(\theta,\mu)}{p(x)}$$
+$$=\frac{p(x|\theta)p(\theta|\mu)p(\mu)}{p(x)}$$
+El siguiente modelo gráfico resume las independencias condicionales 
+de la última ecuación:
+
+
+```{r, include = FALSE}
+library(DiagrammeR)
+grViz("
+digraph betabinom {
+
+  # a 'graph' statement
+  graph [overlap = true]
+
+  node [shape = box,penwidth = 0.1, fixedsize = true, fontsize = 9,
+        fontname = Helvetica, width = 0.2, height = 0.2]
+  AB[label = 'A,B']; 
+
+  node [shape = circle,
+        fixedsize = true, fontsize = 9,
+        fontname = Helvetica, width = 0.2] // sets as circles
+  mu[label = '&mu;']; theta[label = '&theta;']; x;
+
+  # several 'edge' statements
+  edge[color = grey, arrowsize = 0.5, penwidth = 0.5]
+  AB->mu; mu->theta; theta->x;
+}
+")
+
+```
+
+
+#### Aproximación por cuadrícula {-}
+
+En el caso jerárquico, no se puede derivar la distribución posterior de manera 
+analítica pero si los parámetros e hiperparámetros toman un número finito de  
+valores y no hay muchos de ellos, podemos aproximar la posterior usando 
+aproximación por cuadrícula.
+
+A continuación graficamos las distribuciones correspondientes al caso en que
+la distribución del hiperparámetro $\mu$ tiene la forma de una distribución 
+Beta(2, 2), es decir creemos que la media de la acuñadora $\mu$ es 0.5, pero 
+existe bastante incertidumbre acerca del valor.
+
+La distribución de $\theta$, esto es la distribución inicial que refleja la
+dependencia entre $\theta$ y $\mu$ se expresa por medio de otra distribución 
+beta, en el ejemplo usamos K=100:
+
+$$\theta|\mu \sim beta(\mu 100, (1-\mu)100)$$
+
+Esta inicial expresa un alto grado de certeza que una acuñadora con 
+hiperparámetro $\mu$ genera monedas con sesgo cercano a $\mu$
+
+```{r inicial, fig.width = 5.5,echo=FALSE}
+A_mu <- 2; B_mu <- 2; K <- 100
+
+# Distribución inicial conjunta p(theta, mu)
+p_conjunta <- function(mu, theta, A_mu, B_mu, K){
+  # marginal p(mu)
+  p_mu <- dbeta(mu, A_mu, B_mu)
+  # condicional p(theta | mu)
+  p_theta_mu <- dbeta(theta, mu * K, (1 - mu) * K)
+  p_mu * p_theta_mu
+}
+
+grid <- expand.grid(theta = seq(0.01, 0.99, 0.005), 
+  mu = seq(0.01, 0.99, 0.005))
+
+grid_inicial <- grid %>% 
+  mutate(p_inicial = p_conjunta(mu, theta, A_mu, B_mu, K))
+
+plot_conj <- ggplot(grid_inicial, aes(x = theta, y = mu, z = p_inicial)) + 
+  stat_contour(binwidth = 2, aes(color = ..level..)) +
+  scale_x_continuous(expression(theta), limits = c(0, 1)) +
+  scale_y_continuous(expression(mu), limits = c(0, 1)) +
+  scale_color_gradient(expression(p(theta,mu)), guide = FALSE) 
+
+grid_mu <- grid_inicial %>%
+  group_by(mu) %>%
+  summarise(p_mu = sum(p_inicial)) %>%
+  ungroup() %>%
+  mutate(p_mu = p_mu / sum(p_mu))
+
+plot_mu <- ggplot(grid_mu, aes(x = mu, y = p_mu)) +
+  geom_path() +
+  labs(y = expression(p(mu)), 
+       x = expression(mu)) + 
+  ylim(0, 0.015) + coord_flip()
+
+mus <- rbeta(5000, A_mu, B_mu)
+sims_marg <- data.frame(sims = 1:5000, 
+  sims_marg = rbeta(5000, mus * 100, (1 - mus) * 100))
+
+plot_theta <- ggplot(sims_marg, aes(x = sims_marg)) + 
+  geom_density(adjust = 2) +
+  labs(y = expression(p(theta)), 
+       x = expression(theta))
+
+# p(theta|mu=0.75)
+sims_cond_1 <- rbeta(5000, 0.75 * 100, (1 - 0.75) * 100)
+# p(theta|mu=0.25)
+sims_cond_2 <- rbeta(5000, 0.25 * 100, (1 - 0.25) * 100)
+
+# marginal = sims_marg
+
+sims <- data.frame(sim = 1:5000, 
+  cond_1 = sims_cond_1, 
+  cond_2 = sims_cond_2) %>%
+  gather(dist, values, -sim) %>%
+  mutate(mu = ifelse(dist == "cond_1", 0.75, 0.25))
+
+
+plots_marginales <- ggplot(sims, aes(x = values)) +
+  labs(y = expression(p(paste(theta, l, mu))), 
+       x = expression(theta)) + 
+  geom_density(adjust = 2) + 
+  facet_wrap(~ mu, ncol = 1)
+
+grid.arrange(plot_conj, plot_mu, plot_theta, plots_marginales, ncol=2)
+
+```
+
+Verosimilitud.
+
+```{r, fig.width=2.7, fig.height = 2.7, echo=FALSE}
+
+likeBern <- function(z, N){
+  function(theta){
+    theta ^ z * (1 - theta) ^ (N - z)
+  }
+}
+
+# Valores observados
+z <- 9; N <- 12
+mi_like <- likeBern(z, N)
+
+grid_like <- expand.grid(x = seq(0.01, 1, 0.05), y = seq(0.01, 1, 0.05))
+grid_like <- grid_like %>% 
+  mutate(z = mi_like(x))
+
+ggplot(grid_like, aes(x = x, y = y, z = z)) + 
+  stat_contour(aes(color = ..level..)) +
+  scale_x_continuous(expression(theta), limits = c(0, 1)) +
+  scale_y_continuous(expression(mu), limits = c(0, 1)) +
+  scale_color_gradient(expression(L(theta,mu)), guide = FALSE) +
+  coord_fixed()
+
+# cuadrícula
+grid_post <- grid_inicial %>%
+  mutate(
+    prior = p_inicial / sum(p_inicial),
+    Like = theta ^ z * (1 - theta) ^ (N - z), # verosimilitud 
+    posterior = (Like * prior) / sum(Like * prior)
+  )  
+
+post_conj <- ggplot(grid_post, aes(x = theta, y = mu, z = posterior)) + 
+  stat_contour(aes(color = ..level..)) +
+  scale_x_continuous(expression(theta), limits = c(0, 1)) +
+  scale_y_continuous(expression(mu), limits = c(0, 1)) +
+  scale_color_gradient(expression(p(theta,mu)), guide = FALSE) 
+```
+
+Posterior.
+
+```{r, eval = TRUE, echo=FALSE}
+# head(grid_post)
+
+grid_mu <- grid_post %>%
+  group_by(mu) %>%
+  summarise(post_mu = sum(posterior)) %>%
+  ungroup() %>%
+  mutate(post_mu = post_mu / sum(post_mu))
+
+post_mu <- ggplot(grid_mu, aes(x = mu, y = post_mu)) +
+  geom_path() +
+  labs(y = expression(p(paste(mu, l, x))), 
+       x = expression(mu))+ coord_flip()
+
+grid_theta <- grid_post %>%
+  group_by(theta) %>%
+  summarise(post_theta = sum(posterior)) %>%
+  ungroup() %>%
+  mutate(post_theta = post_theta / sum(post_theta))
+
+post_theta <- ggplot(grid_theta, aes(x = theta, y = post_theta)) +
+  geom_path() +
+  labs(y = expression(p(paste(theta, l, x))), 
+       x = expression(theta))
+
+grid_theta_m <- grid_post %>%
+  filter(mu == 0.75 | mu == 0.25) %>%
+  group_by(theta, mu) %>%
+  summarise(post_theta = sum(posterior)) %>%
+  group_by(mu) %>%
+  mutate(post_theta = post_theta / sum(post_theta))
+
+post_marginales <- ggplot(grid_theta_m, aes(x = theta, y = post_theta)) +
+  geom_path() + 
+  facet_wrap(~ mu, ncol = 1) +
+  labs(y = expression(p(paste(theta, l, x, mu))), 
+       x = expression(theta))
+```
+
+```{r, fig.width = 5.5,echo=FALSE}
+grid.arrange(post_conj, post_mu, post_theta, post_marginales, ncol=2)
+```
+
+### Multiples monedas de una misma fábrica {-}
+
+La sección anterior considera el escenario en que lanzamos una moneda y hacemos
+inferencia del parámetro de sesgo $\theta$ y del hiperparámetro $\mu$. Ahora
+consideramos recolectar información de múltiples monedas, si cada moneda tiene
+su propio sesgo $\theta_j$ entonces debemos estimar un parámetro distinto para
+cada moneda.
+
+Suponemos que todas las monedas provienen de la misma fábrica, esto implica 
+que tenemos la misma información inicial $\mu$ para todas las monedas. Suponemos
+también que cada moneda se acuña de manera independiente, esto es, que 
+condicional al parámetro $\mu$ los parámetros $\theta_j$ son independientes 
+en nuestros conocimientos iniciales.
+
+#### Posterior vía aproximación por cuadrícula {-}
+Supongamosque tenemos dos monedas de la misma fábrica. El objetivo es estimar 
+los sesgos $\theta_1$, $\theta_2$ de las dos monedas y estimar simultáneamente
+el parámetro $\mu$ correspondiente a la casa de moneda que las fabricó.
+
+Inicial.
+
+```{r, fig.width=7,echo=FALSE}
+A_mu <- 2; B_mu <- 2; K <- 100
+
+# Distribución inicial p(theta, mu)
+p_conjunta <- function(mu, theta, A_mu, B_mu, K){
+  # marginal p(mu)
+  p_mu <- dbeta(mu, A_mu, B_mu)
+  # condicional p(theta | mu)
+  p_theta_mu <- dbeta(theta, mu * K, (1 - mu) * K)
+  p_mu * p_theta_mu
+}
+
+grid_inicial <- expand.grid(theta = seq(0.01, 0.99, 0.005), 
+  mu = seq(0.01, 0.99, 0.005))
+
+grid_inicial <- grid_inicial %>% 
+  mutate(p_inicial = p_conjunta(mu, theta, A_mu, B_mu, K))
+
+plot_conj_1 <- ggplot(grid_inicial, aes(x = theta, y = mu, z = p_inicial)) + 
+  stat_contour(binwidth = 1, aes(color = ..level..)) +
+  scale_x_continuous(expression(theta[1]), limits = c(0, 1)) +
+  scale_y_continuous(expression(mu), limits = c(0, 1)) +
+  scale_color_gradient(expression(p(theta,mu)), guide = FALSE) 
+
+plot_conj_2 <- ggplot(grid_inicial, aes(x = theta, y = mu, z = p_inicial)) + 
+  stat_contour(binwidth = 1, aes(color = ..level..)) +
+  scale_x_continuous(expression(theta[2]), limits = c(0, 1)) +
+  scale_y_continuous(expression(mu), limits = c(0, 1)) +
+  scale_color_gradient(expression(p(theta,mu)), guide = FALSE) 
+
+
+grid_mu <- grid_inicial %>%
+  group_by(mu) %>%
+  summarise(p_mu = sum(p_inicial)) %>%
+  ungroup() %>%
+  mutate(p_mu = p_mu / sum(p_mu))
+
+plot_mu <- ggplot(grid_mu, aes(x = mu, y = p_mu)) +
+  geom_path() +
+  labs(y = expression(p(paste(mu))), 
+       x = expression(mu)) + 
+  ylim(0, 0.015) + coord_flip()
+
+p_marg <- grid_inicial %>%
+  group_by(theta) %>%
+  summarise(marg = sum(p_inicial)) %>%
+  ungroup() %>%
+  mutate(marg = marg / sum(marg))
+
+plot_marg_1 <- ggplot(p_marg, aes(x = theta, y = marg)) + 
+  geom_path() +
+  labs(y = expression(p(theta[1])), 
+       x = expression(theta[1])) +
+  ylim(0, 0.02)
+
+plot_marg_2 <- ggplot(p_marg, aes(x = theta, y = marg)) + 
+  geom_path() +
+  labs(y = expression(p(theta[2])), 
+       x = expression(theta[2])) +
+  ylim(0, 0.02)
+
+
+grid.arrange(plot_conj_1, plot_conj_2, plot_mu, plot_marg_1, plot_marg_2, 
+             ncol = 3)
+```
+
+Verosimilitud.
+
+```{r, echo=FALSE, fig.width=7, fig.height=2.7, echo=FALSE}
+
+z_1 <- 3; N_1 <- 15
+z_2 <- 4; N_2 <- 5
+
+mi_like_1 <- likeBern(z_1, N_1)
+mi_like_2 <- likeBern(z_2, N_2)
+
+grid_like <- grid_like %>% 
+  mutate(L_1 = mi_like_1(x), 
+         L_2 = mi_like_2(x))
+
+plot_like_1 <- ggplot(grid_like, aes(x = x, y = y, z = L_1)) + 
+  stat_contour(aes(color = ..level..)) +
+  scale_x_continuous(expression(theta[1]), limits = c(0, 1)) +
+  scale_y_continuous(expression(mu), limits = c(0, 1)) +
+  scale_color_gradient(expression(L(theta,mu)), guide = FALSE)
+
+plot_like_2 <- ggplot(grid_like, aes(x = x, y = y, z = L_2)) + 
+  stat_contour(aes(color = ..level..)) +
+  scale_x_continuous(expression(theta[1]), limits = c(0, 1)) +
+  scale_y_continuous(expression(mu), limits = c(0, 1)) +
+  scale_color_gradient(expression(L(theta,mu)), guide = FALSE)
+
+grid.arrange(plot_like_1, plot_like_2, ncol = 3)
+```
+
+Posterior.
+
+```{r, echo=FALSE, fig.width=7}
+grid_post <- grid_inicial %>%
+  mutate(
+    prior = p_inicial / sum(p_inicial),
+    Like_1 = theta ^ z_1 * (1 - theta) ^ (N_1 - z_1), # verosimilitud 
+    posterior_1 = (Like_1 * prior) / sum(Like_1 * prior),
+    Like_2 = theta ^ z_2 * (1 - theta) ^ (N_2 - z_2),
+    posterior_2 = (Like_2 * prior) / sum(Like_2 * prior)
+  )  
+
+post_conj_1 <- ggplot(grid_post, aes(x = theta, y = mu, z = posterior_1)) + 
+  stat_contour(aes(color = ..level..)) +
+  scale_x_continuous(expression(theta[1]), limits = c(0, 1)) +
+  scale_y_continuous(expression(mu), limits = c(0, 1)) +
+  scale_color_gradient(expression(p(theta[1],mu)), guide = FALSE) 
+
+post_conj_2 <- ggplot(grid_post, aes(x = theta, y = mu, z = posterior_2)) + 
+  stat_contour(aes(color = ..level..)) +
+  scale_x_continuous(expression(theta[2]), limits = c(0, 1)) +
+  scale_y_continuous(expression(mu), limits = c(0, 1)) +
+  scale_color_gradient(expression(p(theta[2],mu)), guide = FALSE) 
+
+grid_mu <- grid_post %>%
+  group_by(mu) %>%
+  summarise(post_mu = sum(posterior_1) * sum(posterior_2)) %>%
+  ungroup() %>%
+  mutate(post_mu = post_mu / sum(post_mu))
+
+post_mu <- ggplot(grid_mu, aes(x = mu, y = post_mu)) +
+  geom_path() +
+  labs(y = expression(p(paste(mu, l, x))), 
+       x = expression(mu)) + 
+  ylim(0, 0.015) + coord_flip()
+
+grid_theta <- grid_post %>%
+  group_by(theta) %>%
+  summarise(post_theta_1 = sum(posterior_1), 
+            post_theta_2 = sum(posterior_2)) %>%
+  ungroup() %>%
+  mutate(post_theta_1 = post_theta_1 / sum(post_theta_1))
+
+post_theta_1 <- ggplot(grid_theta, aes(x = theta, y = post_theta_1)) +
+  geom_path() +
+  labs(y = expression(p(paste(theta[1], l, x))), 
+       x = expression(theta[1])) + ylim(0, 0.020)
+
+post_theta_2 <- ggplot(grid_theta, aes(x = theta, y = post_theta_2)) +
+  geom_path() +
+  labs(y = expression(p(paste(theta[2], l, x))), 
+       x = expression(theta[2])) + ylim(0, 0.020)
+
+grid.arrange(post_conj_1, post_conj_2, post_mu, post_theta_1, post_theta_2, 
+             ncol = 3)
+
+```
+
+### JAGS {-}
+
+La sección anterior utilizó un modelo simplificado con el objetivo de poder
+visualizar el espacio de parámetros. Ahora incluiremos más parámetros para hacer 
+el problema más realista. En los ejemplos anteriores fijamos
+el grado de dependencia entre $\mu$ y $\theta$ de manera arbitraria, a través
+de $K$, de tal manera que si $K$ era grande, los valores $\theta_j$ individuales
+se situaban cerca de $\mu$ y cuando $K$ era pequeña se permitía más variación.
+
+En situaciones reales no conocemos el valor de $K$ por adelantado, por lo que
+dejamos que los datos nos informen acerca de valores creíbles para $K$. 
+Intuitivamente, cuando la proporción de águilas observadas es similar a lo largo 
+de las monedas, tenemos evidencia de que $K$ es grande, mientras que si estas
+proporciones difieren mucho, tenemos evidencia de que $K$ es pequeña. Debido 
+a que $K$ pasará de ser una constante a ser un parámetro lo llamaremos $\kappa$.
+
+La distribución inicial para $\kappa$ será una Gamma. 
+
+```{r}
+library(R2jags)
+
+modelo_jer.txt <-
+'
+model{
+  for(t in 1:N){
+    x[t] ~ dbern(theta[coin[t]])
+  }
+  for(j in 1:nCoins){
+    theta[j] ~ dbeta(a, b)
+  }
+  a <- mu * kappa
+  b <- (1 - mu) * kappa
+  # A_mu = 2, B_mu = 2
+  mu ~ dbeta(2, 2)
+  kappa ~ dgamma(1, 0.1)
+}
+'
+```
+
+$\kappa \sim Gamma(1, 0.1)$, esta tiene media 10 y desviación estándar 10.
+
+Los datos consisten en 5 monedas, cada una se lanza 5 veces, resultando 4 de 
+ellas en 1 águila y 4 soles y otra en 3 águilas y 2 soles.
+
+```{r, fig.align='center', fig.height = 3}
+cat(modelo_jer.txt, file = 'modelo_jer.bugs')
+
+x <- c(0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1)
+coin <- c(rep(1, 5), rep(2, 5), rep(3, 5), rep(4, 5), rep(5, 5))
+
+jags.inits <- function(){
+  list("mu" = runif(1, 0.1, 0.9),
+    "kappa" = runif(1, 5, 20))
+}
+
+jags_fit <- jags(
+  model.file = "modelo_jer.bugs",    # modelo de JAGS
+  inits = jags.inits,   # valores iniciales
+  data = list(x = x, coin = coin, nCoins = 5,  N = 25),    # lista con los datos
+  parameters.to.save = c("mu", "kappa", "theta"),  # parámetros por guardar
+  n.chains = 3,   # número de cadenas
+  n.iter = 10000,    # número de pasos
+  n.burnin = 1000   # calentamiento de la cadena
+  )
+
+traceplot(jags_fit, varname = c("kappa", "mu", "theta"))
+
+jags_fit
+```
+
+
+
+```{r, fig.align='center',fig.width=4,fig.height=4, warning=FALSE}
+sims_df <- data.frame(n_sim = 1:jags_fit$BUGSoutput$n.sims,
+  jags_fit$BUGSoutput$sims.matrix) %>% 
+  dplyr::select(-deviance) %>%
+  gather(parametro, value, -n_sim)
+
+ggplot(filter(sims_df, parametro != "kappa"), aes(x = value)) +
+  geom_histogram(alpha = 0.8) + facet_wrap(~ parametro)
+
+
+ggplot(filter(sims_df, parametro == "kappa"), aes(x = value)) +
+  geom_histogram(alpha = 0.8)
+```
+
+## Ejemplo: estimación de tasas de mortalidad
+
+```{r, echo = FALSE, message=FALSE,warning=FALSE}
+options(digits = 3)
+library(ggplot2)
+library(plyr)
+library(dplyr)
+library(reshape2)
+library(tidyr)
+library(gridExtra)
+library(MASS)
+```
+
+
+En esta sección veremos un problema de estimación de tasas de mortalidad. 
+Plantearemos 3 alternativas de modelación para resolver el problema: modelo de
+unidades iguales, modelo de unidades independientes y finalmente modelo 
+jerárquico.
+
+La base de datos tiene información de todas las cirugías de transplante de 
+corazón llevadas a cabo en Estados Unidos en un periodo de 24 meses, entre 
+octubre de 1987 y diciembre de 1989. Para cada uno de los 131 hospitales, se 
+registró el número de cirugías de transplante de corazón, y el número de muertes
+durante los 30 días posteriores a la cirugía, $y$. Además, se cuenta con una 
+predicción de la probabilidad de muerte de cada paciente individual. Esta 
+predicción esta basada en un modelo logístico que incluye información a nivel 
+paciente como condición médica antes de la cirugía, género, sexo y raza. En cada
+hospital se suman las probabilidades de muerte de sus pacientes para calcular el
+número esperado de muertes, $e$, conocido como la exposición del hospital; $e$ 
+refleja el riesgo de muerte debido a la mezcla de pacientes que componen un 
+hospital particular.
+
+La matriz de datos que analizaremos considera únicamente los 94 hospitales que
+llevaron a cabo 10 o más cirugías, y consiste en las duplas $(y_{j}, e_{j})$ que
+corresponden al número observado de muertes y número de expuestos para el 
+$j$-ésimo hospital, con $j = 1,...,94$.
+
+```{r}
+library(LearnBayes)
+data(hearttransplants)
+heart <- hearttransplants
+head(heart)
+```
+
+El objetivo es obtener buenas estimaciones de las tasas de mortalidad de cada 
+hospital. Antes de comenzar a ajustar modelos complejos vale la pena observar 
+los datos. El cociente $\{y_{j}/e_{j}\}$ es el número observado de muertes por 
+unidad de exposición y se puede ver como una estimación de la tasa de 
+mortalidad. La siguiente figura grafica, en el eje vertical los cocientes 
+$\{y_{j}/e_{j}\}$ multiplicados por 1000 (con la intención de que la tasa 
+indique número de muertes por 1000 expuestos), y en el eje horizontal el número 
+de expuestos $\{e_{j}\}$ -en escala logarítmica- para los 94 hospitales. Cada 
+punto representa un hospital y esta etiquetado con el número de muertes 
+observadas $\{y_{j}\}$. En la gráfica podemos notar que las tasas estimadas son 
+muy variables, especialmente para programas con baja exposición. Observemos 
+también, que la mayoría de los programas que no experimentaron muertes tienen 
+bajo número de expuestos.
+
+```{r, fig.width=4,fig.height=4,fig.align='center'}
+ggplot(heart, aes(x = log(e), y = 1000* y / e, color = factor(y), label = y)) +
+  geom_text(show.legend = FALSE)  +
+  scale_x_continuous("Número de expuestos (e)", labels = exp, 
+    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
+      log(700*2^4))) 
+```
+
+
+La variabilidad de las tasas y los hospitales sin muertes sugieren un problema 
+de tamaño de muestra. Consideremos un hospital con 700 expuestos. La muerte por
+transplante de corazón no es común, el promedio nacional es de 9 por cada 10,000
+expuestos, por lo que con 700 expuestos es probable que no se presente ninguna 
+muerte, en este caso el hospital pertenece al 10\% de los hospitales con menor 
+tasa de mortalidad. Sin embargo, existe la posibilidad de que se observe una 
+muerte, con lo cual el hospital tendrá una tasa de mortalidad que es lo 
+suficientemente alta para que quede en el 25\% de los hospitales con mayor tasa 
+de mortalidad observada.
+
+Una vez reconocido el problema de utilizar los datos crudos para estimar las tasas de mortalidad plantearemos 3 alternativas de modelación:
+
+1. **Unidades iguales**. Considera que los estudios son replicas idénticas una 
+de otra, en este sentido vemos a las observaciones de todos los estudios como 
+muestras independientes de una misma población y consecuentemente todas las 
+$\lambda_{j}$ se consideran iguales, 
+
+$$
+  \begin{eqnarray}
+		\nonumber
+		y_{j} &\sim& f(y_{j}|\lambda),\\
+	 	\nonumber
+		\lambda &\sim& g(\lambda).
+	\end{eqnarray} 
+$$
+El modelo gráfico correspondiente a este enfoque (omitiendo la distribución de
+$\lambda$) es:
+
+<center><img src="imagenes/dag_pool.png" width="400px"/></center>
+  
+2. **Unidades independientes**. El extremo opuesto a unidades iguales considera 
+que los estudios son tan diferentes que los resultados de cada uno no proveen información acerca de los resultados de ningún otro y por tanto realizamos 
+estimaciones individuales para cada $\lambda_{j}$, 
+$$
+  \begin{align}
+		\nonumber
+		y_{j} &\sim f(y_{j}|\lambda_{j}),\\
+		\nonumber
+		\lambda_j &\stackrel{\mathrm{iid}}{\sim} g(\lambda_j).
+	\end{align}
+$$
+Con el siguiente modelo gráfico:
+
+<center><img src="imagenes/dag_ind.png" width="400px"/></center>
+
+3. Jerárquico. Es un análisis intermedio que considera los parámetros de interés
+$\lambda_{j}$ como provenientes de una distribución común,
+$$
+\begin{eqnarray}
+		\nonumber
+		y_{j} &\sim& f(y_{j}|\lambda_{j}),\\
+		\nonumber
+		\lambda_{j} &\sim& g(\lambda_j|\theta),\\
+		\theta &\sim& h(\theta).
+	\end{eqnarray} 
+$$
+
+<center><img src="imagenes/dag_jer.png" width="400px"/></center>
+
+De esta manera, la probabilidad conjunta del modelo refleja una dependencia 
+entre los parámetros al mismo tiempo que permite variaciones entre los estudios. 
+Como resultado se estima una $\lambda_{j}$ diferente para cada estudio usando 
+información de todos.  
+Notemos que la estructura del modelo jerárquico facilita la implementación del muestreador de Gibbs debido a que es inmediato factorizar la conjunta en 
+condicionales completas.
+
+### Modelo de unidades iguales
+Supongamos que las tasas de mortalidad son iguales a lo largo de los hospitales. Estimaremos la tasa de mortalidad con el modelo, 
+$$
+\begin{eqnarray}
+	\nonumber
+y_{j} \sim Poisson(e_{j}\lambda),
+\end{eqnarray}
+$$
+
+donde $y_{j}$ es el número de muertes observadas por transplante corazón en el
+hospital $j$, $e_{j}$ es el número de expuestos, y $\lambda$ es la tasa de 
+mortalidad, medida en número de muertes por unidad de exposción y común para 
+todos los hospitales.
+
+Debido a que no contamos con información inicial acerca de la tasa de mortalidad,
+asignamos a $\lambda$ una distribución inicial no informativa, de la forma
+
+$$
+\begin{eqnarray}
+	\nonumber
+	 g(\lambda)\propto\frac{1}{\lambda}.
+\end{eqnarray}
+$$
+
+Sea $y=(y_1,...,y_{94})$, usamos el Teorema de Bayes para calcular la densidad posterior de $\lambda$,
+
+$$
+\begin{eqnarray}
+	\nonumber
+	g(\lambda|y) &\propto& g(\lambda)f(y|\lambda) \\
+	\nonumber
+	&=& g(\lambda)\prod_{i=1}^{94}f(y_{i}|\lambda)\\
+	\nonumber
+	&=& \frac{1}{\lambda}\prod_{i=1}^{94}\bigg(\frac{exp(-e_{i}\lambda)(e_{i}\lambda)^{y_{i}}}{y_{i}!}\bigg)\\
+	\nonumber
+	&\propto& \lambda^{(\sum_{i=1}^{94}y_{j}-1)}exp\bigg(-\sum_{i=1}^{94}e_{j}\lambda\bigg),
+\end{eqnarray}
+$$
+identificamos la densidad posterior como una $Gamma(\sum_{i=1}^{94}y_{i},\sum_{i=1}^{94}e_{i})$, donde expresamos la función de densidad de una distribución $Gamma(\alpha, \beta)$ usando el parámetro de forma $\alpha$ y el inverso del parámetro de escala $\beta$ de manera que la función de densidad es,
+
+$$
+\begin{align}
+	\nonumber
+	&f(x|\alpha, \beta) = \beta^{\alpha}\frac{1}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}I_{(0,\infty)}(x)\\
+	\nonumber
+	&\mbox{para }x \geq 0 \mbox{ y }\alpha \mbox{, }\beta > 0.
+\end{align}
+$$
+
+Para verificar el ajuste del modelo utilizaremos la distribución predictiva 
+posterior. Denotemos $y_{j}^*$ el número de muertes por transplante en el 
+hospital $j$ con exposición $e_{j}$ en una muestra futura. Condicional a 
+$\lambda$, $y_{j}^*$ se distribuye $Poisson(e_{j}\lambda)$, no conocemos el 
+verdadero valor de $\lambda$, sin embargo nuestro conocimiento actual está 
+contenido en la densidad posterior $g(\lambda|y)$. Por tanto, la distribución 
+predictiva posterior de $y_{j}^*$ esta dada por: 
+
+$$
+\begin{eqnarray}
+\nonumber
+	f(y_{j}^*|e_{j},y) = \int f(y_{j}^*|e_{j}\lambda)g(\lambda|y)d\lambda, 
+\end{eqnarray}
+$$
+
+donde $f(y_j^*|e_{j}\lambda)$ es una densidad Poisson con media $\lambda$. La 
+densidad predictiva posterior representa la verosimilitud de observaciones 
+futuras basadas en el modelo ajustado. En este ejemplo, la densidad 
+$f(y_{j}^*|e_{j},y)$ representa el número de transplantes que se predecirían 
+para un hospital con exposición $e_{j}$. Entonces, si el número observado de 
+muertes $y_{j}$ no está en las colas de la distribución predictiva, diríamos que 
+la observación es consistente con el modelo observado.
+
+
+```{r, fig.width=6,fig.height=4.6,fig.align='center'}
+# La densidad posterior es Gamma con los siguientes parámetros
+c(sum(heart$y), sum(heart$e))
+heart$hospital <- 1:94
+# Simulamos 1000 muestras de la densidad posterior de lambda
+lambdas <- rgamma(1000, shape = sum(heart$y), rate = sum(heart$e))
+# ahora para cada hospital simulamos muestras de una distribución Poisson
+# con media e_i*lambda
+sims <- ddply(heart, "hospital", transform, sims = rpois(1000, e*lambdas))
+# tomamos una muestra de 10 hospitales
+set.seed(242)
+hosps <- sample(1:94, 10)
+sims.2 <- subset(sims, hospital %in% hosps)
+heart.2 <- subset(heart, hospital %in% hosps) 
+head(sims.2)
+
+ggplot(sims.2, aes(x = sims)) + 
+  geom_histogram(aes(y = ..density..), binwidth = 1, color = "darkgray", 
+    fill = "darkgray") +
+  facet_wrap(~ hospital, nrow = 2) +
+  geom_segment(data = heart.2, aes(x = y, xend = y, y = 0, yend = 0.5), 
+    color = "red") + 
+  geom_text(data = heart.2, aes(x = 10, y = 0.4, label = paste("e =", e)), 
+    size = 2.7)
+```
+
+La figura muestra los histogramas, obtenidos con simulación, de la distribución
+predictiva posterior de 10 hospitales (se tomó una muestra de los 94). Para cada
+hospital, se escribió el número de expuestos, $e$, y se grafica una línea 
+vertical en el número de muertes observado. Notemos que en muchos de los 
+histogramas el número de muertes observado se encuentra en las colas de las 
+distribuciones, lo que sugiere que nuestras observaciones son inconsistentes con 
+el modelo ajustado.
+
+Ahora examinaremos la consistencia de las muertes observadas, $y_{j}$, para 
+todos los hospitales. Para cada distribución predictiva posterior calculamos la
+probabilidad de que una observación futura $y_{j}^*$ sea al menos tan extrema 
+como $y_{j}$, estas probabilidades son comúnmente llamadas valores p 
+predictivos: 
+
+$$
+\begin{eqnarray}
+	\nonumber
+	P(extremos) = min\{P(y_{j}^* \leq y_{j}),P(y_{j}^*\geq y_{j})\}
+\end{eqnarray}
+$$
+
+
+```{r, fig.width=4,fig.height=4,fig.align='center'}
+# Para calcular las p predictiva podemos usar las simulaciones
+p.pred <- ddply(sims, "hospital", summarise, p = min(sum(sims <= y) / 1000, 
+  sum(sims >= y) / 1000))
+head(p.pred)
+p.pred.2 <- join(heart, p.pred, by = "hospital")
+ggplot(p.pred.2, aes(x = log(e), y = p)) + 
+  geom_point() +
+  scale_x_continuous("Número de expuestos (e)", labels = exp, 
+    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
+      log(700*2^4))) + 
+  ylab("P(extremos)") +
+  geom_hline(yintercept = .15, colour = "red", size = 0.4) +
+  ylim(0, .7) 
+```
+
+En la figura anterior graficamos las probabilidades de extremos (calculadas con simulación) en el eje vertical, contra el número de exposición en escala logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas probabilidades son pequeñas, el 28\% son menores a 0.15, lo que indica que para el 28\% de los hospitales el número de muertes observado $y_{j}$ está en la cola de la distribución y por consiguiente el modelo es inadecuado.\medskip
+
+
+### Modelo de unidades independientes
+
+Consideremos ahora que los hospitales son independientes, estimaremos la tasa de
+mortalidad para cada hospital con el modelo
+
+$$
+\begin{eqnarray}
+	\nonumber
+	y_{j}\sim Poisson(e_{j}\lambda_{j}),
+\end{eqnarray}
+$$
+
+donde $y_{j}$ es el número de muertes observadas por transplante corazón en el 
+hospital $j$, $e_{j}$ es el número de expuestos, y $\lambda_{j}$ es la tasa de
+mortalidad, medida en número de muertes por unidad de exposición, con
+$j=1,...,94$. Utilizamos el subíndice $j$ para enfatizar que son parámetros 
+diferentes, cada uno estimado con sus propios datos.
+
+Por facilidad asignamos a $\lambda_{j}$ una distribución inicial 
+$Gamma(\alpha_{0}, \beta_{0})$ que es conjugada de la distribución Poisson,
+
+$$
+\begin{eqnarray}
+\nonumber
+	g(\lambda_{j}|\alpha_{0},\beta_{0}) = \frac{\beta_{0}^{\alpha_{0}} \lambda_{j}^{\alpha_{0}-1}exp(-\lambda_{j} \beta_{0})}{\Gamma(\alpha_{0})}, \lambda_{j}>0.
+\end{eqnarray}
+$$
+
+Calculamos la densidad posterior de $\lambda_{j}$ usando el Teorema de Bayes,
+
+$$
+\begin{eqnarray}
+	\nonumber
+	g(\lambda_{j}|y_{j},\alpha_{0},\beta_{0}) &\propto& g(\lambda_{j}|\alpha_{0},\beta_{0})f(y_{j}|\lambda_{j})\\
+	\nonumber
+	&=& \frac{\beta_{0}^{\alpha_{0}} \lambda_{j}^{\alpha_{0}-1}exp(-\lambda_{j} \beta_{0})}{\Gamma(\alpha_{0})}\frac{exp(-e_{j}\lambda_{j})(e_{j}\lambda_{j})^{y_{j}}}{y_{j}!}\\
+	\nonumber
+	&\propto& \lambda_{j}^{\alpha_{0}+y_{j}-1}exp(-\lambda_{j}(\beta_{0}+e_{j})),
+\end{eqnarray}
+$$
+
+y obtenemos que $\lambda_{j}|y_{j} \sim Gamma(\alpha_{0}+y_{j}, \beta_{0}+e_{j})$, con media
+
+$$
+\begin{eqnarray}
+	\nonumber
+	E(\lambda_{j}|y_{j},\alpha_{0},\beta_{0}) &=& \frac{\alpha_{0}+y_{j}}{\beta_{0}+e_{j}}\\
+	\label{eqn:pond.indep}
+	&=& (1-A_{j})\frac{y_{j}}{e_{j}}+A_{j}\frac{\alpha_{0}}{\beta_{0}}
+\end{eqnarray}
+$$
+
+donde
+
+$$
+\begin{eqnarray}
+	A_{j}=\frac{\beta_{0}}{\beta_{0}+e_{j}},
+\end{eqnarray}
+$$
+y varianza
+
+$$
+\begin{eqnarray}
+	\nonumber
+	Var(\lambda_{j} |y_{j},\alpha_{0},\beta_{0}) = \frac{\alpha_{0}+y_{j}}{(\beta_{0}+e_{j})^2}.
+\end{eqnarray}
+$$
+
+Notemos que podemos escribir la media posterior como un promedio ponderado de la 
+tasa observada $y_{j}/e_{j}$ y la media inicial $\alpha_{0} / \beta_{0}$. El 
+factor $A_{j}$ es el encogimiento hacia la media inicial y depende del número de
+exposición de cada hospital y del parámetro de escala $\beta_{0}$.
+
+#### Efecto de ${\beta_{0}}$ y ${e_{j}}$ en la distribución posterior
+
+Consideremos la media y varianza posteriores de $\lambda_{j}$ para un hospital
+particular. Tomando $\alpha_{0}$ fija, valores mayores de $\beta_{0}$ 
+corresponden a una menor varianza en la distribución inicial pues 
+$Var(\lambda_{j} | \alpha_{0},\beta_{0}) = \alpha_{0}/\beta_{0}^2$. La varianza 
+de la distribución inicial se refleja en la media de la distribución posterior 
+de $\lambda_{j}$ a través de $\beta_{0}$, menor varianza (mayor $\beta_{0}$) 
+corresponde a mayor encogimineto hacia la media inicial. Este efecto de 
+$\beta_{0}$ concuerda con la incertidumbre de nuestro conocimiento, pues menor 
+varianza en la distribución inicial indica menor incertidumbre y la aportación 
+de la media inicial a la media posterior es más importante. La elección de 
+$\beta_{0}$ también afecta la varianza, pues un menor valor de $\beta_{0}$ 
+implica una mayor varianza tanto en la distribución inicial como en la final.
+
+Por su parte, tomando $\alpha_{0}$ y $\beta_{0}$ fijas, el efecto del número de
+expuestos $e_{j}$ sobre la media posterior de $\lambda_{j}$ actúa de manera 
+contraria a $\beta_{0}$. Un mayor número de expuestos tiene como consecuencia un 
+menor encogimiento hacia la media inicial, dando mayor importancia a la tasa 
+observada $y_{j}/e_{j}$. Esto refleja que más expuestos implican más información
+proveniente de la muestra, restando importancia a nuestro conocimiento inicial. 
+En cuanto a la varianza posterior, es inversamente proporcional al número de
+expuestos indicando nuevamente que más expuestos implica más conocimiento y por
+tanto menor incertidumbre.
+
+En la siguiente fugura mostraremos el encogimiento hacia la media inicial bajo distintos escenarios de $\beta_{0}$, cada punto representa un hospital y el color indica a que valor de $\beta_{0}$ corresponde. En esta gráfica podemos apreciar el mayor encogimiento para valores mayores de $\beta_{0}$ y el decaimiento en el encogimiento conforme aumenta el número de expuestos.
+
+
+```{r, fig.width=4.5,fig.height=4,fig.align='center'}
+encoge <- ddply(heart, "hospital", transform, enc.1 = 1000 / (1000 + e), 
+  enc.2 = 100 / (100 + e), enc.3 = 10 / (10 + e), enc.4 = 0.01 / (0.01 + e))
+head(encoge)
+encoge.m <- melt(encoge, id = c("e", "y", "hospital"))
+head(encoge.m)
+
+ggplot(encoge.m, aes(x = log(e), y = value, color = variable)) +
+  geom_point(alpha = 0.9) +
+  scale_x_continuous("Número de expuestos (e)", labels = exp, 
+    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
+      log(700*2^4))) +
+  scale_color_hue(expression(beta[0]), labels = c("1000", "100", "10", "0.01")) +
+  ylab("encogimiento (A)")
+```
+
+#### Distribución inicial
+
+Establecimos que por facilidad se utilizará una inicial 
+$Gamma(\alpha_{0},\beta_{0})$, sin embargo hace falta asignar valores a los 
+parámetros iniciales. Analizaremos 3 distintas combinaciones de parámetros 
+iniciales y su efecto en las estimaciones posteriores.
+
+Para cada combinación de parámetros la siguiente tabla muestra los deciles de 
+2000 simulaciones de una distribución $Gamma(\alpha_0,\beta_{0})$ y los deciles 
+de las muertes observadas por cada 1000 expuestos considerando todos los 
+hospitales; multiplicamos las simulaciones por 1000 para que indiquen tasas de mortalidad medidas en número de muertes por 1000 expuestos. El propósito de la 
+tabla es describir la forma de la distribución $Gamma$ al cambiar los 
+parámetros, por ejemplo, una $Gamma(0.01,0.01)$ es muy plana y podríamos 
+describirla como poco informativa, mientras que una $Gamma(1,1000)$ tiene una 
+forma más cercana a las tasas de mortalidad observadas. 
+
+decil | $(0.01,0.01)$ | $(0.5,0.01)$ | $(1,1000)$ | Observados  
+------|---------------|--------------|------------|-----------
+min | 0 | 0 | 0 | 0  
+  10 | 0 | 890.3 | 0.1 | 0  
+  20 | 0 | 3134.7 | 0.2 | 0.3  
+  30 | 0 | 7769.0 | 0.3 | 0.5  
+  40 | 0 | 15036.0 | 0.5 | 0.7  
+  50 | 0 | 24293.9 | 0.7 | 0.8  
+  60 | 0 | 37306.0 | 0.9 | 1.1  
+  70 | 0 | 57640.2 | 1.2 | 1.4  
+  80 | 0 | 84255.5 | 1.6 | 1.7  
+  90 | 4.2 | 140721.9 | 2.3 | 2.0  
+  max | 287307.6 | 592073.2 | 7.0 | 3.9  
+
+Ahora realizamos una gráfica para cada pareja de parámetros  
+$(\alpha_0,\beta_{0})$ donde mostramos en negro las tasas observadas, y en color 
+las estimaciones posteriores de las tasas de mortalidad con intervalos del 95\% 
+de probabilidad, ambas medidas en número de muertes por cada 1000 expuestos. 
+Cada punto representa un hospital y el color corresponde al número de muertes 
+observadas, $\{y_{j}\}$. Regresaremos a esta gráfica más adelante pero por lo 
+pronto observemos que tanto las estimaciones como los intervalos de probabilidad 
+son muy diferentes al cambiar los parámetros de la distribución inicial. 
+
+
+```{r, fig.width=5,fig.height=4,fig.align='center'}
+# Procedemos como antes, para cada combinación de alfa y beta simulamos 1000 
+# lambdas de la posterior
+lambdas <- ddply(heart, "hospital", transform, 
+  sims =  rgamma(n = 2000, shape = 0.01 + y, rate = 0.01 + e))
+# Creamos intervalos con las simulaciones
+int.post <- ddply(lambdas, "hospital", summarise, 
+  int.izq = quantile(1000*sims, 0.025), int.der = quantile(1000*sims, 0.975), 
+  media = 1000*(0.01 + y[1])/(0.01 + e[1]))
+int.post$comb <- "alpha = 0.01 beta = 0.01"
+heart.int <- join(heart, int.post, by = "hospital")
+ggplot(heart.int, aes(x = log(e), y = media, color = factor(y))) +
+  geom_point() +
+  geom_segment(aes(x = log(e), xend = log(e), y = int.izq, yend = int.der)) +
+  geom_point(data = heart, aes(x = log(e), y = 1000*y/e), color = "black", 
+    alpha = 0.6)
+
+# alpha = 0.5, beta = 0.01
+lambdas <- ddply(heart, "hospital", transform, 
+  sims =  rgamma(n = 2000, shape = 0.5 + y, rate = 0.01 + e))
+# Creamos intervalos con las simulaciones
+int.post.2 <- ddply(lambdas, "hospital", summarise, 
+  int.izq = quantile(1000*sims, 0.025), int.der = quantile(1000*sims, 0.975), 
+  media = 1000*(0.5 + y[1])/(0.01 + e[1]))
+int.post.2$comb <- "alpha = 0.5 beta = 0.01"
+
+# alpha = 1, beta = 1000
+lambdas <- ddply(heart, "hospital", transform, 
+  sims =  rgamma(n = 2000, shape = 1 + y, rate = 1000 + e))
+# Creamos intervalos con las simulaciones
+int.post.3 <- ddply(lambdas, "hospital", summarise, 
+  int.izq = quantile(1000*sims, 0.025), int.der = quantile(1000*sims, 0.975), 
+  media = 1000*(0.01 + y[1])/(0.01 + e[1]))
+int.post.3$comb <- "alpha = 1 beta = 1000"
+
+int.post <- rbind(int.post, int.post.2, int.post.3)
+heart.int <- join(heart, int.post, by = "hospital")
+head(heart.int)
+```
+
+```{r, fig.width=6,fig.height=6,fig.align='center'}
+ggplot(heart.int, aes(x = log(e), y = media, color = factor(y))) +
+  geom_point() +
+  geom_segment(aes(x = log(e), xend = log(e), y = int.izq, yend = int.der)) +
+  facet_wrap(~ comb, nrow = 3) +
+  geom_point(data = heart, aes(x = log(e), y = 1000*y/e), color = "black", 
+    alpha = 0.6) +
+  scale_x_continuous("Número de expuestos (e)", labels = exp, 
+    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
+      log(700*2^4))) + 
+  scale_colour_hue("muertes obs. (y)") + 
+  ylab("Muertes por 1000 expuestos")
+```
+
+Ahora justificaremos la elección de las parejas de parámetros iniciales. La 
+única información con la que contamos para definir una distribución inicial es 
+que la tasa de mortalidad por transplante de corazón debe ser positiva y no muy 
+grande. Debido a que no tenemos más información nuestro primer modelo utiliza 
+una inicial vaga.
+
+#### No informativas
+Asignamos a $\lambda_{j}$ una distribución inicial $Gamma(0.01,0.01)$. La tabla 
+de deciles indica que es una distribución muy plana y si observamos la gráfica 
+de encogimiento notamos que para una inicial con este valor en el parámetro de
+escala $\beta_{0}$, el encogimiento de la media posterior hacia la media inicial
+es muy cercano a cero, dando poca importancia a la media inicial 
+$\alpha_{0}/\beta_{0}=1$.  Como consecuencia, las estimaciones posteriores de
+$\lambda_{j}$ son casi iguales a las tasas observadas $\{y_{j}/e_{j}\}$, y se
+presentan los problemas de tamaño de muestra notados al usar las tasas 
+observadas como estimaciones de 
+las tasas de mortalidad. Además, los intervalos de confianza para los hospitales
+que no experimentaron muertes son poco creíbles pues son mucho más chicos que el
+resto.
+
+La siguiente distribución inicial que consideramos es una $Gamma(0.5,0.01)$. En
+este caso, la elección de los parámetros se basó en la distribución inicial no
+informativa de Jeffreys, consiste en una $Gamma(0.5,0)$. Es una distribución
+impropia por lo que cambiamos el parámetro de escala por $0.01$ para obtener 
+una inicial propia con varianza grande. Los resultados no son muy razonables,
+pues la media inicial es 50, mucho mayor a las tasas observada para todos los
+hospitales, provocando que las estimaciones del modelo sean mayores a las tasas
+observadas en todos los hospitales. Este efecto es contrario al que buscábamos 
+al usar una inicial vaga pues la distribución inicial tiene un impacto muy 
+fuerte en las estimaciones posteriores.
+
+#### Informativa
+Finalmente, consideramos una distribución inicial $Gamma(1,1000)$, ésta inicial
+es informativa. Para obtener sus parámetros igualamos los media y varianza
+teórica de la distribución $Gamma$ con la media y varianza observadas en el
+conjunto de tasas de mortalidad tomando en cuenta todos los hospitales.
+Las estimaciones de las tasas de mortalidad que obtenemos parecen razonables, 
+sin embargo, especificar la distribución inicial con la muestra tiene problemas
+lógicos y prácticos: 1) los datos se están usando 2 veces, primero la 
+información de todos los hospitales se usa para especificar la distribución
+inicial, y después la información de cada hospital se usa para estimar su tasa 
+de mortalidad $\lambda_{j}$, lo que ocasiona que sobreestimemos nuestra 
+precisión. 2) De acuerdo a la lógica bayesiana no tiene sentido estimar 
+$\alpha_{0}$ y $\beta_{0}$, pues son parte de la distribución inicial y no deben
+depender de los datos.
+
+A pesar de los problemas señalados parece ser conveniente intentar mejorar las 
+estimaciones individuales de $\lambda_{j}$ usando la información de todos los
+hospitales. La manera correcta de hacerlo es establecer un modelo de 
+probabilidad para todo el conjunto de parámetros  
+$\{\alpha,\beta,\lambda_{1},...,\lambda_{94}\}$ y después realizar un análisis 
+de la distribución conjunta.
+Se llevará a cabo un análisis completo en la siguiente sección en donde se usará
+un modelo jerárquico.
+
+Podemos concluir que el modelo de unidades independientes no es robusto para 
+nuestros datos pues las estimaciones posteriores de las tasas de mortalidad son 
+muy sensibles a la elección de los parámetros de la distribución inicial. 
+
+## Modelo jerárquico
+
+Un modelo jerárquico implica una estrategia intermedia entre el modelo de
+unidades iguales y el modelo de unidades independientes. Nos permite reflejar un
+escenario en donde la información de cada estudio aporta información acerca del
+parámetro de interés $\lambda_j$ de los demás estudios sin considerarlos
+idénticos, de manera que se estima un parámetro $\lambda_j$ diferente para cada
+hospital.
+
+Enumeramos algunas de las ventajas potenciales de usar un modelo jerárquico.
+
+1. Modelo unificado. El problema de elegir entre un modelo de unidades iguales o 
+uno de unidades independientes se resuelve al modelar explícitamente la 
+variabilidad entre las unidades.
+
+2. Unir fuerzas. Debido al supuesto de intercambiabilidad, al estimar el
+parámetro de cada unidad se usa información de las demás unidades, conllevando a
+un encogimiento de la estimación individual hacia la media poblacional, y 
+resulta en una mejor precisión de las estimaciones. La magnitud del encogimiento
+depende de la varianza entre las unidades, y su efecto resulta particularmente
+benéfico cuando hay pocas observaciones dentro de una unidad, en cuyo caso hay
+una gran reducción de la incertidumbre ya que las estimaciones posteriores
+incorporan la información de otras unidades con menor variabilidad. 
+
+3. Incertidumbre en los parámetros. Asignar una distribución a los 
+hiperparámetros, $\theta$, nos permite incorporar nuestra incertidumbre sobre la
+distribución inicial de $\lambda$.
+
+4. Cómputo. La estructura jerárquica facilita los cálculos posteriores, debido a
+que la distribución posterior se factoriza en distribuciones condicionales más
+sencillas que facilitan la implementación de un muestreador de Gibbs.
+
+### Ejemplo: Tasas de mortalidad
+
+Retomando el problema de estimación de tasas de mortalidad por transplante de
+corazón, modelaremos las $\lambda_{j}$ con un modelo jerárquico, suponemos
+intercambiabilidad para reflejar que no contamos con información que nos permita
+distinguir entre los hospitales.
+
+Primero definimos la distribución de los datos,
+
+$$
+\begin{eqnarray}
+	\nonumber
+y_{j} \sim Poisson(e_{j}\lambda_{j}),
+\end{eqnarray}
+$$
+
+donde $y_{j}$ es el número de muertes observadas, $e_{j}$ es el número de 
+expuestos y $\lambda_{j}$ es la tasa de mortalidad para el hospital $j$, con 
+$j=1,...,94$.
+
+Después asignamos una distribución al vector de parámetros 
+$\lambda=(\lambda_{1},...,\lambda_{94})$, para ello suponemos que las tasas de
+mortalidad $\{\lambda_{1},...,\lambda_{94}\}$ son una muestra aleatoria de una 
+distribución $Gamma(\alpha,\alpha/\mu)$ con la forma
+
+$$
+\begin{eqnarray}
+	\nonumber
+	g(\lambda_j|\alpha,\mu)=\frac{(\alpha/\mu)^\alpha\lambda_j^{\alpha-1}exp(-\alpha\lambda_j/\mu)}{\Gamma(\alpha)}, \lambda_j>0.
+\end{eqnarray}
+$$
+
+La media y varianza iniciales de $\lambda_{j}$ están dadas por $\mu$ y 
+$\mu^2/\alpha$, para toda $j$. Las llamaremos la media y varianza poblacionales 
+ya que son comunes para todos los hospitales.
+En la segunda etapa, los hiperparámetros $\mu$ y $\alpha$ se suponen 
+independientes y les asignaremos iniciales vagas. 
+Al parámetro de media,
+
+$$
+\begin{eqnarray}
+	\nonumber
+	h(\mu)\propto\frac{1}{\mu}, \mu>0.
+\end{eqnarray}
+$$
+Al parámetro de precisión $\alpha$ le asignamos una densidad inicial propia pero 
+plana, de la forma,
+$$
+\begin{eqnarray}
+	\nonumber
+	h(\alpha)=\frac{z_{0}}{(\alpha+z_0)^2}, \alpha>0.
+\end{eqnarray}
+$$
+
+El valor $z_0$ es la mediana de $\alpha$, no contamos con información inicial de
+forma que por ahora usaremos $z_0=0.5$.
+
+Debido a la estructura de independencia condicional del modelo jerárquico y a 
+que se eligió una inicial conjugada, el análisis posterior es relativamente 
+sencillo. Utilizamos el Teorema de Bayes para calcular la distribución posterior
+de $\lambda_{j}$ condicional a los valores de los hiperparámetros $\mu$ y
+$\alpha$, 
+
+$$
+\begin{eqnarray}
+	\nonumber
+	g(\lambda_{j}|y_{j},\alpha,\mu) &\propto& g(\lambda_{j}|\alpha,\mu)f(y_{j}|\lambda_{j})\\
+	\nonumber
+	&=& \frac{(\alpha/\mu)^{\alpha} \lambda_{j}^{\alpha-1}exp(-\lambda_{j} \alpha/\mu)}{\Gamma(\alpha)}\frac{exp(-e_{j}\lambda_{j})(e_{j}\lambda_{j})^{y_{j}}}{y_{j}!}\\
+	\nonumber
+	&\propto& \lambda_{j}^{y_{j}+\alpha-1}exp(-\lambda_{j}(e_{j}+\alpha/\mu))
+\end{eqnarray}
+$$
+
+obtenemos así que las tasas $\{\lambda_{1},..., \lambda_{94}\}$ tienen 
+distribuciones posteriores independientes 
+$Gamma(y_{j}+\alpha, e_{j}+\alpha/\mu)$, con media:
+
+$$
+\begin{eqnarray}
+	E(\lambda_{j}|y,\alpha,\mu) &=& \frac{y_{j}+\alpha}{e_{j}+\alpha/\mu}\\
+	\label{eqn:pond}
+	&=& (1-A_{j})\frac{y_{j}}{e_{j}}+A_{j}\mu,
+\end{eqnarray}
+$$
+donde
+$$
+\begin{eqnarray}
+	\label{eqn:factor}
+	A_{j}=\frac{\alpha}{\alpha+e_{j}\mu},
+\end{eqnarray}
+$$
+
+Denominamos al factor $A_{j}$ como el encogimiento hacia la media poblacional
+$\mu$, más adelante derivamos la distribución posterior de $\mu$, pero por ahora
+la enunciamos con el propósito de mostrar que su distribución incorpora 
+información de todos los hospitales, 
+
+$$
+\begin{eqnarray}
+	\nonumber
+	f(\mu|y)=K \int \prod_{i=1}^{94} \left[ \frac {(\alpha/\mu)^\alpha\Gamma(y_{i}+\alpha)} {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}} \right ]\frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu} d\alpha
+\end{eqnarray}
+$$
+donde $K$ es una constante.
+
+Al escribir la media posterior de $\lambda_{j}$ como un promedio ponderado, podemos ver el efecto de unir fuerzas mencionado en las observaciones del 
+modelo jerárquico: hay un encogimiento hacia $\mu$ que depende del número de
+expuestos, $e_{j}$, para los hospitales con menor número de expuestos el
+encogimiento hacia $\mu$ es mayor, mientras que para aquellos con mayor número 
+de expuestos, es más importante la tasa observada, $y_{j}/e_{j}$. De esta 
+manera, mayor encogimiento corresponde a las observaciones con mayor 
+incertidumbre.
+
+Notemos también que la factorización de la media posterior es similar a la que
+obteníamos en el modelo de medias independientes. La diferencia radica en que
+ahora es un sólo modelo (opuesto a 94), y los parámetros de la distribución
+inicial de $\lambda_{j}$ forman parte del modelo de probabilidad pues les
+asignamos una distribución inicial.
+
+### Distribuciones posteriores
+
+Sea $\lambda=(\lambda_{1},...,\lambda_{94})$ y $y=(y_{1},...,y_{94})$, 
+calculamos la densidad posterior conjunta de los parámetros,
+
+$$
+\begin{align}
+	\nonumber
+	f(\lambda,\alpha,\mu|y) &\propto f(y|\lambda,\alpha,\mu)f(\lambda,\alpha,\mu)\\
+\nonumber
+	&= f(y|\lambda) f(\lambda|\alpha,\mu) p(\alpha,\mu)\\
+\nonumber
+	&= \prod_{i=1}^{94}f(y_{i}|\lambda_{i}) \prod_{i=1}^{94} f(\lambda_{i}|\alpha,\mu) f(\alpha)f(\mu)\\
+\nonumber
+	&\propto \prod_{i=1}^{94} \frac {exp(-e_{i}\lambda_{i})(e_{i}\lambda_{i})^{y_{i}}} {y_{i}!} \prod_{i=1}^{94} \frac {(\alpha/\mu)^{\alpha}\lambda_{i}^{\alpha-1}exp(-\lambda_{i}(\alpha/\mu))} {\Gamma(\alpha)} \frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu}\\
+	\nonumber
+	&\propto \prod_{i=1}^{94}\frac {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}\lambda_{i}^{y_{i}+\alpha-1}exp(-\lambda_{i}(e_{i}+\alpha/\mu))} {\Gamma(y_{i}+\alpha)} \prod_{i=1}^{94}\frac {(\alpha/\mu)^\alpha\Gamma(y_{i}+\alpha)} {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}}\frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu},
+\end{align}
+$$
+
+de aquí podemos integrar las tasas de mortalidad, $\lambda_{j}$, para obtener la
+distribución posterior de los hiperparámetros $f(\alpha,\mu|y)$,
+
+$$
+{\normalsize
+\begin{align}
+	\nonumber
+	f(\alpha,\mu|y) \propto \int_{\lambda_{1}} ...\lambda_{y_{94}}
+	\prod_{i=1}^{94}(\frac {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}\lambda_{i}^{y_{i}+\alpha-1}exp(-\lambda_{i}(e_{i}+\alpha/\mu))} {\Gamma(y_{i}+\alpha)}) \prod_{i=1}^{94}k_i  d\lambda_{1}...d\lambda_{94},\\
+	\nonumber
+\end{align}
+}
+$$
+
+donde,
+
+$$
+\normalsize{
+\begin{align}
+	\nonumber
+	k_i = \frac {(\alpha/\mu)^\alpha\Gamma(y_{i}+\alpha)} {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}}\frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu}
+\end{align}}
+$$
+
+observemos que las $\{k_j\}$ no dependen de $y$ por lo que son constantes en la
+integral, además para cada $i$ de la primera multiplicación tenemos una 
+distribución $Gamma(y_{i}+\alpha, e_{i}+\alpha/\mu)$ por lo que integran 1.
+
+Resultando,
+
+$$
+{\normalsize
+\begin{align}
+	\nonumber
+	f(\alpha,\mu|y)=K\prod_{i=1}^{94} \frac {(\alpha/\mu)^\alpha\Gamma(y_{i}+\alpha)} {(e_{i}+\alpha/\mu)^{y_{i}+\alpha}}\frac{z_{0}}{(\alpha+z_0)^2} \frac{1}{\mu}
+\end{align}}
+$$
+
+donde $K$ es la constante de proporcionalidad.
+
+Simulemos de las distribuciones posteriores, para ello procederemos como sigue:
+
+1. Simulamos $(\mu, \alpha)$ de la distribución marginal posterior.
+
+2. Simulamos $\lambda_1,...,\lambda_{94}$ de la distribución posterior condicional
+a los valores simulados $(\mu, \alpha)$.
+
+Para el primer paso, notamos que ambos parámetros son positivos por lo que es
+conveniente transformarlos: $\theta_1 = log(\alpha$, $\theta_2 = log(\mu)$.
+
+Definimos ahora la distribución posterior en términos de los parámetros 
+transformados
+
+```{r}
+poissgamexch <- function(theta, datapar){ # theta = c(theta_1, theta_2)
+  y <- datapar$data[, 2]
+  e <- datapar$data[, 1]
+  z0 <- datapar$z0
+  alpha <- exp(theta[1])
+  mu <- exp(theta[2])
+  beta <- alpha/mu
+  logf <- function(y, e, alpha, beta){
+    lgamma(alpha + y) - (y + alpha) * log(e + beta) + alpha*log(beta) - 
+      lgamma(alpha)
+  }
+  val = sum(logf(y, e, alpha, beta))
+  val = val + log(alpha) - 2 * log(alpha + z0)
+  return(val)
+}
+# Simulamos theta_1, theta_2 usando el algoritmo de Metropolis dentro de Gibbs
+# en la función gibbs, datapar contiene la base de datos y el valor del 
+# hiperparámetro z0 
+datapar = list(data = hearttransplants, z0 = 0.53)
+# adicionalmente debemos dar valores para el algoritmo M-H, la función 
+# implementa un algoritmo M-H de caminata aleatoria
+# donde la distribución propuesta tiene la forma  theta* = theta^t-1 + scale*Z
+# y Z es N(0, I), en este caso c(1, 0.15) es el vector de escala
+fitgibbs <- gibbs(poissgamexch, start = c(4, -7), m = 1000, scale = c(1, 0.15),
+  datapar)
+fitgibbs$accept
+# simulaciones de alpha
+alpha <- exp(fitgibbs$par[, 1])
+# simulaciones de mu
+mu = exp(fitgibbs$par[, 2])
+```
+
+Podemos usar las simulaciones de $\alpha$ y $\mu$ para ver el encogimiento de 
+las estimaciones de cada hosiptal hacia la media poblacional. Notamos un mayor
+encogimiento para los hospitales con menor número de expuestos.
+
+```{r, fig.align='center'}
+encoge <- ddply(heart, "hospital", transform, A = mean(alpha/(alpha + e * mu)))
+ggplot(encoge, aes(x = log(e), y = A)) +
+  geom_point(alpha = 0.6, size = 1.6) +
+  scale_x_continuous("Número de expuestos (e)", label = exp, 
+    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
+      log(700*2^4))) +
+    ylab("encogimiento (A)") + ylim(0, 1)
+```
+
+Ahora simualmos observaciones de la distribución posterior de lambda:
+
+```{r}
+# simulamos lambda de la condicional p(lambda) = p(labda|alpha, mu)p(alpha,mu)
+lambdas.h <- ddply(heart, "hospital", transform, 
+  sims = rgamma(1000, y + alpha, e + alpha/mu))
+```
+
+Ya que tenemos las distribuciones posteriores podemos hacer inferencia acerca de
+la tasa de mortalidad $\lambda$. A continuación graficamos los intervalos
+posteriores del 95\% de probabilidad para las tasas $\lambda_{j}$, el color
+representa el número de muertes observadas $y_{j}$, en gris se graficaron las
+tasas observadas, la gráfica se dividió en 3 páneles de acuerdo al número de
+muertes observadas en los hospitales.
+
+
+```{r, fig.align='center'}
+int.post.h <- ddply(lambdas.h, "hospital", summarise, 
+  int.izq = quantile(1000 * sims, 0.025), int.der = quantile(1000 * sims, 0.975), 
+  media = 1000 * mean(sims))
+int.post.h2 <- join(int.post.h, heart, by = "hospital")
+int.post.h2$cat <- cut(int.post.h2$y, c(0, 2, 4, 19), right = FALSE)
+
+head(int.post.h2)
+ggplot(int.post.h2, aes(x = log(e), y = media, color = factor(y))) +
+  geom_point() +
+  geom_segment(aes(x = log(e), xend = log(e), y = int.izq, yend = int.der)) +
+  geom_point(aes(x = log(e), y = 1000*y/e), color = "black", 
+    alpha = 0.6) +
+  scale_x_continuous("Número de expuestos (e)", labels = exp, 
+    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
+      log(700*2^4))) + 
+  scale_colour_hue("muertes obs. (y)") + 
+  ylab("Muertes por 1000 expuestos") +
+  facet_wrap(~ cat, nrow = 3)
+```
+
+
+Analizamos la distribución predictiva posterior para la misma muestra de 10 
+hospitales que se utilizó en el modelo de unidades iguales.
+
+```{r, fig.width=6,fig.height=4.6,fig.align='center'}
+lambdas.h$sims.y <- rpois(94000, lambdas.h$sims * lambdas.h$e)
+hists.post <- subset(lambdas.h, hospital %in% hosps)
+
+ggplot(hists.post, aes(x = sims.y)) + 
+  geom_histogram(aes(y = ..density..), binwidth = 1, color = "darkgray", 
+    fill = "darkgray") +
+  facet_wrap(~ hospital, nrow = 2) +
+  geom_segment(data = heart.2, aes(x = y, xend = y, y = 0, yend = 0.5), 
+    color = "red") + 
+  geom_text(data = heart.2, aes(x = 10, y = 0.4, label = paste("e =", e)), 
+    size = 2.7)
+```
+
+Observemos que únicamente en uno de los histogramas el número de muertes 
+observadas se encuentra cerca de la cola de la distribución, lo que indica 
+concordancia de las observaciones con el modelo ajustado.
+
+Finalmente, revisamos la consistencia de los valores observados $y_{j}$ con la 
+distribución predictiva posterior para todos los hospitales, para ello 
+calculamos la probabilidad de que una observación futura $y_{j}^*$ sea al menos 
+tan extrema como $y_{j}$ para todas las observaciones:
+
+$$
+\begin{eqnarray}
+	\nonumber
+	P(extremos) = min\{P(y_{j}^*\leq y_{j}),P(y_{j}^*\geq y_{j})\}
+\end{eqnarray}
+$$
+
+A continuación graficamos las probabilidades de extremos (calculadas con
+simulación). Con el modelo jerárquico solamente el 6\% de las probabilidades son
+menores al 0.15, una disminución considerable al 28\% obtenido con el modelo de
+unidades iguales. 
+
+```{r, fig.align='center', fig.width=4, fig.height=4}
+p.pred.h <- ddply(lambdas.h, "hospital", summarise, p = min(sum(sims.y <= y) / 1000, 
+  sum(sims.y >= y) / 1000))
+head(p.pred.h)
+p.pred.h2 <- join(heart, p.pred.h, by = "hospital")
+ggplot(p.pred.h2, aes(x = log(e), y = p)) + 
+  geom_point() +
+  scale_x_continuous("Número de expuestos (e)", labels = exp, 
+    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
+      log(700*2^4))) + 
+  ylab("P(extremos)") +
+  geom_hline(yintercept = .15, colour = "red", size = 0.4) +
+  ylim(0, .7) 
+```
+
+Comparemos ahora las probabilidades de al menos tan extremo usando el modelo
+jerárquico contra las probabilidades de al menos tan extremo usando el modelo de
+unidades iguales, los puntos se colorearon de acuerdo al número de expuestos de
+cada hospital. Observemos que las probabilidades bajo el modelo jerárquico son
+mayores en la mayoría de los casos.
+
+```{r, fig.align='center', fig.width=5, fig.height=4}
+p.pred.2$pred.h <- p.pred.h$p
+p.pred.2$e.factor <- cut(heart$e, c(500, 1500, 2500, 4000, 12500), 
+  labels = c("(500,1500]", "(1500,2500]", "(2500,4000]", "(4000,1200]"))
+ggplot(p.pred.2, aes(x = p, y = pred.h, colour = e.factor)) +
+  geom_abline(colour = "red", size = 0.4, alpha = 0.8) +
+  geom_point(size = 3) +
+  coord_equal() + 
+  xlab("P(extremos), unidades iguales") +
+  ylab("P(extremos), jerárquico") +
+  ylim(0, 0.7) +
+  xlim(0, 0.7) +
+  coord_equal() +
+  scale_colour_brewer("No. expuestos (e)", palette = "Blues")
+```
+
+### JAGS
+
+Ahora veremos como hacer la estimación usando JAGS. Primero hacemos un par de 
+cambios en la definición del modelo, esto es porque la distribución inicial de 
+$\mu$ no es propia (i.e. no integra uno) y JAGS no permite el uso de iniciales 
+impropias. Usaremos iniciales Gamma para $\alpha$ y $\mu$ eligiendo parámetros 
+de manera que sean iniciales vagas.
+$$\mu, \alpha \sim Gamma(0.01, 0.01).$$
+Veamos como se escriben el modelo en JAGS.
+
+```{r}
+modelo_heart.txt <- 
+'
+model{
+  for(i in 1 : N) {
+    y[i] ~ dpois(lambda2[i]) 
+    lambda2[i] <- e[i] * lambda[i]
+    lambda[i] ~ dgamma(alpha, beta)
+  }
+  alpha ~ dgamma(0.01, 0.01)
+  mu ~ dgamma(0.01, 0.01)
+  beta <- alpha/mu
+}
+'
+cat(modelo_heart.txt, file = 'modelo_heart.txt')
+```
+
+En el modelo definimos una distribución de probabilidad para cada hospital, es 
+por ello que usamos el ciclo _for_, dentro del ciclo modelamos también las tasas 
+de mortalidad como observaciones de una distribución $Gamma(\alpha, \alpha/\mu)$, 
+y finalmente fuera del ciclo especificamos la distribución de los 
+hiperparámetros.
+
+```{r, message=FALSE}
+library(R2jags)
+
+head(heart)
+# creamos una lista con los datos: esta incluye índices, y variables
+N <- nrow(heart)
+e <- heart$e
+y <- heart$y
+jags.data <- list("e", "y", "N")
+
+# ahora definimss valores iniciales para los parámetros, en este caso estamos 
+# generando valores iniciales aleatorios de manera de que distintas cadenas 
+# tengan distitos valoes iniciales
+# si no se especifican la función jags generará valores iniciales
+jags.inits <- function(){
+  list("alpha" = runif(1),
+    "mu" = runif(1), 
+    "lambda" = runif(N))
+}
+# debemos especificar también el nombre de los parámetros que vamos a guardar
+jags.parameters <-  c("alpha","mu","lambda")
+# Y usamos la función jags (más adelante discutiremos los otros parámetros de 
+# la función)
+jags.fit <- jags(data = jags.data, inits = jags.inits, 
+  model.file = "modelo_heart.txt", parameters.to.save = jags.parameters,
+  n.chains = 2, n.iter = 5000) 
+jags.fit
+class(jags.fit)
+names(jags.fit)
+names(jags.fit$BUGSoutput)
+
+# las simulaciones de la distribución posterior se pueden extraer del objeto
+# fit$BUGSoutput como arreglo: sims.array, lista: sims.list o matriz: sims.matrix
+# aquí elegimos el formato de lista
+names(jags.fit$BUGSoutput$sims.list)
+# y extraemos las lambdas
+class(jags.fit$BUGSoutput$sims.list$lambda)
+# vienen en formato de matriz donde los renglones son las iteraciones y cada
+# columna corresponde a un hospital
+dim(jags.fit$BUGSoutput$sims.list$lambda)
+# usamos la función apply para obtener intervalos de probabilidad del 95%
+ints <- apply(jags.fit$BUGSoutput$sims.list$lambda, 2, quantile, 
+  probs = c(0.025, 0.975))
+# los guardamos en un data.frame
+post.2 <- data.frame(id = 1:94, t(ints))
+colnames(post.2) <- c("hospital", "izq", "der")
+post.2$media <- apply(jags.fit$BUGSoutput$sims.list$lambda, 2, mean)
+post.2$metodo <- "JAGS"
+
+post.1 <- ddply(lambdas.h, "hospital", summarise, 
+  izq = quantile(sims, 0.025), der = quantile(sims, 0.975), 
+  media = mean(sims))
+post.1$metodo <- "R"
+compara <- rbind(post.1, post.2)
+heart$hospital <- 1:94
+compara.2 <- join(compara, heart, by = "hospital")
+
+ggplot(compara.2, aes(x = log(e), y = media, color = metodo)) +
+  geom_point() +
+  geom_segment(aes(x = log(e), xend = log(e), y = izq, yend = der)) +
+  geom_point(aes(x = log(e), y = y/e), color = "black", 
+    alpha = 0.6) +
+  scale_x_continuous("Número de expuestos (e)", labels = exp, 
+    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
+      log(700*2^4))) 
+
+```
+
+
+
+
+![](../imagenes/manicule2.jpg) Implementaremos varios modelos en JAGS, la base de datos que usaremos contiene 
+información de mediciones de radón (activity) y del suelo en el que se hicieron 
+las mediciones (floor = $0$ casas con sótano, floor = $1$ casas sin sótano), las 
+mediciones corresponden a $919$ hogares muestreados de $85$ condados de 
+Minnesota. El objetivo es construir un modelo de regresión en el que la medición 
+de radón es la variable independiente y el tipo de suelo es la covariable.
+
+1. Iniciaremos con un modelo de regresión de unidades iguales, este modelo 
+ignora la variación en los niveles de radón entre los condados.
+
+$$y_i \sim N(\alpha + \beta x_i, \sigma_y^2) $$
+
+2. Después pasamos a un modelo de unidades independientes, en este simplemente 
+incluímos indicadoras a nivel condado.
+
+$$y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2) $$
+
+3. Añadimos una estructura jerárquica al modelo:
+$$y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2) $$
+$$\alpha_j \sim N(\mu_{\alpha}, \sigma_{\alpha}^2)$$
+
+4. Incorporamos una covariable $u_j$ a nivel grupo, en este caso elegiremos una 
+medición de uranio a nivel condado (Uppm).
+
+$$y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2) $$
+$$\alpha_j \sim N(\gamma_0 + \gamma_{1}u_j, \sigma_{\alpha}^2)$$
+
+5. Utiliza el modelo anterior para predecir el valor de radón para una nueva 
+casa sin sótano (floor = 1) en el condado 26.
+
+6. Utiliza el modelo anterior para predecir el valor de radón para una nueva 
+casa sin sótano (floor = 1) en un condado nuevo con nivel de uranio $2$.
+
+#### Observaciones
+
+Iniciamos preparando los datos para el análisis, trabajaremos en escala 
+logarítmica, hay algunos casos con medición cero, para éstos hacemos una pequeña
+correción redondeándolos a $0.1$.
+
+Ahora, por el momento hemos modelado los datos y los parámetros $\alpha_j$ a 
+nivel grupo (en el caso del modelo jerárquico), pero nos falta asignar 
+distribuciones a los hiperparámetros 
+($\mu, \beta, \sigma_y^2, \sigma_{\alpha}^2$). Para la elección de 
+distribuciones iniciales (de los hiperparámetros) podemos usar iniciales no 
+informativas. Recordemos que una distribución inicial no informativa tiene el 
+objetivo de permitir que realicemos inferencia bayesiana para parámetros de los 
+cuales no sabemos mucho (sin considerar la información en los datos). 
+Consideremos  las siguientes distribuciones iniciales:
+$$\beta \sim N(0, 0.0001)$$
+$$\mu_{\alpha} \sim  N(0, 0.0001)$$
+donde la normal esta parametrizada en términos de varianzas inversas (conocidas
+como precisión $\tau = 1/\sigma^2$). Con los parámetros propuestos estaríamos 
+diciendo que esperamos que los coeficientes se ubiquen en el rango (-100,100) y 
+si los estimadores estan en este rango la distribución inicial provee muy poca 
+información.
+Para los parámetros restantes podemos definirla la inicial de la siguiente 
+manera:
+$$\tau_y = 1/\sigma^2$$
+donde 
+$$\sigma^2 \sim Unif(0, 100)$$
+y 
+$$\tau_{\alpha} = 1/\sigma_{\alpha}^2$$
+donde 
+$$\sigma_{\alpha}^2 \sim Unif(0, 100).$$
+
+Entonces, para que una distribución inicial sea noinformariva, su rango de 
+incertidumbre debe ser más amplio que el rango de valores razonables que pueden 
+tomar los parámetros.
+
+### Referencias
+
+* [Bayesian Computation With R](http://bayes.bgsu.edu/bcwr/), Jim Albert.
+
+
+* [Doing Bayesian Data Analysis](https://sites.google.com/site/doingbayesiandataanalysis/), John K. Kruschke.
+
+* [Data Analysis Using Regression and Multilevel/Hierarchical models](http://www.stat.columbia.edu/~gelman/arm/), Andrew Gelman,
+Jennifer Hill.
+
+
 
 ### Referencias
 
 * [Doing Bayesian Data Analysis](https://sites.google.com/site/doingbayesiandataanalysis/), John K. Kruschke.
+
+* [A Conceptual Introduction to Hamiltonian Monte Carlo](https://arxiv.org/pdf/1701.02434.pdf), Michael Betancourt.
 
 * [Data Analysis Using Regression and Multilevel/Hierarchical models](http://www.stat.columbia.edu/~gelman/arm/), Andrew Gelman,
 Jennifer Hill.
