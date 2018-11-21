@@ -887,3 +887,62 @@ sigma ^ 2 * tau ^ 2 / (sigma ^ 2 + N * tau ^ 2)
 ```
 
 i) Elegir varianza grande nos daría una inicial poco informativa.
+
+## 12-MCMC convergencia {-}
+
+Implementaremos un modelo de regresión en JAGS, la base de datos que
+usaremos contiene información de mediciones de radón (activity)
+y del suelo en el que se hicieron las mediciones (floor = 0 casas con
+sótano, floor = 1 casas sin sótano), las mediciones corresponden a 919
+hogares muestreados de 85 condados de Minnesota. El objetivo es
+construir un modelo de regresión en el que la medición de radón es la
+variable dependiente y el tipo de suelo es la covariable.
+
+El modelo es como sigue:
+
+$$x_i \sim N(\alpha + \beta x_i, \sigma^2)$$
+
+La distribuciones iniciales que usaremos son:
+$$\beta \sim N(0, 1000)$$
+$$\sigma^2 \sim U(0, 1000)$$
+
+```{r, message=FALSE, warning=FALSE}
+library(R2jags)
+
+modelo_regresion.txt <-
+    '
+    model{
+      for(i in 1 : n) {
+        y[i] ~ dnorm(y.hat[i], tau.y) 
+        y.hat[i] <- a + b * x[i]
+      }
+      a ~ dnorm(0, 0.001)
+      b ~ dnorm(0, 0.001)
+      tau.y <- pow(sigma.y, -2)
+      sigma.y ~ dunif(0, 100)
+    }
+    '
+cat(modelo_regresion.txt, file = 'modelo_regresion.bugs')
+
+# cargamos los datos con load radon
+radon <- readr::read_csv("data/radon.csv")
+
+# Iniciamos preparando los datos para el análisis, trabajaremos en
+# escala logarítmica, hay algunos casos con medición cero, para éstos
+# hacemos una pequeña correción redondeándolos a 0.1.
+y <- log(ifelse (radon$activity == 0, 0.1, radon$activity))
+n <- nrow(radon)
+x <- radon$floor
+
+# jags
+radon1_data <- list("n", "y", "x")
+radon1_parameters <- c("a", "b", "sigma.y")
+```
+
+El ejercicio consiste en que utilces la función `jags()` definiendo valores 
+inciales, número de cadenas, número de iteraciones y etapa de calentamiento. 
+Asegurate de alcanzar convergencia y describe los diagnósticos que utilizaste 
+para concluir que se convergió a la distribución posterior.
+
+Instalar Stan y rstan, instrucciones [aquí](http://mc-stan.org/users/interfaces/rstan.html).
+
