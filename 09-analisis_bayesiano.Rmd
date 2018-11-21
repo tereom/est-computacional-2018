@@ -1954,31 +1954,28 @@ términos de precisión (el inverso de la varianza). Si parametrizamos de esta
 manera $\nu = 1/\sigma^2$ podemos repetir el proceso anterior con la
 diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.
 
-### Conclusiones y observaciones MCMC {-}
+### Conclusiones y observaciones Metrópolis y Gibbs {-}
 
 * Una generalización del algoritmo de Metrópolis es Metrópolis-Hastings. 
 
-El algoritmo de Metropolis es como sigue:
+    El algoritmo de Metropolis es como sigue:
     1. Generamos un punto inicial tal que $p(\theta)>0$.
-    
     2. Para $t = 1,2,...$
         + Se propone un nuevo valor $\theta_{propuesto}$ con una distribución
         propuesta $g(\theta_{propuesta}|\theta_{actual})$ es común  que $g(\theta_{propuesta}|\theta_{actual})$ sea una normal centrada en 
         $\theta_{actual}$.
-        
     3. Calculamos 
-$$p_{mover}=min\bigg( \frac{p(\theta_{propuesta})}{p(\theta_{actual})},1\bigg)$$
-y aceptamos $$\theta_{propuesta}$$ con probabilidad $p_{mover}$
-Es así que el algorito requiere que podamos calcular el cociente en $p_{mover}$
-para todo $\theta_{actual}$ y $\theta_{propuesta}$, así como simular de la 
-distribución propuesta $g(\theta_{propuesta}|\theta_{actual})$, adicionalmente
-debemos poder generar valores uniformes para decidir si aceptar/rechazar.
-En el caso de **Metropolis** un requerimiento adicional es que la distribución
-propuesta $g(\theta_{a}|\theta_b)$ debe ser simétrica, es decir $g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)$ para todo $\theta_{a}$, 
-$\theta_{b}$.
-
-En el caso de **Metropolis-Hastings** no se requiere que la distribución 
-propuesta $g(\theta_{a}|\theta_b)$ sea simétrica, sin embargo para corregir por
+    $$p_{mover}=min\bigg( \frac{p(\theta_{propuesta})}{p(\theta_{actual})},1\bigg)$$
+    y aceptamos $$\theta_{propuesta}$$ con probabilidad $p_{mover}$. Es así que el algorito requiere que podamos calcular el cociente en $p_{mover}$
+    para todo $\theta_{actual}$ y $\theta_{propuesta}$, así como simular de la 
+    distribución propuesta $g(\theta_{propuesta}|\theta_{actual})$, adicionalmente
+    debemos poder generar valores uniformes para decidir si aceptar/rechazar.
+    En el caso de **Metropolis** un requerimiento adicional es que la distribución
+    propuesta $g(\theta_{a}|\theta_b)$ debe ser simétrica, es decir $g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)$ para todo $\theta_{a}$, 
+    $\theta_{b}$.
+    
+    **Metropolis-Hastings** generaliza Metropolis, eliminando la rstricción de 
+simetría en la distribución propuesta $g(\theta_{a}|\theta_b)$, sin embargo para corregir por
 esta asimetría debemos calcular $p_{mover}$ como sigue:
 $$p_{mover}=min\bigg( \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{actual})}{p(\theta_{actual})/g(\theta_{actual}|\theta_{propuesta})},1\bigg)$$
 La generalización de Metrópolis-Hastings puede resultar en algoritmos más 
@@ -2047,15 +2044,15 @@ el diagrama corresponde a una línea de código en la especificación del modelo
 
 ```{r}
 modelo_bb.bugs <-
-    '
-    model{
-        for(i in 1:N){
-            x[i] ~ dbern(theta)
-        }
-        # inicial
-        theta ~ dbeta(1, 1)
+'
+model{
+    for(i in 1:N){
+        x[i] ~ dbern(theta)
     }
-    '
+    # inicial
+    theta ~ dbeta(1, 1)
+}
+'
 ```
 
 el ciclo for indica que cada dato observado $x_i$ proviene de una distribución Bernoulli con parámetro $\theta$. Afuera del ciclo
@@ -2175,17 +2172,17 @@ set.seed(122)
 x <- rnorm(N, 2, 2) 
 
 modelo_normal.bugs <-
-    '
-    model{
-        for(i in 1:N){
-            x[i] ~ dnorm(mu, nu)
-        }
-        # iniciales
-        nu ~ dgamma(3, 3)
-        sigma2 <- 1 / nu
-        mu ~ dnorm(1.5, 1 / 16) 
+'
+model{
+    for(i in 1:N){
+        x[i] ~ dnorm(mu, nu)
     }
-    '
+    # iniciales
+    nu ~ dgamma(3, 3)
+    sigma2 <- 1 / nu
+    mu ~ dnorm(1.5, 1 / 16) 
+}
+'
 ```
 
 el ciclo `for` indica que cada dato observado $x_i$ proviene de una distribución
@@ -2526,13 +2523,13 @@ El paper [A Conceptual Introduction to Hamiltonian Monte Carlo](https://arxiv.or
 conceptos e intuición detrás de HMC, y el porqué es apropiado en problemas de
 alta dimensión. 
 
-#### Ejemplo {-}
+#### Stan {-}
 
 Para instalar Stan sigue las instrucciones de [aquí](http://mc-stan.org/users/interfaces/rstan.html). 
 Nosotros usaremos el paquete `rstan` y comenzamos con el ejemplo sencillo de 
 estimar el sesgo de una moneda.
 
-```{r, message=FALSE}
+```{r, message=FALSE, eval = FALSE}
 library(rstan)
 
 # opcional para correr en paralelo
@@ -2546,22 +2543,21 @@ en R.
 
 ```{r}
 modelo.stan <- 
-    '   
-    data {
-        int<lower=0> N;
-        int y[N]; 
-    }
-    parameters {
-        real<lower=0,upper=1> theta;
-    } 
-    model {
-        theta ~ beta(1,1) ;
-        y ~ bernoulli(theta) ;
-    }
-    
-    '
-# notemos que los modelos de Stan deben terminar con una línea en blanco
+'   
+data {
+    int<lower=0> N;
+    int y[N]; 
+}
+parameters {
+    real<lower=0,upper=1> theta;
+} 
+model {
+    theta ~ beta(1,1) ;
+    y ~ bernoulli(theta) ;
+}
 
+'
+# notemos que los modelos de Stan deben terminar con una línea en blanco
 cat(file = "modelo.stan", modelo.stan)
 ```
 
@@ -2579,7 +2575,7 @@ sin necesidad de hacer el ciclo `for`:
 Ya que especificamos el modelo lo siguiente es traducir el modelo a código de 
 C++ y compilarlo.
 
-```{r, warning=FALSE, message=FALSE, results='hide'}
+```{r, warning=FALSE, message=FALSE, results='hide', eval = FALSE}
 stan_cpp <- stan_model("modelo.stan")
 stan_cpp <- stan_model(model_code = modelo.stan)
 ```
@@ -2589,23 +2585,29 @@ Hamiltonianas.
 
 Ahora cargamos los datos.
 
-```{r}
+```{r, eval = FALSE}
 N = 50 ; z = 10 ; y = c(rep(1, z), rep(0, N - z))
 
 data_list <- list(y = y, N = N )
 stan_fit <- sampling(object= stan_cpp, data = data_list,
                     chains = 3 , iter = 1000 , warmup = 200, thin = 1 )
+summary_stan_fit <- summary(stan_fit)
 ```
 
+```{r, echo=FALSE}
+# readr::write_rds(summary_stan_fit, "cache_manual/summary_stan_fit.rds")
+summary_stan_fit <- readr::read_rds("cache_manual/summary_stan_fit.rds")
+```
 
 ```{r}
-summary(stan_fit)
+summary_stan_fit$summary
 ```
+
 
 Otro camino es compilar y correr las cadenas de manera simultanea con la función
 `stan()`.
 
-```{r, warning=FALSE, message=FALSE, results='hide'}
+```{r, warning=FALSE, message=FALSE, results='hide', eval=FALSE}
 stan_fit_2 <- stan(file = 'modelo.stan', data = data_list, 
     iter = 1000, chains = 4)
 ```
@@ -3129,7 +3131,7 @@ grid.arrange(post_conj_1, post_conj_2, post_mu, post_theta_1, post_theta_2,
 
 ```
 
-### JAGS {-}
+#### JAGS {-}
 
 La sección anterior utilizó un modelo simplificado con el objetivo de poder
 visualizar el espacio de parámetros. Ahora incluiremos más parámetros para hacer 
@@ -3150,7 +3152,7 @@ La distribución inicial para $\kappa$ será una Gamma.
 ```{r}
 library(R2jags)
 
-modelo_jer.txt <-
+modelo_jer.bugs <-
 '
 model{
   for(t in 1:N){
@@ -3174,7 +3176,7 @@ Los datos consisten en 5 monedas, cada una se lanza 5 veces, resultando 4 de
 ellas en 1 águila y 4 soles y otra en 3 águilas y 2 soles.
 
 ```{r, fig.align='center', fig.height = 3}
-cat(modelo_jer.txt, file = 'modelo_jer.bugs')
+cat(modelo_jer.bugs, file = 'modelo_jer.bugs')
 
 x <- c(0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1)
 coin <- c(rep(1, 5), rep(2, 5), rep(3, 5), rep(4, 5), rep(5, 5))
@@ -3194,8 +3196,7 @@ jags_fit <- jags(
   n.burnin = 1000   # calentamiento de la cadena
   )
 
-traceplot(jags_fit, varname = c("kappa", "mu", "theta"))
-
+R2jags::traceplot(jags_fit, varname = c("kappa", "mu", "theta"))
 jags_fit
 ```
 
@@ -3215,7 +3216,56 @@ ggplot(filter(sims_df, parametro == "kappa"), aes(x = value)) +
   geom_histogram(alpha = 0.8)
 ```
 
-## Ejemplo: estimación de tasas de mortalidad
+#### Stan {-}
+
+```{r, message=FALSE, warning=FALSE, eval = FALSE}
+modelo_jer.stan <-
+'
+data {
+    int N;
+    int x[N];
+    int nCoins;
+    int coin[N];
+}
+parameters {
+    real<lower=0,upper=1> theta[nCoins];
+    real<lower=0,upper=1> mu;
+    real<lower=0>  kappa;
+}
+transformed parameters {
+    real<lower=0>  a;
+    real<lower=0>  b;
+    a = mu*kappa;
+    b = (1-mu)*kappa;
+}
+model {
+    theta ~ beta(a,b);
+    x ~ bernoulli(theta[coin]);
+    mu ~ beta(2, 2);
+    kappa ~ gamma(1, 0.1);
+}
+
+'
+
+cat(file = "modelo_jer.stan", modelo_jer.stan)
+stan_jer_cpp <- stan_model("modelo_jer.stan")
+
+stan_jer_fit <- sampling(stan_jer_cpp, 
+    data = list(x = x, coin = coin, nCoins = 5,  N = 25), chains = 2,
+    cores = 2, iter = 400, warmup = 100)
+```
+
+
+```{r, echo=FALSE}
+# readr::write_rds(summary(stan_jer_fit), "cache_manual/summary_stan_jer_fit.rds")
+summary_stan_jer_fit <- readr::read_rds("cache_manual/summary_stan_jer_fit.rds")
+```
+
+```{r}
+summary_stan_jer_fit$summary
+```
+
+### Ejemplo: estimación de tasas de mortalidad {-}
 
 ```{r, echo = FALSE, message=FALSE,warning=FALSE}
 options(digits = 3)
@@ -3348,7 +3398,7 @@ información de todos.
 Notemos que la estructura del modelo jerárquico facilita la implementación del muestreador de Gibbs debido a que es inmediato factorizar la conjunta en 
 condicionales completas.
 
-### Modelo de unidades iguales
+#### Modelo de unidades iguales
 Supongamos que las tasas de mortalidad son iguales a lo largo de los hospitales. Estimaremos la tasa de mortalidad con el modelo, 
 $$
 \begin{eqnarray}
@@ -3488,7 +3538,7 @@ ggplot(p.pred.2, aes(x = log(e), y = p)) +
 En la figura anterior graficamos las probabilidades de extremos (calculadas con simulación) en el eje vertical, contra el número de exposición en escala logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas probabilidades son pequeñas, el 28\% son menores a 0.15, lo que indica que para el 28\% de los hospitales el número de muertes observado $y_{j}$ está en la cola de la distribución y por consiguiente el modelo es inadecuado.\medskip
 
 
-### Modelo de unidades independientes
+#### Modelo de unidades independientes {-}
 
 Consideremos ahora que los hospitales son independientes, estimaremos la tasa de
 mortalidad para cada hospital con el modelo
@@ -3561,7 +3611,7 @@ tasa observada $y_{j}/e_{j}$ y la media inicial $\alpha_{0} / \beta_{0}$. El
 factor $A_{j}$ es el encogimiento hacia la media inicial y depende del número de
 exposición de cada hospital y del parámetro de escala $\beta_{0}$.
 
-#### Efecto de ${\beta_{0}}$ y ${e_{j}}$ en la distribución posterior
+##### Efecto de ${\beta_{0}}$ y ${e_{j}}$ en la distribución posterior {-}
 
 Consideremos la media y varianza posteriores de $\lambda_{j}$ para un hospital
 particular. Tomando $\alpha_{0}$ fija, valores mayores de $\beta_{0}$ 
@@ -3605,7 +3655,7 @@ ggplot(encoge.m, aes(x = log(e), y = value, color = variable)) +
   ylab("encogimiento (A)")
 ```
 
-#### Distribución inicial
+##### Distribución inicial {-}
 
 Establecimos que por facilidad se utilizará una inicial 
 $Gamma(\alpha_{0},\beta_{0})$, sin embargo hace falta asignar valores a los 
@@ -3705,7 +3755,7 @@ que la tasa de mortalidad por transplante de corazón debe ser positiva y no muy
 grande. Debido a que no tenemos más información nuestro primer modelo utiliza 
 una inicial vaga.
 
-#### No informativas
+##### No informativas {-}
 Asignamos a $\lambda_{j}$ una distribución inicial $Gamma(0.01,0.01)$. La tabla 
 de deciles indica que es una distribución muy plana y si observamos la gráfica 
 de encogimiento notamos que para una inicial con este valor en el parámetro de
@@ -3730,7 +3780,7 @@ observadas en todos los hospitales. Este efecto es contrario al que buscábamos
 al usar una inicial vaga pues la distribución inicial tiene un impacto muy 
 fuerte en las estimaciones posteriores.
 
-#### Informativa
+##### Informativa {-}
 Finalmente, consideramos una distribución inicial $Gamma(1,1000)$, ésta inicial
 es informativa. Para obtener sus parámetros igualamos los media y varianza
 teórica de la distribución $Gamma$ con la media y varianza observadas en el
@@ -3758,14 +3808,14 @@ Podemos concluir que el modelo de unidades independientes no es robusto para
 nuestros datos pues las estimaciones posteriores de las tasas de mortalidad son 
 muy sensibles a la elección de los parámetros de la distribución inicial. 
 
-## Modelo jerárquico
+#### Modelo jerárquico {-}
 
-Un modelo jerárquico implica una estrategia intermedia entre el modelo de
-unidades iguales y el modelo de unidades independientes. Nos permite reflejar un
-escenario en donde la información de cada estudio aporta información acerca del
-parámetro de interés $\lambda_j$ de los demás estudios sin considerarlos
-idénticos, de manera que se estima un parámetro $\lambda_j$ diferente para cada
-hospital.
+En este ejemplo se destaca el modelo jerárquico como una estrategia intermedia 
+entre el modelo de unidades iguales y el modelo de unidades independientes. Nos 
+permite reflejar un escenario en donde la información de cada estudio aporta 
+información acerca del parámetro de interés $\lambda_j$ de los demás estudios 
+sin considerarlos idénticos, de manera que se estima un parámetro $\lambda_j$ 
+diferente para cada hospital.
 
 Enumeramos algunas de las ventajas potenciales de usar un modelo jerárquico.
 
@@ -3789,8 +3839,6 @@ distribución inicial de $\lambda$.
 4. Cómputo. La estructura jerárquica facilita los cálculos posteriores, debido a
 que la distribución posterior se factoriza en distribuciones condicionales más
 sencillas que facilitan la implementación de un muestreador de Gibbs.
-
-### Ejemplo: Tasas de mortalidad
 
 Retomando el problema de estimación de tasas de mortalidad por transplante de
 corazón, modelaremos las $\lambda_{j}$ con un modelo jerárquico, suponemos
@@ -3910,7 +3958,7 @@ ahora es un sólo modelo (opuesto a 94), y los parámetros de la distribución
 inicial de $\lambda_{j}$ forman parte del modelo de probabilidad pues les
 asignamos una distribución inicial.
 
-### Distribuciones posteriores
+#### Distribuciones posteriores {-}
 
 Sea $\lambda=(\lambda_{1},...,\lambda_{94})$ y $y=(y_{1},...,y_{94})$, 
 calculamos la densidad posterior conjunta de los parámetros,
@@ -4003,8 +4051,8 @@ poissgamexch <- function(theta, datapar){ # theta = c(theta_1, theta_2)
 # en la función gibbs, datapar contiene la base de datos y el valor del 
 # hiperparámetro z0 
 datapar = list(data = hearttransplants, z0 = 0.53)
-# adicionalmente debemos dar valores para el algoritmo M-H, la función 
-# implementa un algoritmo M-H de caminata aleatoria
+# adicionalmente debemos dar valores para el algoritmo Metrópolis, la función 
+# implementa un algoritmo de caminata aleatoria
 # donde la distribución propuesta tiene la forma  theta* = theta^t-1 + scale*Z
 # y Z es N(0, I), en este caso c(1, 0.15) es el vector de escala
 fitgibbs <- gibbs(poissgamexch, start = c(4, -7), m = 1000, scale = c(1, 0.15),
@@ -4143,7 +4191,7 @@ ggplot(p.pred.2, aes(x = p, y = pred.h, colour = e.factor)) +
   scale_colour_brewer("No. expuestos (e)", palette = "Blues")
 ```
 
-### JAGS
+#### JAGS {-}
 
 Ahora veremos como hacer la estimación usando JAGS. Primero hacemos un par de 
 cambios en la definición del modelo, esto es porque la distribución inicial de 
@@ -4247,12 +4295,13 @@ ggplot(compara.2, aes(x = log(e), y = media, color = metodo)) +
 
 
 
-![](../imagenes/manicule2.jpg) Implementaremos varios modelos en JAGS, la base de datos que usaremos contiene 
-información de mediciones de radón (activity) y del suelo en el que se hicieron 
-las mediciones (floor = $0$ casas con sótano, floor = $1$ casas sin sótano), las 
-mediciones corresponden a $919$ hogares muestreados de $85$ condados de 
-Minnesota. El objetivo es construir un modelo de regresión en el que la medición 
-de radón es la variable independiente y el tipo de suelo es la covariable.
+![](imagenes/manicule2.jpg) Implementaremos varios modelos en JAGS o Stan, la 
+base de datos que usaremos contiene información de mediciones de radón 
+(activity) y del suelo en el que se hicieron las mediciones (floor = $0$ casas 
+con sótano, floor = $1$ casas sin sótano), las mediciones corresponden a $919$ 
+hogares muestreados de $85$ condados de Minnesota. El objetivo es construir un 
+modelo de regresión en el que la medición de radón es la variable independiente 
+y el tipo de suelo es la covariable.
 
 1. Iniciaremos con un modelo de regresión de unidades iguales, este modelo 
 ignora la variación en los niveles de radón entre los condados.
@@ -4280,7 +4329,7 @@ casa sin sótano (floor = 1) en el condado 26.
 6. Utiliza el modelo anterior para predecir el valor de radón para una nueva 
 casa sin sótano (floor = 1) en un condado nuevo con nivel de uranio $2$.
 
-#### Observaciones
+##### Observaciones {-}
 
 Iniciamos preparando los datos para el análisis, trabajaremos en escala 
 logarítmica, hay algunos casos con medición cero, para éstos hacemos una pequeña
@@ -4315,30 +4364,6 @@ $$\sigma_{\alpha}^2 \sim Unif(0, 100).$$
 Entonces, para que una distribución inicial sea noinformariva, su rango de 
 incertidumbre debe ser más amplio que el rango de valores razonables que pueden 
 tomar los parámetros.
-
-### Referencias
-
-* [Bayesian Computation With R](http://bayes.bgsu.edu/bcwr/), Jim Albert.
-
-
-* [Doing Bayesian Data Analysis](https://sites.google.com/site/doingbayesiandataanalysis/), John K. Kruschke.
-
-* [Data Analysis Using Regression and Multilevel/Hierarchical models](http://www.stat.columbia.edu/~gelman/arm/), Andrew Gelman,
-Jennifer Hill.
-
-
-
-### Referencias
-
-* [Doing Bayesian Data Analysis](https://sites.google.com/site/doingbayesiandataanalysis/), John K. Kruschke.
-
-* [A Conceptual Introduction to Hamiltonian Monte Carlo](https://arxiv.org/pdf/1701.02434.pdf), Michael Betancourt.
-
-* [Data Analysis Using Regression and Multilevel/Hierarchical models](http://www.stat.columbia.edu/~gelman/arm/), Andrew Gelman,
-Jennifer Hill.
-
-* [Understanding Computational Bayesian Statistics](https://www.amazon.com/Understanding-Computational-Bayesian-Statistics-William/dp/0470046090), William M. Bolstad.
-
 
 
 
