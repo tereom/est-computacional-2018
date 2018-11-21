@@ -918,9 +918,7 @@ La distribuciones iniciales que usaremos son:
 $$\beta \sim N(0, 1000)$$
 $$\sigma^2 \sim U(0, 1000)$$
 
-```{r, message=FALSE, warning=FALSE}
-library(R2jags)
-
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
 modelo_regresion.txt <-
     '
     model{
