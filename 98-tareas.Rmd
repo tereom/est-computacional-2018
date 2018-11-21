@@ -1,5 +1,17 @@
 # Tareas {-}
 
+```{r options, echo = FALSE, message=FALSE, error=TRUE}
+knitr::opts_chunk$set(
+    comment = "#>",
+    collapse = TRUE, error=TRUE
+)
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+options(digits = 3)
+
+library(tidyverse)
+theme_set(theme_minimal())
+```
+
 * Las tareas se envían por correo a teresa.ortiz.mancera@gmail.com con título: 
 EstComp-TareaXX (donde XX corresponde al número de tarea, 01..). 
 
