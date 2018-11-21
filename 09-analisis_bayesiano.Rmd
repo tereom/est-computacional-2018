@@ -2383,7 +2383,7 @@ puede ser más eficiente que otros muestreadores en JAGS y BUGS, en particular
 cuando se ajustan modelo grandes y complejos (por ejemplo, con variables con
 correlación alta).
 
-### Muestreo HMC
+### Muestreo HMC {-}
 
 El uso de HMC en estadística es reciente, sin embargo, gracias a Stan se ha 
 expandido rápidamente tanto en academia como industria. Desafortunadamente, la
@@ -2526,8 +2526,7 @@ alta dimensión.
 
 #### Ejemplo {-}
 
-Para instalar Stan sigue las instrucciones de aquí. 
-
+Para instalar Stan sigue las instrucciones de [aquí](http://mc-stan.org/users/interfaces/rstan.html). 
 Nosotros usaremos el paquete `rstan` y comenzamos con el ejemplo sencillo de 
 estimar el sesgo de una moneda.
 
@@ -2544,20 +2543,22 @@ Lo podemos guardar en un archivo de texto o simplemente asignarlo a una variable
 en R.
 
 ```{r}
-modelo.stan <- '
-data {
-    int<lower=0> N;
-    int y[N]; 
-}
-parameters {
-    real<lower=0,upper=1> theta;
-} 
-model {
-    theta ~ beta(1,1) ;
-    y ~ bernoulli(theta) ;
-}
-
-'
+modelo.stan <- 
+    '   
+    data {
+        int<lower=0> N;
+        int y[N]; 
+    }
+    parameters {
+        real<lower=0,upper=1> theta;
+    } 
+    model {
+        theta ~ beta(1,1) ;
+        y ~ bernoulli(theta) ;
+    }
+    
+    '
+# notemos que los modelos de Stan deben terminar con una línea en blanco
 
 cat(file = "modelo.stan", modelo.stan)
 ```
@@ -2584,7 +2585,7 @@ stan_cpp <- stan_model(model_code = modelo.stan)
 En el paso de compilación Stan está calculando los gradientes para las dinámicas 
 Hamiltonianas.
 
-Cramos los datos.
+Ahora cargamos los datos.
 
 ```{r}
 N = 50 ; z = 10 ; y = c(rep(1, z), rep(0, N - z))
@@ -2606,6 +2607,9 @@ Otro camino es compilar y correr las cadenas de manera simultanea con la funció
 stan_fit_2 <- stan(file = 'modelo.stan', data = data_list, 
     iter = 1000, chains = 4)
 ```
+
+
+
 
 ### Iniciales {-}
 
