@@ -1962,12 +1962,6 @@ Veamos un ejemplo donde seleccionamos muestras del conjunto de datos
 
 ```r
 library(rsample)
-#> Loading required package: broom
-#> 
-#> Attaching package: 'broom'
-#> The following object is masked from 'package:bootstrap':
-#> 
-#>     bootstrap
 #> 
 #> Attaching package: 'rsample'
 #> The following object is masked from 'package:tidyr':
@@ -2016,18 +2010,18 @@ computos_boot <- bootstraps(muestra_computos, times = 100)
 computos_boot
 #> # Bootstrap sampling 
 #> # A tibble: 100 x 2
-#>    splits       id          
-#>    <list>       <chr>       
-#>  1 <S3: rsplit> Bootstrap001
-#>  2 <S3: rsplit> Bootstrap002
-#>  3 <S3: rsplit> Bootstrap003
-#>  4 <S3: rsplit> Bootstrap004
-#>  5 <S3: rsplit> Bootstrap005
-#>  6 <S3: rsplit> Bootstrap006
-#>  7 <S3: rsplit> Bootstrap007
-#>  8 <S3: rsplit> Bootstrap008
-#>  9 <S3: rsplit> Bootstrap009
-#> 10 <S3: rsplit> Bootstrap010
+#>    splits             id          
+#>    <list>             <chr>       
+#>  1 <split [10K/3.7K]> Bootstrap001
+#>  2 <split [10K/3.7K]> Bootstrap002
+#>  3 <split [10K/3.7K]> Bootstrap003
+#>  4 <split [10K/3.6K]> Bootstrap004
+#>  5 <split [10K/3.7K]> Bootstrap005
+#>  6 <split [10K/3.7K]> Bootstrap006
+#>  7 <split [10K/3.7K]> Bootstrap007
+#>  8 <split [10K/3.7K]> Bootstrap008
+#>  9 <split [10K/3.7K]> Bootstrap009
+#> 10 <split [10K/3.7K]> Bootstrap010
 #> # ... with 90 more rows
 ```
 

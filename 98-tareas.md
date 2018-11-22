@@ -1,5 +1,7 @@
 # Tareas {-}
 
+
+
 * Las tareas se envían por correo a teresa.ortiz.mancera@gmail.com con título: 
 EstComp-TareaXX (donde XX corresponde al número de tarea, 01..). 
 
@@ -153,15 +155,12 @@ muestras_est <- muestras %>%
         e_estandar_plug_in = map_dbl(muestras, se_plug_in)
     )
 muestras_est
-```
-
-```
-## # A tibble: 3 x 4
-##   tamanos muestras      medias e_estandar_plug_in
-##     <dbl> <list>         <dbl>              <dbl>
-## 1      10 <dbl [10]>      567.              21.1 
-## 2     100 <dbl [100]>     575.               6.11
-## 3    1000 <dbl [1,000]>   576.               2.11
+#> # A tibble: 3 x 4
+#>   tamanos muestras      medias e_estandar_plug_in
+#>     <dbl> <list>         <dbl>              <dbl>
+#> 1      10 <dbl [10]>      567.              21.1 
+#> 2     100 <dbl [100]>     575.               6.11
+#> 3    1000 <dbl [1,000]>   576.               2.11
 ```
 
 Ahora, recordemos que la distribución muestral es la distribución de una
@@ -208,15 +207,12 @@ Nuestros valores de error estándar con simulación están en la columna
 ```r
 muestras_sims %>% 
     select(tamanos, medias, e_estandar_plug_in, e_estandar_aprox)
-```
-
-```
-## # A tibble: 3 x 4
-##   tamanos medias e_estandar_plug_in e_estandar_aprox
-##     <dbl>  <dbl>              <dbl>            <dbl>
-## 1      10   567.              21.1             21.0 
-## 2     100   575.               6.11             6.69
-## 3    1000   576.               2.11             2.13
+#> # A tibble: 3 x 4
+#>   tamanos medias e_estandar_plug_in e_estandar_aprox
+#>     <dbl>  <dbl>              <dbl>            <dbl>
+#> 1      10   567.              21.1             21.0 
+#> 2     100   575.               6.11             6.69
+#> 3    1000   576.               2.11             2.13
 ```
 
 En este ejercicio estamos simulando para examinar las distribuciones muestrales
@@ -234,15 +230,12 @@ muestras_sims_est <- muestras_sims %>%
     mutate(e_estandar_pob = sd(primarias$esp_3) / sqrt(tamanos))
 muestras_sims_est %>% 
     select(tamanos, e_estandar_plug_in, e_estandar_aprox, e_estandar_pob)
-```
-
-```
-## # A tibble: 3 x 4
-##   tamanos e_estandar_plug_in e_estandar_aprox e_estandar_pob
-##     <dbl>              <dbl>            <dbl>          <dbl>
-## 1      10              21.1             21.0           21.1 
-## 2     100               6.11             6.69           6.67
-## 3    1000               2.11             2.13           2.11
+#> # A tibble: 3 x 4
+#>   tamanos e_estandar_plug_in e_estandar_aprox e_estandar_pob
+#>     <dbl>              <dbl>            <dbl>          <dbl>
+#> 1      10              21.1             21.0           21.1 
+#> 2     100               6.11             6.69           6.67
+#> 3    1000               2.11             2.13           2.11
 ```
 
 En la tabla de arriba podemos comparar los 3 errores estándar que calculamos, 
@@ -268,18 +261,15 @@ muestras_sims_est_boot <- muestras_sims_est %>%
         e_estandar_boot = map_dbl(sims_medias_boot, sd)
         )
 muestras_sims_est_boot
-```
-
-```
-## # A tibble: 3 x 11
-##   tamanos muestras medias e_estandar_plug… sims_muestras sims_medias
-##     <dbl> <list>    <dbl>            <dbl> <list>        <list>     
-## 1      10 <dbl [1…   567.            21.1  <list [10,00… <dbl [10,0…
-## 2     100 <dbl [1…   575.             6.11 <list [10,00… <dbl [10,0…
-## 3    1000 <dbl [1…   576.             2.11 <list [10,00… <dbl [10,0…
-## # ... with 5 more variables: e_estandar_aprox <dbl>, e_estandar_pob <dbl>,
-## #   sims_muestras_boot <list>, sims_medias_boot <list>,
-## #   e_estandar_boot <dbl>
+#> # A tibble: 3 x 11
+#>   tamanos muestras medias e_estandar_plug… sims_muestras sims_medias
+#>     <dbl> <list>    <dbl>            <dbl> <list>        <list>     
+#> 1      10 <dbl [1…   567.            21.1  <list [10,00… <dbl [10,0…
+#> 2     100 <dbl [1…   575.             6.11 <list [10,00… <dbl [10,0…
+#> 3    1000 <dbl [1…   576.             2.11 <list [10,00… <dbl [10,0…
+#> # ... with 5 more variables: e_estandar_aprox <dbl>, e_estandar_pob <dbl>,
+#> #   sims_muestras_boot <list>, sims_medias_boot <list>,
+#> #   e_estandar_boot <dbl>
 ```
 
 Graficamos los histogramas de la distribución bootstrap para cada muestra.
@@ -306,15 +296,12 @@ Y la tabla con todos los errores estándar quedaría:
 muestras_sims_est_boot %>% 
     select(tamanos, e_estandar_boot, e_estandar_plug_in, e_estandar_aprox, 
         e_estandar_pob)
-```
-
-```
-## # A tibble: 3 x 5
-##   tamanos e_estandar_boot e_estandar_plug… e_estandar_aprox e_estandar_pob
-##     <dbl>           <dbl>            <dbl>            <dbl>          <dbl>
-## 1      10           21.3             21.1             21.0           21.1 
-## 2     100            6.11             6.11             6.69           6.67
-## 3    1000            2.08             2.11             2.13           2.11
+#> # A tibble: 3 x 5
+#>   tamanos e_estandar_boot e_estandar_plug… e_estandar_aprox e_estandar_pob
+#>     <dbl>           <dbl>            <dbl>            <dbl>          <dbl>
+#> 1      10           21.3             21.1             21.0           21.1 
+#> 2     100            6.11             6.11             6.69           6.67
+#> 3    1000            2.08             2.11             2.13           2.11
 ```
 
 Observamos que el estimador bootstrap del error estándar es muy similar al 
@@ -341,10 +328,7 @@ muestra <- sample_n(primarias, size = 100)
 
 ```r
 cor(muestra$esp_3, muestra$esp_6)
-```
-
-```
-## [1] 0.7760901
+#> [1] 0.776
 ```
 
 - Error estándar con bootstrap
@@ -357,10 +341,7 @@ cor_rep <- function(){
 }
 replicaciones <- rerun(10000, cor_rep()) %>% flatten_dbl()
 sd(replicaciones)
-```
-
-```
-## [1] 0.04548587
+#> [1] 0.0455
 ```
 
 ## 6-Cobertura de intervalos de confianza {-}
@@ -381,7 +362,7 @@ ii) Genera $10,000$ muestras bootstrap y calcula intervalos de confianza del
 iii) Revisa si el intervalo de confianza contiene el verdadero valor del 
 parámetro ($\theta=exp(-2\cdot2.5)$), en caso de que no lo contenga registra si 
 falló por la izquierda (el límite inferior $exp(-2.5*\lambda)$) o falló por la 
-derecha (el límite superior <$exp(-2.5*\lambda)$).
+derecha (el límite superior $exp(-2.5*\lambda)$).
 
 a) Repite el proceso descrito 1000 veces y llena la siguiente tabla:
 
@@ -451,15 +432,12 @@ sims_intervalos_60 %>%
             long_min = min(der - izq),
             long_max = max(der - izq)
             )
-```
-
-```
-## # A tibble: 3 x 7
-##   metodo  falla_izq falla_der cobertura long_media long_min long_max
-##   <chr>       <dbl>     <dbl>     <dbl>      <dbl>    <dbl>    <dbl>
-## 1 BC_a         2.26      2.8       94.9     0.0117  0.00258   0.0356
-## 2 normal       0.1       4.88      95.0     0.0126  0.00276   0.0380
-## 3 percent      3.1       2         94.9     0.0124  0.00265   0.0381
+#> # A tibble: 3 x 7
+#>   metodo  falla_izq falla_der cobertura long_media long_min long_max
+#>   <chr>       <dbl>     <dbl>     <dbl>      <dbl>    <dbl>    <dbl>
+#> 1 BC_a         2.26      2.8       94.9     0.0117  0.00258   0.0356
+#> 2 normal       0.1       4.88      95.0     0.0126  0.00276   0.0380
+#> 3 percent      3.1       2         94.9     0.0124  0.00265   0.0381
 ```
 
 
@@ -513,16 +491,13 @@ sims_intervalos_300 %>%
             long_min = min(der - izq),
             long_max = max(der - izq)
             )
-```
-
-```
-## # A tibble: 3 x 8
-##   metodo falla_izq falla_der cobertura longitud long_media long_min
-##   <chr>      <dbl>     <dbl>     <dbl>    <dbl>      <dbl>    <dbl>
-## 1 BC_a        2.2       2.3       95.5  0.00491    0.00491  0.00246
-## 2 normal      0.82      3.72      95.5  0.00498    0.00498  0.00249
-## 3 perce…      2.48      1.92      95.6  0.00496    0.00496  0.00248
-## # ... with 1 more variable: long_max <dbl>
+#> # A tibble: 3 x 8
+#>   metodo falla_izq falla_der cobertura longitud long_media long_min
+#>   <chr>      <dbl>     <dbl>     <dbl>    <dbl>      <dbl>    <dbl>
+#> 1 BC_a        2.2       2.3       95.5  0.00491    0.00491  0.00246
+#> 2 normal      0.82      3.72      95.5  0.00498    0.00498  0.00249
+#> 3 perce…      2.48      1.92      95.6  0.00496    0.00496  0.00248
+#> # ... with 1 more variable: long_max <dbl>
 ```
 
 
@@ -583,33 +558,24 @@ lengua_ (nonenglish) para predecir las evaluaciones del curso
 
 ```r
 beauty <- readr::read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv")
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   .default = col_integer(),
-##   btystdave = col_double(),
-##   btystdf2u = col_double(),
-##   btystdfl = col_double(),
-##   btystdfu = col_double(),
-##   btystdm2u = col_double(),
-##   btystdml = col_double(),
-##   btystdmu = col_double(),
-##   courseevaluation = col_double(),
-##   percentevaluating = col_double(),
-##   profevaluation = col_double(),
-##   btystdvariance = col_double(),
-##   btystdavepos = col_double(),
-##   btystdaveneg = col_double()
-## )
-```
-
-```
-## See spec(...) for full column specifications.
-```
-
-```r
+#> Parsed with column specification:
+#> cols(
+#>   .default = col_integer(),
+#>   btystdave = col_double(),
+#>   btystdf2u = col_double(),
+#>   btystdfl = col_double(),
+#>   btystdfu = col_double(),
+#>   btystdm2u = col_double(),
+#>   btystdml = col_double(),
+#>   btystdmu = col_double(),
+#>   courseevaluation = col_double(),
+#>   percentevaluating = col_double(),
+#>   profevaluation = col_double(),
+#>   btystdvariance = col_double(),
+#>   btystdavepos = col_double(),
+#>   btystdaveneg = col_double()
+#> )
+#> See spec(...) for full column specifications.
 fit_score <- lm(courseevaluation ~ age + btystdave + female + nonenglish, 
                 data = beauty)
 ```
@@ -628,11 +594,8 @@ coeficientes $\beta$, este es normal con media:
 
 ```r
 coef(fit_score)
-```
-
-```
-##  (Intercept)          age    btystdave       female   nonenglish 
-##  4.244464824 -0.002585912  0.141031893 -0.210304324 -0.332233708
+#> (Intercept)         age   btystdave      female  nonenglish 
+#>     4.24446    -0.00259     0.14103    -0.21030    -0.33223
 ```
 
 y matriz de varianzas y covarianzas $\sigma^2 V$, donde $V$ es: 
@@ -640,21 +603,12 @@ y matriz de varianzas y covarianzas $\sigma^2 V$, donde $V$ es:
 
 ```r
 summary(fit_score)$cov.unscaled
-```
-
-```
-##              (Intercept)           age     btystdave        female
-## (Intercept)  0.070758980 -1.331151e-03 -3.787757e-03 -1.049379e-02
-## age         -0.001331151  2.653270e-05  8.781697e-05  1.324028e-04
-## btystdave   -0.003787757  8.781697e-05  3.826989e-03 -2.709254e-04
-## female      -0.010493789  1.324028e-04 -2.709254e-04  9.662597e-03
-## nonenglish  -0.002199634 -1.791673e-06 -1.206447e-04 -5.576679e-05
-##                nonenglish
-## (Intercept) -2.199634e-03
-## age         -1.791673e-06
-## btystdave   -1.206447e-04
-## female      -5.576679e-05
-## nonenglish   3.801753e-02
+#>             (Intercept)       age btystdave    female nonenglish
+#> (Intercept)     0.07076 -1.33e-03 -3.79e-03 -1.05e-02  -2.20e-03
+#> age            -0.00133  2.65e-05  8.78e-05  1.32e-04  -1.79e-06
+#> btystdave      -0.00379  8.78e-05  3.83e-03 -2.71e-04  -1.21e-04
+#> female         -0.01049  1.32e-04 -2.71e-04  9.66e-03  -5.58e-05
+#> nonenglish     -0.00220 -1.79e-06 -1.21e-04 -5.58e-05   3.80e-02
 ```
 
 y $\sigma$ se calcula como $\sigma=\hat{\sigma}\sqrt{(df)/X}$, donde X es una 
@@ -664,10 +618,7 @@ $\hat{\sigma}$ es:
 
 ```r
 summary(fit_score)$sigma
-```
-
-```
-## [1] 0.5320521
+#> [1] 0.532
 ```
 
 y $df$ (los grados de libertad) se obtienen:
@@ -675,10 +626,7 @@ y $df$ (los grados de libertad) se obtienen:
 
 ```r
 summary(fit_score)$df[2]
-```
-
-```
-## [1] 458
+#> [1] 458
 ```
 
 Una vez que obtengas una simulación del vector $\beta$ generas simulaciones 
@@ -790,19 +738,14 @@ errores <- data_frame(J = c(1, 10, 100, 1000)) %>%
         error_est = map_dbl(sims, sd) %>% round(3)
             )
 errores
-```
+#> # A tibble: 4 x 3
+#>       J sims          error_est
+#>   <dbl> <list>            <dbl>
+#> 1     1 <dbl [1,000]>     0.102
+#> 2    10 <dbl [1,000]>     0.036
+#> 3   100 <dbl [1,000]>     0.018
+#> 4  1000 <dbl [1,000]>     0.015
 
-```
-## # A tibble: 4 x 3
-##       J sims          error_est
-##   <dbl> <list>            <dbl>
-## 1     1 <dbl [1,000]>     0.102
-## 2    10 <dbl [1,000]>     0.036
-## 3   100 <dbl [1,000]>     0.018
-## 4  1000 <dbl [1,000]>     0.015
-```
-
-```r
 tamano_muestra <- function(J) {
   n_total <- max(100, J)
   ee <- rerun(1000, muestreo(J = J, n_total = n_total)) %>% 
@@ -818,21 +761,15 @@ tamanos <- c(20, 30, 40, 50, 100, 150)
 costos <- map_df(tamanos, tamano_muestra)
 costos$J <- tamanos
 costos
-```
-
-```
-## # A tibble: 6 x 4
-##      ee n_total   costo     J
-##   <dbl>   <dbl>   <dbl> <dbl>
-## 1 0.02    28700 1445000    20
-## 2 0.02     2200  125000    30
-## 3 0.019    1060   73000    40
-## 4 0.02      980   74000    50
-## 5 0.019     660   83000   100
-## 6 0.019     430   96500   150
-```
-
-```r
+#> # A tibble: 6 x 4
+#>      ee n_total   costo     J
+#>   <dbl>   <dbl>   <dbl> <dbl>
+#> 1 0.02    28700 1445000    20
+#> 2 0.02     2200  125000    30
+#> 3 0.019    1060   73000    40
+#> 4 0.02      980   74000    50
+#> 5 0.019     660   83000   100
+#> 6 0.019     430   96500   150
 ggplot(costos, aes(x = J, y = costo / 1000)) +
     geom_line() + scale_y_log10() + theme_minimal() +
     labs(y = "miles de pesos", title = "Costos")
@@ -974,3 +911,184 @@ y comparalas con el histograma de los valores generados con Metropolis.
 
 i) ¿Cómo utilizarías los parámetros $\mu, \tau^2$ para describir un escenario 
 donde sabes poco del verdadero valor de la media $\theta$?
+
+### Solución {-}
+
+
+```r
+prior <- function(mu = 100, tau = 10){
+  function(theta){
+    dnorm(theta, mu, tau)
+  }
+}
+mu <- 150
+tau <- 15
+mi_prior <- prior(mu, tau)
+```
+
+c) 
+
+```r
+# S: sum x_i, S2: sum x_i^2, N: número obs., sigma: desviación estándar (conocida)
+S <- 13000
+S2 <- 1700000
+N <- 100
+
+# sigma2 <- S2 / N - (S / N) ^ 2
+sigma <- 20
+  
+likeNorm <- function(S, S2, N, sigma = 20){
+  # quitamos constantes
+  sigma2 <-  sigma ^ 2
+  function(theta){
+    exp(-1 / (2 * sigma2) * (S2 - 2 * theta * S + 
+        N * theta ^ 2))
+  }
+}
+```
+
+d)
+
+```r
+mi_like <- likeNorm(S = S, S2 = S2, N = N, sigma = sigma)
+mi_like(130)
+#> [1] 3.73e-06
+```
+
+e)
+
+```r
+postRelProb <- function(theta){
+  mi_like(theta) * mi_prior(theta)
+}
+
+# para cada paso decidimos el movimiento de acuerdo a la siguiente función
+caminaAleat <- function(theta, sd_prop = 5){ # theta: valor actual
+  salto_prop <- rnorm(n = 1, sd = sd_prop) # salto propuesto
+  theta_prop <- theta + salto_prop # theta propuesta
+  u <- runif(1) 
+  p_move = min(postRelProb(theta_prop) / postRelProb(theta), 1) # prob mover
+  if(p_move  > u){
+    return(theta_prop) # aceptar valor propuesto
+  }
+  else{
+    return(theta) # rechazar
+  }
+}
+
+
+pasos <- 10000
+camino <- numeric(pasos) # vector que guardará las simulaciones
+camino[1] <- 90 # valor inicial
+
+rechazo = 0
+# Generamos la caminata aleatoria
+for (j in 2:pasos){
+  camino[j] <- caminaAleat(camino[j - 1])
+  rechazo <- rechazo + 1 * (camino[j] == camino[j - 1]) 
+}
+
+rechazo / pasos
+#> [1] 0.583
+caminata <- data.frame(pasos = 1:pasos, theta = camino)
+
+```
+
+f)
+
+
+```r
+ggplot(caminata[1:2000, ], aes(x = pasos, y = theta)) +
+  geom_point(size = 0.8) +
+  geom_path(alpha = 0.3) 
+```
+
+<img src="98-tareas_files/figure-html/unnamed-chunk-30-1.png" width="672" height="300px" />
+
+g)
+
+
+```r
+ggplot(filter(caminata, pasos > 2000), aes(x = theta)) +
+  geom_histogram(aes(y = ..density..), binwidth = 0.8) 
+```
+
+<img src="98-tareas_files/figure-html/unnamed-chunk-31-1.png" width="672" height="300px" />
+
+h)
+
+
+```r
+ggplot(filter(caminata, pasos > 2000), aes(x = theta)) +
+  geom_histogram(aes(y = ..density..), binwidth = 0.7) + 
+  stat_function(fun = dnorm, args = list(mean = 130.3, sd = 1.98), color = "red")
+```
+
+<img src="98-tareas_files/figure-html/unnamed-chunk-32-1.png" width="672" height="200px" />
+
+```r
+  
+sigma ^ 2 * mu / (sigma ^ 2 + N * tau ^ 2) + tau ^ 2 * S / (sigma^2  + N * tau^2) # media
+#> [1] 130
+sigma ^ 2 * tau ^ 2 / (sigma ^ 2 + N * tau ^ 2)
+#> [1] 3.93
+```
+
+i) Elegir varianza grande nos daría una inicial poco informativa.
+
+## 12-MCMC convergencia {-}
+
+Implementaremos un modelo de regresión en JAGS, la base de datos que
+usaremos contiene información de mediciones de radón (activity)
+y del suelo en el que se hicieron las mediciones (floor = 0 casas con
+sótano, floor = 1 casas sin sótano), las mediciones corresponden a 919
+hogares muestreados de 85 condados de Minnesota. El objetivo es
+construir un modelo de regresión en el que la medición de radón es la
+variable dependiente y el tipo de suelo es la covariable.
+
+El modelo es como sigue:
+
+$$x_i \sim N(\alpha + \beta x_i, \sigma^2)$$
+
+La distribuciones iniciales que usaremos son:
+$$\beta \sim N(0, 1000)$$
+$$\sigma^2 \sim U(0, 1000)$$
+
+
+```r
+modelo_regresion.txt <-
+    '
+    model{
+      for(i in 1 : n) {
+        y[i] ~ dnorm(y.hat[i], tau.y) 
+        y.hat[i] <- a + b * x[i]
+      }
+      a ~ dnorm(0, 0.001)
+      b ~ dnorm(0, 0.001)
+      tau.y <- pow(sigma.y, -2)
+      sigma.y ~ dunif(0, 100)
+    }
+    '
+cat(modelo_regresion.txt, file = 'modelo_regresion.bugs')
+
+# cargamos los datos con load radon
+radon <- readr::read_csv("data/radon.csv")
+
+# Iniciamos preparando los datos para el análisis, trabajaremos en
+# escala logarítmica, hay algunos casos con medición cero, para éstos
+# hacemos una pequeña correción redondeándolos a 0.1.
+y <- log(ifelse (radon$activity == 0, 0.1, radon$activity))
+n <- nrow(radon)
+x <- radon$floor
+
+# jags
+radon1_data <- list("n", "y", "x")
+radon1_parameters <- c("a", "b", "sigma.y")
+```
+
+El ejercicio consiste en que utilces la función `jags()` definiendo valores 
+inciales, número de cadenas, número de iteraciones y etapa de calentamiento. 
+Asegurate de alcanzar convergencia y describe los diagnósticos que utilizaste 
+para concluir que se convergió a la distribución posterior.
+
+Instalar Stan y rstan, instrucciones [aquí](http://mc-stan.org/users/interfaces/rstan.html).
