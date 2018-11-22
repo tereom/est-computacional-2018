@@ -380,7 +380,7 @@ cadena y evaluar la calidad de las simulaciones.</p>
 <div id="representatividad" class="section level4 unnumbered">
 <h4>Representatividad</h4>
 <p>Para determinar la convergencia de la cadena es conveniente realizar más de una
-cadenas, buscamos ver si realmente se ha olvidado el estado inicial y revisar
+cadena, buscamos ver si realmente se ha olvidado el estado inicial y revisar
 que algunas cadenas no hayan quedado <em>atoradas</em> en regiones inusuales del espacio
 de parámetros.</p>
 <pre class="sourceCode r"><code class="sourceCode r">jags_fit &lt;-<span class="st"> </span><span class="kw">jags</span>(
@@ -408,7 +408,7 @@ de parámetros.</p>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-55-1.png" width="432" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-55-2.png" width="432" /></p>
 <p>La gráfica anterior nos puede ayudar a determinar si elegimos un periodo de calentamiento adecuado o si alguna cadena está alejada del resto.</p>
 <p>Además de realizar gráficas podemos usar la medida de convergencia <span class="math inline">\(\hat{R}\)</span>
-que la función_jags_ calcula por omisión:</p>
+que la función <code>jags()</code> calcula por omisión:</p>
 <pre class="sourceCode r"><code class="sourceCode r">jags_fit<span class="op">$</span>BUGSoutput<span class="op">$</span>summary
 <span class="co">#&gt;             mean     sd    2.5%     25%     50%     75%   97.5% Rhat n.eff</span>
 <span class="co">#&gt; deviance 223.892 4.6145 221.455 222.120 223.033 224.224 228.773 1.18   130</span>
@@ -416,9 +416,9 @@ que la función_jags_ calcula por omisión:</p>
 <span class="co">#&gt; nu         0.219 0.0456   0.132   0.186   0.218   0.249   0.303 1.05    96</span>
 <span class="co">#&gt; sigma2     4.902 2.0805   3.295   4.018   4.586   5.378   7.566 1.05    96</span></code></pre>
 <p>La medida <span class="math inline">\(\hat{R}\)</span> se conoce como el <strong>factor de reducción potencial de
-escala</strong> o <em>diagnóstico de convergencia de Gelman-Rubin</em>, este es la posible
-reducción en la longitud de un intervalo de confianza si las simulaciones
-continuaran infinitamente. <span class="math inline">\(\hat{R}\)</span> es
+escala</strong> o <em>diagnóstico de convergencia de Gelman-Rubin</em>, esta es una estimación
+de la posible reducción en la longitud de un intervalo de confianza si las
+simulaciones continuran infinitamente. <span class="math inline">\(\hat{R}\)</span> es
 aproximadamente la raíz cuadrada de la varianza de todas las
 cadenas juntas dividida entre la varianza dentro de cada cadena. Si <span class="math inline">\(\hat{R}\)</span> es mucho mayor a 1 esto indica que las cadenas no se han mezclado bien. Una regla
 usual es iterar hasta alcanzar un valor <span class="math inline">\(\hat{R} \leq 1.1\)</span> para todos los
@@ -435,9 +435,9 @@ Y <span class="math inline">\(\hat{V}\)</span> es una estimación del varianza d
 <p>Una vez que tenemos una muestra representativa de la distribución posterior,
 nuestro objetivo es asegurarnos de que la muestra es lo suficientemente grande
 para producir estimaciones estables y precisas de la distribución.</p>
-<p>Para ello usaremos otra salida de la función jags: <span class="math inline">\(n.eff\)</span> que es el
+<p>Para ello usaremos otra salida de la función jags: <code>n.eff</code> que es el
 <strong>tamaño efectivo de muestra</strong>, si las simulaciones fueran independientes
-n.eff` sería el número total de simulaciones; sin embargo, las simulaciones de
+<code>n.eff</code> sería el número total de simulaciones; sin embargo, las simulaciones de
 MCMC suelen estar correlacionadas, el tamaño efectivo nos dice que tamaño de
 muestra de observaciones independientes nos daría la misma información que las
 simulaciones de la cadena.</p>
@@ -454,8 +454,9 @@ podemos disminuir el tiempo que tarda en correr.</p></li>
 de variables continuas suele ser conveniente centrar los datos, otra opción es
 utilizar parametrizaciones redundantes.</p></li>
 <li><p>Adelgazar la muestra: esto nos puede ayudar a disminuir el uso de memoria,
-consiste en guardar únicamente los <span class="math inline">\(k\)</span>-ésimos pasos de la cadena. Esto resulta
-en cadenas con menos autocorrelación.</p></li>
+consiste en guardar únicamente los <span class="math inline">\(k\)</span>-ésimos pasos de la cadena y resulta
+en cadenas con menos autocorrelación (en el caso de la función <code>jags()</code> el
+adelgazamiento está controlado por el parámetro <code>n.thin</code>).</p></li>
 </ul>
 </div>
 <div id="recomendaciones-generales" class="section level3 unnumbered">

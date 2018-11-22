@@ -697,7 +697,7 @@ En el caso de <strong>Metropolis</strong> un requerimiento adicional es que la d
 propuesta <span class="math inline">\(g(\theta_{a}|\theta_b)\)</span> debe ser simétrica, es decir <span class="math inline">\(g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)\)</span> para todo <span class="math inline">\(\theta_{a}\)</span>,
 <span class="math inline">\(\theta_{b}\)</span>.</li>
 </ol>
-<p><strong>Metropolis-Hastings</strong> generaliza Metropolis, eliminando la rstricción de
+<p><strong>Metropolis-Hastings</strong> generaliza Metropolis, eliminando la restricción de
 simetría en la distribución propuesta <span class="math inline">\(g(\theta_{a}|\theta_b)\)</span>, sin embargo para corregir por
 esta asimetría debemos calcular <span class="math inline">\(p_{mover}\)</span> como sigue:
 <span class="math display">\[p_{mover}=min\bigg( \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{actual})}{p(\theta_{actual})/g(\theta_{actual}|\theta_{propuesta})},1\bigg)\]</span>

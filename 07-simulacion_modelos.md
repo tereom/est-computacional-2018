@@ -1098,7 +1098,7 @@ library(nullabor)
 
 sing_null <- lineup(null_dist('height', dist = 'normal', 
     params = list(mean = 171, sd = 10)), n = 20, singer_g)
-#> decrypt("A3tW nwmw RI hOGRmROI 00")
+#> decrypt("9VZG bntn T2 X5eTtT52 YY")
 
 ggplot(sing_null, aes(x = gender, y = height)) +
     facet_wrap(~ .sample) +
@@ -1238,7 +1238,7 @@ singer_c <- singer_g %>%
 set.seed(26832)
 sing_null_c <- lineup(null_dist('height_c', dist = 'normal', 
     params = list(mean = 0, sd = sd(singer_c$height_c))), n = 20, singer_c)
-#> decrypt("A3tW nwmw RI hOGRmROI 0Y")
+#> decrypt("9VZG bntn T2 X5eTtT52 Yh")
 head(sing_null_c)
 #>   gender height height_c .sample
 #> 1      F    163   -2.579       1
@@ -1362,7 +1362,7 @@ glimpse(basket_LA)
 #> $ angle <dbl> 2.897, 1.017, 0.696, 1.178, 0.928, 2.126, 1.881, 2.921, ...
 
 basket_null <- lineup(null_lm(r ~ poly(angle, 2)), basket_LA, n = 10)
-#> decrypt("A3tW nwmw RI hOGRmROI 01")
+#> decrypt("9VZG bntn T2 X5eTtT52 YC")
 
 ggplot(basket_null, aes(x = angle * 180 / pi, y = r)) +
     geom_point(alpha = 0.5, size = 0.8) +
