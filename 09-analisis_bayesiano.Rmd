@@ -1974,7 +1974,7 @@ diferencia de utilizar la distribución Gamma en lugar de Gamma inversa.
     propuesta $g(\theta_{a}|\theta_b)$ debe ser simétrica, es decir $g(\theta_{a}|\theta_b) = g(\theta_{b}|\theta_a)$ para todo $\theta_{a}$, 
     $\theta_{b}$.
     
-    **Metropolis-Hastings** generaliza Metropolis, eliminando la rstricción de 
+    **Metropolis-Hastings** generaliza Metropolis, eliminando la restricción de 
 simetría en la distribución propuesta $g(\theta_{a}|\theta_b)$, sin embargo para corregir por
 esta asimetría debemos calcular $p_{mover}$ como sigue:
 $$p_{mover}=min\bigg( \frac{p(\theta_{propuesta})/g(\theta_{propuesta}|\theta_{actual})}{p(\theta_{actual})/g(\theta_{actual}|\theta_{propuesta})},1\bigg)$$
@@ -2268,7 +2268,7 @@ cadena y evaluar la calidad de las simulaciones.
 
 #### Representatividad {-}
 Para determinar la convergencia de la cadena es conveniente realizar más de una 
-cadenas, buscamos ver si realmente se ha olvidado el estado inicial y revisar 
+cadena, buscamos ver si realmente se ha olvidado el estado inicial y revisar 
 que algunas cadenas no hayan quedado *atoradas* en regiones inusuales del espacio
 de parámetros.
 
@@ -2291,16 +2291,16 @@ traceplot(jags_fit, varname = c("mu", "sigma2"))
 La gráfica anterior nos puede ayudar a determinar si elegimos un periodo de calentamiento adecuado o si alguna cadena está alejada del resto.
 
 Además de realizar gráficas podemos usar la medida de convergencia $\hat{R}$ 
-que la función_jags_ calcula por omisión:
+que la función `jags()` calcula por omisión:
 
 ```{r}
 jags_fit$BUGSoutput$summary
 ```
 
 La medida $\hat{R}$ se conoce como el **factor de reducción potencial de 
-escala** o *diagnóstico de convergencia de Gelman-Rubin*, este es la posible 
-reducción en la longitud de un intervalo de confianza si las simulaciones 
-continuaran infinitamente. $\hat{R}$ es 
+escala** o *diagnóstico de convergencia de Gelman-Rubin*, esta es una estimación 
+de la posible reducción en la longitud de un intervalo de confianza si las 
+simulaciones continuran infinitamente. $\hat{R}$ es 
 aproximadamente la raíz cuadrada de la varianza de todas las 
 cadenas juntas dividida entre la varianza dentro de cada cadena. Si $\hat{R}$ es mucho mayor a 1 esto indica que las cadenas no se han mezclado bien. Una regla
 usual es iterar hasta alcanzar un valor $\hat{R} \leq 1.1$ para todos los 
@@ -2322,9 +2322,9 @@ Una vez que tenemos una muestra representativa de la distribución posterior,
 nuestro objetivo es asegurarnos de que la muestra es lo suficientemente grande 
 para producir estimaciones estables y precisas de la distribución.
 
-Para ello usaremos otra salida de la función jags: $n.eff$ que es el 
+Para ello usaremos otra salida de la función jags: `n.eff` que es el 
 **tamaño efectivo de muestra**, si las simulaciones fueran independientes 
-n.eff` sería el número total de simulaciones; sin embargo, las simulaciones de
+`n.eff` sería el número total de simulaciones; sin embargo, las simulaciones de
 MCMC suelen estar correlacionadas, el tamaño efectivo nos dice que tamaño de 
 muestra de observaciones independientes nos daría la misma información que las
 simulaciones de la cadena.
@@ -2335,6 +2335,7 @@ $$NEM = \frac{N}{1+2\sum_{k=1}^\infty ACF(k)} $$
 Usualmente nos gustaría obtener un tamaño efectivo de al menos $100$.
 
 #### Eficiencia {-}
+
 Hay varias maneras para mejorar la eficiencia de un proceso MCMC:
 
 * Paralelizar, no disminuimos el número de pasos en las simulaciones pero 
@@ -2345,8 +2346,9 @@ de variables continuas suele ser conveniente centrar los datos, otra opción es
 utilizar parametrizaciones redundantes.
 
 * Adelgazar la muestra: esto nos puede ayudar a disminuir el uso de memoria, 
-consiste en guardar únicamente los $k$-ésimos pasos de la cadena. Esto resulta
-en cadenas con menos autocorrelación.
+consiste en guardar únicamente los $k$-ésimos pasos de la cadena y resulta
+en cadenas con menos autocorrelación (en el caso de la función `jags()` el
+adelgazamiento está controlado por el parámetro `n.thin`).
 
 ### Recomendaciones generales {-}
 
@@ -2379,7 +2381,7 @@ parámetros de un modelo, el nombre del programa hace referencia a [Stanislaw Ul
 los métodos de Monte Carlo. A diferencia de JAGS y BUGS, los pasos de la cadena 
 de Markov se generan con un método llamado *Monte Carlo Hamiltoniano* (HMC). HMC 
 puede ser más eficiente que otros muestreadores en JAGS y BUGS, en particular 
-cuando se ajustan modelo grandes y complejos (por ejemplo, con variables con
+cuando se ajustan modelos grandes y complejos (por ejemplo, con variables con
 correlación alta).
 
 ### Muestreo HMC {-}
@@ -2612,9 +2614,6 @@ stan_fit_2 <- stan(file = 'modelo.stan', data = data_list,
     iter = 1000, chains = 4)
 ```
 
-
-
-
 ### Iniciales {-}
 
 Las siguientes recomendaciones de iniciales son de los desarrolladores de Stan, 
@@ -2653,9 +2652,9 @@ porque se tomaron las decisiones.
 
 ### Recursos adicionales de Stan {-}
 
-* El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html) facilita el uso de Stan desde R, cuenta con funciones para 
-llevar a cabo estimación Bayesiana sin necesidad de escribir código en el 
-*lenguaje de Stan*, de acuerdo a los autores buscan que la estimación bayesiana 
+* El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html) facilita el uso de Stan desde R, cuenta con funciones para llevar a cabo 
+estimación Bayesiana sin necesidad de escribir código en el *lenguaje de Stan*, 
+de acuerdo a los autoresel objetivo del paquete es  que la estimación bayesiana 
 sea rutina para los modelos de regresión más comunes.
 
 * El paquete [bayesplot](bayesplot) cuenta con funciones para graficar estimaciones
@@ -4234,7 +4233,7 @@ e <- heart$e
 y <- heart$y
 jags.data <- list("e", "y", "N")
 
-# ahora definimss valores iniciales para los parámetros, en este caso estamos 
+# ahora definimos valores iniciales para los parámetros, en este caso estamos 
 # generando valores iniciales aleatorios de manera de que distintas cadenas 
 # tengan distitos valoes iniciales
 # si no se especifican la función jags generará valores iniciales
@@ -4292,8 +4291,7 @@ ggplot(compara.2, aes(x = log(e), y = media, color = metodo)) +
 
 ```
 
-
-
+![](imagenes/manicule2.jpg) Escribe el modelo en Stan.
 
 ![](imagenes/manicule2.jpg) Implementaremos varios modelos en JAGS o Stan, la 
 base de datos que usaremos contiene información de mediciones de radón 
