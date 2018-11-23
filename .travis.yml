@@ -2,14 +2,51 @@ language: r
 cache: packages
 pandoc_version: 2.1.3
 
+env:
+  global:
+    - MAKEFLAGS="-j 2"
+
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
 addons:
     apt:
         packages:
             - libopenblas-base
 
+before_install:
+  - sudo add-apt-repository ppa:marutter/rrutter -y
+  - sudo apt-get update
+  - sudo apt-get install jags
+  - mkdir -p ~/.R/
+  - echo "CXX14 = g++-7 -fPIC -flto=2" >> ~/.R/Makevars
+  - echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars
+  
 before_script:
     - chmod +x ./_build.sh
     - chmod +x ./_deploy.sh
 script:
     - ./_build.sh
     - ./_deploy.sh
+    - |
+        travis_wait 42 R CMD build .
+        travis_wait 59 R CMD check rstanlm*tar.gz
+
+after_script:
+  - tar -ztvf rstanlm_*.tar.gz
+  - echo ${NOT_CRAN}
+
+after_success:
+  - travis_wait 40 tar -C .. -xf $PKG_TARBALL
+
+after_failure:
+  - cat rstanlm.Rcheck/00*
