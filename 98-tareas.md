@@ -560,20 +560,7 @@ lengua_ (nonenglish) para predecir las evaluaciones del curso
 beauty <- readr::read_csv("https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv")
 #> Parsed with column specification:
 #> cols(
-#>   .default = col_integer(),
-#>   btystdave = col_double(),
-#>   btystdf2u = col_double(),
-#>   btystdfl = col_double(),
-#>   btystdfu = col_double(),
-#>   btystdm2u = col_double(),
-#>   btystdml = col_double(),
-#>   btystdmu = col_double(),
-#>   courseevaluation = col_double(),
-#>   percentevaluating = col_double(),
-#>   profevaluation = col_double(),
-#>   btystdvariance = col_double(),
-#>   btystdavepos = col_double(),
-#>   btystdaveneg = col_double()
+#>   .default = col_double()
 #> )
 #> See spec(...) for full column specifications.
 fit_score <- lm(courseevaluation ~ age + btystdave + female + nonenglish, 

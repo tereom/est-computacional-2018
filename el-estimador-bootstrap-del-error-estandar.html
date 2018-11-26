@@ -568,22 +568,22 @@ Cada renglón corresponde a la calificación de un estudiante en cada prueba.</p
 <pre class="sourceCode r"><code class="sourceCode r">marks &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/marks.csv&quot;</span>)
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   id = col_integer(),</span>
-<span class="co">#&gt;   MECH = col_integer(),</span>
-<span class="co">#&gt;   VECT = col_integer(),</span>
-<span class="co">#&gt;   ALG = col_integer(),</span>
-<span class="co">#&gt;   ANL = col_integer(),</span>
-<span class="co">#&gt;   STAT = col_integer()</span>
+<span class="co">#&gt;   id = col_double(),</span>
+<span class="co">#&gt;   MECH = col_double(),</span>
+<span class="co">#&gt;   VECT = col_double(),</span>
+<span class="co">#&gt;   ALG = col_double(),</span>
+<span class="co">#&gt;   ANL = col_double(),</span>
+<span class="co">#&gt;   STAT = col_double()</span>
 <span class="co">#&gt; )</span>
 <span class="kw">glimpse</span>(marks)
 <span class="co">#&gt; Observations: 88</span>
 <span class="co">#&gt; Variables: 6</span>
-<span class="co">#&gt; $ id   &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17...</span>
-<span class="co">#&gt; $ MECH &lt;int&gt; 77, 63, 75, 55, 63, 53, 51, 59, 62, 64, 52, 55, 50, 65, 3...</span>
-<span class="co">#&gt; $ VECT &lt;int&gt; 82, 78, 73, 72, 63, 61, 67, 70, 60, 72, 64, 67, 50, 63, 5...</span>
-<span class="co">#&gt; $ ALG  &lt;int&gt; 67, 80, 71, 63, 65, 72, 65, 68, 58, 60, 60, 59, 64, 58, 6...</span>
-<span class="co">#&gt; $ ANL  &lt;int&gt; 67, 70, 66, 70, 70, 64, 65, 62, 62, 62, 63, 62, 55, 56, 5...</span>
-<span class="co">#&gt; $ STAT &lt;int&gt; 81, 81, 81, 68, 63, 73, 68, 56, 70, 45, 54, 44, 63, 37, 7...</span>
+<span class="co">#&gt; $ id   &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17...</span>
+<span class="co">#&gt; $ MECH &lt;dbl&gt; 77, 63, 75, 55, 63, 53, 51, 59, 62, 64, 52, 55, 50, 65, 3...</span>
+<span class="co">#&gt; $ VECT &lt;dbl&gt; 82, 78, 73, 72, 63, 61, 67, 70, 60, 72, 64, 67, 50, 63, 5...</span>
+<span class="co">#&gt; $ ALG  &lt;dbl&gt; 67, 80, 71, 63, 65, 72, 65, 68, 58, 60, 60, 59, 64, 58, 6...</span>
+<span class="co">#&gt; $ ANL  &lt;dbl&gt; 67, 70, 66, 70, 70, 64, 65, 62, 62, 62, 63, 62, 55, 56, 5...</span>
+<span class="co">#&gt; $ STAT &lt;dbl&gt; 81, 81, 81, 68, 63, 73, 68, 56, 70, 45, 54, 44, 63, 37, 7...</span>
 marks &lt;-<span class="st"> </span><span class="kw">select</span>(marks, <span class="op">-</span>id)</code></pre>
 <p>Entonces un análisis de componentes principales proseguiría como sigue:</p>
 <pre class="sourceCode r"><code class="sourceCode r">pc_marks &lt;-<span class="st"> </span><span class="kw">princomp</span>(marks)
@@ -763,7 +763,7 @@ población de INEGI.</p></li>
 concentrado_hogar
 <span class="co">#&gt; # A tibble: 19,479 x 132</span>
 <span class="co">#&gt;    folioviv foliohog ubica_geo ageb  tam_loc est_socio est_dis upm  </span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;int&gt;     &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;</span>
 <span class="co">#&gt;  1 0100008…        1 010010001 028-6       1         4 005     00670</span>
 <span class="co">#&gt;  2 0100008…        1 010010001 028-6       1         4 005     00670</span>
 <span class="co">#&gt;  3 0100008…        1 010010001 028-6       1         4 005     00670</span>
@@ -774,15 +774,15 @@ concentrado_hogar
 <span class="co">#&gt;  8 0100010…        1 010010001 028-6       1         4 005     00600</span>
 <span class="co">#&gt;  9 0100010…        1 010010001 028-6       1         4 005     00600</span>
 <span class="co">#&gt; 10 0100018…        1 010010001 029-0       1         3 004     00570</span>
-<span class="co">#&gt; # ... with 19,469 more rows, and 124 more variables: factor_hog &lt;int&gt;,</span>
-<span class="co">#&gt; #   clase_hog &lt;int&gt;, sexo_jefe &lt;int&gt;, edad_jefe &lt;int&gt;, educa_jefe &lt;chr&gt;,</span>
-<span class="co">#&gt; #   tot_integ &lt;int&gt;, hombres &lt;int&gt;, mujeres &lt;int&gt;, mayores &lt;int&gt;,</span>
-<span class="co">#&gt; #   menores &lt;int&gt;, p12_64 &lt;int&gt;, p65mas &lt;int&gt;, ocupados &lt;int&gt;,</span>
-<span class="co">#&gt; #   percep_ing &lt;int&gt;, perc_ocupa &lt;int&gt;, ing_total &lt;dbl&gt;, ing_cor &lt;dbl&gt;,</span>
+<span class="co">#&gt; # ... with 19,469 more rows, and 124 more variables: factor_hog &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   clase_hog &lt;dbl&gt;, sexo_jefe &lt;dbl&gt;, edad_jefe &lt;dbl&gt;, educa_jefe &lt;chr&gt;,</span>
+<span class="co">#&gt; #   tot_integ &lt;dbl&gt;, hombres &lt;dbl&gt;, mujeres &lt;dbl&gt;, mayores &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   menores &lt;dbl&gt;, p12_64 &lt;dbl&gt;, p65mas &lt;dbl&gt;, ocupados &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   percep_ing &lt;dbl&gt;, perc_ocupa &lt;dbl&gt;, ing_total &lt;dbl&gt;, ing_cor &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   ing_mon &lt;dbl&gt;, trabajo &lt;dbl&gt;, sueldos &lt;dbl&gt;, horas_extr &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   comisiones &lt;dbl&gt;, otra_rem &lt;dbl&gt;, negocio &lt;dbl&gt;, noagrop &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   industria &lt;dbl&gt;, comercio &lt;dbl&gt;, servicios &lt;dbl&gt;, agrope &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   agricolas &lt;dbl&gt;, pecuarios &lt;dbl&gt;, reproducc &lt;int&gt;, pesca &lt;int&gt;,</span>
+<span class="co">#&gt; #   agricolas &lt;dbl&gt;, pecuarios &lt;dbl&gt;, reproducc &lt;dbl&gt;, pesca &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   otros_trab &lt;dbl&gt;, rentas &lt;dbl&gt;, utilidad &lt;dbl&gt;, arrenda &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   transfer &lt;dbl&gt;, jubilacion &lt;dbl&gt;, becas &lt;dbl&gt;, donativos &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   remesas &lt;dbl&gt;, bene_gob &lt;dbl&gt;, otros_ing &lt;dbl&gt;, gasto_nom &lt;dbl&gt;,</span>
@@ -815,7 +815,7 @@ hogar &lt;-<span class="st"> </span>concentrado_hogar <span class="op">%&gt;%</s
 <span class="kw">head</span>(hogar)
 <span class="co">#&gt; # A tibble: 6 x 10</span>
 <span class="co">#&gt;   folioviv foliohog est_dis upm   factor_hog ing_cor sexo_jefe edad_jefe</span>
-<span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;int&gt;</span>
+<span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 0100008…        1 005     00670        694  39787.         2        77</span>
 <span class="co">#&gt; 2 0100008…        1 005     00670        694  19524.         1        64</span>
 <span class="co">#&gt; 3 0100008…        1 005     00670        694  99258.         1        60</span>

@@ -421,24 +421,24 @@ flights &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   date = col_datetime(format = &quot;&quot;),</span>
-<span class="co">#&gt;   hour = col_integer(),</span>
-<span class="co">#&gt;   minute = col_integer(),</span>
-<span class="co">#&gt;   dep = col_integer(),</span>
-<span class="co">#&gt;   arr = col_integer(),</span>
-<span class="co">#&gt;   dep_delay = col_integer(),</span>
-<span class="co">#&gt;   arr_delay = col_integer(),</span>
+<span class="co">#&gt;   hour = col_double(),</span>
+<span class="co">#&gt;   minute = col_double(),</span>
+<span class="co">#&gt;   dep = col_double(),</span>
+<span class="co">#&gt;   arr = col_double(),</span>
+<span class="co">#&gt;   dep_delay = col_double(),</span>
+<span class="co">#&gt;   arr_delay = col_double(),</span>
 <span class="co">#&gt;   carrier = col_character(),</span>
-<span class="co">#&gt;   flight = col_integer(),</span>
+<span class="co">#&gt;   flight = col_double(),</span>
 <span class="co">#&gt;   dest = col_character(),</span>
 <span class="co">#&gt;   plane = col_character(),</span>
-<span class="co">#&gt;   cancelled = col_integer(),</span>
-<span class="co">#&gt;   time = col_integer(),</span>
-<span class="co">#&gt;   dist = col_integer()</span>
+<span class="co">#&gt;   cancelled = col_double(),</span>
+<span class="co">#&gt;   time = col_double(),</span>
+<span class="co">#&gt;   dist = col_double()</span>
 <span class="co">#&gt; )</span>
 flights
 <span class="co">#&gt; # A tibble: 227,496 x 14</span>
 <span class="co">#&gt;    date                 hour minute   dep   arr dep_delay arr_delay carrier</span>
-<span class="co">#&gt;    &lt;dttm&gt;              &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;    &lt;dttm&gt;              &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt;  1 2011-01-01 12:00:00    14      0  1400  1500         0       -10 AA     </span>
 <span class="co">#&gt;  2 2011-01-02 12:00:00    14      1  1401  1501         1        -9 AA     </span>
 <span class="co">#&gt;  3 2011-01-03 12:00:00    13     52  1352  1502        -8        -8 AA     </span>
@@ -449,21 +449,21 @@ flights
 <span class="co">#&gt;  8 2011-01-08 12:00:00    13     55  1355  1454        -5       -16 AA     </span>
 <span class="co">#&gt;  9 2011-01-09 12:00:00    14     43  1443  1554        43        44 AA     </span>
 <span class="co">#&gt; 10 2011-01-10 12:00:00    14     43  1443  1553        43        43 AA     </span>
-<span class="co">#&gt; # ... with 227,486 more rows, and 6 more variables: flight &lt;int&gt;,</span>
-<span class="co">#&gt; #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;, dist &lt;int&gt;</span>
+<span class="co">#&gt; # ... with 227,486 more rows, and 6 more variables: flight &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;dbl&gt;, time &lt;dbl&gt;, dist &lt;dbl&gt;</span>
 
 weather &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/weather.csv&quot;</span>)
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   date = col_date(format = &quot;&quot;),</span>
-<span class="co">#&gt;   hour = col_integer(),</span>
+<span class="co">#&gt;   hour = col_double(),</span>
 <span class="co">#&gt;   temp = col_double(),</span>
 <span class="co">#&gt;   dew_point = col_double(),</span>
-<span class="co">#&gt;   humidity = col_integer(),</span>
+<span class="co">#&gt;   humidity = col_double(),</span>
 <span class="co">#&gt;   pressure = col_double(),</span>
 <span class="co">#&gt;   visibility = col_double(),</span>
 <span class="co">#&gt;   wind_dir = col_character(),</span>
-<span class="co">#&gt;   wind_dir2 = col_integer(),</span>
+<span class="co">#&gt;   wind_dir2 = col_double(),</span>
 <span class="co">#&gt;   wind_speed = col_double(),</span>
 <span class="co">#&gt;   gust_speed = col_double(),</span>
 <span class="co">#&gt;   precip = col_double(),</span>
@@ -473,7 +473,7 @@ weather &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 weather 
 <span class="co">#&gt; # A tibble: 8,723 x 14</span>
 <span class="co">#&gt;    date        hour  temp dew_point humidity pressure visibility wind_dir</span>
-<span class="co">#&gt;    &lt;date&gt;     &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   </span>
+<span class="co">#&gt;    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   </span>
 <span class="co">#&gt;  1 2011-01-01     0  59        28.9       32     29.9         10 NNE     </span>
 <span class="co">#&gt;  2 2011-01-01     1  57.2      28.4       33     29.9         10 NNE     </span>
 <span class="co">#&gt;  3 2011-01-01     2  55.4      28.4       36     29.9         10 NNW     </span>
@@ -484,7 +484,7 @@ weather
 <span class="co">#&gt;  8 2011-01-01     7  53.1      16         23     30.1         10 North   </span>
 <span class="co">#&gt;  9 2011-01-01     8  54        18         24     30.1         10 North   </span>
 <span class="co">#&gt; 10 2011-01-01     9  55.4      17.6       23     30.1         10 NNE     </span>
-<span class="co">#&gt; # ... with 8,713 more rows, and 6 more variables: wind_dir2 &lt;int&gt;,</span>
+<span class="co">#&gt; # ... with 8,713 more rows, and 6 more variables: wind_dir2 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   wind_speed &lt;dbl&gt;, gust_speed &lt;dbl&gt;, precip &lt;dbl&gt;, conditions &lt;chr&gt;,</span>
 <span class="co">#&gt; #   events &lt;chr&gt;</span>
 
@@ -492,19 +492,19 @@ planes &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span clas
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   plane = col_character(),</span>
-<span class="co">#&gt;   year = col_integer(),</span>
+<span class="co">#&gt;   year = col_double(),</span>
 <span class="co">#&gt;   mfr = col_character(),</span>
 <span class="co">#&gt;   model = col_character(),</span>
-<span class="co">#&gt;   no.eng = col_integer(),</span>
-<span class="co">#&gt;   no.seats = col_integer(),</span>
-<span class="co">#&gt;   speed = col_integer(),</span>
+<span class="co">#&gt;   no.eng = col_double(),</span>
+<span class="co">#&gt;   no.seats = col_double(),</span>
+<span class="co">#&gt;   speed = col_double(),</span>
 <span class="co">#&gt;   engine = col_character(),</span>
 <span class="co">#&gt;   type = col_character()</span>
 <span class="co">#&gt; )</span>
 planes
 <span class="co">#&gt; # A tibble: 2,853 x 9</span>
 <span class="co">#&gt;    plane   year mfr       model   no.eng no.seats speed engine  type      </span>
-<span class="co">#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;int&gt;    &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     </span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     </span>
 <span class="co">#&gt;  1 N576AA  1991 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…</span>
 <span class="co">#&gt;  2 N557AA  1993 MARZ BAR… KITFOX…      1        2    NA Recipr… Fixed win…</span>
 <span class="co">#&gt;  3 N403AA  1974 RAVEN     S55A        NA        1    60 None    Balloon   </span>
@@ -616,10 +616,10 @@ columnas de las tablas de datos, en R los datos faltantes se expresan como <code
 para eliminar los faltantes en la variable <code>dep_delay</code> resulta natural escribir:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">filter</span>(flights, dep_delay <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)
 <span class="co">#&gt; # A tibble: 0 x 14</span>
-<span class="co">#&gt; # ... with 14 variables: date &lt;dttm&gt;, hour &lt;int&gt;, minute &lt;int&gt;, dep &lt;int&gt;,</span>
-<span class="co">#&gt; #   arr &lt;int&gt;, dep_delay &lt;int&gt;, arr_delay &lt;int&gt;, carrier &lt;chr&gt;,</span>
-<span class="co">#&gt; #   flight &lt;int&gt;, dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;,</span>
-<span class="co">#&gt; #   dist &lt;int&gt;</span></code></pre>
+<span class="co">#&gt; # ... with 14 variables: date &lt;dttm&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, dep &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   arr &lt;dbl&gt;, dep_delay &lt;dbl&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,</span>
+<span class="co">#&gt; #   flight &lt;dbl&gt;, dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;dbl&gt;, time &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   dist &lt;dbl&gt;</span></code></pre>
 <p>que nos devuelve una tabla vacía, sin embargo, si hay faltantes en esta
 variable. El problema resulta de usar el operador <code>!=</code>, pensemos ¿qué regresan
 las siguientes expresiones?</p>
@@ -834,7 +834,7 @@ planes <span class="op">%&gt;%</span>
 <span class="co">#&gt; # A tibble: 1,403 x 16</span>
 <span class="co">#&gt; # Groups:   plane [856]</span>
 <span class="co">#&gt;    date                 hour minute   dep   arr dep_delay arr_delay carrier</span>
-<span class="co">#&gt;    &lt;dttm&gt;              &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt;     &lt;int&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;    &lt;dttm&gt;              &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt;  1 2011-01-28 12:00:00    15     16  1516  1916       351       326 CO     </span>
 <span class="co">#&gt;  2 2011-01-27 12:00:00    18     22  1822  1945       234       210 CO     </span>
 <span class="co">#&gt;  3 2011-01-27 12:00:00    21     37  2137  2254       242       219 CO     </span>
@@ -845,8 +845,8 @@ planes <span class="op">%&gt;%</span>
 <span class="co">#&gt;  8 2011-01-26 12:00:00     9     49   949  1436       144       180 CO     </span>
 <span class="co">#&gt;  9 2011-01-21 12:00:00    19     11  1911  2352        94       112 CO     </span>
 <span class="co">#&gt; 10 2011-01-20 12:00:00     6     35   635   807       780       775 CO     </span>
-<span class="co">#&gt; # ... with 1,393 more rows, and 8 more variables: flight &lt;int&gt;,</span>
-<span class="co">#&gt; #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;int&gt;, time &lt;int&gt;, dist &lt;int&gt;,</span>
+<span class="co">#&gt; # ... with 1,393 more rows, and 8 more variables: flight &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   dest &lt;chr&gt;, plane &lt;chr&gt;, cancelled &lt;dbl&gt;, time &lt;dbl&gt;, dist &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   date_only &lt;date&gt;, z_delay &lt;dbl&gt;</span></code></pre>
 </div>
 <div id="verbos-de-dos-tablas" class="section level3 unnumbered">
@@ -990,7 +990,7 @@ delay_weather &lt;-<span class="st"> </span>hourly_delay <span class="op">%&gt;%
 <span class="co">#&gt; # A tibble: 2,091,842 x 17</span>
 <span class="co">#&gt; # Groups:   date_only [365]</span>
 <span class="co">#&gt;    date_only   hour delay     n date        temp dew_point humidity</span>
-<span class="co">#&gt;    &lt;date&gt;     &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;date&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;date&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 2011-05-12    23  184.    33 2011-01-02  43        28.9       58</span>
 <span class="co">#&gt;  2 2011-05-12    23  184.    33 2011-01-03  39        27         62</span>
 <span class="co">#&gt;  3 2011-05-12    23  184.    33 2011-01-04  50        45         83</span>
@@ -1002,7 +1002,7 @@ delay_weather &lt;-<span class="st"> </span>hourly_delay <span class="op">%&gt;%
 <span class="co">#&gt;  9 2011-05-12    23  184.    33 2011-01-10  41        37         86</span>
 <span class="co">#&gt; 10 2011-05-12    23  184.    33 2011-01-11  39.9      32         73</span>
 <span class="co">#&gt; # ... with 2,091,832 more rows, and 9 more variables: pressure &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   visibility &lt;dbl&gt;, wind_dir &lt;chr&gt;, wind_dir2 &lt;int&gt;, wind_speed &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   visibility &lt;dbl&gt;, wind_dir &lt;chr&gt;, wind_dir2 &lt;dbl&gt;, wind_speed &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   gust_speed &lt;dbl&gt;, precip &lt;dbl&gt;, conditions &lt;chr&gt;, events &lt;chr&gt;</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> ¿Qué condiciones climáticas están asociadas
 con retrasos en las salidas de Houston?</p>

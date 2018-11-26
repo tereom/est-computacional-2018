@@ -542,21 +542,21 @@ pew &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   religion = col_character(),</span>
-<span class="co">#&gt;   `&lt;$10k` = col_integer(),</span>
-<span class="co">#&gt;   `$10-20k` = col_integer(),</span>
-<span class="co">#&gt;   `$20-30k` = col_integer(),</span>
-<span class="co">#&gt;   `$30-40k` = col_integer(),</span>
-<span class="co">#&gt;   `$40-50k` = col_integer(),</span>
-<span class="co">#&gt;   `$50-75k` = col_integer(),</span>
-<span class="co">#&gt;   `$75-100k` = col_integer(),</span>
-<span class="co">#&gt;   `$100-150k` = col_integer(),</span>
-<span class="co">#&gt;   `&gt;150k` = col_integer(),</span>
-<span class="co">#&gt;   `Don&#39;t know/refused` = col_integer()</span>
+<span class="co">#&gt;   `&lt;$10k` = col_double(),</span>
+<span class="co">#&gt;   `$10-20k` = col_double(),</span>
+<span class="co">#&gt;   `$20-30k` = col_double(),</span>
+<span class="co">#&gt;   `$30-40k` = col_double(),</span>
+<span class="co">#&gt;   `$40-50k` = col_double(),</span>
+<span class="co">#&gt;   `$50-75k` = col_double(),</span>
+<span class="co">#&gt;   `$75-100k` = col_double(),</span>
+<span class="co">#&gt;   `$100-150k` = col_double(),</span>
+<span class="co">#&gt;   `&gt;150k` = col_double(),</span>
+<span class="co">#&gt;   `Don&#39;t know/refused` = col_double()</span>
 <span class="co">#&gt; )</span>
 pew
 <span class="co">#&gt; # A tibble: 18 x 11</span>
 <span class="co">#&gt;    religion `&lt;$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k`</span>
-<span class="co">#&gt;    &lt;chr&gt;      &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;     &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 Agnostic      27        34        60        81        76       137</span>
 <span class="co">#&gt;  2 Atheist       12        27        37        52        35        70</span>
 <span class="co">#&gt;  3 Buddhist      27        21        30        34        33        58</span>
@@ -575,8 +575,8 @@ pew
 <span class="co">#&gt; 16 Other F…      20        33        40        46        49        63</span>
 <span class="co">#&gt; 17 Other W…       5         2         3         4         2         7</span>
 <span class="co">#&gt; 18 Unaffil…     217       299       374       365       341       528</span>
-<span class="co">#&gt; # ... with 4 more variables: `$75-100k` &lt;int&gt;, `$100-150k` &lt;int&gt;,</span>
-<span class="co">#&gt; #   `&gt;150k` &lt;int&gt;, `Don&#39;t know/refused` &lt;int&gt;</span></code></pre>
+<span class="co">#&gt; # ... with 4 more variables: `$75-100k` &lt;dbl&gt;, `$100-150k` &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   `&gt;150k` &lt;dbl&gt;, `Don&#39;t know/refused` &lt;dbl&gt;</span></code></pre>
 <p>Esta base de datos tiene 3 variables: religión, ingreso y frecuencia. Para
 <em>limpiarla</em> es necesario apilar las columnas (alargar los datos). Notemos
 que al alargar los datos desapareceran las columnas que se agrupan y dan lugar a
@@ -598,7 +598,7 @@ cada <em>key</em>.<br />
 pew_tidy
 <span class="co">#&gt; # A tibble: 180 x 3</span>
 <span class="co">#&gt;    religion                income frequency</span>
-<span class="co">#&gt;    &lt;chr&gt;                   &lt;chr&gt;      &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt;                   &lt;chr&gt;      &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 Agnostic                &lt;$10k         27</span>
 <span class="co">#&gt;  2 Atheist                 &lt;$10k         12</span>
 <span class="co">#&gt;  3 Buddhist                &lt;$10k         27</span>
@@ -640,7 +640,7 @@ pew_tidy_<span class="dv">2</span> &lt;-<span class="st"> </span>pew_tidy <span 
 <span class="co">#&gt; # A tibble: 6 x 4</span>
 <span class="co">#&gt; # Groups:   religion [5]</span>
 <span class="co">#&gt;   religion                income  frequency percent</span>
-<span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;       &lt;int&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Catholic                &lt;$10k         418  0.0637</span>
 <span class="co">#&gt; 2 Evangelical Prot        &lt;$10k         575  0.0724</span>
 <span class="co">#&gt; 3 Historically Black Prot &lt;$10k         228  0.138 </span>
@@ -661,28 +661,28 @@ que una canción entra por primera vez al top 100 de Billboard.</p>
 <pre class="sourceCode r"><code class="sourceCode r">billboard &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/billboard.csv&quot;</span>)
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   .default = col_integer(),</span>
+<span class="co">#&gt;   .default = col_double(),</span>
 <span class="co">#&gt;   artist = col_character(),</span>
 <span class="co">#&gt;   track = col_character(),</span>
 <span class="co">#&gt;   time = col_time(format = &quot;&quot;),</span>
 <span class="co">#&gt;   date.entered = col_date(format = &quot;&quot;),</span>
-<span class="co">#&gt;   wk66 = col_character(),</span>
-<span class="co">#&gt;   wk67 = col_character(),</span>
-<span class="co">#&gt;   wk68 = col_character(),</span>
-<span class="co">#&gt;   wk69 = col_character(),</span>
-<span class="co">#&gt;   wk70 = col_character(),</span>
-<span class="co">#&gt;   wk71 = col_character(),</span>
-<span class="co">#&gt;   wk72 = col_character(),</span>
-<span class="co">#&gt;   wk73 = col_character(),</span>
-<span class="co">#&gt;   wk74 = col_character(),</span>
-<span class="co">#&gt;   wk75 = col_character(),</span>
-<span class="co">#&gt;   wk76 = col_character()</span>
+<span class="co">#&gt;   wk66 = col_logical(),</span>
+<span class="co">#&gt;   wk67 = col_logical(),</span>
+<span class="co">#&gt;   wk68 = col_logical(),</span>
+<span class="co">#&gt;   wk69 = col_logical(),</span>
+<span class="co">#&gt;   wk70 = col_logical(),</span>
+<span class="co">#&gt;   wk71 = col_logical(),</span>
+<span class="co">#&gt;   wk72 = col_logical(),</span>
+<span class="co">#&gt;   wk73 = col_logical(),</span>
+<span class="co">#&gt;   wk74 = col_logical(),</span>
+<span class="co">#&gt;   wk75 = col_logical(),</span>
+<span class="co">#&gt;   wk76 = col_logical()</span>
 <span class="co">#&gt; )</span>
 <span class="co">#&gt; See spec(...) for full column specifications.</span>
 billboard
 <span class="co">#&gt; # A tibble: 317 x 81</span>
 <span class="co">#&gt;     year artist track time  date.entered   wk1   wk2   wk3   wk4   wk5</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;tim&gt; &lt;date&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;tim&gt; &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt;  1  2000 2 Pac  Baby… 04:22 2000-02-26      87    82    72    77    87</span>
 <span class="co">#&gt;  2  2000 2Ge+h… The … 03:15 2000-09-02      91    87    92    NA    NA</span>
 <span class="co">#&gt;  3  2000 3 Doo… Kryp… 03:53 2000-04-08      81    70    68    67    66</span>
@@ -693,21 +693,21 @@ billboard
 <span class="co">#&gt;  8  2000 Aaliy… I Do… 04:15 2000-01-29      84    62    51    41    38</span>
 <span class="co">#&gt;  9  2000 Aaliy… Try … 04:03 2000-03-18      59    53    38    28    21</span>
 <span class="co">#&gt; 10  2000 Adams… Open… 05:30 2000-08-26      76    76    74    69    68</span>
-<span class="co">#&gt; # ... with 307 more rows, and 71 more variables: wk6 &lt;int&gt;, wk7 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk8 &lt;int&gt;, wk9 &lt;int&gt;, wk10 &lt;int&gt;, wk11 &lt;int&gt;, wk12 &lt;int&gt;, wk13 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk14 &lt;int&gt;, wk15 &lt;int&gt;, wk16 &lt;int&gt;, wk17 &lt;int&gt;, wk18 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk19 &lt;int&gt;, wk20 &lt;int&gt;, wk21 &lt;int&gt;, wk22 &lt;int&gt;, wk23 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk24 &lt;int&gt;, wk25 &lt;int&gt;, wk26 &lt;int&gt;, wk27 &lt;int&gt;, wk28 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk29 &lt;int&gt;, wk30 &lt;int&gt;, wk31 &lt;int&gt;, wk32 &lt;int&gt;, wk33 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk34 &lt;int&gt;, wk35 &lt;int&gt;, wk36 &lt;int&gt;, wk37 &lt;int&gt;, wk38 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk39 &lt;int&gt;, wk40 &lt;int&gt;, wk41 &lt;int&gt;, wk42 &lt;int&gt;, wk43 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk44 &lt;int&gt;, wk45 &lt;int&gt;, wk46 &lt;int&gt;, wk47 &lt;int&gt;, wk48 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk49 &lt;int&gt;, wk50 &lt;int&gt;, wk51 &lt;int&gt;, wk52 &lt;int&gt;, wk53 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk54 &lt;int&gt;, wk55 &lt;int&gt;, wk56 &lt;int&gt;, wk57 &lt;int&gt;, wk58 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk59 &lt;int&gt;, wk60 &lt;int&gt;, wk61 &lt;int&gt;, wk62 &lt;int&gt;, wk63 &lt;int&gt;,</span>
-<span class="co">#&gt; #   wk64 &lt;int&gt;, wk65 &lt;int&gt;, wk66 &lt;chr&gt;, wk67 &lt;chr&gt;, wk68 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   wk69 &lt;chr&gt;, wk70 &lt;chr&gt;, wk71 &lt;chr&gt;, wk72 &lt;chr&gt;, wk73 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   wk74 &lt;chr&gt;, wk75 &lt;chr&gt;, wk76 &lt;chr&gt;</span></code></pre>
+<span class="co">#&gt; # ... with 307 more rows, and 71 more variables: wk6 &lt;dbl&gt;, wk7 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk8 &lt;dbl&gt;, wk9 &lt;dbl&gt;, wk10 &lt;dbl&gt;, wk11 &lt;dbl&gt;, wk12 &lt;dbl&gt;, wk13 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk14 &lt;dbl&gt;, wk15 &lt;dbl&gt;, wk16 &lt;dbl&gt;, wk17 &lt;dbl&gt;, wk18 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk19 &lt;dbl&gt;, wk20 &lt;dbl&gt;, wk21 &lt;dbl&gt;, wk22 &lt;dbl&gt;, wk23 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk24 &lt;dbl&gt;, wk25 &lt;dbl&gt;, wk26 &lt;dbl&gt;, wk27 &lt;dbl&gt;, wk28 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk29 &lt;dbl&gt;, wk30 &lt;dbl&gt;, wk31 &lt;dbl&gt;, wk32 &lt;dbl&gt;, wk33 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk34 &lt;dbl&gt;, wk35 &lt;dbl&gt;, wk36 &lt;dbl&gt;, wk37 &lt;dbl&gt;, wk38 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk39 &lt;dbl&gt;, wk40 &lt;dbl&gt;, wk41 &lt;dbl&gt;, wk42 &lt;dbl&gt;, wk43 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk44 &lt;dbl&gt;, wk45 &lt;dbl&gt;, wk46 &lt;dbl&gt;, wk47 &lt;dbl&gt;, wk48 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk49 &lt;dbl&gt;, wk50 &lt;dbl&gt;, wk51 &lt;dbl&gt;, wk52 &lt;dbl&gt;, wk53 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk54 &lt;dbl&gt;, wk55 &lt;dbl&gt;, wk56 &lt;dbl&gt;, wk57 &lt;dbl&gt;, wk58 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk59 &lt;dbl&gt;, wk60 &lt;dbl&gt;, wk61 &lt;dbl&gt;, wk62 &lt;dbl&gt;, wk63 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   wk64 &lt;dbl&gt;, wk65 &lt;dbl&gt;, wk66 &lt;lgl&gt;, wk67 &lt;lgl&gt;, wk68 &lt;lgl&gt;,</span>
+<span class="co">#&gt; #   wk69 &lt;lgl&gt;, wk70 &lt;lgl&gt;, wk71 &lt;lgl&gt;, wk72 &lt;lgl&gt;, wk73 &lt;lgl&gt;,</span>
+<span class="co">#&gt; #   wk74 &lt;lgl&gt;, wk75 &lt;lgl&gt;, wk76 &lt;lgl&gt;</span></code></pre>
 <p>Notemos que el rank en cada semana (una vez que entró a la lista) está guardado
 en 75 columnas <code>wk1</code> a <code>wk75</code>, este tipo de almacenamiento no es <em>limpio</em> pero
 puede ser útil al momento de ingresar la información.</p>
@@ -716,18 +716,18 @@ columna (nuevamente alargamos los datos):</p>
 <pre class="sourceCode r"><code class="sourceCode r">billboard_long &lt;-<span class="st"> </span><span class="kw">gather</span>(billboard, week, rank, wk1<span class="op">:</span>wk76, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
 billboard_long
 <span class="co">#&gt; # A tibble: 5,307 x 7</span>
-<span class="co">#&gt;     year artist        track                time  date.entered week  rank </span>
-<span class="co">#&gt;  * &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;                &lt;tim&gt; &lt;date&gt;       &lt;chr&gt; &lt;chr&gt;</span>
-<span class="co">#&gt;  1  2000 2 Pac         Baby Don&#39;t Cry (Kee… 04:22 2000-02-26   wk1   87   </span>
-<span class="co">#&gt;  2  2000 2Ge+her       The Hardest Part Of… 03:15 2000-09-02   wk1   91   </span>
-<span class="co">#&gt;  3  2000 3 Doors Down  Kryptonite           03:53 2000-04-08   wk1   81   </span>
-<span class="co">#&gt;  4  2000 3 Doors Down  Loser                04:24 2000-10-21   wk1   76   </span>
-<span class="co">#&gt;  5  2000 504 Boyz      Wobble Wobble        03:35 2000-04-15   wk1   57   </span>
-<span class="co">#&gt;  6  2000 98^0          Give Me Just One Ni… 03:24 2000-08-19   wk1   51   </span>
-<span class="co">#&gt;  7  2000 A*Teens       Dancing Queen        03:44 2000-07-08   wk1   97   </span>
-<span class="co">#&gt;  8  2000 Aaliyah       I Don&#39;t Wanna        04:15 2000-01-29   wk1   84   </span>
-<span class="co">#&gt;  9  2000 Aaliyah       Try Again            04:03 2000-03-18   wk1   59   </span>
-<span class="co">#&gt; 10  2000 Adams, Yolan… Open My Heart        05:30 2000-08-26   wk1   76   </span>
+<span class="co">#&gt;     year artist        track                time  date.entered week   rank</span>
+<span class="co">#&gt;  * &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;                &lt;tim&gt; &lt;date&gt;       &lt;chr&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  2000 2 Pac         Baby Don&#39;t Cry (Kee… 04:22 2000-02-26   wk1      87</span>
+<span class="co">#&gt;  2  2000 2Ge+her       The Hardest Part Of… 03:15 2000-09-02   wk1      91</span>
+<span class="co">#&gt;  3  2000 3 Doors Down  Kryptonite           03:53 2000-04-08   wk1      81</span>
+<span class="co">#&gt;  4  2000 3 Doors Down  Loser                04:24 2000-10-21   wk1      76</span>
+<span class="co">#&gt;  5  2000 504 Boyz      Wobble Wobble        03:35 2000-04-15   wk1      57</span>
+<span class="co">#&gt;  6  2000 98^0          Give Me Just One Ni… 03:24 2000-08-19   wk1      51</span>
+<span class="co">#&gt;  7  2000 A*Teens       Dancing Queen        03:44 2000-07-08   wk1      97</span>
+<span class="co">#&gt;  8  2000 Aaliyah       I Don&#39;t Wanna        04:15 2000-01-29   wk1      84</span>
+<span class="co">#&gt;  9  2000 Aaliyah       Try Again            04:03 2000-03-18   wk1      59</span>
+<span class="co">#&gt; 10  2000 Adams, Yolan… Open My Heart        05:30 2000-08-26   wk1      76</span>
 <span class="co">#&gt; # ... with 5,297 more rows</span></code></pre>
 <p>Notemos que en esta ocasión especificamos las columnas que vamos a apilar
 indicando el nombre de la primera de ellas seguido de <code>:</code> y por último el
@@ -746,7 +746,7 @@ limpieza adicional creando mejores variables de fecha.</p>
 billboard_tidy
 <span class="co">#&gt; # A tibble: 5,307 x 7</span>
 <span class="co">#&gt;     year artist         track                 time   week  rank date      </span>
-<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;                 &lt;tim&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;    </span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;                 &lt;tim&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;    </span>
 <span class="co">#&gt;  1  2000 2 Pac          Baby Don&#39;t Cry (Keep… 04:22     1    87 2000-02-26</span>
 <span class="co">#&gt;  2  2000 2Ge+her        The Hardest Part Of … 03:15     1    91 2000-09-02</span>
 <span class="co">#&gt;  3  2000 3 Doors Down   Kryptonite            03:53     1    81 2000-04-08</span>
@@ -846,17 +846,17 @@ variables en estos datos?</p>
     <span class="dt">trim_ws =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   .default = col_integer(),</span>
+<span class="co">#&gt;   .default = col_double(),</span>
 <span class="co">#&gt;   id = col_character(),</span>
 <span class="co">#&gt;   element = col_character(),</span>
-<span class="co">#&gt;   d9 = col_character(),</span>
-<span class="co">#&gt;   d12 = col_character(),</span>
-<span class="co">#&gt;   d18 = col_character(),</span>
-<span class="co">#&gt;   d19 = col_character(),</span>
-<span class="co">#&gt;   d20 = col_character(),</span>
-<span class="co">#&gt;   d21 = col_character(),</span>
-<span class="co">#&gt;   d22 = col_character(),</span>
-<span class="co">#&gt;   d24 = col_character()</span>
+<span class="co">#&gt;   d9 = col_logical(),</span>
+<span class="co">#&gt;   d12 = col_logical(),</span>
+<span class="co">#&gt;   d18 = col_logical(),</span>
+<span class="co">#&gt;   d19 = col_logical(),</span>
+<span class="co">#&gt;   d20 = col_logical(),</span>
+<span class="co">#&gt;   d21 = col_logical(),</span>
+<span class="co">#&gt;   d22 = col_logical(),</span>
+<span class="co">#&gt;   d24 = col_logical()</span>
 <span class="co">#&gt; )</span>
 <span class="co">#&gt; See spec(...) for full column specifications.</span></code></pre>
 <p>Estos datos tienen variables en columnas individuales (id, año, mes), en
@@ -866,17 +866,17 @@ las columnas.</p>
 clima_long
 <span class="co">#&gt; # A tibble: 66 x 6</span>
 <span class="co">#&gt;    id           year month element day   value</span>
-<span class="co">#&gt;  * &lt;chr&gt;       &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;</span>
-<span class="co">#&gt;  1 MX000017004  2010    12 TMAX    d1    299  </span>
-<span class="co">#&gt;  2 MX000017004  2010    12 TMIN    d1    138  </span>
-<span class="co">#&gt;  3 MX000017004  2010     2 TMAX    d2    273  </span>
-<span class="co">#&gt;  4 MX000017004  2010     2 TMIN    d2    144  </span>
-<span class="co">#&gt;  5 MX000017004  2010    11 TMAX    d2    313  </span>
-<span class="co">#&gt;  6 MX000017004  2010    11 TMIN    d2    163  </span>
-<span class="co">#&gt;  7 MX000017004  2010     2 TMAX    d3    241  </span>
-<span class="co">#&gt;  8 MX000017004  2010     2 TMIN    d3    144  </span>
-<span class="co">#&gt;  9 MX000017004  2010     7 TMAX    d3    286  </span>
-<span class="co">#&gt; 10 MX000017004  2010     7 TMIN    d3    175  </span>
+<span class="co">#&gt;  * &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 MX000017004  2010    12 TMAX    d1      299</span>
+<span class="co">#&gt;  2 MX000017004  2010    12 TMIN    d1      138</span>
+<span class="co">#&gt;  3 MX000017004  2010     2 TMAX    d2      273</span>
+<span class="co">#&gt;  4 MX000017004  2010     2 TMIN    d2      144</span>
+<span class="co">#&gt;  5 MX000017004  2010    11 TMAX    d2      313</span>
+<span class="co">#&gt;  6 MX000017004  2010    11 TMIN    d2      163</span>
+<span class="co">#&gt;  7 MX000017004  2010     2 TMAX    d3      241</span>
+<span class="co">#&gt;  8 MX000017004  2010     2 TMIN    d3      144</span>
+<span class="co">#&gt;  9 MX000017004  2010     7 TMAX    d3      286</span>
+<span class="co">#&gt; 10 MX000017004  2010     7 TMIN    d3      175</span>
 <span class="co">#&gt; # ... with 56 more rows</span></code></pre>
 <p>Podemos crear algunas variables adicionales.</p>
 <pre class="sourceCode r"><code class="sourceCode r">clima_vars &lt;-<span class="st"> </span>clima_long <span class="op">%&gt;%</span><span class="st"> </span>
@@ -887,7 +887,7 @@ clima_long
 clima_vars
 <span class="co">#&gt; # A tibble: 66 x 6</span>
 <span class="co">#&gt;    id           year month   day element value</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 MX000017004  2010     1    30 TMAX     27.8</span>
 <span class="co">#&gt;  2 MX000017004  2010     1    30 TMIN     14.5</span>
 <span class="co">#&gt;  3 MX000017004  2010     2     2 TMAX     27.3</span>
@@ -906,7 +906,7 @@ apilar (<code>gather</code>):</p>
 clima_tidy
 <span class="co">#&gt; # A tibble: 33 x 6</span>
 <span class="co">#&gt;    id           year month   day  TMAX  TMIN</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 MX000017004  2010     1    30  27.8  14.5</span>
 <span class="co">#&gt;  2 MX000017004  2010     2     2  27.3  14.4</span>
 <span class="co">#&gt;  3 MX000017004  2010     2     3  24.1  14.4</span>
@@ -962,7 +962,7 @@ en los datos.</p>
 <pre class="sourceCode r"><code class="sourceCode r">billboard_tidy
 <span class="co">#&gt; # A tibble: 5,307 x 7</span>
 <span class="co">#&gt;     year artist         track                 time   week  rank date      </span>
-<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;                 &lt;tim&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;    </span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;                 &lt;tim&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;    </span>
 <span class="co">#&gt;  1  2000 2 Pac          Baby Don&#39;t Cry (Keep… 04:22     1    87 2000-02-26</span>
 <span class="co">#&gt;  2  2000 2Ge+her        The Hardest Part Of … 03:15     1    91 2000-09-02</span>
 <span class="co">#&gt;  3  2000 3 Doors Down   Kryptonite            03:53     1    81 2000-04-08</span>
@@ -985,7 +985,7 @@ canción en cada semana.</p>
 song
 <span class="co">#&gt; # A tibble: 317 x 5</span>
 <span class="co">#&gt;    artist         track                    year time   song_id</span>
-<span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;                   &lt;int&gt; &lt;time&gt;   &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;                   &lt;dbl&gt; &lt;time&gt;   &lt;int&gt;</span>
 <span class="co">#&gt;  1 2 Pac          Baby Don&#39;t Cry (Keep...  2000 04:22        1</span>
 <span class="co">#&gt;  2 2Ge+her        The Hardest Part Of ...  2000 03:15        2</span>
 <span class="co">#&gt;  3 3 Doors Down   Kryptonite               2000 03:53        3</span>

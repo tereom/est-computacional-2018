@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.068"
+#> [1] "0.07"
 ```
 
 
@@ -217,7 +217,7 @@ primaria <- read_csv("data/primarias.csv")
 #>   clave = col_character(),
 #>   turno = col_character(),
 #>   tipo = col_character(),
-#>   mun = col_integer(),
+#>   mun = col_double(),
 #>   esp_3 = col_double(),
 #>   esp_6 = col_double()
 #> )
@@ -227,7 +227,7 @@ glimpse(primaria)
 #> $ clave <chr> "09DBN0006J", "09DBN0007I", "09DBN0008H", "09DBN0015R", ...
 #> $ turno <chr> "NOCTURNO", "NOCTURNO", "NOCTURNO", "NOCTURNO", "NOCTURN...
 #> $ tipo  <chr> "GENERAL", "GENERAL", "GENERAL", "GENERAL", "GENERAL", "...
-#> $ mun   <int> 17, 28, 28, 14, 14, 17, 17, 14, 14, 14, 16, 16, 16, 16, ...
+#> $ mun   <dbl> 17, 28, 28, 14, 14, 17, 17, 14, 14, 14, 16, 16, 16, 16, ...
 #> $ esp_3 <dbl> 483.14, 571.03, 418.50, 776.57, 714.09, 659.04, 703.04, ...
 #> $ esp_6 <dbl> 513.98, 455.92, 561.27, 540.32, 670.00, 570.04, 606.64, ...
 set.seed(16021)
@@ -888,22 +888,22 @@ Cada renglón corresponde a la calificación de un estudiante en cada prueba.
 marks <- read_csv("data/marks.csv")
 #> Parsed with column specification:
 #> cols(
-#>   id = col_integer(),
-#>   MECH = col_integer(),
-#>   VECT = col_integer(),
-#>   ALG = col_integer(),
-#>   ANL = col_integer(),
-#>   STAT = col_integer()
+#>   id = col_double(),
+#>   MECH = col_double(),
+#>   VECT = col_double(),
+#>   ALG = col_double(),
+#>   ANL = col_double(),
+#>   STAT = col_double()
 #> )
 glimpse(marks)
 #> Observations: 88
 #> Variables: 6
-#> $ id   <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17...
-#> $ MECH <int> 77, 63, 75, 55, 63, 53, 51, 59, 62, 64, 52, 55, 50, 65, 3...
-#> $ VECT <int> 82, 78, 73, 72, 63, 61, 67, 70, 60, 72, 64, 67, 50, 63, 5...
-#> $ ALG  <int> 67, 80, 71, 63, 65, 72, 65, 68, 58, 60, 60, 59, 64, 58, 6...
-#> $ ANL  <int> 67, 70, 66, 70, 70, 64, 65, 62, 62, 62, 63, 62, 55, 56, 5...
-#> $ STAT <int> 81, 81, 81, 68, 63, 73, 68, 56, 70, 45, 54, 44, 63, 37, 7...
+#> $ id   <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17...
+#> $ MECH <dbl> 77, 63, 75, 55, 63, 53, 51, 59, 62, 64, 52, 55, 50, 65, 3...
+#> $ VECT <dbl> 82, 78, 73, 72, 63, 61, 67, 70, 60, 72, 64, 67, 50, 63, 5...
+#> $ ALG  <dbl> 67, 80, 71, 63, 65, 72, 65, 68, 58, 60, 60, 59, 64, 58, 6...
+#> $ ANL  <dbl> 67, 70, 66, 70, 70, 64, 65, 62, 62, 62, 63, 62, 55, 56, 5...
+#> $ STAT <dbl> 81, 81, 81, 68, 63, 73, 68, 56, 70, 45, 54, 44, 63, 37, 7...
 marks <- select(marks, -id)
 ```
 
@@ -1148,7 +1148,7 @@ concentrado_hogar <- read_csv("data/concentradohogar.csv")
 concentrado_hogar
 #> # A tibble: 19,479 x 132
 #>    folioviv foliohog ubica_geo ageb  tam_loc est_socio est_dis upm  
-#>    <chr>       <int> <chr>     <chr>   <int>     <int> <chr>   <chr>
+#>    <chr>       <dbl> <chr>     <chr>   <dbl>     <dbl> <chr>   <chr>
 #>  1 0100008…        1 010010001 028-6       1         4 005     00670
 #>  2 0100008…        1 010010001 028-6       1         4 005     00670
 #>  3 0100008…        1 010010001 028-6       1         4 005     00670
@@ -1159,15 +1159,15 @@ concentrado_hogar
 #>  8 0100010…        1 010010001 028-6       1         4 005     00600
 #>  9 0100010…        1 010010001 028-6       1         4 005     00600
 #> 10 0100018…        1 010010001 029-0       1         3 004     00570
-#> # ... with 19,469 more rows, and 124 more variables: factor_hog <int>,
-#> #   clase_hog <int>, sexo_jefe <int>, edad_jefe <int>, educa_jefe <chr>,
-#> #   tot_integ <int>, hombres <int>, mujeres <int>, mayores <int>,
-#> #   menores <int>, p12_64 <int>, p65mas <int>, ocupados <int>,
-#> #   percep_ing <int>, perc_ocupa <int>, ing_total <dbl>, ing_cor <dbl>,
+#> # ... with 19,469 more rows, and 124 more variables: factor_hog <dbl>,
+#> #   clase_hog <dbl>, sexo_jefe <dbl>, edad_jefe <dbl>, educa_jefe <chr>,
+#> #   tot_integ <dbl>, hombres <dbl>, mujeres <dbl>, mayores <dbl>,
+#> #   menores <dbl>, p12_64 <dbl>, p65mas <dbl>, ocupados <dbl>,
+#> #   percep_ing <dbl>, perc_ocupa <dbl>, ing_total <dbl>, ing_cor <dbl>,
 #> #   ing_mon <dbl>, trabajo <dbl>, sueldos <dbl>, horas_extr <dbl>,
 #> #   comisiones <dbl>, otra_rem <dbl>, negocio <dbl>, noagrop <dbl>,
 #> #   industria <dbl>, comercio <dbl>, servicios <dbl>, agrope <dbl>,
-#> #   agricolas <dbl>, pecuarios <dbl>, reproducc <int>, pesca <int>,
+#> #   agricolas <dbl>, pecuarios <dbl>, reproducc <dbl>, pesca <dbl>,
 #> #   otros_trab <dbl>, rentas <dbl>, utilidad <dbl>, arrenda <dbl>,
 #> #   transfer <dbl>, jubilacion <dbl>, becas <dbl>, donativos <dbl>,
 #> #   remesas <dbl>, bene_gob <dbl>, otros_ing <dbl>, gasto_nom <dbl>,
@@ -1200,7 +1200,7 @@ hogar <- concentrado_hogar %>%
 head(hogar)
 #> # A tibble: 6 x 10
 #>   folioviv foliohog est_dis upm   factor_hog ing_cor sexo_jefe edad_jefe
-#>   <chr>       <int> <chr>   <chr>      <int>   <dbl>     <int>     <int>
+#>   <chr>       <dbl> <chr>   <chr>      <dbl>   <dbl>     <dbl>     <dbl>
 #> 1 0100008…        1 005     00670        694  39787.         2        77
 #> 2 0100008…        1 005     00670        694  19524.         1        64
 #> 3 0100008…        1 005     00670        694  99258.         1        60
@@ -1970,14 +1970,14 @@ library(rsample)
 muestra_computos <- read_csv("data/muestra_computos_2012.csv")
 #> Parsed with column specification:
 #> cols(
-#>   .default = col_integer(),
+#>   .default = col_double(),
 #>   TIPO_CASILLA = col_character()
 #> )
 #> See spec(...) for full column specifications.
 muestra_computos
 #> # A tibble: 10,000 x 36
 #>    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA
-#>        <int>      <int>   <int>      <int> <chr>               <int>
+#>        <dbl>      <dbl>   <dbl>      <dbl> <chr>               <dbl>
 #>  1        15         14     324          1 C                       0
 #>  2        20          3     207          3 C                       0
 #>  3        19          9     275          1 B                       0
@@ -1988,16 +1988,16 @@ muestra_computos
 #>  8         2          6     739          1 C                       0
 #>  9        30         12    4348          1 C                       0
 #> 10        21         11    1121          1 B                       0
-#> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <int>,
-#> #   CASILLA <int>, ESTATUS_ACTA <int>, ORDEN <int>,
-#> #   LISTA_NOMINAL_CASILLA <int>, ID_GRUPO <int>, TIPO_RECUENTO <int>,
-#> #   NUM_VOTOS_NULOS <int>, NUM_VOTOS_CAN_NREG <int>,
-#> #   NUMERO_VOTOS_VALIDOS <int>, TOTAL_VOTOS <int>,
-#> #   BOLETAS_INUTILIZADAS <int>, PAN <int>, PRI <int>, PRD <int>,
-#> #   PVEM <int>, PT <int>, MC <int>, PANAL <int>, PRI_PVEM <int>,
-#> #   PRD_PT_MC <int>, PRD_PT <int>, PRD_MC <int>, PT_MC <int>,
-#> #   ID_MUNICIPIO <int>, LISTA_NOMINAL <int>, VOTOS_RESERVADOS <int>,
-#> #   pan <int>, pri <int>, prd <int>
+#> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <dbl>,
+#> #   CASILLA <dbl>, ESTATUS_ACTA <dbl>, ORDEN <dbl>,
+#> #   LISTA_NOMINAL_CASILLA <dbl>, ID_GRUPO <dbl>, TIPO_RECUENTO <dbl>,
+#> #   NUM_VOTOS_NULOS <dbl>, NUM_VOTOS_CAN_NREG <dbl>,
+#> #   NUMERO_VOTOS_VALIDOS <dbl>, TOTAL_VOTOS <dbl>,
+#> #   BOLETAS_INUTILIZADAS <dbl>, PAN <dbl>, PRI <dbl>, PRD <dbl>,
+#> #   PVEM <dbl>, PT <dbl>, MC <dbl>, PANAL <dbl>, PRI_PVEM <dbl>,
+#> #   PRD_PT_MC <dbl>, PRD_PT <dbl>, PRD_MC <dbl>, PT_MC <dbl>,
+#> #   ID_MUNICIPIO <dbl>, LISTA_NOMINAL <dbl>, VOTOS_RESERVADOS <dbl>,
+#> #   pan <dbl>, pri <dbl>, prd <dbl>
 ```
 
 Generamos 100 muestras bootstrap, y la función nos regresa un arreglo con 100
@@ -2044,7 +2044,7 @@ Y podemos obtener los datos de la muestra bootstrap con la función
 as.data.frame(first_computos_boot)
 #> # A tibble: 10,000 x 36
 #>    ID_ESTADO D_DISTRITO SECCION ID_CASILLA TIPO_CASILLA EXT_CONTIGUA
-#>        <int>      <int>   <int>      <int> <chr>               <int>
+#>        <dbl>      <dbl>   <dbl>      <dbl> <chr>               <dbl>
 #>  1        20          3    1246          3 C                       0
 #>  2        21          7       9          1 B                       0
 #>  3        30          2    3609          1 B                       0
@@ -2055,16 +2055,16 @@ as.data.frame(first_computos_boot)
 #>  8         5          5     542          2 C                       0
 #>  9        16          9    2213          1 C                       0
 #> 10         5          4    1006          1 E                       2
-#> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <int>,
-#> #   CASILLA <int>, ESTATUS_ACTA <int>, ORDEN <int>,
-#> #   LISTA_NOMINAL_CASILLA <int>, ID_GRUPO <int>, TIPO_RECUENTO <int>,
-#> #   NUM_VOTOS_NULOS <int>, NUM_VOTOS_CAN_NREG <int>,
-#> #   NUMERO_VOTOS_VALIDOS <int>, TOTAL_VOTOS <int>,
-#> #   BOLETAS_INUTILIZADAS <int>, PAN <int>, PRI <int>, PRD <int>,
-#> #   PVEM <int>, PT <int>, MC <int>, PANAL <int>, PRI_PVEM <int>,
-#> #   PRD_PT_MC <int>, PRD_PT <int>, PRD_MC <int>, PT_MC <int>,
-#> #   ID_MUNICIPIO <int>, LISTA_NOMINAL <int>, VOTOS_RESERVADOS <int>,
-#> #   pan <int>, pri <int>, prd <int>
+#> # ... with 9,990 more rows, and 30 more variables: TIPO_CANDIDATURA <dbl>,
+#> #   CASILLA <dbl>, ESTATUS_ACTA <dbl>, ORDEN <dbl>,
+#> #   LISTA_NOMINAL_CASILLA <dbl>, ID_GRUPO <dbl>, TIPO_RECUENTO <dbl>,
+#> #   NUM_VOTOS_NULOS <dbl>, NUM_VOTOS_CAN_NREG <dbl>,
+#> #   NUMERO_VOTOS_VALIDOS <dbl>, TOTAL_VOTOS <dbl>,
+#> #   BOLETAS_INUTILIZADAS <dbl>, PAN <dbl>, PRI <dbl>, PRD <dbl>,
+#> #   PVEM <dbl>, PT <dbl>, MC <dbl>, PANAL <dbl>, PRI_PVEM <dbl>,
+#> #   PRD_PT_MC <dbl>, PRD_PT <dbl>, PRD_MC <dbl>, PT_MC <dbl>,
+#> #   ID_MUNICIPIO <dbl>, LISTA_NOMINAL <dbl>, VOTOS_RESERVADOS <dbl>,
+#> #   pan <dbl>, pri <dbl>, prd <dbl>
 ```
 
 Una de las principales ventajas de usar este paquete es que es eficiente en 
@@ -2079,15 +2079,15 @@ library(pryr)
 #> 
 #>     compose, partial
 object_size(muestra_computos)
-#> 1.49 MB
+#> 2.89 MB
 object_size(computos_boot)
-#> 5.58 MB
+#> 6.98 MB
 # tamaño por muestra
 object_size(computos_boot)/nrow(computos_boot)
-#> 55.8 kB
+#> 69.8 kB
 # el incremento en tamaño es << 100
 as.numeric(object_size(computos_boot)/object_size(muestra_computos))
-#> [1] 3.7385
+#> [1] 2.4134
 ```
 
 2. El paquete `boot` está asociado al libro *Bootstrap Methods and Their 

@@ -534,15 +534,16 @@ print(read_csv)
 ## function (file, col_names = TRUE, col_types = NULL, locale = default_locale(), 
 ##     na = c("", "NA"), quoted_na = TRUE, quote = "\"", comment = "", 
 ##     trim_ws = TRUE, skip = 0, n_max = Inf, guess_max = min(1000, 
-##         n_max), progress = show_progress()) 
+##         n_max), progress = show_progress(), skip_empty_rows = TRUE) 
 ## {
-##     tokenizer <- tokenizer_csv(na = na, quoted_na = TRUE, quote = quote, 
-##         comment = comment, trim_ws = trim_ws)
+##     tokenizer <- tokenizer_csv(na = na, quoted_na = quoted_na, 
+##         quote = quote, comment = comment, trim_ws = trim_ws, 
+##         skip_empty_rows = skip_empty_rows)
 ##     read_delimited(file, tokenizer, col_names = col_names, col_types = col_types, 
 ##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
 ##         guess_max = guess_max, progress = progress)
 ## }
-## <bytecode: 0x7de5440>
+## <bytecode: 0x8775800>
 ## <environment: namespace:readr>
 ```
 

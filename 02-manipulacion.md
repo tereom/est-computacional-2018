@@ -85,24 +85,24 @@ flights <- read_csv("data/flights.csv")
 #> Parsed with column specification:
 #> cols(
 #>   date = col_datetime(format = ""),
-#>   hour = col_integer(),
-#>   minute = col_integer(),
-#>   dep = col_integer(),
-#>   arr = col_integer(),
-#>   dep_delay = col_integer(),
-#>   arr_delay = col_integer(),
+#>   hour = col_double(),
+#>   minute = col_double(),
+#>   dep = col_double(),
+#>   arr = col_double(),
+#>   dep_delay = col_double(),
+#>   arr_delay = col_double(),
 #>   carrier = col_character(),
-#>   flight = col_integer(),
+#>   flight = col_double(),
 #>   dest = col_character(),
 #>   plane = col_character(),
-#>   cancelled = col_integer(),
-#>   time = col_integer(),
-#>   dist = col_integer()
+#>   cancelled = col_double(),
+#>   time = col_double(),
+#>   dist = col_double()
 #> )
 flights
 #> # A tibble: 227,496 x 14
 #>    date                 hour minute   dep   arr dep_delay arr_delay carrier
-#>    <dttm>              <int>  <int> <int> <int>     <int>     <int> <chr>  
+#>    <dttm>              <dbl>  <dbl> <dbl> <dbl>     <dbl>     <dbl> <chr>  
 #>  1 2011-01-01 12:00:00    14      0  1400  1500         0       -10 AA     
 #>  2 2011-01-02 12:00:00    14      1  1401  1501         1        -9 AA     
 #>  3 2011-01-03 12:00:00    13     52  1352  1502        -8        -8 AA     
@@ -113,21 +113,21 @@ flights
 #>  8 2011-01-08 12:00:00    13     55  1355  1454        -5       -16 AA     
 #>  9 2011-01-09 12:00:00    14     43  1443  1554        43        44 AA     
 #> 10 2011-01-10 12:00:00    14     43  1443  1553        43        43 AA     
-#> # ... with 227,486 more rows, and 6 more variables: flight <int>,
-#> #   dest <chr>, plane <chr>, cancelled <int>, time <int>, dist <int>
+#> # ... with 227,486 more rows, and 6 more variables: flight <dbl>,
+#> #   dest <chr>, plane <chr>, cancelled <dbl>, time <dbl>, dist <dbl>
 
 weather <- read_csv("data/weather.csv")
 #> Parsed with column specification:
 #> cols(
 #>   date = col_date(format = ""),
-#>   hour = col_integer(),
+#>   hour = col_double(),
 #>   temp = col_double(),
 #>   dew_point = col_double(),
-#>   humidity = col_integer(),
+#>   humidity = col_double(),
 #>   pressure = col_double(),
 #>   visibility = col_double(),
 #>   wind_dir = col_character(),
-#>   wind_dir2 = col_integer(),
+#>   wind_dir2 = col_double(),
 #>   wind_speed = col_double(),
 #>   gust_speed = col_double(),
 #>   precip = col_double(),
@@ -137,7 +137,7 @@ weather <- read_csv("data/weather.csv")
 weather 
 #> # A tibble: 8,723 x 14
 #>    date        hour  temp dew_point humidity pressure visibility wind_dir
-#>    <date>     <int> <dbl>     <dbl>    <int>    <dbl>      <dbl> <chr>   
+#>    <date>     <dbl> <dbl>     <dbl>    <dbl>    <dbl>      <dbl> <chr>   
 #>  1 2011-01-01     0  59        28.9       32     29.9         10 NNE     
 #>  2 2011-01-01     1  57.2      28.4       33     29.9         10 NNE     
 #>  3 2011-01-01     2  55.4      28.4       36     29.9         10 NNW     
@@ -148,7 +148,7 @@ weather
 #>  8 2011-01-01     7  53.1      16         23     30.1         10 North   
 #>  9 2011-01-01     8  54        18         24     30.1         10 North   
 #> 10 2011-01-01     9  55.4      17.6       23     30.1         10 NNE     
-#> # ... with 8,713 more rows, and 6 more variables: wind_dir2 <int>,
+#> # ... with 8,713 more rows, and 6 more variables: wind_dir2 <dbl>,
 #> #   wind_speed <dbl>, gust_speed <dbl>, precip <dbl>, conditions <chr>,
 #> #   events <chr>
 
@@ -156,19 +156,19 @@ planes <- read_csv("data/planes.csv")
 #> Parsed with column specification:
 #> cols(
 #>   plane = col_character(),
-#>   year = col_integer(),
+#>   year = col_double(),
 #>   mfr = col_character(),
 #>   model = col_character(),
-#>   no.eng = col_integer(),
-#>   no.seats = col_integer(),
-#>   speed = col_integer(),
+#>   no.eng = col_double(),
+#>   no.seats = col_double(),
+#>   speed = col_double(),
 #>   engine = col_character(),
 #>   type = col_character()
 #> )
 planes
 #> # A tibble: 2,853 x 9
 #>    plane   year mfr       model   no.eng no.seats speed engine  type      
-#>    <chr>  <int> <chr>     <chr>    <int>    <int> <int> <chr>   <chr>     
+#>    <chr>  <dbl> <chr>     <chr>    <dbl>    <dbl> <dbl> <chr>   <chr>     
 #>  1 N576AA  1991 MCDONNEL… DC-9-8…      2      172    NA Turbo-… Fixed win…
 #>  2 N557AA  1993 MARZ BAR… KITFOX…      1        2    NA Recipr… Fixed win…
 #>  3 N403AA  1974 RAVEN     S55A        NA        1    60 None    Balloon   
@@ -330,10 +330,10 @@ para eliminar los faltantes en la variable `dep_delay` resulta natural escribir:
 ```r
 filter(flights, dep_delay != NA)
 #> # A tibble: 0 x 14
-#> # ... with 14 variables: date <dttm>, hour <int>, minute <int>, dep <int>,
-#> #   arr <int>, dep_delay <int>, arr_delay <int>, carrier <chr>,
-#> #   flight <int>, dest <chr>, plane <chr>, cancelled <int>, time <int>,
-#> #   dist <int>
+#> # ... with 14 variables: date <dttm>, hour <dbl>, minute <dbl>, dep <dbl>,
+#> #   arr <dbl>, dep_delay <dbl>, arr_delay <dbl>, carrier <chr>,
+#> #   flight <dbl>, dest <chr>, plane <chr>, cancelled <dbl>, time <dbl>,
+#> #   dist <dbl>
 ```
 que nos devuelve una tabla vacía, sin embargo, si hay faltantes en esta 
 variable. El problema resulta de usar el operador `!=`, pensemos ¿qué regresan 
@@ -635,7 +635,7 @@ planes %>%
 #> # A tibble: 1,403 x 16
 #> # Groups:   plane [856]
 #>    date                 hour minute   dep   arr dep_delay arr_delay carrier
-#>    <dttm>              <int>  <int> <int> <int>     <int>     <int> <chr>  
+#>    <dttm>              <dbl>  <dbl> <dbl> <dbl>     <dbl>     <dbl> <chr>  
 #>  1 2011-01-28 12:00:00    15     16  1516  1916       351       326 CO     
 #>  2 2011-01-27 12:00:00    18     22  1822  1945       234       210 CO     
 #>  3 2011-01-27 12:00:00    21     37  2137  2254       242       219 CO     
@@ -646,8 +646,8 @@ planes %>%
 #>  8 2011-01-26 12:00:00     9     49   949  1436       144       180 CO     
 #>  9 2011-01-21 12:00:00    19     11  1911  2352        94       112 CO     
 #> 10 2011-01-20 12:00:00     6     35   635   807       780       775 CO     
-#> # ... with 1,393 more rows, and 8 more variables: flight <int>,
-#> #   dest <chr>, plane <chr>, cancelled <int>, time <int>, dist <int>,
+#> # ... with 1,393 more rows, and 8 more variables: flight <dbl>,
+#> #   dest <chr>, plane <chr>, cancelled <dbl>, time <dbl>, dist <dbl>,
 #> #   date_only <date>, z_delay <dbl>
 ```
 
@@ -787,7 +787,7 @@ arrange(delay_weather, -delay)
 #> # A tibble: 2,091,842 x 17
 #> # Groups:   date_only [365]
 #>    date_only   hour delay     n date        temp dew_point humidity
-#>    <date>     <int> <dbl> <int> <date>     <dbl>     <dbl>    <int>
+#>    <date>     <dbl> <dbl> <int> <date>     <dbl>     <dbl>    <dbl>
 #>  1 2011-05-12    23  184.    33 2011-01-02  43        28.9       58
 #>  2 2011-05-12    23  184.    33 2011-01-03  39        27         62
 #>  3 2011-05-12    23  184.    33 2011-01-04  50        45         83
@@ -799,7 +799,7 @@ arrange(delay_weather, -delay)
 #>  9 2011-05-12    23  184.    33 2011-01-10  41        37         86
 #> 10 2011-05-12    23  184.    33 2011-01-11  39.9      32         73
 #> # ... with 2,091,832 more rows, and 9 more variables: pressure <dbl>,
-#> #   visibility <dbl>, wind_dir <chr>, wind_dir2 <int>, wind_speed <dbl>,
+#> #   visibility <dbl>, wind_dir <chr>, wind_dir2 <dbl>, wind_speed <dbl>,
 #> #   gust_speed <dbl>, precip <dbl>, conditions <chr>, events <chr>
 ```
 
@@ -930,21 +930,21 @@ pew <- read_delim("http://stat405.had.co.nz/data/pew.txt", "\t",
 #> Parsed with column specification:
 #> cols(
 #>   religion = col_character(),
-#>   `<$10k` = col_integer(),
-#>   `$10-20k` = col_integer(),
-#>   `$20-30k` = col_integer(),
-#>   `$30-40k` = col_integer(),
-#>   `$40-50k` = col_integer(),
-#>   `$50-75k` = col_integer(),
-#>   `$75-100k` = col_integer(),
-#>   `$100-150k` = col_integer(),
-#>   `>150k` = col_integer(),
-#>   `Don't know/refused` = col_integer()
+#>   `<$10k` = col_double(),
+#>   `$10-20k` = col_double(),
+#>   `$20-30k` = col_double(),
+#>   `$30-40k` = col_double(),
+#>   `$40-50k` = col_double(),
+#>   `$50-75k` = col_double(),
+#>   `$75-100k` = col_double(),
+#>   `$100-150k` = col_double(),
+#>   `>150k` = col_double(),
+#>   `Don't know/refused` = col_double()
 #> )
 pew
 #> # A tibble: 18 x 11
 #>    religion `<$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k`
-#>    <chr>      <int>     <int>     <int>     <int>     <int>     <int>
+#>    <chr>      <dbl>     <dbl>     <dbl>     <dbl>     <dbl>     <dbl>
 #>  1 Agnostic      27        34        60        81        76       137
 #>  2 Atheist       12        27        37        52        35        70
 #>  3 Buddhist      27        21        30        34        33        58
@@ -963,8 +963,8 @@ pew
 #> 16 Other F…      20        33        40        46        49        63
 #> 17 Other W…       5         2         3         4         2         7
 #> 18 Unaffil…     217       299       374       365       341       528
-#> # ... with 4 more variables: `$75-100k` <int>, `$100-150k` <int>,
-#> #   `>150k` <int>, `Don't know/refused` <int>
+#> # ... with 4 more variables: `$75-100k` <dbl>, `$100-150k` <dbl>,
+#> #   `>150k` <dbl>, `Don't know/refused` <dbl>
 ```
 
 
@@ -989,7 +989,7 @@ pew_tidy <- gather(data = pew, income, frequency, -religion)
 pew_tidy
 #> # A tibble: 180 x 3
 #>    religion                income frequency
-#>    <chr>                   <chr>      <int>
+#>    <chr>                   <chr>      <dbl>
 #>  1 Agnostic                <$10k         27
 #>  2 Atheist                 <$10k         12
 #>  3 Buddhist                <$10k         27
@@ -1045,7 +1045,7 @@ head(pew_tidy_2)
 #> # A tibble: 6 x 4
 #> # Groups:   religion [5]
 #>   religion                income  frequency percent
-#>   <chr>                   <chr>       <int>   <dbl>
+#>   <chr>                   <chr>       <dbl>   <dbl>
 #> 1 Catholic                <$10k         418  0.0637
 #> 2 Evangelical Prot        <$10k         575  0.0724
 #> 3 Historically Black Prot <$10k         228  0.138 
@@ -1073,28 +1073,28 @@ que una canción entra por primera vez al top 100 de Billboard.
 billboard <- read_csv("data/billboard.csv")
 #> Parsed with column specification:
 #> cols(
-#>   .default = col_integer(),
+#>   .default = col_double(),
 #>   artist = col_character(),
 #>   track = col_character(),
 #>   time = col_time(format = ""),
 #>   date.entered = col_date(format = ""),
-#>   wk66 = col_character(),
-#>   wk67 = col_character(),
-#>   wk68 = col_character(),
-#>   wk69 = col_character(),
-#>   wk70 = col_character(),
-#>   wk71 = col_character(),
-#>   wk72 = col_character(),
-#>   wk73 = col_character(),
-#>   wk74 = col_character(),
-#>   wk75 = col_character(),
-#>   wk76 = col_character()
+#>   wk66 = col_logical(),
+#>   wk67 = col_logical(),
+#>   wk68 = col_logical(),
+#>   wk69 = col_logical(),
+#>   wk70 = col_logical(),
+#>   wk71 = col_logical(),
+#>   wk72 = col_logical(),
+#>   wk73 = col_logical(),
+#>   wk74 = col_logical(),
+#>   wk75 = col_logical(),
+#>   wk76 = col_logical()
 #> )
 #> See spec(...) for full column specifications.
 billboard
 #> # A tibble: 317 x 81
 #>     year artist track time  date.entered   wk1   wk2   wk3   wk4   wk5
-#>    <int> <chr>  <chr> <tim> <date>       <int> <int> <int> <int> <int>
+#>    <dbl> <chr>  <chr> <tim> <date>       <dbl> <dbl> <dbl> <dbl> <dbl>
 #>  1  2000 2 Pac  Baby… 04:22 2000-02-26      87    82    72    77    87
 #>  2  2000 2Ge+h… The … 03:15 2000-09-02      91    87    92    NA    NA
 #>  3  2000 3 Doo… Kryp… 03:53 2000-04-08      81    70    68    67    66
@@ -1105,21 +1105,21 @@ billboard
 #>  8  2000 Aaliy… I Do… 04:15 2000-01-29      84    62    51    41    38
 #>  9  2000 Aaliy… Try … 04:03 2000-03-18      59    53    38    28    21
 #> 10  2000 Adams… Open… 05:30 2000-08-26      76    76    74    69    68
-#> # ... with 307 more rows, and 71 more variables: wk6 <int>, wk7 <int>,
-#> #   wk8 <int>, wk9 <int>, wk10 <int>, wk11 <int>, wk12 <int>, wk13 <int>,
-#> #   wk14 <int>, wk15 <int>, wk16 <int>, wk17 <int>, wk18 <int>,
-#> #   wk19 <int>, wk20 <int>, wk21 <int>, wk22 <int>, wk23 <int>,
-#> #   wk24 <int>, wk25 <int>, wk26 <int>, wk27 <int>, wk28 <int>,
-#> #   wk29 <int>, wk30 <int>, wk31 <int>, wk32 <int>, wk33 <int>,
-#> #   wk34 <int>, wk35 <int>, wk36 <int>, wk37 <int>, wk38 <int>,
-#> #   wk39 <int>, wk40 <int>, wk41 <int>, wk42 <int>, wk43 <int>,
-#> #   wk44 <int>, wk45 <int>, wk46 <int>, wk47 <int>, wk48 <int>,
-#> #   wk49 <int>, wk50 <int>, wk51 <int>, wk52 <int>, wk53 <int>,
-#> #   wk54 <int>, wk55 <int>, wk56 <int>, wk57 <int>, wk58 <int>,
-#> #   wk59 <int>, wk60 <int>, wk61 <int>, wk62 <int>, wk63 <int>,
-#> #   wk64 <int>, wk65 <int>, wk66 <chr>, wk67 <chr>, wk68 <chr>,
-#> #   wk69 <chr>, wk70 <chr>, wk71 <chr>, wk72 <chr>, wk73 <chr>,
-#> #   wk74 <chr>, wk75 <chr>, wk76 <chr>
+#> # ... with 307 more rows, and 71 more variables: wk6 <dbl>, wk7 <dbl>,
+#> #   wk8 <dbl>, wk9 <dbl>, wk10 <dbl>, wk11 <dbl>, wk12 <dbl>, wk13 <dbl>,
+#> #   wk14 <dbl>, wk15 <dbl>, wk16 <dbl>, wk17 <dbl>, wk18 <dbl>,
+#> #   wk19 <dbl>, wk20 <dbl>, wk21 <dbl>, wk22 <dbl>, wk23 <dbl>,
+#> #   wk24 <dbl>, wk25 <dbl>, wk26 <dbl>, wk27 <dbl>, wk28 <dbl>,
+#> #   wk29 <dbl>, wk30 <dbl>, wk31 <dbl>, wk32 <dbl>, wk33 <dbl>,
+#> #   wk34 <dbl>, wk35 <dbl>, wk36 <dbl>, wk37 <dbl>, wk38 <dbl>,
+#> #   wk39 <dbl>, wk40 <dbl>, wk41 <dbl>, wk42 <dbl>, wk43 <dbl>,
+#> #   wk44 <dbl>, wk45 <dbl>, wk46 <dbl>, wk47 <dbl>, wk48 <dbl>,
+#> #   wk49 <dbl>, wk50 <dbl>, wk51 <dbl>, wk52 <dbl>, wk53 <dbl>,
+#> #   wk54 <dbl>, wk55 <dbl>, wk56 <dbl>, wk57 <dbl>, wk58 <dbl>,
+#> #   wk59 <dbl>, wk60 <dbl>, wk61 <dbl>, wk62 <dbl>, wk63 <dbl>,
+#> #   wk64 <dbl>, wk65 <dbl>, wk66 <lgl>, wk67 <lgl>, wk68 <lgl>,
+#> #   wk69 <lgl>, wk70 <lgl>, wk71 <lgl>, wk72 <lgl>, wk73 <lgl>,
+#> #   wk74 <lgl>, wk75 <lgl>, wk76 <lgl>
 ```
 
 
@@ -1135,18 +1135,18 @@ columna (nuevamente alargamos los datos):
 billboard_long <- gather(billboard, week, rank, wk1:wk76, na.rm = TRUE)
 billboard_long
 #> # A tibble: 5,307 x 7
-#>     year artist        track                time  date.entered week  rank 
-#>  * <int> <chr>         <chr>                <tim> <date>       <chr> <chr>
-#>  1  2000 2 Pac         Baby Don't Cry (Kee… 04:22 2000-02-26   wk1   87   
-#>  2  2000 2Ge+her       The Hardest Part Of… 03:15 2000-09-02   wk1   91   
-#>  3  2000 3 Doors Down  Kryptonite           03:53 2000-04-08   wk1   81   
-#>  4  2000 3 Doors Down  Loser                04:24 2000-10-21   wk1   76   
-#>  5  2000 504 Boyz      Wobble Wobble        03:35 2000-04-15   wk1   57   
-#>  6  2000 98^0          Give Me Just One Ni… 03:24 2000-08-19   wk1   51   
-#>  7  2000 A*Teens       Dancing Queen        03:44 2000-07-08   wk1   97   
-#>  8  2000 Aaliyah       I Don't Wanna        04:15 2000-01-29   wk1   84   
-#>  9  2000 Aaliyah       Try Again            04:03 2000-03-18   wk1   59   
-#> 10  2000 Adams, Yolan… Open My Heart        05:30 2000-08-26   wk1   76   
+#>     year artist        track                time  date.entered week   rank
+#>  * <dbl> <chr>         <chr>                <tim> <date>       <chr> <dbl>
+#>  1  2000 2 Pac         Baby Don't Cry (Kee… 04:22 2000-02-26   wk1      87
+#>  2  2000 2Ge+her       The Hardest Part Of… 03:15 2000-09-02   wk1      91
+#>  3  2000 3 Doors Down  Kryptonite           03:53 2000-04-08   wk1      81
+#>  4  2000 3 Doors Down  Loser                04:24 2000-10-21   wk1      76
+#>  5  2000 504 Boyz      Wobble Wobble        03:35 2000-04-15   wk1      57
+#>  6  2000 98^0          Give Me Just One Ni… 03:24 2000-08-19   wk1      51
+#>  7  2000 A*Teens       Dancing Queen        03:44 2000-07-08   wk1      97
+#>  8  2000 Aaliyah       I Don't Wanna        04:15 2000-01-29   wk1      84
+#>  9  2000 Aaliyah       Try Again            04:03 2000-03-18   wk1      59
+#> 10  2000 Adams, Yolan… Open My Heart        05:30 2000-08-26   wk1      76
 #> # ... with 5,297 more rows
 ```
 
@@ -1172,7 +1172,7 @@ billboard_tidy <- billboard_long %>%
 billboard_tidy
 #> # A tibble: 5,307 x 7
 #>     year artist         track                 time   week  rank date      
-#>    <int> <chr>          <chr>                 <tim> <dbl> <dbl> <date>    
+#>    <dbl> <chr>          <chr>                 <tim> <dbl> <dbl> <date>    
 #>  1  2000 2 Pac          Baby Don't Cry (Keep… 04:22     1    87 2000-02-26
 #>  2  2000 2Ge+her        The Hardest Part Of … 03:15     1    91 2000-09-02
 #>  3  2000 3 Doors Down   Kryptonite            03:53     1    81 2000-04-08
@@ -1295,17 +1295,17 @@ clima <- read_delim("data/clima.txt", "\t", escape_double = FALSE,
     trim_ws = TRUE)
 #> Parsed with column specification:
 #> cols(
-#>   .default = col_integer(),
+#>   .default = col_double(),
 #>   id = col_character(),
 #>   element = col_character(),
-#>   d9 = col_character(),
-#>   d12 = col_character(),
-#>   d18 = col_character(),
-#>   d19 = col_character(),
-#>   d20 = col_character(),
-#>   d21 = col_character(),
-#>   d22 = col_character(),
-#>   d24 = col_character()
+#>   d9 = col_logical(),
+#>   d12 = col_logical(),
+#>   d18 = col_logical(),
+#>   d19 = col_logical(),
+#>   d20 = col_logical(),
+#>   d21 = col_logical(),
+#>   d22 = col_logical(),
+#>   d24 = col_logical()
 #> )
 #> See spec(...) for full column specifications.
 ```
@@ -1320,17 +1320,17 @@ clima_long <- gather(clima, day, value, d1:d31, na.rm = TRUE)
 clima_long
 #> # A tibble: 66 x 6
 #>    id           year month element day   value
-#>  * <chr>       <int> <int> <chr>   <chr> <chr>
-#>  1 MX000017004  2010    12 TMAX    d1    299  
-#>  2 MX000017004  2010    12 TMIN    d1    138  
-#>  3 MX000017004  2010     2 TMAX    d2    273  
-#>  4 MX000017004  2010     2 TMIN    d2    144  
-#>  5 MX000017004  2010    11 TMAX    d2    313  
-#>  6 MX000017004  2010    11 TMIN    d2    163  
-#>  7 MX000017004  2010     2 TMAX    d3    241  
-#>  8 MX000017004  2010     2 TMIN    d3    144  
-#>  9 MX000017004  2010     7 TMAX    d3    286  
-#> 10 MX000017004  2010     7 TMIN    d3    175  
+#>  * <chr>       <dbl> <dbl> <chr>   <chr> <dbl>
+#>  1 MX000017004  2010    12 TMAX    d1      299
+#>  2 MX000017004  2010    12 TMIN    d1      138
+#>  3 MX000017004  2010     2 TMAX    d2      273
+#>  4 MX000017004  2010     2 TMIN    d2      144
+#>  5 MX000017004  2010    11 TMAX    d2      313
+#>  6 MX000017004  2010    11 TMIN    d2      163
+#>  7 MX000017004  2010     2 TMAX    d3      241
+#>  8 MX000017004  2010     2 TMIN    d3      144
+#>  9 MX000017004  2010     7 TMAX    d3      286
+#> 10 MX000017004  2010     7 TMIN    d3      175
 #> # ... with 56 more rows
 ```
 
@@ -1345,7 +1345,7 @@ clima_vars <- clima_long %>%
 clima_vars
 #> # A tibble: 66 x 6
 #>    id           year month   day element value
-#>    <chr>       <int> <int> <dbl> <chr>   <dbl>
+#>    <chr>       <dbl> <dbl> <dbl> <chr>   <dbl>
 #>  1 MX000017004  2010     1    30 TMAX     27.8
 #>  2 MX000017004  2010     1    30 TMIN     14.5
 #>  3 MX000017004  2010     2     2 TMAX     27.3
@@ -1369,7 +1369,7 @@ clima_tidy <- spread(clima_vars, element, value)
 clima_tidy
 #> # A tibble: 33 x 6
 #>    id           year month   day  TMAX  TMIN
-#>    <chr>       <int> <int> <dbl> <dbl> <dbl>
+#>    <chr>       <dbl> <dbl> <dbl> <dbl> <dbl>
 #>  1 MX000017004  2010     1    30  27.8  14.5
 #>  2 MX000017004  2010     2     2  27.3  14.4
 #>  3 MX000017004  2010     2     3  24.1  14.4
@@ -1434,7 +1434,7 @@ en los datos.
 billboard_tidy
 #> # A tibble: 5,307 x 7
 #>     year artist         track                 time   week  rank date      
-#>    <int> <chr>          <chr>                 <tim> <dbl> <dbl> <date>    
+#>    <dbl> <chr>          <chr>                 <tim> <dbl> <dbl> <date>    
 #>  1  2000 2 Pac          Baby Don't Cry (Keep… 04:22     1    87 2000-02-26
 #>  2  2000 2Ge+her        The Hardest Part Of … 03:15     1    91 2000-09-02
 #>  3  2000 3 Doors Down   Kryptonite            03:53     1    81 2000-04-08
@@ -1462,7 +1462,7 @@ song <- billboard_tidy %>%
 song
 #> # A tibble: 317 x 5
 #>    artist         track                    year time   song_id
-#>    <chr>          <chr>                   <int> <time>   <int>
+#>    <chr>          <chr>                   <dbl> <time>   <int>
 #>  1 2 Pac          Baby Don't Cry (Keep...  2000 04:22        1
 #>  2 2Ge+her        The Hardest Part Of ...  2000 03:15        2
 #>  3 3 Doors Down   Kryptonite               2000 03:53        3

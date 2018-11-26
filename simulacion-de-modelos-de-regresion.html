@@ -376,20 +376,7 @@ lengua</em> (nonenglish) para predecir las evaluaciones del curso
 <pre class="sourceCode r"><code class="sourceCode r">beauty &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv&quot;</span>)
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   .default = col_integer(),</span>
-<span class="co">#&gt;   btystdave = col_double(),</span>
-<span class="co">#&gt;   btystdf2u = col_double(),</span>
-<span class="co">#&gt;   btystdfl = col_double(),</span>
-<span class="co">#&gt;   btystdfu = col_double(),</span>
-<span class="co">#&gt;   btystdm2u = col_double(),</span>
-<span class="co">#&gt;   btystdml = col_double(),</span>
-<span class="co">#&gt;   btystdmu = col_double(),</span>
-<span class="co">#&gt;   courseevaluation = col_double(),</span>
-<span class="co">#&gt;   percentevaluating = col_double(),</span>
-<span class="co">#&gt;   profevaluation = col_double(),</span>
-<span class="co">#&gt;   btystdvariance = col_double(),</span>
-<span class="co">#&gt;   btystdavepos = col_double(),</span>
-<span class="co">#&gt;   btystdaveneg = col_double()</span>
+<span class="co">#&gt;   .default = col_double()</span>
 <span class="co">#&gt; )</span>
 <span class="co">#&gt; See spec(...) for full column specifications.</span>
 fit_score &lt;-<span class="st"> </span><span class="kw">lm</span>(courseevaluation <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>btystdave <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>nonenglish, 
