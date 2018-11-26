@@ -133,7 +133,7 @@ puede pensar como la incertidumbre entre los posibles valores.
 
 ## Regla de Bayes e inferencia bayesiana
 
-Thomas Bayes (1702-1761) fue un matemático y ministro de la iglesia 
+Thomas Bayes ($1702-1761$) fue un matemático y ministro de la iglesia 
 presbiteriana, en 1764 se publicó su famoso teorema. 
 
 Una aplicación crucial de la regla de Bayes es determinar la probabilidad de un 
@@ -145,7 +145,7 @@ los datos.
 
 #### Ejemplo: Lanzamientos de monedas {-}
 Comencemos recordando la regla de Bayes usando dos variables aleatorias 
-discretas. Lanzamos una moneda 3 veces, sea $X$ la variable aleatoria 
+discretas. Lanzamos una moneda $3$ veces, sea $X$ la variable aleatoria 
 correspondiente al número de Águilas observadas y $Y$ registra el número de 
 cambios entre águilas y soles.
 
@@ -158,7 +158,7 @@ que observamos un cambio.
 
 Para entender probabilidad condicional podemos pensar en restringir nuestra 
 atención a una única fila o columna de la tabla. Supongamos que alguien lanza 
-una moneda 3 veces y nos informa que 
+una moneda $3$ veces y nos informa que 
 la secuencia contiene  exactamente un cambio. Dada esta información podemos
 restringir nuestra atención a la fila correspondiente a un solo cambio. Sabemos
 que ocurrió uno de los eventos de esa fila. Las probabilidades relativas
@@ -227,10 +227,10 @@ $$p(\theta|x) \propto p(x|\theta)p(\theta).$$
 
 Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
 universitarios en México, y escuchamos que de acuerdo a investigaciones se
-recomienda que un adulto promedio ingiera 2500 kcal. Es así que buscamos conocer
+recomienda que un adulto promedio ingiera $2500$ kcal. Es así que buscamos conocer
 que proporción de los estudiantes siguen esta recomendación, para ello 
 tomaremos una muestra aleatoria de estudiantes del ITAM. Denotemos por $\theta$ 
-la proporción de estudiantes que ingieren en un día 2500 kcal o más. El valor 
+la proporción de estudiantes que ingieren en un día $2500$ kcal o más. El valor 
 de $\theta$ es desconocido, y desde el punto de vista bayesiano cuando tenemos 
 incertidumbre de algo (puede ser un parámetro o una predicción) lo vemos como 
 una variable aleatoria y por tanto tiene asociada una distribución de 
@@ -258,14 +258,14 @@ distribución conjunta $p(x, \theta)$, donde $x = (x_1,...,x_N)$ veamos
 la distribución de un estudiante en particular:
 $$p(x_i|\theta) \sim Bernoulli(\theta),$$
 para $i=1,...,N$, es decir, condicional a $\theta$ la probabilidad de que un 
-estudiante ingiera más de 2500 calorías es $\theta$ y la función de 
+estudiante ingiera más de $2500$ calorías es $\theta$ y la función de 
 verosimilitud $p(x_1,...,x_N|\theta) = \mathcal{L}(\theta)$:
 
 $$p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)$$
 $$= \theta^z(1 - \theta)^{N-z}$$
 
-donde $z$ denota el número de estudiantes que ingirió al menos 2500 kcal y $N-z$ 
-el número de estudiantes que ingirió menos de 2500 kcal. 
+donde $z$ denota el número de estudiantes que ingirió al menos $2500$ kcal y $N-z$ 
+el número de estudiantes que ingirió menos de $2500$ kcal. 
 
 Ahora calculamos la distribución posterior de $\theta$ 
 usando la regla de Bayes:
@@ -281,8 +281,8 @@ de probabilidad.
 
 #### Inicial discreta {-}
 Volviendo a nuestro ejemplo, usamos la inicial discreta que discutimos (tabla 
-de pesos normalizados) y supongamos que tomamos una muestra de 30 alumnos de 
-los cuales $z=11$ ingieren al menos 2500 kcal, calculemos la distribución 
+de pesos normalizados) y supongamos que tomamos una muestra de $30$ alumnos de 
+los cuales $z=11$ ingieren al menos $2500$ kcal, calculemos la distribución 
 posterior de $\theta$, usando que
 
 $$\mathcal{L}(\theta) = \theta^{z}(1-\theta)^{N-z}$$
@@ -319,7 +319,7 @@ ggplot(dists_l, aes(x = theta, y = val)) +
 ```
 
 ![](imagenes/manicule2.jpg) ¿Cómo se ve la distribución posterior si tomamos 
-una muestra de tamaño 90 donde observamos la misma proporción de éxitos. 
+una muestra de tamaño $90$ donde observamos la misma proporción de éxitos. 
 Realiza los cálculos y graficala como un panel adicional de la gráfica 
 anterior.
 
@@ -401,7 +401,7 @@ $p(x|\theta)=\theta^x(1-\theta)^{1-x}$
 esto es, $x$ tiene una distribución $Bernoulli(\theta)$.
 
 El siguiente paso es determinar la distribución inicial sobre el espacio de
-parámetros, como ejemplo, supongamos que solo hay 3 valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
+parámetros, como ejemplo, supongamos que solo hay $3$ valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
 $p(\theta = 0.25) = 0.25$, $p(\theta = 0.5) = 0.5$ y $p(\theta = 0.75) = 0.25$
 
 ```{r}
