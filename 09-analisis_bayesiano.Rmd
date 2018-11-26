@@ -2002,7 +2002,7 @@ veremos más adelante.
 [JAGS](http://mcmc-jags.sourceforge.net) (Just Another Gibbs Sampler), WinBUGS y 
 OpenBUGS son programas que 
 implementan métodos MCMC para generar simulaciones de distribuciones 
-posteriores. Los paquetes rjags y R2jags permiten ajustar modelos en JAGS 
+posteriores. Los paquetes `rjags` y `R2jags` permiten ajustar modelos en JAGS 
 desde R. Es muy fácil utilizar estos programas pues uno simplemente debe
 especificar las distribuciones iniciales, la verosimilitud y los datos 
 observados. 
@@ -2131,7 +2131,7 @@ traceplot(jags_fit, varname = "theta")
 
 
 <!--
-Para generar la muestra MCMC seguimos 3 pasos: primero JAGS recibe la información y deja que este determine los muestreadores apropiados para el modelo, en el segundo paso corremos las cadenas por un periodo de 
+Para generar la muestra MCMC seguimos $3$ pasos: primero JAGS recibe la información y deja que este determine los muestreadores apropiados para el modelo, en el segundo paso corremos las cadenas por un periodo de 
 calentamiento y por último corremos las cadenas y registramos la muestra.
 
 -->
@@ -2356,18 +2356,18 @@ adelgazamiento está controlado por el parámetro `n.thin`).
 posterior:
 
 1. Cuando definimos un modelo por primera vez establecemos un valor bajo para 
-_n.iter_ por ejemplo 10 ó 50. La razón es que la mayor parte de las veces los 
+_n.iter_ por ejemplo $10$ ó $50$. La razón es que la mayor parte de las veces los 
 modelos no funcionan a la primera por lo que sería pérdida de tiempo dejarlo 
 correr mucho tiempo antes de descubrir el problema.
 
 2. Si las simulaciones no han alcanzado convergencia aumentamos las iteraciones 
-a 500 ó 1000 de tal forma que las corridas tarden segundos o unos cuantos 
+a $500$ ó $1000$ de tal forma que las corridas tarden segundos o unos cuantos 
 minutos.
 
 3. Si JAGS tarda más que unos cuantos minutos (para problemas del tamaño que 
 veremos en la clase) y aún así no alcanza convergencia entonces _juega_ un poco 
 con el modelo (por ejemplo intenta transformaciones lineales), Gelman sugiere 
-más técnicas para acelerar la convergencia en el capitulo 19 del libro 
+más técnicas para acelerar la convergencia en el capitulo $19$ del libro 
 *Data Analysis Using Regression and Multilevel/Hierarchical models*.
 
 4. Otra técnica conveniente cuando se trabaja con bases de datos grandes 
@@ -2482,9 +2482,9 @@ aproximados conllevando a que se rechacen algunas propuestas.
 Si los pasos discretizados son pequeños entonces la aproximación será buena pero 
 se necesitarán más pasos para alejarse de una posición dada, y lo contrario si 
 los pasos son muy grandes. Por tanto se debe ajustar el tamaño del paso 
-(epsilon) y el número de pasos. La duración de la trayectoria es el producto del 
+($\varepsilon$) y el número de pasos. La duración de la trayectoria es el producto del 
 tamaño del paso y el número de pasos. Es usual buscar una tasa de aceptación 
-alrededor del 65%, moviendo el tamaño de epsilon y compensando con el número de 
+alrededor del $65\%$, moviendo el tamaño de epsilon y compensando con el número de 
 pasos.
 
 Es así que el tamaño del paso controla la suavidad de la trayectoria. También es 
