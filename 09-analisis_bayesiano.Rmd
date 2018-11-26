@@ -486,7 +486,7 @@ con la diferencia de que la evidencia se refiere a un valor observado y en
 esta ecuación estamos calculando la probabilidad de cualquier valor $y$.  
 Una vez que obserbamos datos tenemos la distribución predictiva posterior:
 $$p(y|x) =\int p(y|\theta)p(\theta|x)d\theta$$
-Por ejemplo podemos usar las creencias iniciales del modelo 1, que propusimos 
+Por ejemplo podemos usar las creencias iniciales del modelo $1$, que propusimos 
 arriba para calcular la probabilidad predictiva de observar águila:
 
 $$p(y=S) = \sum_{\theta}p(y=A|\theta)p(\theta) = 0.5$$
@@ -523,9 +523,9 @@ de modelos en estadística bayesiana es que la complejidad del modelo se toma
 en cuenta de manera automática. 
 
 Recordemos los dos modelos discretos, en el primero supusimos que el parámetro
-$\theta$ únicamente puede tomar uno de 3 valores (0.25, 0.5, 0.75), esta 
-restricción dió lugar a un modelo simple. Por su parte, el modelo 2 es más 
-complejo y permite muchos más valores de $\theta$ (51). La forma de la 
+$\theta$ únicamente puede tomar uno de $3$ valores $(0.25, 0.5, 0.75)$, esta 
+restricción dió lugar a un modelo simple. Por su parte, el modelo $2$ es más 
+complejo y permite muchos más valores de $\theta$ ($51$). La forma de la 
 distribución inicial es triangular en ambos casos y el valor de mayor 
 probabilidad inicial es $\theta = 0.50$ y reflejamos que creemos que es menos
 factible que el valor se encuentre en los extremos.
@@ -580,7 +580,7 @@ factorBayes(40, 38)
 
 <!-- $\theta$ 
 puede tomar más valores, entonces si en una sucesión de volados observamos 
-10% de águilas, el modelo simple no cuenta con un valor de $\theta$ cercano al 
+$10\%$ de águilas, el modelo simple no cuenta con un valor de $\theta$ cercano al 
 resultado observado, pero el modelo complejo si. Por otra parte, para valores
 de $\theta$ que se encuentran en ambos modelos la probabilidad inicial de esos 
 valores es mayor en el caso del modelo simple. Por lo tanto si los datos 
