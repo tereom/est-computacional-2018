@@ -4346,7 +4346,7 @@ $$\beta \sim N(0, 0.0001)$$
 $$\mu_{\alpha} \sim  N(0, 0.0001)$$
 donde la normal esta parametrizada en términos de varianzas inversas (conocidas
 como precisión $\tau = 1/\sigma^2$). Con los parámetros propuestos estaríamos 
-diciendo que esperamos que los coeficientes se ubiquen en el rango (-100,100) y 
+diciendo que esperamos que los coeficientes se ubiquen en el rango $(-100,100)$ y 
 si los estimadores estan en este rango la distribución inicial provee muy poca 
 información.
 Para los parámetros restantes podemos definirla la inicial de la siguiente 
