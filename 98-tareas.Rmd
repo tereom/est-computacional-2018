@@ -669,22 +669,22 @@ ggplot(costos, aes(x = J, y = costo / 1000)) +
 
 Una compañía farmacéutica afirma que su nueva medicina incrementa la 
 probabilidad de concebir un niño (sexo masculino), pero aún no publican 
-estudios. Supón que conduces un experimento en el cual 50 parejas se 
+estudios. Supón que conduces un experimento en el cual $50$ parejas se 
 seleccionan de manera aleatoria de la población, toman la medicina y conciben
-un bebé, nacen 30 niños y 20 niñas.
+un bebé, nacen $30$ niños y $20$ niñas.
     a) Quieres estimar la probabilidad de concebir un niño para parejas que 
 toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
-en 0.5 pues
+en $0.5$ pues
 esta corresponde a personas que no toman la medicina, y la inicial debe reflejar 
 tu incertidumbre sobre el efecto de la droga. 
     b) Usando tu inicial de a) grafica la posterior y decide si es creíble que las
-parejas que toman la medicina tienen una probabilidad de 0.5 de concebir un
+parejas que toman la medicina tienen una probabilidad de $0.5$ de concebir un
 niño.
     c) Supón que la farmacéutica asevera que la probabilidad de concebir un niño
-cuando se toma la medicina es cercana al 60% con alta certeza. Representa esta
-postura con una distribución inicial Beta(60,40). Comparala con la inicial de 
+cuando se toma la medicina es cercana al $60\%$ con alta certeza. Representa esta
+postura con una distribución inicial $Beta(60,40)$. Comparala con la inicial de 
 un escéptico que afirma que la medicina no hace diferencia, representa esta
-creencia con una inicial Beta(50,50). Recuerda que 
+creencia con una inicial $Beta(50,50)$. Recuerda que 
 $$p(x)=Beta(z+a,N-z+b)/Beta(a,b)$$
 Calcula el valor de $p(x)$ para cada modelo y el factor de Bayes (asume 
 $p(M_1)=p(M_2)=0.5$).
@@ -702,7 +702,7 @@ Realizaremos un análisis bayesiano por lo que hace falta establer una
 distribución inicial, elegimos $p(\theta)$ que se distribuya $N(\mu, \tau^2)$ 
 donde elegimos los parámetros $\mu, \tau$ que mejor describan nuestras creencias
 iniciales, por ejemplo si tengo mucha certeza de que el $IQ$ promedio se ubica
-en 150, elegiría $\mu=150$ y una desviación estándar chica por ejemplo 
+en $150$, elegiría $\mu=150$ y una desviación estándar chica por ejemplo 
 $\tau = 5$. Entonces la distribución inicial es:
 
 $$p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)$$
@@ -759,8 +759,8 @@ likeNorm <- function(S, S2, N){
 }
 ```
 
-d) Supongamos que aplicamos un test de IQ a 100 alumnos y observamos que la suma
-de los puntajes es 13300, es decir $\sum x_i=13,000$ y $\sum x_i^2=1,700,000$.
+d) Supongamos que aplicamos un test de IQ a $100$ alumnos y observamos que la suma
+de los puntajes es $13,300$, es decir $\sum x_i=13,000$ y $\sum x_i^2=1,700,000$.
 Utiliza la función que acabas de escribir para definir la función de 
 verosimilitud condicional a los datos observados, llámala _mi\_like_.
 
@@ -775,7 +775,7 @@ postRelProb <- function(theta){
 
 Utiliza Metropolis para obtener una muestra de valores representativos de la
 distribución posterior de $\theta$. Para proponer los saltos utiliza una 
-Normal(0, 5).
+$Normal(0, 5)$.
 
 f) Grafica los valores de la cadena para cada paso.
 
@@ -904,9 +904,9 @@ i) Elegir varianza grande nos daría una inicial poco informativa.
 
 Implementaremos un modelo de regresión en JAGS, la base de datos que
 usaremos contiene información de mediciones de radón (activity)
-y del suelo en el que se hicieron las mediciones (floor = 0 casas con
-sótano, floor = 1 casas sin sótano), las mediciones corresponden a 919
-hogares muestreados de 85 condados de Minnesota. El objetivo es
+y del suelo en el que se hicieron las mediciones (floor = $0$ casas con
+sótano, floor = $1$ casas sin sótano), las mediciones corresponden a $919$
+hogares muestreados de $85$ condados de Minnesota. El objetivo es
 construir un modelo de regresión en el que la medición de radón es la
 variable dependiente y el tipo de suelo es la covariable.
 
