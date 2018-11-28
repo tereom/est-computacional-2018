@@ -375,7 +375,7 @@ calcula media y el error estándar de la media usando el principio del <em>plug-
 <li>Ahora aproximareos la distribución muestral, para cada tamaño de muestra <span class="math inline">\(n\)</span>:</li>
 </ul>
 <ol style="list-style-type: lower-roman">
-<li>simula 10,000 muestras aleatorias, ii) calcula la media en cada muestra, iii)
+<li>simula <span class="math inline">\(10,000\)</span> muestras aleatorias, ii) calcula la media en cada muestra, iii)
 Realiza un histograma de la distribución muestral de las medias (las medias del
 paso anterior) iv) aproxima el error estándar calculando la desviación estándar
 de las medias del paso ii.</li>
@@ -389,9 +389,9 @@ tamaños de muestra?</p></li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Bootstrap correlación.</strong> Nuevamente trabaja con los datos <code>primaria</code>,
-selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del
-<em>plug-in</em> para estimar la correlación entre la calificación de <span class="math inline">\(y=\)</span>español 3 y
-la de <span class="math inline">\(z=\)</span>español 6: <span class="math inline">\(\hat{corr}(y,z)\)</span>. Usa bootstrap para calcular el error
+selecciona una muestra aleatoria de tamaño <span class="math inline">\(100\)</span> y utiliza el principio del
+<em>plug-in</em> para estimar la correlación entre la calificación de <span class="math inline">\(y=\)</span>español <span class="math inline">\(3\)</span> y
+la de <span class="math inline">\(z=\)</span>español <span class="math inline">\(6\)</span>: <span class="math inline">\(\hat{corr}(y,z)\)</span>. Usa bootstrap para calcular el error
 estándar de la estimación.</li>
 </ol>
 <div id="solucion" class="section level3 unnumbered">
@@ -400,9 +400,9 @@ estándar de la estimación.</li>
 <h4>1. Distribución muestral</h4>
 <p>Suponemos que me interesa hacer inferencia del promedio de las
 calificaciones de los estudiantes de tercero de primaria en Ciudad de México.</p>
-<p>En este ejercicio planteamos 3 escenarios (que simulamos): 1) que tengo una
-muestra de tamaño 10, 2) que tengo una muestra de tamaño 100, y 3) que tengo una
-muestra de tamaño 1000</p>
+<p>En este ejercicio planteamos <span class="math inline">\(3\)</span> escenarios (que simulamos): 1) que tengo una
+muestra de tamaño <span class="math inline">\(10\)</span>, 2) que tengo una muestra de tamaño <span class="math inline">\(100\)</span>, y 3) que tengo una
+muestra de tamaño <span class="math inline">\(1000\)</span>.</p>
 <ul>
 <li>Selección de muestras:</li>
 </ul>
@@ -497,8 +497,8 @@ muestras_sims_est <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="co">#&gt; 1      10              21.1             21.0           21.1 </span>
 <span class="co">#&gt; 2     100               6.11             6.69           6.67</span>
 <span class="co">#&gt; 3    1000               2.11             2.13           2.11</span></code></pre>
-<p>En la tabla de arriba podemos comparar los 3 errores estándar que calculamos,
-recordemos que de estos 3 el <em>plug-in</em> es el único que podríamos obtener en
+<p>En la tabla de arriba podemos comparar los <span class="math inline">\(3\)</span> errores estándar que calculamos,
+recordemos que de estos <span class="math inline">\(3\)</span> el <em>plug-in</em> es el único que podríamos obtener en
 un escenario real pues los otros dos los calculamos usando la población.</p>
 <p>Una alternativa al estimador <em>plug-in</em> del error estándar es usar <em>bootstrap</em>
 (en muchos casos no podemos calcular el error estándar <em>plug-in</em> por falta de
@@ -554,9 +554,9 @@ incrementamos el número de muestras <em>bootstrap</em>.</p>
 <h4>2. Correlación</h4>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Bootstrap correlación.</strong> Nuevamente trabaja con los datos <code>primaria</code>,
-selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del
-<em>plug-in</em> para estimar la correlación entre la calificación de <span class="math inline">\(y=\)</span>español 3 y
-la de <span class="math inline">\(z=\)</span>español 6: <span class="math inline">\(\hat{corr}(y,z)\)</span>. Usa bootstrap para calcular el error
+selecciona una muestra aleatoria de tamaño <span class="math inline">\(100\)</span> y utiliza el principio del
+<em>plug-in</em> para estimar la correlación entre la calificación de <span class="math inline">\(y=\)</span>español <span class="math inline">\(3\)</span> y
+la de <span class="math inline">\(z=\)</span>español <span class="math inline">\(6\)</span>: <span class="math inline">\(\hat{corr}(y,z)\)</span>. Usa bootstrap para calcular el error
 estándar de la estimación.</li>
 </ol>
 <ul>

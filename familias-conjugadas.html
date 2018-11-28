@@ -368,25 +368,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>1. Modelo Beta-Binomial</h4>
 <p>Una compañía farmacéutica afirma que su nueva medicina incrementa la
 probabilidad de concebir un niño (sexo masculino), pero aún no publican
-estudios. Supón que conduces un experimento en el cual 50 parejas se
-seleccionan de manera aleatoria de la población, toman la medicina y conciben
-un bebé, nacen 30 niños y 20 niñas.
-a) Quieres estimar la probabilidad de concebir un niño para parejas que
+estudios. Supón que conduces un experimento en el cual <span class="math inline">\(50\)</span> parejas se
+seleccionan de manera aleatoria de la población, toman la medicina y conciben</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Quieres estimar la probabilidad de concebir un niño para parejas que
 toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
-en 0.5 pues
-esta corresponde a personas que no toman la medicina, y la inicial debe reflejar
-tu incertidumbre sobre el efecto de la droga.
-b) Usando tu inicial de a) grafica la posterior y decide si es creíble que las
-parejas que toman la medicina tienen una probabilidad de 0.5 de concebir un
-niño.
-c) Supón que la farmacéutica asevera que la probabilidad de concebir un niño
-cuando se toma la medicina es cercana al 60% con alta certeza. Representa esta
-postura con una distribución inicial Beta(60,40). Comparala con la inicial de
+en <span class="math inline">\(0.5\)</span> pues esta corresponde a personas que no toman la medicina, y la inicial
+debe reflejar tu incertidumbre sobre el efecto de la droga.</p></li>
+<li><p>Usando tu inicial de a) grafica la posterior y decide si es creíble que las
+parejas que toman la medicina tienen una probabilidad de <span class="math inline">\(0.5\)</span> de concebir un
+niño.</p></li>
+<li><p>Supón que la farmacéutica asevera que la probabilidad de concebir un niño
+cuando se toma la medicina es cercana al <span class="math inline">\(60\%\)</span> con alta certeza. Representa esta
+postura con una distribución inicial <span class="math inline">\(Beta(60,40)\)</span>. Comparala con la inicial de
 un escéptico que afirma que la medicina no hace diferencia, representa esta
-creencia con una inicial Beta(50,50). Recuerda que
+creencia con una inicial <span class="math inline">\(Beta(50,50)\)</span>. Recuerda que
 <span class="math display">\[p(x)=Beta(z+a,N-z+b)/Beta(a,b)\]</span>
 Calcula el valor de <span class="math inline">\(p(x)\)</span> para cada modelo y el factor de Bayes (asume
-<span class="math inline">\(p(M_1)=p(M_2)=0.5\)</span>).</p>
+<span class="math inline">\(p(M_1)=p(M_2)=0.5\)</span>).</p></li>
+</ol>
 </div>
 <div id="otra-familia-conjugada" class="section level4 unnumbered">
 <h4>2. Otra familia conjugada</h4>
@@ -400,7 +400,7 @@ Realizaremos un análisis bayesiano por lo que hace falta establer una
 distribución inicial, elegimos <span class="math inline">\(p(\theta)\)</span> que se distribuya <span class="math inline">\(N(\mu, \tau^2)\)</span>
 donde elegimos los parámetros <span class="math inline">\(\mu, \tau\)</span> que mejor describan nuestras creencias
 iniciales, por ejemplo si tengo mucha certeza de que el <span class="math inline">\(IQ\)</span> promedio se ubica
-en 150, elegiría <span class="math inline">\(\mu=150\)</span> y una desviación estándar chica por ejemplo
+en <span class="math inline">\(150\)</span>, elegiría <span class="math inline">\(\mu=150\)</span> y una desviación estándar chica por ejemplo
 <span class="math inline">\(\tau = 5\)</span>. Entonces la distribución inicial es:</p>
 <p><span class="math display">\[p(\theta)=\frac{1}{\sqrt{2\pi\tau^2}}exp\left(-\frac{1}{2\tau^2}(\theta-\mu)^2\right)\]</span>
 Calcula la distribución posterior <span class="math inline">\(p(\theta|x) \propto p(x|\theta)p(\theta)\)</span>,
