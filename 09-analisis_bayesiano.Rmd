@@ -37,8 +37,8 @@ Por su parte, el paradigma Bayesiano se basa en los siguientes postulados:
 1. La probabilidad describe grados de creencia, no frecuencias limite. Como 
 tal uno puede hacer afirmaciones probabilísticas acerca de muchas cosas y no 
 solo datos sujetos a variabilidad aleatoria. Por ejemplo, puedo decir: "La 
-probabilidad de que Einstein tomara una copa de te el 1^ro^ de agosto de 1948" 
-es 0.35, esto no hace referencia a ninguna frecuencia relativa sino que refleja
+probabilidad de que Einstein tomara una copa de te el 1^ro^ de agosto de $1948$" 
+es $0.35$, esto no hace referencia a ninguna frecuencia relativa sino que refleja
 la certeza que yo tengo de que la proposición sea verdadera.
 
 2. Podemos hacer afirmaciones probabilísticas de parámetros.
@@ -71,39 +71,39 @@ subjetivas.
 #### Calibración {-}
 Considera una pregunta sencilla que puede afectar a un viajero: ¿Qué tanto 
 crees que habrá una tormenta que ocasionará el cierre de la autopista
-México-Acapulco en el puente del 20 de noviembre? Como respuesta debes dar
-un número entre 0 y 1 que refleje tus creencias. Una manera de seleccionar 
+México-Acapulco en el puente del $20$ de noviembre? Como respuesta debes dar
+un número entre $0$ y $1$ que refleje tus creencias. Una manera de seleccionar 
 dicho número es calibrar las creencias en relación a otros eventos cuyas 
 probabilidades son claras.
 
 Como evento de comparación considera una experimento donde hay canicas en una
-urna: 5 rojas y 5 blancas. Seleccionamos una canica al azar. Usaremos esta urna
+urna: $5$ rojas y $5$ blancas. Seleccionamos una canica al azar. Usaremos esta urna
 como comparación para considerar la tormenta en la autopista. Ahora, considera
 el siguiente par de apuestas de las cuales puedes elegir una:
 
-* A. Obtienes $1000 si hay una tormenta que ocasiona el cierre de la autopista
-el próximo 20 de noviembre.
+* A. Obtienes $\$1000$ si hay una tormenta que ocasiona el cierre de la autopista
+el próximo $20$ de noviembre.
 
-* B. Obtienes $1000 si seleccionas una canica roja de la urna que contiene 
-5 canicas rojas y 5 blancas.
+* B. Obtienes $\$1000$ si seleccionas una canica roja de la urna que contiene 
+$5$ canicas rojas y $5$ blancas.
 
 Si prefieres la apuesta B, quiere decir que consideras que la probabilidad de 
-tormenta es menor a 0.5, por lo que al menos sabes que tu creencia subjetiva de 
-una la probabilidad de tormenta es menor a 0.5. Podemos continuar con el proceso
+tormenta es menor a $0.5$, por lo que al menos sabes que tu creencia subjetiva de 
+una la probabilidad de tormenta es menor a $0.5$. Podemos continuar con el proceso
 para tener una mejor estimación de la creencia subjetiva.
 
-* A. Obtienes $1000 si hay una tormenta que ocasiona el cierre de la autopista
-el próximo 20 de noviembre.
+* A. Obtienes $\$1000$ si hay una tormenta que ocasiona el cierre de la autopista
+el próximo $20$ de noviembre.
 
-* C. Obtienes $1000 si seleccionas una canica roja de la urna que contiene 
-1 canica roja y 9 blancas.
+* C. Obtienes $\$1000$ si seleccionas una canica roja de la urna que contiene 
+$1$ canica roja y $9$ blancas.
 
-Si ahora seleccionas la apuesta A, esto querría decir que consideras que la 
-probabilidad de que ocurra una tormenta es mayor a 0.10. Si consideramos ambas 
-comparaciones tenemos que tu probabilidad subjetiva se ubica entre 0.1 y 0.5.
+Si ahora seleccionas la apuesta $A$, esto querría decir que consideras que la 
+probabilidad de que ocurra una tormenta es mayor a $0.10$. Si consideramos ambas 
+comparaciones tenemos que tu probabilidad subjetiva se ubica entre $0.1$ y $0.5$.
 
 ![](imagenes/manicule2.jpg) ¿Cuántos analfabetas dirías que había en México en 
-2015? Da un intervalo del 90% de confianza para esta cantidad.
+$2015$? Da un intervalo del $90\%$ de confianza para esta cantidad.
 
 Más de calibración:
 
