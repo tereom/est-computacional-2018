@@ -318,7 +318,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#modelo-jerarquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#multiples-monedas-de-una-misma-fabrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-estimacion-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-conteo-rapido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
 </ul></li>
+<li class="chapter" data-level="10.12" data-path="flujo-de-trabajo-para-el-analisis-bayesiano.html"><a href="flujo-de-trabajo-para-el-analisis-bayesiano.html"><i class="fa fa-check"></i><b>10.12</b> Flujo de trabajo para el análisis bayesiano</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -340,6 +342,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="metropolis-2.html"><a href="metropolis-2.html#solucion-3"><i class="fa fa-check"></i>Solución</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="mcmc-convergencia.html"><a href="mcmc-convergencia.html"><i class="fa fa-check"></i>12-MCMC convergencia</a></li>
+<li class="chapter" data-level="10.13" data-path="modelos-jerarquicos-1.html"><a href="modelos-jerarquicos-1.html"><i class="fa fa-check"></i><b>10.13</b> 13-Modelos jerárquicos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -377,7 +380,9 @@ correlación alta).</p>
 expandido rápidamente tanto en academia como industria. Desafortunadamente, la
 teoría de HMC está desarrollada en términos de geometría diferencial, lo que
 hace que su construcción formal requiera de matemáticas avanzadas. En estas notas
-se presentan las ideas detrás de HMC siguiendo <span class="citation">Kruschke (<a href="#ref-kruschke">2015</a>)</span>.</p>
+se presentan las ideas detrás de HMC siguiendo <span class="citation">Kruschke (<a href="#ref-kruschke">2015</a>)</span>, una referencia con
+mayor detalle es <span class="citation">Betancourt (<a href="#ref-betancourt2017">2017</a>)</span> y para el uso de Stan vale la pena tener
+siempre a la mano el manual <span class="citation">Stan Development Team (<a href="#ref-stan2018">2018</a>)</span>.</p>
 <p>Stan genera muestras de la posterior usando una variación del algoritmo de
 Metrópolis. Recordemos como funciona el algoritmo de Metrópolis que vimos en
 clase:</p>
@@ -578,6 +583,19 @@ robustez que se deriva de incluir parte del espacio paramétrico que pueda ser
 relevante.</p></li>
 <li><p>Cuando se usen distribuciones iniciales informativas se debe ser explícito en
 porque se tomaron las decisiones.</p></li>
+<li>No utilices iniciales uniformes, o en general no restrinjas el espacio
+paramétrico, a menos que las fronteras representen restricciones verdaderas (por
+ejemplo parámetros de escala restringidos a los positivos, o correlaciones entre
+el -1 y el 1). Algunos ejemplos:
+<ul>
+<li>Si crees que un parámetro se ubica entre el cero y el un, en lugar de usar
+Uniforme(0,1), intenta Normal(0.5, 0.5).</li>
+<li>Un parámetro de escala esta restringido a ser positivo y quieres una
+inicial vaga, propones Uniforme(0,100) (o Uniforme(0,1000), es mejor no
+especificar inicial, que en Stan equivale a una inicial uniforme no
+informativa, o usar una Esxponencial con valor esperado 10, o una
+media-normal(0,10).</li>
+</ul></li>
 </ul>
 </div>
 <div id="recursos-adicionales-de-stan" class="section level3 unnumbered">
@@ -585,7 +603,7 @@ porque se tomaron las decisiones.</p></li>
 <ul>
 <li><p>El paquete <a href="https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html">rstanarm</a> facilita el uso de Stan desde R, cuenta con funciones para llevar a cabo
 estimación Bayesiana sin necesidad de escribir código en el <em>lenguaje de Stan</em>,
-de acuerdo a los autoresel objetivo del paquete es que la estimación bayesiana
+de acuerdo a los autores el objetivo del paquete es que la estimación bayesiana
 sea rutina para los modelos de regresión más comunes.</p></li>
 <li><p>El paquete <a href="bayesplot" class="uri">bayesplot</a> cuenta con funciones para graficar estimaciones
 de los parámetros, realizar diagnósticos visuales de las cadenas (convergencia),
@@ -600,6 +618,12 @@ convergencia.</p></li>
 <div id="refs" class="references">
 <div id="ref-kruschke">
 <p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
+</div>
+<div id="ref-betancourt2017">
+<p>Betancourt, Michael. 2017. “A Conceptual Introduction to Hamiltonian Monte Carlo.” <a href="http://arxiv.org/abs/1701.02434" class="uri">http://arxiv.org/abs/1701.02434</a>.</p>
+</div>
+<div id="ref-stan2018">
+<p>Stan Development Team. 2018. “Stan Modeling Language Users Guide and Reference Manual, Version 2.18.0.” <a href="http://mc-stan.org/" class="uri">http://mc-stan.org/</a>.</p>
 </div>
 </div>
             </section>

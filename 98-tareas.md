@@ -1080,3 +1080,55 @@ Asegurate de alcanzar convergencia y describe los diagnósticos que utilizaste
 para concluir que se convergió a la distribución posterior.
 
 Instalar Stan y rstan, instrucciones [aquí](http://mc-stan.org/users/interfaces/rstan.html).
+
+## 13-Modelos jerárquicos
+
+En este ejercicio definirás un modelo jerárquico para la incidencia de tumores
+en grupos de conejos a los que se suministró una medicina. Se realizaron 71
+experimentos distintos utilizando la misma medicina. 
+
+Considerando que cada conejo proviene de un experimento distinto, se desea
+estudiar $\theta_j$, la probabilidad de desarrollar un tumor en el 
+$j$-ésimo grupo, este parámetro variará de grupo a grupo.
+
+Denotaremos $y_{ij}$ la observación en el $i$-ésimo conejo perteneciente al 
+$j$-ésimo experimento, $y_{ij}$ puede tomar dos valores: 1 indicando que el 
+conejo desarrolló tumor y 0 en el caso contrario, por tanto la verosimilitud 
+sería:
+
+$$y_{ij} \sim Bernoulli(\theta_j)$$
+
+*Adicionalmente se desea estimar el efecto medio de la medicina a lo largo de
+los grupos $\mu$, por lo que utilizaremos un modelo jerárquico como sigue:
+
+$$\theta_j \sim Beta(a, b)$$
+
+donde 
+
+$$a=\mu \kappa$$
+$$b=(1-\mu)\kappa$$
+
+Finalmente asignamos una distribución a los hiperparámetros $\mu$ y $\kappa$,
+
+$$\mu \sim Beta(A_{\mu}, B_{\mu})$$
+
+$$\kappa \sim Gamma(S_{\kappa}, R_{\kappa})$$
+
+1. Si piensas en este problema como un lanzamiento de monedas, ¿a qué 
+corresponden las monedas y los lanzamientos?
+
+2. La base de datos `rabbits` contiene las observaciones de los 71 experimentos, 
+cada renglón corresponde a una observación. 
+    + Utiliza JAGS o Stan para ajustar un modelo jerárquico como el descrito 
+    arriba y usando una inicial $Beta(1, 1)$ y una $Gamma(1, 0.1)$ para $\mu$ y
+    $\kappa$ respectivamente. 
+    + Realiza un histograma de la distribución posterior de $\mu$, $\kappa$. 
+    Comenta tus resultados.
+
+3. Ajusta un nuevo modelo utilizando una iniciales $Beta(10, 10)$ y 
+$Gamma(0.51, 0.01)$ para $\mu$ y $\kappa$ (lo demás quedará igual). 
+    + Realiza una gráfica con las medias posteriores de los parámetros 
+    $\theta_j$ bajo los dos escenarios de distribuciones iniciales: en el eje 
+    horizontal grafica las medias posteriores del modelo ajustado en el paso
+    anterior y en el eje vertical las medias posteriores del segundo modelo . 
+    ¿Cómo se comparan? ¿A qué se deben las diferencias?

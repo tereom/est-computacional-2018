@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="hmc-y-stan.html">
-<link rel="next" href="tareas.html">
+<link rel="next" href="flujo-de-trabajo-para-el-analisis-bayesiano.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -318,7 +318,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#modelo-jerarquico-una-moneda"><i class="fa fa-check"></i>Modelo jerárquico una moneda</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#multiples-monedas-de-una-misma-fabrica"><i class="fa fa-check"></i>Multiples monedas de una misma fábrica</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-estimacion-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-conteo-rapido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
 </ul></li>
+<li class="chapter" data-level="10.12" data-path="flujo-de-trabajo-para-el-analisis-bayesiano.html"><a href="flujo-de-trabajo-para-el-analisis-bayesiano.html"><i class="fa fa-check"></i><b>10.12</b> Flujo de trabajo para el análisis bayesiano</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -340,6 +342,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="metropolis-2.html"><a href="metropolis-2.html#solucion-3"><i class="fa fa-check"></i>Solución</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="mcmc-convergencia.html"><a href="mcmc-convergencia.html"><i class="fa fa-check"></i>12-MCMC convergencia</a></li>
+<li class="chapter" data-level="10.13" data-path="modelos-jerarquicos-1.html"><a href="modelos-jerarquicos-1.html"><i class="fa fa-check"></i><b>10.13</b> 13-Modelos jerárquicos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -384,7 +387,8 @@ de la misma fábrica.</p></li>
 <p>Cuando observamos lanzamientos de las monedas actualizamos nuestras creencias
 relativas a los sesgos de las monedas y también actualizamos nuestras
 creencias acerca de la dependencia de los sesgos.</p>
-<p>Recordemos el caso de lanzamientos de una moneda, le asignamos una inicial beta, recordemos que la distribución beta tienen dos parámetors <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span>:</p>
+<p>Recordemos el caso de lanzamientos de una moneda, le asignamos una inicial beta,
+recordemos que la distribución beta tienen dos parámetors <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span>:</p>
 <p><span class="math display">\[p(\theta)=\frac{1}{B(a,b)}\theta^{a-1}(1-\theta)^{b-1}\]</span></p>
 <p>Con el fin de hacer los parámetros más intuitivos los podemos expresar en
 términos de la media <span class="math inline">\(\mu\)</span> y el tamaño de muestra <span class="math inline">\(K\)</span>, donde <span class="math inline">\(\mu\)</span> es la media
@@ -494,9 +498,7 @@ de las monedas, tenemos evidencia de que <span class="math inline">\(K\)</span> 
 proporciones difieren mucho, tenemos evidencia de que <span class="math inline">\(K\)</span> es pequeña. Debido
 a que <span class="math inline">\(K\)</span> pasará de ser una constante a ser un parámetro lo llamaremos <span class="math inline">\(\kappa\)</span>.</p>
 <p>La distribución inicial para <span class="math inline">\(\kappa\)</span> será una Gamma.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(R2jags)
-
-modelo_jer.bugs &lt;-
+<pre class="sourceCode r"><code class="sourceCode r">modelo_jer.bugs &lt;-
 <span class="st">&#39;</span>
 <span class="st">model{</span>
 <span class="st">  for(t in 1:N){</span>
@@ -544,9 +546,8 @@ jags_fit &lt;-<span class="st"> </span><span class="kw">jags</span>(
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Initializing model</span>
 
-R2jags<span class="op">::</span><span class="kw">traceplot</span>(jags_fit, <span class="dt">varname =</span> <span class="kw">c</span>(<span class="st">&quot;kappa&quot;</span>, <span class="st">&quot;mu&quot;</span>, <span class="st">&quot;theta&quot;</span>))</code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-75-1.png" width="672" style="display: block; margin: auto;" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-75-2.png" width="672" style="display: block; margin: auto;" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-75-3.png" width="672" style="display: block; margin: auto;" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-75-4.png" width="672" style="display: block; margin: auto;" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-75-5.png" width="672" style="display: block; margin: auto;" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-75-6.png" width="672" style="display: block; margin: auto;" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-75-7.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">jags_fit
+<span class="co"># R2jags::traceplot(jags_fit, varname = c(&quot;kappa&quot;, &quot;mu&quot;, &quot;theta&quot;))</span>
+jags_fit
 <span class="co">#&gt; Inference for Bugs model at &quot;modelo_jer.bugs&quot;, fit using jags,</span>
 <span class="co">#&gt;  3 chains, each with 10000 iterations (first 1000 discarded), n.thin = 9</span>
 <span class="co">#&gt;  n.sims = 3000 iterations saved</span>
@@ -584,7 +585,8 @@ R2jags<span class="op">::</span><span class="kw">traceplot</span>(jags_fit, <spa
 </div>
 <div id="stan-1" class="section level4 unnumbered">
 <h4>Stan</h4>
-<pre class="sourceCode r"><code class="sourceCode r">modelo_jer.stan &lt;-
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rstan)
+modelo_jer.stan &lt;-
 <span class="st">&#39;</span>
 <span class="st">data {</span>
 <span class="st">    int N;</span>
@@ -667,15 +669,16 @@ corresponden al número observado de muertes y número de expuestos para el
 <span class="math inline">\(j\)</span>-ésimo hospital, con <span class="math inline">\(j = 1,...,94\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(LearnBayes)
 <span class="kw">data</span>(hearttransplants)
-heart &lt;-<span class="st"> </span>hearttransplants
+heart &lt;-<span class="st"> </span>hearttransplants <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">hospital =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>())
 <span class="kw">head</span>(heart)
-<span class="co">#&gt;      e y</span>
-<span class="co">#&gt; 1  532 0</span>
-<span class="co">#&gt; 2  584 0</span>
-<span class="co">#&gt; 3  672 2</span>
-<span class="co">#&gt; 4  722 1</span>
-<span class="co">#&gt; 5  904 1</span>
-<span class="co">#&gt; 6 1236 0</span></code></pre>
+<span class="co">#&gt;      e y hospital</span>
+<span class="co">#&gt; 1  532 0        1</span>
+<span class="co">#&gt; 2  584 0        2</span>
+<span class="co">#&gt; 3  672 2        3</span>
+<span class="co">#&gt; 4  722 1        4</span>
+<span class="co">#&gt; 5  904 1        5</span>
+<span class="co">#&gt; 6 1236 0        6</span></code></pre>
 <p>El objetivo es obtener buenas estimaciones de las tasas de mortalidad de cada
 hospital. Antes de comenzar a ajustar modelos complejos vale la pena observar
 los datos. El cociente <span class="math inline">\(\{y_{j}/e_{j}\}\)</span> es el número observado de muertes por
@@ -692,8 +695,7 @@ bajo número de expuestos.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(heart, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> <span class="dv">1000</span><span class="op">*</span><span class="st"> </span>y <span class="op">/</span><span class="st"> </span>e, <span class="dt">color =</span> <span class="kw">factor</span>(y), <span class="dt">label =</span> y)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>)  <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
-    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="dv">700</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">3</span>), 
-      <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">4</span>))) </code></pre>
+    <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) </code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-82-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>La variabilidad de las tasas y los hospitales sin muertes sugieren un problema
 de tamaño de muestra. Consideremos un hospital con 700 expuestos. La muerte por
@@ -765,8 +767,9 @@ Notemos que la estructura del modelo jerárquico facilita la implementación del
 condicionales completas.</p>
 <div id="modelo-de-unidades-iguales" class="section level4">
 <h4><span class="header-section-number">10.11.0.1</span> Modelo de unidades iguales</h4>
-<p>Supongamos que las tasas de mortalidad son iguales a lo largo de los hospitales. Estimaremos la tasa de mortalidad con el modelo,
-<span class="math display">\[
+<p>Supongamos que las tasas de mortalidad son iguales a lo largo de los hospitales.
+Estimaremos la tasa de mortalidad con el modelo,</p>
+<p><span class="math display">\[
 \begin{eqnarray}
     \nonumber
 y_{j} \sim Poisson(e_{j}\lambda),
@@ -784,7 +787,8 @@ asignamos a <span class="math inline">\(\lambda\)</span> una distribución inici
      g(\lambda)\propto\frac{1}{\lambda}.
 \end{eqnarray}
 \]</span></p>
-<p>Sea <span class="math inline">\(y=(y_1,...,y_{94})\)</span>, usamos el Teorema de Bayes para calcular la densidad posterior de <span class="math inline">\(\lambda\)</span>,</p>
+<p>Sea <span class="math inline">\(y=(y_1,...,y_{94})\)</span>, usamos el Teorema de Bayes para calcular la densidad
+posterior de <span class="math inline">\(\lambda\)</span>,</p>
 <p><span class="math display">\[
 \begin{eqnarray}
     \nonumber
@@ -797,7 +801,11 @@ asignamos a <span class="math inline">\(\lambda\)</span> una distribución inici
     &amp;\propto&amp; \lambda^{(\sum_{i=1}^{94}y_{j}-1)}exp\bigg(-\sum_{i=1}^{94}e_{j}\lambda\bigg),
 \end{eqnarray}
 \]</span>
-identificamos la densidad posterior como una <span class="math inline">\(Gamma(\sum_{i=1}^{94}y_{i},\sum_{i=1}^{94}e_{i})\)</span>, donde expresamos la función de densidad de una distribución <span class="math inline">\(Gamma(\alpha, \beta)\)</span> usando el parámetro de forma <span class="math inline">\(\alpha\)</span> y el inverso del parámetro de escala <span class="math inline">\(\beta\)</span> de manera que la función de densidad es,</p>
+identificamos la densidad posterior como una
+<span class="math inline">\(Gamma(\sum_{i=1}^{94}y_{i},\sum_{i=1}^{94}e_{i})\)</span>, donde expresamos la función
+de densidad de una distribución <span class="math inline">\(Gamma(\alpha, \beta)\)</span> usando el parámetro de
+forma <span class="math inline">\(\alpha\)</span> y el inverso del parámetro de escala <span class="math inline">\(\beta\)</span> de manera que la
+función de densidad es,</p>
 <p><span class="math display">\[
 \begin{align}
     \nonumber
@@ -829,35 +837,26 @@ la observación es consistente con el modelo observado.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># La densidad posterior es Gamma con los siguientes parámetros</span>
 <span class="kw">c</span>(<span class="kw">sum</span>(heart<span class="op">$</span>y), <span class="kw">sum</span>(heart<span class="op">$</span>e))
 <span class="co">#&gt; [1]    277 294681</span>
-heart<span class="op">$</span>hospital &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">94</span>
 <span class="co"># Simulamos 1000 muestras de la densidad posterior de lambda</span>
 lambdas &lt;-<span class="st"> </span><span class="kw">rgamma</span>(<span class="dv">1000</span>, <span class="dt">shape =</span> <span class="kw">sum</span>(heart<span class="op">$</span>y), <span class="dt">rate =</span> <span class="kw">sum</span>(heart<span class="op">$</span>e))
 <span class="co"># ahora para cada hospital simulamos muestras de una distribución Poisson</span>
 <span class="co"># con media e_i*lambda</span>
-sims &lt;-<span class="st"> </span><span class="kw">ddply</span>(heart, <span class="st">&quot;hospital&quot;</span>, transform, <span class="dt">sims =</span> <span class="kw">rpois</span>(<span class="dv">1000</span>, e<span class="op">*</span>lambdas))
+heart_sims &lt;-<span class="st"> </span>heart <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">sims =</span> <span class="kw">map</span>(e, <span class="op">~</span><span class="kw">rpois</span>(<span class="dv">1000</span>, . <span class="op">*</span><span class="st"> </span>lambdas))) 
 <span class="co"># tomamos una muestra de 10 hospitales</span>
 <span class="kw">set.seed</span>(<span class="dv">242</span>)
-hosps &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">94</span>, <span class="dv">10</span>)
-sims<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">subset</span>(sims, hospital <span class="op">%in%</span><span class="st"> </span>hosps)
-heart<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">subset</span>(heart, hospital <span class="op">%in%</span><span class="st"> </span>hosps) 
-<span class="kw">head</span>(sims<span class="fl">.2</span>)
-<span class="co">#&gt;     e y hospital sims</span>
-<span class="co">#&gt; 1 532 0        1    0</span>
-<span class="co">#&gt; 2 532 0        1    0</span>
-<span class="co">#&gt; 3 532 0        1    1</span>
-<span class="co">#&gt; 4 532 0        1    1</span>
-<span class="co">#&gt; 5 532 0        1    0</span>
-<span class="co">#&gt; 6 532 0        1    1</span>
+heart_sims_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>(heart_sims, <span class="dv">10</span>)
 
-<span class="kw">ggplot</span>(sims<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> sims)) <span class="op">+</span><span class="st"> </span>
+<span class="kw">ggplot</span>(<span class="kw">unnest</span>(heart_sims_sample), <span class="kw">aes</span>(<span class="dt">x =</span> sims)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>, 
     <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>hospital, <span class="dt">nrow =</span> <span class="dv">2</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="dt">data =</span> heart<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> y, <span class="dt">xend =</span> y, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">yend =</span> <span class="fl">0.5</span>), 
+<span class="st">  </span><span class="kw">geom_segment</span>(<span class="dt">data =</span> heart_sims_sample, <span class="kw">aes</span>(<span class="dt">x =</span> y, <span class="dt">xend =</span> y, <span class="dt">y =</span> <span class="dv">0</span>, 
+    <span class="dt">yend =</span> <span class="fl">0.5</span>), 
     <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">data =</span> heart<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.4</span>, <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;e =&quot;</span>, e)), 
-    <span class="dt">size =</span> <span class="fl">2.7</span>)</code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-83-1.png" width="576" style="display: block; margin: auto;" /></p>
+<span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">data=</span> heart_sims_sample, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.4</span>, 
+    <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;e =&quot;</span>, e)), <span class="dt">size =</span> <span class="fl">2.7</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-83-1.png" width="500px" style="display: block; margin: auto;" /></p>
 <p>La figura muestra los histogramas, obtenidos con simulación, de la distribución
 predictiva posterior de 10 hospitales (se tomó una muestra de los 94). Para cada
 hospital, se escribió el número de expuestos, <span class="math inline">\(e\)</span>, y se grafica una línea
@@ -877,27 +876,28 @@ predictivos:</p>
 \end{eqnarray}
 \]</span></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Para calcular las p predictiva podemos usar las simulaciones</span>
-p.pred &lt;-<span class="st"> </span><span class="kw">ddply</span>(sims, <span class="st">&quot;hospital&quot;</span>, summarise, <span class="dt">p =</span> <span class="kw">min</span>(<span class="kw">sum</span>(sims <span class="op">&lt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>, 
-  <span class="kw">sum</span>(sims <span class="op">&gt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>))
-<span class="kw">head</span>(p.pred)
-<span class="co">#&gt;   hospital     p</span>
-<span class="co">#&gt; 1        1 0.629</span>
-<span class="co">#&gt; 2        2 0.578</span>
-<span class="co">#&gt; 3        3 0.116</span>
-<span class="co">#&gt; 4        4 0.497</span>
-<span class="co">#&gt; 5        5 0.553</span>
-<span class="co">#&gt; 6        6 0.319</span>
-p.pred<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">join</span>(heart, p.pred, <span class="dt">by =</span> <span class="st">&quot;hospital&quot;</span>)
-<span class="kw">ggplot</span>(p.pred<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> p)) <span class="op">+</span><span class="st"> </span>
+p_pred &lt;-<span class="st"> </span>heart_sims <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(hospital) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(
+        <span class="dt">p =</span> <span class="kw">min</span>(<span class="kw">sum</span>(sims <span class="op">&lt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>, <span class="kw">sum</span>(sims <span class="op">&gt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>), 
+        <span class="dt">e =</span> <span class="kw">first</span>(e)
+        )
+
+<span class="kw">ggplot</span>(p_pred, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> p)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
-    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="dv">700</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">3</span>), 
-      <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">4</span>))) <span class="op">+</span><span class="st"> </span>
+    <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;P(extremos)&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">.15</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">.7</span>) </code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-84-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>En la figura anterior graficamos las probabilidades de extremos (calculadas con simulación) en el eje vertical, contra el número de exposición en escala logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas probabilidades son pequeñas, el 28% son menores a 0.15, lo que indica que para el 28% de los hospitales el número de muertes observado <span class="math inline">\(y_{j}\)</span> está en la cola de la distribución y por consiguiente el modelo es inadecuado.</p>
+<p>En la figura anterior graficamos las probabilidades de extremos (calculadas con
+simulación) en el eje vertical, contra el número de exposición en escala
+logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas
+probabilidades son pequeñas, el 28% son menores a 0.15, lo que indica que
+para el 28% de los hospitales el número de muertes observado <span class="math inline">\(y_{j}\)</span> está en la
+cola de la distribución y por consiguiente el modelo es inadecuado.</p>
 </div>
 <div id="modelo-de-unidades-independientes" class="section level4 unnumbered">
 <h4>Modelo de unidades independientes</h4>
@@ -982,35 +982,32 @@ proveniente de la muestra, restando importancia a nuestro conocimiento inicial.
 En cuanto a la varianza posterior, es inversamente proporcional al número de
 expuestos indicando nuevamente que más expuestos implica más conocimiento y por
 tanto menor incertidumbre.</p>
-<p>En la siguiente fugura mostraremos el encogimiento hacia la media inicial bajo distintos escenarios de <span class="math inline">\(\beta_{0}\)</span>, cada punto representa un hospital y el color indica a que valor de <span class="math inline">\(\beta_{0}\)</span> corresponde. En esta gráfica podemos apreciar el mayor encogimiento para valores mayores de <span class="math inline">\(\beta_{0}\)</span> y el decaimiento en el encogimiento conforme aumenta el número de expuestos.</p>
-<pre class="sourceCode r"><code class="sourceCode r">encoge &lt;-<span class="st"> </span><span class="kw">ddply</span>(heart, <span class="st">&quot;hospital&quot;</span>, transform, <span class="dt">enc.1 =</span> <span class="dv">1000</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1000</span> <span class="op">+</span><span class="st"> </span>e), 
-  <span class="dt">enc.2 =</span> <span class="dv">100</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">+</span><span class="st"> </span>e), <span class="dt">enc.3 =</span> <span class="dv">10</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">10</span> <span class="op">+</span><span class="st"> </span>e), <span class="dt">enc.4 =</span> <span class="fl">0.01</span> <span class="op">/</span><span class="st"> </span>(<span class="fl">0.01</span> <span class="op">+</span><span class="st"> </span>e))
-<span class="kw">head</span>(encoge)
-<span class="co">#&gt;      e y hospital enc.1  enc.2   enc.3    enc.4</span>
-<span class="co">#&gt; 1  532 0        1 0.653 0.1582 0.01845 1.88e-05</span>
-<span class="co">#&gt; 2  584 0        2 0.631 0.1462 0.01684 1.71e-05</span>
-<span class="co">#&gt; 3  672 2        3 0.598 0.1295 0.01466 1.49e-05</span>
-<span class="co">#&gt; 4  722 1        4 0.581 0.1217 0.01366 1.39e-05</span>
-<span class="co">#&gt; 5  904 1        5 0.525 0.0996 0.01094 1.11e-05</span>
-<span class="co">#&gt; 6 1236 0        6 0.447 0.0749 0.00803 8.09e-06</span>
-encoge.m &lt;-<span class="st"> </span><span class="kw">melt</span>(encoge, <span class="dt">id =</span> <span class="kw">c</span>(<span class="st">&quot;e&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;hospital&quot;</span>))
-<span class="kw">head</span>(encoge.m)
-<span class="co">#&gt;      e y hospital variable value</span>
-<span class="co">#&gt; 1  532 0        1    enc.1 0.653</span>
-<span class="co">#&gt; 2  584 0        2    enc.1 0.631</span>
-<span class="co">#&gt; 3  672 2        3    enc.1 0.598</span>
-<span class="co">#&gt; 4  722 1        4    enc.1 0.581</span>
-<span class="co">#&gt; 5  904 1        5    enc.1 0.525</span>
-<span class="co">#&gt; 6 1236 0        6    enc.1 0.447</span>
+<p>En la siguiente fugura mostraremos el encogimiento hacia la media inicial bajo
+distintos escenarios de <span class="math inline">\(\beta_{0}\)</span>, cada punto representa un hospital y el
+color indica a que valor de <span class="math inline">\(\beta_{0}\)</span> corresponde. En esta gráfica podemos
+apreciar el mayor encogimiento para valores mayores de <span class="math inline">\(\beta_{0}\)</span> y el
+decaimiento en el encogimiento conforme aumenta el número de expuestos.</p>
+<pre class="sourceCode r"><code class="sourceCode r">heart_indep &lt;-<span class="st"> </span>heart <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">crossing</span>(<span class="dt">beta_0 =</span> <span class="kw">c</span>(<span class="dv">1000</span>, <span class="dv">100</span>, <span class="dv">10</span>, <span class="fl">0.01</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">encogimiento =</span> beta_<span class="dv">0</span> <span class="op">/</span><span class="st"> </span>(beta_<span class="dv">0</span> <span class="op">+</span><span class="st"> </span>e))
 
-<span class="kw">ggplot</span>(encoge.m, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> value, <span class="dt">color =</span> variable)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.9</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
-    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="dv">700</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">3</span>), 
-      <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">4</span>))) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_color_hue</span>(<span class="kw">expression</span>(beta[<span class="dv">0</span>]), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;1000&quot;</span>, <span class="st">&quot;100&quot;</span>, <span class="st">&quot;10&quot;</span>, <span class="st">&quot;0.01&quot;</span>)) <span class="op">+</span>
+<span class="kw">glimpse</span>(heart_indep)
+<span class="co">#&gt; Observations: 376</span>
+<span class="co">#&gt; Variables: 5</span>
+<span class="co">#&gt; $ e            &lt;int&gt; 532, 532, 532, 532, 584, 584, 584, 584, 672, 672,...</span>
+<span class="co">#&gt; $ y            &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 1, 1, 1, 1, 1...</span>
+<span class="co">#&gt; $ hospital     &lt;int&gt; 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5...</span>
+<span class="co">#&gt; $ beta_0       &lt;dbl&gt; 1e-02, 1e+01, 1e+02, 1e+03, 1e-02, 1e+01, 1e+02, ...</span>
+<span class="co">#&gt; $ encogimiento &lt;dbl&gt; 1.88e-05, 1.85e-02, 1.58e-01, 6.53e-01, 1.71e-05,...</span>
+
+<span class="kw">ggplot</span>(heart_indep, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> encogimiento, 
+    <span class="dt">color =</span> <span class="kw">factor</span>(beta_<span class="dv">0</span>))) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.9</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
+        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_color_hue</span>(<span class="kw">expression</span>(beta[<span class="dv">0</span>])) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;encogimiento (A)&quot;</span>)</code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-85-1.png" width="432" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-85-1.png" width="350px" style="display: block; margin: auto;" /></p>
 </div>
 <div id="distribucion-inicial" class="section level5 unnumbered">
 <h5>Distribución inicial</h5>
@@ -1021,7 +1018,8 @@ iniciales y su efecto en las estimaciones posteriores.</p>
 <p>Para cada combinación de parámetros la siguiente tabla muestra los deciles de
 2000 simulaciones de una distribución <span class="math inline">\(Gamma(\alpha_0,\beta_{0})\)</span> y los deciles
 de las muertes observadas por cada 1000 expuestos considerando todos los
-hospitales; multiplicamos las simulaciones por 1000 para que indiquen tasas de mortalidad medidas en número de muertes por 1000 expuestos. El propósito de la
+hospitales; multiplicamos las simulaciones por 1000 para que indiquen tasas de
+mortalidad medidas en número de muertes por 1000 expuestos. El propósito de la
 tabla es describir la forma de la distribución <span class="math inline">\(Gamma\)</span> al cambiar los
 parámetros, por ejemplo, una <span class="math inline">\(Gamma(0.01,0.01)\)</span> es muy plana y podríamos
 describirla como poco informativa, mientras que una <span class="math inline">\(Gamma(1,1000)\)</span> tiene una
@@ -1126,61 +1124,36 @@ pronto observemos que tanto las estimaciones como los intervalos de probabilidad
 son muy diferentes al cambiar los parámetros de la distribución inicial.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Procedemos como antes, para cada combinación de alfa y beta simulamos 1000 </span>
 <span class="co"># lambdas de la posterior</span>
-lambdas &lt;-<span class="st"> </span><span class="kw">ddply</span>(heart, <span class="st">&quot;hospital&quot;</span>, transform, 
-  <span class="dt">sims =</span>  <span class="kw">rgamma</span>(<span class="dt">n =</span> <span class="dv">2000</span>, <span class="dt">shape =</span> <span class="fl">0.01</span> <span class="op">+</span><span class="st"> </span>y, <span class="dt">rate =</span> <span class="fl">0.01</span> <span class="op">+</span><span class="st"> </span>e))
+lambdas &lt;-<span class="st"> </span><span class="kw">rgamma</span>(<span class="dv">1000</span>, <span class="dt">shape =</span> <span class="kw">sum</span>(heart<span class="op">$</span>y), <span class="dt">rate =</span> <span class="kw">sum</span>(heart<span class="op">$</span>e))
+<span class="co"># ahora para cada hospital simulamos muestras de una distribución Poisson</span>
+<span class="co"># con media e_i*lambda</span>
+priors &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">alpha =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="dt">beta =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.01</span>, <span class="dv">1000</span>))
+
+heart_indep_sims &lt;-<span class="st"> </span>heart <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">crossing</span>(priors) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">sims =</span> <span class="kw">pmap</span>(<span class="kw">list</span>(e, y, alpha, beta), <span class="op">~</span><span class="kw">rgamma</span>(<span class="dv">1000</span>, <span class="dt">shape =</span> ..<span class="dv">3</span> <span class="op">+</span><span class="st"> </span>..<span class="dv">2</span>, 
+            <span class="dt">rate =</span> ..<span class="dv">4</span> <span class="op">+</span><span class="st"> </span>..<span class="dv">1</span>))
+        ) 
 <span class="co"># Creamos intervalos con las simulaciones</span>
-int.post &lt;-<span class="st"> </span><span class="kw">ddply</span>(lambdas, <span class="st">&quot;hospital&quot;</span>, summarise, 
-  <span class="dt">int.izq =</span> <span class="kw">quantile</span>(<span class="dv">1000</span><span class="op">*</span>sims, <span class="fl">0.025</span>), <span class="dt">int.der =</span> <span class="kw">quantile</span>(<span class="dv">1000</span><span class="op">*</span>sims, <span class="fl">0.975</span>), 
-  <span class="dt">media =</span> <span class="dv">1000</span><span class="op">*</span>(<span class="fl">0.01</span> <span class="op">+</span><span class="st"> </span>y[<span class="dv">1</span>])<span class="op">/</span>(<span class="fl">0.01</span> <span class="op">+</span><span class="st"> </span>e[<span class="dv">1</span>]))
-int.post<span class="op">$</span>comb &lt;-<span class="st"> &quot;alpha = 0.01 beta = 0.01&quot;</span>
-heart.int &lt;-<span class="st"> </span><span class="kw">join</span>(heart, int.post, <span class="dt">by =</span> <span class="st">&quot;hospital&quot;</span>)
-<span class="kw">ggplot</span>(heart.int, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> media, <span class="dt">color =</span> <span class="kw">factor</span>(y))) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">xend =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> int.izq, <span class="dt">yend =</span> int.der)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> heart, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> <span class="dv">1000</span><span class="op">*</span>y<span class="op">/</span>e), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, 
-    <span class="dt">alpha =</span> <span class="fl">0.6</span>)</code></pre>
+heart_indep_post &lt;-<span class="st"> </span>heart_indep_sims <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">media =</span> <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>(alpha <span class="op">+</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span>(beta <span class="op">+</span><span class="st"> </span>e), 
+        <span class="dt">int_l =</span> <span class="kw">map_dbl</span>(sims, <span class="op">~</span><span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>., <span class="fl">0.025</span>)), 
+        <span class="dt">int_u =</span> <span class="kw">map_dbl</span>(sims, <span class="op">~</span><span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>., <span class="fl">0.975</span>)), 
+        <span class="dt">params =</span> <span class="kw">paste0</span>(<span class="st">&quot;alpha = &quot;</span>, alpha, <span class="st">&quot;, beta = &quot;</span>, beta)
+        )
+
+<span class="kw">ggplot</span>(heart_indep_post, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> media, <span class="dt">color =</span> <span class="kw">factor</span>(y))) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> int_l, <span class="dt">ymax =</span> int_u), <span class="dt">size =</span> <span class="fl">0.25</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> heart, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>y <span class="op">/</span><span class="st"> </span>e), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, 
+        <span class="dt">alpha =</span> <span class="fl">0.6</span>, <span class="dt">size =</span> <span class="fl">1.5</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>params, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
+        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-86-1.png" width="480" style="display: block; margin: auto;" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">
-<span class="co"># alpha = 0.5, beta = 0.01</span>
-lambdas &lt;-<span class="st"> </span><span class="kw">ddply</span>(heart, <span class="st">&quot;hospital&quot;</span>, transform, 
-  <span class="dt">sims =</span>  <span class="kw">rgamma</span>(<span class="dt">n =</span> <span class="dv">2000</span>, <span class="dt">shape =</span> <span class="fl">0.5</span> <span class="op">+</span><span class="st"> </span>y, <span class="dt">rate =</span> <span class="fl">0.01</span> <span class="op">+</span><span class="st"> </span>e))
-<span class="co"># Creamos intervalos con las simulaciones</span>
-int.post<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">ddply</span>(lambdas, <span class="st">&quot;hospital&quot;</span>, summarise, 
-  <span class="dt">int.izq =</span> <span class="kw">quantile</span>(<span class="dv">1000</span><span class="op">*</span>sims, <span class="fl">0.025</span>), <span class="dt">int.der =</span> <span class="kw">quantile</span>(<span class="dv">1000</span><span class="op">*</span>sims, <span class="fl">0.975</span>), 
-  <span class="dt">media =</span> <span class="dv">1000</span><span class="op">*</span>(<span class="fl">0.5</span> <span class="op">+</span><span class="st"> </span>y[<span class="dv">1</span>])<span class="op">/</span>(<span class="fl">0.01</span> <span class="op">+</span><span class="st"> </span>e[<span class="dv">1</span>]))
-int.post<span class="fl">.2</span><span class="op">$</span>comb &lt;-<span class="st"> &quot;alpha = 0.5 beta = 0.01&quot;</span>
-
-<span class="co"># alpha = 1, beta = 1000</span>
-lambdas &lt;-<span class="st"> </span><span class="kw">ddply</span>(heart, <span class="st">&quot;hospital&quot;</span>, transform, 
-  <span class="dt">sims =</span>  <span class="kw">rgamma</span>(<span class="dt">n =</span> <span class="dv">2000</span>, <span class="dt">shape =</span> <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>y, <span class="dt">rate =</span> <span class="dv">1000</span> <span class="op">+</span><span class="st"> </span>e))
-<span class="co"># Creamos intervalos con las simulaciones</span>
-int.post<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">ddply</span>(lambdas, <span class="st">&quot;hospital&quot;</span>, summarise, 
-  <span class="dt">int.izq =</span> <span class="kw">quantile</span>(<span class="dv">1000</span><span class="op">*</span>sims, <span class="fl">0.025</span>), <span class="dt">int.der =</span> <span class="kw">quantile</span>(<span class="dv">1000</span><span class="op">*</span>sims, <span class="fl">0.975</span>), 
-  <span class="dt">media =</span> <span class="dv">1000</span><span class="op">*</span>(<span class="fl">0.01</span> <span class="op">+</span><span class="st"> </span>y[<span class="dv">1</span>])<span class="op">/</span>(<span class="fl">0.01</span> <span class="op">+</span><span class="st"> </span>e[<span class="dv">1</span>]))
-int.post<span class="fl">.3</span><span class="op">$</span>comb &lt;-<span class="st"> &quot;alpha = 1 beta = 1000&quot;</span>
-
-int.post &lt;-<span class="st"> </span><span class="kw">rbind</span>(int.post, int.post<span class="fl">.2</span>, int.post<span class="fl">.3</span>)
-heart.int &lt;-<span class="st"> </span><span class="kw">join</span>(heart, int.post, <span class="dt">by =</span> <span class="st">&quot;hospital&quot;</span>)
-<span class="kw">head</span>(heart.int)
-<span class="co">#&gt;     e y hospital   int.izq int.der  media                     comb</span>
-<span class="co">#&gt; 1 532 0        1 1.06e-145   0.113 0.0188 alpha = 0.01 beta = 0.01</span>
-<span class="co">#&gt; 2 532 0        1  6.35e-04   4.474 0.9398  alpha = 0.5 beta = 0.01</span>
-<span class="co">#&gt; 3 532 0        1  1.27e-02   2.386 0.0188    alpha = 1 beta = 1000</span>
-<span class="co">#&gt; 4 584 0        2 1.39e-149   0.120 0.0171 alpha = 0.01 beta = 0.01</span>
-<span class="co">#&gt; 5 584 0        2  1.03e-03   4.264 0.8561  alpha = 0.5 beta = 0.01</span>
-<span class="co">#&gt; 6 584 0        2  1.84e-02   2.294 0.0171    alpha = 1 beta = 1000</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(heart.int, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> media, <span class="dt">color =</span> <span class="kw">factor</span>(y))) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">xend =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> int.izq, <span class="dt">yend =</span> int.der)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>comb, <span class="dt">nrow =</span> <span class="dv">3</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> heart, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> <span class="dv">1000</span><span class="op">*</span>y<span class="op">/</span>e), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, 
-    <span class="dt">alpha =</span> <span class="fl">0.6</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
-    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="dv">700</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">3</span>), 
-      <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">4</span>))) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-87-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Ahora justificaremos la elección de las parejas de parámetros iniciales. La
 única información con la que contamos para definir una distribución inicial es
 que la tasa de mortalidad por transplante de corazón debe ser positiva y no muy
@@ -1357,7 +1330,8 @@ información de todos los hospitales,</p>
 \end{eqnarray}
 \]</span>
 donde <span class="math inline">\(K\)</span> es una constante.</p>
-<p>Al escribir la media posterior de <span class="math inline">\(\lambda_{j}\)</span> como un promedio ponderado, podemos ver el efecto de unir fuerzas mencionado en las observaciones del
+<p>Al escribir la media posterior de <span class="math inline">\(\lambda_{j}\)</span> como un promedio ponderado,
+podemos ver el efecto de unir fuerzas mencionado en las observaciones del
 modelo jerárquico: hay un encogimiento hacia <span class="math inline">\(\mu\)</span> que depende del número de
 expuestos, <span class="math inline">\(e_{j}\)</span>, para los hospitales con menor número de expuestos el
 encogimiento hacia <span class="math inline">\(\mu\)</span> es mayor, mientras que para aquellos con mayor número
@@ -1430,7 +1404,8 @@ a los valores simulados <span class="math inline">\((\mu, \alpha)\)</span>.</p><
 conveniente transformarlos: <span class="math inline">\(\theta_1 = log(\alpha\)</span>, <span class="math inline">\(\theta_2 = log(\mu)\)</span>.</p>
 <p>Definimos ahora la distribución posterior en términos de los parámetros
 transformados</p>
-<pre class="sourceCode r"><code class="sourceCode r">poissgamexch &lt;-<span class="st"> </span><span class="cf">function</span>(theta, datapar){ <span class="co"># theta = c(theta_1, theta_2)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># código Albers paquete LearnBayes</span>
+poissgamexch &lt;-<span class="st"> </span><span class="cf">function</span>(theta, datapar){ <span class="co"># theta = c(theta_1, theta_2)</span>
   y &lt;-<span class="st"> </span>datapar<span class="op">$</span>data[, <span class="dv">2</span>]
   e &lt;-<span class="st"> </span>datapar<span class="op">$</span>data[, <span class="dv">1</span>]
   z0 &lt;-<span class="st"> </span>datapar<span class="op">$</span>z0
@@ -1441,14 +1416,14 @@ transformados</p>
     <span class="kw">lgamma</span>(alpha <span class="op">+</span><span class="st"> </span>y) <span class="op">-</span><span class="st"> </span>(y <span class="op">+</span><span class="st"> </span>alpha) <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(e <span class="op">+</span><span class="st"> </span>beta) <span class="op">+</span><span class="st"> </span>alpha<span class="op">*</span><span class="kw">log</span>(beta) <span class="op">-</span><span class="st"> </span>
 <span class="st">      </span><span class="kw">lgamma</span>(alpha)
   }
-  val =<span class="st"> </span><span class="kw">sum</span>(<span class="kw">logf</span>(y, e, alpha, beta))
-  val =<span class="st"> </span>val <span class="op">+</span><span class="st"> </span><span class="kw">log</span>(alpha) <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(alpha <span class="op">+</span><span class="st"> </span>z0)
+  val &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">logf</span>(y, e, alpha, beta))
+  val &lt;-<span class="st"> </span>val <span class="op">+</span><span class="st"> </span><span class="kw">log</span>(alpha) <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(alpha <span class="op">+</span><span class="st"> </span>z0)
   <span class="kw">return</span>(val)
 }
 <span class="co"># Simulamos theta_1, theta_2 usando el algoritmo de Metropolis dentro de Gibbs</span>
 <span class="co"># en la función gibbs, datapar contiene la base de datos y el valor del </span>
 <span class="co"># hiperparámetro z0 </span>
-datapar =<span class="st"> </span><span class="kw">list</span>(<span class="dt">data =</span> hearttransplants, <span class="dt">z0 =</span> <span class="fl">0.53</span>)
+datapar &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">data =</span> hearttransplants, <span class="dt">z0 =</span> <span class="fl">0.53</span>)
 <span class="co"># adicionalmente debemos dar valores para el algoritmo Metrópolis, la función </span>
 <span class="co"># implementa un algoritmo de caminata aleatoria</span>
 <span class="co"># donde la distribución propuesta tiene la forma  theta* = theta^t-1 + scale*Z</span>
@@ -1456,73 +1431,69 @@ datapar =<span class="st"> </span><span class="kw">list</span>(<span class="dt">
 fitgibbs &lt;-<span class="st"> </span><span class="kw">gibbs</span>(poissgamexch, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">-7</span>), <span class="dt">m =</span> <span class="dv">1000</span>, <span class="dt">scale =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.15</span>),
   datapar)
 fitgibbs<span class="op">$</span>accept
-<span class="co">#&gt;      [,1]  [,2]</span>
-<span class="co">#&gt; [1,] 0.46 0.507</span>
+<span class="co">#&gt;       [,1]  [,2]</span>
+<span class="co">#&gt; [1,] 0.529 0.485</span>
 <span class="co"># simulaciones de alpha</span>
 alpha &lt;-<span class="st"> </span><span class="kw">exp</span>(fitgibbs<span class="op">$</span>par[, <span class="dv">1</span>])
 <span class="co"># simulaciones de mu</span>
-mu =<span class="st"> </span><span class="kw">exp</span>(fitgibbs<span class="op">$</span>par[, <span class="dv">2</span>])</code></pre>
+mu &lt;-<span class="st"> </span><span class="kw">exp</span>(fitgibbs<span class="op">$</span>par[, <span class="dv">2</span>])</code></pre>
 <p>Podemos usar las simulaciones de <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\mu\)</span> para ver el encogimiento de
 las estimaciones de cada hosiptal hacia la media poblacional. Notamos un mayor
 encogimiento para los hospitales con menor número de expuestos.</p>
-<pre class="sourceCode r"><code class="sourceCode r">encoge &lt;-<span class="st"> </span><span class="kw">ddply</span>(heart, <span class="st">&quot;hospital&quot;</span>, transform, <span class="dt">A =</span> <span class="kw">mean</span>(alpha<span class="op">/</span>(alpha <span class="op">+</span><span class="st"> </span>e <span class="op">*</span><span class="st"> </span>mu)))
-<span class="kw">ggplot</span>(encoge, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> A)) <span class="op">+</span>
+<pre class="sourceCode r"><code class="sourceCode r">heart_jer &lt;-<span class="st"> </span>heart <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">rowwise</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">A =</span> <span class="kw">mean</span>(alpha <span class="op">/</span><span class="st"> </span>(alpha <span class="op">+</span><span class="st"> </span>e <span class="op">*</span><span class="st"> </span>mu)))
+<span class="kw">ggplot</span>(heart_jer, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> A)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.6</span>, <span class="dt">size =</span> <span class="fl">1.6</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">label =</span> exp, 
-    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="dv">700</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">3</span>), 
-      <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">4</span>))) <span class="op">+</span>
+    <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span>
 <span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;encogimiento (A)&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>)</code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-89-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-88-1.png" width="400px" style="display: block; margin: auto;" /></p>
 <p>Ahora simualmos observaciones de la distribución posterior de lambda:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># simulamos lambda de la condicional p(lambda) = p(labda|alpha, mu)p(alpha,mu)</span>
-lambdas.h &lt;-<span class="st"> </span><span class="kw">ddply</span>(heart, <span class="st">&quot;hospital&quot;</span>, transform, 
-  <span class="dt">sims =</span> <span class="kw">rgamma</span>(<span class="dv">1000</span>, y <span class="op">+</span><span class="st"> </span>alpha, e <span class="op">+</span><span class="st"> </span>alpha<span class="op">/</span>mu))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">heart_jer_sims &lt;-<span class="st"> </span>heart_jer <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">sims =</span> <span class="kw">map2</span>(e, y, <span class="op">~</span><span class="kw">rgamma</span>(<span class="dv">1000</span>, .y <span class="op">+</span><span class="st"> </span>alpha, .x <span class="op">+</span><span class="st"> </span>alpha <span class="op">/</span><span class="st"> </span>mu))) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ungroup</span>()</code></pre>
 <p>Ya que tenemos las distribuciones posteriores podemos hacer inferencia acerca de
 la tasa de mortalidad <span class="math inline">\(\lambda\)</span>. A continuación graficamos los intervalos
 posteriores del 95% de probabilidad para las tasas <span class="math inline">\(\lambda_{j}\)</span>, el color
 representa el número de muertes observadas <span class="math inline">\(y_{j}\)</span>, en gris se graficaron las
 tasas observadas, la gráfica se dividió en 3 páneles de acuerdo al número de
 muertes observadas en los hospitales.</p>
-<pre class="sourceCode r"><code class="sourceCode r">int.post.h &lt;-<span class="st"> </span><span class="kw">ddply</span>(lambdas.h, <span class="st">&quot;hospital&quot;</span>, summarise, 
-  <span class="dt">int.izq =</span> <span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>sims, <span class="fl">0.025</span>), <span class="dt">int.der =</span> <span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>sims, <span class="fl">0.975</span>), 
-  <span class="dt">media =</span> <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span><span class="kw">mean</span>(sims))
-int.post.h2 &lt;-<span class="st"> </span><span class="kw">join</span>(int.post.h, heart, <span class="dt">by =</span> <span class="st">&quot;hospital&quot;</span>)
-int.post.h2<span class="op">$</span>cat &lt;-<span class="st"> </span><span class="kw">cut</span>(int.post.h2<span class="op">$</span>y, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">19</span>), <span class="dt">right =</span> <span class="ot">FALSE</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Creamos intervalos con las simulaciones</span>
+heart_jer_post &lt;-<span class="st"> </span>heart_jer_sims <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">media =</span> <span class="kw">map_dbl</span>(sims, <span class="op">~</span><span class="kw">mean</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>.)), 
+        <span class="dt">int_l =</span> <span class="kw">map_dbl</span>(sims, <span class="op">~</span><span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>., <span class="fl">0.025</span>)), 
+        <span class="dt">int_u =</span> <span class="kw">map_dbl</span>(sims, <span class="op">~</span><span class="kw">quantile</span>(<span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>., <span class="fl">0.975</span>)),
+        <span class="dt">sims_y =</span> <span class="kw">map2</span>(sims, e, <span class="op">~</span><span class="kw">rpois</span>(<span class="dv">1000</span>, .x <span class="op">*</span><span class="st"> </span>.y))
+        )
 
-<span class="kw">head</span>(int.post.h2)
-<span class="co">#&gt;   hospital int.izq int.der media    e y   cat</span>
-<span class="co">#&gt; 1        1   0.311    1.57 0.866  532 0 [0,2)</span>
-<span class="co">#&gt; 2        2   0.302    1.68 0.877  584 0 [0,2)</span>
-<span class="co">#&gt; 3        3   0.480    2.02 1.115  672 2 [2,4)</span>
-<span class="co">#&gt; 4        4   0.425    1.90 0.993  722 1 [0,2)</span>
-<span class="co">#&gt; 5        5   0.378    1.84 0.978  904 1 [0,2)</span>
-<span class="co">#&gt; 6        6   0.287    1.48 0.812 1236 0 [0,2)</span>
-<span class="kw">ggplot</span>(int.post.h2, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> media, <span class="dt">color =</span> <span class="kw">factor</span>(y))) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">xend =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> int.izq, <span class="dt">yend =</span> int.der)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> <span class="dv">1000</span><span class="op">*</span>y<span class="op">/</span>e), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, 
-    <span class="dt">alpha =</span> <span class="fl">0.6</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
-    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="dv">700</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">3</span>), 
-      <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">4</span>))) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>cat, <span class="dt">nrow =</span> <span class="dv">3</span>)</code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-91-1.png" width="672" style="display: block; margin: auto;" /></p>
+<span class="kw">ggplot</span>(heart_jer_post, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> media, <span class="dt">color =</span> <span class="kw">factor</span>(y))) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> int_l, <span class="dt">ymax =</span> int_u), <span class="dt">size =</span> <span class="fl">0.3</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> heart, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>y <span class="op">/</span><span class="st"> </span>e), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, 
+        <span class="dt">alpha =</span> <span class="fl">0.6</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
+        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-90-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Analizamos la distribución predictiva posterior para la misma muestra de 10
 hospitales que se utilizó en el modelo de unidades iguales.</p>
-<pre class="sourceCode r"><code class="sourceCode r">lambdas.h<span class="op">$</span>sims.y &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">94000</span>, lambdas.h<span class="op">$</span>sims <span class="op">*</span><span class="st"> </span>lambdas.h<span class="op">$</span>e)
-hists.post &lt;-<span class="st"> </span><span class="kw">subset</span>(lambdas.h, hospital <span class="op">%in%</span><span class="st"> </span>hosps)
+<pre class="sourceCode r"><code class="sourceCode r">sims_muestra &lt;-<span class="st"> </span>heart_jer_post <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(hospital <span class="op">%in%</span><span class="st"> </span>heart_sims_sample<span class="op">$</span>hospital)
+sims_unnest &lt;-<span class="st"> </span>sims_muestra <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(hospital, e, y, sims_y) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">unnest</span>()
 
-<span class="kw">ggplot</span>(hists.post, <span class="kw">aes</span>(<span class="dt">x =</span> sims.y)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>, 
-    <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>hospital, <span class="dt">nrow =</span> <span class="dv">2</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="dt">data =</span> heart<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> y, <span class="dt">xend =</span> y, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">yend =</span> <span class="fl">0.5</span>), 
-    <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">data =</span> heart<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.4</span>, <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;e =&quot;</span>, e)), 
-    <span class="dt">size =</span> <span class="fl">2.7</span>)</code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-92-1.png" width="576" style="display: block; margin: auto;" /></p>
+<span class="kw">ggplot</span>(sims_unnest, <span class="kw">aes</span>(<span class="dt">x =</span> sims_y)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">&quot;darkgray&quot;</span>, 
+        <span class="dt">fill =</span> <span class="st">&quot;darkgray&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>hospital, <span class="dt">nrow =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">data =</span> sims_muestra, <span class="kw">aes</span>(<span class="dt">x =</span> y, <span class="dt">xend =</span> y, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">yend =</span> <span class="fl">0.5</span>), 
+        <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> sims_muestra, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.4</span>, <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;e =&quot;</span>, e)), 
+        <span class="dt">size =</span> <span class="fl">2.7</span>)</code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-91-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Observemos que únicamente en uno de los histogramas el número de muertes
 observadas se encuentra cerca de la cola de la distribución, lo que indica
 concordancia de las observaciones con el modelo ajustado.</p>
@@ -1540,46 +1511,49 @@ tan extrema como <span class="math inline">\(y_{j}\)</span> para todas las obser
 simulación). Con el modelo jerárquico solamente el 6% de las probabilidades son
 menores al 0.15, una disminución considerable al 28% obtenido con el modelo de
 unidades iguales.</p>
-<pre class="sourceCode r"><code class="sourceCode r">p.pred.h &lt;-<span class="st"> </span><span class="kw">ddply</span>(lambdas.h, <span class="st">&quot;hospital&quot;</span>, summarise, <span class="dt">p =</span> <span class="kw">min</span>(<span class="kw">sum</span>(sims.y <span class="op">&lt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>, 
-  <span class="kw">sum</span>(sims.y <span class="op">&gt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>))
-<span class="kw">head</span>(p.pred.h)
-<span class="co">#&gt;   hospital     p</span>
-<span class="co">#&gt; 1        1 0.635</span>
-<span class="co">#&gt; 2        2 0.616</span>
-<span class="co">#&gt; 3        3 0.166</span>
-<span class="co">#&gt; 4        4 0.475</span>
-<span class="co">#&gt; 5        5 0.568</span>
-<span class="co">#&gt; 6        6 0.376</span>
-p.pred.h2 &lt;-<span class="st"> </span><span class="kw">join</span>(heart, p.pred.h, <span class="dt">by =</span> <span class="st">&quot;hospital&quot;</span>)
-<span class="kw">ggplot</span>(p.pred.h2, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> p)) <span class="op">+</span><span class="st"> </span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Para calcular las p predictiva podemos usar las simulaciones</span>
+p_pred &lt;-<span class="st"> </span>heart_sims <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(hospital) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(
+        <span class="dt">p =</span> <span class="kw">min</span>(<span class="kw">sum</span>(sims <span class="op">&lt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>, <span class="kw">sum</span>(sims <span class="op">&gt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>), 
+        <span class="dt">e =</span> <span class="kw">first</span>(e)
+        )
+p_pred_indep_jer &lt;-<span class="st"> </span>heart_jer_post <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(hospital) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">p_jer =</span> <span class="kw">min</span>(<span class="kw">sum</span>(sims_y <span class="op">&lt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>, <span class="kw">sum</span>(sims_y <span class="op">&gt;=</span><span class="st"> </span>y) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">left_join</span>(p_pred)
+<span class="co">#&gt; Joining, by = &quot;hospital&quot;</span>
+
+<span class="kw">ggplot</span>(p_pred_indep_jer, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> p_jer)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
-    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="dv">700</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">3</span>), 
-      <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">4</span>))) <span class="op">+</span><span class="st"> </span>
+    <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;P(extremos)&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">.15</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">.7</span>) </code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-93-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-92-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Comparemos ahora las probabilidades de al menos tan extremo usando el modelo
 jerárquico contra las probabilidades de al menos tan extremo usando el modelo de
 unidades iguales, los puntos se colorearon de acuerdo al número de expuestos de
 cada hospital. Observemos que las probabilidades bajo el modelo jerárquico son
 mayores en la mayoría de los casos.</p>
-<pre class="sourceCode r"><code class="sourceCode r">p.pred<span class="fl">.2</span><span class="op">$</span>pred.h &lt;-<span class="st"> </span>p.pred.h<span class="op">$</span>p
-p.pred<span class="fl">.2</span><span class="op">$</span>e.factor &lt;-<span class="st"> </span><span class="kw">cut</span>(heart<span class="op">$</span>e, <span class="kw">c</span>(<span class="dv">500</span>, <span class="dv">1500</span>, <span class="dv">2500</span>, <span class="dv">4000</span>, <span class="dv">12500</span>), 
-  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;(500,1500]&quot;</span>, <span class="st">&quot;(1500,2500]&quot;</span>, <span class="st">&quot;(2500,4000]&quot;</span>, <span class="st">&quot;(4000,1200]&quot;</span>))
-<span class="kw">ggplot</span>(p.pred<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> p, <span class="dt">y =</span> pred.h, <span class="dt">colour =</span> e.factor)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_equal</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;P(extremos), unidades iguales&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;P(extremos), jerárquico&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.7</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.7</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_equal</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_colour_brewer</span>(<span class="st">&quot;No. expuestos (e)&quot;</span>, <span class="dt">palette =</span> <span class="st">&quot;Blues&quot;</span>)
+<pre class="sourceCode r"><code class="sourceCode r">p_pred_indep_jer &lt;-<span class="st"> </span>p_pred_indep_jer <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">e_cat =</span>  Hmisc<span class="op">::</span><span class="kw">cut2</span>(e, <span class="kw">c</span>(<span class="dv">500</span>, <span class="dv">1500</span>, <span class="dv">2500</span>, <span class="dv">4000</span>, <span class="dv">12500</span>)))
+<span class="kw">ggplot</span>(p_pred_indep_jer, <span class="kw">aes</span>(<span class="dt">x =</span> p, <span class="dt">y =</span> p_jer, <span class="dt">colour =</span> e_cat)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="fl">0.4</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">2.5</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">coord_equal</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;P(extremos), unidades iguales&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;P(extremos), jerárquico&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="fl">0.7</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">xlim</span>(<span class="dv">0</span>, <span class="fl">0.7</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">coord_equal</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="st">&quot;No. expuestos (e)&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#1f78b4&quot;</span>,
+        <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#33a02c&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">theme_minimal</span>()
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-94-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-93-1.png" width="400px" style="display: block; margin: auto;" /></p>
 </div>
 <div id="jags-2" class="section level4 unnumbered">
 <h4>JAGS</h4>
@@ -1635,7 +1609,7 @@ jags.inits &lt;-<span class="st"> </span><span class="cf">function</span>(){
     <span class="st">&quot;lambda&quot;</span> =<span class="st"> </span><span class="kw">runif</span>(N))
 }
 <span class="co"># debemos especificar también el nombre de los parámetros que vamos a guardar</span>
-jags.parameters &lt;-<span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;alpha&quot;</span>,<span class="st">&quot;mu&quot;</span>,<span class="st">&quot;lambda&quot;</span>)
+jags.parameters &lt;-<span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;alpha&quot;</span>,<span class="st">&quot;mu&quot;</span>,<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;y&quot;</span>)
 <span class="co"># Y usamos la función jags (más adelante discutiremos los otros parámetros de </span>
 <span class="co"># la función)</span>
 jags.fit &lt;-<span class="st"> </span><span class="kw">jags</span>(<span class="dt">data =</span> jags.data, <span class="dt">inits =</span> jags.inits, 
@@ -1650,214 +1624,9 @@ jags.fit &lt;-<span class="st"> </span><span class="kw">jags</span>(<span class=
 <span class="co">#&gt;    Total graph size: 381</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Initializing model</span>
-jags.fit
-<span class="co">#&gt; Inference for Bugs model at &quot;modelo_heart.txt&quot;, fit using jags,</span>
-<span class="co">#&gt;  2 chains, each with 5000 iterations (first 2500 discarded), n.thin = 2</span>
-<span class="co">#&gt;  n.sims = 2500 iterations saved</span>
-<span class="co">#&gt;            mu.vect sd.vect    2.5%     25%     50%     75%   97.5% Rhat</span>
-<span class="co">#&gt; alpha       12.830    11.9   3.649   6.438   9.184  14.575  51.920 1.01</span>
-<span class="co">#&gt; lambda[1]    0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[2]    0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[3]    0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[4]    0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[5]    0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[6]    0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[7]    0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[8]    0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[9]    0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[10]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[11]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.01</span>
-<span class="co">#&gt; lambda[12]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[13]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[14]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[15]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[16]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[17]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[18]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[19]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[20]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[21]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[22]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[23]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[24]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[25]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[26]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[27]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[28]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.01</span>
-<span class="co">#&gt; lambda[29]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[30]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[31]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[32]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[33]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[34]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[35]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[36]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[37]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[38]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[39]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[40]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[41]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[42]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[43]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[44]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[45]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[46]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[47]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[48]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[49]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[50]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.01</span>
-<span class="co">#&gt; lambda[51]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[52]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.01</span>
-<span class="co">#&gt; lambda[53]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[54]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[55]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[56]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[57]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[58]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[59]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[60]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[61]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[62]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[63]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[64]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[65]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[66]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[67]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[68]   0.001     0.0   0.001   0.001   0.001   0.002   0.002 1.00</span>
-<span class="co">#&gt; lambda[69]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[70]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[71]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[72]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[73]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[74]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[75]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[76]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[77]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[78]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[79]   0.001     0.0   0.000   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[80]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[81]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[82]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[83]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[84]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[85]   0.001     0.0   0.000   0.000   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[86]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[87]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[88]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[89]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[90]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[91]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[92]   0.001     0.0   0.000   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; lambda[93]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; lambda[94]   0.001     0.0   0.001   0.001   0.001   0.001   0.002 1.00</span>
-<span class="co">#&gt; mu           0.001     0.0   0.001   0.001   0.001   0.001   0.001 1.00</span>
-<span class="co">#&gt; deviance   338.006    12.6 313.086 329.247 338.178 347.160 361.311 1.00</span>
-<span class="co">#&gt;            n.eff</span>
-<span class="co">#&gt; alpha        400</span>
-<span class="co">#&gt; lambda[1]   2500</span>
-<span class="co">#&gt; lambda[2]   2500</span>
-<span class="co">#&gt; lambda[3]    930</span>
-<span class="co">#&gt; lambda[4]   2500</span>
-<span class="co">#&gt; lambda[5]   2500</span>
-<span class="co">#&gt; lambda[6]   2500</span>
-<span class="co">#&gt; lambda[7]   2500</span>
-<span class="co">#&gt; lambda[8]   2500</span>
-<span class="co">#&gt; lambda[9]   2500</span>
-<span class="co">#&gt; lambda[10]  2500</span>
-<span class="co">#&gt; lambda[11]  1100</span>
-<span class="co">#&gt; lambda[12]   930</span>
-<span class="co">#&gt; lambda[13]   500</span>
-<span class="co">#&gt; lambda[14]  2500</span>
-<span class="co">#&gt; lambda[15]  2100</span>
-<span class="co">#&gt; lambda[16]  2500</span>
-<span class="co">#&gt; lambda[17]  2500</span>
-<span class="co">#&gt; lambda[18]  2500</span>
-<span class="co">#&gt; lambda[19]  2500</span>
-<span class="co">#&gt; lambda[20]  2500</span>
-<span class="co">#&gt; lambda[21]  2500</span>
-<span class="co">#&gt; lambda[22]  1300</span>
-<span class="co">#&gt; lambda[23]  2400</span>
-<span class="co">#&gt; lambda[24]  2500</span>
-<span class="co">#&gt; lambda[25]  2500</span>
-<span class="co">#&gt; lambda[26]  2300</span>
-<span class="co">#&gt; lambda[27]  2500</span>
-<span class="co">#&gt; lambda[28]  2500</span>
-<span class="co">#&gt; lambda[29]  2500</span>
-<span class="co">#&gt; lambda[30]  2500</span>
-<span class="co">#&gt; lambda[31]  2500</span>
-<span class="co">#&gt; lambda[32]  1100</span>
-<span class="co">#&gt; lambda[33]   480</span>
-<span class="co">#&gt; lambda[34]  2500</span>
-<span class="co">#&gt; lambda[35]  2500</span>
-<span class="co">#&gt; lambda[36]  2500</span>
-<span class="co">#&gt; lambda[37]  2000</span>
-<span class="co">#&gt; lambda[38]  2500</span>
-<span class="co">#&gt; lambda[39]  2500</span>
-<span class="co">#&gt; lambda[40]  1700</span>
-<span class="co">#&gt; lambda[41]  2500</span>
-<span class="co">#&gt; lambda[42]   900</span>
-<span class="co">#&gt; lambda[43]  2500</span>
-<span class="co">#&gt; lambda[44]  2500</span>
-<span class="co">#&gt; lambda[45]  2500</span>
-<span class="co">#&gt; lambda[46]  2500</span>
-<span class="co">#&gt; lambda[47]  2500</span>
-<span class="co">#&gt; lambda[48]  2500</span>
-<span class="co">#&gt; lambda[49]  2500</span>
-<span class="co">#&gt; lambda[50]   690</span>
-<span class="co">#&gt; lambda[51]  2500</span>
-<span class="co">#&gt; lambda[52]   300</span>
-<span class="co">#&gt; lambda[53]  2500</span>
-<span class="co">#&gt; lambda[54]  1900</span>
-<span class="co">#&gt; lambda[55]  2500</span>
-<span class="co">#&gt; lambda[56]  2500</span>
-<span class="co">#&gt; lambda[57]  2500</span>
-<span class="co">#&gt; lambda[58]   570</span>
-<span class="co">#&gt; lambda[59]  2500</span>
-<span class="co">#&gt; lambda[60]   610</span>
-<span class="co">#&gt; lambda[61]  2500</span>
-<span class="co">#&gt; lambda[62]  2300</span>
-<span class="co">#&gt; lambda[63]  2500</span>
-<span class="co">#&gt; lambda[64]  2500</span>
-<span class="co">#&gt; lambda[65]  1800</span>
-<span class="co">#&gt; lambda[66]  1900</span>
-<span class="co">#&gt; lambda[67]   590</span>
-<span class="co">#&gt; lambda[68]  1900</span>
-<span class="co">#&gt; lambda[69]  2500</span>
-<span class="co">#&gt; lambda[70]  2400</span>
-<span class="co">#&gt; lambda[71]  2500</span>
-<span class="co">#&gt; lambda[72]  2500</span>
-<span class="co">#&gt; lambda[73]  2500</span>
-<span class="co">#&gt; lambda[74]  2500</span>
-<span class="co">#&gt; lambda[75]  2500</span>
-<span class="co">#&gt; lambda[76]  2500</span>
-<span class="co">#&gt; lambda[77]  2500</span>
-<span class="co">#&gt; lambda[78]  2500</span>
-<span class="co">#&gt; lambda[79]  1700</span>
-<span class="co">#&gt; lambda[80]  2500</span>
-<span class="co">#&gt; lambda[81]  2500</span>
-<span class="co">#&gt; lambda[82]  1300</span>
-<span class="co">#&gt; lambda[83]  2500</span>
-<span class="co">#&gt; lambda[84]  2500</span>
-<span class="co">#&gt; lambda[85]  2500</span>
-<span class="co">#&gt; lambda[86]  2500</span>
-<span class="co">#&gt; lambda[87]   410</span>
-<span class="co">#&gt; lambda[88]   900</span>
-<span class="co">#&gt; lambda[89]  2000</span>
-<span class="co">#&gt; lambda[90]  2500</span>
-<span class="co">#&gt; lambda[91]  2500</span>
-<span class="co">#&gt; lambda[92]  2500</span>
-<span class="co">#&gt; lambda[93]  2500</span>
-<span class="co">#&gt; lambda[94]  2500</span>
-<span class="co">#&gt; mu          2500</span>
-<span class="co">#&gt; deviance    1400</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; For each parameter, n.eff is a crude measure of effective sample size,</span>
-<span class="co">#&gt; and Rhat is the potential scale reduction factor (at convergence, Rhat=1).</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; DIC info (using the rule, pD = var(deviance)/2)</span>
-<span class="co">#&gt; pD = 79.8 and DIC = 417.8</span>
-<span class="co">#&gt; DIC is an estimate of expected predictive error (lower deviance is better).</span>
-<span class="kw">class</span>(jags.fit)
+<span class="kw">plot</span>(jags.fit)</code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-95-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(jags.fit)
 <span class="co">#&gt; [1] &quot;rjags&quot;</span>
 <span class="kw">names</span>(jags.fit)
 <span class="co">#&gt; [1] &quot;model&quot;              &quot;BUGSoutput&quot;         &quot;parameters.to.save&quot;</span>
@@ -1876,40 +1645,37 @@ jags.fit
 <span class="co"># fit$BUGSoutput como arreglo: sims.array, lista: sims.list o matriz: sims.matrix</span>
 <span class="co"># aquí elegimos el formato de lista</span>
 <span class="kw">names</span>(jags.fit<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list)
-<span class="co">#&gt; [1] &quot;alpha&quot;    &quot;deviance&quot; &quot;lambda&quot;   &quot;mu&quot;</span>
+<span class="co">#&gt; [1] &quot;alpha&quot;    &quot;deviance&quot; &quot;lambda&quot;   &quot;mu&quot;       &quot;y&quot;</span>
 <span class="co"># y extraemos las lambdas</span>
 <span class="kw">class</span>(jags.fit<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>lambda)
 <span class="co">#&gt; [1] &quot;matrix&quot;</span>
 <span class="co"># vienen en formato de matriz donde los renglones son las iteraciones y cada</span>
 <span class="co"># columna corresponde a un hospital</span>
-<span class="kw">dim</span>(jags.fit<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>lambda)
-<span class="co">#&gt; [1] 2500   94</span>
-<span class="co"># usamos la función apply para obtener intervalos de probabilidad del 95%</span>
-ints &lt;-<span class="st"> </span><span class="kw">apply</span>(jags.fit<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>lambda, <span class="dv">2</span>, quantile, 
-  <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))
+lambda_sims &lt;-<span class="st"> </span>jags.fit<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>lambda
+
 <span class="co"># los guardamos en un data.frame</span>
-post<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">94</span>, <span class="kw">t</span>(ints))
-<span class="kw">colnames</span>(post<span class="fl">.2</span>) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;hospital&quot;</span>, <span class="st">&quot;izq&quot;</span>, <span class="st">&quot;der&quot;</span>)
-post<span class="fl">.2</span><span class="op">$</span>media &lt;-<span class="st"> </span><span class="kw">apply</span>(jags.fit<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>lambda, <span class="dv">2</span>, mean)
-post<span class="fl">.2</span><span class="op">$</span>metodo &lt;-<span class="st"> &quot;JAGS&quot;</span>
+p_pred_jags &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">n_sim =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(lambda_sims), <span class="dt">lambdas =</span> lambda_sims) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">gather</span>(hospital, sims, <span class="op">-</span>n_sim) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">hospital =</span> <span class="kw">str_replace</span>(hospital, <span class="kw">fixed</span>(<span class="st">&quot;.&quot;</span>), <span class="st">&quot;&quot;</span>),
+        <span class="dt">hospital =</span> <span class="kw">parse_number</span>(hospital)
+        ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(hospital) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(
+        <span class="dt">media =</span> <span class="kw">mean</span>(sims), 
+        <span class="dt">int_l =</span> <span class="kw">quantile</span>(sims, <span class="fl">0.025</span>),
+        <span class="dt">int_u =</span> <span class="kw">quantile</span>(sims, <span class="fl">0.975</span>)
+        ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">left_join</span>(heart)
 
-post<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">ddply</span>(lambdas.h, <span class="st">&quot;hospital&quot;</span>, summarise, 
-  <span class="dt">izq =</span> <span class="kw">quantile</span>(sims, <span class="fl">0.025</span>), <span class="dt">der =</span> <span class="kw">quantile</span>(sims, <span class="fl">0.975</span>), 
-  <span class="dt">media =</span> <span class="kw">mean</span>(sims))
-post<span class="fl">.1</span><span class="op">$</span>metodo &lt;-<span class="st"> &quot;R&quot;</span>
-compara &lt;-<span class="st"> </span><span class="kw">rbind</span>(post<span class="fl">.1</span>, post<span class="fl">.2</span>)
-heart<span class="op">$</span>hospital &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">94</span>
-compara<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">join</span>(compara, heart, <span class="dt">by =</span> <span class="st">&quot;hospital&quot;</span>)
-
-<span class="kw">ggplot</span>(compara<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> media, <span class="dt">color =</span> metodo)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">xend =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> izq, <span class="dt">yend =</span> der)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> y<span class="op">/</span>e), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, 
-    <span class="dt">alpha =</span> <span class="fl">0.6</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
-    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="kw">log</span>(<span class="dv">700</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">3</span>), 
-      <span class="kw">log</span>(<span class="dv">700</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span><span class="dv">4</span>))) </code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
+<span class="kw">ggplot</span>(p_pred_jags, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> media, <span class="dt">color =</span> <span class="kw">factor</span>(y))) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> int_l, <span class="dt">ymax =</span> int_u), <span class="dt">size =</span> <span class="fl">0.3</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log</span>(e), <span class="dt">y =</span> y<span class="op">/</span>e), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.6</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Número de expuestos (e)&quot;</span>, <span class="dt">labels =</span> exp, 
+        <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</code></pre>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-95-2.png" width="672" /></p>
 <p><img src="imagenes/manicule2.jpg" /> Escribe el modelo en Stan.</p>
 <p><img src="imagenes/manicule2.jpg" /> Implementaremos varios modelos en JAGS o Stan, la
 base de datos que usaremos contiene información de mediciones de radón
@@ -1976,19 +1742,458 @@ donde
 <p>Entonces, para que una distribución inicial sea noinformariva, su rango de
 incertidumbre debe ser más amplio que el rango de valores razonables que pueden
 tomar los parámetros.</p>
-
+</div>
+</div>
+</div>
+<div id="ejemplo-conteo-rapido" class="section level3 unnumbered">
+<h3>Ejemplo: conteo rápido</h3>
+<p><strong>Objetivo</strong>: Estimar resultados de la elección a partir de una muestra
+aleatoria de casillas.</p>
+<p><strong>Inferencia basada en modelos</strong>: Modelo de regresión multinivel, en función de
+covariables asociadas a las casillas, que estima el número de votos a favor del
+candidato en cada casilla.</p>
+<!--3. Juntamos los valores observados y los simulados por el modelo de 
+    cada candidato para calcular proporciones de voto y los intervalos 
+    correspondientes.-->
+<p><strong>Calibración:</strong> Evaluamos modelos con remuestreo y datos de elecciones pasadas,
+revisando cobertura de intervalos de confianza/credibilidad.</p>
+<p><strong>Experiencia:</strong> Mostramos resultados de elección 2018.</p>
+<div id="contexto-conteo-rapido" class="section level4 unnumbered">
+<h4>Contexto: Conteo rápido</h4>
+<ul>
+<li><p>En México, las elecciones tienen lugar un domingo, los resultados oficiales
+del proceso se presentan a la población una semana después. A fin de evitar
+proclamaciones de victoria injustificadas durante ese período el INE organiza un
+conteo rápido.</p></li>
+<li><p><strong>Conteo rápido</strong>: Procedimiento para estimar el porcentaje de votos a favor
+de los candidatos en el día de la elección, consiste en seleccionar una muestra
+aleatoria de las casillas de votación y analizar sus resultados para presentar
+intervalos con una probabilidad de al menos 0.95.</p></li>
+<li><p>La rapidez y precisión del conteo favorece un ambiente de confianza y sirve
+como una herramienta contra el fraude.</p></li>
+</ul>
+</div>
+<div id="elecciones-2018" class="section level4 unnumbered">
+<h4>Elecciones 2018</h4>
+<ul>
+<li><p>La elección del 2018 fue la más grande que se ha vivido en México, con 3,400
+puestos en disputa. Se realizaron conteos rápidos para <strong>9 elecciones estatales</strong>
+simultáneas a un conteo rápido para la <strong>elección de presidente</strong>.</p></li>
+<li><p>El día de la elección, el sistema de información comienza a las 6 p.m. y,
+cada 5 minutos, produce una secuencia de archivos acumulativos. Estas muestras
+parciales se analizan con los métodos de estimación para rastrear la tendencia
+de los resultados.</p></li>
+<li><p>Las muestras parciales tienen un sesgo potencial asociado al patrón de llegada
+de la información.</p></li>
+</ul>
+</div>
+<div id="diseno-de-la-muestra" class="section level4 unnumbered">
+<h4>Diseño de la muestra</h4>
+<p>El diseño de la muestra es probabilístico.</p>
+<ul>
+<li><strong>Diseño:</strong> es unietápico y estratificado, donde la unidad de observación es
+la casilla.
+<ul>
+<li>En Guanajuato son 22 estratos definidos por distrito local.</li>
+</ul></li>
+<li><strong>Tamaño de muestra:</strong> Se eligió el tamaño de muestra para lograr intervalos
+de 95% confianza con <strong>longitud máxima de 2 puntos porcentuales.</strong>
+<ul>
+<li>En Guanajuato el tamaño de muestra se fijó en 500 casillas.</li>
+</ul></li>
+<li><p><strong>Selección de la muestra:</strong> La distribución de la muestra en las casillas
+se realizó proporcional al número de casillas en cada estrato, y se utilizó
+muestreo aleatorio simple dentro de cada estrato.</p></li>
+<li><p><strong>Consideraciones adicionales:</strong> Se buscó que todos los estratos tuvieran
+al menos 50 casillas, y que porcentaje de CAEs (Capacitadores-Asistentes
+Electorales) encargados de más de una casilla fuera menor a 20%.</p></li>
+</ul>
+</div>
+<div id="datos-faltantes" class="section level4 unnumbered">
+<h4>Datos faltantes</h4>
+<p>En la práctica la muestra seleccionada no llega completa. Entre las posibles
+razones de faltantes están:</p>
+<ul>
+<li><p>El clima en ciertas regiones dificulta la transmisión de los resultados.</p></li>
+<li><p>El responsable de reportar los resultados está saturado de trabajo:
+contando votos a falta de funcionarios de casilla, retrasado por la dificultad
+de llegar a la casilla por malas condiciones de terreno,…</p></li>
+</ul>
+<p>Usualmente los faltantes <strong>no son completamente aleatorios</strong>, esto es, la
+probabilidad de que una casilla no se reporte está asociada a la respuesta de
+la casilla.</p>
+<p>Buscamos un modelo con <strong>tratamiento consistente de datos faltantes:</strong> en
+ausencia de respuesta.</p>
+</div>
+<div id="antecedentes" class="section level4 unnumbered">
+<h4>Antecedentes</h4>
+<p>El modelo que proponemos se desarrolló con base a tres referencias:</p>
+<ul>
+<li><span class="citation">Mendoza and Nieto-Barajas (<a href="#ref-mendoza2016">2016</a>)</span> <em>Quick counts in the Mexican presidential elections: A Bayesian
+approach</em>. En este trabajo se propone el uso de modelos bayesianos para el
+conteo rápido.
+<ul>
+<li>Se ajusta un modelo de manera independiente <strong>para cada candidato</strong> en
+<strong>cada estrato</strong>.</li>
+<li>Modelo normal para el total de votos <span class="math inline">\(X_k\)</span> que recibe cada candidato en
+la <span class="math inline">\(k\)</span>-ésima casilla.
+<span class="math display">\[X_k\sim N \bigg( n_{k} \theta, \tau / n_k \bigg)\]</span></li>
+<li><span class="math inline">\(\theta\)</span>: proporción de gente de la lista nominal a favor del candidato.</li>
+<li><span class="math inline">\(n_k\)</span>: número de personas en la lista nominal de la <span class="math inline">\(k\)</span>-ésima casilla.</li>
+</ul></li>
+<li><p><span class="citation">Lehtonen (<a href="#ref-little2012">2012</a>)</span> <em>Calibrated Bayes, an Alternative Inferential Paradigm
+for Official Statistics</em>. Se describe un acercamiento bayesiano para los
+problemas clásicos de muestreo, usando modelos jerárquicos, el paradigma que se
+propone en este artículo consiste en ajustar modelos bayesianos y evaluarlos
+(calibrarlos) usando propiedades frecuentistas.</p></li>
+<li><p><span class="citation">Park, Gelman, and Bafumi (<a href="#ref-parkgelmanbafumi">2004</a>)</span> <em>Bayesian Multilevel Estimation with Poststratification:
+State-Level Estimates from National Polls</em>. Se describe un modelo jerárquico
+para estimar preferencias electorales a partir de encuestas de opinión pública,
+además de la estructura jerárquica se incluyen covaribales.</p></li>
+</ul>
+<p>Es así que tomamos como base el modelo propuesto en <span class="citation">Mendoza and Nieto-Barajas (<a href="#ref-mendoza2016">2016</a>)</span> y siguiendo
+los otros dos artículos comenzamos extendiendolo en 2 sentidos:</p>
+<ol style="list-style-type: decimal">
+<li><p>Usamos un enfoque unificado por candidato, en lugar de estimar un modelo
+independiente dentro de cada estrato, ajustamos un un único modelo por
+candidato incluyendo un efecto aleatorio (estructura multinivel) que
+corresponda al estrato.</p></li>
+<li><p>Agregamos covariables que describen la casilla para mejorar la eficiencia en
+la estimación y corregir sesgos ante faltantes.</p></li>
+</ol>
+</div>
+<div id="inferencia-en-muestreo" class="section level4 unnumbered">
+<h4>Inferencia en muestreo</h4>
+<p>Antes de pasar al modelo describimos como encaja la metodología que proponemos
+en el mundo del muestreo. Cuando se hace inferencia de muestreo hay dos grandes
+acercamientos:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Inferencia basada en diseño de muestras.</strong> Los valores poblacionales son una
+cantidad fija, la inferencia se basa en la distribución de probabilidad asociada
+a la selección de la muestra.</p></li>
+<li><strong>Inferencia basada en modelos.</strong> Las variables provienen de un modelo
+estadístico:
+<ul>
+<li><p><strong>Modelos de superpoblaciones:</strong> los valores poblacionales se consideran
+una muestra aleatoria de una <strong>superpoblación</strong>, y se les asigna una
+distribución de probabilidad.</p></li>
+<li><p><strong>Modelos bayesianos:</strong> agregamos distribuciones iniciales a los
+parámetros y se hace inferencia de las <strong>cantidades poblacionales</strong> y de los
+<strong>parámetros</strong> usando la distribución posterior.</p></li>
+</ul></li>
+</ol>
+</div>
+<div id="modelos-bayesianos" class="section level4 unnumbered">
+<h4>Modelos bayesianos</h4>
+<p>En modelos bayesianos la inferencia se realiza prediciendo la variable de
+interés para las unidades de la población que <strong>no se incluyeron en la muestra</strong>
+y para las unidades <strong>que no respondieron</strong>, condicional a la muestra observada
+y al modelo.</p>
+<p>Usamos modelos paramétricos:</p>
+<p><span class="math display">\[p(y|x)=\int p(y|x, \theta)p(\theta|x)p(\theta)d\theta\]</span></p>
+<ul>
+<li><p><span class="math inline">\(p(y|x,\theta)\)</span>: modelo paramétrico de <span class="math inline">\(y\)</span>.</p></li>
+<li><p><span class="math inline">\(p(\theta|x)\)</span>: distribución inicial para <span class="math inline">\(\theta\)</span>.</p></li>
+</ul>
+<p>Se incluyen en el modelo las variables involucradas en el diseño de la
+muestra (estratos, conglomerados).</p>
+</div>
+<div id="modelo-con-distribucion-normal" class="section level4 unnumbered">
+<h4>Modelo con distribución normal</h4>
+<p>En el caso del modelo del conteo rápido incluímos las siguientes covariables:</p>
+<ol style="list-style-type: decimal">
+<li><p>Tipo de sección (rural o urbana/mixta).</p></li>
+<li><p>Tipo de casilla (básica/contigua/especial o extraordinaria).</p></li>
+<li><p>Tamaño de sección (chica &lt; 1000 votantes, mediana [1000, 5000],
+grande &gt; 5000).</p></li>
+<li><p>Región (oriente u occidente).</p></li>
+<li><p>Distrito local.</p></li>
+<li><p>Interacción de tipo de sección con tamaño de sección.</p></li>
+</ol>
+<p>Y el primer modelo que planteamos es como sigue:</p>
+<p>Sea <span class="math inline">\(X_k\)</span> el número de votos en favor del candidato en la k-ésima casilla:</p>
+<ul>
+<li>Nivel 1
+<span class="math display">\[
+\begin{align}
+  X_k \sim  \mathsf{N}(n_k\theta_k, \tau_k^{\text{distrito}}/n_k) \ \mathcal{I}_{[0,750]},
+\end{align}
+\]</span></li>
+</ul>
+<p>donde <span class="math inline">\(n_k\)</span> es la lista nominal y <span class="math inline">\(\theta_k\)</span> la proporción de personas en la
+lista nominal de la casilla <span class="math inline">\(k\)</span> que votaron por el candidato,</p>
+<p><span class="math display">\[\begin{align}
+\theta_k=\text{logit}^{-1}&amp;(\beta^0+\beta^{\text{rural}}\cdot\text{rural}_k+\beta^{\text{rural-tamañoM}}\cdot\text{rural}_k\cdot\text{tamañoM}_k\\+&amp;\beta^{\text{tamañoM}}\cdot\text{tamañoM}_k
++\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k+\beta^{\text{tipoSP}}\cdot \text{tipoSP}_k\\+&amp;\beta^{\text{distrito}}_{\text{distrito}(k)}),
+\end{align}\]</span></p>
+<ul>
+<li>Nivel 2</li>
+</ul>
+<p><span class="math display">\[\begin{align}
+    \beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
+\end{align}\]</span></p>
+<p>El modelo en JAGS sería:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(quickcountmx)
+<span class="co">#&gt; Error in library(quickcountmx): there is no package called &#39;quickcountmx&#39;</span>
+<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">deparse</span>(quickcountmx<span class="op">:::</span>model_norm)[<span class="dv">3</span>]))
+<span class="co">#&gt; Error in loadNamespace(name): there is no package called &#39;quickcountmx&#39;</span>
+model_string <span class="op">%&gt;%</span><span class="st"> </span>cat
+<span class="co">#&gt; Error in eval(lhs, parent, parent): object &#39;model_string&#39; not found</span></code></pre>
+<p>Se utilizó una parametrización redundante para acelerar la convergencia:</p>
+<pre><code>beta_estrato[j] &lt;-  beta_estrato_raw[j] - mean(beta_estrato_raw[])
+beta_estrato_raw[j] ~ dnorm(mu_estrato, tau_estrato)</code></pre>
+<p>ver el capítulo 19 de <span class="citation">Gelman and Hill (<a href="#ref-gelman-hill">2007</a>)</span>.</p>
+<p>La función <code>mrp_party_estimation()</code> recibe la tabla de datos, el partido que
+se desea ajustar, la variable de estratificación, la fracción de la muestra a
+utilizar en el ajuste, el número de iteraciones, calentamiento, número de
+cadenas, semilla y el modelo que vamos a ajustar.</p>
+<pre class="sourceCode r"><code class="sourceCode r">gto_pan_norm &lt;-<span class="st"> </span><span class="kw">mrp_party_estimation</span>(gto_<span class="dv">2012</span>, pan_na,
+    <span class="dt">stratum =</span> distrito_loc_<span class="dv">17</span>, <span class="dt">frac =</span> <span class="fl">0.06</span>, <span class="dt">n_iter =</span> <span class="dv">2000</span>, <span class="dt">n_burnin =</span> <span class="dv">1000</span>,
+    <span class="dt">n_chains =</span> <span class="dv">2</span>, <span class="dt">seed =</span> <span class="dv">19291</span>, <span class="dt">model_string =</span> <span class="st">&quot;model_norm&quot;</span>)</code></pre>
+<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;data/
+#&gt; gto_pan_norm.rds&#39;, probable reason &#39;No such file or directory&#39;
+#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection
+#&gt; Error in eval(expr, envir, enclos): object &#39;gto_pan_norm&#39; not found</code></pre>
+<p>En <code>fit</code> se guarda la salida de JAGS y <code>n_votes</code> es el vector de simulaciones
+del total de votos.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(gto_pan_norm<span class="op">$</span>fit)
+<span class="co">#&gt; Error in plot(gto_pan_norm$fit): object &#39;gto_pan_norm&#39; not found</span></code></pre>
+<p>De la imagen anterior podemos ver que faltan iteraciones para alcanzar
+convergencia. Las parámetros <code>beta_estrato_raw</code> se crearon para acelerar la
+convergencia pero no es necesario que converjan, pero otras variables como
+<code>beta_region</code> se beneficiarían de incrementar las simulaciones.</p>
+<pre class="sourceCode r"><code class="sourceCode r">gto_norm &lt;-<span class="st"> </span><span class="kw">mrp_estimation</span>(gto_<span class="dv">2012</span>, <span class="dt">... =</span> pri_pvem<span class="op">:</span>otros, 
+    <span class="dt">stratum =</span> distrito_loc_<span class="dv">17</span>, <span class="dt">frac =</span> <span class="fl">0.06</span>, <span class="dt">n_iter =</span> <span class="dv">40</span>, <span class="dt">n_burnin =</span> <span class="dv">20</span>, 
+    <span class="dt">n_chains =</span> <span class="dv">2</span>, <span class="dt">seed =</span> <span class="dv">19291</span>, <span class="dt">parallel =</span> <span class="ot">TRUE</span>, <span class="dt">n_cores =</span> <span class="dv">7</span>)</code></pre>
+</div>
+<div id="inferencia-del-modelo" class="section level4 unnumbered">
+<h4>Inferencia del modelo</h4>
+<ol style="list-style-type: decimal">
+<li>La inferencia de <span class="math inline">\(\theta\)</span> se obtiene de la distribución posterior:
+<span class="math display">\[p(\theta|y_{obs},x)\propto p(\theta|x)L(\theta|y_{obs},x)\]</span></li>
+<li>La posterior de <span class="math inline">\(\theta\)</span> lleva a inferencia de las cantidades poblacionales
+no observadas usando la distribución predictiva posterior:
+<span class="math display">\[p(y_{falta}|y_{obs},x) =  \int p(y_{falta}|\theta,x)p(\theta|y_{obs},x)d\theta\]</span></li>
+<li>Utilizamos los datos observados y simulaciones de los <em>datos faltantes</em>
+para estimar la proporción de votos en favor de cada candidato.</li>
+</ol>
+</div>
+<div id="evaluacion-de-ajuste" class="section level4 unnumbered">
+<h4>Evaluación de ajuste</h4>
+<p>La siguientes gráficas muestra la distribución predictiva posterior del total de
+votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico),
+la línea roja indica el total de votos observado.</p>
+<p><img src="imagenes/pp_pan_total_norm.png" alt="drawing" width="350"/>
+<img src="imagenes/pp_mc_total_norm.png" alt="drawing" width="350"/></p>
+<p>Examinamos otro nivel de desagregación: las distribuciones predictivas
+posteriores para el total de votos por estrato, mostramos las gráficas para 3
+estratos.</p>
+<p><img src="imagenes/pp_pan_estratos_norm.png" alt="drawing" width="750"/></p>
+<p><img src="imagenes/pp_mc_estratos_norm.png" alt="drawing" width="750"/></p>
+</div>
+<div id="modelo-con-distribucion-mezcla" class="section level4 unnumbered">
+<h4>Modelo con distribución mezcla</h4>
+<p>Tras analizar las simulaciones de la distribución predictiva posterior notamos
+que el modelo Normal no ajustaba a los partidos chicos, observamos que para
+estos había muchas casillas con cero votos y unas cuantas con <em>muchos</em> votos.
+Adicionalmente notamos que la distribución t ajustaba mejor que la normal
+gracias a que tiene colas más pesadas. Ante esto propusimos un modelo mezcla
+donde para la <span class="math inline">\(k\)</span> es casilla el número de votos observados es cero con
+probabilidad <span class="math inline">\(p_k\)</span> y sigue una distribución <span class="math inline">\(t\)</span> con probabilidad <span class="math inline">\((1-p_k)\)</span>:</p>
+<ul>
+<li>Nivel 1</li>
+</ul>
+<p><span class="math display">\[X_k\sim p_k\mathsf{\delta}_0(x)+(1-p_k)\mathsf{t}(n_k\theta_k,n_k^{-1}\tau_k^{\text{distrito}},\nu_k^{\text{distrito}}) \mathcal{I}_{[0,750]},\]</span></p>
+<p><span class="math display">\[\begin{align}
+\theta_k=  \text{logit}^{-1} &amp; ( 
+\beta^0 
++\beta^{\text{rural}} \cdot \text{rural}_k 
++\beta^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
++&amp; \beta^{\text{tamañoM}} \cdot \text{tamañoM}_k 
++\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k 
++\beta^{\text{distrito}}_{\text{distrito}(k)}  \\ 
++&amp; \beta^{\text{tipoSP}}\cdot \text{tipoSP}_k 
+),
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+p_k =  \text{logit}^{-1} &amp; ( 
+\beta^0_p
++\beta_p^{\text{rural}} \cdot \text{rural}_k 
++\beta_p^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
++&amp; \beta_p^{\text{tamañoM}} \cdot \text{tamañoM}_k 
++\beta_p^{\text{tamañoL}} \cdot \text{tamañoL}_k 
++\beta^{\text{distrito-p}}_{\text{distrito}(k)}  \\ 
++&amp; \beta_p^{\text{tipoSP}}\cdot \text{tipoSP}_k 
+).
+\end{align}\]</span></p>
+<ul>
+<li>Nivel 2</li>
+</ul>
+<p><span class="math display">\[\begin{align}
+    \beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+    \beta^{\text{distrito-p}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito-p}}, \sigma_{\text{distrito-p}}^2\right).
+\end{align}\]</span></p>
+</div>
+<div id="evaluacion-de-ajuste-1" class="section level4 unnumbered">
+<h4>Evaluación de ajuste</h4>
+<p>Repetimos las gráficas de la distribución predictiva posterior del total de
+votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico).</p>
+<p><img src="imagenes/pp_pan_total_mezcla.png" alt="drawing" width="350"/>
+<img src="imagenes/pp_mc_total_mezcla.png" alt="drawing" width="350"/></p>
+<p>Mostramos también las gráficas para los mismos 3 estratos que en el caso normal.</p>
+<p><img src="imagenes/pp_pan_estratos_mezcla.png" alt="drawing" width="750"/></p>
+<p><img src="imagenes/pp_mc_estratos_mezcla.png" alt="drawing" width="750"/></p>
+</div>
+<div id="calibracion-1" class="section level4 unnumbered">
+<h4>Calibración</h4>
+<p>Para evaluar el modelo complementamos con pruebas de calibración, siguiendo
+los siguientes pasos:</p>
+<ol style="list-style-type: decimal">
+<li><p>Simulamos <span class="math inline">\(n\)</span> muestras.</p></li>
+<li><p>Para cada muestra creamos intervalos de 95%.</p></li>
+<li><p>Revisamos el porcentaje de intervalos que contienen el valor observado.</p></li>
+</ol>
+<p>Simulamos bajo los siguientes escenarios:</p>
+<ul>
+<li><p>Muestras completas.</p></li>
+<li><p>Censuramos las muestras completas usando patrones observados de la llegada de
+datos de cada distrito y ámbito (rural/urbano).</p></li>
+<li><p>Censuramos las muestras completas eliminando estratos.</p></li>
+</ul>
+<div id="estimador-de-razon" class="section level5 unnumbered">
+<h5>Estimador de razón</h5>
+<p>Comparamos el desempeño del modelo a lo largo de las muestras simuladas con
+el estimador de razón combinado:</p>
+<p><span class="math display">\[\hat{p_k}=\frac{\hat{X_k}}{\hat{Y}}=\frac{\sum_h \hat{X_{kh}}}{\sum_h \hat{Y_{h}}}=\frac{\sum_h \frac{N_h}{n_h} \sum_i X_{khi}}{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}\]</span></p>
+<p>Utilizamos bootstrap para estimar los errores estándar. Notar que en el caso
+de estratos faltantes se debe seleccionar una estrategia para utilizar este
+estimador, pues como tal no esta definido si faltan estratos.</p>
+</div>
+<div id="graficas-de-calibracion" class="section level5">
+<h5><span class="header-section-number">10.11.0.1.1</span> Gráficas de calibración</h5>
+<p>En las siguientes gráficas el alto de las barras representa la longitud media
+de la presición (2 veces el error estándar), y el número indica el porcentaje
+de intervalos (de 95% de confianza/probabilidad) que cubrieron el verdadero
+valor.</p>
+<p><img src="imagenes/calibracion_gto.png" alt="drawing" width="500" class="center-image-2"/></p>
+</div>
+</div>
+<div id="eleccion-guanajuato-2018" class="section level4 unnumbered">
+<h4>Elección Guanajuato 2018</h4>
+<p>Se reportaron los intervalos de probabilidad de las 9:45 pm, con 357 casillas.</p>
+<p><img src="imagenes/eleccion_2018_razon_modelo.png" alt="drawing" width="800"/></p>
+</div>
+<div id="implementacion" class="section level4 unnumbered">
+<h4>Implementación</h4>
+<p>Implementamos en <em>JAGS</em>, la estimación se puede consultar y <strong>reproducir
+completamente</strong> con el paquete de R <a href="https://github.com/tereom/quickcountmx">quickcountmx</a>
+(Ortiz 2018).</p>
+<ul>
+<li><p>La reproducibilidad es crucial para examinar la <strong>veracidad de las
+conclusiones</strong> de un trabajo científico.</p></li>
+<li><p>La reproducibilidad ayuda a lograr la <strong>transparencia en el procedimiento
+electoral</strong>, fomenta la <strong>confianza en las instituciones</strong> y da <strong>legitimidad al
+resultado del conteo rápido</strong>.</p></li>
+</ul>
+<p>El código del modelo de JAGS es el siguiente:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(quickcountmx)
+<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">deparse</span>(quickcountmx<span class="op">:::</span>model_bern_t)[<span class="dv">3</span>]))
+model_string <span class="op">%&gt;%</span><span class="st"> </span>cat</code></pre>
+</div>
+<div id="modelo-nacional" class="section level4 unnumbered">
+<h4>Modelo nacional</h4>
+<p>El modelo multinivel con distribución de probabilidad mezcla resulta <em>muy
+lento</em> para la elección nacional.</p>
+<ul>
+<li><p><strong>División de datos:</strong> Se estima un modelo de forma independiente para cada
+una de 7 regiones geográficas lo que nos permite paralelizar, pero no
+podemos usar información entre las regiones.</p></li>
+<li><p>Se modela utilizando una distribucióin <strong>binomial negativa</strong>
+(un parámetro menos).</p></li>
+<li><p>Se implementó con <strong>Stan</strong> en lugar de <strong>JAGS</strong> (el código está en el
+paquete de R <a href="https://github.com/tereom/quickcountmx">quickcountmx</a>).</p></li>
+</ul>
+<p>Para cada región y para cada candidato:</p>
+<ul>
+<li><p>Nivel 1
+<span class="math display">\[X_k \sim  \mathsf{NB}(n_k\theta_k, n_k \theta_k \nu_k^{\text{distrito}}) \mathcal{I}_{[0,750]},\]</span>
+donde <span class="math inline">\(n_k\)</span> es la lista nominal y <span class="math inline">\(\theta_k\)</span> la proporción de personas en la
+lista nominal de la casilla <span class="math inline">\(k\)</span> que votaron por el candidato,
+<span class="math display">\[\begin{align}
+\theta_k=  \text{logit}^{-1} &amp; ( 
+\beta^0 
++\beta^{\text{rural}} \cdot \text{rural}_k 
++\beta^{\text{rural\_tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
++&amp; \beta^{\text{tamañoM}} \cdot \text{tamañoM}_k 
++\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k 
++\beta^{\text{distrito}}_{\text{distrito}(k)}  \\ 
++&amp; \beta^{\text{tipoSP}}\cdot \text{tipoSP}_k 
+),
+\end{align}\]</span></p></li>
+<li><p>Nivel 2
+<span class="math display">\[\begin{align}
+  \beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
+\end{align}\]</span></p></li>
+</ul>
+</div>
+<div id="calibracion-2" class="section level4 unnumbered">
+<h4>Calibración</h4>
+<p><img src="imagenes/calibracion_nal.png" alt="drawing" width="550" class="center-image-2"/></p>
+</div>
+<div id="eleccion-presidencial-2018" class="section level4 unnumbered">
+<h4>Elección Presidencial 2018</h4>
+<p>Se reportaron los intervalos de confianza correspondientes a las 22:30 pm, con
+7,787 casillas (67% de la muestra planeada).</p>
+<p><img src="imagenes/eleccion_2018_razon_modelo_pres.png" alt="drawing" width="800"/></p>
+</div>
+<div id="codigo" class="section level4 unnumbered">
+<h4>Código</h4>
+<pre class="sourceCode r"><code class="sourceCode r">quickcountmx<span class="op">:::</span>stanmodels[<span class="st">&quot;neg_binomial_edo&quot;</span>]</code></pre>
+</div>
+<div id="conclusiones" class="section level4 unnumbered">
+<h4>Conclusiones</h4>
+<div id="ventajas-de-los-modelos" class="section level5 unnumbered">
+<h5>Ventajas de los modelos</h5>
+<p><strong>Tratamiento consistente de datos faltantes:</strong> en ausencia de respuesta, la
+regresión atrae los parámetros hacia la media grupal,</p>
+<ul>
+<li><p>Comportamiento más estable de muestras parciales.</p></li>
+<li><p>Mejores coberturas ante problemas de sesgo.</p></li>
+</ul>
+</div>
+<div id="desventajas-de-los-modelos" class="section level5 unnumbered">
+<h5>Desventajas de los modelos</h5>
+<ul>
+<li>Lentos comparado a estimador de razón o modelos más sencillos.</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
-<!-- </div> -->
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-mendoza2016">
+<p>Mendoza, Manuel, and Luis E. Nieto-Barajas. 2016. “Quick Counts in the Mexican Presidential Elections: A Bayesian Approach.” <em>Electoral Studies</em> 43 (C):124–32. <a href="https://doi.org/10.1016/j.electstud.2016.06.007" class="uri">https://doi.org/10.1016/j.electstud.2016.06.007</a>.</p>
+</div>
+<div id="ref-little2012">
+<p>Lehtonen, Risto. 2012. “Calibrated Bayes, an Alternative Inferential Paradigm for Official Statistics: Discussion.” <em>Journal of Official Statistics</em> 28 (3). SCB:353–57.</p>
+</div>
+<div id="ref-parkgelmanbafumi">
+<p>Park, David K., Andrew Gelman, and Joseph Bafumi. 2004. “Bayesian Multilevel Estimation with Poststratification: State-Level Estimates from National Polls.” <em>Political Analysis</em> 12 (04):375–85. <a href="https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00" class="uri">https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00</a>.</p>
+</div>
+<div id="ref-gelman-hill">
+<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
 <a href="hmc-y-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tareas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="flujo-de-trabajo-para-el-analisis-bayesiano.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

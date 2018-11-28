@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="modelos-jerarquicos-1.html">
-
+<link rel="prev" href="mcmc-convergencia.html">
+<link rel="next" href="referencias.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -365,130 +365,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="referencias" class="section level1 unnumbered">
-<h1>Referencias</h1>
+<div id="modelos-jerarquicos-1" class="section level2">
+<h2><span class="header-section-number">10.13</span> 13-Modelos jerárquicos</h2>
+<p>En este ejercicio definirás un modelo jerárquico para la incidencia de tumores
+en grupos de conejos a los que se suministró una medicina. Se realizaron 71
+experimentos distintos utilizando la misma medicina.</p>
+<p>Considerando que cada conejo proviene de un experimento distinto, se desea
+estudiar <span class="math inline">\(\theta_j\)</span>, la probabilidad de desarrollar un tumor en el
+<span class="math inline">\(j\)</span>-ésimo grupo, este parámetro variará de grupo a grupo.</p>
+<p>Denotaremos <span class="math inline">\(y_{ij}\)</span> la observación en el <span class="math inline">\(i\)</span>-ésimo conejo perteneciente al
+<span class="math inline">\(j\)</span>-ésimo experimento, <span class="math inline">\(y_{ij}\)</span> puede tomar dos valores: 1 indicando que el
+conejo desarrolló tumor y 0 en el caso contrario, por tanto la verosimilitud
+sería:</p>
+<p><span class="math display">\[y_{ij} \sim Bernoulli(\theta_j)\]</span></p>
+<p>*Adicionalmente se desea estimar el efecto medio de la medicina a lo largo de
+los grupos <span class="math inline">\(\mu\)</span>, por lo que utilizaremos un modelo jerárquico como sigue:</p>
+<p><span class="math display">\[\theta_j \sim Beta(a, b)\]</span></p>
+<p>donde</p>
+<p><span class="math display">\[a=\mu \kappa\]</span>
+<span class="math display">\[b=(1-\mu)\kappa\]</span></p>
+<p>Finalmente asignamos una distribución a los hiperparámetros <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\kappa\)</span>,</p>
+<p><span class="math display">\[\mu \sim Beta(A_{\mu}, B_{\mu})\]</span></p>
+<p><span class="math display">\[\kappa \sim Gamma(S_{\kappa}, R_{\kappa})\]</span></p>
+<ol style="list-style-type: decimal">
+<li><p>Si piensas en este problema como un lanzamiento de monedas, ¿a qué
+corresponden las monedas y los lanzamientos?</p></li>
+<li>La base de datos <code>rabbits</code> contiene las observaciones de los 71 experimentos,
+cada renglón corresponde a una observación.
+<ul>
+<li>Utiliza JAGS o Stan para ajustar un modelo jerárquico como el descrito
+arriba y usando una inicial <span class="math inline">\(Beta(1, 1)\)</span> y una <span class="math inline">\(Gamma(1, 0.1)\)</span> para <span class="math inline">\(\mu\)</span> y
+<span class="math inline">\(\kappa\)</span> respectivamente.</li>
+<li>Realiza un histograma de la distribución posterior de <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\kappa\)</span>.
+Comenta tus resultados.</li>
+</ul></li>
+<li>Ajusta un nuevo modelo utilizando una iniciales <span class="math inline">\(Beta(10, 10)\)</span> y
+<span class="math inline">\(Gamma(0.51, 0.01)\)</span> para <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\kappa\)</span> (lo demás quedará igual).
+<ul>
+<li>Realiza una gráfica con las medias posteriores de los parámetros
+<span class="math inline">\(\theta_j\)</span> bajo los dos escenarios de distribuciones iniciales: en el eje
+horizontal grafica las medias posteriores del modelo ajustado en el paso
+anterior y en el eje vertical las medias posteriores del segundo modelo .
+¿Cómo se comparan? ¿A qué se deben las diferencias?</li>
+</ul></li>
+</ol>
 
-<div id="refs" class="references">
-<div>
-<p>Betancourt, Michael. 2017. “A Conceptual Introduction to Hamiltonian Monte Carlo.” <a href="http://arxiv.org/abs/1701.02434" class="uri">http://arxiv.org/abs/1701.02434</a>.</p>
 </div>
-<div>
-<p>Bolstad, W.M. 2010. <em>Understanding Computational Bayesian Statistics</em>. Cram101 Textbook Key Facts. Wiley. <a href="https://books.google.com.mx/books?id=igbrBgAAQBAJ" class="uri">https://books.google.com.mx/books?id=igbrBgAAQBAJ</a>.</p>
-</div>
-<div>
-<p>Buja, Andreas, Dianne Cook, Heike Hofmann, Michael Lawrence, Eun-Kyung Lee, Deborah F. Swayne, and Hadley Wickham. 2009. “Statistical Inference for Exploratory Data Analysis and Model Diagnostics.” <em>Philosophical Transactions of the Royal Society of London A: Mathematical, Physical and Engineering Sciences</em> 367 (1906). The Royal Society:4361–83. <a href="https://doi.org/10.1098/rsta.2009.0120" class="uri">https://doi.org/10.1098/rsta.2009.0120</a>.</p>
-</div>
-<div>
-<p>Burns, P. 2015. <em>The R Inferno</em>. <em>The American Statistician</em>. Vol. 4. 69.</p>
-</div>
-<div>
-<p>Cleveland, William S., and Robert McGill. 1984. “Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.” <em>Journal of the American Statistical Association</em> 79 (387). American Statistical Association:pp. 531–54. <a href="http://www.jstor.org/stable/2288400" class="uri">http://www.jstor.org/stable/2288400</a>.</p>
-</div>
-<div>
-<p>Cleveland, W.S. 1993. <em>Visualizing Data</em>. At&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=V-dQAAAAMAAJ" class="uri">https://books.google.com.mx/books?id=V-dQAAAAMAAJ</a>.</p>
-</div>
-<div>
-<p>———. 1994. <em>The Elements of Graphing Data</em>. AT&amp;T Bell Laboratories. <a href="https://books.google.com.mx/books?id=KMsZAQAAIAAJ" class="uri">https://books.google.com.mx/books?id=KMsZAQAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Cook, D., M. Majumder, L. Follett, and H. Hofmann. 2012. “Graphical Tests for Power Comparison of Competing Designs.” <em>IEEE Transactions on Visualization &amp; Computer Graphics</em> 18 (December):2441–8. <a href="https://doi.org/10.1109/TVCG.2012.230" class="uri">https://doi.org/10.1109/TVCG.2012.230</a>.</p>
-</div>
-<div>
-<p>Davison, A. C., and D. V. Hinkley. 1997. <em>Bootstrap Methods and Their Applications</em>. Cambridge: Cambridge University Press. <a href="http://statwww.epfl.ch/davison/BMA/" class="uri">http://statwww.epfl.ch/davison/BMA/</a>.</p>
-</div>
-<div>
-<p>Efron, Bradley, and Robert J. Tibshirani. 1993. <em>An Introduction to the Bootstrap</em>. Monographs on Statistics and Applied Probability 57. Boca Raton, Florida, USA: Chapman &amp; Hall/CRC.</p>
-</div>
-<div>
-<p>Gelman, A., J.B. Carlin, H.S. Stern, D.B. Dunson, A. Vehtari, and D.B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/Crc Texts in Statistical Science. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=ZXL6AQAAQBAJ" class="uri">https://books.google.com.mx/books?id=ZXL6AQAAQBAJ</a>.</p>
-</div>
-<div>
-<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
-</div>
-<div>
-<p>Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2001. <em>The Elements of Statistical Learning</em>. Springer Series in Statistics. New York, NY, USA: Springer New York Inc.</p>
-</div>
-<div>
-<p>Hesterberg, Tim C. 2015. “What Teachers Should Know About the Bootstrap: Resampling in the Undergraduate Statistics Curriculum.” <em>The American Statistician</em> 69 (4). Taylor &amp; Francis:371–86. <a href="https://doi.org/10.1080/00031305.2015.1089789" class="uri">https://doi.org/10.1080/00031305.2015.1089789</a>.</p>
-</div>
-<div>
-<p>Hofmann, H., H. Wickham, D. Cook, and A. Buja. 2010. “Graphical Inference for Infovis.” <em>IEEE Transactions on Visualization &amp; Computer Graphics</em> 16 (September):973–79. <a href="https://doi.org/10.1109/TVCG.2010.161" class="uri">https://doi.org/10.1109/TVCG.2010.161</a>.</p>
-</div>
-<div>
-<p>INEGI. 2014. “Encuesta Nacional de Ingresos Y Gastos de Los Hogares (Enigh-2014). Diseño Muestral.” <a href="http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf" class="uri">http://internet.contenidos.inegi.org.mx/contenidos/Productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825070359.pdf</a>.</p>
-</div>
-<div>
-<p>Knuth, Donald E. 1997. <em>The Art of Computer Programming, Volume 2: Seminumerical Algorithms</em>. Third. Boston: Addison-Wesley.</p>
-</div>
-<div>
-<p>Kruschke, John. 2015. <em>Doing Bayesian Data Analysis (Second Edition)</em>. Boston: Academic Press.</p>
-</div>
-<div>
-<p>Lehtonen, Risto. 2012. “Calibrated Bayes, an Alternative Inferential Paradigm for Official Statistics: Discussion.” <em>Journal of Official Statistics</em> 28 (3). SCB:353–57.</p>
-</div>
-<div>
-<p>Majumder, Mahbubul, Heike Hofmann, and Dianne Cook. 2013. “Validation of Visual Statistical Inference, Applied to Linear Models.” <em>Journal of the American Statistical Association</em> 108 (503). Taylor &amp; Francis:942–56. <a href="https://doi.org/10.1080/01621459.2013.808157" class="uri">https://doi.org/10.1080/01621459.2013.808157</a>.</p>
-</div>
-<div>
-<p>Matsumoto, Makoto, and Takuji Nishimura. 1998. “Mersenne Twister: A 623-Dimensionally Equidistributed Uniform Pseudo-Random Number Generator.” <em>ACM Trans. Model. Comput. Simul.</em> 8 (1). New York, NY, USA: ACM:3–30. <a href="https://doi.org/10.1145/272991.272995" class="uri">https://doi.org/10.1145/272991.272995</a>.</p>
-</div>
-<div>
-<p>Mendoza, Manuel, and Luis E. Nieto-Barajas. 2016. “Quick Counts in the Mexican Presidential Elections: A Bayesian Approach.” <em>Electoral Studies</em> 43 (C):124–32. <a href="https://doi.org/10.1016/j.electstud.2016.06.007" class="uri">https://doi.org/10.1016/j.electstud.2016.06.007</a>.</p>
-</div>
-<div>
-<p>Park, David K., Andrew Gelman, and Joseph Bafumi. 2004. “Bayesian Multilevel Estimation with Poststratification: State-Level Estimates from National Polls.” <em>Political Analysis</em> 12 (04):375–85. <a href="https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00" class="uri">https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00</a>.</p>
-</div>
-<div>
-<p>Pitman, Jim. 1992. <em>Probability</em>. <a href="http://www.amazon.ca/Probability-Jim-Pitman/dp/0387979743/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1200243180&amp;sr=1-1" class="uri">http://www.amazon.ca/Probability-Jim-Pitman/dp/0387979743/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1200243180&amp;sr=1-1</a>.</p>
-</div>
-<div>
-<p>Rao, J. N. K., and C. F. J. Wu. 1988. “Resampling Inference with Complex Survey Data.” <em>Journal of the American Statistical Association</em> 83 (401). Taylor &amp; Francis:231–41. <a href="https://doi.org/10.1080/01621459.1988.10478591" class="uri">https://doi.org/10.1080/01621459.1988.10478591</a>.</p>
-</div>
-<div>
-<p>Ross, Sheldon M. 1998. <em>A First Course in Probability</em>. Fifth. Upper Saddle River, N.J.: Prentice Hall.</p>
-</div>
-<div>
-<p>Stan Development Team. 2018. “Stan Modeling Language Users Guide and Reference Manual, Version 2.18.0.” <a href="http://mc-stan.org/" class="uri">http://mc-stan.org/</a>.</p>
-</div>
-<div>
-<p>Tufte, Edward R. 1986. <em>The Visual Display of Quantitative Information</em>. Cheshire, CT, USA: Graphics Press.</p>
-</div>
-<div>
-<p>———. 2006. <em>Beautiful Evidence</em>. Cheshire, CT: Graphics Press.</p>
-</div>
-<div>
-<p>Tukey, J.W. 1977. <em>Exploratory Data Analysis</em>. Addison-Wesley Series in Behavioral Science. Addison-Wesley Publishing Company. <a href="https://books.google.com.mx/books?id=UT9dAAAAIAAJ" class="uri">https://books.google.com.mx/books?id=UT9dAAAAIAAJ</a>.</p>
-</div>
-<div>
-<p>Wasserman, Larry. 2010. <em>All of Statistics: A Concise Course in Statistical Inference</em>. Springer Publishing Company, Incorporated.</p>
-</div>
-<div>
-<p>Wickham, H. 2014. <em>Advanced R</em>. Chapman &amp; Hall/Crc the R Series. Taylor &amp; Francis. <a href="https://books.google.com.mx/books?id=PFHFNAEACAAJ" class="uri">https://books.google.com.mx/books?id=PFHFNAEACAAJ</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. 2nd ed. Springer Publishing Company, Incorporated.</p>
-</div>
-<div>
-<p>———. 2011. “The Split-Apply-Combine Strategy for Data Analysis.” <em>Journal of Statistical Software</em> 40 (1):1–29. <a href="http://www.jstatsoft.org/v40/i01/" class="uri">http://www.jstatsoft.org/v40/i01/</a>.</p>
-</div>
-<div>
-<p>———. 2014. “Tidy Data.” <em>Journal of Statistical Software, Articles</em> 59 (10):1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="uri">https://doi.org/10.18637/jss.v059.i10</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. O’Reilly Media, Inc.</p>
-</div>
-<div>
-<p>Wilkinson, L., D. Wills, D. Rope, A. Norton, and R. Dubbs. 2005. <em>The Grammar of Graphics</em>. Statistics and Computing. Springer New York. <a href="https://books.google.com.mx/books?id=\_kRX4LoFfGQC" class="uri">https://books.google.com.mx/books?id=\_kRX4LoFfGQC</a>.</p>
-</div>
-</div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="modelos-jerarquicos-1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="mcmc-convergencia.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -518,7 +448,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/tereom/est-computacional-2018/edit/master/99-references.Rmd",
+"link": "https://github.com/tereom/est-computacional-2018/edit/master/98-tareas.Rmd",
 "text": "Edit"
 },
 "history": {
