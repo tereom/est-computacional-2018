@@ -342,7 +342,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="metropolis-2.html"><a href="metropolis-2.html#solucion-3"><i class="fa fa-check"></i>Solución</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="mcmc-convergencia.html"><a href="mcmc-convergencia.html"><i class="fa fa-check"></i>12-MCMC convergencia</a></li>
-<li class="chapter" data-level="10.13" data-path="modelos-jerarquicos-1.html"><a href="modelos-jerarquicos-1.html"><i class="fa fa-check"></i><b>10.13</b> 13-Modelos jerárquicos</a></li>
+<li class="chapter" data-level="" data-path="modelos-jerarquicos-1.html"><a href="modelos-jerarquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -375,7 +375,7 @@ hogares muestreados de 85 condados de Minnesota. El objetivo es
 construir un modelo de regresión en el que la medición de radón es la
 variable dependiente y el tipo de suelo es la covariable.</p>
 <p>El modelo es como sigue:</p>
-<p><span class="math display">\[x_i \sim N(\alpha + \beta x_i, \sigma^2)\]</span></p>
+<p><span class="math display">\[y_i \sim N(\alpha + \beta x_i, \sigma^2)\]</span></p>
 <p>La distribuciones iniciales que usaremos son:
 <span class="math display">\[\beta \sim N(0, 1000)\]</span>
 <span class="math display">\[\sigma^2 \sim U(0, 1000)\]</span></p>
@@ -386,7 +386,7 @@ variable dependiente y el tipo de suelo es la covariable.</p>
 <span class="st">        y[i] ~ dnorm(y.hat[i], tau.y) </span>
 <span class="st">        y.hat[i] &lt;- a + b * x[i]</span>
 <span class="st">      }</span>
-<span class="st">      a ~ dnorm(0, 0.001)</span>
+<span class="st">      a ~ dnorm(0, 0.01)</span>
 <span class="st">      b ~ dnorm(0, 0.001)</span>
 <span class="st">      tau.y &lt;- pow(sigma.y, -2)</span>
 <span class="st">      sigma.y ~ dunif(0, 100)</span>

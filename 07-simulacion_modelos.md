@@ -941,8 +941,8 @@ sims_congress %>%
 sims_congress %>%
   group_by(sim) %>%
   mutate(wins = sum(dem_share > 0.5)) %>%
-    pull(wins) %>% qplot()
-#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+    pull(wins) %>% 
+    qplot(binwidth = 1)
 ```
 
 <img src="07-simulacion_modelos_files/figure-html/unnamed-chunk-20-1.png" width="672" />
@@ -1190,14 +1190,15 @@ medir similitud.
 **La estadística de prueba ahora es una gráfica de los datos, 
 y en lugar de una diferencia matemática usamos el ojo humano.**
 
-En la siguiente prueba gráfica, los verdaderos datos están escondidos entre 19 gráficas
+<!--En la siguiente prueba gráfica, los verdaderos datos están escondidos entre 19 gráficas
 de datos nulos, donde un dato nulo es una muestra de la distribución bajo la
 hipótesis nula. Si es posible identificar los datos, hay evidencia indicando
-que estos son distintos a los datos nulos.
+que estos son distintos a los datos nulos.-->
 
 
 <div class="caja">
-Prueba visual
+**Prueba visual**
+
 1. Genera n-1 datos nulos (datos que siguen la hipótesis nula)
 
 2. Grafica los nulos + los datos reales, donde los datos están posicionados

@@ -1036,7 +1036,7 @@ variable dependiente y el tipo de suelo es la covariable.
 
 El modelo es como sigue:
 
-$$x_i \sim N(\alpha + \beta x_i, \sigma^2)$$
+$$y_i \sim N(\alpha + \beta x_i, \sigma^2)$$
 
 La distribuciones iniciales que usaremos son:
 $$\beta \sim N(0, 1000)$$
@@ -1051,7 +1051,7 @@ modelo_regresion.txt <-
         y[i] ~ dnorm(y.hat[i], tau.y) 
         y.hat[i] <- a + b * x[i]
       }
-      a ~ dnorm(0, 0.001)
+      a ~ dnorm(0, 0.01)
       b ~ dnorm(0, 0.001)
       tau.y <- pow(sigma.y, -2)
       sigma.y ~ dunif(0, 100)
@@ -1081,7 +1081,7 @@ para concluir que se convergió a la distribución posterior.
 
 Instalar Stan y rstan, instrucciones [aquí](http://mc-stan.org/users/interfaces/rstan.html).
 
-## 13-Modelos jerárquicos
+## 13-Modelos jerárquicos {-}
 
 En este ejercicio definirás un modelo jerárquico para la incidencia de tumores
 en grupos de conejos a los que se suministró una medicina. Se realizaron 71
@@ -1098,7 +1098,7 @@ sería:
 
 $$y_{ij} \sim Bernoulli(\theta_j)$$
 
-*Adicionalmente se desea estimar el efecto medio de la medicina a lo largo de
+Adicionalmente se desea estimar el efecto medio de la medicina a lo largo de
 los grupos $\mu$, por lo que utilizaremos un modelo jerárquico como sigue:
 
 $$\theta_j \sim Beta(a, b)$$
