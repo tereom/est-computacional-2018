@@ -3288,7 +3288,8 @@ library(MASS)
 ```
 
 
-En esta sección veremos un problema de estimación de tasas de mortalidad. 
+En esta sección veremos un problema de estimación de tasas de mortalidad, la
+referencia de este ejemplo es @albert. 
 Plantearemos 3 alternativas de modelación para resolver el problema: modelo de
 unidades iguales, modelo de unidades independientes y finalmente modelo 
 jerárquico.
@@ -3486,7 +3487,7 @@ muertes $y_{j}$ no está en las colas de la distribución predictiva, diríamos 
 la observación es consistente con el modelo observado.
 
 
-```{r, fig.width=6,fig.height=4.6,fig.align='center', out.width="500px"}
+```{r, fig.width=6,fig.height=4.6,fig.align='center', out.width="550px"}
 # La densidad posterior es Gamma con los siguientes parámetros
 c(sum(heart$y), sum(heart$e))
 # Simulamos 1000 muestras de la densidad posterior de lambda
@@ -4040,7 +4041,7 @@ Definimos ahora la distribución posterior en términos de los parámetros
 transformados
 
 ```{r}
-# código Albers paquete LearnBayes
+# código Albert paquete LearnBayes
 poissgamexch <- function(theta, datapar){ # theta = c(theta_1, theta_2)
   y <- datapar$data[, 2]
   e <- datapar$data[, 1]
@@ -4141,7 +4142,7 @@ ggplot(sims_unnest, aes(x = sims_y)) +
     geom_segment(data = sims_muestra, aes(x = y, xend = y, y = 0, yend = 0.5), 
         color = "red") + 
     geom_text(data = sims_muestra, aes(x = 10, y = 0.4, label = paste("e =", e)), 
-        size = 2.7)
+        size = 2.7, color = "red")
 ```
 
 Observemos que únicamente en uno de los histogramas el número de muertes 
@@ -4588,13 +4589,22 @@ $$\begin{align}
 	\beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
 \end{align}$$
 
-El modelo en JAGS sería:
+El código del modelo en JAGS:
 
-```{r}
+```{r, eval = FALSE}
 library(quickcountmx)
 eval(parse(text = deparse(quickcountmx:::model_norm)[3]))
+```
+```{r, echo = FALSE}
+# write_rds(model_string, "cache_manual/model_string_norm.rds")
+model_string <- read_rds("cache_manual/model_string_norm.rds")
+```
+
+
+```{r}
 model_string %>% cat
 ```
+
 
 Se utilizó una parametrización redundante para acelerar la convergencia:
 
@@ -4616,8 +4626,8 @@ gto_pan_norm <- mrp_party_estimation(gto_2012, pan_na,
     n_chains = 2, seed = 19291, model_string = "model_norm")
 ```
 ```{r, echo = FALSE}
-# write_rds(gto_pan_norm, "data/gto_pan_norm.rds")
-gto_pan_norm <- read_rds("data/gto_pan_norm.rds")
+# write_rds(gto_pan_norm, "cache_manual/gto_pan_norm.rds")
+gto_pan_norm <- read_rds("cache_manual/gto_pan_norm.rds")
 names(gto_pan_norm)
 ```
 En `fit` se guarda la salida de JAGS y `n_votes` es el vector de simulaciones
@@ -4632,11 +4642,30 @@ convergencia. Las parámetros `beta_estrato_raw` se crearon para acelerar la
 convergencia pero no es necesario que converjan, pero otras variables como 
 `beta_region` se beneficiarían de incrementar las simulaciones.
 
+El siguiente código corre el modelo para todos los partidos, incrementando las
+simulaciones.
+
 ```{r, eval = FALSE}
 gto_norm <- mrp_estimation(gto_2012, ... = pri_pvem:otros, 
-    stratum = distrito_loc_17, frac = 0.06, n_iter = 40, n_burnin = 20, 
-    n_chains = 2, seed = 19291, parallel = TRUE, n_cores = 7)
+    stratum = distrito_loc_17, frac = 0.06, n_iter = 3000, n_burnin = 2000, 
+    n_chains = 2, seed = 19291, parallel = TRUE, n_cores = 4, 
+    model_string = "model_norm")
 ```
+La salida incluye los objetos que regresa ña función `jags()` para cada partido
+y una tabla con un resumen de los resultados.
+
+```{r, echo = FALSE}
+# para no tener que instalar quickcountmx en Travis copiamos los datos a data
+# write_rds(gto_norm, "cache_manual/gto_norm.rds")
+gto_norm <- read_rds("cache_manual/gto_norm.rds")
+gto_2012 <- read.csv("data/gto_2012.csv", stringsAsFactors = FALSE)
+```
+
+```{r}
+names(gto_norm)
+gto_norm$post_summary
+```
+
 
 
 #### Inferencia del modelo {-}
@@ -4655,13 +4684,27 @@ La siguientes gráficas muestra la distribución predictiva posterior del total 
 votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico), 
 la línea roja indica el total de votos observado.
 
-```{r}
+```{r, fig.width=6.5, fig.height=3.5,out.width="600px"}
+norm_votes <- map_df(gto_norm$jags_fits, ~apply(.$BUGSoutput$sims.list$x, 1, sum)) %>% 
+    mutate(n_sim = 1:n()) %>% 
+    gather(party, votes, -n_sim) %>% 
+    mutate(party = reorder(party, votes)) 
 
+true_votes <- gto_2012 %>% 
+    dplyr::select(casilla_id, pri_pvem:otros) %>% 
+    gather(party, votes, -casilla_id) %>% 
+    group_by(party) %>% 
+    summarise(total_votes = sum(votes)) %>% 
+    mutate(party = factor(party, levels = levels(norm_votes$party)))
+
+ggplot(norm_votes, aes(x = votes)) +
+    geom_histogram(binwidth = 1000, alpha = 0.7) +
+    facet_wrap(~party, scales = "free_x") +
+    geom_vline(data = true_votes, aes(xintercept = total_votes), 
+        color = "red") +
+    labs(title = "PP Modelo normal: total de votos", 
+        x = expression(y[rep]), y = "") 
 ```
-
-
-<img src="imagenes/pp_pan_total_norm.png" alt="drawing" width="350"/>
-<img src="imagenes/pp_mc_total_norm.png" alt="drawing" width="350"/>
 
 Examinamos otro nivel de desagregación: las distribuciones predictivas 
 posteriores para el total de votos por estrato, mostramos las gráficas para 3
@@ -4719,14 +4762,54 @@ $$\begin{align}
 	\beta^{\text{distrito-p}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito-p}}, \sigma_{\text{distrito-p}}^2\right).
 \end{align}$$
 
+El código en JAGS:
+
+```{r, eval=FALSE}
+eval(parse(text = deparse(quickcountmx:::model_norm)[3]))
+```
+
+```{r, echo = FALSE}
+# este chunk sobra si se instala quickcountmx
+# write_rds(model_string, "cache_manual/model_string_bern_t.rds")
+model_string <- read_rds("cache_manual/model_string_bern_t.rds")
+```
+
+```{r}
+model_string %>% cat()
+```
+
+Lo ajustamos llamando nuevamente a la función `mrp_party_estimation()`, si no 
+especificamos el parámetro `model_string` ajusta por defecto el modelo mezcla.
+
+```{r, eval = FALSE}
+gto_mixture <- mrp_estimation(gto_2012, ... = pri_pvem:otros, 
+    stratum = distrito_loc_17, frac = 0.06, n_iter = 3000, n_burnin = 2000, 
+    n_chains = 2, seed = 19291, parallel = TRUE, n_cores = 6)
+```
+
+```{r, echo = FALSE}
+# write_rds(gto_mixture, "cache_manual/gto_mixture.rds")
+gto_mixture <- read_rds("cache_manual/gto_mixture.rds")
+```
 
 #### Evaluación de ajuste {-}
 
 Repetimos las gráficas de la distribución predictiva posterior del total de
 votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico).
 
-<img src="imagenes/pp_pan_total_mezcla.png" alt="drawing" width="350"/>
-<img src="imagenes/pp_mc_total_mezcla.png" alt="drawing" width="350"/>
+```{r, fig.width=6.5, fig.height=3.5,out.width="600px"}
+mixture_votes <- map_df(gto_norm$jags_fits, 
+    ~apply(.$BUGSoutput$sims.list$x, 1, sum)) %>% 
+    mutate(n_sim = 1:n()) %>% 
+    gather(party, votes, -n_sim)
+ggplot(mixture_votes, aes(x = votes)) +
+    geom_histogram(binwidth = 1000, alpha = 0.7) +
+    facet_wrap(~party, scales = "free_x") +
+    geom_vline(data = true_votes, aes(xintercept = total_votes), 
+        color = "red") +
+    labs(title = "PP Modelo normal: total de votos", 
+        x = expression(y[rep]), y = "") 
+```
 
 Mostramos también las gráficas para los mismos 3 estratos que en el caso normal.
 
@@ -4756,6 +4839,7 @@ datos de cada distrito y ámbito (rural/urbano).
 * Censuramos las muestras completas eliminando estratos.
 
 ##### Estimador de razón {-}
+
 Comparamos el desempeño del modelo a lo largo de las muestras simuladas con 
 el estimador de razón combinado:
 
@@ -4793,22 +4877,14 @@ electoral**, fomenta la **confianza en las instituciones** y da **legitimidad al
 resultado del conteo rápido**.
 
 
-El código del modelo de JAGS es el siguiente:
-
-```{r, eval = FALSE}
-library(quickcountmx)
-eval(parse(text = deparse(quickcountmx:::model_bern_t)[3]))
-model_string %>% cat
-```
-
 #### Modelo nacional {-}
 
 El modelo multinivel con distribución de probabilidad mezcla resulta *muy 
-lento* para la elección nacional.
+lento* para la elección nacional, por lo que se tomaron las siguientes medidas:
 
 * **División de datos:** Se estima un modelo de forma independiente para cada
-una de 7 regiones geográficas lo que nos permite paralelizar, pero no 
-podemos usar información entre las regiones.
+una de 7 regiones geográficas lo que nos permite paralelizar por región y por 
+candidato, la desventaja es que no podemos usar información entre las regiones.
 
 * Se modela utilizando una distribucióin **binomial negativa**
 (un parámetro menos).
@@ -4816,64 +4892,7 @@ podemos usar información entre las regiones.
 * Se implementó con **Stan** en lugar de **JAGS** (el código está en el 
 paquete de R [quickcountmx](https://github.com/tereom/quickcountmx)).
 
-Para cada región y para cada candidato:
-
-- Nivel 1
-$$X_k \sim  \mathsf{NB}(n_k\theta_k, n_k \theta_k \nu_k^{\text{distrito}}) \mathcal{I}_{[0,750]},$$
-donde $n_k$ es la lista nominal y $\theta_k$ la proporción de personas en la 
-lista nominal de la casilla $k$ que votaron por el candidato,
-$$\begin{align}
-\theta_k=  \text{logit}^{-1} & ( 
-\beta^0 
-+\beta^{\text{rural}} \cdot \text{rural}_k 
-+\beta^{\text{rural\_tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
-+& \beta^{\text{tamañoM}} \cdot \text{tamañoM}_k 
-+\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k 
-+\beta^{\text{distrito}}_{\text{distrito}(k)}  \\ 
-+& \beta^{\text{tipoSP}}\cdot \text{tipoSP}_k 
-),
-\end{align}$$
-
-
-
-- Nivel 2
-$$\begin{align}
-	\beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
-\end{align}$$
-
-#### Calibración {-}
-
-<img src="imagenes/calibracion_nal.png" alt="drawing" width="550" class="center-image-2"/>
-
-#### Elección Presidencial 2018 {-}
-
-Se reportaron los intervalos de confianza correspondientes a las 22:30 pm, con 
-7,787 casillas (67% de la muestra planeada).
-
-<img src="imagenes/eleccion_2018_razon_modelo_pres.png" alt="drawing" width="800"/>
-
-#### Código {-}
-
-```{r, eval = FALSE}
-quickcountmx:::stanmodels["neg_binomial_edo"]
-```
-
-
-#### Conclusiones {-}
-
-##### Ventajas de los modelos {-}
-
-**Tratamiento consistente de datos faltantes:** en ausencia de respuesta, la 
-regresión atrae los parámetros hacia la media grupal,
-
-* Comportamiento más estable de muestras parciales.
-
-* Mejores coberturas ante problemas de sesgo.
-
-##### Desventajas de los modelos {-}
-
-* Lentos comparado a estimador de razón o modelos más sencillos.
-
+Más detalles del modelo [aquí](https://jovial-jepsen-cf1904.netlify.com).
 
 ## Flujo de trabajo para el análisis bayesiano
 
