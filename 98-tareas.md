@@ -1117,7 +1117,8 @@ $$\kappa \sim Gamma(S_{\kappa}, R_{\kappa})$$
 1. Si piensas en este problema como un lanzamiento de monedas, ¿a qué 
 corresponden las monedas y los lanzamientos?
 
-2. La base de datos `rabbits` contiene las observaciones de los 71 experimentos, 
+2. Los datos en el archivo `rabbits.RData` contienen las observaciones de los 
+71 experimentos, 
 cada renglón corresponde a una observación. 
     + Utiliza JAGS o Stan para ajustar un modelo jerárquico como el descrito 
     arriba y usando una inicial $Beta(1, 1)$ y una $Gamma(1, 0.1)$ para $\mu$ y

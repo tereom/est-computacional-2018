@@ -647,7 +647,8 @@ stan_jer_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(stan
 </div>
 <div id="ejemplo-estimacion-de-tasas-de-mortalidad" class="section level3 unnumbered">
 <h3>Ejemplo: estimación de tasas de mortalidad</h3>
-<p>En esta sección veremos un problema de estimación de tasas de mortalidad.
+<p>En esta sección veremos un problema de estimación de tasas de mortalidad, la
+referencia de este ejemplo es <span class="citation">Albert (<a href="#ref-albert">2009</a>)</span>.
 Plantearemos 3 alternativas de modelación para resolver el problema: modelo de
 unidades iguales, modelo de unidades independientes y finalmente modelo
 jerárquico.</p>
@@ -856,7 +857,7 @@ heart_sims_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>
     <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">data=</span> heart_sims_sample, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.4</span>, 
     <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;e =&quot;</span>, e)), <span class="dt">size =</span> <span class="fl">2.7</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
-<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-83-1.png" width="500px" style="display: block; margin: auto;" /></p>
+<p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-83-1.png" width="550px" style="display: block; margin: auto;" /></p>
 <p>La figura muestra los histogramas, obtenidos con simulación, de la distribución
 predictiva posterior de 10 hospitales (se tomó una muestra de los 94). Para cada
 hospital, se escribió el número de expuestos, <span class="math inline">\(e\)</span>, y se grafica una línea
@@ -1404,7 +1405,7 @@ a los valores simulados <span class="math inline">\((\mu, \alpha)\)</span>.</p><
 conveniente transformarlos: <span class="math inline">\(\theta_1 = log(\alpha\)</span>, <span class="math inline">\(\theta_2 = log(\mu)\)</span>.</p>
 <p>Definimos ahora la distribución posterior en términos de los parámetros
 transformados</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># código Albers paquete LearnBayes</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># código Albert paquete LearnBayes</span>
 poissgamexch &lt;-<span class="st"> </span><span class="cf">function</span>(theta, datapar){ <span class="co"># theta = c(theta_1, theta_2)</span>
   y &lt;-<span class="st"> </span>datapar<span class="op">$</span>data[, <span class="dv">2</span>]
   e &lt;-<span class="st"> </span>datapar<span class="op">$</span>data[, <span class="dv">1</span>]
@@ -1492,7 +1493,7 @@ sims_unnest &lt;-<span class="st"> </span>sims_muestra <span class="op">%&gt;%</
 <span class="st">    </span><span class="kw">geom_segment</span>(<span class="dt">data =</span> sims_muestra, <span class="kw">aes</span>(<span class="dt">x =</span> y, <span class="dt">xend =</span> y, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">yend =</span> <span class="fl">0.5</span>), 
         <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_text</span>(<span class="dt">data =</span> sims_muestra, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.4</span>, <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;e =&quot;</span>, e)), 
-        <span class="dt">size =</span> <span class="fl">2.7</span>)</code></pre>
+        <span class="dt">size =</span> <span class="fl">2.7</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-91-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Observemos que únicamente en uno de los histogramas el número de muertes
 observadas se encuentra cerca de la cola de la distribución, lo que indica
@@ -1932,12 +1933,13 @@ lista nominal de la casilla <span class="math inline">\(k\)</span> que votaron p
 <p><span class="math display">\[\begin{align}
     \beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
 \end{align}\]</span></p>
-<p>El modelo en JAGS sería:</p>
+<p>El código del modelo en JAGS:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(quickcountmx)
-<span class="co">#&gt; Error in library(quickcountmx): there is no package called &#39;quickcountmx&#39;</span>
-<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">deparse</span>(quickcountmx<span class="op">:::</span>model_norm)[<span class="dv">3</span>]))
-<span class="co">#&gt; Error in loadNamespace(name): there is no package called &#39;quickcountmx&#39;</span>
-model_string <span class="op">%&gt;%</span><span class="st"> </span>cat
+<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">deparse</span>(quickcountmx<span class="op">:::</span>model_norm)[<span class="dv">3</span>]))</code></pre>
+<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;cache_manual/
+#&gt; model_string_norm.rds&#39;, probable reason &#39;No such file or directory&#39;
+#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">model_string <span class="op">%&gt;%</span><span class="st"> </span>cat
 <span class="co">#&gt; Error in eval(lhs, parent, parent): object &#39;model_string&#39; not found</span></code></pre>
 <p>Se utilizó una parametrización redundante para acelerar la convergencia:</p>
 <pre><code>beta_estrato[j] &lt;-  beta_estrato_raw[j] - mean(beta_estrato_raw[])
@@ -1950,7 +1952,7 @@ cadenas, semilla y el modelo que vamos a ajustar.</p>
 <pre class="sourceCode r"><code class="sourceCode r">gto_pan_norm &lt;-<span class="st"> </span><span class="kw">mrp_party_estimation</span>(gto_<span class="dv">2012</span>, pan_na,
     <span class="dt">stratum =</span> distrito_loc_<span class="dv">17</span>, <span class="dt">frac =</span> <span class="fl">0.06</span>, <span class="dt">n_iter =</span> <span class="dv">2000</span>, <span class="dt">n_burnin =</span> <span class="dv">1000</span>,
     <span class="dt">n_chains =</span> <span class="dv">2</span>, <span class="dt">seed =</span> <span class="dv">19291</span>, <span class="dt">model_string =</span> <span class="st">&quot;model_norm&quot;</span>)</code></pre>
-<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;data/
+<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;cache_manual/
 #&gt; gto_pan_norm.rds&#39;, probable reason &#39;No such file or directory&#39;
 #&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection
 #&gt; Error in eval(expr, envir, enclos): object &#39;gto_pan_norm&#39; not found</code></pre>
@@ -1962,9 +1964,24 @@ del total de votos.</p>
 convergencia. Las parámetros <code>beta_estrato_raw</code> se crearon para acelerar la
 convergencia pero no es necesario que converjan, pero otras variables como
 <code>beta_region</code> se beneficiarían de incrementar las simulaciones.</p>
+<p>El siguiente código corre el modelo para todos los partidos, incrementando las
+simulaciones.</p>
 <pre class="sourceCode r"><code class="sourceCode r">gto_norm &lt;-<span class="st"> </span><span class="kw">mrp_estimation</span>(gto_<span class="dv">2012</span>, <span class="dt">... =</span> pri_pvem<span class="op">:</span>otros, 
-    <span class="dt">stratum =</span> distrito_loc_<span class="dv">17</span>, <span class="dt">frac =</span> <span class="fl">0.06</span>, <span class="dt">n_iter =</span> <span class="dv">40</span>, <span class="dt">n_burnin =</span> <span class="dv">20</span>, 
-    <span class="dt">n_chains =</span> <span class="dv">2</span>, <span class="dt">seed =</span> <span class="dv">19291</span>, <span class="dt">parallel =</span> <span class="ot">TRUE</span>, <span class="dt">n_cores =</span> <span class="dv">7</span>)</code></pre>
+    <span class="dt">stratum =</span> distrito_loc_<span class="dv">17</span>, <span class="dt">frac =</span> <span class="fl">0.06</span>, <span class="dt">n_iter =</span> <span class="dv">3000</span>, <span class="dt">n_burnin =</span> <span class="dv">2000</span>, 
+    <span class="dt">n_chains =</span> <span class="dv">2</span>, <span class="dt">seed =</span> <span class="dv">19291</span>, <span class="dt">parallel =</span> <span class="ot">TRUE</span>, <span class="dt">n_cores =</span> <span class="dv">4</span>, 
+    <span class="dt">model_string =</span> <span class="st">&quot;model_norm&quot;</span>)</code></pre>
+<p>La salida incluye los objetos que regresa ña función <code>jags()</code> para cada partido
+y una tabla con un resumen de los resultados.</p>
+<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;cache_manual/
+#&gt; gto_norm.rds&#39;, probable reason &#39;No such file or directory&#39;
+#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection
+#&gt; Warning in file(file, &quot;rt&quot;): cannot open file &#39;data/gto_2012.csv&#39;: No such
+#&gt; file or directory
+#&gt; Error in file(file, &quot;rt&quot;): cannot open the connection</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(gto_norm)
+<span class="co">#&gt; Error in eval(expr, envir, enclos): object &#39;gto_norm&#39; not found</span>
+gto_norm<span class="op">$</span>post_summary
+<span class="co">#&gt; Error in eval(expr, envir, enclos): object &#39;gto_norm&#39; not found</span></code></pre>
 </div>
 <div id="inferencia-del-modelo" class="section level4 unnumbered">
 <h4>Inferencia del modelo</h4>
@@ -1983,8 +2000,28 @@ para estimar la proporción de votos en favor de cada candidato.</li>
 <p>La siguientes gráficas muestra la distribución predictiva posterior del total de
 votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico),
 la línea roja indica el total de votos observado.</p>
-<p><img src="imagenes/pp_pan_total_norm.png" alt="drawing" width="350"/>
-<img src="imagenes/pp_mc_total_norm.png" alt="drawing" width="350"/></p>
+<pre class="sourceCode r"><code class="sourceCode r">norm_votes &lt;-<span class="st"> </span><span class="kw">map_df</span>(gto_norm<span class="op">$</span>jags_fits, <span class="op">~</span><span class="kw">apply</span>(.<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>x, <span class="dv">1</span>, sum)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">n_sim =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">gather</span>(party, votes, <span class="op">-</span>n_sim) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">party =</span> <span class="kw">reorder</span>(party, votes)) 
+<span class="co">#&gt; Error in map(.x, .f, ...): object &#39;gto_norm&#39; not found</span>
+
+true_votes &lt;-<span class="st"> </span>gto_<span class="dv">2012</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(casilla_id, pri_pvem<span class="op">:</span>otros) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">gather</span>(party, votes, <span class="op">-</span>casilla_id) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(party) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">total_votes =</span> <span class="kw">sum</span>(votes)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">party =</span> <span class="kw">factor</span>(party, <span class="dt">levels =</span> <span class="kw">levels</span>(norm_votes<span class="op">$</span>party)))
+<span class="co">#&gt; Error in eval(lhs, parent, parent): object &#39;gto_2012&#39; not found</span>
+
+<span class="kw">ggplot</span>(norm_votes, <span class="kw">aes</span>(<span class="dt">x =</span> votes)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1000</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>party, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> true_votes, <span class="kw">aes</span>(<span class="dt">xintercept =</span> total_votes), 
+        <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;PP Modelo normal: total de votos&quot;</span>, 
+        <span class="dt">x =</span> <span class="kw">expression</span>(y[rep]), <span class="dt">y =</span> <span class="st">&quot;&quot;</span>) 
+<span class="co">#&gt; Error in ggplot(norm_votes, aes(x = votes)): object &#39;norm_votes&#39; not found</span></code></pre>
 <p>Examinamos otro nivel de desagregación: las distribuciones predictivas
 posteriores para el total de votos por estrato, mostramos las gráficas para 3
 estratos.</p>
@@ -2035,13 +2072,39 @@ p_k =  \text{logit}^{-1} &amp; (
 <p><span class="math display">\[\begin{align}
     \beta^{\text{distrito-p}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito-p}}, \sigma_{\text{distrito-p}}^2\right).
 \end{align}\]</span></p>
+<p>El código en JAGS:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">deparse</span>(quickcountmx<span class="op">:::</span>model_norm)[<span class="dv">3</span>]))</code></pre>
+<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;cache_manual/
+#&gt; model_string_bern_t.rds&#39;, probable reason &#39;No such file or directory&#39;
+#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">model_string <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">cat</span>()
+<span class="co">#&gt; Error in eval(lhs, parent, parent): object &#39;model_string&#39; not found</span></code></pre>
+<p>Lo ajustamos llamando nuevamente a la función <code>mrp_party_estimation()</code>, si no
+especificamos el parámetro <code>model_string</code> ajusta por defecto el modelo mezcla.</p>
+<pre class="sourceCode r"><code class="sourceCode r">gto_mixture &lt;-<span class="st"> </span><span class="kw">mrp_estimation</span>(gto_<span class="dv">2012</span>, <span class="dt">... =</span> pri_pvem<span class="op">:</span>otros, 
+    <span class="dt">stratum =</span> distrito_loc_<span class="dv">17</span>, <span class="dt">frac =</span> <span class="fl">0.06</span>, <span class="dt">n_iter =</span> <span class="dv">3000</span>, <span class="dt">n_burnin =</span> <span class="dv">2000</span>, 
+    <span class="dt">n_chains =</span> <span class="dv">2</span>, <span class="dt">seed =</span> <span class="dv">19291</span>, <span class="dt">parallel =</span> <span class="ot">TRUE</span>, <span class="dt">n_cores =</span> <span class="dv">6</span>)</code></pre>
+<pre><code>#&gt; Warning in gzfile(file, &quot;rb&quot;): cannot open compressed file &#39;cache_manual/
+#&gt; gto_mixture.rds&#39;, probable reason &#39;No such file or directory&#39;
+#&gt; Error in gzfile(file, &quot;rb&quot;): cannot open the connection</code></pre>
 </div>
 <div id="evaluacion-de-ajuste-1" class="section level4 unnumbered">
 <h4>Evaluación de ajuste</h4>
 <p>Repetimos las gráficas de la distribución predictiva posterior del total de
 votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico).</p>
-<p><img src="imagenes/pp_pan_total_mezcla.png" alt="drawing" width="350"/>
-<img src="imagenes/pp_mc_total_mezcla.png" alt="drawing" width="350"/></p>
+<pre class="sourceCode r"><code class="sourceCode r">mixture_votes &lt;-<span class="st"> </span><span class="kw">map_df</span>(gto_norm<span class="op">$</span>jags_fits, 
+    <span class="op">~</span><span class="kw">apply</span>(.<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>x, <span class="dv">1</span>, sum)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">n_sim =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">gather</span>(party, votes, <span class="op">-</span>n_sim)
+<span class="co">#&gt; Error in map(.x, .f, ...): object &#39;gto_norm&#39; not found</span>
+<span class="kw">ggplot</span>(mixture_votes, <span class="kw">aes</span>(<span class="dt">x =</span> votes)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1000</span>, <span class="dt">alpha =</span> <span class="fl">0.7</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>party, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> true_votes, <span class="kw">aes</span>(<span class="dt">xintercept =</span> total_votes), 
+        <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;PP Modelo normal: total de votos&quot;</span>, 
+        <span class="dt">x =</span> <span class="kw">expression</span>(y[rep]), <span class="dt">y =</span> <span class="st">&quot;&quot;</span>) 
+<span class="co">#&gt; Error in ggplot(mixture_votes, aes(x = votes)): object &#39;mixture_votes&#39; not found</span></code></pre>
 <p>Mostramos también las gráficas para los mismos 3 estratos que en el caso normal.</p>
 <p><img src="imagenes/pp_pan_estratos_mezcla.png" alt="drawing" width="750"/></p>
 <p><img src="imagenes/pp_mc_estratos_mezcla.png" alt="drawing" width="750"/></p>
@@ -2097,83 +2160,29 @@ conclusiones</strong> de un trabajo científico.</p></li>
 electoral</strong>, fomenta la <strong>confianza en las instituciones</strong> y da <strong>legitimidad al
 resultado del conteo rápido</strong>.</p></li>
 </ul>
-<p>El código del modelo de JAGS es el siguiente:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(quickcountmx)
-<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">deparse</span>(quickcountmx<span class="op">:::</span>model_bern_t)[<span class="dv">3</span>]))
-model_string <span class="op">%&gt;%</span><span class="st"> </span>cat</code></pre>
 </div>
 <div id="modelo-nacional" class="section level4 unnumbered">
 <h4>Modelo nacional</h4>
 <p>El modelo multinivel con distribución de probabilidad mezcla resulta <em>muy
-lento</em> para la elección nacional.</p>
+lento</em> para la elección nacional, por lo que se tomaron las siguientes medidas:</p>
 <ul>
 <li><p><strong>División de datos:</strong> Se estima un modelo de forma independiente para cada
-una de 7 regiones geográficas lo que nos permite paralelizar, pero no
-podemos usar información entre las regiones.</p></li>
+una de 7 regiones geográficas lo que nos permite paralelizar por región y por
+candidato, la desventaja es que no podemos usar información entre las regiones.</p></li>
 <li><p>Se modela utilizando una distribucióin <strong>binomial negativa</strong>
 (un parámetro menos).</p></li>
 <li><p>Se implementó con <strong>Stan</strong> en lugar de <strong>JAGS</strong> (el código está en el
 paquete de R <a href="https://github.com/tereom/quickcountmx">quickcountmx</a>).</p></li>
 </ul>
-<p>Para cada región y para cada candidato:</p>
-<ul>
-<li><p>Nivel 1
-<span class="math display">\[X_k \sim  \mathsf{NB}(n_k\theta_k, n_k \theta_k \nu_k^{\text{distrito}}) \mathcal{I}_{[0,750]},\]</span>
-donde <span class="math inline">\(n_k\)</span> es la lista nominal y <span class="math inline">\(\theta_k\)</span> la proporción de personas en la
-lista nominal de la casilla <span class="math inline">\(k\)</span> que votaron por el candidato,
-<span class="math display">\[\begin{align}
-\theta_k=  \text{logit}^{-1} &amp; ( 
-\beta^0 
-+\beta^{\text{rural}} \cdot \text{rural}_k 
-+\beta^{\text{rural\_tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
-+&amp; \beta^{\text{tamañoM}} \cdot \text{tamañoM}_k 
-+\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k 
-+\beta^{\text{distrito}}_{\text{distrito}(k)}  \\ 
-+&amp; \beta^{\text{tipoSP}}\cdot \text{tipoSP}_k 
-),
-\end{align}\]</span></p></li>
-<li><p>Nivel 2
-<span class="math display">\[\begin{align}
-  \beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
-\end{align}\]</span></p></li>
-</ul>
-</div>
-<div id="calibracion-2" class="section level4 unnumbered">
-<h4>Calibración</h4>
-<p><img src="imagenes/calibracion_nal.png" alt="drawing" width="550" class="center-image-2"/></p>
-</div>
-<div id="eleccion-presidencial-2018" class="section level4 unnumbered">
-<h4>Elección Presidencial 2018</h4>
-<p>Se reportaron los intervalos de confianza correspondientes a las 22:30 pm, con
-7,787 casillas (67% de la muestra planeada).</p>
-<p><img src="imagenes/eleccion_2018_razon_modelo_pres.png" alt="drawing" width="800"/></p>
-</div>
-<div id="codigo" class="section level4 unnumbered">
-<h4>Código</h4>
-<pre class="sourceCode r"><code class="sourceCode r">quickcountmx<span class="op">:::</span>stanmodels[<span class="st">&quot;neg_binomial_edo&quot;</span>]</code></pre>
-</div>
-<div id="conclusiones" class="section level4 unnumbered">
-<h4>Conclusiones</h4>
-<div id="ventajas-de-los-modelos" class="section level5 unnumbered">
-<h5>Ventajas de los modelos</h5>
-<p><strong>Tratamiento consistente de datos faltantes:</strong> en ausencia de respuesta, la
-regresión atrae los parámetros hacia la media grupal,</p>
-<ul>
-<li><p>Comportamiento más estable de muestras parciales.</p></li>
-<li><p>Mejores coberturas ante problemas de sesgo.</p></li>
-</ul>
-</div>
-<div id="desventajas-de-los-modelos" class="section level5 unnumbered">
-<h5>Desventajas de los modelos</h5>
-<ul>
-<li>Lentos comparado a estimador de razón o modelos más sencillos.</li>
-</ul>
-</div>
+<p>Más detalles del modelo <a href="https://jovial-jepsen-cf1904.netlify.com">aquí</a>.</p>
 </div>
 </div>
 </div>
 <h3>Referencias</h3>
 <div id="refs" class="references">
+<div id="ref-albert">
+<p>Albert, J. 2009. <em>Bayesian Computation with R</em>. Use R! Springer New York. <a href="https://books.google.com.mx/books?id=AALhk\_mt7SYC" class="uri">https://books.google.com.mx/books?id=AALhk\_mt7SYC</a>.</p>
+</div>
 <div id="ref-mendoza2016">
 <p>Mendoza, Manuel, and Luis E. Nieto-Barajas. 2016. “Quick Counts in the Mexican Presidential Elections: A Bayesian Approach.” <em>Electoral Studies</em> 43 (C):124–32. <a href="https://doi.org/10.1016/j.electstud.2016.06.007" class="uri">https://doi.org/10.1016/j.electstud.2016.06.007</a>.</p>
 </div>
