@@ -1010,7 +1010,8 @@ $Gamma(0.51, 0.01)$ para $\mu$ y $\kappa$ (lo demás quedará igual).
     anterior y en el eje vertical las medias posteriores del segundo modelo . 
     ¿Cómo se comparan? ¿A qué se deben las diferencias?
     
- ## Final {-}
+ 
+## Final {-}
 
 * Puede realizarse individual o en parejas.
 
@@ -1095,7 +1096,7 @@ Reporta si las personas cuestionadas pudieron distinguir los datos.
 * ¿A cuántas personas preguntaste y cuál es el valor p de la prueba?
 
 
-### 2. Simulación para el cálculo de tamaños de muestra
+### 2. Simulación para el cálculo de tamaños de muestra {-}
 
 En el conteo rápido del estado de Guanajuato, se calculó el tamaño de muestra
 fijando como objetivo que los intervalos del $95$% de confianza tuvieran una 
@@ -1306,7 +1307,7 @@ donde $N_j$ indica el número de individuos en cada estado que
 pertenecen a la $j$-ésima celda, la información para determinar las $N_j$ se 
 obtendrá del censo de población.
 
-### Implementación
+**Implementación**
 
 Datos en [election88](http://www.stat.columbia.edu/~gelman/arm/examples/election88/), 
 o en la carpeta data.
