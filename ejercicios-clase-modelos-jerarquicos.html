@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>11-Metropolis | Estadística Computacional</title>
+  <title>14-Ejercicios clase modelos jerárquicos | Estadística Computacional</title>
   <meta name="description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="11-Metropolis | Estadística Computacional />
+  <meta property="og:title" content="14-Ejercicios clase modelos jerárquicos | Estadística Computacional />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="tereom/est-computacional-2018" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="11-Metropolis | Estadística Computacional />
+  <meta name="twitter:title" content="14-Ejercicios clase modelos jerárquicos | Estadística Computacional />
   
   <meta name="twitter:description" content="Curso de estadística computacional, Maestría en Ciencia de Datos, ITAM 2018." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="familias-conjugadas.html">
-<link rel="next" href="mcmc-convergencia.html">
+<link rel="prev" href="modelos-jerarquicos-1.html">
+<link rel="next" href="final.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -372,176 +372,259 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="metropolis-2" class="section level2 unnumbered">
-<h2>11-Metropolis</h2>
-<p>Regresamos al ejercicio de IQ de la tarea anterior, en ésta hiciste cálculos
-para el caso de una sola observación. En este ejercicio consideramos el caso en
-que observamos una muestra <span class="math inline">\(x=\{x_1,...,x_N\}\)</span>, y utilizaremos Metrópolis
-para obtener una muestra de la distribución posterior.</p>
-<ol style="list-style-type: lower-alpha">
-<li>Crea una función <span class="math inline">\(prior\)</span> que reciba los parámetros <span class="math inline">\(\mu\)</span> y <span class="math inline">\(\tau\)</span> que definen
-tus creencias del parámetro desconocido <span class="math inline">\(\theta\)</span> y devuelva <span class="math inline">\(p(\theta)\)</span>, donde
-<span class="math inline">\(p(\theta)\)</span> tiene distriución <span class="math inline">\(N(\mu, \sigma^2)\)</span></li>
+<div id="ejercicios-clase-modelos-jerarquicos" class="section level2 unnumbered">
+<h2>14-Ejercicios clase modelos jerárquicos</h2>
+<p>Implementaremos varios modelos en JAGS o Stan, la
+base de datos que usaremos contiene información de mediciones de radón
+(activity) y del suelo en el que se hicieron las mediciones (floor = <span class="math inline">\(0\)</span> casas
+con sótano, floor = <span class="math inline">\(1\)</span> casas sin sótano), las mediciones corresponden a <span class="math inline">\(919\)</span>
+hogares muestreados de <span class="math inline">\(85\)</span> condados de Minnesota, (este es ejercicio se tomó
+de <span class="citation">Gelman and Hill (<a href="#ref-gelman-hill">2007</a>)</span>). El objetivo es construir un
+modelo de regresión en el que la medición de radón es la variable independiente
+y el tipo de suelo es la covariable.</p>
+<ol style="list-style-type: decimal">
+<li>Iniciaremos con un modelo de regresión de unidades iguales, este modelo
+ignora la variación en los niveles de radón entre los condados.</li>
 </ol>
-<pre class="sourceCode r"><code class="sourceCode r">prior &lt;-<span class="st"> </span><span class="cf">function</span>(mu, tau{
-  <span class="cf">function</span>(theta){
-    ... <span class="co"># llena esta parte</span>
-  }
-}</code></pre>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Utiliza la función que acabas de escribir para definir una distribución
-inicial con parámetros <span class="math inline">\(\mu = 150\)</span> y <span class="math inline">\(\tau = 15\)</span>, llámala <em>mi_prior</em>.</li>
-</ol>
-<p>Ya que tenemos la distribución inicial debemos escribir la verosimilitud, en
-este caso la verosimilitud es:</p>
-<p><span class="math display">\[p(x|\theta, \sigma^2)=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{N}(x_j-\theta)^2\right)\]</span>
-<span class="math display">\[=\frac{1}{(2\pi\sigma^2)^{N/2}}exp\left(-\frac{1}{2\sigma^2}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)\]</span></p>
-<p>Recuerda que estamos suponiendo varianza conocida, supongamos que la
-desviación estándar es <span class="math inline">\(\sigma=20\)</span>.</p>
-<p><span class="math display">\[p(x|\theta)=\frac{1}{(2\pi (20^2))^{N/2}}exp\left(-\frac{1}{2 (20^2)}\bigg(\sum_{j=1}^{N}x_j^2-2\theta\sum_{j=1}^{N} x_j + N\theta^2 \bigg) \right)\]</span></p>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Crea una función <span class="math inline">\(likeNorm\)</span> en R que reciba la desviación estándar, la suma
-de los valores observados <span class="math inline">\(\sum x_i\)</span>, la suma de los valores al cuadrado
-<span class="math inline">\(\sum x_i^2\)</span> y el número de observaciones <span class="math inline">\(N\)</span> la función devolverá la
-función de verosimilitud (es decir va a regresar una función que depende
-únicamente de <span class="math inline">\(\theta\)</span>).</li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># S: sum x_i, S2: sum x_i^2, N: número obs.</span>
-likeNorm &lt;-<span class="st"> </span><span class="cf">function</span>(S, S2, N){
-  <span class="cf">function</span>(theta){
-    ...  <span class="co"># llena esta parte</span>
-  }
-}</code></pre>
-<ol start="4" style="list-style-type: lower-alpha">
-<li><p>Supongamos que aplicamos un test de IQ a 100 alumnos y observamos que la suma
-de los puntajes es 13300, es decir <span class="math inline">\(\sum x_i=13,000\)</span> y <span class="math inline">\(\sum x_i^2=1,700,000\)</span>.
-Utiliza la función que acabas de escribir para definir la función de
-verosimilitud condicional a los datos observados, llámala <em>mi_like</em>.</p></li>
-<li><p>La distribución posterior no normalizada es simplemente el producto de
-la inicial y la posterior:</p></li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r">postRelProb &lt;-<span class="st"> </span><span class="cf">function</span>(theta){
-  <span class="kw">mi_like</span>(theta) <span class="op">*</span><span class="st"> </span><span class="kw">mi_prior</span>(theta)
-}</code></pre>
-<p>Utiliza Metropolis para obtener una muestra de valores representativos de la
-distribución posterior de <span class="math inline">\(\theta\)</span>. Para proponer los saltos utiliza una
-Normal(0, 5).</p>
-<ol start="6" style="list-style-type: lower-alpha">
-<li><p>Grafica los valores de la cadena para cada paso.</p></li>
-<li><p>Elimina los valores correspondientes a la etapa de calentamiento y realiza
-un histograma de la distribución posterior.</p></li>
-<li><p>Si calcularas la posterior de manera analítica obtendrías que <span class="math inline">\(p(x|\theta)\)</span>
-es normal con media:
-<span class="math display">\[\frac{\sigma^2}{\sigma^2 + N\tau^2}\mu + \frac{N\tau^2}{\sigma^2 + N \tau^2}\bar{x}\]</span>
-y varianza
-<span class="math display">\[\frac{\sigma^2 \tau^2}{\sigma^2 + N\tau^2}\]</span></p></li>
-</ol>
-<p>donde <span class="math inline">\(\bar{x}=1/N\sum_{i=1}^N x_i\)</span> es la media de los valores observados.
-Realiza simulaciones de la distribución posterior calculada de manera analítica
-y comparalas con el histograma de los valores generados con Metropolis.</p>
-<ol style="list-style-type: lower-roman">
-<li>¿Cómo utilizarías los parámetros <span class="math inline">\(\mu, \tau^2\)</span> para describir un escenario
-donde sabes poco del verdadero valor de la media <span class="math inline">\(\theta\)</span>?</li>
-</ol>
-<div id="solucion-3" class="section level3 unnumbered">
-<h3>Solución</h3>
-<pre class="sourceCode r"><code class="sourceCode r">prior &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">mu =</span> <span class="dv">100</span>, <span class="dt">tau =</span> <span class="dv">10</span>){
-  <span class="cf">function</span>(theta){
-    <span class="kw">dnorm</span>(theta, mu, tau)
-  }
-}
-mu &lt;-<span class="st"> </span><span class="dv">150</span>
-tau &lt;-<span class="st"> </span><span class="dv">15</span>
-mi_prior &lt;-<span class="st"> </span><span class="kw">prior</span>(mu, tau)</code></pre>
-<ol start="3" style="list-style-type: lower-alpha">
-<li></li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># S: sum x_i, S2: sum x_i^2, N: número obs., sigma: desviación estándar (conocida)</span>
-S &lt;-<span class="st"> </span><span class="dv">13000</span>
-S2 &lt;-<span class="st"> </span><span class="dv">1700000</span>
-N &lt;-<span class="st"> </span><span class="dv">100</span>
+<p><span class="math display">\[y_i \sim N(\alpha + \beta x_i, \sigma_y^2) \]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># preparación de los datos</span>
+<span class="kw">library</span>(R2jags)
+<span class="co">#&gt; Loading required package: rjags</span>
+<span class="co">#&gt; Loading required package: coda</span>
+<span class="co">#&gt; Linked to JAGS 4.3.0</span>
+<span class="co">#&gt; Loaded modules: basemod,bugs</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: &#39;R2jags&#39;</span>
+<span class="co">#&gt; The following object is masked from &#39;package:coda&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     traceplot</span>
 
-<span class="co"># sigma2 &lt;- S2 / N - (S / N) ^ 2</span>
-sigma &lt;-<span class="st"> </span><span class="dv">20</span>
-  
-likeNorm &lt;-<span class="st"> </span><span class="cf">function</span>(S, S2, N, <span class="dt">sigma =</span> <span class="dv">20</span>){
-  <span class="co"># quitamos constantes</span>
-  sigma2 &lt;-<span class="st">  </span>sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span>
-  <span class="cf">function</span>(theta){
-    <span class="kw">exp</span>(<span class="op">-</span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>sigma2) <span class="op">*</span><span class="st"> </span>(S2 <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>theta <span class="op">*</span><span class="st"> </span>S <span class="op">+</span><span class="st"> </span>
-<span class="st">        </span>N <span class="op">*</span><span class="st"> </span>theta <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))
-  }
-}</code></pre>
-<ol start="4" style="list-style-type: lower-alpha">
-<li></li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r">mi_like &lt;-<span class="st"> </span><span class="kw">likeNorm</span>(<span class="dt">S =</span> S, <span class="dt">S2 =</span> S2, <span class="dt">N =</span> N, <span class="dt">sigma =</span> sigma)
-<span class="kw">mi_like</span>(<span class="dv">130</span>)
-<span class="co">#&gt; [1] 3.73e-06</span></code></pre>
-<ol start="5" style="list-style-type: lower-alpha">
-<li></li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r">postRelProb &lt;-<span class="st"> </span><span class="cf">function</span>(theta){
-  <span class="kw">mi_like</span>(theta) <span class="op">*</span><span class="st"> </span><span class="kw">mi_prior</span>(theta)
-}
+radon &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/radon.csv&quot;</span>)
+<span class="co"># creamos variable de condado como entrero consecutivo para iterar </span>
+radon<span class="op">$</span>county &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">factor</span>(radon<span class="op">$</span>cntyfips))
+y &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="kw">ifelse</span> (radon<span class="op">$</span>activity <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="fl">0.1</span>, radon<span class="op">$</span>activity))
+n &lt;-<span class="st"> </span><span class="kw">nrow</span>(radon)
+x &lt;-<span class="st"> </span>radon<span class="op">$</span>floor
+J &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(radon<span class="op">$</span>county))
+county &lt;-<span class="st"> </span>radon<span class="op">$</span>county</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">modelo_<span class="dv">1</span> &lt;-<span class="st"> </span>
+<span class="st">&#39;</span>
+<span class="st">model{</span>
+<span class="st">  for(i in 1 : n) {</span>
+<span class="st">    y[i] ~ dnorm(y.hat[i], tau.y) </span>
+<span class="st">    y.hat[i] &lt;- a + b * x[i]</span>
+<span class="st">  }</span>
+<span class="st">  a ~ dnorm(0, 0.0001)</span>
+<span class="st">  b ~ dnorm(0, 0.0001)</span>
+<span class="st">  tau.y &lt;- pow(sigma.y, -2)</span>
+<span class="st">  sigma.y ~ dunif(0, 100)</span>
+<span class="st">}</span>
+<span class="st">&#39;</span>
+<span class="kw">cat</span>(modelo_<span class="dv">1</span>, <span class="dt">file =</span> <span class="st">&#39;modelo_1.bugs&#39;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># llamar a jags</span>
+radon_<span class="dv">1</span>_data &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">n =</span> n, <span class="dt">y =</span> y, <span class="dt">x =</span> x)
+radon_<span class="dv">1</span>_inits &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    <span class="kw">list</span>(<span class="dt">a =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>), <span class="dt">b =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>), <span class="dt">sigma.y =</span> <span class="kw">runif</span>(<span class="dv">1</span>))}
+radon_<span class="dv">1</span>_parameters &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;sigma.y&quot;</span>)
 
-<span class="co"># para cada paso decidimos el movimiento de acuerdo a la siguiente función</span>
-caminaAleat &lt;-<span class="st"> </span><span class="cf">function</span>(theta, <span class="dt">sd_prop =</span> <span class="dv">5</span>){ <span class="co"># theta: valor actual</span>
-  salto_prop &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">sd =</span> sd_prop) <span class="co"># salto propuesto</span>
-  theta_prop &lt;-<span class="st"> </span>theta <span class="op">+</span><span class="st"> </span>salto_prop <span class="co"># theta propuesta</span>
-  u &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) 
-  p_move =<span class="st"> </span><span class="kw">min</span>(<span class="kw">postRelProb</span>(theta_prop) <span class="op">/</span><span class="st"> </span><span class="kw">postRelProb</span>(theta), <span class="dv">1</span>) <span class="co"># prob mover</span>
-  <span class="cf">if</span>(p_move  <span class="op">&gt;</span><span class="st"> </span>u){
-    <span class="kw">return</span>(theta_prop) <span class="co"># aceptar valor propuesto</span>
-  }
-  <span class="cf">else</span>{
-    <span class="kw">return</span>(theta) <span class="co"># rechazar</span>
-  }
-}
-
-
-pasos &lt;-<span class="st"> </span><span class="dv">10000</span>
-camino &lt;-<span class="st"> </span><span class="kw">numeric</span>(pasos) <span class="co"># vector que guardará las simulaciones</span>
-camino[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">90</span> <span class="co"># valor inicial</span>
-
-rechazo =<span class="st"> </span><span class="dv">0</span>
-<span class="co"># Generamos la caminata aleatoria</span>
-<span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>pasos){
-  camino[j] &lt;-<span class="st"> </span><span class="kw">caminaAleat</span>(camino[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>])
-  rechazo &lt;-<span class="st"> </span>rechazo <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">*</span><span class="st"> </span>(camino[j] <span class="op">==</span><span class="st"> </span>camino[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>]) 
-}
-
-rechazo <span class="op">/</span><span class="st"> </span>pasos
-<span class="co">#&gt; [1] 0.583</span>
-caminata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">pasos =</span> <span class="dv">1</span><span class="op">:</span>pasos, <span class="dt">theta =</span> camino)</code></pre>
-<ol start="6" style="list-style-type: lower-alpha">
-<li></li>
+radon_<span class="dv">1</span>_jags &lt;-<span class="st"> </span><span class="kw">jags</span>(<span class="dt">data =</span> radon_<span class="dv">1</span>_data, <span class="dt">inits=</span> radon_<span class="dv">1</span>_inits, 
+    <span class="dt">parameters.to.save =</span> radon_<span class="dv">1</span>_parameters, <span class="dt">model.file =</span> <span class="st">&quot;modelo_1.bugs&quot;</span>, 
+    <span class="dt">n.iter =</span> <span class="dv">1000</span>)
+<span class="co">#&gt; module glm loaded</span>
+<span class="co">#&gt; Compiling model graph</span>
+<span class="co">#&gt;    Resolving undeclared variables</span>
+<span class="co">#&gt;    Allocating nodes</span>
+<span class="co">#&gt; Graph information:</span>
+<span class="co">#&gt;    Observed stochastic nodes: 919</span>
+<span class="co">#&gt;    Unobserved stochastic nodes: 3</span>
+<span class="co">#&gt;    Total graph size: 1852</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Initializing model</span>
+radon_<span class="dv">1</span>_jags
+<span class="co">#&gt; Inference for Bugs model at &quot;modelo_1.bugs&quot;, fit using jags,</span>
+<span class="co">#&gt;  3 chains, each with 1000 iterations (first 500 discarded)</span>
+<span class="co">#&gt;  n.sims = 1500 iterations saved</span>
+<span class="co">#&gt;           mu.vect sd.vect     2.5%      25%      50%      75%    97.5%</span>
+<span class="co">#&gt; a           1.327   0.030    1.268    1.307    1.327    1.347    1.387</span>
+<span class="co">#&gt; b          -0.611   0.075   -0.758   -0.662   -0.610   -0.558   -0.466</span>
+<span class="co">#&gt; sigma.y     0.824   0.020    0.786    0.811    0.824    0.837    0.864</span>
+<span class="co">#&gt; deviance 2250.220   2.606 2247.252 2248.296 2249.672 2251.319 2256.846</span>
+<span class="co">#&gt;          Rhat n.eff</span>
+<span class="co">#&gt; a           1  1500</span>
+<span class="co">#&gt; b           1  1500</span>
+<span class="co">#&gt; sigma.y     1  1500</span>
+<span class="co">#&gt; deviance    1  1400</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; For each parameter, n.eff is a crude measure of effective sample size,</span>
+<span class="co">#&gt; and Rhat is the potential scale reduction factor (at convergence, Rhat=1).</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; DIC info (using the rule, pD = var(deviance)/2)</span>
+<span class="co">#&gt; pD = 3.4 and DIC = 2253.6</span>
+<span class="co">#&gt; DIC is an estimate of expected predictive error (lower deviance is better).</span></code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Después pasamos a un modelo de unidades independientes, en este simplemente
+incluímos indicadoras a nivel condado.</li>
 </ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(caminata[<span class="dv">1</span><span class="op">:</span><span class="dv">2000</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> pasos, <span class="dt">y =</span> theta)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="fl">0.8</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_path</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>) </code></pre>
-<p><img src="98-tareas_files/figure-html/unnamed-chunk-30-1.png" width="672" height="300px" /></p>
-<ol start="7" style="list-style-type: lower-alpha">
-<li></li>
+<p><span class="math display">\[y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2)\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">modelo_<span class="dv">2</span> &lt;-<span class="st"> </span>
+<span class="st">&#39;</span>
+<span class="st">model{</span>
+<span class="st">  for(i in 1 : n) {</span>
+<span class="st">    y[i] ~ dnorm(y.hat[i], tau.y) </span>
+<span class="st">    y.hat[i] &lt;- a[county[i]] + b * x[i]</span>
+<span class="st">  }</span>
+<span class="st">  b ~ dnorm(0, 0.001)</span>
+<span class="st">  tau.y &lt;- pow(sigma.y, -2)</span>
+<span class="st">  sigma.y ~ dunif(0, 100)</span>
+<span class="st">  for(j in 1:J){</span>
+<span class="st">    a[j] ~ dnorm(0, 0.001)</span>
+<span class="st">  }</span>
+<span class="st">}</span>
+<span class="st">&#39;</span>
+<span class="kw">cat</span>(modelo_<span class="dv">2</span>, <span class="dt">file =</span> <span class="st">&#39;modelo_2.bugs&#39;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">radon_<span class="dv">2</span>_data &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">n =</span> n, <span class="dt">J =</span> J, <span class="dt">y =</span> y, <span class="dt">county =</span> county, <span class="dt">x =</span> x)
+radon_<span class="dv">2</span>_inits &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    <span class="kw">list</span>(<span class="dt">a =</span> <span class="kw">rnorm</span>(J), <span class="dt">b =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>), <span class="dt">sigma.y =</span> <span class="kw">runif</span>(<span class="dv">1</span>))}
+radon_<span class="dv">2</span>_parameters &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;sigma.y&quot;</span>)
+
+radon_<span class="dv">2</span>_jags &lt;-<span class="st"> </span><span class="kw">jags</span>(<span class="dt">data =</span> radon_<span class="dv">2</span>_data, <span class="dt">inits=</span> radon_<span class="dv">2</span>_inits, 
+    <span class="dt">parameters.to.save =</span> radon_<span class="dv">2</span>_parameters, <span class="dt">model.file =</span> <span class="st">&quot;modelo_2.bugs&quot;</span>, 
+    <span class="dt">n.iter =</span> <span class="dv">1000</span>)
+<span class="co">#&gt; Compiling model graph</span>
+<span class="co">#&gt;    Resolving undeclared variables</span>
+<span class="co">#&gt;    Allocating nodes</span>
+<span class="co">#&gt; Graph information:</span>
+<span class="co">#&gt;    Observed stochastic nodes: 919</span>
+<span class="co">#&gt;    Unobserved stochastic nodes: 87</span>
+<span class="co">#&gt;    Total graph size: 2999</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Initializing model</span>
+<span class="kw">plot</span>(radon_<span class="dv">2</span>_jags)</code></pre>
+<p><img src="98-tareas_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Añadimos una estructura jerárquica al modelo:
+<span class="math display">\[y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2) \]</span>
+<span class="math display">\[\alpha_j \sim N(\mu_{\alpha}, \sigma_{\alpha}^2)\]</span></li>
 </ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">filter</span>(caminata, pasos <span class="op">&gt;</span><span class="st"> </span><span class="dv">2000</span>), <span class="kw">aes</span>(<span class="dt">x =</span> theta)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.8</span>) </code></pre>
-<p><img src="98-tareas_files/figure-html/unnamed-chunk-31-1.png" width="672" height="300px" /></p>
-<ol start="8" style="list-style-type: lower-alpha">
-<li></li>
+<pre class="sourceCode r"><code class="sourceCode r">modelo_<span class="dv">3</span> &lt;-<span class="st"> </span>
+<span class="st">&#39;</span>
+<span class="st">model{</span>
+<span class="st">  for(i in 1 : n) {</span>
+<span class="st">    y[i] ~ dnorm(y.hat[i], tau.y) </span>
+<span class="st">    y.hat[i] &lt;- a[county[i]] + b * x[i]</span>
+<span class="st">  }</span>
+<span class="st">  b ~ dnorm(0, 0.0001)</span>
+<span class="st">  tau.y &lt;- pow(sigma.y, -2)</span>
+<span class="st">  sigma.y ~ dunif(0, 100)</span>
+<span class="st">  for(j in 1:J){</span>
+<span class="st">    a[j] ~ dnorm(mu.a, tau.a)</span>
+<span class="st">  }</span>
+<span class="st">  mu.a ~ dnorm(0, 0.0001)</span>
+<span class="st">  tau.a &lt;- pow(sigma.a, -2)</span>
+<span class="st">  sigma.a ~ dunif(0, 100)</span>
+<span class="st">}</span>
+<span class="st">&#39;</span>
+<span class="kw">cat</span>(modelo_<span class="dv">3</span>, <span class="dt">file =</span> <span class="st">&#39;modelo_3.bugs&#39;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">radon_inits &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    <span class="kw">list</span>(<span class="dt">a =</span> <span class="kw">rnorm</span>(J), <span class="dt">b =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>), <span class="dt">mu.a =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>), <span class="dt">sigma.y =</span> <span class="kw">runif</span>(<span class="dv">1</span>), 
+        <span class="dt">sigma.a =</span> <span class="kw">runif</span>(<span class="dv">1</span>))}
+radon_parameters &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;mu.a&quot;</span>, <span class="st">&quot;sigma.y&quot;</span>, <span class="st">&quot;sigma.a&quot;</span>)
+
+radon_<span class="dv">3</span>_jags &lt;-<span class="st"> </span><span class="kw">jags</span>(<span class="dt">data =</span> radon_<span class="dv">2</span>_data, <span class="dt">inits=</span> radon_inits, 
+    <span class="dt">parameters.to.save =</span> radon_parameters, <span class="dt">model.file =</span> <span class="st">&quot;modelo_3.bugs&quot;</span>, 
+    <span class="dt">n.iter =</span> <span class="dv">1000</span>, <span class="dt">n.chains =</span> <span class="dv">2</span>)
+<span class="co">#&gt; Compiling model graph</span>
+<span class="co">#&gt;    Resolving undeclared variables</span>
+<span class="co">#&gt;    Allocating nodes</span>
+<span class="co">#&gt; Graph information:</span>
+<span class="co">#&gt;    Observed stochastic nodes: 919</span>
+<span class="co">#&gt;    Unobserved stochastic nodes: 89</span>
+<span class="co">#&gt;    Total graph size: 3002</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Initializing model</span>
+
+<span class="kw">plot</span>(radon_<span class="dv">3</span>_jags)</code></pre>
+<p><img src="98-tareas_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Incorporamos una covariable <span class="math inline">\(u_j\)</span> a nivel grupo, en este caso elegiremos una
+medición de uranio a nivel condado (Uppm).</li>
 </ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">filter</span>(caminata, pasos <span class="op">&gt;</span><span class="st"> </span><span class="dv">2000</span>), <span class="kw">aes</span>(<span class="dt">x =</span> theta)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">binwidth =</span> <span class="fl">0.7</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="fl">130.3</span>, <span class="dt">sd =</span> <span class="fl">1.98</span>), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
-<p><img src="98-tareas_files/figure-html/unnamed-chunk-32-1.png" width="672" height="200px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">  
-sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>mu <span class="op">/</span><span class="st"> </span>(sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>N <span class="op">*</span><span class="st"> </span>tau <span class="op">^</span><span class="st"> </span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>tau <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>S <span class="op">/</span><span class="st"> </span>(sigma<span class="op">^</span><span class="dv">2</span>  <span class="op">+</span><span class="st"> </span>N <span class="op">*</span><span class="st"> </span>tau<span class="op">^</span><span class="dv">2</span>) <span class="co"># media</span>
-<span class="co">#&gt; [1] 130</span>
-sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>tau <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>N <span class="op">*</span><span class="st"> </span>tau <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)
-<span class="co">#&gt; [1] 3.93</span></code></pre>
-<ol style="list-style-type: lower-roman">
-<li>Elegir varianza grande nos daría una inicial poco informativa.</li>
+<p><span class="math display">\[y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2) \]</span>
+<span class="math display">\[\alpha_j \sim N(\gamma_0 + \gamma_{1}u_j, \sigma_{\alpha}^2)\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">modelo_<span class="dv">4</span> &lt;-<span class="st"> </span>
+<span class="st">&#39;</span>
+<span class="st">model{</span>
+<span class="st">  for(i in 1 : n) {</span>
+<span class="st">    y[i] ~ dnorm(y.hat[i], tau.y) </span>
+<span class="st">    y.hat[i] &lt;- a[county[i]] + b * x[i]</span>
+<span class="st">  }</span>
+<span class="st">  b ~ dnorm(0, 0.0001)</span>
+<span class="st">  tau.y &lt;- pow(sigma.y, -2)</span>
+<span class="st">  sigma.y ~ dunif(0, 100)</span>
+
+<span class="st">  for(j in 1:J){</span>
+<span class="st">    a[j] ~ dnorm(a.hat[j], tau.a)</span>
+<span class="st">    a.hat[j] &lt;- g.0 + g.1 * u[j]</span>
+<span class="st">}</span>
+<span class="st">  g.0 ~ dnorm(0, 0.0001)</span>
+<span class="st">  g.1 ~ dnorm(0, 0.0001)</span>
+<span class="st">  tau.a &lt;- pow(sigma.a, -2)</span>
+<span class="st">  sigma.a ~ dunif(0, 100)</span>
+<span class="st">}</span>
+<span class="st">&#39;</span>
+<span class="kw">cat</span>(modelo_<span class="dv">4</span>, <span class="dt">file =</span> <span class="st">&#39;modelo_4.bugs&#39;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">uranium &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">cbind</span>(county, radon<span class="op">$</span>Uppm))
+u &lt;-<span class="st"> </span>uranium[, <span class="dv">2</span>]
+radon_<span class="dv">4</span>_data &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">n =</span> n, <span class="dt">J =</span> J, <span class="dt">y =</span> y, <span class="dt">county =</span> county, <span class="dt">x =</span> x, <span class="dt">u =</span> u)
+radon_<span class="dv">4</span>_inits &lt;-<span class="st"> </span><span class="cf">function</span>(){
+    <span class="kw">list</span>(<span class="dt">a =</span> <span class="kw">rnorm</span>(J), <span class="dt">b =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>), <span class="dt">g.0 =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>), <span class="dt">g.1 =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>), 
+        <span class="dt">sigma.y =</span> <span class="kw">runif</span>(<span class="dv">1</span>), <span class="dt">sigma.a =</span> <span class="kw">runif</span>(<span class="dv">1</span>))}
+radon_<span class="dv">4</span>_parameters &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;g.0&quot;</span>, <span class="st">&quot;g.1&quot;</span>, <span class="st">&quot;sigma.y&quot;</span>, <span class="st">&quot;sigma.a&quot;</span>)
+
+radon_<span class="dv">4</span>_jags &lt;-<span class="st"> </span><span class="kw">jags</span>(<span class="dt">data =</span> radon_<span class="dv">4</span>_data, <span class="dt">inits=</span> radon_<span class="dv">4</span>_inits, 
+    <span class="dt">parameters.to.save =</span> radon_<span class="dv">4</span>_parameters, <span class="dt">model.file =</span> <span class="st">&quot;modelo_4.bugs&quot;</span>, 
+    <span class="dt">n.iter =</span> <span class="dv">1000</span>)
+<span class="co">#&gt; Compiling model graph</span>
+<span class="co">#&gt;    Resolving undeclared variables</span>
+<span class="co">#&gt;    Allocating nodes</span>
+<span class="co">#&gt; Graph information:</span>
+<span class="co">#&gt;    Observed stochastic nodes: 919</span>
+<span class="co">#&gt;    Unobserved stochastic nodes: 90</span>
+<span class="co">#&gt;    Total graph size: 3258</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Initializing model</span>
+<span class="kw">plot</span>(radon_<span class="dv">4</span>_jags)</code></pre>
+<p><img src="98-tareas_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Utiliza el modelo anterior para predecir el valor de radón para una nueva
+casa sin sótano (floor = 1) en el condado 26.</li>
 </ol>
+<pre class="sourceCode r"><code class="sourceCode r">a26 &lt;-<span class="st"> </span>radon_<span class="dv">4</span>_jags<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>a[, <span class="dv">26</span>]
+b &lt;-<span class="st"> </span>radon_<span class="dv">4</span>_jags<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>b
+sigma.y &lt;-<span class="st"> </span>radon_<span class="dv">4</span>_jags<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>sigma.y
+n.sims &lt;-<span class="st"> </span><span class="kw">length</span>(b)
+y_tilde &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n.sims, a26 <span class="op">+</span><span class="st"> </span>b <span class="op">*</span><span class="st"> </span><span class="dv">1</span>, sigma.y)
+sd_y_tilde &lt;-<span class="st"> </span><span class="kw">sd</span>(y_tilde)
+<span class="co"># intervalo</span>
+<span class="kw">c</span>(<span class="kw">mean</span>(y_tilde) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span>sd_y_tilde, <span class="kw">mean</span>(y_tilde) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span>sd_y_tilde)
+<span class="co">#&gt; [1] -0.854  2.125</span></code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Utiliza el modelo anterior para predecir el valor de radón para una nueva
+casa sin sótano (floor = 1) en un condado nuevo con nivel de uranio <span class="math inline">\(2\)</span>.</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">g0 &lt;-<span class="st"> </span>radon_<span class="dv">4</span>_jags<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>g<span class="fl">.0</span>
+g1 &lt;-<span class="st"> </span>radon_<span class="dv">4</span>_jags<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>g<span class="fl">.1</span>
+sigma.a &lt;-<span class="st"> </span>radon_<span class="dv">4</span>_jags<span class="op">$</span>BUGSoutput<span class="op">$</span>sims.list<span class="op">$</span>sigma.a
+a.new &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n.sims, g0<span class="op">+</span>g1, sigma.a)
+y_tilde &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n.sims, a.new <span class="op">+</span><span class="st"> </span>b <span class="op">*</span><span class="st"> </span><span class="dv">1</span>, sigma.y)
+sd_y_tilde &lt;-<span class="st"> </span><span class="kw">sd</span>(y_tilde)
+<span class="kw">c</span>(<span class="kw">mean</span>(y_tilde) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd_y_tilde, <span class="kw">mean</span>(y_tilde) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span>sd_y_tilde)
+<span class="co">#&gt; [1] -1.15  2.11</span></code></pre>
+</div>
+<h3>Referencias</h3>
+<div id="refs" class="references">
+<div id="ref-gelman-hill">
+<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
 </div>
 </div>
             </section>
@@ -549,8 +632,8 @@ sigma <span class="op">^</span><span class="st"> </span><span class="dv">2</span
           </div>
         </div>
       </div>
-<a href="familias-conjugadas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="mcmc-convergencia.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelos-jerarquicos-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="final.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

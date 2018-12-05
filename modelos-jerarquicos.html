@@ -343,6 +343,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="mcmc-convergencia.html"><a href="mcmc-convergencia.html"><i class="fa fa-check"></i>12-MCMC convergencia</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos-1.html"><a href="modelos-jerarquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
+<li class="chapter" data-level="" data-path="ejercicios-clase-modelos-jerarquicos.html"><a href="ejercicios-clase-modelos-jerarquicos.html"><i class="fa fa-check"></i>14-Ejercicios clase modelos jerárquicos</a></li>
 <li class="chapter" data-level="" data-path="final.html"><a href="final.html"><i class="fa fa-check"></i>Final</a><ul>
 <li class="chapter" data-level="" data-path="final.html"><a href="final.html#inferencia-grafica-1"><i class="fa fa-check"></i>1. Inferencia gráfica</a></li>
 <li class="chapter" data-level="" data-path="final.html"><a href="final.html#simulacion-para-el-calculo-de-tamanos-de-muestra"><i class="fa fa-check"></i>2. Simulación para el cálculo de tamaños de muestra</a></li>
@@ -1683,12 +1684,12 @@ p_pred_jags &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<sp
 <span class="st">    </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-95-2.png" width="672" /></p>
-<p><img src="imagenes/manicule2.jpg" /> Escribe el modelo en Stan.</p>
 <p><img src="imagenes/manicule2.jpg" /> Implementaremos varios modelos en JAGS o Stan, la
 base de datos que usaremos contiene información de mediciones de radón
 (activity) y del suelo en el que se hicieron las mediciones (floor = <span class="math inline">\(0\)</span> casas
 con sótano, floor = <span class="math inline">\(1\)</span> casas sin sótano), las mediciones corresponden a <span class="math inline">\(919\)</span>
-hogares muestreados de <span class="math inline">\(85\)</span> condados de Minnesota. El objetivo es construir un
+hogares muestreados de <span class="math inline">\(85\)</span> condados de Minnesota, (este es ejercicio se tomó
+de <span class="citation">Gelman and Hill (<a href="#ref-gelman-hill">2007</a>)</span>). El objetivo es construir un
 modelo de regresión en el que la medición de radón es la variable independiente
 y el tipo de suelo es la covariable.</p>
 <ol style="list-style-type: decimal">
@@ -1716,8 +1717,7 @@ casa sin sótano (floor = 1) en el condado 26.</p></li>
 <li><p>Utiliza el modelo anterior para predecir el valor de radón para una nueva
 casa sin sótano (floor = 1) en un condado nuevo con nivel de uranio <span class="math inline">\(2\)</span>.</p></li>
 </ol>
-<div id="observaciones" class="section level5 unnumbered">
-<h5>Observaciones</h5>
+<p>** Observaciones**</p>
 <p>Iniciamos preparando los datos para el análisis, trabajaremos en escala
 logarítmica, hay algunos casos con medición cero, para éstos hacemos una pequeña
 correción redondeándolos a <span class="math inline">\(0.1\)</span>.</p>
@@ -1749,7 +1749,6 @@ donde
 <p>Entonces, para que una distribución inicial sea noinformariva, su rango de
 incertidumbre debe ser más amplio que el rango de valores razonables que pueden
 tomar los parámetros.</p>
-</div>
 </div>
 </div>
 <div id="ejemplo-conteo-rapido" class="section level3 unnumbered">
@@ -2189,6 +2188,9 @@ paquete de R <a href="https://github.com/tereom/quickcountmx">quickcountmx</a>).
 <div id="ref-albert">
 <p>Albert, J. 2009. <em>Bayesian Computation with R</em>. Use R! Springer New York. <a href="https://books.google.com.mx/books?id=AALhk\_mt7SYC" class="uri">https://books.google.com.mx/books?id=AALhk\_mt7SYC</a>.</p>
 </div>
+<div id="ref-gelman-hill">
+<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
+</div>
 <div id="ref-mendoza2016">
 <p>Mendoza, Manuel, and Luis E. Nieto-Barajas. 2016. “Quick Counts in the Mexican Presidential Elections: A Bayesian Approach.” <em>Electoral Studies</em> 43 (C):124–32. <a href="https://doi.org/10.1016/j.electstud.2016.06.007" class="uri">https://doi.org/10.1016/j.electstud.2016.06.007</a>.</p>
 </div>
@@ -2197,9 +2199,6 @@ paquete de R <a href="https://github.com/tereom/quickcountmx">quickcountmx</a>).
 </div>
 <div id="ref-parkgelmanbafumi">
 <p>Park, David K., Andrew Gelman, and Joseph Bafumi. 2004. “Bayesian Multilevel Estimation with Poststratification: State-Level Estimates from National Polls.” <em>Political Analysis</em> 12 (04):375–85. <a href="https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00" class="uri">https://EconPapers.repec.org/RePEc:cup:polals:v:12:y:2004:i:04:p:375-385_00</a>.</p>
-</div>
-<div id="ref-gelman-hill">
-<p>Gelman, Andrew, and Jennifer Hill. 2007. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Vol. Analytical methods for social research. New York: Cambridge University Press.</p>
 </div>
 </div>
             </section>
