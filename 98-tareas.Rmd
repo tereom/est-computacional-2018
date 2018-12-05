@@ -1123,7 +1123,7 @@ ii. Calcula el estimador de razón (correspondiente a muestreo aleatorio simple)
 para cada candidato:
 
 $$\hat{p}=\frac{\sum_{i} Y_{i}}{\sum_i X_{i}}$$
-$$\hat{p}=\frac{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}{\sum_h \frac{N_h}{n_h} \sum_i X_{hi}}$$
+
 donde:
 
 * $\hat{p}$ es la estimación de la proporción de votos que recibió el candidato
