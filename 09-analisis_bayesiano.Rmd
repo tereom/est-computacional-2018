@@ -4311,13 +4311,12 @@ ggplot(p_pred_jags, aes(x = log(e), y = media, color = factor(y))) +
 
 ```
 
-![](imagenes/manicule2.jpg) Escribe el modelo en Stan.
-
 ![](imagenes/manicule2.jpg) Implementaremos varios modelos en JAGS o Stan, la 
 base de datos que usaremos contiene información de mediciones de radón 
 (activity) y del suelo en el que se hicieron las mediciones (floor = $0$ casas 
 con sótano, floor = $1$ casas sin sótano), las mediciones corresponden a $919$ 
-hogares muestreados de $85$ condados de Minnesota. El objetivo es construir un 
+hogares muestreados de $85$ condados de Minnesota, (este es ejercicio se tomó 
+de @gelman-hill). El objetivo es construir un 
 modelo de regresión en el que la medición de radón es la variable independiente 
 y el tipo de suelo es la covariable.
 
@@ -4347,7 +4346,7 @@ casa sin sótano (floor = 1) en el condado 26.
 6. Utiliza el modelo anterior para predecir el valor de radón para una nueva 
 casa sin sótano (floor = 1) en un condado nuevo con nivel de uranio $2$.
 
-##### Observaciones {-}
+** Observaciones**
 
 Iniciamos preparando los datos para el análisis, trabajaremos en escala 
 logarítmica, hay algunos casos con medición cero, para éstos hacemos una pequeña
