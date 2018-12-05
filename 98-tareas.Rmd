@@ -1453,6 +1453,6 @@ casos en cada celda:
 $$\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}$$
 
 4. Genera las simulaciones de $\theta_s$, recuerda que debarás calcular una
-simulación de cada $\theta_s$ por cada simulación de $\pi__j$ obtenida con el 
-código de arriba. Realiza una gráfica con intervalos de credibilidad del 95% 
+simulación de cada $\theta_s$ por cada simulación de $\pi_j$ obtenida con el 
+código de arriba. Realiza una gráfica con intervalos de credibilidad del $95\%$ 
 para cada $theta_s$.
