@@ -1409,7 +1409,7 @@ candidato en cada estrato:
 # write_csv(muestra_gto, "data/muestra_gto_2012.csv")
 ```
 
-* Verosimilitud
+en donde el total de votos para el $j$-ésimo candidato en la $k$-ésima casilla del estrato $i$ se modela como:
 
 $$X_{ij}^k\big|\theta_{ij},\tau_{ij}\sim N\bigg(n_i^k\theta_{ij}, \frac{\tau_{ij}}{n_i^k}\bigg)$$
 
