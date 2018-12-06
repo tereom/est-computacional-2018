@@ -547,6 +547,12 @@ estrato.</p></li>
 <p>Implementa el modelo y estima los resultados electorales de Guanajuato con la
 muestra:</p>
 <pre class="sourceCode r"><code class="sourceCode r">gto_muestra &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/muestra_gto_2012.csv&quot;</span>)</code></pre>
+<p>Las columnas que debes usar son:</p>
+<ul>
+<li><code>distrito_loc_17</code>: para determinar los estratos.</li>
+<li><code>ln_total</code>: para el tamaño de la lista nominal en cada casilla.</li>
+<li><code>pri_pvem:otros</code>: para calcular el total de votos por partido en cada casilla.</li>
+</ul>
 <p>Reporta estimaciones puntuales (media posterior) e intervalos del 95% de
 credibilidad para cada candidato</p>
 </div>
@@ -731,7 +737,7 @@ casos en cada celda:</p>
 <p><span class="math display">\[\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}\]</span></p>
 <ol start="4" style="list-style-type: decimal">
 <li>Genera las simulaciones de <span class="math inline">\(\theta_s\)</span>, recuerda que debarás calcular una
-simulación de cada <span class="math inline">\(\theta_s\)</span> por cada simulación de <span class="math inline">\(\pi__j\)</span> obtenida con el
+simulación de cada <span class="math inline">\(\theta_s\)</span> por cada simulación de $ __j$ obtenida con el
 código de arriba. Realiza una gráfica con intervalos de credibilidad del 95%
 para cada <span class="math inline">\(theta_s\)</span>.</li>
 </ol>
