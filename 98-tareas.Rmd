@@ -1448,6 +1448,12 @@ muestra:
 gto_muestra <- read_csv("data/muestra_gto_2012.csv")
 ```
 
+Las columnas que debes usar son:
+
+* `distrito_loc_17`: para determinar los estratos.
+* `ln_total`: para el tamaño de la lista nominal en cada casilla.
+* `pri_pvem:otros`: para calcular el total de votos por partido en cada casilla.
+
 Reporta estimaciones puntuales (media posterior) e intervalos del 95% de 
 credibilidad para cada candidato
 
@@ -1667,6 +1673,6 @@ casos en cada celda:
 $$\theta_s=\frac{\sum_{j \in s}N_{j}\pi_j}{\sum_{j \in s}N_{j}}$$
 
 4. Genera las simulaciones de $\theta_s$, recuerda que debarás calcular una
-simulación de cada $\theta_s$ por cada simulación de $\pi__j$ obtenida con el 
+simulación de cada $\theta_s$ por cada simulación de $ \pi__j$ obtenida con el 
 código de arriba. Realiza una gráfica con intervalos de credibilidad del 95% 
 para cada $theta_s$.
