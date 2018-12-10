@@ -344,12 +344,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mcmc-convergencia.html"><a href="mcmc-convergencia.html"><i class="fa fa-check"></i>12-MCMC convergencia</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos-1.html"><a href="modelos-jerarquicos-1.html"><i class="fa fa-check"></i>13-Modelos jerárquicos</a></li>
 <li class="chapter" data-level="" data-path="ejercicios-clase-modelos-jerarquicos.html"><a href="ejercicios-clase-modelos-jerarquicos.html"><i class="fa fa-check"></i>14-Ejercicios clase modelos jerárquicos</a></li>
-<li class="chapter" data-level="" data-path="final.html"><a href="final.html"><i class="fa fa-check"></i>Final</a><ul>
-<li class="chapter" data-level="" data-path="final.html"><a href="final.html#inferencia-grafica-1"><i class="fa fa-check"></i>1. Inferencia gráfica</a></li>
-<li class="chapter" data-level="" data-path="final.html"><a href="final.html#simulacion-para-el-calculo-de-tamanos-de-muestra"><i class="fa fa-check"></i>2. Simulación para el cálculo de tamaños de muestra</a></li>
-<li class="chapter" data-level="" data-path="final.html"><a href="final.html#mcmc-1"><i class="fa fa-check"></i>3. MCMC</a></li>
-<li class="chapter" data-level="" data-path="final.html"><a href="final.html#modelos-jerarquicos-y-evaluacion-de-ajuste"><i class="fa fa-check"></i>4. Modelos jerárquicos y evaluación de ajuste</a></li>
-</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="divider"></li>
@@ -419,11 +413,11 @@ thetaBoot &lt;-<span class="st"> </span><span class="cf">function</span>(){
 <span class="co"># Paso 4: Repetimos B = 2000 veces y estimamos el error estándar</span>
 sims_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">3000</span>, <span class="kw">thetaBoot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
 <span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2999</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((sims_boot <span class="op">-</span><span class="st"> </span>sigma_hat<span class="op">/</span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))
-<span class="co">#&gt; [1] 0.028</span></code></pre>
+<span class="co">#&gt; [1] 0.0346</span></code></pre>
 <p>Comparamos con el método delta:
 <span class="math display">\[\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}{2\hat{\mu}^2}\bigg)^{1/2}\]</span></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">4</span> <span class="op">+</span><span class="st"> </span>sigma_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)
-<span class="co">#&gt; [1] 0.0241</span></code></pre>
+<span class="co">#&gt; [1] 0.027</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> Supongamos que observamos <span class="math inline">\(70\)</span> realizaciones de
 una Bernoulli, de tal manera que observamos <span class="math inline">\(20\)</span> éxitos, calcula un intervalo de
 confianza usando bootstrap y comparalo con el correspondiente usando la
