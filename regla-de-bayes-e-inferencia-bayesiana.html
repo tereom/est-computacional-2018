@@ -367,8 +367,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="regla-de-bayes-e-inferencia-bayesiana" class="section level2">
 <h2><span class="header-section-number">10.2</span> Regla de Bayes e inferencia bayesiana</h2>
-<p>Thomas Bayes (1702-1761) fue un matemático y ministro de la iglesia
-presbiteriana, en 1764 se publicó su famoso teorema.</p>
+<p>Thomas Bayes (<span class="math inline">\(1702-1761\)</span>) fue un matemático y ministro de la iglesia
+presbiteriana, en <span class="math inline">\(1764\)</span> se publicó su famoso teorema.</p>
 <p>Una aplicación crucial de la regla de Bayes es determinar la probabilidad de un
 modelo dado un conjunto de datos. Lo que el modelo determina es la probabilidad
 de los datos condicional a valores particulares de los parámetros y a la
@@ -378,7 +378,7 @@ los datos.</p>
 <div id="ejemplo-lanzamientos-de-monedas" class="section level4 unnumbered">
 <h4>Ejemplo: Lanzamientos de monedas</h4>
 <p>Comencemos recordando la regla de Bayes usando dos variables aleatorias
-discretas. Lanzamos una moneda 3 veces, sea <span class="math inline">\(X\)</span> la variable aleatoria
+discretas. Lanzamos una moneda <span class="math inline">\(3\)</span> veces, sea <span class="math inline">\(X\)</span> la variable aleatoria
 correspondiente al número de Águilas observadas y <span class="math inline">\(Y\)</span> registra el número de
 cambios entre águilas y soles.</p>
 <ul>
@@ -390,7 +390,7 @@ que observamos un cambio.</p></li>
 </ul>
 <p>Para entender probabilidad condicional podemos pensar en restringir nuestra
 atención a una única fila o columna de la tabla. Supongamos que alguien lanza
-una moneda 3 veces y nos informa que
+una moneda <span class="math inline">\(3\)</span> veces y nos informa que
 la secuencia contiene exactamente un cambio. Dada esta información podemos
 restringir nuestra atención a la fila correspondiente a un solo cambio. Sabemos
 que ocurrió uno de los eventos de esa fila. Las probabilidades relativas
@@ -448,10 +448,10 @@ otra parte, cuantificamos la información de <span class="math inline">\(\theta\
 <h4>Ejemplo: Ingesta calórica en estudiantes</h4>
 <p>Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
 universitarios en México, y escuchamos que de acuerdo a investigaciones se
-recomienda que un adulto promedio ingiera 2500 kcal. Es así que buscamos conocer
+recomienda que un adulto promedio ingiera <span class="math inline">\(2500\)</span> kcal. Es así que buscamos conocer
 que proporción de los estudiantes siguen esta recomendación, para ello
 tomaremos una muestra aleatoria de estudiantes del ITAM. Denotemos por <span class="math inline">\(\theta\)</span>
-la proporción de estudiantes que ingieren en un día 2500 kcal o más. El valor
+la proporción de estudiantes que ingieren en un día <span class="math inline">\(2500\)</span> kcal o más. El valor
 de <span class="math inline">\(\theta\)</span> es desconocido, y desde el punto de vista bayesiano cuando tenemos
 incertidumbre de algo (puede ser un parámetro o una predicción) lo vemos como
 una variable aleatoria y por tanto tiene asociada una distribución de
@@ -492,7 +492,7 @@ verosimilitud <span class="math inline">\(p(x_1,...,x_N|\theta) = \mathcal{L}(\t
 <p><span class="math display">\[p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)\]</span>
 <span class="math display">\[= \theta^z(1 - \theta)^{N-z}\]</span></p>
 <p>donde <span class="math inline">\(z\)</span> denota el número de estudiantes que ingirió al menos 2500 kcal y <span class="math inline">\(N-z\)</span>
-el número de estudiantes que ingirió menos de 2500 kcal.</p>
+el número de estudiantes que ingirió menos de <span class="math inline">\(2500\)</span> kcal.</p>
 <p>Ahora calculamos la distribución posterior de <span class="math inline">\(\theta\)</span>
 usando la regla de Bayes:</p>
 <p><span class="math display">\[p(\theta|x) = \frac{p(x_1,...,x_N,\theta)}{p(x)}\]</span>
@@ -506,8 +506,8 @@ de probabilidad.</p>
 <div id="inicial-discreta" class="section level4 unnumbered">
 <h4>Inicial discreta</h4>
 <p>Volviendo a nuestro ejemplo, usamos la inicial discreta que discutimos (tabla
-de pesos normalizados) y supongamos que tomamos una muestra de 30 alumnos de
-los cuales <span class="math inline">\(z=11\)</span> ingieren al menos 2500 kcal, calculemos la distribución
+de pesos normalizados) y supongamos que tomamos una muestra de <span class="math inline">\(30\)</span> alumnos de
+los cuales <span class="math inline">\(z=11\)</span> ingieren al menos <span class="math inline">\(2500\)</span> kcal, calculemos la distribución
 posterior de <span class="math inline">\(\theta\)</span>, usando que</p>
 <p><span class="math display">\[\mathcal{L}(\theta) = \theta^{z}(1-\theta)^{N-z}\]</span>
 con <span class="math inline">\(0&lt;\theta&lt;1\)</span></p>
@@ -554,7 +554,7 @@ dists_l &lt;-<span class="st"> </span>dists <span class="op">%&gt;%</span><span 
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">expression</span>(theta), <span class="dt">y =</span> <span class="kw">expression</span>(<span class="kw">p</span>(theta))) </code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-2-1.png" width="480" /></p>
 <p><img src="imagenes/manicule2.jpg" /> ¿Cómo se ve la distribución posterior si tomamos
-una muestra de tamaño 90 donde observamos la misma proporción de éxitos.
+una muestra de tamaño <span class="math inline">\(90\)</span> donde observamos la misma proporción de éxitos.
 Realiza los cálculos y graficala como un panel adicional de la gráfica
 anterior.</p>
 <ul>
@@ -675,7 +675,7 @@ con la diferencia de que la evidencia se refiere a un valor observado y en
 esta ecuación estamos calculando la probabilidad de cualquier valor <span class="math inline">\(y\)</span>.<br />
 Una vez que obserbamos datos tenemos la distribución predictiva posterior:
 <span class="math display">\[p(y|x) =\int p(y|\theta)p(\theta|x)d\theta\]</span>
-Por ejemplo podemos usar las creencias iniciales del modelo 1, que propusimos
+Por ejemplo podemos usar las creencias iniciales del modelo <span class="math inline">\(1\)</span>, que propusimos
 arriba para calcular la probabilidad predictiva de observar águila:</li>
 </ol>
 <p><span class="math display">\[p(y=S) = \sum_{\theta}p(y=A|\theta)p(\theta) = 0.5\]</span></p>
@@ -698,9 +698,9 @@ de modelos en estadística bayesiana es que la complejidad del modelo se toma
 en cuenta de manera automática.</li>
 </ol>
 <p>Recordemos los dos modelos discretos, en el primero supusimos que el parámetro
-<span class="math inline">\(\theta\)</span> únicamente puede tomar uno de 3 valores (0.25, 0.5, 0.75), esta
-restricción dió lugar a un modelo simple. Por su parte, el modelo 2 es más
-complejo y permite muchos más valores de <span class="math inline">\(\theta\)</span> (51). La forma de la
+<span class="math inline">\(\theta\)</span> únicamente puede tomar uno de <span class="math inline">\(3\)</span> valores (<span class="math inline">\(0.25\)</span>, <span class="math inline">\(0.5\)</span>, <span class="math inline">\(0.75\)</span>), esta
+restricción dió lugar a un modelo simple. Por su parte, el modelo <span class="math inline">\(2\)</span> es más
+complejo y permite muchos más valores de <span class="math inline">\(\theta\)</span> (<span class="math inline">\(51\)</span>). La forma de la
 distribución inicial es triangular en ambos casos y el valor de mayor
 probabilidad inicial es <span class="math inline">\(\theta = 0.50\)</span> y reflejamos que creemos que es menos
 factible que el valor se encuentre en los extremos.</p>
