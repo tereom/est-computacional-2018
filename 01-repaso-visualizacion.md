@@ -540,10 +540,11 @@ print(read_csv)
 ##         quote = quote, comment = comment, trim_ws = trim_ws, 
 ##         skip_empty_rows = skip_empty_rows)
 ##     read_delimited(file, tokenizer, col_names = col_names, col_types = col_types, 
-##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
-##         guess_max = guess_max, progress = progress)
+##         locale = locale, skip = skip, skip_empty_rows = skip_empty_rows, 
+##         comment = comment, n_max = n_max, guess_max = guess_max, 
+##         progress = progress)
 ## }
-## <bytecode: 0x7533258>
+## <bytecode: 0x76571e8>
 ## <environment: namespace:readr>
 ```
 

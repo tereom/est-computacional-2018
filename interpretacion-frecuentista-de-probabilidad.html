@@ -320,7 +320,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-estimacion-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-conteo-rapido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
 </ul></li>
-<li class="chapter" data-level="10.12" data-path="flujo-de-trabajo-para-el-analisis-bayesiano.html"><a href="flujo-de-trabajo-para-el-analisis-bayesiano.html"><i class="fa fa-check"></i><b>10.12</b> Flujo de trabajo para el análisis bayesiano</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -383,12 +382,12 @@ experimento. Ahora, sea A un posible resultado del evento
 <p>Supongamos que lanzamos una moneda 10 veces y obtenemos los siguientes resultados:</p>
 <pre class="sourceCode r"><code class="sourceCode r">lanzamientos_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;S&quot;</span>), <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
 lanzamientos_<span class="dv">10</span>
-<span class="co">#&gt;  [1] &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot;</span></code></pre>
+<span class="co">#&gt;  [1] &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot; &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;A&quot; &quot;A&quot;</span></code></pre>
 <p>Podemos calcular las secuencia de frecuencias relativas de águila:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="co"># suma acumulada de águilas</span>
-<span class="co">#&gt;  [1] 0 1 2 2 3 3 4 4 5 6</span>
+<span class="co">#&gt;  [1] 0 0 0 1 2 2 2 2 3 4</span>
 <span class="kw">cumsum</span>(lanzamientos_<span class="dv">10</span> <span class="op">==</span><span class="st"> &quot;A&quot;</span>) <span class="op">/</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-<span class="co">#&gt;  [1] 0.000 0.500 0.667 0.500 0.600 0.500 0.571 0.500 0.556 0.600</span></code></pre>
+<span class="co">#&gt;  [1] 0.000 0.000 0.000 0.250 0.400 0.333 0.286 0.250 0.333 0.400</span></code></pre>
 <p>Una regla general, es que las frecuencias relativas basadas en un número
 mayor de observaciones son menos fluctuantes comparado con las frecuencias
 relativas basadas en pocas observaciones. Este fenómeno se conoce como la <strong>ley
@@ -412,12 +411,12 @@ números):</p>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
 <span class="co">#&gt;   num_lanzamiento lanzamiento frec_rel</span>
 <span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class="co">#&gt; 1               1 A                  1</span>
-<span class="co">#&gt; 2               2 A                  1</span>
-<span class="co">#&gt; 3               3 A                  1</span>
-<span class="co">#&gt; 4               4 A                  1</span>
-<span class="co">#&gt; 5               5 A                  1</span>
-<span class="co">#&gt; 6               6 A                  1</span>
+<span class="co">#&gt; 1               1 A              1    </span>
+<span class="co">#&gt; 2               2 A              1    </span>
+<span class="co">#&gt; 3               3 S              0.667</span>
+<span class="co">#&gt; 4               4 A              0.75 </span>
+<span class="co">#&gt; 5               5 S              0.6  </span>
+<span class="co">#&gt; 6               6 A              0.667</span>
 
 <span class="kw">set.seed</span>(<span class="dv">31287931</span>)
 <span class="co"># usamos la función map_df del paquete purrr</span>

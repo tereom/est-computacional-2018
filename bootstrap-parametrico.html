@@ -320,7 +320,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-estimacion-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-conteo-rapido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
 </ul></li>
-<li class="chapter" data-level="10.12" data-path="flujo-de-trabajo-para-el-analisis-bayesiano.html"><a href="flujo-de-trabajo-para-el-analisis-bayesiano.html"><i class="fa fa-check"></i><b>10.12</b> Flujo de trabajo para el análisis bayesiano</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -413,11 +412,11 @@ thetaBoot &lt;-<span class="st"> </span><span class="cf">function</span>(){
 <span class="co"># Paso 4: Repetimos B = 2000 veces y estimamos el error estándar</span>
 sims_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">3000</span>, <span class="kw">thetaBoot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
 <span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2999</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((sims_boot <span class="op">-</span><span class="st"> </span>sigma_hat<span class="op">/</span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))
-<span class="co">#&gt; [1] 0.0346</span></code></pre>
+<span class="co">#&gt; [1] 0.0317</span></code></pre>
 <p>Comparamos con el método delta:
 <span class="math display">\[\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}{2\hat{\mu}^2}\bigg)^{1/2}\]</span></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">4</span> <span class="op">+</span><span class="st"> </span>sigma_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)
-<span class="co">#&gt; [1] 0.027</span></code></pre>
+<span class="co">#&gt; [1] 0.0255</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> Supongamos que observamos <span class="math inline">\(70\)</span> realizaciones de
 una Bernoulli, de tal manera que observamos <span class="math inline">\(20\)</span> éxitos, calcula un intervalo de
 confianza usando bootstrap y comparalo con el correspondiente usando la

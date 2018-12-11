@@ -320,7 +320,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-estimacion-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-conteo-rapido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
 </ul></li>
-<li class="chapter" data-level="10.12" data-path="flujo-de-trabajo-para-el-analisis-bayesiano.html"><a href="flujo-de-trabajo-para-el-analisis-bayesiano.html"><i class="fa fa-check"></i><b>10.12</b> Flujo de trabajo para el análisis bayesiano</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -435,10 +434,11 @@ paquete <code>readr</code> hacemos:</p>
 ##         quote = quote, comment = comment, trim_ws = trim_ws, 
 ##         skip_empty_rows = skip_empty_rows)
 ##     read_delimited(file, tokenizer, col_names = col_names, col_types = col_types, 
-##         locale = locale, skip = skip, comment = comment, n_max = n_max, 
-##         guess_max = guess_max, progress = progress)
+##         locale = locale, skip = skip, skip_empty_rows = skip_empty_rows, 
+##         comment = comment, n_max = n_max, guess_max = guess_max, 
+##         progress = progress)
 ## }
-## &lt;bytecode: 0x7533258&gt;
+## &lt;bytecode: 0x76571e8&gt;
 ## &lt;environment: namespace:readr&gt;</code></pre>
 <p><code>read_csv</code> es una función que aporta el paquete <code>readr</code>, que a su vez está incluido en el
 <em>tidyverse</em>.</p>

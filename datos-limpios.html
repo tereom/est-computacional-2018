@@ -320,7 +320,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-estimacion-de-tasas-de-mortalidad"><i class="fa fa-check"></i>Ejemplo: estimación de tasas de mortalidad</a></li>
 <li class="chapter" data-level="" data-path="modelos-jerarquicos.html"><a href="modelos-jerarquicos.html#ejemplo-conteo-rapido"><i class="fa fa-check"></i>Ejemplo: conteo rápido</a></li>
 </ul></li>
-<li class="chapter" data-level="10.12" data-path="flujo-de-trabajo-para-el-analisis-bayesiano.html"><a href="flujo-de-trabajo-para-el-analisis-bayesiano.html"><i class="fa fa-check"></i><b>10.12</b> Flujo de trabajo para el análisis bayesiano</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="tareas.html"><a href="tareas.html"><i class="fa fa-check"></i>Tareas</a><ul>
 <li class="chapter" data-level="" data-path="transformacion-de-datos-1.html"><a href="transformacion-de-datos-1.html"><i class="fa fa-check"></i>2-Transformación de datos</a></li>
@@ -558,27 +557,18 @@ pew &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class
 <span class="co">#&gt;   `Don&#39;t know/refused` = col_double()</span>
 <span class="co">#&gt; )</span>
 pew
-<span class="co">#&gt; # A tibble: 18 x 11</span>
-<span class="co">#&gt;    religion `&lt;$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k`</span>
-<span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Agnostic      27        34        60        81        76       137</span>
-<span class="co">#&gt;  2 Atheist       12        27        37        52        35        70</span>
-<span class="co">#&gt;  3 Buddhist      27        21        30        34        33        58</span>
-<span class="co">#&gt;  4 Catholic     418       617       732       670       638      1116</span>
-<span class="co">#&gt;  5 Don’t k…      15        14        15        11        10        35</span>
-<span class="co">#&gt;  6 Evangel…     575       869      1064       982       881      1486</span>
-<span class="co">#&gt;  7 Hindu          1         9         7         9        11        34</span>
-<span class="co">#&gt;  8 Histori…     228       244       236       238       197       223</span>
-<span class="co">#&gt;  9 Jehovah…      20        27        24        24        21        30</span>
-<span class="co">#&gt; 10 Jewish        19        19        25        25        30        95</span>
-<span class="co">#&gt; 11 Mainlin…     289       495       619       655       651      1107</span>
-<span class="co">#&gt; 12 Mormon        29        40        48        51        56       112</span>
-<span class="co">#&gt; 13 Muslim         6         7         9        10         9        23</span>
-<span class="co">#&gt; 14 Orthodox      13        17        23        32        32        47</span>
-<span class="co">#&gt; 15 Other C…       9         7        11        13        13        14</span>
-<span class="co">#&gt; 16 Other F…      20        33        40        46        49        63</span>
-<span class="co">#&gt; 17 Other W…       5         2         3         4         2         7</span>
-<span class="co">#&gt; 18 Unaffil…     217       299       374       365       341       528</span>
+<span class="co">#&gt; # A tibble: 9 x 11</span>
+<span class="co">#&gt;   religion `&lt;$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k`</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Jewish        19        19        25        25        30        95</span>
+<span class="co">#&gt; 2 Mainlin…     289       495       619       655       651      1107</span>
+<span class="co">#&gt; 3 Mormon        29        40        48        51        56       112</span>
+<span class="co">#&gt; 4 Muslim         6         7         9        10         9        23</span>
+<span class="co">#&gt; 5 Orthodox      13        17        23        32        32        47</span>
+<span class="co">#&gt; 6 Other C…       9         7        11        13        13        14</span>
+<span class="co">#&gt; 7 Other F…      20        33        40        46        49        63</span>
+<span class="co">#&gt; 8 Other W…       5         2         3         4         2         7</span>
+<span class="co">#&gt; 9 Unaffil…     217       299       374       365       341       528</span>
 <span class="co">#&gt; # ... with 4 more variables: `$75-100k` &lt;dbl&gt;, `$100-150k` &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   `&gt;150k` &lt;dbl&gt;, `Don&#39;t know/refused` &lt;dbl&gt;</span></code></pre>
 <p>Esta base de datos tiene 3 variables: religión, ingreso y frecuencia. Para
@@ -600,20 +590,20 @@ cada <em>key</em>.<br />
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r">pew_tidy &lt;-<span class="st"> </span><span class="kw">gather</span>(<span class="dt">data =</span> pew, income, frequency, <span class="op">-</span>religion)
 pew_tidy
-<span class="co">#&gt; # A tibble: 180 x 3</span>
-<span class="co">#&gt;    religion                income frequency</span>
-<span class="co">#&gt;    &lt;chr&gt;                   &lt;chr&gt;      &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Agnostic                &lt;$10k         27</span>
-<span class="co">#&gt;  2 Atheist                 &lt;$10k         12</span>
-<span class="co">#&gt;  3 Buddhist                &lt;$10k         27</span>
-<span class="co">#&gt;  4 Catholic                &lt;$10k        418</span>
-<span class="co">#&gt;  5 Don’t know/refused      &lt;$10k         15</span>
-<span class="co">#&gt;  6 Evangelical Prot        &lt;$10k        575</span>
-<span class="co">#&gt;  7 Hindu                   &lt;$10k          1</span>
-<span class="co">#&gt;  8 Historically Black Prot &lt;$10k        228</span>
-<span class="co">#&gt;  9 Jehovah&#39;s Witness       &lt;$10k         20</span>
-<span class="co">#&gt; 10 Jewish                  &lt;$10k         19</span>
-<span class="co">#&gt; # ... with 170 more rows</span></code></pre>
+<span class="co">#&gt; # A tibble: 90 x 3</span>
+<span class="co">#&gt;    religion              income  frequency</span>
+<span class="co">#&gt;    &lt;chr&gt;                 &lt;chr&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Jewish                &lt;$10k          19</span>
+<span class="co">#&gt;  2 Mainline Prot         &lt;$10k         289</span>
+<span class="co">#&gt;  3 Mormon                &lt;$10k          29</span>
+<span class="co">#&gt;  4 Muslim                &lt;$10k           6</span>
+<span class="co">#&gt;  5 Orthodox              &lt;$10k          13</span>
+<span class="co">#&gt;  6 Other Christian       &lt;$10k           9</span>
+<span class="co">#&gt;  7 Other Faiths          &lt;$10k          20</span>
+<span class="co">#&gt;  8 Other World Religions &lt;$10k           5</span>
+<span class="co">#&gt;  9 Unaffiliated          &lt;$10k         217</span>
+<span class="co">#&gt; 10 Jewish                $10-20k        19</span>
+<span class="co">#&gt; # ... with 80 more rows</span></code></pre>
 <p>Observemos que en la tabla ancha teníamos bajo la columna <em>&lt;$10k</em>, en el renglón
 correspondiente a <em>Agnostic</em> un valor de 27, y podemos ver que este valor en
 la tabla larga se almacena bajo la columna frecuencia y corresponde a religión
@@ -642,15 +632,15 @@ pew_tidy_<span class="dv">2</span> &lt;-<span class="st"> </span>pew_tidy <span 
 
 <span class="kw">head</span>(pew_tidy_<span class="dv">2</span>)
 <span class="co">#&gt; # A tibble: 6 x 4</span>
-<span class="co">#&gt; # Groups:   religion [5]</span>
-<span class="co">#&gt;   religion                income  frequency percent</span>
-<span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Catholic                &lt;$10k         418  0.0637</span>
-<span class="co">#&gt; 2 Evangelical Prot        &lt;$10k         575  0.0724</span>
-<span class="co">#&gt; 3 Historically Black Prot &lt;$10k         228  0.138 </span>
-<span class="co">#&gt; 4 Mainline Prot           &lt;$10k         289  0.0471</span>
-<span class="co">#&gt; 5 Unaffiliated            &lt;$10k         217  0.0698</span>
-<span class="co">#&gt; 6 Catholic                $10-20k       617  0.0940</span>
+<span class="co">#&gt; # Groups:   religion [2]</span>
+<span class="co">#&gt;   religion      income  frequency percent</span>
+<span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Mainline Prot &lt;$10k         289  0.0471</span>
+<span class="co">#&gt; 2 Unaffiliated  &lt;$10k         217  0.0698</span>
+<span class="co">#&gt; 3 Mainline Prot $10-20k       495  0.0806</span>
+<span class="co">#&gt; 4 Unaffiliated  $10-20k       299  0.0961</span>
+<span class="co">#&gt; 5 Mainline Prot $20-30k       619  0.101 </span>
+<span class="co">#&gt; 6 Unaffiliated  $20-30k       374  0.120</span>
 income_levels &lt;-<span class="st"> </span><span class="kw">unique</span>(pew_tidy<span class="op">$</span>income)[<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>]
 <span class="kw">ggplot</span>(pew_tidy_<span class="dv">2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> income, <span class="dt">y =</span> percent, <span class="dt">group =</span> religion)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>religion, <span class="dt">nrow =</span> <span class="dv">1</span>) <span class="op">+</span>

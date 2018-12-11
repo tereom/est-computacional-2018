@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.066"
+#> [1] "0.067"
 ```
 
 
@@ -2087,7 +2087,7 @@ object_size(computos_boot)/nrow(computos_boot)
 #> 69.8 kB
 # el incremento en tamaño es << 100
 as.numeric(object_size(computos_boot)/object_size(muestra_computos))
-#> [1] 2.4134
+#> [1] 2.4133
 ```
 
 2. El paquete `boot` está asociado al libro *Bootstrap Methods and Their 

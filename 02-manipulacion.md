@@ -942,27 +942,18 @@ pew <- read_delim("http://stat405.had.co.nz/data/pew.txt", "\t",
 #>   `Don't know/refused` = col_double()
 #> )
 pew
-#> # A tibble: 18 x 11
-#>    religion `<$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k`
-#>    <chr>      <dbl>     <dbl>     <dbl>     <dbl>     <dbl>     <dbl>
-#>  1 Agnostic      27        34        60        81        76       137
-#>  2 Atheist       12        27        37        52        35        70
-#>  3 Buddhist      27        21        30        34        33        58
-#>  4 Catholic     418       617       732       670       638      1116
-#>  5 Don’t k…      15        14        15        11        10        35
-#>  6 Evangel…     575       869      1064       982       881      1486
-#>  7 Hindu          1         9         7         9        11        34
-#>  8 Histori…     228       244       236       238       197       223
-#>  9 Jehovah…      20        27        24        24        21        30
-#> 10 Jewish        19        19        25        25        30        95
-#> 11 Mainlin…     289       495       619       655       651      1107
-#> 12 Mormon        29        40        48        51        56       112
-#> 13 Muslim         6         7         9        10         9        23
-#> 14 Orthodox      13        17        23        32        32        47
-#> 15 Other C…       9         7        11        13        13        14
-#> 16 Other F…      20        33        40        46        49        63
-#> 17 Other W…       5         2         3         4         2         7
-#> 18 Unaffil…     217       299       374       365       341       528
+#> # A tibble: 9 x 11
+#>   religion `<$10k` `$10-20k` `$20-30k` `$30-40k` `$40-50k` `$50-75k`
+#>   <chr>      <dbl>     <dbl>     <dbl>     <dbl>     <dbl>     <dbl>
+#> 1 Jewish        19        19        25        25        30        95
+#> 2 Mainlin…     289       495       619       655       651      1107
+#> 3 Mormon        29        40        48        51        56       112
+#> 4 Muslim         6         7         9        10         9        23
+#> 5 Orthodox      13        17        23        32        32        47
+#> 6 Other C…       9         7        11        13        13        14
+#> 7 Other F…      20        33        40        46        49        63
+#> 8 Other W…       5         2         3         4         2         7
+#> 9 Unaffil…     217       299       374       365       341       528
 #> # ... with 4 more variables: `$75-100k` <dbl>, `$100-150k` <dbl>,
 #> #   `>150k` <dbl>, `Don't know/refused` <dbl>
 ```
@@ -987,20 +978,20 @@ cada *key*.
 ```r
 pew_tidy <- gather(data = pew, income, frequency, -religion)
 pew_tidy
-#> # A tibble: 180 x 3
-#>    religion                income frequency
-#>    <chr>                   <chr>      <dbl>
-#>  1 Agnostic                <$10k         27
-#>  2 Atheist                 <$10k         12
-#>  3 Buddhist                <$10k         27
-#>  4 Catholic                <$10k        418
-#>  5 Don’t know/refused      <$10k         15
-#>  6 Evangelical Prot        <$10k        575
-#>  7 Hindu                   <$10k          1
-#>  8 Historically Black Prot <$10k        228
-#>  9 Jehovah's Witness       <$10k         20
-#> 10 Jewish                  <$10k         19
-#> # ... with 170 more rows
+#> # A tibble: 90 x 3
+#>    religion              income  frequency
+#>    <chr>                 <chr>       <dbl>
+#>  1 Jewish                <$10k          19
+#>  2 Mainline Prot         <$10k         289
+#>  3 Mormon                <$10k          29
+#>  4 Muslim                <$10k           6
+#>  5 Orthodox              <$10k          13
+#>  6 Other Christian       <$10k           9
+#>  7 Other Faiths          <$10k          20
+#>  8 Other World Religions <$10k           5
+#>  9 Unaffiliated          <$10k         217
+#> 10 Jewish                $10-20k        19
+#> # ... with 80 more rows
 ```
 
 Observemos que en la tabla ancha teníamos bajo la columna *<$10k*, en el renglón
@@ -1043,15 +1034,15 @@ pew_tidy_2 <- pew_tidy %>%
 
 head(pew_tidy_2)
 #> # A tibble: 6 x 4
-#> # Groups:   religion [5]
-#>   religion                income  frequency percent
-#>   <chr>                   <chr>       <dbl>   <dbl>
-#> 1 Catholic                <$10k         418  0.0637
-#> 2 Evangelical Prot        <$10k         575  0.0724
-#> 3 Historically Black Prot <$10k         228  0.138 
-#> 4 Mainline Prot           <$10k         289  0.0471
-#> 5 Unaffiliated            <$10k         217  0.0698
-#> 6 Catholic                $10-20k       617  0.0940
+#> # Groups:   religion [2]
+#>   religion      income  frequency percent
+#>   <chr>         <chr>       <dbl>   <dbl>
+#> 1 Mainline Prot <$10k         289  0.0471
+#> 2 Unaffiliated  <$10k         217  0.0698
+#> 3 Mainline Prot $10-20k       495  0.0806
+#> 4 Unaffiliated  $10-20k       299  0.0961
+#> 5 Mainline Prot $20-30k       619  0.101 
+#> 6 Unaffiliated  $20-30k       374  0.120
 income_levels <- unique(pew_tidy$income)[1:9]
 ggplot(pew_tidy_2, aes(x = income, y = percent, group = religion)) +
   facet_wrap(~ religion, nrow = 1) +
