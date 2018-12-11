@@ -4893,7 +4893,6 @@ paquete de R [quickcountmx](https://github.com/tereom/quickcountmx)).
 
 Más detalles del modelo [aquí](https://jovial-jepsen-cf1904.netlify.com).
 
-## Flujo de trabajo para el análisis bayesiano
 
 
 
