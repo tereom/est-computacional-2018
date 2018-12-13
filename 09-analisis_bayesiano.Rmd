@@ -2719,7 +2719,7 @@ $$a=\mu K, b = (1-\mu)K$$
 
 Ahora introducimos el modelo jerárquico. En lugar de especificar un valor 
 particular para $\mu$, consideramos que $\mu$ puede tomar distintos valores
-(entre 0 y 1), y definimos una distribución de probabilidad sobre esos valores.
+(entre $0$ y $1$), y definimos una distribución de probabilidad sobre esos valores.
 Podemos pensar que esta distribución describe nuestra incertidumbre acerca de la
 construcción de la máquina que manufactura las monedas. 
 
@@ -2805,12 +2805,12 @@ aproximación por cuadrícula.
 
 A continuación graficamos las distribuciones correspondientes al caso en que
 la distribución del hiperparámetro $\mu$ tiene la forma de una distribución 
-Beta(2, 2), es decir creemos que la media de la acuñadora $\mu$ es 0.5, pero 
+$Beta(2, 2)$, es decir creemos que la media de la acuñadora $\mu$ es $0.5$, pero 
 existe bastante incertidumbre acerca del valor.
 
 La distribución de $\theta$, esto es la distribución inicial que refleja la
 dependencia entre $\theta$ y $\mu$ se expresa por medio de otra distribución 
-beta, en el ejemplo usamos K=100:
+beta, en el ejemplo usamos $K=100$:
 
 $$\theta|\mu \sim beta(\mu 100, (1-\mu)100)$$
 
@@ -3180,10 +3180,10 @@ model{
 '
 ```
 
-$\kappa \sim Gamma(1, 0.1)$, esta tiene media 10 y desviación estándar 10.
+$\kappa \sim Gamma(1, 0.1)$, esta tiene media $10$ y desviación estándar $10$.
 
-Los datos consisten en 5 monedas, cada una se lanza 5 veces, resultando 4 de 
-ellas en 1 águila y 4 soles y otra en 3 águilas y 2 soles.
+Los datos consisten en $5$ monedas, cada una se lanza $5$ veces, resultando $4$ de 
+ellas en $1$ águila y $4$ soles y otra en $3$ águilas y $2$ soles.
 
 ```{r, fig.align='center', fig.height = 3}
 cat(modelo_jer.bugs, file = 'modelo_jer.bugs')
