@@ -523,7 +523,7 @@ de modelos en estadística bayesiana es que la complejidad del modelo se toma
 en cuenta de manera automática. 
 
 Recordemos los dos modelos discretos, en el primero supusimos que el parámetro
-$\theta$ únicamente puede tomar uno de $3$ valores ($0.25$, $0.5$, $0.75$), esta 
+$\theta$ únicamente puede tomar uno de $3$ valores $(0.25, 0.5, 0.75)$, esta 
 restricción dió lugar a un modelo simple. Por su parte, el modelo $2$ es más 
 complejo y permite muchos más valores de $\theta$ ($51$). La forma de la 
 distribución inicial es triangular en ambos casos y el valor de mayor 
@@ -580,7 +580,7 @@ factorBayes(40, 38)
 
 <!-- $\theta$ 
 puede tomar más valores, entonces si en una sucesión de volados observamos 
-10% de águilas, el modelo simple no cuenta con un valor de $\theta$ cercano al 
+$10\%$ de águilas, el modelo simple no cuenta con un valor de $\theta$ cercano al 
 resultado observado, pero el modelo complejo si. Por otra parte, para valores
 de $\theta$ que se encuentran en ambos modelos la probabilidad inicial de esos 
 valores es mayor en el caso del modelo simple. Por lo tanto si los datos 
