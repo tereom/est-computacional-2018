@@ -1163,7 +1163,7 @@ una inicial vaga.</p>
 </div>
 <div id="no-informativas" class="section level5 unnumbered">
 <h5>No informativas</h5>
-<p>Asignamos a <span class="math inline">\(\lambda_{j}\)</span> una distribución inicial <span class="math inline">\(Gamma(0.01,0.01)\)</span>. La tabla
+<p>Asignamos a <span class="math inline">\(\lambda_{j}\)</span> una distribución inicial <span class="math inline">\(Gamma(0.01, 0.01)\)</span>. La tabla
 de deciles indica que es una distribución muy plana y si observamos la gráfica
 de encogimiento notamos que para una inicial con este valor en el parámetro de
 escala <span class="math inline">\(\beta_{0}\)</span>, el encogimiento de la media posterior hacia la media inicial
@@ -1180,7 +1180,7 @@ este caso, la elección de los parámetros se basó en la distribución inicial 
 informativa de Jeffreys, consiste en una <span class="math inline">\(Gamma(0.5,0)\)</span>. Es una distribución
 impropia por lo que cambiamos el parámetro de escala por <span class="math inline">\(0.01\)</span> para obtener
 una inicial propia con varianza grande. Los resultados no son muy razonables,
-pues la media inicial es 50, mucho mayor a las tasas observada para todos los
+pues la media inicial es <span class="math inline">\(50\)</span>, mucho mayor a las tasas observada para todos los
 hospitales, provocando que las estimaciones del modelo sean mayores a las tasas
 observadas en todos los hospitales. Este efecto es contrario al que buscábamos
 al usar una inicial vaga pues la distribución inicial tiene un impacto muy
@@ -1194,7 +1194,7 @@ teórica de la distribución <span class="math inline">\(Gamma\)</span> con la m
 conjunto de tasas de mortalidad tomando en cuenta todos los hospitales.
 Las estimaciones de las tasas de mortalidad que obtenemos parecen razonables,
 sin embargo, especificar la distribución inicial con la muestra tiene problemas
-lógicos y prácticos: 1) los datos se están usando 2 veces, primero la
+lógicos y prácticos: 1) los datos se están usando <span class="math inline">\(2\)</span> veces, primero la
 información de todos los hospitales se usa para especificar la distribución
 inicial, y después la información de cada hospital se usa para estimar su tasa
 de mortalidad <span class="math inline">\(\lambda_{j}\)</span>, lo que ocasiona que sobreestimemos nuestra
@@ -1341,7 +1341,7 @@ manera, mayor encogimiento corresponde a las observaciones con mayor
 incertidumbre.</p>
 <p>Notemos también que la factorización de la media posterior es similar a la que
 obteníamos en el modelo de medias independientes. La diferencia radica en que
-ahora es un sólo modelo (opuesto a 94), y los parámetros de la distribución
+ahora es un sólo modelo (opuesto a <span class="math inline">\(94\)</span>), y los parámetros de la distribución
 inicial de <span class="math inline">\(\lambda_{j}\)</span> forman parte del modelo de probabilidad pues les
 asignamos una distribución inicial.</p>
 </div>
@@ -1385,7 +1385,7 @@ distribución posterior de los hiperparámetros <span class="math inline">\(f(\a
 \]</span></p>
 <p>observemos que las <span class="math inline">\(\{k_j\}\)</span> no dependen de <span class="math inline">\(y\)</span> por lo que son constantes en la
 integral, además para cada <span class="math inline">\(i\)</span> de la primera multiplicación tenemos una
-distribución <span class="math inline">\(Gamma(y_{i}+\alpha, e_{i}+\alpha/\mu)\)</span> por lo que integran 1.</p>
+distribución <span class="math inline">\(Gamma(y_{i}+\alpha, e_{i}+\alpha/\mu)\)</span> por lo que integran <span class="math inline">\(1\)</span>.</p>
 <p>Resultando,</p>
 <p><span class="math display">\[
 {\normalsize
@@ -1450,15 +1450,15 @@ encogimiento para los hospitales con menor número de expuestos.</p>
     <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) <span class="op">+</span>
 <span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;encogimiento (A)&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>)</code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-88-1.png" width="400px" style="display: block; margin: auto;" /></p>
-<p>Ahora simualmos observaciones de la distribución posterior de lambda:</p>
+<p>Ahora simualmos observaciones de la distribución posterior de <span class="math inline">\(\lambda\)</span>:</p>
 <pre class="sourceCode r"><code class="sourceCode r">heart_jer_sims &lt;-<span class="st"> </span>heart_jer <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">mutate</span>(<span class="dt">sims =</span> <span class="kw">map2</span>(e, y, <span class="op">~</span><span class="kw">rgamma</span>(<span class="dv">1000</span>, .y <span class="op">+</span><span class="st"> </span>alpha, .x <span class="op">+</span><span class="st"> </span>alpha <span class="op">/</span><span class="st"> </span>mu))) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">ungroup</span>()</code></pre>
 <p>Ya que tenemos las distribuciones posteriores podemos hacer inferencia acerca de
 la tasa de mortalidad <span class="math inline">\(\lambda\)</span>. A continuación graficamos los intervalos
-posteriores del 95% de probabilidad para las tasas <span class="math inline">\(\lambda_{j}\)</span>, el color
+posteriores del <span class="math inline">\(95\%\)</span> de probabilidad para las tasas <span class="math inline">\(\lambda_{j}\)</span>, el color
 representa el número de muertes observadas <span class="math inline">\(y_{j}\)</span>, en gris se graficaron las
-tasas observadas, la gráfica se dividió en 3 páneles de acuerdo al número de
+tasas observadas, la gráfica se dividió en <span class="math inline">\(3\)</span> páneles de acuerdo al número de
 muertes observadas en los hospitales.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Creamos intervalos con las simulaciones</span>
 heart_jer_post &lt;-<span class="st"> </span>heart_jer_sims <span class="op">%&gt;%</span><span class="st"> </span>
@@ -1478,7 +1478,7 @@ heart_jer_post &lt;-<span class="st"> </span>heart_jer_sims <span class="op">%&g
 <span class="st">    </span><span class="kw">scale_colour_hue</span>(<span class="st">&quot;muertes obs. (y)&quot;</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Muertes por 1000 expuestos&quot;</span>)</code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-90-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Analizamos la distribución predictiva posterior para la misma muestra de 10
+<p>Analizamos la distribución predictiva posterior para la misma muestra de <span class="math inline">\(10\)</span>
 hospitales que se utilizó en el modelo de unidades iguales.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sims_muestra &lt;-<span class="st"> </span>heart_jer_post <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">filter</span>(hospital <span class="op">%in%</span><span class="st"> </span>heart_sims_sample<span class="op">$</span>hospital)
@@ -1509,8 +1509,8 @@ tan extrema como <span class="math inline">\(y_{j}\)</span> para todas las obser
 \end{eqnarray}
 \]</span></p>
 <p>A continuación graficamos las probabilidades de extremos (calculadas con
-simulación). Con el modelo jerárquico solamente el 6% de las probabilidades son
-menores al 0.15, una disminución considerable al 28% obtenido con el modelo de
+simulación). Con el modelo jerárquico solamente el <span class="math inline">\(6\%\)</span> de las probabilidades son
+menores al <span class="math inline">\(0.15\)</span>, una disminución considerable al <span class="math inline">\(28\%\)</span> obtenido con el modelo de
 unidades iguales.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Para calcular las p predictiva podemos usar las simulaciones</span>
 p_pred &lt;-<span class="st"> </span>heart_sims <span class="op">%&gt;%</span><span class="st"> </span>
@@ -1561,7 +1561,7 @@ mayores en la mayoría de los casos.</p>
 <p>Ahora veremos como hacer la estimación usando JAGS. Primero hacemos un par de
 cambios en la definición del modelo, esto es porque la distribución inicial de
 <span class="math inline">\(\mu\)</span> no es propia (i.e. no integra uno) y JAGS no permite el uso de iniciales
-impropias. Usaremos iniciales Gamma para <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\mu\)</span> eligiendo parámetros
+impropias. Usaremos iniciales <span class="math inline">\(Gamma\)</span> para <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\mu\)</span> eligiendo parámetros
 de manera que sean iniciales vagas.
 <span class="math display">\[\mu, \alpha \sim Gamma(0.01, 0.01).\]</span>
 Veamos como se escriben el modelo en JAGS.</p>
@@ -1706,9 +1706,9 @@ medición de uranio a nivel condado (Uppm).</p></li>
 <span class="math display">\[\alpha_j \sim N(\gamma_0 + \gamma_{1}u_j, \sigma_{\alpha}^2)\]</span></p>
 <ol start="5" style="list-style-type: decimal">
 <li><p>Utiliza el modelo anterior para predecir el valor de radón para una nueva
-casa sin sótano (floor = 1) en el condado 26.</p></li>
+casa sin sótano (floor = <span class="math inline">\(1\)</span>) en el condado <span class="math inline">\(26\)</span>.</p></li>
 <li><p>Utiliza el modelo anterior para predecir el valor de radón para una nueva
-casa sin sótano (floor = 1) en un condado nuevo con nivel de uranio <span class="math inline">\(2\)</span>.</p></li>
+casa sin sótano (floor = <span class="math inline">\(1\)</span>) en un condado nuevo con nivel de uranio <span class="math inline">\(2\)</span>.</p></li>
 </ol>
 <p>** Observaciones**</p>
 <p>Iniciamos preparando los datos para el análisis, trabajaremos en escala
