@@ -624,8 +624,8 @@ que ha propiciado el desarrollo de la estadística bayesiana en años recientes.
 
 ### Ejemplo: Bernoulli {-}
 
-Comenzaremos con el modelo Beta-Binomial. Recordemos que si X en un experimento 
-con dos posibles resultados, X se distribuye Bernoulli y la función de 
+Comenzaremos con el modelo Beta-Binomial. Recordemos que si $X$ en un experimento 
+con dos posibles resultados, $X$ se distribuye Bernoulli y la función de 
 probabilidad esta definida por:
 
 $$p(x|\theta)=\theta^x(1-\theta)^{1-x}$$
@@ -662,19 +662,19 @@ Vale la pena notar que la inicial es conjugada únicamente respecto a una
 función de verosimilitud particular.
 
 Una distribución conjugada para $p(x|\theta) = \theta^z(1 - \theta)^{N-z}$ es 
-una Beta(a, b)
+una $Beta(a, b)$ 
 $$p(\theta) = \frac {\theta^{a-1}(1-\theta)^{b-1}}{B(a,b)}$$
 
 Para describir nuestro conocimiento inicial podemos explorar la media y 
 desviación estándar de la distribución beta, la media es 
 $$\bar{\theta} = a/(a+b)$$
-por lo que si $a=b$ la media es 0.5 y conforme 
+por lo que si $a=b$ la media es $0.5$ y conforme 
 aumenta $a$ en relación a $b$ aumenta la media. La desviación estándar es
 
 $$\sqrt{\bar{\theta}(1-\bar{\theta})/(a+b+1)}$$
 
 Una manera de seleccionar los parámetros $a$ y $b$ es pensar en la 
-proporción media de águilas (m) y el tamaño de muestra (n). Ahora, $m=a/(a+b)$
+proporción media de águilas ($m$) y el tamaño de muestra ($n$). Ahora, $m=a/(a+b)$
 y $n = a+b$, obteniendo.
 
 $$a=mn, b=(1-m)n$$
@@ -682,7 +682,7 @@ $$a=mn, b=(1-m)n$$
 Otra manera es comenzar con la media y la desviación estándar. Al usar este 
 enfoque debemos recordar que la desviación estándar debe tener sentido en el 
 contexto de la densidad beta. En particular la desviación estándar típicamente
-es menor a 0.289  que corresponde a la desviación estándar de una uniforme.
+es menor a $0.289$  que corresponde a la desviación estándar de una uniforme.
 Entonces, para una densidad beta con media $m$ y desviación estándar $s$, los
 parámetros son:
 $$a=m\bigg(\frac{m(1-m)}{s^2}- 1\bigg), b=(1-m)\bigg(\frac{m(1-m)}{s^2}- 1\bigg)$$
@@ -694,8 +694,8 @@ una densidad Beta.
 
 $$p(\theta|z)\propto \theta^{a+z-1}(1 -\theta)^{(N-z+b)-1}$$
 
-Concluímos entonces que si la distribución inicial es Beta(a,b), la posterior
-es Beta(z+a,N-z+b).
+Concluímos entonces que si la distribución inicial es $Beta(a,b),$ la posterior
+es $Beta(z+a,N-z+b).$
 
 Vale la pena explorar la relación entre la distribución inicial y posterior en 
 las medias. La media incial es 
@@ -753,7 +753,7 @@ Una manera de resumir la distribución posterior es a través de intervalos de
 probabilidad, otro uso de los intervalos es establecer que valores del parámetro
 son creíbles. 
 
-![](imagenes/manicule2.jpg) Calcula un intervalo del 95% de probabilidad para
+![](imagenes/manicule2.jpg) Calcula un intervalo del $95\%$ de probabilidad para
 cada una de las distribuciones posteriores del ejemplo.
 
 ```{r, echo=FALSE, eval=FALSE}
@@ -774,14 +774,14 @@ para cada modelo:
 
 $$p(x|M)=\int p(x|\theta,M)p(\theta|M)d\theta$$
 
-en este caso los datos están dados por $z$ y N, en el caso de la incial beta
+en este caso los datos están dados por $z$ y $N$, en el caso de la incial beta
 es fácil calcular la evidencia:
 
 $$p(z)=B(z+a,N-z+b)/B(a,b)$$
 
-En nuestro ejemplo, una inicial tuiene un pico en 0.5 mientras que la otra es
-uniforme. Por otra parte, la proporción de 1 observados en la muestra no es
-cercana a 0.5 por lo que la inicial picuda no captura los datos muy bien.
+En nuestro ejemplo, una inicial tuiene un pico en $0.5$ mientras que la otra es
+uniforme. Por otra parte, la proporción de $1$ observados en la muestra no es
+cercana a $0.5$ por lo que la inicial picuda no captura los datos muy bien.
 
 ```{r}
 # N = 14, z = 11, a = 1, b = 1
