@@ -487,11 +487,11 @@ distribución conjunta <span class="math inline">\(p(x, \theta)\)</span>, donde 
 la distribución de un estudiante en particular:
 <span class="math display">\[p(x_i|\theta) \sim Bernoulli(\theta),\]</span>
 para <span class="math inline">\(i=1,...,N\)</span>, es decir, condicional a <span class="math inline">\(\theta\)</span> la probabilidad de que un
-estudiante ingiera más de 2500 calorías es <span class="math inline">\(\theta\)</span> y la función de
+estudiante ingiera más de <span class="math inline">\(2500\)</span> calorías es <span class="math inline">\(\theta\)</span> y la función de
 verosimilitud <span class="math inline">\(p(x_1,...,x_N|\theta) = \mathcal{L}(\theta)\)</span>:</p>
 <p><span class="math display">\[p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)\]</span>
 <span class="math display">\[= \theta^z(1 - \theta)^{N-z}\]</span></p>
-<p>donde <span class="math inline">\(z\)</span> denota el número de estudiantes que ingirió al menos 2500 kcal y <span class="math inline">\(N-z\)</span>
+<p>donde <span class="math inline">\(z\)</span> denota el número de estudiantes que ingirió al menos <span class="math inline">\(2500\)</span> kcal y <span class="math inline">\(N-z\)</span>
 el número de estudiantes que ingirió menos de <span class="math inline">\(2500\)</span> kcal.</p>
 <p>Ahora calculamos la distribución posterior de <span class="math inline">\(\theta\)</span>
 usando la regla de Bayes:</p>
@@ -627,7 +627,7 @@ $p(x|\theta)=\theta^x(1-\theta)^{1-x}$
 esto es, $x$ tiene una distribución $Bernoulli(\theta)$.
 
 El siguiente paso es determinar la distribución inicial sobre el espacio de
-parámetros, como ejemplo, supongamos que solo hay 3 valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
+parámetros, como ejemplo, supongamos que solo hay $3$ valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
 $p(\theta = 0.25) = 0.25$, $p(\theta = 0.5) = 0.5$ y $p(\theta = 0.75) = 0.25$
 
 
@@ -698,7 +698,7 @@ de modelos en estadística bayesiana es que la complejidad del modelo se toma
 en cuenta de manera automática.</li>
 </ol>
 <p>Recordemos los dos modelos discretos, en el primero supusimos que el parámetro
-<span class="math inline">\(\theta\)</span> únicamente puede tomar uno de <span class="math inline">\(3\)</span> valores (<span class="math inline">\(0.25\)</span>, <span class="math inline">\(0.5\)</span>, <span class="math inline">\(0.75\)</span>), esta
+<span class="math inline">\(\theta\)</span> únicamente puede tomar uno de <span class="math inline">\(3\)</span> valores <span class="math inline">\((0.25, 0.5, 0.75)\)</span>, esta
 restricción dió lugar a un modelo simple. Por su parte, el modelo <span class="math inline">\(2\)</span> es más
 complejo y permite muchos más valores de <span class="math inline">\(\theta\)</span> (<span class="math inline">\(51\)</span>). La forma de la
 distribución inicial es triangular en ambos casos y el valor de mayor
@@ -776,7 +776,7 @@ factorBayes &lt;-<span class="st"> </span><span class="cf">function</span>(N, z)
 <p>¿Cómo explicarías los resultados anteriores?</p>
 <!-- $\theta$ 
 puede tomar más valores, entonces si en una sucesión de volados observamos 
-10% de águilas, el modelo simple no cuenta con un valor de $\theta$ cercano al 
+$10\%$ de águilas, el modelo simple no cuenta con un valor de $\theta$ cercano al 
 resultado observado, pero el modelo complejo si. Por otra parte, para valores
 de $\theta$ que se encuentran en ambos modelos la probabilidad inicial de esos 
 valores es mayor en el caso del modelo simple. Por lo tanto si los datos 
