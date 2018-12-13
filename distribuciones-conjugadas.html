@@ -369,8 +369,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">10.3</span> Distribuciones conjugadas</h2>
 <div id="ejemplo-bernoulli" class="section level3 unnumbered">
 <h3>Ejemplo: Bernoulli</h3>
-<p>Comenzaremos con el modelo Beta-Binomial. Recordemos que si X en un experimento
-con dos posibles resultados, X se distribuye Bernoulli y la función de
+<p>Comenzaremos con el modelo Beta-Binomial. Recordemos que si <span class="math inline">\(X\)</span> en un experimento
+con dos posibles resultados, <span class="math inline">\(X\)</span> se distribuye Bernoulli y la función de
 probabilidad esta definida por:</p>
 <p><span class="math display">\[p(x|\theta)=\theta^x(1-\theta)^{1-x}\]</span></p>
 <p>Ahora, si lanzamos una moneda <span class="math inline">\(N\)</span> veces tenemos un conjunto de datos
@@ -399,22 +399,22 @@ forma) que la distribución inicial, entonces decimos que <span class="math inli
 Vale la pena notar que la inicial es conjugada únicamente respecto a una
 función de verosimilitud particular.</p>
 <p>Una distribución conjugada para <span class="math inline">\(p(x|\theta) = \theta^z(1 - \theta)^{N-z}\)</span> es
-una Beta(a, b)
+una <span class="math inline">\(Beta(a, b)\)</span>
 <span class="math display">\[p(\theta) = \frac {\theta^{a-1}(1-\theta)^{b-1}}{B(a,b)}\]</span></p>
 <p>Para describir nuestro conocimiento inicial podemos explorar la media y
 desviación estándar de la distribución beta, la media es
 <span class="math display">\[\bar{\theta} = a/(a+b)\]</span>
-por lo que si <span class="math inline">\(a=b\)</span> la media es 0.5 y conforme
+por lo que si <span class="math inline">\(a=b\)</span> la media es <span class="math inline">\(0.5\)</span> y conforme
 aumenta <span class="math inline">\(a\)</span> en relación a <span class="math inline">\(b\)</span> aumenta la media. La desviación estándar es</p>
 <p><span class="math display">\[\sqrt{\bar{\theta}(1-\bar{\theta})/(a+b+1)}\]</span></p>
 <p>Una manera de seleccionar los parámetros <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span> es pensar en la
-proporción media de águilas (m) y el tamaño de muestra (n). Ahora, <span class="math inline">\(m=a/(a+b)\)</span>
+proporción media de águilas (<span class="math inline">\(m\)</span>) y el tamaño de muestra (<span class="math inline">\(n\)</span>). Ahora, <span class="math inline">\(m=a/(a+b)\)</span>
 y <span class="math inline">\(n = a+b\)</span>, obteniendo.</p>
 <p><span class="math display">\[a=mn, b=(1-m)n\]</span></p>
 <p>Otra manera es comenzar con la media y la desviación estándar. Al usar este
 enfoque debemos recordar que la desviación estándar debe tener sentido en el
 contexto de la densidad beta. En particular la desviación estándar típicamente
-es menor a 0.289 que corresponde a la desviación estándar de una uniforme.
+es menor a <span class="math inline">\(0.289\)</span> que corresponde a la desviación estándar de una uniforme.
 Entonces, para una densidad beta con media <span class="math inline">\(m\)</span> y desviación estándar <span class="math inline">\(s\)</span>, los
 parámetros son:
 <span class="math display">\[a=m\bigg(\frac{m(1-m)}{s^2}- 1\bigg), b=(1-m)\bigg(\frac{m(1-m)}{s^2}- 1\bigg)\]</span></p>
@@ -423,8 +423,8 @@ Bernoulli, veamos la posterior. Supongamos que observamos <span class="math inli
 los cuales <span class="math inline">\(z\)</span> son águilas, entonces podemos ver que la posterior es nuevamente
 una densidad Beta.</p>
 <p><span class="math display">\[p(\theta|z)\propto \theta^{a+z-1}(1 -\theta)^{(N-z+b)-1}\]</span></p>
-<p>Concluímos entonces que si la distribución inicial es Beta(a,b), la posterior
-es Beta(z+a,N-z+b).</p>
+<p>Concluímos entonces que si la distribución inicial es <span class="math inline">\(Beta(a,b),\)</span> la posterior
+es <span class="math inline">\(Beta(z+a,N-z+b).\)</span></p>
 <p>Vale la pena explorar la relación entre la distribución inicial y posterior en
 las medias. La media incial es
 <span class="math display">\[a/(a+b)\]</span>
@@ -471,7 +471,7 @@ p2 &lt;-<span class="st"> </span>base <span class="op">+</span>
 <p>Una manera de resumir la distribución posterior es a través de intervalos de
 probabilidad, otro uso de los intervalos es establecer que valores del parámetro
 son creíbles.</p>
-<p><img src="imagenes/manicule2.jpg" /> Calcula un intervalo del 95% de probabilidad para
+<p><img src="imagenes/manicule2.jpg" /> Calcula un intervalo del <span class="math inline">\(95\%\)</span> de probabilidad para
 cada una de las distribuciones posteriores del ejemplo.</p>
 <p>Ahora pasemos a predicción, calculamos la probabilidad de <span class="math inline">\(y =1\)</span>:</p>
 <p><span class="math display">\[p(y = 1) = \int p(y=1|\theta)p(\theta|z)d\theta\]</span>
@@ -482,12 +482,12 @@ posterior sobre <span class="math inline">\(\theta\)</span>.</p>
 <p>Finalmente, comparemos modelos. Para esto calculamos la evidencia <span class="math inline">\(p(x|M)\)</span>
 para cada modelo:</p>
 <p><span class="math display">\[p(x|M)=\int p(x|\theta,M)p(\theta|M)d\theta\]</span></p>
-<p>en este caso los datos están dados por <span class="math inline">\(z\)</span> y N, en el caso de la incial beta
+<p>en este caso los datos están dados por <span class="math inline">\(z\)</span> y <span class="math inline">\(N\)</span>, en el caso de la incial beta
 es fácil calcular la evidencia:</p>
 <p><span class="math display">\[p(z)=B(z+a,N-z+b)/B(a,b)\]</span></p>
-<p>En nuestro ejemplo, una inicial tuiene un pico en 0.5 mientras que la otra es
-uniforme. Por otra parte, la proporción de 1 observados en la muestra no es
-cercana a 0.5 por lo que la inicial picuda no captura los datos muy bien.</p>
+<p>En nuestro ejemplo, una inicial tuiene un pico en <span class="math inline">\(0.5\)</span> mientras que la otra es
+uniforme. Por otra parte, la proporción de <span class="math inline">\(1\)</span> observados en la muestra no es
+cercana a <span class="math inline">\(0.5\)</span> por lo que la inicial picuda no captura los datos muy bien.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># N = 14, z = 11, a = 1, b = 1</span>
 <span class="kw">beta</span>(<span class="dv">12</span>, <span class="dv">4</span>) <span class="op">/</span><span class="st"> </span><span class="kw">beta</span>(<span class="dv">1</span>, <span class="dv">1</span>)
 <span class="co">#&gt; [1] 0.000183</span>

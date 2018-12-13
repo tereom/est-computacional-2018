@@ -370,7 +370,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Los datos <a href="https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv">beauty</a> consisten en evaluaciones de estudiantes a profesores, los
 estudiantes calificaron belleza y calidad de enseñanza para distintos cursos en
 la Universidad de Texas. Las evaluaciones de curso se realizaron al final del
-semestre y tiempo después 6 estudiantes que no llevaron el curso realizaron los
+semestre y tiempo después <span class="math inline">\(6\)</span> estudiantes que no llevaron el curso realizaron los
 juicios de belleza.</p>
 <p>Ajustamos el siguiente modelo de regresión lineal usando las variables
 <em>edad</em> (age), <em>belleza</em> (btystdave), <em>sexo</em> (female) e <em>inglés no es primera
@@ -386,12 +386,12 @@ fit_score &lt;-<span class="st"> </span><span class="kw">lm</span>(courseevaluat
                 <span class="dt">data =</span> beauty)</code></pre>
 <ol style="list-style-type: decimal">
 <li>La instructora <span class="math inline">\(A\)</span> es una mujer de <span class="math inline">\(50\)</span> años, el inglés es su primera lengua y
-tiene un puntaje de belleza de <span class="math inline">\(-1\)</span>. El instructor <span class="math inline">\(B\)</span> es un hombre de <span class="math inline">\(60\)</span> años,
-su primera lengua es el inglés y tiene un puntaje de belleza de <span class="math inline">\(-0.5\)</span>. Simula
+tiene un puntaje de belleza de <span class="math inline">\(-1\)</span>. El instructor B es un hombre de <span class="math inline">\(60\)</span> años,</li>
+</ol>
+<p>su primera lengua es el inglés y tiene un puntaje de belleza de <span class="math inline">\(-0.5\)</span>. Simula
 <span class="math inline">\(1000\)</span> generaciones de la evaluación del curso de estos dos instructores. En
 tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
-predicción.</li>
-</ol>
+predicción.</p>
 <p>Para hacer las simulaciones necesitarás la distribución del vector de
 coeficientes <span class="math inline">\(\beta\)</span>, este es normal con media:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(fit_score)

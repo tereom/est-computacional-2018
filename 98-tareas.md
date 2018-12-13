@@ -357,14 +357,14 @@ i) Genera una muestra aleatoria de tamaño $n=60$ con distribución
 $Poisson(\lambda)$, parámetro $\lambda=2.5$ (en R usa la función `rpois()`).
 
 ii) Genera $10,000$ muestras bootstrap y calcula intervalos de confianza del 
-95\% para $\hat{\theta}$ usando 1) el método normal, 2) percentiles y 3) $BC_a$.
+$95\%$ para $\hat{\theta}$ usando 1) el método normal, 2) percentiles y 3) $BC_a$.
 
 iii) Revisa si el intervalo de confianza contiene el verdadero valor del 
 parámetro ($\theta=exp(-2\cdot2.5)$), en caso de que no lo contenga registra si 
 falló por la izquierda (el límite inferior $exp(-2.5*\lambda)$) o falló por la 
 derecha (el límite superior $exp(-2.5*\lambda)$).
 
-a) Repite el proceso descrito 1000 veces y llena la siguiente tabla:
+a) Repite el proceso descrito $1000$ veces y llena la siguiente tabla:
 
 Método     | \% fallo izquierda   | \% fallo derecha  | Cobertura | Longitud promedio
 -----------|----------------------|-------------------|-----------|------------ 
@@ -378,7 +378,7 @@ intervalos que incluyeron el verdadero valor del parámetro. La longitud promedi
 es la longitud promedio de los intervalos de confianza bajo cada método.
 
 b) Realiza una gráfica de páneles, en cada panel mostrarás los resultados de 
-uno de los métodos (normal, percentiles y BC_a), el eje x corresponderá al 
+uno de los métodos (normal, percentiles y $BC_a$), el eje $x$ corresponderá al 
 número de intervalo de confianza ($1,...,1000$) y en el vertical 
 graficarás los límites de los intervalos, es decir graficarás $2$ líneas (usa 
 `geom_line()`) una corresponderá a los límites inferiores de los intervalos, y 
@@ -546,7 +546,7 @@ total de dinero que ahorrará la compañía, calcula un intervalo de confianza.
 Los datos [beauty](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv) consisten en evaluaciones de estudiantes a profesores, los 
 estudiantes calificaron belleza y calidad de enseñanza para distintos cursos en 
 la Universidad de Texas. Las evaluaciones de curso se realizaron al final del 
-semestre y tiempo después 6 estudiantes que no llevaron el curso realizaron los 
+semestre y tiempo después $6$ estudiantes que no llevaron el curso realizaron los 
 juicios de belleza. 
 
 Ajustamos el siguiente modelo de regresión lineal usando las variables 
@@ -569,7 +569,8 @@ fit_score <- lm(courseevaluation ~ age + btystdave + female + nonenglish,
 
 
 1. La instructora $A$ es una mujer de $50$ años, el inglés es su primera lengua y 
-tiene un puntaje de belleza de $-1$. El instructor $B$ es un hombre de $60$ años, 
+tiene un puntaje de belleza de $-1$. El instructor B es un hombre de $60$ años, 
+
 su primera lengua es el inglés y tiene un puntaje de belleza de $-0.5$. Simula
 $1000$ generaciones de la evaluación del curso de estos dos instructores. En 
 tus simulaciones debes incorporar la incertidumbre en los parámetros y en la

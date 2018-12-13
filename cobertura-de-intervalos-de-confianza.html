@@ -376,14 +376,14 @@ es <span class="math inline">\(\theta=exp(-2\lambda)\)</span>.</p>
 <li><p>Genera una muestra aleatoria de tamaño <span class="math inline">\(n=60\)</span> con distribución
 <span class="math inline">\(Poisson(\lambda)\)</span>, parámetro <span class="math inline">\(\lambda=2.5\)</span> (en R usa la función <code>rpois()</code>).</p></li>
 <li><p>Genera <span class="math inline">\(10,000\)</span> muestras bootstrap y calcula intervalos de confianza del
-95% para <span class="math inline">\(\hat{\theta}\)</span> usando 1) el método normal, 2) percentiles y 3) <span class="math inline">\(BC_a\)</span>.</p></li>
+<span class="math inline">\(95\%\)</span> para <span class="math inline">\(\hat{\theta}\)</span> usando 1) el método normal, 2) percentiles y 3) <span class="math inline">\(BC_a\)</span>.</p></li>
 <li><p>Revisa si el intervalo de confianza contiene el verdadero valor del
 parámetro (<span class="math inline">\(\theta=exp(-2\cdot2.5)\)</span>), en caso de que no lo contenga registra si
 falló por la izquierda (el límite inferior <span class="math inline">\(exp(-2.5*\lambda)\)</span>) o falló por la
 derecha (el límite superior <span class="math inline">\(exp(-2.5*\lambda)\)</span>).</p></li>
 </ol>
 <ol style="list-style-type: lower-alpha">
-<li>Repite el proceso descrito 1000 veces y llena la siguiente tabla:</li>
+<li>Repite el proceso descrito <span class="math inline">\(1000\)</span> veces y llena la siguiente tabla:</li>
 </ol>
 <table>
 <thead>
@@ -425,7 +425,7 @@ intervalos que incluyeron el verdadero valor del parámetro. La longitud promedi
 es la longitud promedio de los intervalos de confianza bajo cada método.</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li><p>Realiza una gráfica de páneles, en cada panel mostrarás los resultados de
-uno de los métodos (normal, percentiles y BC_a), el eje x corresponderá al
+uno de los métodos (normal, percentiles y <span class="math inline">\(BC_a\)</span>), el eje <span class="math inline">\(x\)</span> corresponderá al
 número de intervalo de confianza (<span class="math inline">\(1,...,1000\)</span>) y en el vertical
 graficarás los límites de los intervalos, es decir graficarás <span class="math inline">\(2\)</span> líneas (usa
 <code>geom_line()</code>) una corresponderá a los límites inferiores de los intervalos, y
