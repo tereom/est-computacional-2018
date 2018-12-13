@@ -1517,8 +1517,8 @@ postRelProb2 <- function(theta){
 }
 ```
 
-Implementemos el algoritmo con una inicial Beta(3,3) y observaciones
-$z_1=5$, $N = 7$, $z_1=2$ y $N = 7$, es decir lanzamos 14 volados 7 de cada 
+Implementemos el algoritmo con una inicial $Beta(3,3)$ y observaciones
+$z_1=5$, $N = 7$, $z_1=2$ y $N = 7$, es decir lanzamos $14$ volados $7$ de cada 
 moneda.
 
 ```{r, fig.height=4, fig.width=8}
@@ -1861,7 +1861,7 @@ Comenzamos definiendo las distrbuciones iniciales:
 
 * $\sigma^2 \sim GI(3, 3)$, esto es $\alpha = \beta = 3$.
 
-Ahora supongamos que observamos 20 realizaciones provenientes de la distribución
+Ahora supongamos que observamos $20$ realizaciones provenientes de la distribución
 de interés:
 
 ```{r}
@@ -1947,7 +1947,7 @@ ggplot(caminata_f, aes(x = y_sims)) +
 ```
 
 ![](imagenes/manicule2.jpg) ¿Cuál es la probabilidad de que una
-observación futura sea mayor a 8? 
+observación futura sea mayor a $8$? 
 
 En estadística bayesiana es común parametrizar la distribución Normal en 
 términos de precisión (el inverso de la varianza). Si parametrizamos de esta
@@ -2225,7 +2225,7 @@ traceplot(jags_fit, varname = c("mu", "sigma2"))
 ```
 
 ![](imagenes/manicule2.jpg) Realiza un histograma de la distribución 
-predictiva. Construye un intervalo de 95% de probabilidad para la predicción. 
+predictiva. Construye un intervalo de $95\%$ de probabilidad para la predicción. 
     Pista: utiliza `jags_fit$BUGSoutput$sims.matrix`.
 
 ```{r, fig.width=7, fig.height=4}
