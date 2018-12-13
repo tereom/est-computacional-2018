@@ -29,16 +29,16 @@ relación a éstos.
 
 3. Los procedimientos estadísticos deben diseñarse con el objetivo de tener 
 propiedades frecuentistas bien definidas. Por ejemplo, un intervalo de confianza 
-del $95$% debe contener el verdadero valor del parámetro con frecuencia límite
-de al menos el $95$%.
+del $95\%$ debe contener el verdadero valor del parámetro con frecuencia límite
+de al menos el $95\%$.
 
 Por su parte, el paradigma Bayesiano se basa en los siguientes postulados:
 
 1. La probabilidad describe grados de creencia, no frecuencias limite. Como 
 tal uno puede hacer afirmaciones probabilísticas acerca de muchas cosas y no 
 solo datos sujetos a variabilidad aleatoria. Por ejemplo, puedo decir: "La 
-probabilidad de que Einstein tomara una copa de te el 1^ro^ de agosto de 1948" 
-es 0.35, esto no hace referencia a ninguna frecuencia relativa sino que refleja
+probabilidad de que Einstein tomara una copa de te el $1^ro^$ de agosto de $1948$" 
+es $0.35$, esto no hace referencia a ninguna frecuencia relativa sino que refleja
 la certeza que yo tengo de que la proposición sea verdadera.
 
 2. Podemos hacer afirmaciones probabilísticas de parámetros.
@@ -71,39 +71,39 @@ subjetivas.
 #### Calibración {-}
 Considera una pregunta sencilla que puede afectar a un viajero: ¿Qué tanto 
 crees que habrá una tormenta que ocasionará el cierre de la autopista
-México-Acapulco en el puente del 20 de noviembre? Como respuesta debes dar
-un número entre 0 y 1 que refleje tus creencias. Una manera de seleccionar 
+México-Acapulco en el puente del $20$ de noviembre? Como respuesta debes dar
+un número entre $0$ y $1$ que refleje tus creencias. Una manera de seleccionar 
 dicho número es calibrar las creencias en relación a otros eventos cuyas 
 probabilidades son claras.
 
 Como evento de comparación considera una experimento donde hay canicas en una
-urna: 5 rojas y 5 blancas. Seleccionamos una canica al azar. Usaremos esta urna
+urna: $5$ rojas y $5$ blancas. Seleccionamos una canica al azar. Usaremos esta urna
 como comparación para considerar la tormenta en la autopista. Ahora, considera
 el siguiente par de apuestas de las cuales puedes elegir una:
 
-* A. Obtienes $1000 si hay una tormenta que ocasiona el cierre de la autopista
-el próximo 20 de noviembre.
+* A. Obtienes $\$1000$ si hay una tormenta que ocasiona el cierre de la autopista
+el próximo $20$ de noviembre.
 
-* B. Obtienes $1000 si seleccionas una canica roja de la urna que contiene 
-5 canicas rojas y 5 blancas.
+* B. Obtienes $\$1000$ si seleccionas una canica roja de la urna que contiene 
+$5$ canicas rojas y $5$ blancas.
 
 Si prefieres la apuesta B, quiere decir que consideras que la probabilidad de 
-tormenta es menor a 0.5, por lo que al menos sabes que tu creencia subjetiva de 
-una la probabilidad de tormenta es menor a 0.5. Podemos continuar con el proceso
+tormenta es menor a $0.5$, por lo que al menos sabes que tu creencia subjetiva de 
+una la probabilidad de tormenta es menor a $0.5$. Podemos continuar con el proceso
 para tener una mejor estimación de la creencia subjetiva.
 
-* A. Obtienes $1000 si hay una tormenta que ocasiona el cierre de la autopista
-el próximo 20 de noviembre.
+* A. Obtienes $\$1000$ si hay una tormenta que ocasiona el cierre de la autopista
+el próximo $20$ de noviembre.
 
-* C. Obtienes $1000 si seleccionas una canica roja de la urna que contiene 
-1 canica roja y 9 blancas.
+* C. Obtienes $\$1000$ si seleccionas una canica roja de la urna que contiene 
+$1$ canica roja y $9$ blancas.
 
-Si ahora seleccionas la apuesta A, esto querría decir que consideras que la 
-probabilidad de que ocurra una tormenta es mayor a 0.10. Si consideramos ambas 
-comparaciones tenemos que tu probabilidad subjetiva se ubica entre 0.1 y 0.5.
+Si ahora seleccionas la apuesta $A$, esto querría decir que consideras que la 
+probabilidad de que ocurra una tormenta es mayor a $0.10$. Si consideramos ambas 
+comparaciones tenemos que tu probabilidad subjetiva se ubica entre $0.1$ y $0.5$.
 
 ![](imagenes/manicule2.jpg) ¿Cuántos analfabetas dirías que había en México en 
-2015? Da un intervalo del 90% de confianza para esta cantidad.
+$2015$? Da un intervalo del $90\%$ de confianza para esta cantidad.
 
 Más de calibración:
 
@@ -133,8 +133,8 @@ puede pensar como la incertidumbre entre los posibles valores.
 
 ## Regla de Bayes e inferencia bayesiana
 
-Thomas Bayes (1702-1761) fue un matemático y ministro de la iglesia 
-presbiteriana, en 1764 se publicó su famoso teorema. 
+Thomas Bayes ($1702-1761$) fue un matemático y ministro de la iglesia 
+presbiteriana, en $1764$ se publicó su famoso teorema. 
 
 Una aplicación crucial de la regla de Bayes es determinar la probabilidad de un 
 modelo dado un conjunto de datos. Lo que el modelo determina es la probabilidad 
@@ -145,7 +145,7 @@ los datos.
 
 #### Ejemplo: Lanzamientos de monedas {-}
 Comencemos recordando la regla de Bayes usando dos variables aleatorias 
-discretas. Lanzamos una moneda 3 veces, sea $X$ la variable aleatoria 
+discretas. Lanzamos una moneda $3$ veces, sea $X$ la variable aleatoria 
 correspondiente al número de Águilas observadas y $Y$ registra el número de 
 cambios entre águilas y soles.
 
@@ -158,7 +158,7 @@ que observamos un cambio.
 
 Para entender probabilidad condicional podemos pensar en restringir nuestra 
 atención a una única fila o columna de la tabla. Supongamos que alguien lanza 
-una moneda 3 veces y nos informa que 
+una moneda $3$ veces y nos informa que 
 la secuencia contiene  exactamente un cambio. Dada esta información podemos
 restringir nuestra atención a la fila correspondiente a un solo cambio. Sabemos
 que ocurrió uno de los eventos de esa fila. Las probabilidades relativas
@@ -227,10 +227,10 @@ $$p(\theta|x) \propto p(x|\theta)p(\theta).$$
 
 Supongamos que nos interesa aprender los hábitos alimenticios de los estudiantes
 universitarios en México, y escuchamos que de acuerdo a investigaciones se
-recomienda que un adulto promedio ingiera 2500 kcal. Es así que buscamos conocer
+recomienda que un adulto promedio ingiera $2500$ kcal. Es así que buscamos conocer
 que proporción de los estudiantes siguen esta recomendación, para ello 
 tomaremos una muestra aleatoria de estudiantes del ITAM. Denotemos por $\theta$ 
-la proporción de estudiantes que ingieren en un día 2500 kcal o más. El valor 
+la proporción de estudiantes que ingieren en un día $2500$ kcal o más. El valor 
 de $\theta$ es desconocido, y desde el punto de vista bayesiano cuando tenemos 
 incertidumbre de algo (puede ser un parámetro o una predicción) lo vemos como 
 una variable aleatoria y por tanto tiene asociada una distribución de 
@@ -258,14 +258,14 @@ distribución conjunta $p(x, \theta)$, donde $x = (x_1,...,x_N)$ veamos
 la distribución de un estudiante en particular:
 $$p(x_i|\theta) \sim Bernoulli(\theta),$$
 para $i=1,...,N$, es decir, condicional a $\theta$ la probabilidad de que un 
-estudiante ingiera más de 2500 calorías es $\theta$ y la función de 
+estudiante ingiera más de $2500$ calorías es $\theta$ y la función de 
 verosimilitud $p(x_1,...,x_N|\theta) = \mathcal{L}(\theta)$:
 
 $$p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)$$
 $$= \theta^z(1 - \theta)^{N-z}$$
 
-donde $z$ denota el número de estudiantes que ingirió al menos 2500 kcal y $N-z$ 
-el número de estudiantes que ingirió menos de 2500 kcal. 
+donde $z$ denota el número de estudiantes que ingirió al menos $2500$ kcal y $N-z$ 
+el número de estudiantes que ingirió menos de $2500$ kcal. 
 
 Ahora calculamos la distribución posterior de $\theta$ 
 usando la regla de Bayes:
@@ -281,8 +281,8 @@ de probabilidad.
 
 #### Inicial discreta {-}
 Volviendo a nuestro ejemplo, usamos la inicial discreta que discutimos (tabla 
-de pesos normalizados) y supongamos que tomamos una muestra de 30 alumnos de 
-los cuales $z=11$ ingieren al menos 2500 kcal, calculemos la distribución 
+de pesos normalizados) y supongamos que tomamos una muestra de $30$ alumnos de 
+los cuales $z=11$ ingieren al menos $2500$ kcal, calculemos la distribución 
 posterior de $\theta$, usando que
 
 $$\mathcal{L}(\theta) = \theta^{z}(1-\theta)^{N-z}$$
@@ -319,7 +319,7 @@ ggplot(dists_l, aes(x = theta, y = val)) +
 ```
 
 ![](imagenes/manicule2.jpg) ¿Cómo se ve la distribución posterior si tomamos 
-una muestra de tamaño 90 donde observamos la misma proporción de éxitos. 
+una muestra de tamaño $90$ donde observamos la misma proporción de éxitos. 
 Realiza los cálculos y graficala como un panel adicional de la gráfica 
 anterior.
 
@@ -401,7 +401,7 @@ $p(x|\theta)=\theta^x(1-\theta)^{1-x}$
 esto es, $x$ tiene una distribución $Bernoulli(\theta)$.
 
 El siguiente paso es determinar la distribución inicial sobre el espacio de
-parámetros, como ejemplo, supongamos que solo hay 3 valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
+parámetros, como ejemplo, supongamos que solo hay $3$ valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
 $p(\theta = 0.25) = 0.25$, $p(\theta = 0.5) = 0.5$ y $p(\theta = 0.75) = 0.25$
 
 ```{r}
@@ -624,8 +624,8 @@ que ha propiciado el desarrollo de la estadística bayesiana en años recientes.
 
 ### Ejemplo: Bernoulli {-}
 
-Comenzaremos con el modelo Beta-Binomial. Recordemos que si X en un experimento 
-con dos posibles resultados, X se distribuye Bernoulli y la función de 
+Comenzaremos con el modelo Beta-Binomial. Recordemos que si $X$ en un experimento 
+con dos posibles resultados, $X$ se distribuye Bernoulli y la función de 
 probabilidad esta definida por:
 
 $$p(x|\theta)=\theta^x(1-\theta)^{1-x}$$
@@ -662,19 +662,19 @@ Vale la pena notar que la inicial es conjugada únicamente respecto a una
 función de verosimilitud particular.
 
 Una distribución conjugada para $p(x|\theta) = \theta^z(1 - \theta)^{N-z}$ es 
-una Beta(a, b)
+una $Beta(a, b)$ 
 $$p(\theta) = \frac {\theta^{a-1}(1-\theta)^{b-1}}{B(a,b)}$$
 
 Para describir nuestro conocimiento inicial podemos explorar la media y 
 desviación estándar de la distribución beta, la media es 
 $$\bar{\theta} = a/(a+b)$$
-por lo que si $a=b$ la media es 0.5 y conforme 
+por lo que si $a=b$ la media es $0.5$ y conforme 
 aumenta $a$ en relación a $b$ aumenta la media. La desviación estándar es
 
 $$\sqrt{\bar{\theta}(1-\bar{\theta})/(a+b+1)}$$
 
 Una manera de seleccionar los parámetros $a$ y $b$ es pensar en la 
-proporción media de águilas (m) y el tamaño de muestra (n). Ahora, $m=a/(a+b)$
+proporción media de águilas ($m$) y el tamaño de muestra ($n$). Ahora, $m=a/(a+b)$
 y $n = a+b$, obteniendo.
 
 $$a=mn, b=(1-m)n$$
@@ -682,7 +682,7 @@ $$a=mn, b=(1-m)n$$
 Otra manera es comenzar con la media y la desviación estándar. Al usar este 
 enfoque debemos recordar que la desviación estándar debe tener sentido en el 
 contexto de la densidad beta. En particular la desviación estándar típicamente
-es menor a 0.289  que corresponde a la desviación estándar de una uniforme.
+es menor a $0.289$  que corresponde a la desviación estándar de una uniforme.
 Entonces, para una densidad beta con media $m$ y desviación estándar $s$, los
 parámetros son:
 $$a=m\bigg(\frac{m(1-m)}{s^2}- 1\bigg), b=(1-m)\bigg(\frac{m(1-m)}{s^2}- 1\bigg)$$
@@ -694,8 +694,8 @@ una densidad Beta.
 
 $$p(\theta|z)\propto \theta^{a+z-1}(1 -\theta)^{(N-z+b)-1}$$
 
-Concluímos entonces que si la distribución inicial es Beta(a,b), la posterior
-es Beta(z+a,N-z+b).
+Concluímos entonces que si la distribución inicial es $Beta(a,b),$ la posterior
+es $Beta(z+a,N-z+b).$
 
 Vale la pena explorar la relación entre la distribución inicial y posterior en 
 las medias. La media incial es 
@@ -753,7 +753,7 @@ Una manera de resumir la distribución posterior es a través de intervalos de
 probabilidad, otro uso de los intervalos es establecer que valores del parámetro
 son creíbles. 
 
-![](imagenes/manicule2.jpg) Calcula un intervalo del 95% de probabilidad para
+![](imagenes/manicule2.jpg) Calcula un intervalo del $95\%$ de probabilidad para
 cada una de las distribuciones posteriores del ejemplo.
 
 ```{r, echo=FALSE, eval=FALSE}
@@ -774,14 +774,14 @@ para cada modelo:
 
 $$p(x|M)=\int p(x|\theta,M)p(\theta|M)d\theta$$
 
-en este caso los datos están dados por $z$ y N, en el caso de la incial beta
+en este caso los datos están dados por $z$ y $N$, en el caso de la incial beta
 es fácil calcular la evidencia:
 
 $$p(z)=B(z+a,N-z+b)/B(a,b)$$
 
-En nuestro ejemplo, una inicial tuiene un pico en 0.5 mientras que la otra es
-uniforme. Por otra parte, la proporción de 1 observados en la muestra no es
-cercana a 0.5 por lo que la inicial picuda no captura los datos muy bien.
+En nuestro ejemplo, una inicial tuiene un pico en $0.5$ mientras que la otra es
+uniforme. Por otra parte, la proporción de $1$ observados en la muestra no es
+cercana a $0.5$ por lo que la inicial picuda no captura los datos muy bien.
 
 ```{r}
 # N = 14, z = 11, a = 1, b = 1
@@ -2390,7 +2390,9 @@ El uso de HMC en estadística es reciente, sin embargo, gracias a Stan se ha
 expandido rápidamente tanto en academia como industria. Desafortunadamente, la
 teoría de HMC está desarrollada en términos de geometría diferencial, lo que 
 hace que su construcción formal requiera de matemáticas avanzadas. En estas notas 
-se presentan las ideas detrás de HMC siguiendo @kruschke.
+se presentan las ideas detrás de HMC siguiendo @kruschke, una referencia con 
+mayor detalle es @betancourt2017 y para el uso de Stan vale la pena tener 
+siempre a la mano el manual @stan2018.
 
 Stan genera muestras de la posterior usando una variación del algoritmo de 
 Metrópolis. Recordemos como funciona el algoritmo de Metrópolis que vimos en 
@@ -2649,12 +2651,24 @@ relevante.
 * Cuando se usen distribuciones iniciales informativas se debe ser explícito en 
 porque se tomaron las decisiones.
 
+* No utilices iniciales uniformes, o en general no restrinjas el espacio 
+paramétrico, a menos que las fronteras representen restricciones verdaderas (por
+ejemplo parámetros de escala restringidos a los positivos, o correlaciones entre 
+el -1 y el 1). Algunos ejemplos:
+    + Si crees que un parámetro se ubica entre el cero y el un, en lugar de usar
+    Uniforme(0,1), intenta Normal(0.5, 0.5).
+    + Un parámetro de escala esta restringido a ser positivo y quieres una 
+    inicial vaga, propones Uniforme(0,100) (o Uniforme(0,1000), es mejor no 
+    especificar inicial, que en Stan equivale a una inicial uniforme no 
+    informativa, o usar una Esxponencial con valor esperado 10, o una 
+    media-normal(0,10).
+
 
 ### Recursos adicionales de Stan {-}
 
 * El paquete [rstanarm](https://cran.r-project.org/web/packages/rstanarm/vignettes/rstanarm.html) facilita el uso de Stan desde R, cuenta con funciones para llevar a cabo 
 estimación Bayesiana sin necesidad de escribir código en el *lenguaje de Stan*, 
-de acuerdo a los autoresel objetivo del paquete es  que la estimación bayesiana 
+de acuerdo a los autores el objetivo del paquete es  que la estimación bayesiana 
 sea rutina para los modelos de regresión más comunes.
 
 * El paquete [bayesplot](bayesplot) cuenta con funciones para graficar estimaciones
@@ -2690,7 +2704,8 @@ Cuando observamos lanzamientos de las monedas actualizamos nuestras creencias
 relativas a los sesgos de las monedas y también actualizamos nuestras 
 creencias acerca de la dependencia de los sesgos.
 
-Recordemos el caso de lanzamientos de una moneda, le asignamos una inicial beta, recordemos que la distribución beta tienen dos parámetors $a$ y $b$:
+Recordemos el caso de lanzamientos de una moneda, le asignamos una inicial beta, 
+recordemos que la distribución beta tienen dos parámetors $a$ y $b$:
 
 $$p(\theta)=\frac{1}{B(a,b)}\theta^{a-1}(1-\theta)^{b-1}$$
 
@@ -2804,7 +2819,6 @@ hiperparámetro $\mu$ genera monedas con sesgo cercano a $\mu$
 
 ```{r inicial, fig.width = 5.5,echo=FALSE}
 A_mu <- 2; B_mu <- 2; K <- 100
-
 # Distribución inicial conjunta p(theta, mu)
 p_conjunta <- function(mu, theta, A_mu, B_mu, K){
   # marginal p(mu)
@@ -2971,6 +2985,7 @@ condicional al parámetro $\mu$ los parámetros $\theta_j$ son independientes
 en nuestros conocimientos iniciales.
 
 #### Posterior vía aproximación por cuadrícula {-}
+
 Supongamosque tenemos dos monedas de la misma fábrica. El objetivo es estimar 
 los sesgos $\theta_1$, $\theta_2$ de las dos monedas y estimar simultáneamente
 el parámetro $\mu$ correspondiente a la casa de moneda que las fabricó.
@@ -2978,7 +2993,7 @@ el parámetro $\mu$ correspondiente a la casa de moneda que las fabricó.
 Inicial.
 
 ```{r, fig.width=7,echo=FALSE}
-A_mu <- 2; B_mu <- 2; K <- 100
+A_mu <- 2; B_mu <- 2; K <- 1000
 
 # Distribución inicial p(theta, mu)
 p_conjunta <- function(mu, theta, A_mu, B_mu, K){
@@ -2989,8 +3004,8 @@ p_conjunta <- function(mu, theta, A_mu, B_mu, K){
   p_mu * p_theta_mu
 }
 
-grid_inicial <- expand.grid(theta = seq(0.01, 0.99, 0.005), 
-  mu = seq(0.01, 0.99, 0.005))
+grid_inicial <- expand.grid(theta = seq(0.01, 0.99, 0.005),
+    mu = seq(0.01, 0.99, 0.005))
 
 grid_inicial <- grid_inicial %>% 
   mutate(p_inicial = p_conjunta(mu, theta, A_mu, B_mu, K))
@@ -3006,7 +3021,6 @@ plot_conj_2 <- ggplot(grid_inicial, aes(x = theta, y = mu, z = p_inicial)) +
   scale_x_continuous(expression(theta[2]), limits = c(0, 1)) +
   scale_y_continuous(expression(mu), limits = c(0, 1)) +
   scale_color_gradient(expression(p(theta,mu)), guide = FALSE) 
-
 
 grid_mu <- grid_inicial %>%
   group_by(mu) %>%
@@ -3046,7 +3060,6 @@ grid.arrange(plot_conj_1, plot_conj_2, plot_mu, plot_marg_1, plot_marg_2,
 Verosimilitud.
 
 ```{r, echo=FALSE, fig.width=7, fig.height=2.7, echo=FALSE}
-
 z_1 <- 3; N_1 <- 15
 z_2 <- 4; N_2 <- 5
 
@@ -3149,8 +3162,6 @@ a que $K$ pasará de ser una constante a ser un parámetro lo llamaremos $\kappa
 La distribución inicial para $\kappa$ será una Gamma. 
 
 ```{r}
-library(R2jags)
-
 modelo_jer.bugs <-
 '
 model{
@@ -3195,7 +3206,7 @@ jags_fit <- jags(
   n.burnin = 1000   # calentamiento de la cadena
   )
 
-R2jags::traceplot(jags_fit, varname = c("kappa", "mu", "theta"))
+# R2jags::traceplot(jags_fit, varname = c("kappa", "mu", "theta"))
 jags_fit
 ```
 
@@ -3218,6 +3229,7 @@ ggplot(filter(sims_df, parametro == "kappa"), aes(x = value)) +
 #### Stan {-}
 
 ```{r, message=FALSE, warning=FALSE, eval = FALSE}
+library(rstan)
 modelo_jer.stan <-
 '
 data {
@@ -3269,16 +3281,15 @@ summary_stan_jer_fit$summary
 ```{r, echo = FALSE, message=FALSE,warning=FALSE}
 options(digits = 3)
 library(ggplot2)
-library(plyr)
 library(dplyr)
-library(reshape2)
 library(tidyr)
 library(gridExtra)
 library(MASS)
 ```
 
 
-En esta sección veremos un problema de estimación de tasas de mortalidad. 
+En esta sección veremos un problema de estimación de tasas de mortalidad, la
+referencia de este ejemplo es @albert. 
 Plantearemos 3 alternativas de modelación para resolver el problema: modelo de
 unidades iguales, modelo de unidades independientes y finalmente modelo 
 jerárquico.
@@ -3304,7 +3315,8 @@ $j$-ésimo hospital, con $j = 1,...,94$.
 ```{r}
 library(LearnBayes)
 data(hearttransplants)
-heart <- hearttransplants
+heart <- hearttransplants %>% 
+    mutate(hospital = 1:n())
 head(heart)
 ```
 
@@ -3326,10 +3338,8 @@ bajo número de expuestos.
 ggplot(heart, aes(x = log(e), y = 1000* y / e, color = factor(y), label = y)) +
   geom_text(show.legend = FALSE)  +
   scale_x_continuous("Número de expuestos (e)", labels = exp, 
-    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
-      log(700*2^4))) 
+    breaks = map_dbl(0:4, ~ log(700 ^ .))) 
 ```
-
 
 La variabilidad de las tasas y los hospitales sin muertes sugieren un problema 
 de tamaño de muestra. Consideremos un hospital con 700 expuestos. La muerte por
@@ -3398,7 +3408,9 @@ Notemos que la estructura del modelo jerárquico facilita la implementación del
 condicionales completas.
 
 #### Modelo de unidades iguales
-Supongamos que las tasas de mortalidad son iguales a lo largo de los hospitales. Estimaremos la tasa de mortalidad con el modelo, 
+Supongamos que las tasas de mortalidad son iguales a lo largo de los hospitales. 
+Estimaremos la tasa de mortalidad con el modelo, 
+
 $$
 \begin{eqnarray}
 	\nonumber
@@ -3421,7 +3433,8 @@ $$
 \end{eqnarray}
 $$
 
-Sea $y=(y_1,...,y_{94})$, usamos el Teorema de Bayes para calcular la densidad posterior de $\lambda$,
+Sea $y=(y_1,...,y_{94})$, usamos el Teorema de Bayes para calcular la densidad 
+posterior de $\lambda$,
 
 $$
 \begin{eqnarray}
@@ -3435,7 +3448,11 @@ $$
 	&\propto& \lambda^{(\sum_{i=1}^{94}y_{j}-1)}exp\bigg(-\sum_{i=1}^{94}e_{j}\lambda\bigg),
 \end{eqnarray}
 $$
-identificamos la densidad posterior como una $Gamma(\sum_{i=1}^{94}y_{i},\sum_{i=1}^{94}e_{i})$, donde expresamos la función de densidad de una distribución $Gamma(\alpha, \beta)$ usando el parámetro de forma $\alpha$ y el inverso del parámetro de escala $\beta$ de manera que la función de densidad es,
+identificamos la densidad posterior como una 
+$Gamma(\sum_{i=1}^{94}y_{i},\sum_{i=1}^{94}e_{i})$, donde expresamos la función 
+de densidad de una distribución $Gamma(\alpha, \beta)$ usando el parámetro de 
+forma $\alpha$ y el inverso del parámetro de escala $\beta$ de manera que la 
+función de densidad es,
 
 $$
 \begin{align}
@@ -3470,30 +3487,29 @@ muertes $y_{j}$ no está en las colas de la distribución predictiva, diríamos 
 la observación es consistente con el modelo observado.
 
 
-```{r, fig.width=6,fig.height=4.6,fig.align='center'}
+```{r, fig.width=6,fig.height=4.6,fig.align='center', out.width="550px"}
 # La densidad posterior es Gamma con los siguientes parámetros
 c(sum(heart$y), sum(heart$e))
-heart$hospital <- 1:94
 # Simulamos 1000 muestras de la densidad posterior de lambda
 lambdas <- rgamma(1000, shape = sum(heart$y), rate = sum(heart$e))
 # ahora para cada hospital simulamos muestras de una distribución Poisson
 # con media e_i*lambda
-sims <- ddply(heart, "hospital", transform, sims = rpois(1000, e*lambdas))
+heart_sims <- heart %>% 
+    mutate(sims = map(e, ~rpois(1000, . * lambdas))) 
 # tomamos una muestra de 10 hospitales
 set.seed(242)
-hosps <- sample(1:94, 10)
-sims.2 <- subset(sims, hospital %in% hosps)
-heart.2 <- subset(heart, hospital %in% hosps) 
-head(sims.2)
+heart_sims_sample <- sample_n(heart_sims, 10)
 
-ggplot(sims.2, aes(x = sims)) + 
+ggplot(unnest(heart_sims_sample), aes(x = sims)) + 
   geom_histogram(aes(y = ..density..), binwidth = 1, color = "darkgray", 
     fill = "darkgray") +
   facet_wrap(~ hospital, nrow = 2) +
-  geom_segment(data = heart.2, aes(x = y, xend = y, y = 0, yend = 0.5), 
+  geom_segment(data = heart_sims_sample, aes(x = y, xend = y, y = 0, 
+    yend = 0.5), 
     color = "red") + 
-  geom_text(data = heart.2, aes(x = 10, y = 0.4, label = paste("e =", e)), 
-    size = 2.7)
+  geom_text(data= heart_sims_sample, aes(x = 10, y = 0.4, 
+    label = paste("e =", e)), size = 2.7, color = "red")
+
 ```
 
 La figura muestra los histogramas, obtenidos con simulación, de la distribución
@@ -3520,21 +3536,29 @@ $$
 
 ```{r, fig.width=4,fig.height=4,fig.align='center'}
 # Para calcular las p predictiva podemos usar las simulaciones
-p.pred <- ddply(sims, "hospital", summarise, p = min(sum(sims <= y) / 1000, 
-  sum(sims >= y) / 1000))
-head(p.pred)
-p.pred.2 <- join(heart, p.pred, by = "hospital")
-ggplot(p.pred.2, aes(x = log(e), y = p)) + 
+p_pred <- heart_sims %>% 
+    unnest() %>% 
+    group_by(hospital) %>% 
+    summarise(
+        p = min(sum(sims <= y) / 1000, sum(sims >= y) / 1000), 
+        e = first(e)
+        )
+
+ggplot(p_pred, aes(x = log(e), y = p)) + 
   geom_point() +
   scale_x_continuous("Número de expuestos (e)", labels = exp, 
-    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
-      log(700*2^4))) + 
+    breaks = map_dbl(0:4, ~ log(700 ^ .))) + 
   ylab("P(extremos)") +
   geom_hline(yintercept = .15, colour = "red", size = 0.4) +
   ylim(0, .7) 
 ```
 
-En la figura anterior graficamos las probabilidades de extremos (calculadas con simulación) en el eje vertical, contra el número de exposición en escala logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas probabilidades son pequeñas, el 28\% son menores a 0.15, lo que indica que para el 28\% de los hospitales el número de muertes observado $y_{j}$ está en la cola de la distribución y por consiguiente el modelo es inadecuado.\medskip
+En la figura anterior graficamos las probabilidades de extremos (calculadas con 
+simulación) en el eje vertical, contra el número de exposición en escala 
+logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas 
+probabilidades son pequeñas, el 28\% son menores a 0.15, lo que indica que 
+para el 28\% de los hospitales el número de muertes observado $y_{j}$ está en la 
+cola de la distribución y por consiguiente el modelo es inadecuado.
 
 
 #### Modelo de unidades independientes {-}
@@ -3635,22 +3659,26 @@ En cuanto a la varianza posterior, es inversamente proporcional al número de
 expuestos indicando nuevamente que más expuestos implica más conocimiento y por
 tanto menor incertidumbre.
 
-En la siguiente fugura mostraremos el encogimiento hacia la media inicial bajo distintos escenarios de $\beta_{0}$, cada punto representa un hospital y el color indica a que valor de $\beta_{0}$ corresponde. En esta gráfica podemos apreciar el mayor encogimiento para valores mayores de $\beta_{0}$ y el decaimiento en el encogimiento conforme aumenta el número de expuestos.
+En la siguiente fugura mostraremos el encogimiento hacia la media inicial bajo 
+distintos escenarios de $\beta_{0}$, cada punto representa un hospital y el 
+color indica a que valor de $\beta_{0}$ corresponde. En esta gráfica podemos 
+apreciar el mayor encogimiento para valores mayores de $\beta_{0}$ y el 
+decaimiento en el encogimiento conforme aumenta el número de expuestos.
 
 
-```{r, fig.width=4.5,fig.height=4,fig.align='center'}
-encoge <- ddply(heart, "hospital", transform, enc.1 = 1000 / (1000 + e), 
-  enc.2 = 100 / (100 + e), enc.3 = 10 / (10 + e), enc.4 = 0.01 / (0.01 + e))
-head(encoge)
-encoge.m <- melt(encoge, id = c("e", "y", "hospital"))
-head(encoge.m)
+```{r, fig.width=4.5,fig.height=4,fig.align='center', out.width="350px"}
+heart_indep <- heart %>% 
+    crossing(beta_0 = c(1000, 100, 10, 0.01)) %>% 
+    mutate(encogimiento = beta_0 / (beta_0 + e))
 
-ggplot(encoge.m, aes(x = log(e), y = value, color = variable)) +
-  geom_point(alpha = 0.9) +
-  scale_x_continuous("Número de expuestos (e)", labels = exp, 
-    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
-      log(700*2^4))) +
-  scale_color_hue(expression(beta[0]), labels = c("1000", "100", "10", "0.01")) +
+glimpse(heart_indep)
+
+ggplot(heart_indep, aes(x = log(e), y = encogimiento, 
+    color = factor(beta_0))) +
+    geom_point(alpha = 0.9) +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) +
+  scale_color_hue(expression(beta[0])) +
   ylab("encogimiento (A)")
 ```
 
@@ -3664,7 +3692,8 @@ iniciales y su efecto en las estimaciones posteriores.
 Para cada combinación de parámetros la siguiente tabla muestra los deciles de 
 2000 simulaciones de una distribución $Gamma(\alpha_0,\beta_{0})$ y los deciles 
 de las muertes observadas por cada 1000 expuestos considerando todos los 
-hospitales; multiplicamos las simulaciones por 1000 para que indiquen tasas de mortalidad medidas en número de muertes por 1000 expuestos. El propósito de la 
+hospitales; multiplicamos las simulaciones por 1000 para que indiquen tasas de 
+mortalidad medidas en número de muertes por 1000 expuestos. El propósito de la 
 tabla es describir la forma de la distribución $Gamma$ al cambiar los 
 parámetros, por ejemplo, una $Gamma(0.01,0.01)$ es muy plana y podríamos 
 describirla como poco informativa, mientras que una $Gamma(1,1000)$ tiene una 
@@ -3694,58 +3723,38 @@ pronto observemos que tanto las estimaciones como los intervalos de probabilidad
 son muy diferentes al cambiar los parámetros de la distribución inicial. 
 
 
-```{r, fig.width=5,fig.height=4,fig.align='center'}
+```{r, fig.width=5,fig.height=7,fig.align='center'}
 # Procedemos como antes, para cada combinación de alfa y beta simulamos 1000 
 # lambdas de la posterior
-lambdas <- ddply(heart, "hospital", transform, 
-  sims =  rgamma(n = 2000, shape = 0.01 + y, rate = 0.01 + e))
+lambdas <- rgamma(1000, shape = sum(heart$y), rate = sum(heart$e))
+# ahora para cada hospital simulamos muestras de una distribución Poisson
+# con media e_i*lambda
+priors <- data_frame(alpha = c(0.01, 0.5, 1), beta = c(0.01, 0.01, 1000))
+
+heart_indep_sims <- heart %>% 
+    crossing(priors) %>% 
+    mutate(
+        sims = pmap(list(e, y, alpha, beta), ~rgamma(1000, shape = ..3 + ..2, 
+            rate = ..4 + ..1))
+        ) 
 # Creamos intervalos con las simulaciones
-int.post <- ddply(lambdas, "hospital", summarise, 
-  int.izq = quantile(1000*sims, 0.025), int.der = quantile(1000*sims, 0.975), 
-  media = 1000*(0.01 + y[1])/(0.01 + e[1]))
-int.post$comb <- "alpha = 0.01 beta = 0.01"
-heart.int <- join(heart, int.post, by = "hospital")
-ggplot(heart.int, aes(x = log(e), y = media, color = factor(y))) +
-  geom_point() +
-  geom_segment(aes(x = log(e), xend = log(e), y = int.izq, yend = int.der)) +
-  geom_point(data = heart, aes(x = log(e), y = 1000*y/e), color = "black", 
-    alpha = 0.6)
+heart_indep_post <- heart_indep_sims %>% 
+    mutate(
+        media = 1000 * (alpha + y) / (beta + e), 
+        int_l = map_dbl(sims, ~quantile(1000 * ., 0.025)), 
+        int_u = map_dbl(sims, ~quantile(1000 * ., 0.975)), 
+        params = paste0("alpha = ", alpha, ", beta = ", beta)
+        )
 
-# alpha = 0.5, beta = 0.01
-lambdas <- ddply(heart, "hospital", transform, 
-  sims =  rgamma(n = 2000, shape = 0.5 + y, rate = 0.01 + e))
-# Creamos intervalos con las simulaciones
-int.post.2 <- ddply(lambdas, "hospital", summarise, 
-  int.izq = quantile(1000*sims, 0.025), int.der = quantile(1000*sims, 0.975), 
-  media = 1000*(0.5 + y[1])/(0.01 + e[1]))
-int.post.2$comb <- "alpha = 0.5 beta = 0.01"
-
-# alpha = 1, beta = 1000
-lambdas <- ddply(heart, "hospital", transform, 
-  sims =  rgamma(n = 2000, shape = 1 + y, rate = 1000 + e))
-# Creamos intervalos con las simulaciones
-int.post.3 <- ddply(lambdas, "hospital", summarise, 
-  int.izq = quantile(1000*sims, 0.025), int.der = quantile(1000*sims, 0.975), 
-  media = 1000*(0.01 + y[1])/(0.01 + e[1]))
-int.post.3$comb <- "alpha = 1 beta = 1000"
-
-int.post <- rbind(int.post, int.post.2, int.post.3)
-heart.int <- join(heart, int.post, by = "hospital")
-head(heart.int)
-```
-
-```{r, fig.width=6,fig.height=6,fig.align='center'}
-ggplot(heart.int, aes(x = log(e), y = media, color = factor(y))) +
-  geom_point() +
-  geom_segment(aes(x = log(e), xend = log(e), y = int.izq, yend = int.der)) +
-  facet_wrap(~ comb, nrow = 3) +
-  geom_point(data = heart, aes(x = log(e), y = 1000*y/e), color = "black", 
-    alpha = 0.6) +
-  scale_x_continuous("Número de expuestos (e)", labels = exp, 
-    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
-      log(700*2^4))) + 
-  scale_colour_hue("muertes obs. (y)") + 
-  ylab("Muertes por 1000 expuestos")
+ggplot(heart_indep_post, aes(x = log(e), y = media, color = factor(y))) +
+    geom_pointrange(aes(ymin = int_l, ymax = int_u), size = 0.25) +
+    geom_point(data = heart, aes(x = log(e), y = 1000 * y / e), color = "black", 
+        alpha = 0.6, size = 1.5) +
+    facet_wrap(~params, ncol = 1) +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) + 
+    scale_colour_hue("muertes obs. (y)") + 
+    ylab("Muertes por 1000 expuestos")
 ```
 
 Ahora justificaremos la elección de las parejas de parámetros iniciales. La 
@@ -3943,7 +3952,8 @@ $$
 $$
 donde $K$ es una constante.
 
-Al escribir la media posterior de $\lambda_{j}$ como un promedio ponderado, podemos ver el efecto de unir fuerzas mencionado en las observaciones del 
+Al escribir la media posterior de $\lambda_{j}$ como un promedio ponderado, 
+podemos ver el efecto de unir fuerzas mencionado en las observaciones del 
 modelo jerárquico: hay un encogimiento hacia $\mu$ que depende del número de
 expuestos, $e_{j}$, para los hospitales con menor número de expuestos el
 encogimiento hacia $\mu$ es mayor, mientras que para aquellos con mayor número 
@@ -4031,6 +4041,7 @@ Definimos ahora la distribución posterior en términos de los parámetros
 transformados
 
 ```{r}
+# código Albert paquete LearnBayes
 poissgamexch <- function(theta, datapar){ # theta = c(theta_1, theta_2)
   y <- datapar$data[, 2]
   e <- datapar$data[, 1]
@@ -4042,14 +4053,14 @@ poissgamexch <- function(theta, datapar){ # theta = c(theta_1, theta_2)
     lgamma(alpha + y) - (y + alpha) * log(e + beta) + alpha*log(beta) - 
       lgamma(alpha)
   }
-  val = sum(logf(y, e, alpha, beta))
-  val = val + log(alpha) - 2 * log(alpha + z0)
+  val <- sum(logf(y, e, alpha, beta))
+  val <- val + log(alpha) - 2 * log(alpha + z0)
   return(val)
 }
 # Simulamos theta_1, theta_2 usando el algoritmo de Metropolis dentro de Gibbs
 # en la función gibbs, datapar contiene la base de datos y el valor del 
 # hiperparámetro z0 
-datapar = list(data = hearttransplants, z0 = 0.53)
+datapar <- list(data = hearttransplants, z0 = 0.53)
 # adicionalmente debemos dar valores para el algoritmo Metrópolis, la función 
 # implementa un algoritmo de caminata aleatoria
 # donde la distribución propuesta tiene la forma  theta* = theta^t-1 + scale*Z
@@ -4060,29 +4071,30 @@ fitgibbs$accept
 # simulaciones de alpha
 alpha <- exp(fitgibbs$par[, 1])
 # simulaciones de mu
-mu = exp(fitgibbs$par[, 2])
+mu <- exp(fitgibbs$par[, 2])
 ```
 
 Podemos usar las simulaciones de $\alpha$ y $\mu$ para ver el encogimiento de 
 las estimaciones de cada hosiptal hacia la media poblacional. Notamos un mayor
 encogimiento para los hospitales con menor número de expuestos.
 
-```{r, fig.align='center'}
-encoge <- ddply(heart, "hospital", transform, A = mean(alpha/(alpha + e * mu)))
-ggplot(encoge, aes(x = log(e), y = A)) +
+```{r, fig.align='center', out.width="400px"}
+heart_jer <- heart %>% 
+    rowwise() %>% 
+    mutate(A = mean(alpha / (alpha + e * mu)))
+ggplot(heart_jer, aes(x = log(e), y = A)) +
   geom_point(alpha = 0.6, size = 1.6) +
   scale_x_continuous("Número de expuestos (e)", label = exp, 
-    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
-      log(700*2^4))) +
+    breaks = map_dbl(0:4, ~ log(700 ^ .))) +
     ylab("encogimiento (A)") + ylim(0, 1)
 ```
 
 Ahora simualmos observaciones de la distribución posterior de lambda:
 
 ```{r}
-# simulamos lambda de la condicional p(lambda) = p(labda|alpha, mu)p(alpha,mu)
-lambdas.h <- ddply(heart, "hospital", transform, 
-  sims = rgamma(1000, y + alpha, e + alpha/mu))
+heart_jer_sims <- heart_jer %>%
+    mutate(sims = map2(e, y, ~rgamma(1000, .y + alpha, .x + alpha / mu))) %>% 
+    ungroup()
 ```
 
 Ya que tenemos las distribuciones posteriores podemos hacer inferencia acerca de
@@ -4093,43 +4105,44 @@ tasas observadas, la gráfica se dividió en 3 páneles de acuerdo al número de
 muertes observadas en los hospitales.
 
 
-```{r, fig.align='center'}
-int.post.h <- ddply(lambdas.h, "hospital", summarise, 
-  int.izq = quantile(1000 * sims, 0.025), int.der = quantile(1000 * sims, 0.975), 
-  media = 1000 * mean(sims))
-int.post.h2 <- join(int.post.h, heart, by = "hospital")
-int.post.h2$cat <- cut(int.post.h2$y, c(0, 2, 4, 19), right = FALSE)
+```{r, fig.align='center', fig.out="300px"}
+# Creamos intervalos con las simulaciones
+heart_jer_post <- heart_jer_sims %>% 
+    mutate(
+        media = map_dbl(sims, ~mean(1000 * .)), 
+        int_l = map_dbl(sims, ~quantile(1000 * ., 0.025)), 
+        int_u = map_dbl(sims, ~quantile(1000 * ., 0.975)),
+        sims_y = map2(sims, e, ~rpois(1000, .x * .y))
+        )
 
-head(int.post.h2)
-ggplot(int.post.h2, aes(x = log(e), y = media, color = factor(y))) +
-  geom_point() +
-  geom_segment(aes(x = log(e), xend = log(e), y = int.izq, yend = int.der)) +
-  geom_point(aes(x = log(e), y = 1000*y/e), color = "black", 
-    alpha = 0.6) +
-  scale_x_continuous("Número de expuestos (e)", labels = exp, 
-    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
-      log(700*2^4))) + 
-  scale_colour_hue("muertes obs. (y)") + 
-  ylab("Muertes por 1000 expuestos") +
-  facet_wrap(~ cat, nrow = 3)
+ggplot(heart_jer_post, aes(x = log(e), y = media, color = factor(y))) +
+    geom_pointrange(aes(ymin = int_l, ymax = int_u), size = 0.3) +
+    geom_point(data = heart, aes(x = log(e), y = 1000 * y / e), color = "black", 
+        alpha = 0.6) +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) + 
+    scale_colour_hue("muertes obs. (y)") + 
+    ylab("Muertes por 1000 expuestos")
 ```
-
 
 Analizamos la distribución predictiva posterior para la misma muestra de 10 
 hospitales que se utilizó en el modelo de unidades iguales.
 
 ```{r, fig.width=6,fig.height=4.6,fig.align='center'}
-lambdas.h$sims.y <- rpois(94000, lambdas.h$sims * lambdas.h$e)
-hists.post <- subset(lambdas.h, hospital %in% hosps)
+sims_muestra <- heart_jer_post %>% 
+    filter(hospital %in% heart_sims_sample$hospital)
+sims_unnest <- sims_muestra %>% 
+    dplyr::select(hospital, e, y, sims_y) %>% 
+    unnest()
 
-ggplot(hists.post, aes(x = sims.y)) + 
-  geom_histogram(aes(y = ..density..), binwidth = 1, color = "darkgray", 
-    fill = "darkgray") +
-  facet_wrap(~ hospital, nrow = 2) +
-  geom_segment(data = heart.2, aes(x = y, xend = y, y = 0, yend = 0.5), 
-    color = "red") + 
-  geom_text(data = heart.2, aes(x = 10, y = 0.4, label = paste("e =", e)), 
-    size = 2.7)
+ggplot(sims_unnest, aes(x = sims_y)) + 
+    geom_histogram(aes(y = ..density..), binwidth = 1, color = "darkgray", 
+        fill = "darkgray") +
+    facet_wrap(~ hospital, nrow = 2) +
+    geom_segment(data = sims_muestra, aes(x = y, xend = y, y = 0, yend = 0.5), 
+        color = "red") + 
+    geom_text(data = sims_muestra, aes(x = 10, y = 0.4, label = paste("e =", e)), 
+        size = 2.7, color = "red")
 ```
 
 Observemos que únicamente en uno de los histogramas el número de muertes 
@@ -4154,15 +4167,24 @@ menores al 0.15, una disminución considerable al 28\% obtenido con el modelo de
 unidades iguales. 
 
 ```{r, fig.align='center', fig.width=4, fig.height=4}
-p.pred.h <- ddply(lambdas.h, "hospital", summarise, p = min(sum(sims.y <= y) / 1000, 
-  sum(sims.y >= y) / 1000))
-head(p.pred.h)
-p.pred.h2 <- join(heart, p.pred.h, by = "hospital")
-ggplot(p.pred.h2, aes(x = log(e), y = p)) + 
+# Para calcular las p predictiva podemos usar las simulaciones
+p_pred <- heart_sims %>% 
+    unnest() %>% 
+    group_by(hospital) %>% 
+    summarise(
+        p = min(sum(sims <= y) / 1000, sum(sims >= y) / 1000), 
+        e = first(e)
+        )
+p_pred_indep_jer <- heart_jer_post %>% 
+    unnest() %>% 
+    group_by(hospital) %>% 
+    summarise(p_jer = min(sum(sims_y <= y) / 1000, sum(sims_y >= y) / 1000)) %>% 
+    left_join(p_pred)
+
+ggplot(p_pred_indep_jer, aes(x = log(e), y = p_jer)) + 
   geom_point() +
   scale_x_continuous("Número de expuestos (e)", labels = exp, 
-    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
-      log(700*2^4))) + 
+    breaks = map_dbl(0:4, ~ log(700 ^ .))) + 
   ylab("P(extremos)") +
   geom_hline(yintercept = .15, colour = "red", size = 0.4) +
   ylim(0, .7) 
@@ -4174,20 +4196,20 @@ unidades iguales, los puntos se colorearon de acuerdo al número de expuestos de
 cada hospital. Observemos que las probabilidades bajo el modelo jerárquico son
 mayores en la mayoría de los casos.
 
-```{r, fig.align='center', fig.width=5, fig.height=4}
-p.pred.2$pred.h <- p.pred.h$p
-p.pred.2$e.factor <- cut(heart$e, c(500, 1500, 2500, 4000, 12500), 
-  labels = c("(500,1500]", "(1500,2500]", "(2500,4000]", "(4000,1200]"))
-ggplot(p.pred.2, aes(x = p, y = pred.h, colour = e.factor)) +
-  geom_abline(colour = "red", size = 0.4, alpha = 0.8) +
-  geom_point(size = 3) +
-  coord_equal() + 
-  xlab("P(extremos), unidades iguales") +
-  ylab("P(extremos), jerárquico") +
-  ylim(0, 0.7) +
-  xlim(0, 0.7) +
-  coord_equal() +
-  scale_colour_brewer("No. expuestos (e)", palette = "Blues")
+```{r, fig.align='center', fig.width=5, fig.height=4, out.width="400px"}
+p_pred_indep_jer <- p_pred_indep_jer %>% 
+    mutate(e_cat =  Hmisc::cut2(e, c(500, 1500, 2500, 4000, 12500)))
+ggplot(p_pred_indep_jer, aes(x = p, y = p_jer, colour = e_cat)) +
+    geom_abline(colour = "red", size = 0.4, alpha = 0.8) +
+    geom_point(size = 2.5) +
+    coord_equal() + 
+    xlab("P(extremos), unidades iguales") +
+    ylab("P(extremos), jerárquico") +
+    ylim(0, 0.7) +
+    xlim(0, 0.7) +
+    coord_equal() +
+    scale_colour_manual("No. expuestos (e)", values = c("#a6cee3", "#1f78b4",
+        "#b2df8a", "#33a02c")) + theme_minimal()
 ```
 
 #### JAGS {-}
@@ -4243,13 +4265,13 @@ jags.inits <- function(){
     "lambda" = runif(N))
 }
 # debemos especificar también el nombre de los parámetros que vamos a guardar
-jags.parameters <-  c("alpha","mu","lambda")
+jags.parameters <-  c("alpha","mu","lambda", "y")
 # Y usamos la función jags (más adelante discutiremos los otros parámetros de 
 # la función)
 jags.fit <- jags(data = jags.data, inits = jags.inits, 
   model.file = "modelo_heart.txt", parameters.to.save = jags.parameters,
   n.chains = 2, n.iter = 5000) 
-jags.fit
+plot(jags.fit)
 class(jags.fit)
 names(jags.fit)
 names(jags.fit$BUGSoutput)
@@ -4262,42 +4284,39 @@ names(jags.fit$BUGSoutput$sims.list)
 class(jags.fit$BUGSoutput$sims.list$lambda)
 # vienen en formato de matriz donde los renglones son las iteraciones y cada
 # columna corresponde a un hospital
-dim(jags.fit$BUGSoutput$sims.list$lambda)
-# usamos la función apply para obtener intervalos de probabilidad del 95%
-ints <- apply(jags.fit$BUGSoutput$sims.list$lambda, 2, quantile, 
-  probs = c(0.025, 0.975))
+lambda_sims <- jags.fit$BUGSoutput$sims.list$lambda
+
 # los guardamos en un data.frame
-post.2 <- data.frame(id = 1:94, t(ints))
-colnames(post.2) <- c("hospital", "izq", "der")
-post.2$media <- apply(jags.fit$BUGSoutput$sims.list$lambda, 2, mean)
-post.2$metodo <- "JAGS"
+p_pred_jags <- data.frame(n_sim = 1:nrow(lambda_sims), lambdas = lambda_sims) %>% 
+    gather(hospital, sims, -n_sim) %>% 
+    mutate(
+        hospital = str_replace(hospital, fixed("."), ""),
+        hospital = parse_number(hospital)
+        ) %>% 
+    group_by(hospital) %>% 
+    summarise(
+        media = mean(sims), 
+        int_l = quantile(sims, 0.025),
+        int_u = quantile(sims, 0.975)
+        ) %>% 
+    left_join(heart)
 
-post.1 <- ddply(lambdas.h, "hospital", summarise, 
-  izq = quantile(sims, 0.025), der = quantile(sims, 0.975), 
-  media = mean(sims))
-post.1$metodo <- "R"
-compara <- rbind(post.1, post.2)
-heart$hospital <- 1:94
-compara.2 <- join(compara, heart, by = "hospital")
-
-ggplot(compara.2, aes(x = log(e), y = media, color = metodo)) +
-  geom_point() +
-  geom_segment(aes(x = log(e), xend = log(e), y = izq, yend = der)) +
-  geom_point(aes(x = log(e), y = y/e), color = "black", 
-    alpha = 0.6) +
-  scale_x_continuous("Número de expuestos (e)", labels = exp, 
-    breaks = c(log(700), log(700*2), log(700*2^2), log(700*2^3), 
-      log(700*2^4))) 
+ggplot(p_pred_jags, aes(x = log(e), y = media, color = factor(y))) +
+    geom_pointrange(aes(ymin = int_l, ymax = int_u), size = 0.3) +
+    geom_point(aes(x = log(e), y = y/e), color = "black", alpha = 0.6) +
+    scale_x_continuous("Número de expuestos (e)", labels = exp, 
+        breaks = map_dbl(0:4, ~ log(700 ^ .))) +
+    scale_colour_hue("muertes obs. (y)") + 
+    ylab("Muertes por 1000 expuestos")
 
 ```
-
-![](imagenes/manicule2.jpg) Escribe el modelo en Stan.
 
 ![](imagenes/manicule2.jpg) Implementaremos varios modelos en JAGS o Stan, la 
 base de datos que usaremos contiene información de mediciones de radón 
 (activity) y del suelo en el que se hicieron las mediciones (floor = $0$ casas 
 con sótano, floor = $1$ casas sin sótano), las mediciones corresponden a $919$ 
-hogares muestreados de $85$ condados de Minnesota. El objetivo es construir un 
+hogares muestreados de $85$ condados de Minnesota, (este es ejercicio se tomó 
+de @gelman-hill). El objetivo es construir un 
 modelo de regresión en el que la medición de radón es la variable independiente 
 y el tipo de suelo es la covariable.
 
@@ -4327,7 +4346,7 @@ casa sin sótano (floor = 1) en el condado 26.
 6. Utiliza el modelo anterior para predecir el valor de radón para una nueva 
 casa sin sótano (floor = 1) en un condado nuevo con nivel de uranio $2$.
 
-##### Observaciones {-}
+** Observaciones**
 
 Iniciamos preparando los datos para el análisis, trabajaremos en escala 
 logarítmica, hay algunos casos con medición cero, para éstos hacemos una pequeña
@@ -4362,6 +4381,519 @@ $$\sigma_{\alpha}^2 \sim Unif(0, 100).$$
 Entonces, para que una distribución inicial sea noinformariva, su rango de 
 incertidumbre debe ser más amplio que el rango de valores razonables que pueden 
 tomar los parámetros.
+
+### Ejemplo: conteo rápido {-}
+
+**Objetivo**: Estimar resultados de la elección a partir de una muestra 
+aleatoria de casillas.
+
+**Inferencia basada en modelos**: Modelo de regresión multinivel, en función de 
+covariables asociadas a las casillas, que estima el número de votos a favor del 
+candidato en cada casilla.
+
+<!--3. Juntamos los valores observados y los simulados por el modelo de 
+    cada candidato para calcular proporciones de voto y los intervalos 
+    correspondientes.-->
+
+**Calibración:** Evaluamos modelos con remuestreo y datos de elecciones pasadas, 
+revisando cobertura de intervalos de confianza/credibilidad.
+
+**Experiencia:** Mostramos resultados de elección 2018.
+
+#### Contexto: Conteo rápido {-}
+
+* En México, las elecciones tienen lugar un domingo, los resultados oficiales 
+del proceso se presentan a la población una semana después. A fin de evitar 
+proclamaciones de victoria injustificadas durante ese período el INE organiza un 
+conteo rápido.
+
+* **Conteo rápido**: Procedimiento para estimar el porcentaje de votos a favor 
+de los candidatos en el día de la elección, consiste en seleccionar una muestra 
+aleatoria de las casillas de votación y analizar sus resultados para presentar 
+intervalos con una probabilidad de al menos 0.95.
+
+* La rapidez y precisión del conteo favorece un ambiente de confianza y sirve 
+como una herramienta contra el fraude.
+
+#### Elecciones 2018 {-}
+
+* La elección del 2018 fue la más grande que se ha vivido en México, con 3,400 
+puestos en disputa. Se realizaron conteos rápidos para **9 elecciones estatales** 
+simultáneas a un conteo rápido para la **elección de presidente**.
+
+* El día de la elección, el sistema de información comienza a las 6 p.m. y, 
+cada 5 minutos, produce una secuencia de archivos acumulativos. Estas muestras 
+parciales se analizan con los métodos de estimación para rastrear la tendencia 
+de los resultados.
+
+* Las muestras parciales tienen un sesgo potencial asociado al patrón de llegada 
+de la información.
+
+#### Diseño de la muestra {-}
+El diseño de la muestra es probabilístico.
+
+* **Diseño:** es unietápico y estratificado, donde la unidad de observación es 
+la casilla. 
+    - En Guanajuato son 22 estratos definidos por distrito local.
+
+* **Tamaño de muestra:** Se eligió el tamaño de muestra para lograr intervalos 
+de 95% confianza con **longitud máxima de 2 puntos porcentuales.**
+    - En Guanajuato el tamaño de muestra se fijó en 500 casillas.
+
+* **Selección de la muestra:** La distribución de la muestra en las casillas
+se realizó proporcional al número de casillas en cada estrato, y se utilizó 
+muestreo aleatorio simple dentro de cada estrato.
+
+* **Consideraciones adicionales:** Se buscó que todos los estratos tuvieran 
+al menos 50 casillas, y que porcentaje de CAEs (Capacitadores-Asistentes 
+Electorales) encargados de más de una casilla fuera menor a 20%.
+
+#### Datos faltantes {-}
+
+En la práctica la muestra seleccionada no llega completa. Entre las posibles 
+razones de faltantes están:
+
+* El clima en ciertas regiones dificulta la transmisión de los resultados.
+
+* El responsable de reportar los resultados está saturado de trabajo: 
+contando votos a falta de funcionarios de casilla, retrasado por la dificultad
+de llegar a la casilla por malas condiciones de terreno,...
+
+Usualmente los faltantes **no son completamente aleatorios**, esto es, la 
+probabilidad de que una casilla no se reporte está asociada a la respuesta de
+la casilla.
+
+Buscamos un modelo con **tratamiento consistente de datos faltantes:** en 
+ausencia de respuesta.
+
+
+#### Antecedentes {-}
+
+El modelo que proponemos se desarrolló con base a tres referencias:
+
+* @mendoza2016 _Quick counts in the Mexican presidential elections: A Bayesian 
+approach_. En este trabajo se propone el uso de modelos bayesianos para el 
+conteo rápido.
+    + Se ajusta un modelo de manera independiente **para cada candidato** en 
+    **cada estrato**.
+    + Modelo normal para el total de votos $X_k$ que recibe cada candidato en 
+    la $k$-ésima casilla.
+$$X_k\sim N \bigg( n_{k} \theta, \tau / n_k \bigg)$$
+    + $\theta$: proporción de gente de la lista nominal a favor del candidato.
+    + $n_k$: número de personas en la lista nominal de la $k$-ésima casilla.
+ 
+* @little2012 _Calibrated Bayes, an Alternative Inferential Paradigm 
+for Official Statistics_. Se describe un acercamiento bayesiano para los 
+problemas clásicos de muestreo, usando modelos jerárquicos, el paradigma que se 
+propone en este artículo consiste en ajustar modelos bayesianos y evaluarlos 
+(calibrarlos) usando propiedades frecuentistas.
+
+* @parkgelmanbafumi _Bayesian Multilevel Estimation with Poststratification: 
+State-Level Estimates from National Polls_. Se describe un modelo jerárquico
+para estimar preferencias electorales a partir de encuestas de opinión pública, 
+además de la estructura jerárquica se incluyen covaribales.
+
+Es así que tomamos como base el modelo propuesto en @mendoza2016 y siguiendo 
+los otros dos artículos comenzamos extendiendolo en 2 sentidos: 
+
+1. Usamos un enfoque unificado por candidato, en lugar de estimar un modelo
+independiente dentro de cada estrato, ajustamos un un único modelo por 
+candidato incluyendo un efecto aleatorio (estructura multinivel) que 
+corresponda al estrato.
+
+2. Agregamos covariables que describen la casilla para mejorar la eficiencia en 
+la estimación y corregir sesgos ante faltantes.
+
+
+#### Inferencia en muestreo {-}
+Antes de pasar al modelo describimos como encaja la metodología que proponemos
+en el mundo del muestreo. Cuando se hace inferencia de muestreo hay dos grandes
+acercamientos:
+
+1. **Inferencia basada en diseño de muestras.** Los valores poblacionales son una
+cantidad fija, la inferencia se basa en la distribución de probabilidad asociada
+a la selección de la muestra. 
+
+2. **Inferencia basada en modelos.** Las variables provienen de un modelo 
+estadístico:
+    + **Modelos de superpoblaciones:** los valores poblacionales se consideran
+    una muestra aleatoria de una **superpoblación**, y se les asigna una 
+    distribución de probabilidad.
+    
+    + **Modelos bayesianos:** agregamos distribuciones iniciales a los 
+    parámetros y se hace inferencia de las **cantidades poblacionales** y de los 
+    **parámetros** usando la distribución posterior.
+
+#### Modelos bayesianos {-}
+
+En modelos bayesianos la inferencia se realiza prediciendo la variable de 
+interés para las unidades de la población que **no se incluyeron en la muestra** 
+y para las unidades **que no respondieron**, condicional a la muestra observada 
+y al modelo.
+
+Usamos modelos paramétricos:
+
+$$p(y|x)=\int p(y|x, \theta)p(\theta|x)p(\theta)d\theta$$
+
+* $p(y|x,\theta)$: modelo paramétrico de $y$.
+
+* $p(\theta|x)$: distribución inicial para $\theta$.
+
+Se incluyen en el modelo las variables involucradas en el diseño de la 
+muestra (estratos, conglomerados).
+
+#### Modelo con distribución normal {-}
+
+En el caso del modelo del conteo rápido incluímos las siguientes covariables:
+
+1. Tipo de sección (rural o urbana/mixta).
+
+2. Tipo de casilla (básica/contigua/especial o extraordinaria).
+
+3. Tamaño de sección (chica < 1000 votantes, mediana [1000, 5000], 
+grande > 5000).
+
+4. Región (oriente u occidente).
+
+5. Distrito local.
+
+6. Interacción de tipo de sección con tamaño de sección.
+
+Y el primer modelo que planteamos es como sigue:
+
+Sea $X_k$ el número de votos en favor del candidato en la k-ésima casilla:
+
+- Nivel 1
+$$
+\begin{align}
+	X_k \sim  \mathsf{N}(n_k\theta_k, \tau_k^{\text{distrito}}/n_k) \ \mathcal{I}_{[0,750]},
+\end{align}
+$$
+
+donde $n_k$ es la lista nominal y $\theta_k$ la proporción de personas en la 
+lista nominal de la casilla $k$ que votaron por el candidato,
+
+
+
+$$\begin{align}
+\theta_k=\text{logit}^{-1}&(\beta^0+\beta^{\text{rural}}\cdot\text{rural}_k+\beta^{\text{rural-tamañoM}}\cdot\text{rural}_k\cdot\text{tamañoM}_k\\+&\beta^{\text{tamañoM}}\cdot\text{tamañoM}_k
++\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k+\beta^{\text{tipoSP}}\cdot \text{tipoSP}_k\\+&\beta^{\text{distrito}}_{\text{distrito}(k)}),
+\end{align}$$
+
+
+
+- Nivel 2
+
+$$\begin{align}
+	\beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
+\end{align}$$
+
+El código del modelo en JAGS:
+
+```{r, eval = FALSE}
+library(quickcountmx)
+eval(parse(text = deparse(quickcountmx:::model_norm)[3]))
+```
+```{r, echo = FALSE}
+# write_rds(model_string, "cache_manual/model_string_norm.rds")
+model_string <- read_rds("cache_manual/model_string_norm.rds")
+```
+
+
+```{r}
+model_string %>% cat
+```
+
+
+Se utilizó una parametrización redundante para acelerar la convergencia:
+
+```
+beta_estrato[j] <-  beta_estrato_raw[j] - mean(beta_estrato_raw[])
+beta_estrato_raw[j] ~ dnorm(mu_estrato, tau_estrato)
+```
+
+ver el capítulo 19 de @gelman-hill.
+
+La función `mrp_party_estimation()` recibe la tabla de datos, el partido que
+se desea ajustar, la variable de estratificación, la fracción de la muestra a
+utilizar en el ajuste, el número de iteraciones, calentamiento, número de 
+cadenas, semilla y el modelo que vamos a ajustar.
+
+```{r, eval = FALSE}
+gto_pan_norm <- mrp_party_estimation(gto_2012, pan_na,
+    stratum = distrito_loc_17, frac = 0.06, n_iter = 2000, n_burnin = 1000,
+    n_chains = 2, seed = 19291, model_string = "model_norm")
+```
+```{r, echo = FALSE}
+# write_rds(gto_pan_norm, "cache_manual/gto_pan_norm.rds")
+gto_pan_norm <- read_rds("cache_manual/gto_pan_norm.rds")
+names(gto_pan_norm)
+```
+En `fit` se guarda la salida de JAGS y `n_votes` es el vector de simulaciones
+del total de votos.
+
+```{r}
+plot(gto_pan_norm$fit)
+```
+
+De la imagen anterior podemos ver que faltan iteraciones para alcanzar 
+convergencia. Las parámetros `beta_estrato_raw` se crearon para acelerar la
+convergencia pero no es necesario que converjan, pero otras variables como 
+`beta_region` se beneficiarían de incrementar las simulaciones.
+
+El siguiente código corre el modelo para todos los partidos, incrementando las
+simulaciones.
+
+```{r, eval = FALSE}
+gto_norm <- mrp_estimation(gto_2012, ... = pri_pvem:otros, 
+    stratum = distrito_loc_17, frac = 0.06, n_iter = 3000, n_burnin = 2000, 
+    n_chains = 2, seed = 19291, parallel = TRUE, n_cores = 4, 
+    model_string = "model_norm")
+```
+La salida incluye los objetos que regresa ña función `jags()` para cada partido
+y una tabla con un resumen de los resultados.
+
+```{r, echo = FALSE}
+# para no tener que instalar quickcountmx en Travis copiamos los datos a data
+# write_rds(gto_norm, "cache_manual/gto_norm.rds")
+gto_norm <- read_rds("cache_manual/gto_norm.rds")
+gto_2012 <- read.csv("data/gto_2012.csv", stringsAsFactors = FALSE)
+```
+
+```{r}
+names(gto_norm)
+gto_norm$post_summary
+```
+
+
+
+#### Inferencia del modelo {-}
+
+1. La inferencia de $\theta$ se obtiene de la distribución posterior:
+$$p(\theta|y_{obs},x)\propto p(\theta|x)L(\theta|y_{obs},x)$$
+2. La posterior de $\theta$ lleva a inferencia de las cantidades poblacionales 
+no observadas usando la distribución predictiva posterior:
+$$p(y_{falta}|y_{obs},x) =  \int p(y_{falta}|\theta,x)p(\theta|y_{obs},x)d\theta$$
+3. Utilizamos los datos observados y simulaciones de los *datos faltantes*
+para estimar la proporción de votos en favor de cada candidato.
+
+#### Evaluación de ajuste {-}
+
+La siguientes gráficas muestra la distribución predictiva posterior del total de
+votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico), 
+la línea roja indica el total de votos observado.
+
+```{r, fig.width=6.5, fig.height=3.5,out.width="600px"}
+norm_votes <- map_df(gto_norm$jags_fits, ~apply(.$BUGSoutput$sims.list$x, 1, sum)) %>% 
+    mutate(n_sim = 1:n()) %>% 
+    gather(party, votes, -n_sim) %>% 
+    mutate(party = reorder(party, votes)) 
+
+true_votes <- gto_2012 %>% 
+    dplyr::select(casilla_id, pri_pvem:otros) %>% 
+    gather(party, votes, -casilla_id) %>% 
+    group_by(party) %>% 
+    summarise(total_votes = sum(votes)) %>% 
+    mutate(party = factor(party, levels = levels(norm_votes$party)))
+
+ggplot(norm_votes, aes(x = votes)) +
+    geom_histogram(binwidth = 1000, alpha = 0.7) +
+    facet_wrap(~party, scales = "free_x") +
+    geom_vline(data = true_votes, aes(xintercept = total_votes), 
+        color = "red") +
+    labs(title = "PP Modelo normal: total de votos", 
+        x = expression(y[rep]), y = "") 
+```
+
+Examinamos otro nivel de desagregación: las distribuciones predictivas 
+posteriores para el total de votos por estrato, mostramos las gráficas para 3
+estratos.
+
+<img src="imagenes/pp_pan_estratos_norm.png" alt="drawing" width="750"/>
+
+<img src="imagenes/pp_mc_estratos_norm.png" alt="drawing" width="750"/>
+
+#### Modelo con distribución mezcla {-}
+
+Tras analizar las simulaciones de la distribución predictiva posterior notamos 
+que el modelo Normal no ajustaba a los partidos chicos, observamos que para
+estos había muchas casillas con cero votos y unas cuantas con *muchos* votos.
+Adicionalmente notamos que la distribución t ajustaba mejor que la normal 
+gracias a que tiene colas más pesadas. Ante esto propusimos un modelo mezcla
+donde para la $k$ es casilla el número de votos observados es cero con 
+probabilidad $p_k$ y sigue una distribución $t$ con probabilidad $(1-p_k)$:
+
+- Nivel 1
+
+$$X_k\sim p_k\mathsf{\delta}_0(x)+(1-p_k)\mathsf{t}(n_k\theta_k,n_k^{-1}\tau_k^{\text{distrito}},\nu_k^{\text{distrito}}) \mathcal{I}_{[0,750]},$$
+
+$$\begin{align}
+\theta_k=  \text{logit}^{-1} & ( 
+\beta^0 
++\beta^{\text{rural}} \cdot \text{rural}_k 
++\beta^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
++& \beta^{\text{tamañoM}} \cdot \text{tamañoM}_k 
++\beta^{\text{tamañoL}} \cdot \text{tamañoL}_k 
++\beta^{\text{distrito}}_{\text{distrito}(k)}  \\ 
++& \beta^{\text{tipoSP}}\cdot \text{tipoSP}_k 
+),
+\end{align}$$
+
+$$\begin{align}
+p_k =  \text{logit}^{-1} & ( 
+\beta^0_p
++\beta_p^{\text{rural}} \cdot \text{rural}_k 
++\beta_p^{\text{rural-tamañoM}} \cdot \text{rural}_k \cdot \text{tamañoM}_k  \\  
++& \beta_p^{\text{tamañoM}} \cdot \text{tamañoM}_k 
++\beta_p^{\text{tamañoL}} \cdot \text{tamañoL}_k 
++\beta^{\text{distrito-p}}_{\text{distrito}(k)}  \\ 
++& \beta_p^{\text{tipoSP}}\cdot \text{tipoSP}_k 
+).
+\end{align}$$
+
+- Nivel 2
+
+$$\begin{align}
+	\beta^{\text{distrito}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito}}, \sigma_{\text{distrito}}^2\right).
+\end{align}$$
+
+$$\begin{align}
+	\beta^{\text{distrito-p}}_{j}\sim \mathsf{N}\left(\mu^{\text{distrito-p}}, \sigma_{\text{distrito-p}}^2\right).
+\end{align}$$
+
+El código en JAGS:
+
+```{r, eval=FALSE}
+eval(parse(text = deparse(quickcountmx:::model_norm)[3]))
+```
+
+```{r, echo = FALSE}
+# este chunk sobra si se instala quickcountmx
+# write_rds(model_string, "cache_manual/model_string_bern_t.rds")
+model_string <- read_rds("cache_manual/model_string_bern_t.rds")
+```
+
+```{r}
+model_string %>% cat()
+```
+
+Lo ajustamos llamando nuevamente a la función `mrp_party_estimation()`, si no 
+especificamos el parámetro `model_string` ajusta por defecto el modelo mezcla.
+
+```{r, eval = FALSE}
+gto_mixture <- mrp_estimation(gto_2012, ... = pri_pvem:otros, 
+    stratum = distrito_loc_17, frac = 0.06, n_iter = 3000, n_burnin = 2000, 
+    n_chains = 2, seed = 19291, parallel = TRUE, n_cores = 6)
+```
+
+```{r, echo = FALSE}
+# write_rds(gto_mixture, "cache_manual/gto_mixture.rds")
+gto_mixture <- read_rds("cache_manual/gto_mixture.rds")
+```
+
+#### Evaluación de ajuste {-}
+
+Repetimos las gráficas de la distribución predictiva posterior del total de
+votos para el PAN (partido ganador) y para Movimiento Ciudadano (partido chico).
+
+```{r, fig.width=6.5, fig.height=3.5,out.width="600px"}
+mixture_votes <- map_df(gto_norm$jags_fits, 
+    ~apply(.$BUGSoutput$sims.list$x, 1, sum)) %>% 
+    mutate(n_sim = 1:n()) %>% 
+    gather(party, votes, -n_sim)
+ggplot(mixture_votes, aes(x = votes)) +
+    geom_histogram(binwidth = 1000, alpha = 0.7) +
+    facet_wrap(~party, scales = "free_x") +
+    geom_vline(data = true_votes, aes(xintercept = total_votes), 
+        color = "red") +
+    labs(title = "PP Modelo normal: total de votos", 
+        x = expression(y[rep]), y = "") 
+```
+
+Mostramos también las gráficas para los mismos 3 estratos que en el caso normal.
+
+<img src="imagenes/pp_pan_estratos_mezcla.png" alt="drawing" width="750"/>
+
+<img src="imagenes/pp_mc_estratos_mezcla.png" alt="drawing" width="750"/>
+
+
+#### Calibración {-}
+
+Para evaluar el modelo complementamos con pruebas de calibración, siguiendo
+los siguientes pasos:
+
+1. Simulamos $n$ muestras.
+
+2. Para cada muestra creamos intervalos de 95%.
+
+3. Revisamos el porcentaje de intervalos que contienen el valor observado.
+
+Simulamos bajo los siguientes escenarios:
+
+* Muestras completas.
+
+* Censuramos las muestras completas usando patrones observados de la llegada de 
+datos de cada distrito y ámbito (rural/urbano).
+
+* Censuramos las muestras completas eliminando estratos.
+
+##### Estimador de razón {-}
+
+Comparamos el desempeño del modelo a lo largo de las muestras simuladas con 
+el estimador de razón combinado:
+
+$$\hat{p_k}=\frac{\hat{X_k}}{\hat{Y}}=\frac{\sum_h \hat{X_{kh}}}{\sum_h \hat{Y_{h}}}=\frac{\sum_h \frac{N_h}{n_h} \sum_i X_{khi}}{\sum_h \frac{N_h}{n_h} \sum_i Y_{hi}}$$
+
+Utilizamos bootstrap para estimar los errores estándar. Notar que en el caso 
+de estratos faltantes se debe seleccionar una estrategia para utilizar este 
+estimador, pues como tal no esta definido si faltan estratos. 
+
+##### Gráficas de calibración
+En las siguientes gráficas el alto de las barras representa la longitud media 
+de la presición (2 veces el error estándar), y el número indica el porcentaje
+de intervalos (de 95% de confianza/probabilidad) que cubrieron el verdadero 
+valor.
+
+<img src="imagenes/calibracion_gto.png" alt="drawing" width="500" class="center-image-2"/>
+
+#### Elección Guanajuato 2018 {-}
+
+Se reportaron los intervalos de probabilidad de las 9:45 pm, con 357 casillas.
+
+<img src="imagenes/eleccion_2018_razon_modelo.png" alt="drawing" width="800"/>
+
+#### Implementación {-}
+
+Implementamos en *JAGS*, la estimación se puede consultar y **reproducir 
+completamente** con el paquete de R [quickcountmx](https://github.com/tereom/quickcountmx) 
+(Ortiz 2018). 
+
+* La reproducibilidad es crucial para examinar la **veracidad de las 
+conclusiones** de un trabajo científico.  
+
+* La reproducibilidad ayuda a lograr la **transparencia en el procedimiento 
+electoral**, fomenta la **confianza en las instituciones** y da **legitimidad al 
+resultado del conteo rápido**.
+
+
+#### Modelo nacional {-}
+
+El modelo multinivel con distribución de probabilidad mezcla resulta *muy 
+lento* para la elección nacional, por lo que se tomaron las siguientes medidas:
+
+* **División de datos:** Se estima un modelo de forma independiente para cada
+una de 7 regiones geográficas lo que nos permite paralelizar por región y por 
+candidato, la desventaja es que no podemos usar información entre las regiones.
+
+* Se modela utilizando una distribucióin **binomial negativa**
+(un parámetro menos).
+
+* Se implementó con **Stan** en lugar de **JAGS** (el código está en el 
+paquete de R [quickcountmx](https://github.com/tereom/quickcountmx)).
+
+Más detalles del modelo [aquí](https://jovial-jepsen-cf1904.netlify.com).
+
+
 
 
 
