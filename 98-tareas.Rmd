@@ -1221,4 +1221,4 @@ a.new <- rnorm(n.sims, g0+g1, sigma.a)
 y_tilde <- rnorm(n.sims, a.new + b * 1, sigma.y)
 sd_y_tilde <- sd(y_tilde)
 c(mean(y_tilde) - 1.96 * sd_y_tilde, mean(y_tilde) + 1.96 *sd_y_tilde)
-```
+
