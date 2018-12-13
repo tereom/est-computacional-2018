@@ -21,7 +21,7 @@ es muy conveniente para este propósito).
 
 ## 2-Transformación de datos {-}
 
-Entrega: Lunes 27 de agosto.
+Entrega: Lunes $27$ de agosto.
 
 Utiliza los datos de vuelos (`flights`) para responder la siguientes preguntas.
 
@@ -46,24 +46,24 @@ retrasaron más en el aire?
 
 ## 3-Datos Limpios {-}
 
-Entrega: Lunes 3 de septiembre.
+Entrega: Lunes $3$ de septiembre.
 
 Descarga los datos [aquí](https://www.dropbox.com/s/e8wjbwpwa37ceqg/03-limpios.zip?dl=0).
 
 En la carpeta de arriba encontrarás un archivo de excel (m_013.xls), este 
-archivo contiene información de causas de mortalidad en México entre 2000 y 
-2008. Contesta las siguientes preguntas:
+archivo contiene información de causas de mortalidad en México entre $2000$ y 
+$2008$. Contesta las siguientes preguntas:
 
 1. ¿Cuáles son las variables en esta base de datos?  
 2. ¿La tabla de datos cumple con los principios de datos limpios? 
 ¿Qué problemas presenta?  
 3. La información del archivo de excel se ha guardado también en archivos de 
-texto (csv) 2001-2008, lee y limpia los datos para que cumplan los principios de 
+texto (csv) $2001-2008$, lee y limpia los datos para que cumplan los principios de 
 datos limpios. Recuerda que las modificaciones deben de ser reproducibles, para 
 esto guarda tu trabajo en un script.  
 4. El archivo de excel indice_marginacion.xlsx contiene el índice por entidad 
-para los años 2000 y 2010. Realiza una gráfica donde compares la marginación por 
-entidad con las tasas de mortalidad correspondientes al 2000. Deberás unir las 
+para los años $2000$ y $2010$. Realiza una gráfica donde compares la marginación por 
+entidad con las tasas de mortalidad correspondientes al $2000$. Deberás unir las 
 dos fuentes de información.
 
 Observaciones:  
@@ -105,7 +105,7 @@ calcula media y el error estándar de la media usando el principio del *plug-in*
 $\hat{\mu}=\bar{x}$, y $\hat{se}(\bar{x})=\hat{\sigma}_{P_n}/\sqrt{n}$.
 
 - Ahora aproximareos la distribución muestral, para cada tamaño de muestra $n$: 
-i) simula 10,000 muestras aleatorias, ii) calcula la media en cada muestra, iii)
+i) simula $10,000$ muestras aleatorias, ii) calcula la media en cada muestra, iii)
 Realiza un histograma de la distribución muestral de las medias (las medias del
 paso anterior) iv) aproxima el error estándar calculando la desviación estándar
 de las medias del paso ii.
@@ -118,9 +118,9 @@ $se_P(\bar{x}) = \sigma_P/ \sqrt{n}$.
 tamaños de muestra? 
 
 2. **Bootstrap correlación.** Nuevamente trabaja con los datos `primaria`, 
-selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del 
-_plug-in_ para estimar la correlación entre la calificación de $y=$español 3 y 
-la de $z=$español 6: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
+selecciona una muestra aleatoria de tamaño $100$ y utiliza el principio del 
+_plug-in_ para estimar la correlación entre la calificación de $y=$español $3$ y 
+la de $z=$español $6$: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
 estándar de la estimación.
 
 ### Solución {-}
@@ -129,9 +129,9 @@ estándar de la estimación.
 Suponemos que me interesa hacer inferencia del promedio de las 
 calificaciones de los estudiantes de tercero de primaria en Ciudad de México.
 
-En este ejercicio planteamos 3 escenarios (que simulamos): 1) que tengo una 
-muestra de tamaño 10, 2) que tengo una muestra de tamaño 100, y 3) que tengo una 
-muestra de tamaño 1000 
+En este ejercicio planteamos $3$ escenarios (que simulamos): 1) que tengo una 
+muestra de tamaño $10$, 2) que tengo una muestra de tamaño $100$, y 3) que tengo una 
+muestra de tamaño $1000$. 
 
 - Selección de muestras:
 
@@ -223,8 +223,8 @@ muestras_sims_est %>%
     select(tamanos, e_estandar_plug_in, e_estandar_aprox, e_estandar_pob)
 ```
 
-En la tabla de arriba podemos comparar los 3 errores estándar que calculamos, 
-recordemos que de estos 3 el *plug-in* es el único que podríamos obtener en 
+En la tabla de arriba podemos comparar los $3$ errores estándar que calculamos, 
+recordemos que de estos $3$ el *plug-in* es el único que podríamos obtener en 
 un escenario real pues los otros dos los calculamos usando la población. 
 
 Una alternativa al estimador *plug-in* del error estándar es usar *bootstrap* 
@@ -276,9 +276,9 @@ incrementamos el número de muestras *bootstrap*.
 
 #### 2. Correlación {-}
 2. **Bootstrap correlación.** Nuevamente trabaja con los datos `primaria`, 
-selecciona una muestra aleatoria de tamaño 100 y utiliza el principio del 
-_plug-in_ para estimar la correlación entre la calificación de $y=$español 3 y 
-la de $z=$español 6: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
+selecciona una muestra aleatoria de tamaño $100$ y utiliza el principio del 
+_plug-in_ para estimar la correlación entre la calificación de $y=$español $3$ y 
+la de $z=$español $6$: $\hat{corr}(y,z)$. Usa bootstrap para calcular el error
 estándar de la estimación.
 
 - Selección de la muestra
@@ -317,14 +317,14 @@ i) Genera una muestra aleatoria de tamaño $n=60$ con distribución
 $Poisson(\lambda)$, parámetro $\lambda=2.5$ (en R usa la función `rpois()`).
 
 ii) Genera $10,000$ muestras bootstrap y calcula intervalos de confianza del 
-95\% para $\hat{\theta}$ usando 1) el método normal, 2) percentiles y 3) $BC_a$.
+$95\%$ para $\hat{\theta}$ usando 1) el método normal, 2) percentiles y 3) $BC_a$.
 
 iii) Revisa si el intervalo de confianza contiene el verdadero valor del 
 parámetro ($\theta=exp(-2\cdot2.5)$), en caso de que no lo contenga registra si 
 falló por la izquierda (el límite inferior $exp(-2.5*\lambda)$) o falló por la 
 derecha (el límite superior $exp(-2.5*\lambda)$).
 
-a) Repite el proceso descrito 1000 veces y llena la siguiente tabla:
+a) Repite el proceso descrito $1000$ veces y llena la siguiente tabla:
 
 Método     | \% fallo izquierda   | \% fallo derecha  | Cobertura | Longitud promedio
 -----------|----------------------|-------------------|-----------|------------ 
@@ -338,9 +338,9 @@ intervalos que incluyeron el verdadero valor del parámetro. La longitud promedi
 es la longitud promedio de los intervalos de confianza bajo cada método.
 
 b) Realiza una gráfica de páneles, en cada panel mostrarás los resultados de 
-uno de los métodos (normal, percentiles y BC_a), el eje x corresponderá al 
+uno de los métodos (normal, percentiles y $BC_a$), el eje $x$ corresponderá al 
 número de intervalo de confianza ($1,...,1000$) y en el vertical 
-graficarás los límites de los intervalos, es decir graficarás 2 líneas (usa 
+graficarás los límites de los intervalos, es decir graficarás $2$ líneas (usa 
 `geom_line()`) una corresponderá a los límites inferiores de los intervalos, y 
 otra a los superiores.
 
@@ -350,7 +350,7 @@ Nota: Un ejemplo en donde la cantidad $P(X=0)^2 = e^{-\lambda}$ es de interés
 es como sigue: las llamadas telefónicas a un conmutador se modelan con 
 un proceso Poisson y $\lambda$ es el número promedio de llamadas por minuto, 
 entonce $e^{- \lambda}$ es la probabilidad de que no se reciban llamadas en 
-1 minuto.
+$1$ minuto.
 
 ### Solución {-}
 
@@ -484,7 +484,7 @@ total de dinero que ahorrará la compañía, calcula un intervalo de confianza.
 Los datos [beauty](https://raw.githubusercontent.com/tereom/est-computacional-2018/master/data/beauty.csv) consisten en evaluaciones de estudiantes a profesores, los 
 estudiantes calificaron belleza y calidad de enseñanza para distintos cursos en 
 la Universidad de Texas. Las evaluaciones de curso se realizaron al final del 
-semestre y tiempo después 6 estudiantes que no llevaron el curso realizaron los 
+semestre y tiempo después $6$ estudiantes que no llevaron el curso realizaron los 
 juicios de belleza. 
 
 Ajustamos el siguiente modelo de regresión lineal usando las variables 
@@ -500,8 +500,9 @@ fit_score <- lm(courseevaluation ~ age + btystdave + female + nonenglish,
 ```
 
 
-1. La instructora A es una mujer de $50$ años, el inglés es su primera lengua y 
+1. La instructora $A$ es una mujer de $50$ años, el inglés es su primera lengua y 
 tiene un puntaje de belleza de $-1$. El instructor B es un hombre de $60$ años, 
+
 su primera lengua es el inglés y tiene un puntaje de belleza de $-0.5$. Simula
 $1000$ generaciones de la evaluación del curso de estos dos instructores. En 
 tus simulaciones debes incorporar la incertidumbre en los parámetros y en la
@@ -540,9 +541,9 @@ de los parámetros.
 
 
 + Realiza un histograma de la diferencia entre la evaluación del curso
-para A y B. 
+para $A$ y $B$. 
 
-+ ¿Cuál es la probabilidad de que A obtenga una calificación mayor?
++ ¿Cuál es la probabilidad de que $A$ obtenga una calificación mayor?
 
 2. En el inciso anterior obtienes simulaciones de la distribución conjunta
 $p(\tilde{y},\beta,\sigma^2)$ donde $\beta$ es el vector de coeficientes de 
@@ -565,8 +566,8 @@ México:
 * `ent`, `id_ent`, `mun`, `id_mun`, `cvegeo`: corresponden al estado, municipio 
 y sus códigos de identificación.  
 
-* `n_causa` es el número de muertes de adultos mayores a 65 años a causa de
-diabetes en 2015, y `tasa_mun` la tasa correspondiente por cada 10,000 
+* `n_causa` es el número de muertes de adultos mayores a $65$ años a causa de
+diabetes en $2015$, y `tasa_mun` la tasa correspondiente por cada $10,000$ 
 habitantes.  
 
 * `tasa_alf` (porcentaje de población alfabeta), `ind_des_hum` (índice de 
@@ -672,15 +673,17 @@ probabilidad de concebir un niño (sexo masculino), pero aún no publican
 estudios. Supón que conduces un experimento en el cual $50$ parejas se 
 seleccionan de manera aleatoria de la población, toman la medicina y conciben
 un bebé, nacen $30$ niños y $20$ niñas.
-    a) Quieres estimar la probabilidad de concebir un niño para parejas que 
+
+a) Quieres estimar la probabilidad de concebir un niño para parejas que 
 toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
-en $0.5$ pues
-esta corresponde a personas que no toman la medicina, y la inicial debe reflejar 
-tu incertidumbre sobre el efecto de la droga. 
-    b) Usando tu inicial de a) grafica la posterior y decide si es creíble que las
+en $0.5$ pues esta corresponde a personas que no toman la medicina, y la inicial 
+debe reflejar tu incertidumbre sobre el efecto de la droga. 
+
+b) Usando tu inicial de a) grafica la posterior y decide si es creíble que las
 parejas que toman la medicina tienen una probabilidad de $0.5$ de concebir un
 niño.
-    c) Supón que la farmacéutica asevera que la probabilidad de concebir un niño
+
+c) Supón que la farmacéutica asevera que la probabilidad de concebir un niño
 cuando se toma la medicina es cercana al $60\%$ con alta certeza. Representa esta
 postura con una distribución inicial $Beta(60,40)$. Comparala con la inicial de 
 un escéptico que afirma que la medicina no hace diferencia, representa esta
@@ -912,7 +915,7 @@ variable dependiente y el tipo de suelo es la covariable.
 
 El modelo es como sigue:
 
-$$x_i \sim N(\alpha + \beta x_i, \sigma^2)$$
+$$y_i \sim N(\alpha + \beta x_i, \sigma^2)$$
 
 La distribuciones iniciales que usaremos son:
 $$\beta \sim N(0, 1000)$$
@@ -926,7 +929,7 @@ modelo_regresion.txt <-
         y[i] ~ dnorm(y.hat[i], tau.y) 
         y.hat[i] <- a + b * x[i]
       }
-      a ~ dnorm(0, 0.001)
+      a ~ dnorm(0, 0.01)
       b ~ dnorm(0, 0.001)
       tau.y <- pow(sigma.y, -2)
       sigma.y ~ dunif(0, 100)
@@ -955,3 +958,269 @@ Asegurate de alcanzar convergencia y describe los diagnósticos que utilizaste
 para concluir que se convergió a la distribución posterior.
 
 Instalar Stan y rstan, instrucciones [aquí](http://mc-stan.org/users/interfaces/rstan.html).
+
+## 13-Modelos jerárquicos {-}
+
+En este ejercicio definirás un modelo jerárquico para la incidencia de tumores
+en grupos de conejos a los que se suministró una medicina. Se realizaron 71
+experimentos distintos utilizando la misma medicina. 
+
+Considerando que cada conejo proviene de un experimento distinto, se desea
+estudiar $\theta_j$, la probabilidad de desarrollar un tumor en el 
+$j$-ésimo grupo, este parámetro variará de grupo a grupo.
+
+Denotaremos $y_{ij}$ la observación en el $i$-ésimo conejo perteneciente al 
+$j$-ésimo experimento, $y_{ij}$ puede tomar dos valores: 1 indicando que el 
+conejo desarrolló tumor y 0 en el caso contrario, por tanto la verosimilitud 
+sería:
+
+$$y_{ij} \sim Bernoulli(\theta_j)$$
+
+Adicionalmente se desea estimar el efecto medio de la medicina a lo largo de
+los grupos $\mu$, por lo que utilizaremos un modelo jerárquico como sigue:
+
+$$\theta_j \sim Beta(a, b)$$
+
+donde 
+
+$$a=\mu \kappa$$
+$$b=(1-\mu)\kappa$$
+
+Finalmente asignamos una distribución a los hiperparámetros $\mu$ y $\kappa$,
+
+$$\mu \sim Beta(A_{\mu}, B_{\mu})$$
+
+$$\kappa \sim Gamma(S_{\kappa}, R_{\kappa})$$
+
+1. Si piensas en este problema como un lanzamiento de monedas, ¿a qué 
+corresponden las monedas y los lanzamientos?
+
+2. Los datos en el archivo `rabbits.RData` contienen las observaciones de los 
+71 experimentos, 
+cada renglón corresponde a una observación. 
+    + Utiliza JAGS o Stan para ajustar un modelo jerárquico como el descrito 
+    arriba y usando una inicial $Beta(1, 1)$ y una $Gamma(1, 0.1)$ para $\mu$ y
+    $\kappa$ respectivamente. 
+    + Realiza un histograma de la distribución posterior de $\mu$, $\kappa$. 
+    Comenta tus resultados.
+
+3. Ajusta un nuevo modelo utilizando una iniciales $Beta(10, 10)$ y 
+$Gamma(0.51, 0.01)$ para $\mu$ y $\kappa$ (lo demás quedará igual). 
+    + Realiza una gráfica con las medias posteriores de los parámetros 
+    $\theta_j$ bajo los dos escenarios de distribuciones iniciales: en el eje 
+    horizontal grafica las medias posteriores del modelo ajustado en el paso
+    anterior y en el eje vertical las medias posteriores del segundo modelo . 
+    ¿Cómo se comparan? ¿A qué se deben las diferencias?
+    
+## 14-Ejercicios clase modelos jerárquicos {-}
+Implementaremos varios modelos en JAGS o Stan, la 
+base de datos que usaremos contiene información de mediciones de radón 
+(activity) y del suelo en el que se hicieron las mediciones (floor = $0$ casas 
+con sótano, floor = $1$ casas sin sótano), las mediciones corresponden a $919$ 
+hogares muestreados de $85$ condados de Minnesota, (este es ejercicio se tomó 
+de @gelman-hill). El objetivo es construir un 
+modelo de regresión en el que la medición de radón es la variable independiente 
+y el tipo de suelo es la covariable.
+
+1. Iniciaremos con un modelo de regresión de unidades iguales, este modelo 
+ignora la variación en los niveles de radón entre los condados.
+
+$$y_i \sim N(\alpha + \beta x_i, \sigma_y^2) $$
+
+```{r}
+# preparación de los datos
+library(R2jags)
+
+radon <- read.csv("data/radon.csv")
+# creamos variable de condado como entrero consecutivo para iterar 
+radon$county <- as.numeric(factor(radon$cntyfips))
+y <- log(ifelse (radon$activity == 0, 0.1, radon$activity))
+n <- nrow(radon)
+x <- radon$floor
+J <- length(unique(radon$county))
+county <- radon$county
+```
+
+
+```{r}
+modelo_1 <- 
+'
+model{
+  for(i in 1 : n) {
+    y[i] ~ dnorm(y.hat[i], tau.y) 
+    y.hat[i] <- a + b * x[i]
+  }
+  a ~ dnorm(0, 0.0001)
+  b ~ dnorm(0, 0.0001)
+  tau.y <- pow(sigma.y, -2)
+  sigma.y ~ dunif(0, 100)
+}
+'
+cat(modelo_1, file = 'modelo_1.bugs')
+```
+
+```{r}
+# llamar a jags
+radon_1_data <- list(n = n, y = y, x = x)
+radon_1_inits <- function(){
+    list(a = rnorm(1), b = rnorm(1), sigma.y = runif(1))}
+radon_1_parameters <- c("a", "b", "sigma.y")
+
+radon_1_jags <- jags(data = radon_1_data, inits= radon_1_inits, 
+    parameters.to.save = radon_1_parameters, model.file = "modelo_1.bugs", 
+    n.iter = 1000)
+radon_1_jags
+```
+
+2. Después pasamos a un modelo de unidades independientes, en este simplemente 
+incluímos indicadoras a nivel condado.
+
+$$y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2)$$
+```{r}
+modelo_2 <- 
+'
+model{
+  for(i in 1 : n) {
+    y[i] ~ dnorm(y.hat[i], tau.y) 
+    y.hat[i] <- a[county[i]] + b * x[i]
+  }
+  b ~ dnorm(0, 0.001)
+  tau.y <- pow(sigma.y, -2)
+  sigma.y ~ dunif(0, 100)
+  for(j in 1:J){
+    a[j] ~ dnorm(0, 0.001)
+  }
+}
+'
+cat(modelo_2, file = 'modelo_2.bugs')
+```
+
+
+```{r}
+radon_2_data <- list(n = n, J = J, y = y, county = county, x = x)
+radon_2_inits <- function(){
+    list(a = rnorm(J), b = rnorm(1), sigma.y = runif(1))}
+radon_2_parameters <- c("a", "b", "sigma.y")
+
+radon_2_jags <- jags(data = radon_2_data, inits= radon_2_inits, 
+    parameters.to.save = radon_2_parameters, model.file = "modelo_2.bugs", 
+    n.iter = 1000)
+plot(radon_2_jags)
+```
+
+
+3. Añadimos una estructura jerárquica al modelo:
+$$y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2) $$
+$$\alpha_j \sim N(\mu_{\alpha}, \sigma_{\alpha}^2)$$
+
+```{r}
+modelo_3 <- 
+'
+model{
+  for(i in 1 : n) {
+    y[i] ~ dnorm(y.hat[i], tau.y) 
+    y.hat[i] <- a[county[i]] + b * x[i]
+  }
+  b ~ dnorm(0, 0.0001)
+  tau.y <- pow(sigma.y, -2)
+  sigma.y ~ dunif(0, 100)
+  for(j in 1:J){
+    a[j] ~ dnorm(mu.a, tau.a)
+  }
+  mu.a ~ dnorm(0, 0.0001)
+  tau.a <- pow(sigma.a, -2)
+  sigma.a ~ dunif(0, 100)
+}
+'
+cat(modelo_3, file = 'modelo_3.bugs')
+```
+
+```{r}
+radon_inits <- function(){
+    list(a = rnorm(J), b = rnorm(1), mu.a = rnorm(1), sigma.y = runif(1), 
+        sigma.a = runif(1))}
+radon_parameters <- c("a", "b", "mu.a", "sigma.y", "sigma.a")
+
+radon_3_jags <- jags(data = radon_2_data, inits= radon_inits, 
+    parameters.to.save = radon_parameters, model.file = "modelo_3.bugs", 
+    n.iter = 1000, n.chains = 2)
+
+plot(radon_3_jags)
+
+```
+
+
+4. Incorporamos una covariable $u_j$ a nivel grupo, en este caso elegiremos una 
+medición de uranio a nivel condado (Uppm).
+
+$$y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2) $$
+$$\alpha_j \sim N(\gamma_0 + \gamma_{1}u_j, \sigma_{\alpha}^2)$$
+
+```{r}
+modelo_4 <- 
+'
+model{
+  for(i in 1 : n) {
+    y[i] ~ dnorm(y.hat[i], tau.y) 
+    y.hat[i] <- a[county[i]] + b * x[i]
+  }
+  b ~ dnorm(0, 0.0001)
+  tau.y <- pow(sigma.y, -2)
+  sigma.y ~ dunif(0, 100)
+
+  for(j in 1:J){
+    a[j] ~ dnorm(a.hat[j], tau.a)
+    a.hat[j] <- g.0 + g.1 * u[j]
+}
+  g.0 ~ dnorm(0, 0.0001)
+  g.1 ~ dnorm(0, 0.0001)
+  tau.a <- pow(sigma.a, -2)
+  sigma.a ~ dunif(0, 100)
+}
+'
+cat(modelo_4, file = 'modelo_4.bugs')
+```
+
+
+```{r}
+uranium <- unique(cbind(county, radon$Uppm))
+u <- uranium[, 2]
+radon_4_data <- list(n = n, J = J, y = y, county = county, x = x, u = u)
+radon_4_inits <- function(){
+    list(a = rnorm(J), b = rnorm(1), g.0 = rnorm(1), g.1 = rnorm(1), 
+        sigma.y = runif(1), sigma.a = runif(1))}
+radon_4_parameters <- c("a", "b", "g.0", "g.1", "sigma.y", "sigma.a")
+
+radon_4_jags <- jags(data = radon_4_data, inits= radon_4_inits, 
+    parameters.to.save = radon_4_parameters, model.file = "modelo_4.bugs", 
+    n.iter = 1000)
+plot(radon_4_jags)
+```
+
+
+5. Utiliza el modelo anterior para predecir el valor de radón para una nueva 
+casa sin sótano (floor = 1) en el condado 26.
+
+```{r}
+a26 <- radon_4_jags$BUGSoutput$sims.list$a[, 26]
+b <- radon_4_jags$BUGSoutput$sims.list$b
+sigma.y <- radon_4_jags$BUGSoutput$sims.list$sigma.y
+n.sims <- length(b)
+y_tilde <- rnorm(n.sims, a26 + b * 1, sigma.y)
+sd_y_tilde <- sd(y_tilde)
+# intervalo
+c(mean(y_tilde) - 1.96 *sd_y_tilde, mean(y_tilde) + 1.96 *sd_y_tilde)
+```
+
+6. Utiliza el modelo anterior para predecir el valor de radón para una nueva 
+casa sin sótano (floor = 1) en un condado nuevo con nivel de uranio $2$.
+
+```{r}
+g0 <- radon_4_jags$BUGSoutput$sims.list$g.0
+g1 <- radon_4_jags$BUGSoutput$sims.list$g.1
+sigma.a <- radon_4_jags$BUGSoutput$sims.list$sigma.a
+a.new <- rnorm(n.sims, g0+g1, sigma.a)
+y_tilde <- rnorm(n.sims, a.new + b * 1, sigma.y)
+sd_y_tilde <- sd(y_tilde)
+c(mean(y_tilde) - 1.96 * sd_y_tilde, mean(y_tilde) + 1.96 *sd_y_tilde)
+
