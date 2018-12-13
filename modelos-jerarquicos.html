@@ -859,7 +859,7 @@ heart_sims_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>
     <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;e =&quot;</span>, e)), <span class="dt">size =</span> <span class="fl">2.7</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-83-1.png" width="550px" style="display: block; margin: auto;" /></p>
 <p>La figura muestra los histogramas, obtenidos con simulación, de la distribución
-predictiva posterior de 10 hospitales (se tomó una muestra de los 94). Para cada
+predictiva posterior de <span class="math inline">\(10\)</span> hospitales (se tomó una muestra de los <span class="math inline">\(94\)</span>). Para cada
 hospital, se escribió el número de expuestos, <span class="math inline">\(e\)</span>, y se grafica una línea
 vertical en el número de muertes observado. Notemos que en muchos de los
 histogramas el número de muertes observado se encuentra en las colas de las
@@ -868,7 +868,7 @@ el modelo ajustado.</p>
 <p>Ahora examinaremos la consistencia de las muertes observadas, <span class="math inline">\(y_{j}\)</span>, para
 todos los hospitales. Para cada distribución predictiva posterior calculamos la
 probabilidad de que una observación futura <span class="math inline">\(y_{j}^*\)</span> sea al menos tan extrema
-como <span class="math inline">\(y_{j}\)</span>, estas probabilidades son comúnmente llamadas valores p
+como <span class="math inline">\(y_{j}\)</span>, estas probabilidades son comúnmente llamadas valores <span class="math inline">\(p\)</span>
 predictivos:</p>
 <p><span class="math display">\[
 \begin{eqnarray}
@@ -896,9 +896,9 @@ p_pred &lt;-<span class="st"> </span>heart_sims <span class="op">%&gt;%</span><s
 <p>En la figura anterior graficamos las probabilidades de extremos (calculadas con
 simulación) en el eje vertical, contra el número de exposición en escala
 logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas
-probabilidades son pequeñas, el 28% son menores a 0.15, lo que indica que
-para el 28% de los hospitales el número de muertes observado <span class="math inline">\(y_{j}\)</span> está en la
-cola de la distribución y por consiguiente el modelo es inadecuado.</p>
+probabilidades son pequeñas, el <span class="math inline">\(28\%\)</span> son menores a <span class="math inline">\(0.15\)</span>, lo que indica que
+para el <span class="math inline">\(28\%\)</span> de los hospitales el número de muertes observado <span class="math inline">\(y_{j}\)</span> está en
+la cola de la distribución y por consiguiente el modelo es inadecuado.</p>
 </div>
 <div id="modelo-de-unidades-independientes" class="section level4 unnumbered">
 <h4>Modelo de unidades independientes</h4>
@@ -1014,13 +1014,13 @@ decaimiento en el encogimiento conforme aumenta el número de expuestos.</p>
 <h5>Distribución inicial</h5>
 <p>Establecimos que por facilidad se utilizará una inicial
 <span class="math inline">\(Gamma(\alpha_{0},\beta_{0})\)</span>, sin embargo hace falta asignar valores a los
-parámetros iniciales. Analizaremos 3 distintas combinaciones de parámetros
+parámetros iniciales. Analizaremos <span class="math inline">\(3\)</span> distintas combinaciones de parámetros
 iniciales y su efecto en las estimaciones posteriores.</p>
 <p>Para cada combinación de parámetros la siguiente tabla muestra los deciles de
-2000 simulaciones de una distribución <span class="math inline">\(Gamma(\alpha_0,\beta_{0})\)</span> y los deciles
-de las muertes observadas por cada 1000 expuestos considerando todos los
-hospitales; multiplicamos las simulaciones por 1000 para que indiquen tasas de
-mortalidad medidas en número de muertes por 1000 expuestos. El propósito de la
+<span class="math inline">\(2000\)</span> simulaciones de una distribución <span class="math inline">\(Gamma(\alpha_0,\beta_{0})\)</span> y los deciles
+de las muertes observadas por cada <span class="math inline">\(1000\)</span> expuestos considerando todos los
+hospitales; multiplicamos las simulaciones por <span class="math inline">\(1000\)</span> para que indiquen tasas de
+mortalidad medidas en número de muertes por <span class="math inline">\(1000\)</span> expuestos. El propósito de la
 tabla es describir la forma de la distribución <span class="math inline">\(Gamma\)</span> al cambiar los
 parámetros, por ejemplo, una <span class="math inline">\(Gamma(0.01,0.01)\)</span> es muy plana y podríamos
 describirla como poco informativa, mientras que una <span class="math inline">\(Gamma(1,1000)\)</span> tiene una
@@ -1117,8 +1117,8 @@ forma más cercana a las tasas de mortalidad observadas.</p>
 </table>
 <p>Ahora realizamos una gráfica para cada pareja de parámetros<br />
 <span class="math inline">\((\alpha_0,\beta_{0})\)</span> donde mostramos en negro las tasas observadas, y en color
-las estimaciones posteriores de las tasas de mortalidad con intervalos del 95%
-de probabilidad, ambas medidas en número de muertes por cada 1000 expuestos.
+las estimaciones posteriores de las tasas de mortalidad con intervalos del <span class="math inline">\(95\%\)</span>
+de probabilidad, ambas medidas en número de muertes por cada <span class="math inline">\(1000\)</span> expuestos.
 Cada punto representa un hospital y el color corresponde al número de muertes
 observadas, <span class="math inline">\(\{y_{j}\}\)</span>. Regresaremos a esta gráfica más adelante pero por lo
 pronto observemos que tanto las estimaciones como los intervalos de probabilidad
