@@ -3764,7 +3764,7 @@ grande. Debido a que no tenemos más información nuestro primer modelo utiliza
 una inicial vaga.
 
 ##### No informativas {-}
-Asignamos a $\lambda_{j}$ una distribución inicial $Gamma(0.01,0.01)$. La tabla 
+Asignamos a $\lambda_{j}$ una distribución inicial $Gamma(0.01, 0.01)$. La tabla 
 de deciles indica que es una distribución muy plana y si observamos la gráfica 
 de encogimiento notamos que para una inicial con este valor en el parámetro de
 escala $\beta_{0}$, el encogimiento de la media posterior hacia la media inicial
@@ -3782,7 +3782,7 @@ este caso, la elección de los parámetros se basó en la distribución inicial 
 informativa de Jeffreys, consiste en una $Gamma(0.5,0)$. Es una distribución
 impropia por lo que cambiamos el parámetro de escala por $0.01$ para obtener 
 una inicial propia con varianza grande. Los resultados no son muy razonables,
-pues la media inicial es 50, mucho mayor a las tasas observada para todos los
+pues la media inicial es $50$, mucho mayor a las tasas observada para todos los
 hospitales, provocando que las estimaciones del modelo sean mayores a las tasas
 observadas en todos los hospitales. Este efecto es contrario al que buscábamos 
 al usar una inicial vaga pues la distribución inicial tiene un impacto muy 
@@ -3795,7 +3795,7 @@ teórica de la distribución $Gamma$ con la media y varianza observadas en el
 conjunto de tasas de mortalidad tomando en cuenta todos los hospitales.
 Las estimaciones de las tasas de mortalidad que obtenemos parecen razonables, 
 sin embargo, especificar la distribución inicial con la muestra tiene problemas
-lógicos y prácticos: 1) los datos se están usando 2 veces, primero la 
+lógicos y prácticos: 1) los datos se están usando $2$ veces, primero la 
 información de todos los hospitales se usa para especificar la distribución
 inicial, y después la información de cada hospital se usa para estimar su tasa 
 de mortalidad $\lambda_{j}$, lo que ocasiona que sobreestimemos nuestra 
@@ -3963,7 +3963,7 @@ incertidumbre.
 
 Notemos también que la factorización de la media posterior es similar a la que
 obteníamos en el modelo de medias independientes. La diferencia radica en que
-ahora es un sólo modelo (opuesto a 94), y los parámetros de la distribución
+ahora es un sólo modelo (opuesto a $94$), y los parámetros de la distribución
 inicial de $\lambda_{j}$ forman parte del modelo de probabilidad pues les
 asignamos una distribución inicial.
 
@@ -4013,7 +4013,7 @@ $$
 
 observemos que las $\{k_j\}$ no dependen de $y$ por lo que son constantes en la
 integral, además para cada $i$ de la primera multiplicación tenemos una 
-distribución $Gamma(y_{i}+\alpha, e_{i}+\alpha/\mu)$ por lo que integran 1.
+distribución $Gamma(y_{i}+\alpha, e_{i}+\alpha/\mu)$ por lo que integran $1$.
 
 Resultando,
 
@@ -4089,7 +4089,7 @@ ggplot(heart_jer, aes(x = log(e), y = A)) +
     ylab("encogimiento (A)") + ylim(0, 1)
 ```
 
-Ahora simualmos observaciones de la distribución posterior de lambda:
+Ahora simualmos observaciones de la distribución posterior de $\lambda$:
 
 ```{r}
 heart_jer_sims <- heart_jer %>%
@@ -4099,9 +4099,9 @@ heart_jer_sims <- heart_jer %>%
 
 Ya que tenemos las distribuciones posteriores podemos hacer inferencia acerca de
 la tasa de mortalidad $\lambda$. A continuación graficamos los intervalos
-posteriores del 95\% de probabilidad para las tasas $\lambda_{j}$, el color
+posteriores del $95\%$ de probabilidad para las tasas $\lambda_{j}$, el color
 representa el número de muertes observadas $y_{j}$, en gris se graficaron las
-tasas observadas, la gráfica se dividió en 3 páneles de acuerdo al número de
+tasas observadas, la gráfica se dividió en $3$ páneles de acuerdo al número de
 muertes observadas en los hospitales.
 
 
@@ -4125,7 +4125,7 @@ ggplot(heart_jer_post, aes(x = log(e), y = media, color = factor(y))) +
     ylab("Muertes por 1000 expuestos")
 ```
 
-Analizamos la distribución predictiva posterior para la misma muestra de 10 
+Analizamos la distribución predictiva posterior para la misma muestra de $10$ 
 hospitales que se utilizó en el modelo de unidades iguales.
 
 ```{r, fig.width=6,fig.height=4.6,fig.align='center'}
@@ -4162,8 +4162,8 @@ $$
 $$
 
 A continuación graficamos las probabilidades de extremos (calculadas con
-simulación). Con el modelo jerárquico solamente el 6\% de las probabilidades son
-menores al 0.15, una disminución considerable al 28\% obtenido con el modelo de
+simulación). Con el modelo jerárquico solamente el $6\%$ de las probabilidades son
+menores al $0.15$, una disminución considerable al $28\%$ obtenido con el modelo de
 unidades iguales. 
 
 ```{r, fig.align='center', fig.width=4, fig.height=4}
@@ -4217,7 +4217,7 @@ ggplot(p_pred_indep_jer, aes(x = p, y = p_jer, colour = e_cat)) +
 Ahora veremos como hacer la estimación usando JAGS. Primero hacemos un par de 
 cambios en la definición del modelo, esto es porque la distribución inicial de 
 $\mu$ no es propia (i.e. no integra uno) y JAGS no permite el uso de iniciales 
-impropias. Usaremos iniciales Gamma para $\alpha$ y $\mu$ eligiendo parámetros 
+impropias. Usaremos iniciales $Gamma$ para $\alpha$ y $\mu$ eligiendo parámetros 
 de manera que sean iniciales vagas.
 $$\mu, \alpha \sim Gamma(0.01, 0.01).$$
 Veamos como se escriben el modelo en JAGS.
@@ -4341,10 +4341,10 @@ $$y_i \sim N(\alpha_{j[i]} + \beta x_i, \sigma_y^2) $$
 $$\alpha_j \sim N(\gamma_0 + \gamma_{1}u_j, \sigma_{\alpha}^2)$$
 
 5. Utiliza el modelo anterior para predecir el valor de radón para una nueva 
-casa sin sótano (floor = 1) en el condado 26.
+casa sin sótano (floor = $1$) en el condado $26$.
 
 6. Utiliza el modelo anterior para predecir el valor de radón para una nueva 
-casa sin sótano (floor = 1) en un condado nuevo con nivel de uranio $2$.
+casa sin sótano (floor = $1$) en un condado nuevo con nivel de uranio $2$.
 
 ** Observaciones**
 
