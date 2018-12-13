@@ -773,6 +773,7 @@ Una compañía farmacéutica afirma que su nueva medicina incrementa la
 probabilidad de concebir un niño (sexo masculino), pero aún no publican 
 estudios. Supón que conduces un experimento en el cual $50$ parejas se 
 seleccionan de manera aleatoria de la población, toman la medicina y conciben
+un bebé, nacen $30$ niños y $20$ niñas.
 
 a) Quieres estimar la probabilidad de concebir un niño para parejas que 
 toman la medicina. ¿Cuál es una inicial apropiada? No tiene que estar centrada
@@ -864,8 +865,8 @@ likeNorm <- function(S, S2, N){
 }
 ```
 
-d) Supongamos que aplicamos un test de IQ a 100 alumnos y observamos que la suma
-de los puntajes es 13300, es decir $\sum x_i=13,000$ y $\sum x_i^2=1,700,000$.
+d) Supongamos que aplicamos un test de IQ a $100$ alumnos y observamos que la suma
+de los puntajes es $13,300$, es decir $\sum x_i=13,000$ y $\sum x_i^2=1,700,000$.
 Utiliza la función que acabas de escribir para definir la función de 
 verosimilitud condicional a los datos observados, llámala _mi\_like_.
 
@@ -881,7 +882,7 @@ postRelProb <- function(theta){
 
 Utiliza Metropolis para obtener una muestra de valores representativos de la
 distribución posterior de $\theta$. Para proponer los saltos utiliza una 
-Normal(0, 5).
+$Normal(0, 5)$.
 
 f) Grafica los valores de la cadena para cada paso.
 
@@ -1029,9 +1030,9 @@ i) Elegir varianza grande nos daría una inicial poco informativa.
 
 Implementaremos un modelo de regresión en JAGS, la base de datos que
 usaremos contiene información de mediciones de radón (activity)
-y del suelo en el que se hicieron las mediciones (floor = 0 casas con
-sótano, floor = 1 casas sin sótano), las mediciones corresponden a 919
-hogares muestreados de 85 condados de Minnesota. El objetivo es
+y del suelo en el que se hicieron las mediciones (floor = $0$ casas con
+sótano, floor = $1$ casas sin sótano), las mediciones corresponden a $919$
+hogares muestreados de $85$ condados de Minnesota. El objetivo es
 construir un modelo de regresión en el que la medición de radón es la
 variable dependiente y el tipo de suelo es la covariable.
 

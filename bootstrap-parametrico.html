@@ -412,11 +412,11 @@ thetaBoot &lt;-<span class="st"> </span><span class="cf">function</span>(){
 <span class="co"># Paso 4: Repetimos B = 2000 veces y estimamos el error estándar</span>
 sims_boot &lt;-<span class="st"> </span><span class="kw">rerun</span>(<span class="dv">3000</span>, <span class="kw">thetaBoot</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">flatten_dbl</span>()
 <span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2999</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((sims_boot <span class="op">-</span><span class="st"> </span>sigma_hat<span class="op">/</span>mu_hat) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))
-<span class="co">#&gt; [1] 0.0271</span></code></pre>
+<span class="co">#&gt; [1] 0.0277</span></code></pre>
 <p>Comparamos con el método delta:
 <span class="math display">\[\hat{se}=\frac{1}{\sqrt{n}}\bigg(\frac{1}{\hat{\mu}^4} + \frac{\hat{\sigma}^2}{2\hat{\mu}^2}\bigg)^{1/2}\]</span></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">4</span> <span class="op">+</span><span class="st"> </span>sigma_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>mu_hat <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)
-<span class="co">#&gt; [1] 0.0225</span></code></pre>
+<span class="co">#&gt; [1] 0.0231</span></code></pre>
 <p><img src="imagenes/manicule2.jpg" /> Supongamos que observamos <span class="math inline">\(70\)</span> realizaciones de
 una Bernoulli, de tal manera que observamos <span class="math inline">\(20\)</span> éxitos, calcula un intervalo de
 confianza usando bootstrap y comparalo con el correspondiente usando la
