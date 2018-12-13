@@ -3286,19 +3286,17 @@ library(tidyr)
 library(gridExtra)
 library(MASS)
 ```
-
-
-En esta sección veremos un problema de estimación de tasas de mortalidad, la
-referencia de este ejemplo es @albert. 
-Plantearemos 3 alternativas de modelación para resolver el problema: modelo de
+En esta sección veremos un problema de estimación de tasas de mortalidad, 
+la referencia de este ejemplo es @albert. Plantearemos $3$ alternativas de 
+modelación para resolver el problema: modelo de
 unidades iguales, modelo de unidades independientes y finalmente modelo 
 jerárquico.
 
 La base de datos tiene información de todas las cirugías de transplante de 
-corazón llevadas a cabo en Estados Unidos en un periodo de 24 meses, entre 
-octubre de 1987 y diciembre de 1989. Para cada uno de los 131 hospitales, se 
+corazón llevadas a cabo en Estados Unidos en un periodo de $24$ meses, entre 
+octubre de $1987$ y diciembre de $1989$. Para cada uno de los $131$ hospitales, se 
 registró el número de cirugías de transplante de corazón, y el número de muertes
-durante los 30 días posteriores a la cirugía, $y$. Además, se cuenta con una 
+durante los $30$ días posteriores a la cirugía, $y$. Además, se cuenta con una 
 predicción de la probabilidad de muerte de cada paciente individual. Esta 
 predicción esta basada en un modelo logístico que incluye información a nivel 
 paciente como condición médica antes de la cirugía, género, sexo y raza. En cada
@@ -3307,8 +3305,8 @@ número esperado de muertes, $e$, conocido como la exposición del hospital; $e$
 refleja el riesgo de muerte debido a la mezcla de pacientes que componen un 
 hospital particular.
 
-La matriz de datos que analizaremos considera únicamente los 94 hospitales que
-llevaron a cabo 10 o más cirugías, y consiste en las duplas $(y_{j}, e_{j})$ que
+La matriz de datos que analizaremos considera únicamente los $94$ hospitales que
+llevaron a cabo $10$ o más cirugías, y consiste en las duplas $(y_{j}, e_{j})$ que
 corresponden al número observado de muertes y número de expuestos para el 
 $j$-ésimo hospital, con $j = 1,...,94$.
 
@@ -3325,9 +3323,9 @@ hospital. Antes de comenzar a ajustar modelos complejos vale la pena observar
 los datos. El cociente $\{y_{j}/e_{j}\}$ es el número observado de muertes por 
 unidad de exposición y se puede ver como una estimación de la tasa de 
 mortalidad. La siguiente figura grafica, en el eje vertical los cocientes 
-$\{y_{j}/e_{j}\}$ multiplicados por 1000 (con la intención de que la tasa 
-indique número de muertes por 1000 expuestos), y en el eje horizontal el número 
-de expuestos $\{e_{j}\}$ -en escala logarítmica- para los 94 hospitales. Cada 
+$\{y_{j}/e_{j}\}$ multiplicados por $1000$ (con la intención de que la tasa 
+indique número de muertes por $1000$ expuestos), y en el eje horizontal el número 
+de expuestos $\{e_{j}\}$ -en escala logarítmica- para los $94$ hospitales. Cada 
 punto representa un hospital y esta etiquetado con el número de muertes 
 observadas $\{y_{j}\}$. En la gráfica podemos notar que las tasas estimadas son 
 muy variables, especialmente para programas con baja exposición. Observemos 
@@ -3342,16 +3340,16 @@ ggplot(heart, aes(x = log(e), y = 1000* y / e, color = factor(y), label = y)) +
 ```
 
 La variabilidad de las tasas y los hospitales sin muertes sugieren un problema 
-de tamaño de muestra. Consideremos un hospital con 700 expuestos. La muerte por
-transplante de corazón no es común, el promedio nacional es de 9 por cada 10,000
-expuestos, por lo que con 700 expuestos es probable que no se presente ninguna 
-muerte, en este caso el hospital pertenece al 10\% de los hospitales con menor 
+de tamaño de muestra. Consideremos un hospital con $700$ expuestos. La muerte por
+transplante de corazón no es común, el promedio nacional es de $9$ por cada $10,000$
+expuestos, por lo que con $700$ expuestos es probable que no se presente ninguna 
+muerte, en este caso el hospital pertenece al $10\%$ de los hospitales con menor 
 tasa de mortalidad. Sin embargo, existe la posibilidad de que se observe una 
 muerte, con lo cual el hospital tendrá una tasa de mortalidad que es lo 
-suficientemente alta para que quede en el 25\% de los hospitales con mayor tasa 
+suficientemente alta para que quede en el $25\%$ de los hospitales con mayor tasa 
 de mortalidad observada.
 
-Una vez reconocido el problema de utilizar los datos crudos para estimar las tasas de mortalidad plantearemos 3 alternativas de modelación:
+Una vez reconocido el problema de utilizar los datos crudos para estimar las tasas de mortalidad plantearemos $3$ alternativas de modelación:
 
 1. **Unidades iguales**. Considera que los estudios son replicas idénticas una 
 de otra, en este sentido vemos a las observaciones de todos los estudios como 
@@ -3386,7 +3384,7 @@ Con el siguiente modelo gráfico:
 
 <center><img src="imagenes/dag_ind.png" width="400px"/></center>
 
-3. Jerárquico. Es un análisis intermedio que considera los parámetros de interés
+3. **Jerárquico**. Es un análisis intermedio que considera los parámetros de interés
 $\lambda_{j}$ como provenientes de una distribución común,
 $$
 \begin{eqnarray}
