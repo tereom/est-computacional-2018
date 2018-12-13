@@ -140,7 +140,7 @@ ejemplo, podemos estimar el error estándar de $\theta$:
 ```r
 se <- sd(boot_ratio_rates)
 comma(se)
-#> [1] "0.072"
+#> [1] "0.068"
 ```
 
 

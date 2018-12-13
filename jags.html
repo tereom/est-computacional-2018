@@ -370,7 +370,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><a href="http://mcmc-jags.sourceforge.net">JAGS</a> (Just Another Gibbs Sampler), WinBUGS y
 OpenBUGS son programas que
 implementan métodos MCMC para generar simulaciones de distribuciones
-posteriores. Los paquetes rjags y R2jags permiten ajustar modelos en JAGS
+posteriores. Los paquetes <code>rjags</code> y <code>R2jags</code> permiten ajustar modelos en JAGS
 desde R. Es muy fácil utilizar estos programas pues uno simplemente debe
 especificar las distribuciones iniciales, la verosimilitud y los datos
 observados.</p>
@@ -463,7 +463,7 @@ jags_fit &lt;-<span class="st"> </span><span class="kw">jags</span>(
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">traceplot</span>(jags_fit, <span class="dt">varname =</span> <span class="st">&quot;theta&quot;</span>)</code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-50-1.png" width="432" /></p>
 <!--
-Para generar la muestra MCMC seguimos 3 pasos: primero JAGS recibe la información y deja que este determine los muestreadores apropiados para el modelo, en el segundo paso corremos las cadenas por un periodo de 
+Para generar la muestra MCMC seguimos $3$ pasos: primero JAGS recibe la información y deja que este determine los muestreadores apropiados para el modelo, en el segundo paso corremos las cadenas por un periodo de 
 calentamiento y por último corremos las cadenas y registramos la muestra.
 
 -->
@@ -543,7 +543,7 @@ jags_fit
 <span class="kw">traceplot</span>(jags_fit, <span class="dt">varname =</span> <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;sigma2&quot;</span>))</code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-53-1.png" width="432" /><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-53-2.png" width="432" /></p>
 <p><img src="imagenes/manicule2.jpg" /> Realiza un histograma de la distribución
-predictiva. Construye un intervalo de 95% de probabilidad para la predicción.
+predictiva. Construye un intervalo de <span class="math inline">\(95\%\)</span> de probabilidad para la predicción.
 Pista: utiliza <code>jags_fit$BUGSoutput$sims.matrix</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">jags_fit &lt;-<span class="st"> </span><span class="kw">jags</span>(
     <span class="dt">model.file =</span> <span class="st">&quot;modelo_normal.bugs&quot;</span>,    <span class="co"># modelo de JAGS</span>

@@ -422,8 +422,8 @@ como el promedio ponderado por las probabilidades:</p>
 <span class="co">#&gt; [1] 0.75</span></code></pre>
 <p>Ahora para intervalos de probabilidad, debido a que estamos usando masas
 discretas, la suma de las masas en un intervalo usualmente no será igual
-a 95% y por tanto elegimos los puntos tales que la masa sea mayor a igual
-a 95% y la masa total sea lo menor posible, en nuestro ejemplo podemos usar
+a <span class="math inline">\(95\%\)</span> y por tanto elegimos los puntos tales que la masa sea mayor a igual
+a <span class="math inline">\(95\%\)</span> y la masa total sea lo menor posible, en nuestro ejemplo podemos usar
 cuantiles.</p>
 <pre class="sourceCode r"><code class="sourceCode r">dist_cum &lt;-<span class="st"> </span><span class="kw">cumsum</span>(dists_h<span class="op">$</span>posterior) <span class="co">#vector de distribución acumulada</span>
 lb &lt;-<span class="st"> </span><span class="kw">which.min</span>(dist_cum <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>

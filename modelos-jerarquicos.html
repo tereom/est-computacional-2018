@@ -398,7 +398,7 @@ beta son:</p>
 <p><span class="math display">\[a=\mu K, b = (1-\mu)K\]</span></p>
 <p>Ahora introducimos el modelo jerárquico. En lugar de especificar un valor
 particular para <span class="math inline">\(\mu\)</span>, consideramos que <span class="math inline">\(\mu\)</span> puede tomar distintos valores
-(entre 0 y 1), y definimos una distribución de probabilidad sobre esos valores.
+(entre <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span>), y definimos una distribución de probabilidad sobre esos valores.
 Podemos pensar que esta distribución describe nuestra incertidumbre acerca de la
 construcción de la máquina que manufactura las monedas.</p>
 <p>Veamos que en el caso de más de una moneda el modelo permite que cada moneda
@@ -444,11 +444,11 @@ valores y no hay muchos de ellos, podemos aproximar la posterior usando
 aproximación por cuadrícula.</p>
 <p>A continuación graficamos las distribuciones correspondientes al caso en que
 la distribución del hiperparámetro <span class="math inline">\(\mu\)</span> tiene la forma de una distribución
-Beta(2, 2), es decir creemos que la media de la acuñadora <span class="math inline">\(\mu\)</span> es 0.5, pero
+<span class="math inline">\(Beta(2, 2)\)</span>, es decir creemos que la media de la acuñadora <span class="math inline">\(\mu\)</span> es <span class="math inline">\(0.5\)</span>, pero
 existe bastante incertidumbre acerca del valor.</p>
 <p>La distribución de <span class="math inline">\(\theta\)</span>, esto es la distribución inicial que refleja la
 dependencia entre <span class="math inline">\(\theta\)</span> y <span class="math inline">\(\mu\)</span> se expresa por medio de otra distribución
-beta, en el ejemplo usamos K=100:</p>
+beta, en el ejemplo usamos <span class="math inline">\(K=100\)</span>:</p>
 <p><span class="math display">\[\theta|\mu \sim beta(\mu 100, (1-\mu)100)\]</span></p>
 <p>Esta inicial expresa un alto grado de certeza que una acuñadora con
 hiperparámetro <span class="math inline">\(\mu\)</span> genera monedas con sesgo cercano a <span class="math inline">\(\mu\)</span></p>
@@ -514,9 +514,9 @@ a que <span class="math inline">\(K\)</span> pasará de ser una constante a ser 
 <span class="st">  kappa ~ dgamma(1, 0.1)</span>
 <span class="st">}</span>
 <span class="st">&#39;</span></code></pre>
-<p><span class="math inline">\(\kappa \sim Gamma(1, 0.1)\)</span>, esta tiene media 10 y desviación estándar 10.</p>
-<p>Los datos consisten en 5 monedas, cada una se lanza 5 veces, resultando 4 de
-ellas en 1 águila y 4 soles y otra en 3 águilas y 2 soles.</p>
+<p><span class="math inline">\(\kappa \sim Gamma(1, 0.1)\)</span>, esta tiene media <span class="math inline">\(10\)</span> y desviación estándar <span class="math inline">\(10\)</span>.</p>
+<p>Los datos consisten en <span class="math inline">\(5\)</span> monedas, cada una se lanza <span class="math inline">\(5\)</span> veces, resultando <span class="math inline">\(4\)</span> de
+ellas en <span class="math inline">\(1\)</span> águila y <span class="math inline">\(4\)</span> soles y otra en <span class="math inline">\(3\)</span> águilas y <span class="math inline">\(2\)</span> soles.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(modelo_jer.bugs, <span class="dt">file =</span> <span class="st">&#39;modelo_jer.bugs&#39;</span>)
 
 x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)
@@ -647,16 +647,16 @@ stan_jer_fit &lt;-<span class="st"> </span><span class="kw">sampling</span>(stan
 </div>
 <div id="ejemplo-estimacion-de-tasas-de-mortalidad" class="section level3 unnumbered">
 <h3>Ejemplo: estimación de tasas de mortalidad</h3>
-<p>En esta sección veremos un problema de estimación de tasas de mortalidad, la
-referencia de este ejemplo es <span class="citation">Albert (<a href="#ref-albert">2009</a>)</span>.
-Plantearemos 3 alternativas de modelación para resolver el problema: modelo de
+<p>En esta sección veremos un problema de estimación de tasas de mortalidad,
+la referencia de este ejemplo es <span class="citation">Albert (<a href="#ref-albert">2009</a>)</span>. Plantearemos <span class="math inline">\(3\)</span> alternativas de
+modelación para resolver el problema: modelo de
 unidades iguales, modelo de unidades independientes y finalmente modelo
 jerárquico.</p>
 <p>La base de datos tiene información de todas las cirugías de transplante de
-corazón llevadas a cabo en Estados Unidos en un periodo de 24 meses, entre
-octubre de 1987 y diciembre de 1989. Para cada uno de los 131 hospitales, se
+corazón llevadas a cabo en Estados Unidos en un periodo de <span class="math inline">\(24\)</span> meses, entre
+octubre de <span class="math inline">\(1987\)</span> y diciembre de <span class="math inline">\(1989\)</span>. Para cada uno de los <span class="math inline">\(131\)</span> hospitales, se
 registró el número de cirugías de transplante de corazón, y el número de muertes
-durante los 30 días posteriores a la cirugía, <span class="math inline">\(y\)</span>. Además, se cuenta con una
+durante los <span class="math inline">\(30\)</span> días posteriores a la cirugía, <span class="math inline">\(y\)</span>. Además, se cuenta con una
 predicción de la probabilidad de muerte de cada paciente individual. Esta
 predicción esta basada en un modelo logístico que incluye información a nivel
 paciente como condición médica antes de la cirugía, género, sexo y raza. En cada
@@ -664,8 +664,8 @@ hospital se suman las probabilidades de muerte de sus pacientes para calcular el
 número esperado de muertes, <span class="math inline">\(e\)</span>, conocido como la exposición del hospital; <span class="math inline">\(e\)</span>
 refleja el riesgo de muerte debido a la mezcla de pacientes que componen un
 hospital particular.</p>
-<p>La matriz de datos que analizaremos considera únicamente los 94 hospitales que
-llevaron a cabo 10 o más cirugías, y consiste en las duplas <span class="math inline">\((y_{j}, e_{j})\)</span> que
+<p>La matriz de datos que analizaremos considera únicamente los <span class="math inline">\(94\)</span> hospitales que
+llevaron a cabo <span class="math inline">\(10\)</span> o más cirugías, y consiste en las duplas <span class="math inline">\((y_{j}, e_{j})\)</span> que
 corresponden al número observado de muertes y número de expuestos para el
 <span class="math inline">\(j\)</span>-ésimo hospital, con <span class="math inline">\(j = 1,...,94\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(LearnBayes)
@@ -685,9 +685,9 @@ hospital. Antes de comenzar a ajustar modelos complejos vale la pena observar
 los datos. El cociente <span class="math inline">\(\{y_{j}/e_{j}\}\)</span> es el número observado de muertes por
 unidad de exposición y se puede ver como una estimación de la tasa de
 mortalidad. La siguiente figura grafica, en el eje vertical los cocientes
-<span class="math inline">\(\{y_{j}/e_{j}\}\)</span> multiplicados por 1000 (con la intención de que la tasa
-indique número de muertes por 1000 expuestos), y en el eje horizontal el número
-de expuestos <span class="math inline">\(\{e_{j}\}\)</span> -en escala logarítmica- para los 94 hospitales. Cada
+<span class="math inline">\(\{y_{j}/e_{j}\}\)</span> multiplicados por <span class="math inline">\(1000\)</span> (con la intención de que la tasa
+indique número de muertes por <span class="math inline">\(1000\)</span> expuestos), y en el eje horizontal el número
+de expuestos <span class="math inline">\(\{e_{j}\}\)</span> -en escala logarítmica- para los <span class="math inline">\(94\)</span> hospitales. Cada
 punto representa un hospital y esta etiquetado con el número de muertes
 observadas <span class="math inline">\(\{y_{j}\}\)</span>. En la gráfica podemos notar que las tasas estimadas son
 muy variables, especialmente para programas con baja exposición. Observemos
@@ -699,15 +699,15 @@ bajo número de expuestos.</p>
     <span class="dt">breaks =</span> <span class="kw">map_dbl</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">700</span> <span class="op">^</span><span class="st"> </span>.))) </code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-82-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>La variabilidad de las tasas y los hospitales sin muertes sugieren un problema
-de tamaño de muestra. Consideremos un hospital con 700 expuestos. La muerte por
-transplante de corazón no es común, el promedio nacional es de 9 por cada 10,000
-expuestos, por lo que con 700 expuestos es probable que no se presente ninguna
-muerte, en este caso el hospital pertenece al 10% de los hospitales con menor
+de tamaño de muestra. Consideremos un hospital con <span class="math inline">\(700\)</span> expuestos. La muerte por
+transplante de corazón no es común, el promedio nacional es de <span class="math inline">\(9\)</span> por cada <span class="math inline">\(10,000\)</span>
+expuestos, por lo que con <span class="math inline">\(700\)</span> expuestos es probable que no se presente ninguna
+muerte, en este caso el hospital pertenece al <span class="math inline">\(10\%\)</span> de los hospitales con menor
 tasa de mortalidad. Sin embargo, existe la posibilidad de que se observe una
 muerte, con lo cual el hospital tendrá una tasa de mortalidad que es lo
-suficientemente alta para que quede en el 25% de los hospitales con mayor tasa
+suficientemente alta para que quede en el <span class="math inline">\(25\%\)</span> de los hospitales con mayor tasa
 de mortalidad observada.</p>
-<p>Una vez reconocido el problema de utilizar los datos crudos para estimar las tasas de mortalidad plantearemos 3 alternativas de modelación:</p>
+<p>Una vez reconocido el problema de utilizar los datos crudos para estimar las tasas de mortalidad plantearemos <span class="math inline">\(3\)</span> alternativas de modelación:</p>
 <ol style="list-style-type: decimal">
 <li><strong>Unidades iguales</strong>. Considera que los estudios son replicas idénticas una
 de otra, en este sentido vemos a las observaciones de todos los estudios como
@@ -745,7 +745,7 @@ Con el siguiente modelo gráfico:</li>
 <img src="imagenes/dag_ind.png" width="400px"/>
 </center>
 <ol start="3" style="list-style-type: decimal">
-<li>Jerárquico. Es un análisis intermedio que considera los parámetros de interés
+<li><strong>Jerárquico</strong>. Es un análisis intermedio que considera los parámetros de interés
 <span class="math inline">\(\lambda_{j}\)</span> como provenientes de una distribución común,
 <span class="math display">\[
 \begin{eqnarray}

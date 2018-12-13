@@ -591,7 +591,7 @@ simular.</p>
 <li><p><span class="math inline">\(\mu \sim N(1.5, 16)\)</span>, esto es <span class="math inline">\(m = 1.5\)</span> y <span class="math inline">\(\tau^2 = 16\)</span>.</p></li>
 <li><p><span class="math inline">\(\sigma^2 \sim GI(3, 3)\)</span>, esto es <span class="math inline">\(\alpha = \beta = 3\)</span>.</p></li>
 </ul>
-<p>Ahora supongamos que observamos 20 realizaciones provenientes de la distribución
+<p>Ahora supongamos que observamos <span class="math inline">\(20\)</span> realizaciones provenientes de la distribución
 de interés:</p>
 <pre class="sourceCode r"><code class="sourceCode r">N &lt;-<span class="st"> </span><span class="dv">50</span> <span class="co"># Observamos 20 realizaciones</span>
 <span class="kw">set.seed</span>(<span class="dv">122</span>)
@@ -671,7 +671,7 @@ caminata_f<span class="op">$</span>y_sims &lt;-<span class="st"> </span><span cl
 <span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></code></pre>
 <p><img src="09-analisis_bayesiano_files/figure-html/unnamed-chunk-42-1.png" width="384" /></p>
 <p><img src="imagenes/manicule2.jpg" /> ¿Cuál es la probabilidad de que una
-observación futura sea mayor a 8?</p>
+observación futura sea mayor a <span class="math inline">\(8\)</span>?</p>
 <p>En estadística bayesiana es común parametrizar la distribución Normal en
 términos de precisión (el inverso de la varianza). Si parametrizamos de esta
 manera <span class="math inline">\(\nu = 1/\sigma^2\)</span> podemos repetir el proceso anterior con la
