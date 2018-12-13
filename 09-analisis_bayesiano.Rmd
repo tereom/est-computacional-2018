@@ -3513,7 +3513,7 @@ ggplot(unnest(heart_sims_sample), aes(x = sims)) +
 ```
 
 La figura muestra los histogramas, obtenidos con simulación, de la distribución
-predictiva posterior de 10 hospitales (se tomó una muestra de los 94). Para cada
+predictiva posterior de $10$ hospitales (se tomó una muestra de los $94$). Para cada
 hospital, se escribió el número de expuestos, $e$, y se grafica una línea 
 vertical en el número de muertes observado. Notemos que en muchos de los 
 histogramas el número de muertes observado se encuentra en las colas de las 
@@ -3523,7 +3523,7 @@ el modelo ajustado.
 Ahora examinaremos la consistencia de las muertes observadas, $y_{j}$, para 
 todos los hospitales. Para cada distribución predictiva posterior calculamos la
 probabilidad de que una observación futura $y_{j}^*$ sea al menos tan extrema 
-como $y_{j}$, estas probabilidades son comúnmente llamadas valores p 
+como $y_{j}$, estas probabilidades son comúnmente llamadas valores $p$ 
 predictivos: 
 
 $$
@@ -3556,10 +3556,9 @@ ggplot(p_pred, aes(x = log(e), y = p)) +
 En la figura anterior graficamos las probabilidades de extremos (calculadas con 
 simulación) en el eje vertical, contra el número de exposición en escala 
 logarítmica de cada hospital en el eje horizontal. Notemos que muchas de estas 
-probabilidades son pequeñas, el 28\% son menores a 0.15, lo que indica que 
-para el 28\% de los hospitales el número de muertes observado $y_{j}$ está en la 
-cola de la distribución y por consiguiente el modelo es inadecuado.
-
+probabilidades son pequeñas, el $28\%$ son menores a $0.15$, lo que indica que 
+para el $28\%$ de los hospitales el número de muertes observado $y_{j}$ está en 
+la cola de la distribución y por consiguiente el modelo es inadecuado.
 
 #### Modelo de unidades independientes {-}
 
@@ -3686,14 +3685,14 @@ ggplot(heart_indep, aes(x = log(e), y = encogimiento,
 
 Establecimos que por facilidad se utilizará una inicial 
 $Gamma(\alpha_{0},\beta_{0})$, sin embargo hace falta asignar valores a los 
-parámetros iniciales. Analizaremos 3 distintas combinaciones de parámetros 
+parámetros iniciales. Analizaremos $3$ distintas combinaciones de parámetros 
 iniciales y su efecto en las estimaciones posteriores.
 
 Para cada combinación de parámetros la siguiente tabla muestra los deciles de 
-2000 simulaciones de una distribución $Gamma(\alpha_0,\beta_{0})$ y los deciles 
-de las muertes observadas por cada 1000 expuestos considerando todos los 
-hospitales; multiplicamos las simulaciones por 1000 para que indiquen tasas de 
-mortalidad medidas en número de muertes por 1000 expuestos. El propósito de la 
+$2000$ simulaciones de una distribución $Gamma(\alpha_0,\beta_{0})$ y los deciles 
+de las muertes observadas por cada $1000$ expuestos considerando todos los 
+hospitales; multiplicamos las simulaciones por $1000$ para que indiquen tasas de
+mortalidad medidas en número de muertes por $1000$ expuestos. El propósito de la 
 tabla es describir la forma de la distribución $Gamma$ al cambiar los 
 parámetros, por ejemplo, una $Gamma(0.01,0.01)$ es muy plana y podríamos 
 describirla como poco informativa, mientras que una $Gamma(1,1000)$ tiene una 
@@ -3715,8 +3714,8 @@ min | 0 | 0 | 0 | 0
 
 Ahora realizamos una gráfica para cada pareja de parámetros  
 $(\alpha_0,\beta_{0})$ donde mostramos en negro las tasas observadas, y en color 
-las estimaciones posteriores de las tasas de mortalidad con intervalos del 95\% 
-de probabilidad, ambas medidas en número de muertes por cada 1000 expuestos. 
+las estimaciones posteriores de las tasas de mortalidad con intervalos del $95\%$ 
+de probabilidad, ambas medidas en número de muertes por cada $1000$ expuestos. 
 Cada punto representa un hospital y el color corresponde al número de muertes 
 observadas, $\{y_{j}\}$. Regresaremos a esta gráfica más adelante pero por lo 
 pronto observemos que tanto las estimaciones como los intervalos de probabilidad 
