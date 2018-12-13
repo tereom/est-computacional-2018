@@ -258,13 +258,13 @@ distribución conjunta $p(x, \theta)$, donde $x = (x_1,...,x_N)$ veamos
 la distribución de un estudiante en particular:
 $$p(x_i|\theta) \sim Bernoulli(\theta),$$
 para $i=1,...,N$, es decir, condicional a $\theta$ la probabilidad de que un 
-estudiante ingiera más de 2500 calorías es $\theta$ y la función de 
+estudiante ingiera más de $2500$ calorías es $\theta$ y la función de 
 verosimilitud $p(x_1,...,x_N|\theta) = \mathcal{L}(\theta)$:
 
 $$p(x_1,...,x_N|\theta) = \prod_{n=1}^N p(x_n|\theta)$$
 $$= \theta^z(1 - \theta)^{N-z}$$
 
-donde $z$ denota el número de estudiantes que ingirió al menos 2500 kcal y $N-z$ 
+donde $z$ denota el número de estudiantes que ingirió al menos $2500$ kcal y $N-z$ 
 el número de estudiantes que ingirió menos de $2500$ kcal. 
 
 Ahora calculamos la distribución posterior de $\theta$ 
@@ -401,7 +401,7 @@ $p(x|\theta)=\theta^x(1-\theta)^{1-x}$
 esto es, $x$ tiene una distribución $Bernoulli(\theta)$.
 
 El siguiente paso es determinar la distribución inicial sobre el espacio de
-parámetros, como ejemplo, supongamos que solo hay 3 valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
+parámetros, como ejemplo, supongamos que solo hay $3$ valores de $\theta$ que consideramos $\theat \in \{(0.25, 0.5, 0.75)\}$, y asignamos las probabilidades
 $p(\theta = 0.25) = 0.25$, $p(\theta = 0.5) = 0.5$ y $p(\theta = 0.75) = 0.25$
 
 ```{r}
