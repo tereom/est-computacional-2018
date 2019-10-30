@@ -37,7 +37,7 @@ Por su parte, el paradigma Bayesiano se basa en los siguientes postulados:
 1. La probabilidad describe grados de creencia, no frecuencias limite. Como 
 tal uno puede hacer afirmaciones probabilísticas acerca de muchas cosas y no 
 solo datos sujetos a variabilidad aleatoria. Por ejemplo, puedo decir: "La 
-probabilidad de que Einstein tomara una copa de te el $1^ro^$ de agosto de $1948$" 
+probabilidad de que Einstein tomara una copa de te el $1$ de agosto de $1948$" 
 es $0.35$, esto no hace referencia a ninguna frecuencia relativa sino que refleja
 la certeza que yo tengo de que la proposición sea verdadera.
 
